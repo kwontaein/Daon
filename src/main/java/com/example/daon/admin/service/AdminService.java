@@ -41,41 +41,4 @@ public class AdminService {
 
     }
 
-    //부서 crud
-
-
-    public void CreateDepartment() {
-
-    }
-
-    public void ReadDepartment() {
-
-    }
-
-    public void UpdateDepartment() {
-
-    }
-
-    public void DeleteDepartment() {
-
-    }
-
-    //직급 crud
-
-    public void CreateRank() {
-
-    }
-
-    public void ReadRank() {
-
-    }
-
-    public void UpdateRank() {
-
-    }
-
-    public void DeleteRank() {
-
-    }
-
 }

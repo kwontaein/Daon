@@ -13,6 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     private final AdminService adminService;
 
+    //로그인
+    @PostMapping("api/SignIn")
+    public void SignIn() {
+    }
+
+    //회원가입
+    @PostMapping("api/SignUp")
+    public void SignUp() {
+    }
+
+
     //회사정보 crud
     @PostMapping("api/CreateCompany")
     public void CreateCompany() {
@@ -36,7 +47,6 @@ public class AdminController {
 
 
     //사원정보 crud
-
     @PostMapping("api/CreateEmployee")
     public void CreateEmployee() {
         adminService.CreateEmployee();
@@ -57,48 +67,5 @@ public class AdminController {
         adminService.DeleteEmployee();
     }
 
-    //부서 crud
-
-    @PostMapping("api/CreateDepartment")
-    public void CreateDepartment() {
-        adminService.CreateDepartment();
-    }
-
-    @PostMapping("api/ReadDepartment")
-    public void ReadDepartment() {
-        adminService.ReadDepartment();
-    }
-
-    @PostMapping("api/UpdateDepartment")
-    public void UpdateDepartment() {
-        adminService.UpdateDepartment();
-    }
-
-    @PostMapping("api/DeleteDepartment")
-    public void DeleteDepartment() {
-        adminService.DeleteDepartment();
-    }
-
-    //직급 crud
-
-    @PostMapping("api/CreateRank")
-    public void CreateRank() {
-        adminService.CreateRank();
-    }
-
-    @PostMapping("api/ReadRank")
-    public void ReadRank() {
-        adminService.ReadRank();
-    }
-
-    @PostMapping("api/UpdateRank")
-    public void UpdateRank() {
-        adminService.UpdateRank();
-    }
-
-    @PostMapping("api/DeleteRank")
-    public void DeleteRank() {
-        adminService.DeleteRank();
-    }
 
 }
