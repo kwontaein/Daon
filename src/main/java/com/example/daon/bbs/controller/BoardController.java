@@ -1,4 +1,4 @@
-package com.example.daon.controller;
+package com.example.daon.bbs.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
