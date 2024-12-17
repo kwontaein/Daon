@@ -1,4 +1,4 @@
-package com.example.daon.service;
+package com.example.daon.admin.service;
 
 import org.springframework.stereotype.Service;
 
