@@ -1,8 +1,12 @@
 package com.example.daon.admin.controller;
 
+import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,16 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class AdminController {
+
     private final AdminService adminService;
+
+    @PostMapping("api/test")
+    public ResponseEntity test() {
+        adminService.test();
+        System.out.println("api 호출");
+        return ResponseEntity.ok("성공");
+    }
 
     //로그인
     @PostMapping("api/SignIn")
-    public void SignIn() {
+    public void SignIn(@RequestBody UserRequest userRequest) {
+        adminService.SignIn(userRequest.getId(), userRequest.getPassword());
     }
 
     //회원가입
     @PostMapping("api/SignUp")
-    public void SignUp() {
+    public void SignUp(@RequestBody UserRequest userRequest) {
+        adminService.SignUp(userRequest);
     }
 
 
