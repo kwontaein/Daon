@@ -1,4 +1,11 @@
 package com.example.daon.admin.repository;
 
-public interface UserRepository {
+import com.example.daon.admin.model.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<UserEntity, String> {
+    Optional<UserEntity> findById(String id);
 }
