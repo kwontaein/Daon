@@ -1,4 +1,4 @@
-package com.example.daon.inventory.controller;
+package com.example.daon.stock.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RestController;
  * 품목재고
  */
 @RestController
-public class InventoryController {
+public class StockController {
 }

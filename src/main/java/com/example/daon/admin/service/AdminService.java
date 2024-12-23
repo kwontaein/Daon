@@ -13,9 +13,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.Authentication;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 //회사, 사원관리
 @Service
@@ -25,9 +29,37 @@ public class AdminService {
     private final RedisService redisService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final PasswordEncoder passwordEncoder;
 
     //test
     public void test() {
+
+        System.out.println("실행");
+        Timestamp joinDate = new Timestamp(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2000, Calendar.DECEMBER, 11, 00, 00, 10); // 월은 0부터 시작!
+        Timestamp birthDay = new Timestamp(calendar.getTimeInMillis());
+
+        UserRequest userRequest = new UserRequest
+                ("권태인",
+                        passwordEncoder.encode("guswlsxodls"),
+                        false, joinDate,
+                        birthDay, "권태인",
+                        "kta",
+                        "權泰人",
+                        "12061",
+                        "경기도 남양주시 진접읍 금곡리",
+                        "예당마을 신안인스빌 2308-801",
+                        "0315157759",
+                        "01025023964",
+                        "kosq3964@naver.com",
+                        "",
+                        UserEntity.ClassType.STAFF,
+                        UserEntity.RoleType.ADMIN,
+                        UserEntity.Position.WEB);
+
+        CreateEmployee(userRequest);
+
     }
 
     /**
@@ -62,7 +94,7 @@ public class AdminService {
 
     //회원가입
     public void SignUp(UserRequest userRequest) {
-        userRepository.save(userRequest.toEntity());
+
     }
 
     //회사정보 crud
@@ -85,8 +117,9 @@ public class AdminService {
 
     //사원정보 crud
 
-    public void CreateEmployee() {
-
+    public void CreateEmployee(UserRequest userRequest) {
+        System.out.println(userRequest.toEntity().toString());
+        userRepository.save(userRequest.toEntity());
     }
 
     public void ReadEmployee() {

@@ -1,27 +1,38 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function LoginPage() {
-    const [email, setEmail] = useState("");
+    const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [serverError, setServerError] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // 간단한 폼 검증
-        if (!email || !password) {
+        if (!id || !password) {
             setError("모든 필드를 입력해주세요.");
             return;
         }
 
-        // 간단한 로그인 로직 (추후 백엔드 연동 필요)
-        if (email === "admin@example.com" && password === "password") {
-            navigate("/dashboard"); // 대시보드로 이동
-        } else {
-            setError("이메일 또는 비밀번호가 잘못되었습니다.");
+        setServerError(""); // 서버 오류 초기화
+        try {
+            // 서버로 데이터 전송
+            const response = await axios.post("api/SignIn", {
+                id: id,
+                password: password,
+            });
+            console.log("서버 응답:", response.data);
+        } catch (error) {
+            console.error("서버 오류:", error);
+            setServerError(
+                error.response?.data?.message || "서버와 연결할 수 없습니다."
+            );
         }
+
     };
 
     return (
@@ -31,10 +42,10 @@ function LoginPage() {
                 {error && <p style={styles.error}>{error}</p>}
                 <input
                     style={styles.input}
-                    type="email"
+                    type="id"
                     placeholder="이메일"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
                 />
                 <input
                     style={styles.input}
