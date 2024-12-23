@@ -24,7 +24,7 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final String[] allAllowedUrls = {"/api/postCookie", "/api/login", "/api/sendEmail", "/api/saveUser", "/api/emailCodeValidation", "/api/test",};    // 모두 허가
+    private final String[] allAllowedUrls = {"/api/postCookie", "/api/SignIn", "/api/test",};    // 모두 허가
     private final String[] UserAllowedUrls = {"/**"};    // 유저만 허가
     private final String[] AdminAllowedUrls = {"/**"};    // 매니저만 허가
     private final String[] ManagerAllowedUrls = {"/api/testSuccess"};    // 관리자만 허가
@@ -60,10 +60,10 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
+  /*  @Bean
     public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() { //Oauth2 로그인
         return new DefaultOAuth2UserService();
-    }
+    }*/
 
     @Bean
     BCryptPasswordEncoder passwordEncoder() {

@@ -9,12 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 @Entity(name = "user")
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity implements UserDetails {
@@ -33,11 +35,11 @@ public class UserEntity implements UserDetails {
 
     //가입일
     @Column(nullable = false, name = "join_date")
-    private boolean joinDate;
+    private Timestamp joinDate;
 
     //생일
     @Column(nullable = false, name = "birthday")
-    private boolean birthday;
+    private Timestamp birthday;
 
     //이름
     @Column(nullable = false, name = "name")
