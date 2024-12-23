@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,10 +21,10 @@ public class UserRequest {
     private boolean married;
 
     //가입일
-    private boolean joinDate;
+    private Timestamp joinDate;
 
     //생일
-    private boolean birthday;
+    private Timestamp birthday;
 
     //이름
     private String name;
