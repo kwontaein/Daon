@@ -28,15 +28,9 @@ public class AdminController {
     //로그인
     @PostMapping("api/SignIn")
     public void SignIn(@RequestBody UserRequest userRequest) {
+        System.out.println(userRequest.getId() + " / " + userRequest.getPassword());
         adminService.SignIn(userRequest.getId(), userRequest.getPassword());
     }
-
-    //회원가입
-    @PostMapping("api/SignUp")
-    public void SignUp(@RequestBody UserRequest userRequest) {
-        adminService.SignUp(userRequest);
-    }
-
 
     //회사정보 crud
     @PostMapping("api/CreateCompany")
@@ -62,8 +56,8 @@ public class AdminController {
 
     //사원정보 crud
     @PostMapping("api/CreateEmployee")
-    public void CreateEmployee() {
-        adminService.CreateEmployee();
+    public void CreateEmployee(@RequestBody UserRequest userRequest) {
+        adminService.CreateEmployee(userRequest);
     }
 
     @PostMapping("api/ReadEmployee")

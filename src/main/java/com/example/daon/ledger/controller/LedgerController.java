@@ -1,4 +1,4 @@
-package com.example.daon.stock.controller;
+package com.example.daon.ledger.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
