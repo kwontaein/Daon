@@ -1,0 +1,13 @@
+/node_modules
+
+/build
+
+.env.local
+.env.development
+.env.production
+.env.*
+
+
+#key pair.
+
+next-env.d.ts
