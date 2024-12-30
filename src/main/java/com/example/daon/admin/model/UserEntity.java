@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class UserEntity implements UserDetails {
     //아이디 
     @Id
-    @Column(nullable = false, name = "id")
+    @Column(nullable = false, name = "user_id")
     private String id;
 
     //비밀번호
@@ -92,75 +92,6 @@ public class UserEntity implements UserDetails {
     //부서 -> enum
     @Column(name = "position")
     private Position position;
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum ClassType { //enum을 활용한 권한종류 설정
-        CEO("대표"),
-        DIRECTOR("이사"),
-        MANAGER("과장"),
-        STAFF("사원"),
-        ASSISTANT_MANAGER("대리"),
-        PROFESSIONAL("주임"),
-        TEAM_LEADER("팀장"),
-        DEPUTY_GENERAL_MANAGER("차장");
-
-        private final String role;
-
-        //user_role 유효성 검사
-        @JsonCreator
-        public static ClassType userRoleParsing(String inputValue) {
-
-            return Stream.of(ClassType.values())
-                    .filter(classType -> classType.toString().equals(inputValue))
-                    .findFirst()
-                    .orElse(STAFF);
-        }
-
-    }
-
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum RoleType { //enum을 활용한 권한종류 설정
-        USER("사용자"),
-        ADMIN("관리자"),
-        MANAGER("매니저");
-
-        private final String role;
-
-        //user_role 유효성 검사
-        @JsonCreator
-        public static RoleType userRoleParsing(String inputValue) {
-
-            return Stream.of(RoleType.values())
-                    .filter(roleType -> roleType.toString().equals(inputValue))
-                    .findFirst()
-                    .orElse(USER);
-        }
-
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum Position { //enum을 활용한 권한종류 설정
-        WEB("웹관리팀"),
-        BUSINESS("영업부"),
-        MANAGE("관리부");
-
-        private final String role;
-
-        //user_role 유효성 검사
-        @JsonCreator
-        public static Position positionParsing(String inputValue) {
-
-            return Stream.of(Position.values())
-                    .filter(position -> position.toString().equals(inputValue))
-                    .findFirst()
-                    .orElse(BUSINESS);
-        }
-
-    }
 
 
     //--여기서부터 UserDetails 요소들 오버라이드
