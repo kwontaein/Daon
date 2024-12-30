@@ -1,5 +1,8 @@
 package com.example.daon.admin.dto.request;
 
+import com.example.daon.admin.model.ClassType;
+import com.example.daon.admin.model.Position;
+import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,13 +60,13 @@ public class UserRequest {
     private String memo;
 
     //직위 -> enum
-    private UserEntity.ClassType userClass;
+    private ClassType userClass;
 
     //관리자권한 -> enum
-    private UserEntity.RoleType userRole;
+    private RoleType userRole;
 
     //부서 -> enum
-    private UserEntity.Position position;
+    private Position position;
 
 
     public UserEntity toEntity() {
