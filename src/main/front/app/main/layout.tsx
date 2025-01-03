@@ -1,15 +1,22 @@
 import { Fragment } from "react";
-import MainHeader from "@/components/main-layout/header";
-import Navigation from "@/components/main-layout/navigation";
-import MainAside from "@/components/aside/aside";
 
 import '@/styles/_global.scss';
+import MainHeader from "@/components/nav/header";
+import Navigation from "@/components/nav/navigation";
+import MobileNavBar from "@/components/nav/mobile/mobile-nav-bar";
 
-export default function MainLayout({children}){
+export default function MainLayout({main, nav, aside}){
+
     return(
         <Fragment>
-            <Navigation/>
-            {children}
+            <header>
+                <MainHeader/>
+            </header>
+            <nav>{nav}</nav>
+            <main className={'flex-row'}>
+                <aside>{aside}</aside>
+                <section>{main}</section>
+            </main>               
         </Fragment>
     )
 }

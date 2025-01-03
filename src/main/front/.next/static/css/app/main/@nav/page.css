@@ -1,0 +1,36 @@
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[11].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[11].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[11].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[11].use[5]!./components/nav/navigation.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.nav-container {
+  width: 100%;
+  background-color: #ececec;
+  display: flex;
+  color: #E6E8ED;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  align-items: center;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #C5C3C6;
+}
+@media (max-width: 620px) {
+  .nav-container {
+    display: none !important;
+  }
+}
+
+.nav-container__ul {
+  display: flex;
+  flex-direction: row;
+}
+.nav-container__ul li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  flex-shrink: 1;
+  min-width: 0;
+}
+.nav-container__ul li b {
+  color: black;
+  margin-inline: 0.4rem;
+}
