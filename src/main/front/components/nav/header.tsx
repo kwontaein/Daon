@@ -3,6 +3,7 @@ import './header.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import MobileNavButton from "./mobile/mobile-nav-button";
 
 
 export default function MainHeader(){
@@ -19,6 +20,7 @@ export default function MainHeader(){
                     <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
                 </button>
             </span>
+            <MobileNavButton/>
         </section>
     )
 }
