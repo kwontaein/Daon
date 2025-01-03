@@ -1,0 +1,38 @@
+@use '@/styles/_variables.scss' as var;
+
+
+.nav-mobile-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    display: none;
+    @media (max-width : 620px){
+        display: flex;
+        flex-direction: column !important;
+    }
+    position: absolute;
+    background-color: white;
+}
+
+.nav-mobile-wrapper{
+    display: flex
+    li{
+        margin-block: 1rem;
+    }
+}
+
+
+.logout-button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #215986;
+    padding-inline: 1rem;
+    border: none;
+    color: var.$default-white-color;
+    flex-shrink: 0; 
+    gap: 0.5rem;
+    border-radius: 5px;
+}
+
