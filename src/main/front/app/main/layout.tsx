@@ -1,22 +1,22 @@
-import { Fragment } from "react";
-
 import '@/styles/_global.scss';
-import MainHeader from "@/components/nav/header";
-import Navigation from "@/components/nav/navigation";
-import MobileNavBar from "@/components/nav/mobile/mobile-nav-bar";
+import MainHeader from "@/components/header/_header";
 
-export default function MainLayout({main, nav, aside}){
+export default function MainLayout({navigation,aside,children}: {
+    aside: React.ReactNode;
+    navigation: React.ReactNode;
+    children: React.ReactNode;
+  }) {
 
-    return(
-        <Fragment>
-            <header>
-                <MainHeader/>
-            </header>
-            <nav>{nav}</nav>
-            <main className={'flex-row'}>
-                <aside>{aside}</aside>
-                <section>{main}</section>
-            </main>               
-        </Fragment>
-    )
+    return (
+      <>
+        <header>
+          <MainHeader />
+        </header>
+        {navigation}
+        <section className="flex-row" style={{paddingBlock : '1rem'}}>
+            {aside}
+            {children}
+        </section>
+      </>
+    );
 }
