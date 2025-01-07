@@ -1,0 +1,82 @@
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[11].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[11].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[11].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[11].use[5]!./styles/_global.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Tahoma, "굴림", sans-serif;
+  font-size: 10px;
+  background-color: #F7F7FA;
+}
+
+@media (max-width: 1023px) {
+  html {
+    font-size: 9.5px;
+  }
+}
+@media (max-width: 767px) {
+  html {
+    font-size: 9px;
+  }
+}
+@media (max-width: 767px) and (max-width: 620px) {
+  html {
+    font-size: 17px;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html ::-webkit-scrollbar {
+    display: none;
+  }
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  color: #FF9900;
+}
+a:link {
+  color: #444444;
+  text-decoration: none;
+}
+a:active {
+  color: #333333;
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+}
+li:hover {
+  filter: brightness(95%);
+}
+
+button {
+  cursor: pointer;
+}
+button:hover {
+  filter: brightness(95%);
+}
+
+span {
+  display: flex;
+  align-items: center;
+}
+
+i {
+  cursor: pointer;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}

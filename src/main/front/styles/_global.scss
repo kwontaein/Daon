@@ -24,7 +24,20 @@ html{
   html {
     font-size: 9px;
   }
+
+  @media (max-width: 620px) {
+    html {
+      font-size: 17px;
+      ::-webkit-scrollbar{
+        display:none;
+      }
+      overflow: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  }
 }
+
 
 
 a{
@@ -45,6 +58,9 @@ a{
 
 li{
   list-style-type: none;
+  &:hover{
+    filter: brightness(95%);
+  }
 }
 button{
   cursor: pointer;

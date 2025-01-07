@@ -58,8 +58,7 @@ export interface PageProps {
 export interface LayoutProps {
   children?: React.ReactNode
   aside: React.ReactNode
-  main: React.ReactNode
-  nav: React.ReactNode
+  navigation: React.ReactNode
   params?: Promise<SegmentParams>
 }
 
