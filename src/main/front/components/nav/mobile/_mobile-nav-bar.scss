@@ -1,5 +1,6 @@
 @use '@/styles/_variables.scss' as var;
 
+
 @keyframes FadeInSlide {
     0% {
         transform: translateX(100%);
@@ -19,20 +20,18 @@
 }
 
 .nav-mobile-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    display: none;
-    position: absolute;
     height: calc(100% - 40px);
     font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
     right: 0;
+    display: none;
     animation: FadeOutSlide 0.2s ease-out forwards; 
+    border-left: 1px solid var.$default-border-color;
 
     @media (max-width : 620px){
         display: flex;
-        flex-direction: column !important;
     }
     position: absolute;
     background-color: white;
@@ -42,17 +41,36 @@
     animation: FadeInSlide 0.2s ease-out forwards; 
 }
 
+.opacity{
+    opacity:0
+}
+
 
 .nav-mobile-wrapper{
-    padding: 0.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-mobile-wrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-mobile-ul{
+    padding-inline: 0.5rem;
     display: block;
     
     li{
-        padding-block: 0.5rem;
         margin-block:0.5rem;
         display: flex;
         justify-content: center;
         border-radius: 3px;
+        padding: 0.5rem;
         &:hover{
             background-color:  #e9e9e9;
             a{
@@ -61,8 +79,6 @@
         }
     }
 }
-
-
 
 .mobile-logout-button{
     width: calc(100% - 1rem);
