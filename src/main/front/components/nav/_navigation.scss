@@ -30,6 +30,10 @@
         b{
             color: black;
             margin-inline: 0.4rem;
+            
+            @media (max-width:767px) {
+                margin-inline: 0.3rem;
+            }
         }
     }
 }
