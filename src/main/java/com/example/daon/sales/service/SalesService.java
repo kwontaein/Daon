@@ -2,6 +2,8 @@ package com.example.daon.sales.service;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.sales.dto.request.ReceiptRequest;
+import com.example.daon.sales.model.EstimateEntity;
 import com.example.daon.sales.model.ReceiptEntity;
 import com.example.daon.sales.repository.EstimateRepository;
 import com.example.daon.sales.repository.ReceiptRepository;
@@ -53,9 +55,11 @@ public class SalesService {
     /**
      * 전표 저장 및 수정
      */
-    public void saveReceipt(ReceiptEntity entity) {
+    public void saveReceipt(ReceiptRequest request) {
         //save는 아이디가 이미 있는 객체의 경우 수정을 진행함
-        receiptRepository.save(entity);
+
+        EstimateEntity entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
+        receiptRepository.save(request.toEntity(entity));
     }
 
     public void deleteReceipts(List<UUID> ids) {
