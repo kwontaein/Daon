@@ -33,7 +33,7 @@ public class AdminService {
 
     //test
     public void test() {
-
+/*
         System.out.println("실행");
         Timestamp joinDate = new Timestamp(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
@@ -58,7 +58,7 @@ public class AdminService {
                         UserEntity.RoleType.ADMIN,
                         UserEntity.Position.WEB);
 
-        CreateEmployee(userRequest);
+        CreateEmployee(userRequest);*/
 
     }
 
