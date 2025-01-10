@@ -14,8 +14,8 @@ public class StockEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "company_id", columnDefinition = "BINARY(16)")
-    private UUID id; // 아이디 - uuid
+    @Column(nullable = false, unique = true, name = "stock_id", columnDefinition = "BINARY(16)")
+    private UUID stock_id; // 아이디 - uuid
 
     @Column(nullable = false)
     private String name; // 품목명
@@ -33,7 +33,7 @@ public class StockEntity {
     private String modelName; // 품목 모델명
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "stock_category_id")
     private StockCate category; // 분류 코드
 
 }
