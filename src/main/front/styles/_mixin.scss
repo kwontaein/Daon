@@ -1,0 +1,25 @@
+
+@mixin button-style($width, $height, $font-size, $text-color){
+  width: $width;
+  height: $height;
+  font-size: $font-size;
+  color: $text-color;
+  border-radius: 0.357rem;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin hover-bg-color($use-bg-color){
+  &:hover{
+    background-color: $use-bg-color;
+    filter: brightness(95%);
+  }
+}
+
+@mixin table-gradient-background {
+  background: linear-gradient(to bottom, #60748c, #7f8da1, #9ba7b8);
+}

@@ -1,0 +1,83 @@
+@use './variables' as var;
+@use './mixin';
+
+
+*,
+*::before,
+*::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html{
+  font-family: Tahoma, "굴림", sans-serif;
+  font-size: 10px;
+  background-color: var.$bg-color;
+
+}
+@media (max-width:1023px) {
+  html {
+    font-size: 9.5px;
+  }
+}
+@media (max-width:767px) {
+  html {
+    font-size: 9px;
+  }
+
+  @media (max-width: 620px) {
+    html {
+      font-size: 17px;
+      ::-webkit-scrollbar{
+        display:none;
+      }
+      overflow: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  }
+}
+
+
+
+a{
+  text-decoration: none;
+  color:black;
+  &:hover{
+    color: #FF9900;
+  }
+  &:link{
+    color: #444444;
+    text-decoration: none;
+  }
+  &:active {  
+    color: #333333;
+    text-decoration: none
+  }
+}
+
+li{
+  list-style-type: none;
+  &:hover{
+    filter: brightness(95%);
+  }
+}
+button{
+  cursor: pointer;
+  &:hover{
+    filter: brightness(95%);
+  }
+}
+
+span{
+  display: flex;
+  align-items: center;
+}
+i{
+  cursor: pointer;
+}
+
+.flex-row{
+  display: flex;
+  flex-direction: row;
+}
