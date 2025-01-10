@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -71,7 +72,7 @@ public class UserRequest {
 
     public UserEntity toEntity() {
         return UserEntity.builder()
-                .id(id)
+                .userId(id)
                 .password(password)
                 .married(married)
                 .joinDate(joinDate)

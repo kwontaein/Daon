@@ -23,8 +23,9 @@ public class ReceiptEntity {
     @Column(nullable = false, unique = true, name = "receipt_id", columnDefinition = "BINARY(16)")
     private UUID receiptId; // 전표 아이디
 
-    @Column(name = "estimate_id", nullable = false)
-    private Long estimateId; // 견적서 아이디
+    @ManyToOne
+    @JoinColumn(name = "estimate_id", nullable = false)
+    private EstimateEntity estimateId; // 견적서 아이디
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timeStamp; // 전표 등록일

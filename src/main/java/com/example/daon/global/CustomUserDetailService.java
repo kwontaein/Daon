@@ -28,7 +28,7 @@ public class CustomUserDetailService implements UserDetailsService {
     // 회원가입 중에는 패스워드를 평문으로 저장하고, Spring Security 가 인증 중에 인코딩을 처리합니다
     private UserDetails createUserDetails(UserEntity userEntity) {
         return UserEntity.builder()
-                .id(userEntity.getId())
+                .userId(userEntity.getUserId())
                 .password(userEntity.getPassword())
                 .name(userEntity.getName())
                 .userClass(userEntity.getUserClass())

@@ -31,7 +31,7 @@ public class SalesController {
 
     @PostMapping("api/saveReceipt")
     public void saveReceipt(ReceiptRequest request) {
-        salesService.saveReceipt(request.toEntity());
+        salesService.saveReceipt(request);
     }
 
     @PostMapping("api/deleteReceipt")

@@ -1,5 +1,6 @@
 package com.example.daon.sales.dto.request;
 
+import com.example.daon.sales.model.EstimateEntity;
 import com.example.daon.sales.model.ReceiptCategory;
 import com.example.daon.sales.model.ReceiptEntity;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class ReceiptRequest {
 
     private UUID receiptId; // 전표 아이디
 
-    private Long estimateId; // 견적서 아이디
+    private UUID estimateId; // 견적서 아이디
 
     private LocalDateTime timeStamp; // 전표 등록일
 
@@ -43,11 +44,11 @@ public class ReceiptRequest {
     private String customerName;
     private String itemName;
 
-    public ReceiptEntity toEntity() {
+    public ReceiptEntity toEntity(EstimateEntity entity) {
         return ReceiptEntity
                 .builder()
                 .receiptId(receiptId)
-                .estimateId(estimateId)
+                .estimateId(entity)
                 .timeStamp(timeStamp)
                 .category(category)
                 .itemNumber(itemNumber)
