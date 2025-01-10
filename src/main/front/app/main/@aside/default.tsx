@@ -1,5 +1,8 @@
 import MainAside from "@/components/aside/_aside"
 
-export default function AsidePage(){
+
+
+export default async function AsidePage(){
+
     return <MainAside/>
 }

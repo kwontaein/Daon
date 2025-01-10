@@ -1,21 +1,33 @@
 'use client';
-import { AsideOptions } from "@/app/actions/asideOptions";
 import Link from "next/link";
 import './_aside.scss'
-import { usePathname } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
+import { AsideOptions } from "@/constants/asideOptions";
+import { useEffect } from "react";
 
 export default function MainAside(){
-    const pathname = usePathname();
-    const nav = pathname.split('/')[2] || 'schedule'
+    let nav = useParams().nav as string;
+    const router = useRouter();
+    const asideKeys = Object.keys(AsideOptions);
+  
+    useEffect(() => {
+        if (!nav) {
+            router.push("/main/schedule/schedule");
+        }else{
+            if(!asideKeys.includes(nav)){
+                return notFound()
+            }
+        }
+    }, [nav, router]);
 
     return(
         <aside className="aside-container">
             <div className="aside-header">
-                {AsideOptions[nav].asideTitle}
+                {AsideOptions[nav|| 'schedule'].asideTitle}
             </div>
-            {AsideOptions[nav].asideItems.map((item)=>(
+            {AsideOptions[nav || 'schedule'].asideItems.map((item)=>(
                 <li key={item.link}>
-                    <b>ㆍ</b><Link href={``}>{item.name}</Link>
+                    <b>ㆍ</b><Link href={`/main/${nav}/${item.link}`}>{item.name}</Link>
                 </li>
             ))}
         </aside>
