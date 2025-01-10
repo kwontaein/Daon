@@ -14,8 +14,8 @@ public class StockIO {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "company_id", columnDefinition = "BINARY(16)")
-    private UUID id; // uuid
+    @Column(nullable = false, unique = true, name = "stock_io_id", columnDefinition = "BINARY(16)")
+    private UUID stockIoId; // uuid
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id", nullable = false)
