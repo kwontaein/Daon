@@ -1,4 +1,12 @@
 package com.example.daon.customer.repository;
 
-public interface CustomerRepository {
+import com.example.daon.customer.model.CustomerEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public interface CustomerRepository extends JpaRepository<CustomerEntity, UUID>, JpaSpecificationExecutor<CustomerEntity> {
+    Optional<CustomerEntity> findByCustomerName(String name);
 }

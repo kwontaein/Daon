@@ -23,7 +23,7 @@ public class UserEntity implements UserDetails {
     //아이디 
     @Id
     @Column(nullable = false, name = "user_id")
-    private String id;
+    private String userId;
 
     //비밀번호
     @Column(nullable = false, name = "password")
@@ -122,7 +122,7 @@ public class UserEntity implements UserDetails {
      */
     @Override
     public String getUsername() {
-        return String.valueOf(id);
+        return String.valueOf(userId);
     }
 
     /**

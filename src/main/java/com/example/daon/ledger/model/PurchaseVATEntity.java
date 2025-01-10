@@ -2,17 +2,21 @@ package com.example.daon.ledger.model;
 
 import com.example.daon.ledger.model.cate.PurchaseVATCategory;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "PurchaseVAT")
 public class PurchaseVATEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 아이디
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(nullable = false, unique = true, name = "pv_id", columnDefinition = "BINARY(16)")
+    private UUID id; // 아이디
 
     @Column(name = "category", nullable = false)
     private String category; // 구분

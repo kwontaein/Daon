@@ -4,17 +4,21 @@ package com.example.daon.ledger.model;
 
 import com.example.daon.ledger.model.cate.SalesCategory;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "SalesVAT")
 public class SalesVATEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 아이디
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(nullable = false, unique = true, name = "sv_id", columnDefinition = "BINARY(16)")
+    private UUID id; // 아이디
 
     @Column(name = "is_deposit_converted", nullable = false)
     private Boolean isDepositConverted; // 입금전환 여부
