@@ -1,11 +1,13 @@
 package com.example.daon.stock.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
 @Entity
+@Data
 @Table(name = "stock_category")
 public class StockCate {
 
