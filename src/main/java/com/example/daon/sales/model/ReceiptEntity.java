@@ -1,17 +1,27 @@
 package com.example.daon.sales.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Receipt")
 public class ReceiptEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 전표 아이디
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(nullable = false, unique = true, name = "receipt_id", columnDefinition = "BINARY(16)")
+    private UUID receiptId; // 전표 아이디
 
     @Column(name = "estimate_id", nullable = false)
     private Long estimateId; // 견적서 아이디
