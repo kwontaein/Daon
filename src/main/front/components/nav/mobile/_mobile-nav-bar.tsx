@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { AsideOptions } from "@/constants/asideOptions";
 import MobileAsideBar from "@/components/aside/mobile/_mobile-aside";
 
 export default function MobileNavBar(){
@@ -42,7 +41,7 @@ export default function MobileNavBar(){
                             <Link href={'/main/customer/customer?toggle=true'}>고객관리</Link>
                         </li>
                         <li className={nav === 'stock' ? 'hover' : ''}>
-                            <Link href={'/main/stock/stock?toggle=true'}>품목/재고</Link>
+                            <Link href={'/main/ stock/stock?toggle=true'}>품목/재고</Link>
                         </li>
                         <li className={nav === 'ledger' ? 'hover' : ''}>
                             <Link href={'/main/ledger/ledger-customer?toggle=true'}>원장출력</Link>

@@ -10,6 +10,13 @@ export default function MobileNavButton(){
     const [showNavList,toggleShowNavList] = useReducer((prev)=>!prev, !!searchParams.get('toggle'));
     const pathname = usePathname();
 
+    useEffect(()=>{
+
+      if(!searchParams.get('toggle') && showNavList){
+        toggleShowNavList()
+      }
+      
+    },[router,searchParams]);
 
     const navigationHandler = () => {
       if(!showNavList){
