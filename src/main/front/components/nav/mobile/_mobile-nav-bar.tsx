@@ -6,7 +6,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPowerOff, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
 import { useWindowSize } from "@/hooks/useWindowSize";
 import MobileAsideBar from "@/components/aside/mobile/_mobile-aside";
@@ -18,20 +18,25 @@ export default function MobileNavBar(){
     /* mount component condition*/
     const size = useWindowSize()
     const [isMount, setIsMount] = useState<boolean>(false);
+    const [mobile, setMobile] = useState<boolean>(false);
     
     useEffect(()=>{
-        if(size.width<620){
+        if(size.width<=620){
             setTimeout(()=>{
                 setIsMount(true);
             },200)
+            setMobile(true);
         }else{
             setIsMount(false);
+            setMobile(false);
         }
     },[size.width])
 
     return(
-        /*when toggle is true show mobile navigation, else check mount state because to prevent animation when the window is resized */
-         <nav className={`nav-mobile-container ${searchParams.get('toggle') ? `slide` : !isMount && 'opacity'}`}>
+        <>
+        {(searchParams.get('toggle') && mobile) && <div className={'modal-background'}/>}
+            {/*when toggle is true show mobile navigation, else check mount state because to prevent animation when the window is resized */}         
+            <nav className={`nav-mobile-container ${searchParams.get('toggle') ? `slide` : !isMount && 'opacity'}`}>
             <section className={'nav-mobile-wrapper'}>
                 <ul className={'nav-mobile-ul'}>
                         <li className={nav === 'sales' ? 'hover' : ''}> 
@@ -68,5 +73,6 @@ export default function MobileNavBar(){
             </section>
             <MobileAsideBar nav={nav||'schedule'}/>
         </nav>
+        </>
     )
 }
