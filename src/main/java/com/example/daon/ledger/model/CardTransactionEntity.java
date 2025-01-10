@@ -2,17 +2,21 @@ package com.example.daon.ledger.model;
 
 import com.example.daon.ledger.model.cate.TransactionCategory;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "CardTransaction")
 public class CardTransactionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 아이디
+    @GeneratedValue(generator = "uuid2")
+    @Column(nullable = false, unique = true, name = "ct_id", columnDefinition = "BINARY(16)")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID id; // 아이디
 
     @Column(name = "is_deposit_converted", nullable = false)
     private Boolean isDepositConverted; // 입금전환 여부

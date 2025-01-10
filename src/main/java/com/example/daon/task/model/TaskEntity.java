@@ -3,14 +3,18 @@ package com.example.daon.task.model;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class TaskEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 업무 아이디
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(nullable = false, unique = true, name = "task_id", columnDefinition = "BINARY(16)")
+    private UUID taskId; // 업무 아이디
 
     @Enumerated(EnumType.STRING)
     @Column(name = "task_type", nullable = false)
