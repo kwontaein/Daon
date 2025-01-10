@@ -11,12 +11,10 @@ export default function MobileNavButton(){
     const pathname = usePathname();
 
     useEffect(()=>{
-
       if(!searchParams.get('toggle') && showNavList){
         toggleShowNavList()
       }
-      
-    },[router,searchParams]);
+    },[searchParams]);
 
     const navigationHandler = () => {
       if(!showNavList){

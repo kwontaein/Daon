@@ -16,7 +16,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    
+    position: relative;
+    z-index:1001;
+
     font-size: 12px;
     span{
         color: inherit;
