@@ -18,7 +18,7 @@ export const AsideOptions = {
         asideTitle: '품목/재고',
         asideItems: [
             {name: '품목/재곡 관리', link: 'stock'},
-            {name: '분류관리', link: 'stock/cate'},
+            {name: '분류관리', link: 'stock-cate'},
             {name: '구매적립금설정', link: 'point'}]
     },
     ledger: {
@@ -80,7 +80,7 @@ export const AsideKeyOfValues = {
     "customer": "거래처관리",
     "customer-cate": "분류관리",
     "stock": "품목/재곡 관리",
-    "stock/cate": "분류관리",
+    "stock-cate": "분류관리",
     "point": "구매적립금설정",
     "ledger-customer": "거래처별원장출력",
     "ledger-customers": "복수거래처원장출력",

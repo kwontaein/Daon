@@ -12,7 +12,7 @@ export default function Navigation(){
                         <b>|</b>
                     </li>
                     <li>
-                        <Link href={'/main/customer/client'}>고객관리</Link>
+                        <Link href={'/main/customer/customer'}>고객관리</Link>
                         <b>|</b>
                     </li>
                     <li>
