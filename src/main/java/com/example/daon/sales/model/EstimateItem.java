@@ -1,6 +1,9 @@
 package com.example.daon.sales.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
@@ -8,6 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Estimate_Item")
+@Data
+@Builder
+@RequiredArgsConstructor
 public class EstimateItem {
 
     @Id
@@ -28,7 +34,4 @@ public class EstimateItem {
 
     @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
-
-    @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice;
 }
