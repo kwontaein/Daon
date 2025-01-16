@@ -1,15 +1,12 @@
 /* aside 에서 선택한 옵션*/
 
-.main-screen-container{
-    margin-inline: 1rem;
-    font-size: 1rem;
-}
-.main-route-title{
+.header-title{
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     align-items: center;
-    
+    margin-bottom: 1rem;
+
     @media (max-width: 620px){
         font-size: 1rem;
     }
