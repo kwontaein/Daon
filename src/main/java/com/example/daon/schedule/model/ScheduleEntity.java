@@ -2,7 +2,10 @@ package com.example.daon.schedule.model;
 
 import com.example.daon.admin.model.UserEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
@@ -11,6 +14,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "schedule")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScheduleEntity {
 
     //아이디
