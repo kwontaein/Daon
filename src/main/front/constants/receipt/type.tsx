@@ -12,7 +12,7 @@ export type AccountType =
   | 'returned_received';
 
 export type Receipt = {
-    uuid:string,
+    uuid:any,
     date?: Date,
     account?: AccountType,
     company?: string,
