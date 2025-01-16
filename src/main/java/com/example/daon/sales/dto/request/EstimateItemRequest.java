@@ -24,8 +24,6 @@ public class EstimateItemRequest {
 
     private BigDecimal unitPrice;
 
-    private BigDecimal totalPrice;
-
     public EstimateItem toEntity(EstimateEntity entity) {
         return EstimateItem
                 .builder()
@@ -34,7 +32,6 @@ public class EstimateItemRequest {
                 .productName(productName)
                 .quantity(quantity)
                 .unitPrice(unitPrice)
-                .totalPrice(totalPrice)
                 .build();
     }
 }
