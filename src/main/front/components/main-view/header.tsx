@@ -4,7 +4,7 @@ import '@/styles/_global.scss';
 import '@/styles/main-view/header.scss';
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
-import { notFound, usePathname } from 'next/navigation';
+import { notFound, useParams, usePathname } from 'next/navigation';
 
 
 export default function MainViewHeader(){
