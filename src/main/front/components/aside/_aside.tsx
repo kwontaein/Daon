@@ -6,15 +6,15 @@ import { AsideOptions } from "@/constants/asideOptions";
 import { useEffect } from "react";
 
 export default function MainAside(){
-    let nav = useParams().nav as string;
+    const nav = useParams().nav as string;
     const router = useRouter();
-    const asideKeys = Object.keys(AsideOptions);
+    const navKeys = Object.keys(AsideOptions);
   
     useEffect(() => {
         if (!nav) {
             router.push("/main/schedule/schedule");
         }else{
-            if(!asideKeys.includes(nav)){
+            if(!navKeys.includes(nav)){
                 return notFound()
             }
         }
