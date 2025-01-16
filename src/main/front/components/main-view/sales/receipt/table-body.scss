@@ -1,0 +1,62 @@
+@use '@/styles/_variables' as var;
+
+
+select, input{
+    width: 100%;
+    height: 100%;
+    border:none;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+input::placeholder{
+    color: #ddd;
+}
+
+select{
+    padding-inline: 5px;
+}
+
+//옵션에서 비활성화
+option[value="input"][disabled] {
+    display:none
+  }
+//number arrow delete
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+    -moz-appearance:textfield;
+  }
+
+input[type="date"]{
+    text-align:center;
+}
+
+
+.focus{
+    border: 1px solid var.$default-border-color;
+    font-weight: bold !important;
+}
+
+.receipt-button-container{
+    margin-top:0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    button{
+        padding: 0.2rem;
+        margin-right: 0.5rem;
+    }
+}
+
+.new-receipt-button-container{
+    border: none !important;
+    background-color: unset !important;
+    text-align: right !important;
+    button{
+        margin-top: 0.5em;
+        padding: 0.2rem;
+    }
+}
