@@ -1,12 +1,14 @@
 import '@/styles/_global.scss';
 import MainHeader from "@/components/header/_header";
 
-export default function MainLayout({navigation,aside,children}: {
+
+
+export default async function MainLayout({navigation,aside,children}: {
     aside: React.ReactNode;
     navigation: React.ReactNode;
     children: React.ReactNode;
   }) {
-
+    
     return (
       <>
         <header>
