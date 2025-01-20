@@ -6,6 +6,7 @@ import './table-body.scss';
 import { Receipt, AccountType } from '@/constants/receipt/type';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main-view/sales/receipt/options';
+import dayjs from 'dayjs';
 
 const initReceipt:Receipt = {
     uuid: uuidv4(),
@@ -25,43 +26,42 @@ export default function ReceiptTableBody(){
     const [currentId, setCurrentId] = useState<string>()
 
     useEffect(()=>{
-        console.log(mousePosition)
-    },[mousePosition])
+        console.log(receiptList)
+    },[receiptList])
 
-    //계정전표 설정
-    const accountHandler = (e: ChangeEvent<HTMLSelectElement>, index: number) => {
-        const updatedReceipts = receiptList.map((receipt, i) =>
-        index === i
-            ? { ...receipt, account: e.target.value as AccountType }
+    const receiptHandler = (receiptToUpdate:Partial<Receipt> ,uuid:string)=>{
+        console.log(receiptToUpdate,uuid)
+        const updatedReceipts = receiptList.map((receipt)=>
+            receipt.uuid === uuid
+            ? {...receipt, ...receiptToUpdate}
             : receipt
-        );
+        )
         setReceiptList(updatedReceipts);
-    };
-
+    }
 
     const currentFocusHandler = (uuid: string) => {
         if(currentId === uuid) return
         setCurrentId(uuid);
     };
 
- 
+    //복사하기
     const copyReceiptHandler = ()=>{
         const copyReceipt = receiptList.find(receipt => receipt.uuid === target)
+        console.log(copyReceipt)
         if(copyReceipt){
             const newReceipt = {
-                ...initReceipt,
-                company:copyReceipt.company,
+                ...copyReceipt,
                 uuid: uuidv4()
             };
             setReceiptList([...receiptList, newReceipt]);
         }
     }
-
+    //삭제하기
     const deleteReceiptHandler = ()=>{
         const newReceiptList =receiptList.filter(({uuid})=> uuid !== target)
         setReceiptList(newReceiptList)
     }
-
+    //새전표 추가
     const newReceiptHandler =()=>{
         if(receiptList.length>=10){
             window.alert('최대 10개까지만 추가할 수 있습니다.')
@@ -76,9 +76,9 @@ export default function ReceiptTableBody(){
 
     return(
         <>
-        {receiptList.map(({uuid,account}, index) => (
-                <tbody key={uuid} className={target===uuid ? 'focus' : ''} 
-                    ref={(el) => {(itemsRef.current[uuid] = el)}}
+        {receiptList.map((receipt, index) => (
+                <tbody key={receipt.uuid} className={target===receipt.uuid ? 'focus' : ''} 
+                    ref={(el) => {(itemsRef.current[receipt.uuid] = el)}}
                     onContextMenu={(e)=>{
                             e.preventDefault();  
                             const tableRect = e.currentTarget.getBoundingClientRect();
@@ -86,23 +86,28 @@ export default function ReceiptTableBody(){
                             const mouseY = e.clientY - tableRect.top;
                         
                             setMousePosition({ x: mouseX, y: mouseY });                  
-                            setTarget(uuid)
+                            setTarget(receipt.uuid)
                         }}
                     onFocus={(e)=>{
-                        currentFocusHandler(uuid);
+                        currentFocusHandler(receipt.uuid);
                     }}
                     onClick={()=>setTarget(null)}
                     >
                     <tr>
                         <td rowSpan={2} style={{position:'relative'}}>
-                            {target===uuid && <ReceiptOptions position={mousePosition} copyFn={copyReceiptHandler} deleteFn={deleteReceiptHandler} />}
+                            {target===receipt.uuid && <ReceiptOptions position={mousePosition} 
+                                                              copyFn={copyReceiptHandler} 
+                                                              deleteFn={deleteReceiptHandler} />}
                             {index+1}
                         </td>
                         <td rowSpan={2}>
-                            <input type="date"/>
+                            <input type="date" 
+                                   value={dayjs(receipt.date).format("YYYY-MM-DD")} 
+                                   onChange={(e)=>receiptHandler({date:new Date(e.target.value)}, receipt.uuid)}/>
                         </td>
                         <td rowSpan={2}>
-                            <select value={account} onChange={(e) => accountHandler(e, index)} required>
+                            <select value={receipt.account} 
+                                    onChange={(e)=>receiptHandler({account:e.target.value as AccountType},receipt.uuid)} required>
                                 <option value="input" disabled>전표입력</option>
                                 <option value="sales">매출</option>
                                 <option value="purchase">매입</option>
@@ -116,15 +121,37 @@ export default function ReceiptTableBody(){
                                 <option value="returned_received">반품입고</option>
                             </select>
                         </td>
-                        <td><input type="text" placeholder='거 래 처'/> </td>
-                        <td><input type="text" placeholder='비 고'/></td>
-                        <td><input type="number" placeholder='단 가'/></td>
-                        <td><input type="number" placeholder='금 액'/></td>
+                        <td><input type="text"
+                                   placeholder='거 래 처' 
+                                   value={receipt.company || ''}
+                                   onChange={(e)=>receiptHandler({company:e.target.value}, receipt.uuid)}/> </td>
+                        <td><input type="text" 
+                                   placeholder='비 고'
+                                   value={receipt.note || ''} 
+                                   onChange={(e)=>receiptHandler({note:e.target.value}, receipt.uuid)}/></td>
+                        <td><input type="number" 
+                                   placeholder='단 가'
+                                   value={receipt.unit_price || ''}
+                                   onChange={(e)=>receiptHandler({unit_price:Number(e.target.value)}, receipt.uuid)}/></td>
+                        <td><input type="number" 
+                                   placeholder='금 액'
+                                   value={receipt.amount || ''}
+                                   onChange={(e)=>receiptHandler({amount:Number(e.target.value)}, receipt.uuid)}/></td>
                     </tr>
                     <tr>
-                        <td><input type="text" placeholder='품 명'/></td>
-                        <td><input type="number"placeholder='수 량'/></td>
-                        <td colSpan={2}><input type="text" placeholder='적 요'/></td>
+                        <td><input type="text" 
+                                   placeholder='품 명'
+                                   value={receipt.product || ''}
+                                   onChange={(e)=>receiptHandler({product:e.target.value}, receipt.uuid)}/></td>
+                        <td><input type="number"
+                                   placeholder='수 량'
+                                   value={receipt.quantity || ''}
+                                   onChange={(e)=>receiptHandler({quantity:Number(e.target.value)}, receipt.uuid)}/></td>
+                        <td colSpan={2}>
+                            <input type="text"
+                                   placeholder='적 요'
+                                   value={receipt.briefs ||''}
+                                   onChange={(e)=>receiptHandler({briefs:e.target.value}, receipt.uuid)}/></td>
                     </tr>
                 </tbody>
             ))}
@@ -141,3 +168,4 @@ export default function ReceiptTableBody(){
         </>
     )
 }
+
