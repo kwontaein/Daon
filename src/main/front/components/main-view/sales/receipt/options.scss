@@ -3,7 +3,7 @@
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    padding: 8px 0;
+    // padding: 8px 0;
     z-index: 1000; 
     min-width: 150px;
     overflow: hidden; 
@@ -12,10 +12,9 @@
 
 .options-container li {
     list-style: none; 
-    padding: 5px 8px; 
+    padding: 8px; 
     cursor: pointer; 
     font-size: 14px;
-    color: #333; 
     transition: background-color 0.2s ease, color 0.2s ease; 
 }
 
@@ -32,4 +31,12 @@
         opacity: 1;
         transform: scale(1); 
     }
+}
+
+
+.delete{
+    color: red !important;
+        &:hover{
+            color: rgb(255, 132, 132);
+        }
 }
