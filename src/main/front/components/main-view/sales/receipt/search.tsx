@@ -4,7 +4,7 @@ import '@/styles/_global.scss';
 export default function ReceiptSearch() {
 
     return (
-        <div className="receipt-search">
+        <div className="search-container">
             <table className="search-table">
                 <tbody>
                     <tr>
@@ -52,8 +52,8 @@ export default function ReceiptSearch() {
                     </tr>
                     <tr>
                         <td colSpan={3} className="table-buttons mobile">
-                            <button>전표검색</button>
                             <button>오늘일자</button>
+                            <button>전표검색</button>
                         </td>
                     </tr>
                 </tbody>
