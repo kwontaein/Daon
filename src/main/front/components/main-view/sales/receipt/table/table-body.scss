@@ -26,19 +26,28 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type="number"] {
-    -moz-appearance:textfield;
-  }
+
+.number-input{
+    text-align: right;
+    &::placeholder{
+        text-align: left;
+    }
+}
 
 input[type="date"]{
     text-align:center;
 }
 
 
-.focus{
-    border: 1px solid var.$default-border-color;
+.focused{
+    border: 2px solid #1b81d4;
     font-weight: bold !important;
+    // zoom: 110%;
 }
+.focused input {
+    outline: none; /* 입력 필드의 기본 아웃라인 제거 */
+  }
+
 
 .receipt-button-container{
     margin-top:0.5rem;
@@ -60,3 +69,14 @@ input[type="date"]{
         padding: 0.2rem;
     }
 }
+
+.disabled{
+    background-color: silver;
+    cursor: not-allowed;
+    color: silver !important;
+    &::placeholder{
+        color:silver;
+    }
+    box-shadow: 0px 0 0 1px rgb(170, 170, 170);
+}
+
