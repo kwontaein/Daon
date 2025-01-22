@@ -8,6 +8,7 @@
     }
     .search-table {
         table-layout: auto;
+        width: 100%;
         border-collapse: collapse;
         font-size: inherit;
         @media (max-width:620px){
@@ -21,10 +22,11 @@
         padding-block: 0.2em;
         padding-inline:0.5em;
         vertical-align: middle;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .table-title {
-        overflow: hidden;
         text-align: center;
         background-color: inherit;
         font-weight: bold;
@@ -45,10 +47,14 @@
 
     .table-input {
         width: auto;
+        text-align: left;
         font-size: 1em;
         input{
-            width:75%;
+            width: 300px;
         }
+    }
+    .date-input{
+        width: fit-content !important;
     }
 
     .flex-row {
@@ -59,9 +65,9 @@
 
     .table-buttons {
         button {
-            font-size: 1.2em;
+            font-size: 1.1em;
             margin: 0.2em auto;
-            padding: 0.5em 1em;
+            padding: 0.7em 1em;
             background-color: #007bff;
             color: white;
             border: none;
@@ -87,6 +93,7 @@
         }
     }
 }
+
 
 .mobile{
     @media (min-width: 620px) {
