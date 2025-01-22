@@ -1,0 +1,91 @@
+@use '@/styles/_variables.scss' as var;
+
+.calendar-container{
+    max-width: 280px;
+    min-width: 200px;
+    height: 100px;
+    margin : 5px;
+    margin-inline: 5px;
+    padding-inline:5px;
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: transparent;
+    font-size: 1rem;
+    @media (max-width:620px){
+        font-size: 0.5rem;
+    }
+    td{
+        height:10px;
+    }
+    thead{
+        background-image: none !important;
+    }
+
+    //일자 스타일
+    .calendar-day{
+        width: 20px;
+        height: 20px;
+        font-size:1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .sun{
+        color: red;
+    }
+    .sta{
+        color: blue;
+    }
+    .search{
+        background-color: var.$default-point-color;
+        border-radius: 50%;
+        color: white;
+    }
+
+    //header 월화수목금토일
+    .fc-col-header-cell-cushion{
+        font-size: 1.2em;
+        color: white;
+    }
+
+    td{
+        background-color: transparent;
+        border:none;
+        text-align: center;
+    }
+    .fc-col-header{
+        margin: 0;
+    }
+    .fc-theme-standard .fc-scrollgrid {
+        border: none;
+    }
+
+    .fc .fc-daygrid-day-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        a{
+            padding:0;
+        }
+    }
+    //이벤트(일정)칸 빈공백 제거
+    .fc-daygrid-day-events{
+        display: none;
+    }
+}
+.calendar-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    span{
+        display: flex;
+        gap: 0.5rem;
+    }
+    h3{
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+}
+
