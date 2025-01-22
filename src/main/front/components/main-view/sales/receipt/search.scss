@@ -1,7 +1,7 @@
 @use '@/styles/_variables.scss' as var;
 @use '@/styles/_mixin.scss' as mixins;
 
-.receipt-search {
+.search-container{
     font-size: 1.2rem;
     @media (max-width: 620px) {
         font-size: 0.5rem

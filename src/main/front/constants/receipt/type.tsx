@@ -17,9 +17,9 @@ export type Receipt = {
     account?: AccountType,
     company?: string,
     note?: string,
-    unit_price?: number,
-    amount?: number,
+    unit_price?: string,
+    amount?: string,
     product?: string,
-    quantity?: number,
+    quantity?: string,
     briefs?: string,
 };
