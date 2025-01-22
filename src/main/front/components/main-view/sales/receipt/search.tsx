@@ -1,11 +1,28 @@
+'use client'
+
+import { useDispatch } from 'react-redux';
 import './search.scss';
 import '@/styles/_global.scss';
+import dayjs from 'dayjs';
+import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/calendar-slice';
 
 export default function ReceiptSearch() {
-
+    const dispatch = useDispatch()
+    const today =dayjs(new Date(Date.now())).format('YYYY-MM-DD')
+    //오늘일자
+    const todayReceipt= () => {
+        dispatch(updateDateId())
+        dispatch(updateSearchDate(today))
+    }
     return (
         <div className="search-container">
             <table className="search-table">
+            <colgroup>
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '72%' }} />
+                    <col style={{ width: '10%' }} />
+                </colgroup>
                 <tbody>
                     <tr>
                         <td rowSpan={3} className="table-title center">
@@ -15,7 +32,7 @@ export default function ReceiptSearch() {
                         <td className="table-label">출력일자</td>
                         <td className="table-input">
                             <div className="flex-row">
-                                <input type="date" /> ~ <input type="date" />
+                                <input className='date-input' type="date" /> ~ <input className='date-input' type="date" />
                                 <label>
                                     <select name="kindNumSch" size={1}>
                                         <option>전표종류</option>
@@ -34,8 +51,12 @@ export default function ReceiptSearch() {
                             </div>
                         </td>
                         <td rowSpan={3} className="table-buttons pc">
-                            <button>전 표 검 색</button>
-                            <button>오늘일자보기</button>
+                            <button>
+                                전 표 검 색
+                            </button>
+                            <button onClick={todayReceipt}>
+                                오늘일자보기
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +73,9 @@ export default function ReceiptSearch() {
                     </tr>
                     <tr>
                         <td colSpan={3} className="table-buttons mobile">
-                            <button>오늘일자</button>
+                            <button onClick={todayReceipt}>
+                                오늘일자
+                            </button>
                             <button>전표검색</button>
                         </td>
                     </tr>
