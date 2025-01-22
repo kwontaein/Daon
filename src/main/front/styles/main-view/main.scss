@@ -1,5 +1,16 @@
 .main-view-container{
-    width: 100%;
+    width:calc(100% - 250px - 2rem);
+    height: fit-content;
+    @media (max-width: 1023px){
+        width:calc(100% - 200px - 2rem);
+    }
+    @media (max-width: 767px){
+        width:calc(100% - 170px - 2rem);
+    }
+    @media (max-width: 620px){
+        width: 100%;
+    }
+
     margin-inline: 1rem;
     font-size: 1rem;
 }
