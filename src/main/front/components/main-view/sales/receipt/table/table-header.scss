@@ -2,12 +2,12 @@
 @use '@/styles/_mixin.scss' as mixins;
 
 
-header{
+.receipt-header{
     display: flex;
     align-items: center;
     gap:0.5rem;
 }
-.receipt-container{
+.register-receipt-container{
     margin: 0 auto;
     padding: 5px;
     box-sizing: border-box;
@@ -15,7 +15,7 @@ header{
 }
 
 
-table{
+.receipt-table-container{
     font-size: 1.2rem;
     margin-top: 0.5rem;
     width: 100%;
@@ -23,29 +23,35 @@ table{
     @media (max-width:620px){
         font-size: 0.7rem;
     }
-}
 
-
-thead{
-    background-color: #8091A7;
-    background-image: url('../../../../../assets/bg_img.gif');
-    background-repeat: repeat-x;
-    tr{
-        background-color: transparent;
+    
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../../../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+            text-align: center;
+            padding: 3px;
+            border: 1px solid var.$default-border-color;
+            font-weight: 500;
+        }
     }
-    td{
-        background-color: transparent;
-        color: white !important;
-        text-align: center;
-        padding: 3px;
-        border: 1px solid var.$default-border-color;
-        font-weight: 500;
+
+    tbody{
+        td{
+            height: 20px;
+            text-align: center;
+            border:1px solid var.$default-border-color;
+            background-color:white;
+        }
     }
+
 }
 
-td{
-    height: 20px;
-    text-align: center;
-    border:1px solid var.$default-border-color;
-    background-color:white;
-}
+

@@ -12,7 +12,12 @@ html{
   font-family: Tahoma, "굴림", sans-serif;
   font-size: 10px;
   background-color: var.$bg-color;
-
+  width: 100%;
+  height: 100%;
+}
+body{
+  width: 100%;
+  height: 100%;
 }
 @media (max-width:1023px) {
   html {
@@ -83,6 +88,7 @@ i{
 
 .full-screen{
   width: 100%;
+  height: 100%;
 }
 .block{
   display: block;
@@ -97,4 +103,29 @@ i{
   @include mixins.table-gradient-background;
   color: var.$default-white-color;
   border: 1px solid var.$default-border-color;
+}
+
+table{
+  font-size: 1rem;
+  @media (max-width: 620px) {
+      font-size: 0.5rem
+  }
+
+    thead{
+      background-color: #8091A7;
+      background-image: url('../assets/bg_img.gif');
+      background-repeat: repeat-x;
+      
+      tr{
+          background-color: transparent;
+      }
+      td{
+          background-color: transparent;
+          color: white !important;
+          text-align: center;
+          padding: 3px;
+          border: 1px solid var.$default-border-color;
+          font-weight: 500;
+      }
+  }
 }
