@@ -123,50 +123,58 @@ export default function ReceiptTableBody(){
                             </select>
                         </td>
                         <td><input type="text"
-                                   className={DisabledStatus[receipt.account].company ? 'disabled' : ''}
-                                   placeholder='거 래 처' 
-                                   value={receipt.company || ''}
-                                   disabled={DisabledStatus[receipt.account].company}
-                                   onChange={(e)=>receiptHandler({company:e.target.value}, receipt.uuid)}/> </td>
+                                className={DisabledStatus[receipt.account].company ? 'disabled' : ''}
+                                placeholder='거 래 처' 
+                                value={receipt.company || ''}
+                                disabled={DisabledStatus[receipt.account].company}
+                                onChange={(e)=>receiptHandler({company:e.target.value}, receipt.uuid)}/> </td>
                         <td><input type="text"                                    
-                                   className={DisabledStatus[receipt.account].note ? 'disabled' : ''}
-                                   placeholder='비 고'
-                                   value={receipt.note || ''} 
-                                   disabled={DisabledStatus[receipt.account].note}
-                                   onChange={(e)=>receiptHandler({note:e.target.value}, receipt.uuid)}/></td>
-                        <td><input type="text"  
-                                   className={DisabledStatus[receipt.account].unit_price ? 'disabled' : 'number-input'}
-                                   placeholder='단 가'
-                                   value={receipt.unit_price!==undefined? Number(receipt.unit_price).toLocaleString('ko-KR') : ''}
-                                   disabled={DisabledStatus[receipt.account].unit_price}
-                                   onChange={(e)=>receiptHandler({unit_price: e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
-                        <td><input type="text" 
-                                   className={DisabledStatus[receipt.account].amount ? 'disabled' : 'number-input'}
-                                   placeholder='금 액'
-                                   value={receipt.amount!==undefined? Number(receipt.amount).toLocaleString('ko-KR') : ''}
-                                   disabled={DisabledStatus[receipt.account].amount}
-                                   onChange={(e)=>receiptHandler({amount:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                                className={DisabledStatus[receipt.account].note ? 'disabled' : ''}
+                                placeholder='비 고'
+                                value={receipt.note || ''} 
+                                disabled={DisabledStatus[receipt.account].note}
+                                onChange={(e)=>receiptHandler({note:e.target.value}, receipt.uuid)}/></td>
+                        <td colSpan={2}>
+                            <input type="text"
+                                className={DisabledStatus[receipt.account].briefs ? 'disabled' : ''}
+                                placeholder='적 요'
+                                value={receipt.briefs ||''}
+                                disabled={DisabledStatus[receipt.account].briefs}
+                                onChange={(e)=>receiptHandler({briefs:e.target.value}, receipt.uuid)}/></td>
                     </tr>
                     <tr>
                         <td><input type="text" 
-                                   placeholder='품 명'
-                                   className={DisabledStatus[receipt.account].product ? 'disabled' : ''}
-                                   value={receipt.product || ''}
-                                   disabled={DisabledStatus[receipt.account].product}
-                                   onChange={(e)=>receiptHandler({product:e.target.value}, receipt.uuid)}/></td>
+                                placeholder='품 명'
+                                className={DisabledStatus[receipt.account].product ? 'disabled' : ''}
+                                value={receipt.product || ''}
+                                disabled={DisabledStatus[receipt.account].product}
+                                onChange={(e)=>receiptHandler({product:e.target.value}, receipt.uuid)}/></td>
                         <td><input type="text"
-                                   className={DisabledStatus[receipt.account].quantity ? 'disabled' : 'number-input'}
-                                   placeholder='수 량'
-                                   value={receipt.quantity!==undefined? Number(receipt.quantity).toLocaleString('ko-KR') : ''}
-                                   disabled={DisabledStatus[receipt.account].quantity}
-                                   onChange={(e)=>receiptHandler({quantity:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
-                        <td colSpan={2}>
-                            <input type="text"
-                                   className={DisabledStatus[receipt.account].briefs ? 'disabled' : ''}
-                                   placeholder='적 요'
-                                   value={receipt.briefs ||''}
-                                   disabled={DisabledStatus[receipt.account].briefs}
-                                   onChange={(e)=>receiptHandler({briefs:e.target.value}, receipt.uuid)}/></td>
+                                className={DisabledStatus[receipt.account].quantity ? 'disabled' : 'number-input'}
+                                placeholder='수 량'
+                                value={receipt.quantity!==undefined? Number(receipt.quantity).toLocaleString('ko-KR') : ''}
+                                disabled={DisabledStatus[receipt.account].quantity}
+                                onChange={(e)=>receiptHandler({quantity:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                        <td><input type="text"  
+                                className={DisabledStatus[receipt.account].unit_price ? 'disabled' : 'number-input'}
+                                placeholder='단 가'
+                                value={receipt.unit_price!==undefined? Number(receipt.unit_price).toLocaleString('ko-KR') : ''}
+                                disabled={DisabledStatus[receipt.account].unit_price}
+                                onChange={(e)=>receiptHandler({unit_price: e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                        <td><input type="text" 
+                                className={'number-input'}
+                                placeholder='금 액'
+                                value={DisabledStatus[receipt.account].amount ?
+                                   (
+                                    (receipt.quantity!==undefined  && receipt.unit_price!==undefined) ? 
+                                        (Number(receipt.quantity) * Number(receipt.unit_price)).toLocaleString('ko-KR')
+                                        : ''
+                                    )
+                                    :
+                                    receipt.amount!==undefined? Number(receipt.amount).toLocaleString('ko-KR') : ''
+                                 }
+                                disabled={DisabledStatus[receipt.account].amount}
+                                onChange={(e)=>receiptHandler({amount:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
                     </tr>
                 </tbody>
             ))}

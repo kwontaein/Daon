@@ -1,0 +1,27 @@
+@use '@/styles/_variables.scss' as var;
+
+
+.search-result-container{
+    td{
+        padding: 0.4em;
+        border: none !important;
+        background-color: var.$bg-color !important;
+    }
+    border-bottom: 1px solid var.$default-border-color;
+    box-sizing: content-box;
+}
+
+
+
+.left-align{
+    text-align: left !important;
+}
+.right-align{
+    text-align: right !important;
+}
+
+.odd-item{
+    td{
+        background-color: var.$default-white-color !important;
+    }   
+}
