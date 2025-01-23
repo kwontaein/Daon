@@ -111,3 +111,11 @@
 input{
     padding: 0.1em;
 }
+
+select{
+    border-color: transparent;
+    &:focus{
+        border: 1px solid #bbb;
+        border-radius: 2px;
+    }
+}

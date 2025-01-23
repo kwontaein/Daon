@@ -6,14 +6,17 @@ import '@/styles/_global.scss';
 import dayjs from 'dayjs';
 import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/calendar-slice';
 
+
 export default function ReceiptSearch() {
     const dispatch = useDispatch()
     const today =dayjs(new Date(Date.now())).format('YYYY-MM-DD')
+
     //오늘일자
     const todayReceipt= () => {
         dispatch(updateDateId())
         dispatch(updateSearchDate(today))
     }
+
     return (
         <div className="search-container">
             <table className="search-table">
