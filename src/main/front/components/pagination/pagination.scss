@@ -11,7 +11,7 @@
     font-size: 1.2rem;
 
     @media (max-width:620px){
-        font-size: 0.5rem;
+        font-size: 0.7rem;
         margin-top: 2rem;
     }
 }
@@ -38,8 +38,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-inline: 0.5rem;
-    min-width: 2rem !important;
+    margin-inline: 0.5em;
+    min-width: 2em !important;
 }
 
 .active {
@@ -56,5 +56,5 @@
 
 .move{
     zoom: '110%';
-    margin-inline: 0.5rem;
+    margin-inline: 0.5em;
 }

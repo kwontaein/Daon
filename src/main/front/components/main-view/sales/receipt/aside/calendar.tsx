@@ -65,13 +65,13 @@ export default function Calendar(){
         <div className="calendar-container">
         <div className='calendar-header'>
             <span>
-                <Image src={prevYear} alt='<<' onClick={calendarHandler.bind(null,'prevYear')}/>
-                <Image src={prevMonth} alt='<' onClick={calendarHandler.bind(null,'prev')}/>
+                <Image src={prevYear} alt='<<' onClick={calendarHandler.bind(null,'prevYear')} style={{zoom:'120%'}}/>
+                <Image src={prevMonth} alt='<' onClick={calendarHandler.bind(null,'prev')} style={{zoom:'120%'}}/>
             </span>
                 <h3>{currentDate}</h3>
             <span>
-                <Image src={nextMonth} alt='>' onClick={calendarHandler.bind(null,'next')}/>
-                <Image src={nextYear} alt='>>' onClick={calendarHandler.bind(null,'nextYear')}/>
+                <Image src={nextMonth} alt='>' onClick={calendarHandler.bind(null,'next')} style={{zoom:'120%'}}/>
+                <Image src={nextYear} alt='>>' onClick={calendarHandler.bind(null,'nextYear')} style={{zoom:'120%'}}/>
             </span>
         </div>
             
