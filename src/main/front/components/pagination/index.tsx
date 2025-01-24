@@ -19,7 +19,6 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
   const noNext = start + pageCount - 1 >= totalPages; //다음 페이지 유무
   
   useEffect(() => {
-    console.log(currentPage, start, pageCount)
     if (currentPage === start + pageCount) setStart((prev) => prev + pageCount); //다음으로 갈 시 start 갱신
     if (currentPage < start) setStart((prev) => prev - pageCount);
   }, [currentPage, pageCount, start]);
