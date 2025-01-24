@@ -21,17 +21,20 @@
         border: 1px solid #ddd;
         padding-block: 0.2em;
         padding-inline:0.5em;
-        vertical-align: middle;
         white-space: nowrap;
-        overflow: hidden;
+        color: black;
     }
 
     .table-title {
-        text-align: center;
-        background-color: inherit;
+        // background-color: #f4f4f4;
+        // background-image: none;
+        td{
+            color: white !important;
+        }
+        text-align: left;
         font-weight: bold;
         @media (max-width: 620px){
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
     }
 
@@ -41,7 +44,7 @@
         font-weight: bold;
         text-align: left;
         @media (max-width: 620px){
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
     }
 
@@ -50,11 +53,15 @@
         text-align: left;
         font-size: 1em;
         input{
-            width: 300px;
+            width: 100%;
+            max-width: 418px;
+            @media (max-width:620px){
+                max-width: none;
+            }
         }
     }
     .date-input{
-        width: fit-content !important;
+        max-width: 200px !important;
     }
 
     .flex-row {
@@ -67,29 +74,26 @@
         button {
             font-size: 1.1em;
             margin: 0.2em auto;
-            padding: 0.7em 1em;
-            background-color: #007bff;
-            color: white;
-            border: none;
+            padding: 0.4em 1em;
+            width: 8em;
+            display: block;
+            background-color: #EFEFEF;
+            color: black;
+            border: 1px solid black;
             border-radius: 2px;
             cursor: pointer;
-
-            @media (min-width: 620px){
-                width: 8em;
-                display: block;
-                background-color: #EFEFEF;
-                color: black;
-                border: 1px solid black;
-            }
             &:hover{
                 filter: brightness(95%);
             }
-        }
-        @media (max-width: 620px){
-            text-align: left;
-            button{
-                margin-inline: 0.5em;
-            }            
+            @media (max-width:620px){
+                font-size: 1.4em;
+                padding: 0.5em 1em;
+            }
+            a{
+                &:hover{
+                    color: black;
+                }
+            }
         }
     }
 }
@@ -114,6 +118,7 @@ input{
 
 select{
     border-color: transparent;
+    background-color: transparent !important;
     &:focus{
         border: 1px solid #bbb;
         border-radius: 2px;

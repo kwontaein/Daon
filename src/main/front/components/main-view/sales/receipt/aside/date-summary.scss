@@ -2,17 +2,28 @@
 @use '@/styles/_variables.scss' as var;
 
 .summary-container{
-    margin-top: 2rem;
     width: 100%;
     thead{
+        background-image: none;
+        background-color: transparent;
+        color: black;
+
        td{
-            font-size: 1.2em;
-            height: 2.5em;
+            font-size: 1.6em;
+            height: 1em;
+            color: black !important;
+            border: none;
+            text-align: left;
+            @media (max-width:620px){
+                font-size: 1.4em;
+            }
        }
+       
     }
+
     tbody{
         td{
-            font-size: 1.2em;
+            font-size: 1.4em;
             border: none;
             border-bottom: 1px solid var.$default-border-color;
             margin-block: 0.2rem;
