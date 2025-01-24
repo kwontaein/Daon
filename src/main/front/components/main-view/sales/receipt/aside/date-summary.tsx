@@ -16,7 +16,7 @@ export default function DateSummary(){
                     <tr>
                         <td>
                             <p>[전일잔고]</p>
-                            <p>0</p>
+                            <p>2,232,442,111</p>
                         </td>
                     </tr>
                     <tr>
