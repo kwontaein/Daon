@@ -1,5 +1,5 @@
 import ReceiptSearch from "@/components/main-view/sales/receipt/search/search";
-import RegisterButton from "@/components/main-view/sales/receipt/total-buttons";
+import ReceiptButtons from "@/components/main-view/sales/receipt/total-buttons";
 import ReceiptTableContainer from "@/components/main-view/sales/receipt/table/table-header";
 
 import '@/styles/_global.scss';
@@ -21,7 +21,7 @@ export default async function ReceiptPage({searchParams}:ReceiptPageProps) {
         <div className="flex-row">
             <section className="full-screen">
                 <ReceiptSearch/>
-                <RegisterButton/>
+                <ReceiptButtons/>
                 <ReceiptTableContainer>
                     {newArr.length >0 &&
                     newArr.map((receipt, index)=>(

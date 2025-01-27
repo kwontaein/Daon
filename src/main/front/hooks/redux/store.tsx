@@ -1,8 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import calendarSlice from './slice/calendar-slice'
-
+import receiptSearchSlice from './slice/receipt-search-slice'
+import receiptSelectorSlice  from './slice/receipt-select-slice';
 const rootReducer = combineReducers({
-    calendarDate: calendarSlice,
+    receiptSearch: receiptSearchSlice,
+    receiptSelector : receiptSelectorSlice,
 });
 
 export const store = configureStore({
