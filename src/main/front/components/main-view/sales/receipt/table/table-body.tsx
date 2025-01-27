@@ -1,5 +1,5 @@
 'use client'
-import { MouseEvent, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './table-body.scss';
 import { AccountType } from '@/constants/receipt/type';
@@ -8,6 +8,7 @@ import ReceiptOptions from '@/components/main-view/sales/receipt/options';
 import dayjs from 'dayjs';
 import { DisabledStatus } from '@/constants/receipt/disabled-status';
 import useReceiptList from '@/hooks/receipt/useReceiptList';
+
 
 
 
@@ -29,6 +30,7 @@ export default function ReceiptTableBody(){
             mouseRightClick,
             focusTarget
         } = useReceiptList()
+
 
     const mouseEvent = (uuid: string, position:ClientMousePosition)=>{
         setTarget(uuid)
@@ -54,6 +56,7 @@ export default function ReceiptTableBody(){
                             {index+1}
                         </td>
                         <td rowSpan={2}>
+                            <input type='checkbox'></input>
                             <input type="date" 
                                    value={dayjs(receipt.date).format("YYYY-MM-DD")} 
                                    onChange={(e)=>receiptHandler({date:new Date(e.target.value)}, receipt.uuid)}/>

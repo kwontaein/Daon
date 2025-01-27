@@ -19,7 +19,7 @@ import prevMonth from '@/assets/prevMonth.gif';
 import { getHolidays } from '@/constants/receipt/holidays';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
-import { updateSearchDate } from '@/hooks/redux/slice/receipt-search-slice';
+import { updateSearchDate } from '@/hooks/redux/slice/receipt-search';
 
 
 export default function Calendar(){

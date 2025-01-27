@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import receiptSearchSlice from './slice/receipt-search-slice'
-import receiptSelectorSlice  from './slice/receipt-select-slice';
+import receiptSearchSlice from './slice/receipt-search'
+import receiptSelectorSlice  from './slice/receipt-select';
 const rootReducer = combineReducers({
     receiptSearch: receiptSearchSlice,
     receiptSelector : receiptSelectorSlice,

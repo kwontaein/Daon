@@ -1,0 +1,40 @@
+
+@use '@/styles/_variables' as var;
+@use '@/styles/_mixin.scss' as mixins;
+
+.estimate-table-container{
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    @media (max-width:620px){
+        font-size: 0.7rem;
+        margin-top: 0.5rem;
+    }
+
+    
+    thead{
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+            text-align: center;
+            padding: 3px;
+            border: 1px solid var.$default-border-color;
+            font-weight: 500;
+        }
+    }
+
+    tbody{
+        td{
+            height: 20px;
+            text-align: center;
+            border:1px solid var.$default-border-color;
+            background-color:white;
+        }
+    }
+
+}

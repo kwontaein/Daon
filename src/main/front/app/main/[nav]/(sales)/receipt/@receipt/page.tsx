@@ -24,9 +24,8 @@ export default async function ReceiptPage({searchParams}:ReceiptPageProps) {
                 <ReceiptButtons/>
                 <ReceiptTableContainer>
                     {newArr.length >0 &&
-                    newArr.map((receipt, index)=>(
-                        <ReceiptSearchResult receipt={receipt} index={(page-1)*10 +index} key={receipt.uuid}/>
-                    ))}
+                        <ReceiptSearchResult receiptList={newArr} basicIndex={(page-1)*10}/>
+                    }
                 </ReceiptTableContainer>
                 <Pagination
                        totalItems={ReceiptDummy.length}

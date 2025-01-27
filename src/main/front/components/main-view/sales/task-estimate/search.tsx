@@ -1,29 +1,6 @@
-'use client'
-
-import { useDispatch } from 'react-redux';
-import './search.scss';
-import '@/styles/_global.scss';
-import dayjs from 'dayjs';
-import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/receipt-search';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-
-export default function ReceiptSearch() {
-    const dispatch = useDispatch()
-    const today =dayjs(new Date(Date.now())).format('YYYY-MM-DD')
-    const pathname = usePathname()
-    //오늘일자
-    const todayReceipt= () => {
-        dispatch(updateDateId())
-        dispatch(updateSearchDate(today))
-    }
-
-
-
-    return (
+import './search.scss'
+export default function EstimateSearch(){
+    return(
         <div className="search-container">
             <table className="search-table">
             <colgroup>
@@ -40,11 +17,11 @@ export default function ReceiptSearch() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="table-label">전표종류</td>
+                        <td className="table-label">사업자</td>
                         <td className="table-input">
                         <label>
                                     <select name="kindNumSch" size={1}>
-                                        <option>전표선택</option>
+                                        <option>사업자선택</option>
                                         <option value="sales">매출</option>
                                         <option value="purchase">매입</option>
                                         <option value="deposit">입금</option>
@@ -60,15 +37,10 @@ export default function ReceiptSearch() {
                         </td>
                         <td rowSpan={4} className="table-buttons">
                             <button>
-                                전 표 검 색
+                                검 색
                             </button>
                             <button>
-                                <Link href={`${pathname}/daily-summary`}>
-                                    일일종합검색
-                                </Link>
-                            </button>
-                            <button onClick={todayReceipt}>
-                                오늘일자보기
+                                    전체보기
                             </button>
                         </td>
                     </tr>
@@ -98,5 +70,5 @@ export default function ReceiptSearch() {
             </table>
 
         </div>
-    );
+    )
 }
