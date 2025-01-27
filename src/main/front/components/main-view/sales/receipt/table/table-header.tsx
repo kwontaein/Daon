@@ -1,13 +1,13 @@
 import './table-header.scss'
 
-export default function ReceiptTableContainer({children}:{children:React.ReactNode}){
+export default function ReceiptTableContainer({children, isRegister}:{children:React.ReactNode, isRegister?:boolean}){
     return(
         <table className='receipt-table-container'>
             <colgroup>
                 <col style={{ width: '5%' }} />
                 <col style={{ width: '10%' }} />
-                <col style={{ width: '10%' }} />
-                <col style={{ width: '35%' }} />
+                <col style={{ width: isRegister ? '15%' : '8%' }} />
+                <col style={{ width: isRegister ? '30%' :'35%' }} />
                 <col style={{ width: '10%' }} />
                 <col style={{ width: '15%' }} />
                 <col style={{ width: '15%' }} />

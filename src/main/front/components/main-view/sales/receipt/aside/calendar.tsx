@@ -19,11 +19,11 @@ import prevMonth from '@/assets/prevMonth.gif';
 import { getHolidays } from '@/constants/receipt/holidays';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
-import { updateSearchDate } from '@/hooks/redux/slice/calendar-slice';
+import { updateSearchDate } from '@/hooks/redux/slice/receipt-search-slice';
 
 
 export default function Calendar(){
-    const calendarEvent = useSelector((state:RootState)=> state.calendarDate); //외부에서도 컨트롤 할 수 있도록 상태관리
+    const calendarEvent = useSelector((state:RootState)=> state.receiptSearch); //외부에서도 컨트롤 할 수 있도록 상태관리
     const dispatch = useDispatch()
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState<string>("");
