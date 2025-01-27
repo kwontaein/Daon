@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ReceiptSelect{
-    receiptIds: string[];
+    selectList: string[];
     isSelected:boolean; 
 }
 
 const initialState: ReceiptSelect={
-    receiptIds:[],
+    selectList:[],
     isSelected:false,
 }
 
@@ -18,13 +18,13 @@ const receiptSelector = createSlice({
             state.isSelected = !state.isSelected;
         },
         addReceiptId:(state, action:PayloadAction<string>)=>{
-            state.receiptIds.push(action.payload);
+            state.selectList.push(action.payload);
         },
         removeReceiptId:(state, action:PayloadAction<string>)=>{
-            state.receiptIds = state.receiptIds.filter(id=>id!==action.payload);
+            state.selectList = state.selectList.filter(id=>id!==action.payload);
         },
         clearReceiptIds:(state)=>{
-            state.receiptIds = [];
+            state.selectList = [];
         },
     },
 })
