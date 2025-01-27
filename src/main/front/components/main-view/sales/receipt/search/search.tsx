@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import './search.scss';
 import '@/styles/_global.scss';
 import dayjs from 'dayjs';
-import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/calendar-slice';
+import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/receipt-search-slice';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

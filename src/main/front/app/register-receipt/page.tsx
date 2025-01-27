@@ -17,7 +17,7 @@ export default function RegisterReceiptPage() {
                 <h4>전표입력</h4>
             </header>
             <main>
-                <ReceiptTableContainer>
+                <ReceiptTableContainer isRegister={true}>
                     <ReceiptTableBody/>
                 </ReceiptTableContainer>
             </main>

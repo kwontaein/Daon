@@ -9,14 +9,11 @@
         color: black;
 
        td{
-            font-size: 1.6em;
+            font-size: 1.4em;
             height: 1em;
             color: black !important;
             border: none;
             text-align: left;
-            @media (max-width:620px){
-                font-size: 1.4em;
-            }
        }
        
     }

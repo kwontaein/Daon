@@ -1,19 +1,15 @@
 'use client'
-import { ChangeEvent, Fragment, useEffect, useState } from 'react';
-import {v4 as uuidv4} from "uuid";
+import { MouseEvent, useState } from 'react';
 
 import './table-body.scss';
-import { Receipt, AccountType } from '@/constants/receipt/type';
+import { AccountType } from '@/constants/receipt/type';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main-view/sales/receipt/options';
 import dayjs from 'dayjs';
 import { DisabledStatus } from '@/constants/receipt/disabled-status';
+import useReceiptList from '@/hooks/receipt/useReceiptList';
 
-const initReceipt:Receipt = {
-    uuid: uuidv4(),
-    date: new Date(Date.now()),
-    account: 'input',
-}
+
 
 type ClientMousePosition = {
     x:number,
@@ -21,84 +17,40 @@ type ClientMousePosition = {
 }
 
 export default function ReceiptTableBody(){
-    const [receiptList, setReceiptList] = useState<Receipt[]>([initReceipt]);
     const {target,setTarget,itemsRef} = useItemSelection<string>(true) //복사 및 삭제대상 지정
-    const [mousePosition, setMousePosition] =useState<ClientMousePosition|null>(null)
-    const [currentId, setCurrentId] = useState<string>()
+    const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
+    const [isRightClick, setIsRightClick] = useState<boolean>(false)
+    const {
+            receiptList,
+            receiptHandler,
+            newReceipt,
+            copyReceipt,
+            deleteReceipt,
+            mouseRightClick,
+            focusTarget
+        } = useReceiptList()
 
-    const numberInput =['unit_price', 'quantity', 'amount'] //number type input
-    
-    const receiptHandler = (receiptToUpdate:Partial<Receipt> ,uuid:string)=>{
-        const [key, value] = Object.entries(receiptToUpdate)[0]
-        if(numberInput.some((i)=>i===key)){
-            receiptToUpdate[key] = value.replace(/[^0-9]/g, '')
-        }
-        const updatedReceipts = receiptList.map((receipt)=>
-            receipt.uuid === uuid ? {...receipt, ...receiptToUpdate} : receipt
-        )
-        setReceiptList(updatedReceipts);
+    const mouseEvent = (uuid: string, position:ClientMousePosition)=>{
+        setTarget(uuid)
+        setMousePosition(position)
+        setIsRightClick(true)
     }
-
-    const currentFocusHandler = (uuid: string) => {
-        if(currentId === uuid) return
-        setCurrentId(uuid);
-    };
-
-    //복사하기
-    const copyReceiptHandler = ()=>{
-        const copyReceipt = receiptList.find(receipt => receipt.uuid === target)
-        console.log(copyReceipt)
-        if(copyReceipt){
-            const newReceipt = {
-                ...copyReceipt,
-                uuid: uuidv4()
-            };
-            setReceiptList([...receiptList, newReceipt]);
-        }
-    }
-    //삭제하기
-    const deleteReceiptHandler = ()=>{
-        const newReceiptList =receiptList.filter(({uuid})=> uuid !== target)
-        setReceiptList(newReceiptList)
-    }
-    //새전표 추가
-    const newReceiptHandler =()=>{
-        if(receiptList.length>=10){
-            window.alert('최대 10개까지만 추가할 수 있습니다.')
-            return
-        }
-        const newReceipt = {...initReceipt}
-        newReceipt.uuid = uuidv4();
-        setReceiptList([...receiptList, newReceipt])
-    }
-    
-
 
     return(
         <>
         {receiptList.map((receipt, index) => (
-                <tbody key={receipt.uuid} className={currentId===receipt.uuid ? 'focused' : ''} 
+                <tbody key={receipt.uuid} className={target===receipt.uuid ? 'focused' : ''} 
                     ref={(el) => {(itemsRef.current[receipt.uuid] = el)}}
-                    onContextMenu={(e)=>{
-                            e.preventDefault();  
-                            const tableRect = e.currentTarget.getBoundingClientRect();
-                            const mouseX = e.clientX - tableRect.left;
-                            const mouseY = e.clientY - tableRect.top;
-                        
-                            setMousePosition({ x: mouseX, y: mouseY });                  
-                            setTarget(receipt.uuid)
-                        }}
-                    onFocus={(e)=>{
-                        currentFocusHandler(receipt.uuid);
-                    }}
-                    onClick={()=>setTarget(null)}
+                    onContextMenu={mouseRightClick.bind(null,receipt.uuid,mouseEvent)}
+                    onFocus={focusTarget.bind(null,receipt.uuid, setTarget)}
+                    onClick={()=>setIsRightClick(false)}
                     >
                     <tr>
                         <td rowSpan={2} style={{position:'relative'}}>
-                            {target===receipt.uuid && 
+                            {(target===receipt.uuid && isRightClick) && 
                             <ReceiptOptions position={mousePosition} 
-                                            copyFn={copyReceiptHandler} 
-                                            deleteFn={deleteReceiptHandler} />}
+                                            copyFn={()=>{copyReceipt(target)}} 
+                                            deleteFn={()=>{deleteReceipt(target)}} />}
                             {index+1}
                         </td>
                         <td rowSpan={2}>
@@ -181,7 +133,7 @@ export default function ReceiptTableBody(){
             <tfoot>
                 <tr>
                     <td colSpan={7} className='new-receipt-button-container'>
-                    <button onClick={newReceiptHandler}>
+                    <button onClick={newReceipt}>
                         새전표 추가
                     </button>
                     </td>
