@@ -1,0 +1,106 @@
+@use '@/styles/_variables.scss' as var;
+@use '@/styles/_mixin.scss' as mixins;
+
+.search-container{
+    font-size: 1.2rem;
+    @media (max-width: 620px) {
+        font-size: 0.5rem
+    }
+    .search-table {
+        table-layout: auto;
+        border-collapse: collapse;
+        font-size: inherit;
+        @media (max-width:620px){
+            border-collapse:unset;
+            width: 100%;
+        }
+    }
+
+    .search-table td {
+        border: 1px solid #ddd;
+        padding-block: 0.2em;
+        padding-inline:0.5em;
+        vertical-align: middle;
+    }
+
+    .table-title {
+        overflow: hidden;
+        text-align: center;
+        background-color: inherit;
+        font-weight: bold;
+        @media (max-width: 620px){
+            font-size: 1.2em;
+        }
+    }
+
+    .table-label {
+        width: fit-content;
+        background-color: #f4f4f4;
+        font-weight: bold;
+        text-align: left;
+        @media (max-width: 620px){
+            font-size: 1.2em;
+        }
+    }
+
+    .table-input {
+        width: auto;
+        font-size: 1em;
+        input{
+            width:75%;
+        }
+    }
+
+    .flex-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .table-buttons {
+        button {
+            font-size: 1.2em;
+            margin: 0.2em auto;
+            padding: 0.5em 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+
+            @media (min-width: 620px){
+                width: 8em;
+                display: block;
+                background-color: #EFEFEF;
+                color: black;
+                border: 1px solid black;
+            }
+            &:hover{
+                filter: brightness(95%);
+            }
+        }
+        @media (max-width: 620px){
+            text-align: left;
+            button{
+                margin-inline: 0.5em;
+            }            
+        }
+    }
+}
+
+.mobile{
+    @media (min-width: 620px) {
+        display: none;
+    }
+}
+
+.pc{
+    @media (max-width: 620px) {
+        display: none;
+        
+    }
+}
+
+input{
+    padding: 0.1em;
+}

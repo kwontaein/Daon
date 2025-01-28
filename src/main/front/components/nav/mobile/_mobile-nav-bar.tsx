@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
-import { useWindowSize } from "@/hooks/useWindowSize";
+import { useWindowSize } from "@/hooks/share/useWindowSize";
 import MobileAsideBar from "@/components/aside/mobile/_mobile-aside";
 
 export default function MobileNavBar(){
     /* route information */
     const searchParams = useSearchParams();
-    let nav = useParams().nav as string;
+    const nav = useParams().nav as string;
     /* mount component condition*/
     const size = useWindowSize()
     const [isMount, setIsMount] = useState<boolean>(false);
@@ -46,7 +46,7 @@ export default function MobileNavBar(){
                             <Link href={'/main/customer/customer?toggle=true'}>고객관리</Link>
                         </li>
                         <li className={nav === 'stock' ? 'hover' : ''}>
-                            <Link href={'/main/ stock/stock?toggle=true'}>품목/재고</Link>
+                            <Link href={'/main/stock/stock?toggle=true'}>품목/재고</Link>
                         </li>
                         <li className={nav === 'ledger' ? 'hover' : ''}>
                             <Link href={'/main/ledger/ledger-customer?toggle=true'}>원장출력</Link>
