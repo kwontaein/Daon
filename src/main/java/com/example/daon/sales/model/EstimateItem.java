@@ -1,9 +1,7 @@
 package com.example.daon.sales.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
@@ -13,7 +11,8 @@ import java.util.UUID;
 @Table(name = "Estimate_Item")
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class EstimateItem {
 
     @Id
@@ -34,4 +33,11 @@ public class EstimateItem {
 
     @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
+    // 필드 업데이트 메서드
+
+    public void updateFields(EstimateItem newItem) {
+        this.productName = newItem.getProductName();
+        this.quantity = newItem.getQuantity();
+        this.unitPrice = newItem.getUnitPrice();
+    }
 }

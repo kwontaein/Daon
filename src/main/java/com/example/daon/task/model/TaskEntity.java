@@ -3,9 +3,7 @@ package com.example.daon.task.model;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
@@ -14,7 +12,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class TaskEntity {
     @Id
     @GeneratedValue(generator = "uuid2")

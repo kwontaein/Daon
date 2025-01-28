@@ -1,6 +1,7 @@
 package com.example.daon.sales.controller;
 
 import com.example.daon.sales.dto.request.EstimateRequest;
+import com.example.daon.sales.dto.request.NoPaidRequest;
 import com.example.daon.sales.dto.request.ReceiptRequest;
 import com.example.daon.sales.model.ReceiptEntity;
 import com.example.daon.sales.service.SalesService;
@@ -52,19 +53,20 @@ public class SalesController {
     //수정
     @PostMapping("api/updateEstimate")
     public void updateEstimate(@RequestBody EstimateRequest request) {
-        salesService.updateEstimate(request);
+        salesService.updateTest(request);
     }
 
     //전표전환
     @PostMapping("api/estimatesPaid")
-    public void estimatesPaid() {
-
+    public void estimatesPaid(@RequestBody EstimateRequest request) {
+        salesService.estimatesPaid(request);
     }
 
     //미수미지급현황------------------------------------
     @GetMapping("api/getNoPaid")
-    public void getNoPaid() {
-
+    public void getNoPaid(@RequestBody NoPaidRequest request) {
+        //db 조건부 조회
+        salesService.getNoPaid(request);
     }
 
     //관리비관리---------------------------------------
