@@ -1,0 +1,33 @@
+.additional-container{
+    margin-top: 2rem;
+    font-size: 1rem;
+    @media (max-width: 620px) {
+        font-size: 0.5rem
+    }
+    thead{
+        td{
+            font-size: 1.2em;
+        }
+    }
+    table{
+        font-size: 1.2em;
+        table-layout: auto;
+        width: 100%;
+        font-size: inherit;
+        border: none;
+    }
+    td{
+        button{
+            width: 100%;
+            display: block;
+            background-color: #EFEFEF;
+            color: black;
+            border: 1px solid black;
+            border-radius: 2px;
+            padding: 0.5em 0.5em;
+            cursor: pointer;
+        }
+    }
+    
+}
+

@@ -1,3 +1,5 @@
+'use client'
+
 import {useEffect, useRef, useState} from "react";
 
  //dropDown Items를 관리하는 hooks
@@ -15,7 +17,6 @@ import {useEffect, useRef, useState} from "react";
             const currentTarget = target !== null ? itemsRef.current[target as unknown as string] : null;
             if (currentTarget && !currentTarget.contains(e.target as Node)) {
                 setTarget(null);
-                console.log('삭제')
             }
         };
 

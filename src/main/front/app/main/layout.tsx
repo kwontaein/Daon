@@ -15,7 +15,7 @@ export default async function MainLayout({navigation,aside,children}: {
           <MainHeader />
         </header>
         {navigation}
-        <section className="flex-row" style={{paddingBlock : '1rem'}}>
+        <section className="flex-row" style={{paddingBlock : '1rem', position :'relative'}}>
             {aside}
             {children}
         </section>
