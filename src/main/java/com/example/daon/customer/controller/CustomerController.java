@@ -6,6 +6,7 @@ import com.example.daon.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,18 +22,18 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping("api/getCustomers")
-    public List<CustomerEntity> getCustomers(CustomerRequest request) {
+    public List<CustomerEntity> getCustomers(@RequestBody CustomerRequest request) {
         return customerService.getCustomers(request.getCategory(), request.getCateId(), request.getUserId());
     }
 
     @PostMapping("api/saveCustomer")
-    public void saveCustomer() {
-        customerService.saveCustomer();
+    public void saveCustomer(@RequestBody CustomerRequest request) {
+        customerService.saveCustomer(request);
     }
 
     @PostMapping("api/deleteCustomers")
-    public void deleteCustomers() {
-        customerService.deleteCustomers();
+    public void deleteCustomers(@RequestBody CustomerRequest request) {
+        customerService.deleteCustomers(request);
     }
 
 }
