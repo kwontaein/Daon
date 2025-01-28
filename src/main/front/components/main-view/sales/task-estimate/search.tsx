@@ -1,24 +1,27 @@
-import './search.scss';
-import '@/styles/_global.scss';
-
-export default function ReceiptSearch() {
-
-    return (
+import './search.scss'
+export default function EstimateSearch(){
+    return(
         <div className="search-container">
             <table className="search-table">
+            <colgroup>
+                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '72%' }} />
+                    <col style={{ width: '10%' }} />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colSpan={3} className="table-title center">
+                            검색 옵션
+                        </td>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
-                        <td rowSpan={3} className="table-title center">
-                            검색<br />
-                            옵션
-                        </td>
-                        <td className="table-label">출력일자</td>
+                        <td className="table-label">사업자</td>
                         <td className="table-input">
-                            <div className="flex-row">
-                                <input type="date" /> ~ <input type="date" />
-                                <label>
+                        <label>
                                     <select name="kindNumSch" size={1}>
-                                        <option>전표종류</option>
+                                        <option>사업자선택</option>
                                         <option value="sales">매출</option>
                                         <option value="purchase">매입</option>
                                         <option value="deposit">입금</option>
@@ -31,34 +34,41 @@ export default function ReceiptSearch() {
                                         <option value="returned-received">반품입고</option>
                                     </select>
                                 </label>
+                        </td>
+                        <td rowSpan={4} className="table-buttons">
+                            <button>
+                                검 색
+                            </button>
+                            <button>
+                                    전체보기
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="table-label">출력일자</td>
+                        <td className="table-input">
+                            <div className="flex-row">
+                                <input className='date-input' type="date" /> ~ <input className='date-input' type="date" />
+                               
                             </div>
                         </td>
-                        <td rowSpan={3} className="table-buttons pc">
-                            <button>전 표 검 색</button>
-                            <button>오늘일자보기</button>
-                        </td>
+                        
                     </tr>
                     <tr>
-                        <td className="table-label">거래처 선택</td>
+                        <td className="table-label">거래처선택</td>
                         <td className="table-input">
-                            <input placeholder="'거래처명'을 넣어주세요." />
+                            <input placeholder="거래처명을 입력하세요." />
                         </td>
                     </tr>
                     <tr>
-                        <td className="table-label">품목 선택</td>
+                        <td className="table-label">품목선택</td>
                         <td className="table-input">
-                            <input placeholder="'품명'을 넣어주세요." />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={3} className="table-buttons mobile">
-                            <button>오늘일자</button>
-                            <button>전표검색</button>
+                            <input placeholder="품명을 입력하세요." />
                         </td>
                     </tr>
                 </tbody>
             </table>
 
         </div>
-    );
+    )
 }

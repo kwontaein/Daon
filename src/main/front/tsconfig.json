@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "constants/receipt/lunarcalndar.js"  ],
   "exclude": [
     "node_modules"
   ],

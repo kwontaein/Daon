@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import '@/components/nav/mobile/_mobile-nav-bar.scss';
+import '@/styles/_global.scss';
 
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
