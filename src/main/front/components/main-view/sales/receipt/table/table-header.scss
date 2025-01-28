@@ -1,0 +1,47 @@
+@use '@/styles/_variables' as var;
+@use '@/styles/_mixin.scss' as mixins;
+
+
+header{
+    display: flex;
+    align-items: center;
+    gap:0.5rem;
+}
+.receipt-container{
+    margin: 0 auto;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 1.5rem
+}
+
+
+table{
+    margin-top: 0.5rem;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+thead{
+    background-color: #8091A7;
+    background-image: url('../../../../../assets/bg_img.gif');
+    background-repeat: repeat-x;
+    tr{
+        background-color: transparent;
+    }
+    td{
+        background-color: transparent;
+        color: white !important;
+        text-align: center;
+        padding: 3px;
+        border: 1px solid var.$default-border-color;
+        font-weight: 500;
+    }
+}
+
+td{
+    height: 20px;
+    text-align: center;
+    border:1px solid var.$default-border-color;
+    background-color:white;
+}
