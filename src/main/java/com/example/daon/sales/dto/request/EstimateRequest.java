@@ -17,7 +17,7 @@ import java.util.UUID;
 @Data
 public class EstimateRequest {
     private UUID estimateId;
-    private String customerId;
+    private UUID customerId;
     private LocalDateTime estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
