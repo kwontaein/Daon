@@ -1,35 +1,20 @@
+
 @use '@/styles/_variables' as var;
 @use '@/styles/_mixin.scss' as mixins;
 
-
-.receipt-header{
-    display: flex;
-    align-items: center;
-    gap:0.5rem;
-}
-.register-receipt-container{
-    margin: 0 auto;
-    padding: 5px;
-    box-sizing: border-box;
-    font-size: 1.2rem
-}
-
-
-.receipt-table-container{
+.estimate-table-container{
     font-size: 1.2rem;
     margin-top: 0.5rem;
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
     @media (max-width:620px){
         font-size: 0.7rem;
+        margin-top: 0.5rem;
     }
 
     
     thead{
-        background-color: #8091A7;
-        background-image: url('../../../../../assets/bg_img.gif');
-        background-repeat: repeat-x;
-        
         tr{
             background-color: transparent;
         }
@@ -53,5 +38,3 @@
     }
 
 }
-
-

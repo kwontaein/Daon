@@ -1,0 +1,60 @@
+@use '@/styles/_variables.scss' as var;
+
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    color: #888;
+    font-size: 1.2rem;
+
+    @media (max-width:620px){
+        font-size: 0.7rem;
+        margin-top: 2rem;
+    }
+}
+
+.wrapper div{
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper a {
+    width: 100%;
+    cursor: pointer;
+}
+
+.page {
+    cursor: pointer;
+    text-align: center;
+
+}
+
+
+.li_margin{
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline: 0.5em;
+    min-width: 2em !important;
+}
+
+.active {
+    a{
+        color: var.$default-point-color;
+    }
+    border: 1px solid var.$default-border-color;
+}
+
+
+.invisible {
+    visibility: hidden;
+}
+
+.move{
+    zoom: '110%';
+    margin-inline: 0.5em;
+}
