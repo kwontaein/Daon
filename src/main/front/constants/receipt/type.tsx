@@ -23,3 +23,4 @@ export type Receipt = {
     quantity?: string,
     briefs?: string,
 };
+

@@ -16,7 +16,8 @@ export default function MobileAsideBar({nav}){
            {AsideOptions[nav || 'schedule'].asideItems.map((item)=>(
             <li key={item.link}>
                <Link href={`/main/${nav}/${item.link}?toggle=true`}>{item.name}</Link>
-               <FontAwesomeIcon icon={faArrowRight} className='aside-arrow'/>                    </li>
+               <FontAwesomeIcon icon={faArrowRight} className='aside-arrow'/>
+            </li>
             ))}
         </ul>
     </section>
