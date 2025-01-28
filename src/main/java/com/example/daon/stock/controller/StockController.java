@@ -1,10 +1,24 @@
 package com.example.daon.stock.controller;
 
+import com.example.daon.stock.model.StockEntity;
+import com.example.daon.stock.service.StockService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 품목재고
  */
 @RestController
+@RequiredArgsConstructor
 public class StockController {
+
+    private final StockService stockService;
+
+    @GetMapping("api/getStockList")
+    public List<StockEntity> getStockList() {
+        return stockService.getStockList();
+    }
 }

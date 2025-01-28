@@ -1,6 +1,8 @@
 package com.example.daon.customer.service;
 
 import com.example.daon.admin.model.UserEntity;
+import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerCateEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerCateRepository;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final CustomerCateRepository customerCateRepository;
 
     public List<CustomerEntity> getCustomers(String category, UUID cateId, String userId) {
@@ -47,9 +50,12 @@ public class CustomerService {
         });
     }
 
-    public void saveCustomer() {
+    public void saveCustomer(CustomerRequest request) {
+        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
+        customerRepository.save(request.toEntity(user));
     }
 
-    public void deleteCustomers() {
+    public void deleteCustomers(CustomerRequest request) {
+        customerRepository.deleteById(request.getCustomerId());
     }
 }
