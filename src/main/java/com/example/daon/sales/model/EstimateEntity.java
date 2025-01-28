@@ -4,9 +4,7 @@ import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
@@ -17,7 +15,8 @@ import java.util.UUID;
 @Entity(name = "estimate")
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class EstimateEntity {
     //견적서
     @Id
@@ -52,5 +51,43 @@ public class EstimateEntity {
 
 
     @OneToMany(mappedBy = "estimate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EstimateItem> items;
+    private List<EstimateItem> items; // 필드 업데이트 메서드
+
+
+    // === 필드 업데이트 메서드 ===
+
+    /**
+     * 전체 필드 업데이트
+     */
+    public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> newItems) {
+        this.customer = customer;
+        this.company = company;
+        this.user = user;
+        // 항목 리스트 동기화
+        syncItems(newItems);
+        // 금액 재계산
+        recalculateTotalAmount();
+    }
+
+    /**
+     * 항목 리스트 동기화
+     */
+    private void syncItems(List<EstimateItem> newItems) {
+        // 기존 항목 삭제 (orphanRemoval 설정으로 자동 삭제)
+        this.items.clear();
+        // 새로운 항목 추가
+        newItems.forEach(item -> {
+            item.setEstimate(this); // 양방향 연관 관계 설정
+            this.items.add(item);
+        });
+    }
+
+    /**
+     * 총 금액 재계산
+     */
+    private void recalculateTotalAmount() {
+        this.totalAmount = this.items.stream()
+                .map(item -> item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

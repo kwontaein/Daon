@@ -1,8 +1,10 @@
 package com.example.daon.sales.model;
 
+import com.example.daon.customer.model.CustomerEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +28,7 @@ public class ReceiptEntity {
 
     @ManyToOne
     @JoinColumn(name = "estimate_id", nullable = false)
-    private EstimateEntity estimateId; // 견적서 아이디
+    private EstimateEntity estimate; // 견적서 아이디
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timeStamp; // 전표 등록일
@@ -34,8 +37,9 @@ public class ReceiptEntity {
     @Column(name = "category", nullable = false)
     private ReceiptCategory category; // 전표 분류 (ENUM 사용)
 
-    @Column(name = "customer_id", nullable = false)
-    private Long customerId; // 고객 아이디
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private CustomerEntity customer; // 고객 아이디
 
     @Column(name = "item_number", nullable = false)
     private Long itemNumber; // 품목 번호

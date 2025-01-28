@@ -40,15 +40,15 @@ public class ReceiptRequest {
 
     private LocalDate searchSDate;  //검색 날짜 시작일
     private LocalDate searchEDate;  //검색 날짜 종료일
-    private List<UUID> ids;
-    private String customerName;
-    private String itemName;
+    private List<UUID> ids; //여러개 한번에 생성 시 보내는 아이디
+    private String customerName; //고객명
+    private String itemName; //품명
 
     public ReceiptEntity toEntity(EstimateEntity entity) {
         return ReceiptEntity
                 .builder()
                 .receiptId(receiptId)
-                .estimateId(entity)
+                .estimate(entity)
                 .timeStamp(timeStamp)
                 .category(category)
                 .itemNumber(itemNumber)
