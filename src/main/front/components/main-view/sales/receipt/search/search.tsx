@@ -1,14 +1,16 @@
 'use client'
 
-import { useDispatch } from 'react-redux';
 import './search.scss';
 import '@/styles/_global.scss';
+
 import dayjs from 'dayjs';
-import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/receipt-search';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { updateDateId, updateSearchDate } from '@/hooks/redux/slice/receipt-search';
+
 
 
 export default function ReceiptSearch() {
@@ -20,13 +22,14 @@ export default function ReceiptSearch() {
         dispatch(updateDateId())
         dispatch(updateSearchDate(today))
     }
+    const [receiptKind,setReceiptKind] = useState('disabled')
 
 
 
     return (
         <div className="search-container">
             <table className="search-table">
-            <colgroup>
+                <colgroup>
                     <col style={{ width: '8%' }} />
                     <col style={{ width: '72%' }} />
                     <col style={{ width: '10%' }} />
@@ -42,21 +45,21 @@ export default function ReceiptSearch() {
                     <tr>
                         <td className="table-label">전표종류</td>
                         <td className="table-input">
-                        <label>
-                                    <select name="kindNumSch" size={1}>
-                                        <option>전표선택</option>
-                                        <option value="sales">매출</option>
-                                        <option value="purchase">매입</option>
-                                        <option value="deposit">입금</option>
-                                        <option value="withdrawal">출금</option>
-                                        <option value="sale-discount">매출할인</option>
-                                        <option value="purchase-discount">매입할인</option>
-                                        <option value="cost">관리비</option>
-                                        <option value="return-delivery">반품출고</option>
-                                        <option value="sales-replacement">매출대체</option>
-                                        <option value="returned-received">반품입고</option>
-                                    </select>
-                                </label>
+                            <label>
+                                <select name="kindNumSch" size={1} value={receiptKind} onChange={(e)=>setReceiptKind(e.target.value)}>
+                                    <option value="disabled" disabled>전표선택</option>
+                                    <option value="sales">매출</option>
+                                    <option value="purchase">매입</option>
+                                    <option value="deposit">입금</option>
+                                    <option value="withdrawal">출금</option>
+                                    <option value="sale-discount">매출할인</option>
+                                    <option value="purchase-discount">매입할인</option>
+                                    <option value="cost">관리비</option>
+                                    <option value="return-delivery">반품출고</option>
+                                    <option value="sales-replacement">매출대체</option>
+                                    <option value="returned-received">반품입고</option>
+                                </select>
+                            </label>
                         </td>
                         <td rowSpan={4} className="table-buttons">
                             <button>
