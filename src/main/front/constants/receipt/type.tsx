@@ -1,5 +1,5 @@
 export type AccountType =
-  | 'input'
+  | 'disabled'
   | 'sales'
   | 'purchase'
   | 'deposit'
