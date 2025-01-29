@@ -1,7 +1,4 @@
-@use '@/styles/_variables.scss' as var;
-@use '@/styles/_mixin.scss' as mixins;
-
-.search-container{
+.customer-search-container{
     font-size: 1.2rem;
     @media (max-width: 620px) {
         font-size: 0.5rem
@@ -30,10 +27,8 @@
     }
 
     .table-label {
-        width: fit-content;
         background-color: #f4f4f4;
         font-weight: bold;
-        text-align: left;
         @media (max-width: 620px){
             font-size: 1.5em;
         }
@@ -51,34 +46,46 @@
             }
         }
     }
-    .date-input{
-        max-width: 200px !important;
+
+    .table-radio-container{
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+        border: none !important;
+        gap: 1em;
+        label{
+            height: 100%;
+            display: flex;
+            gap: 0.5em;
+        }
+        @media (max-width:620px) {
+            font-size: 1.5em;
+        }
     }
 
-    .flex-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+
 
     .table-buttons {
+
         button {
+            display: block !important;
+            justify-self: space-between;
             font-size: 1.1em;
-            margin: 0.2em auto;
+            margin: auto;
             padding: 0.4em 1em;
             width: 8em;
-            display: block;
             background-color: #EFEFEF;
             color: black;
             border: 1px solid black;
             border-radius: 2px;
             cursor: pointer;
+                        
+            @media (max-width:620px){
+                font-size: 1.5em;
+                padding: 0.4em 0.5em;
+            }
             &:hover{
                 filter: brightness(95%);
-            }
-            @media (max-width:620px){
-                font-size: 1.4em;
-                padding: 0.5em 1em;
             }
             a{
                 &:hover{
@@ -89,8 +96,6 @@
     }
 }
 
-
-
 input{
     padding: 0.1em;
 }
@@ -98,8 +103,58 @@ input{
 select{
     border-color: transparent;
     background-color: transparent !important;
+    min-width: 156px;
     &:focus{
         border: 1px solid #bbb;
         border-radius: 2px;
+    }
+}
+
+.title-selector{
+    color: white;
+    width: fit-content;
+    min-width: unset;
+    margin-left: -0.3em;
+    option{
+        color: black;
+    }
+}
+
+//상호명, 담당기사 선택
+.classification{
+    width: 100%;
+    margin-left: -0.4em;
+    font-weight: 500;
+    min-width: unset;
+    min-width: 120px;
+    font-size: 1.3rem;
+    @media (max-width: 620px){
+        margin-left: none;
+        font-size: 1.12em;
+        font-weight: 550;
+    }
+}
+
+.sub-buttons-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: right;
+    gap: 0.5rem;
+    font-size: 1rem;
+    margin-block: 0.5rem;
+    
+    @media (max-width:620px){
+        font-size: 0.5rem;
+    }
+
+
+    button{
+        padding: 0.4em;
+        font-size: 1.2em;
+        @media (max-width:620px){
+            padding-inline: 0.6em;
+            font-size: 1.4em;
+        }
     }
 }
