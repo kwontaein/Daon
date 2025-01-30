@@ -1,5 +1,5 @@
 export const DisabledStatus = {
-    input:{//전표입력
+    disabled:{//전표입력 (기본값)
         date: false,
         account: false,
         company: false,

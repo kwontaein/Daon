@@ -6,7 +6,7 @@ import { useItemSelection } from "../share/useItemSelection";
 const initReceipt:Receipt = {
     uuid: uuidv4(),
     date: new Date(Date.now()),
-    account: 'input',
+    account: 'disabled',
 }
 
 type ClientMousePosition = {
@@ -33,6 +33,8 @@ export default function useReceiptList(){
         setTarget(uuid);
     };
 
+
+
     const copyReceipt = (target)=>{
         if(receiptList.length>=10){
             window.alert('최대 10개까지만 추가할 수 있습니다.')
@@ -47,11 +49,15 @@ export default function useReceiptList(){
             setReceiptList([...receiptList, newReceipt]);
         }
     }
+
+
     const deleteReceipt = (target)=>{
         const newReceiptList =receiptList.filter(({uuid})=> uuid !== target)
         setReceiptList(newReceiptList)
     }
     
+
+
     const newReceipt =()=>{
         if(receiptList.length>=10){
             window.alert('최대 10개까지만 추가할 수 있습니다.')
