@@ -40,6 +40,11 @@ body{
       -ms-overflow-style: none;
     }
   }
+  @media (max-width: 480px) {
+    html {
+      zoom: 62%;
+    }
+  }
 }
 
 
@@ -80,6 +85,10 @@ span{
 i{
   cursor: pointer;
 }
+option[value="disabled"][disabled] {
+  display:none
+}
+
 
 .flex-row{
   display: flex;
@@ -99,11 +108,6 @@ i{
   justify-content: center;
 }
 
-.table-header{
-  @include mixins.table-gradient-background;
-  color: var.$default-white-color;
-  border: 1px solid var.$default-border-color;
-}
 
 
 .modal-background{
@@ -120,10 +124,9 @@ i{
 }
 
 table{
-  font-size: 1rem;
-  @media (max-width: 620px) {
-      font-size: 0.5rem
-  }
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
 
     thead{
       background-color: #8091A7;
