@@ -21,7 +21,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @GetMapping("api/getCustomers")
+    @PostMapping("api/getCustomers")
     public List<CustomerEntity> getCustomers(@RequestBody CustomerRequest request) {
         System.out.println("고객정보 받아오기");
         return customerService.getCustomers(request.getCategory(), request.getCateId(), request.getUserId());
