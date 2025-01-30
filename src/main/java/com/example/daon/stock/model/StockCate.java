@@ -17,13 +17,12 @@ public class StockCate {
     @Column(nullable = false, unique = true, name = "stock_category_id", columnDefinition = "BINARY(16)")
     private UUID stockCateId; // 아이디 - uuid
 
-    @Column(nullable = false, name = "name")
-    private String name; // 분류 명
+    @Column(nullable = false, name = "stock_cate_name")
+    private String stockCateName; // 분류 명
 
     @Column(nullable = false, unique = true, name = "cate_key")
     private String cateKey; // 분류 키
 
-    @Column(name = "display_order")
-    private int displayOrder; // 노출순서
-
+    @Column(nullable = false, name = "cate_code")
+    private String cateCode; // 분류 코드
 }

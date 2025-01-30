@@ -1,18 +1,24 @@
 package com.example.daon.customer.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Table(name = "customer_cate")
 public class CustomerCateEntity {
     //고객분류
 
-    //아이디 -> 번호
+    //아이디
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -21,5 +27,9 @@ public class CustomerCateEntity {
 
     //이름
     @Column(name = "customer_cate_name")
-    private UUID customerCateName;
+    private String customerCateName;
+
+    //대분류키 ?
+    @Column(name = "customer_cate_key")
+    private String customerCateKey;
 }
