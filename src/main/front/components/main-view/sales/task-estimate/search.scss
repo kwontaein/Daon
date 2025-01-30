@@ -6,17 +6,6 @@
     @media (max-width: 620px) {
         font-size: 0.5rem
     }
-    .search-table {
-        table-layout: auto;
-        width: 100%;
-        border-collapse: collapse;
-        font-size: inherit;
-        @media (max-width:620px){
-            border-collapse:unset;
-            width: 100%;
-        }
-    }
-
     .search-table td {
         border: 1px solid #ddd;
         padding-block: 0.2em;
@@ -26,8 +15,6 @@
     }
 
     .table-title {
-        // background-color: #f4f4f4;
-        // background-image: none;
         td{
             color: white !important;
         }
@@ -72,7 +59,7 @@
 
     .table-buttons {
         button {
-            font-size: 1.1em;
+            font-size: 1.2em;
             margin: 0.2em auto;
             padding: 0.4em 1em;
             width: 8em;
@@ -95,20 +82,6 @@
                 }
             }
         }
-    }
-}
-
-
-.mobile{
-    @media (min-width: 620px) {
-        display: none;
-    }
-}
-
-.pc{
-    @media (max-width: 620px) {
-        display: none;
-        
     }
 }
 

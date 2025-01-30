@@ -32,7 +32,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        @media (min-width:620px){
+        @media (max-width:620px){
             font-size: 1.4em !important;
         }
     }
@@ -76,6 +76,15 @@
     //이벤트(일정)칸 빈공백 제거
     .fc-daygrid-day-events{
         display: none;
+    }
+    .fc-col-header {
+        width: 100% !important;
+    }
+    .fc-daygrid-body{
+        width: 100% !important;
+    }
+    .fc-scrollgrid-sync-table{
+        width: 100% !important;
     }
 }
 .calendar-header{
