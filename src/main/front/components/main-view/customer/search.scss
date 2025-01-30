@@ -1,7 +1,4 @@
-@use '@/styles/_variables.scss' as var;
-@use '@/styles/_mixin.scss' as mixins;
-
-.search-container{
+.customer-search-container{
     font-size: 1.2rem;
     @media (max-width: 620px) {
         font-size: 0.5rem
@@ -30,10 +27,8 @@
     }
 
     .table-label {
-        width: fit-content;
         background-color: #f4f4f4;
         font-weight: bold;
-        text-align: left;
         @media (max-width: 620px){
             font-size: 1.5em;
         }
@@ -51,34 +46,55 @@
             }
         }
     }
-    .date-input{
-        max-width: 200px !important;
+
+    .table-radio-container{
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+        border: none !important;
+        gap: 0.5em;
+        label{
+            height: 100%;
+            display: flex;
+            gap: 0.4em;
+        }
+        @media (max-width:767px) {
+            gap: 0.4em;
+            label{
+                gap: 0.1em;
+            }
+        }
+        @media (max-width:620px) {
+            font-size: 1.2em;
+        }
     }
 
-    .flex-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+
 
     .table-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
         button {
+            display: block !important;
+            justify-self: space-between;
             font-size: 1.1em;
-            margin: 0.2em auto;
-            padding: 0.4em 1em;
-            width: 8em;
-            display: block;
+            margin: auto;
+            padding: 0.5em;
+            width: 6em;
             background-color: #EFEFEF;
             color: black;
             border: 1px solid black;
             border-radius: 2px;
             cursor: pointer;
+            font-size: 1.1em;
+     
+            @media (max-width:620px){
+                font-size: 1.5em;
+                padding: 0.4em 0.5em;
+            }
             &:hover{
                 filter: brightness(95%);
-            }
-            @media (max-width:620px){
-                font-size: 1.4em;
-                padding: 0.5em 1em;
             }
             a{
                 &:hover{
@@ -89,8 +105,6 @@
     }
 }
 
-
-
 input{
     padding: 0.1em;
 }
@@ -98,8 +112,41 @@ input{
 select{
     border-color: transparent;
     background-color: transparent !important;
+    font-size: 1.1em;
+    color: black;
     &:focus{
         border: 1px solid #bbb;
         border-radius: 2px;
+    }
+    @media (max-width: 620px){
+        font-size: 1.5em;
+    }
+}
+
+.title-selector{
+    color: white;
+    width: fit-content;
+    min-width: unset;
+    margin-left: -0.3em;
+    option{
+        color: black;
+    }
+    @media(max-width:620px){
+        font-size: 1em;
+    }
+}
+
+//상호명, 담당기사 선택
+.classification{
+    width: 100%;
+    margin-left: -0.4em;
+    font-weight: 500;
+    min-width: unset;
+    min-width: 120px;
+    font-size: 1.3rem;
+    @media (max-width: 620px){
+        margin-left: none;
+        font-size: 1.12em;
+        font-weight: 550;
     }
 }

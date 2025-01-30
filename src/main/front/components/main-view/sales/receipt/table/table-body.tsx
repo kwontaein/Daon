@@ -56,7 +56,6 @@ export default function ReceiptTableBody(){
                             {index+1}
                         </td>
                         <td rowSpan={2}>
-                            <input type='checkbox'></input>
                             <input type="date" 
                                    value={dayjs(receipt.date).format("YYYY-MM-DD")} 
                                    onChange={(e)=>receiptHandler({date:new Date(e.target.value)}, receipt.uuid)}/>
@@ -64,7 +63,7 @@ export default function ReceiptTableBody(){
                         <td rowSpan={2}>
                             <select value={receipt.account} 
                                     onChange={(e)=>receiptHandler({account:e.target.value as AccountType},receipt.uuid)} required>
-                                <option value="input" disabled>전표입력</option>
+                                <option value="disabled" disabled>전표입력</option>
                                 <option value="sales">매출</option>
                                 <option value="purchase">매입</option>
                                 <option value="deposit">입금</option>
