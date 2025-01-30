@@ -66,7 +66,7 @@ public class SalesController {
     @GetMapping("api/getNoPaid")
     public void getNoPaid(@RequestBody NoPaidRequest request) {
         //db 조건부 조회
-        salesService.getNoPaid(request);
+        //salesService.getNoPaid(request);
     }
 
     //관리비관리---------------------------------------
