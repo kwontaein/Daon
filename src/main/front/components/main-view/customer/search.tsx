@@ -51,6 +51,8 @@ export default function CustomerSearch(){
                            <div className="table-buttons">
                                 <button>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button>전 체 보 기</button>
+                                <button>신 규 등 록</button>
+                                <button>엑 셀 변 환</button>
                            </div>
                         </td>
                     </tr>
@@ -78,11 +80,6 @@ export default function CustomerSearch(){
                     </tr>       
                 </tbody>
             </table>
-            <div className='sub-buttons-container'>
-                <button>신 규 등 록</button>
-                <button>엑 셀 변 환</button>
-            </div>
-
         </div>
     )
 }
