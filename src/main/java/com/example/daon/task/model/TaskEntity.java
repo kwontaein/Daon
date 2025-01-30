@@ -14,6 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "task")
 public class TaskEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
