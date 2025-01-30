@@ -1,6 +1,9 @@
 package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.model.ClassType;
+import com.example.daon.admin.model.Position;
+import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.RedisService;
@@ -33,7 +36,7 @@ public class AdminService {
 
     //test
     public void test() {
-/*
+
         System.out.println("실행");
         Timestamp joinDate = new Timestamp(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
@@ -54,11 +57,11 @@ public class AdminService {
                         "01025023964",
                         "kosq3964@naver.com",
                         "",
-                        UserEntity.ClassType.STAFF,
-                        UserEntity.RoleType.ADMIN,
-                        UserEntity.Position.WEB);
+                        ClassType.STAFF,
+                        RoleType.ADMIN,
+                        Position.WEB);
 
-        CreateEmployee(userRequest);*/
+        CreateEmployee(userRequest);
 
     }
 

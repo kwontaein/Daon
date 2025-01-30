@@ -1,9 +1,11 @@
 package com.example.daon.stock.controller;
 
+import com.example.daon.stock.dto.request.StockRequest;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class StockController {
     private final StockService stockService;
 
     @GetMapping("api/getStockList")
-    public List<StockEntity> getStockList() {
-        return stockService.getStockList();
+    public List<StockEntity> getStockList(@RequestBody StockRequest stockRequest) {
+        return stockService.getStockList(stockRequest);
     }
 }
