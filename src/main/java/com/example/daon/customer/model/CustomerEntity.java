@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name = "customer")
 public class CustomerEntity {
 
     //고객아이디
@@ -34,25 +35,97 @@ public class CustomerEntity {
     @Column(name = "contact_info")
     private String contactInfo;
 
+    //계산서명
+    @Column(name = "bill_name")
+    private String billName;
+
+    //대표자
+    @Column(name = "ceo")
+    private String ceo;
+
+    //대표자 주민등록번호
+    @Column(name = "ceo_num")
+    private String ceoNum;
+
+    //사업자등록번호
+    @Column(name = "company_num")
+    private String companyNum;
+
+    //업태
+    @Column(name = "business_type")
+    private String businessType;
+
+    //종목
+    @Column(name = "contents")
+    private String contents;
+
+    //담당
+    @Column(name = "customer_rp")
+    private String customerRp;
+
+    //담당자 연락처
+    @Column(name = "customer_rp_call")
+    private String customerRpCall;
+
+    //통장명
+    @Column(name = "bank_name")
+    private String bankName;
+
+    //계좌번호
+    @Column(name = "bank_num")
+    private String bankNum;
+
+    //예금주
+    @Column(name = "bank_owner")
+    private String bankOwner;
+
+    //취급품목
+    @Column(name = "handling_item")
+    private String handlingItem;
+
+    //메모
+    @Column(name = "memo", columnDefinition = "TEXT")
+    private String memo;
+
+    //구분
     @Column(name = "category")
     private String category;
 
+    //전화
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    //팩스
     @Column(name = "fax")
     private String fax;
 
+    //담당기사
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    //고객분류
     @ManyToOne
     @JoinColumn(name = "customer_cate_id")
-    private UserEntity customerCateId;
+    private CustomerCateEntity customerCateId;
 
     //견적서 목록
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstimateEntity> estimates;
 
+    //우편번호
+    @Column(name = "zip_code")
+    private String zipCode;
+
+    //주소
+    @Column(name = "address_1")
+    private String address1;
+
+    //상세주소
+    @Column(name = "address_2")
+    private String address2;
+
+    //상세주소
+    @Column(name = "etc")
+    private String etc;
 }

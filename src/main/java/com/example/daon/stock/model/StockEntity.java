@@ -1,7 +1,11 @@
 package com.example.daon.stock.model;
 
+import com.example.daon.stock.model.cate.TaxationCate;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
@@ -9,31 +13,52 @@ import java.util.UUID;
 @Entity
 @Table(name = "stock")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StockEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(nullable = false, unique = true, name = "stock_id", columnDefinition = "BINARY(16)")
-    private UUID stock_id; // 아이디 - uuid
+    private UUID stockId; // 아이디 - uuid
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "stock_name")
     private String name; // 품목명
 
-    @Column
-    private String searchKeyword; // 검색 키워드
-
-    @Column(nullable = false)
+    @Column(nullable = false, name = "quantity")
     private int quantity; // 재고 갯수
 
-    @Column(nullable = false)
-    private double price; // 품목 가격
+    @Column(nullable = false, name = "in_price")
+    private double inPrice; // 품목 입고 가격
 
-    @Column
+    @Column(nullable = false, name = "out_price")
+    private double outPrice; // 품목 출고 가격
+
+    @Column(name = "model_name")
     private String modelName; // 품목 모델명
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_category_id")
     private StockCate category; // 분류 코드
 
+    @Column(name = "stock_taxation")
+    private TaxationCate taxation; // 과세 기준
+
+    //호환기종
+    @Column(name = "compatible_model")
+    private String compatibleModel;
+
+    //메모
+    @Column(name = "note")
+    private String note;
+
+    //메모
+    @Column(name = "stock_use_ea")
+    private String stockUseEa;
+
+    //키워드
+    @Column(name = "key_word")
+    private String keyWord;
 }
