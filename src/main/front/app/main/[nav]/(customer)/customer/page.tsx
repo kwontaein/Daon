@@ -11,7 +11,8 @@ interface Customer {
     fax: string;
     userId: string;
     cateId: string; // UUID는 문자열로 처리
-  }
+}
+
 export default async function CustomerPage() {
     // const response = await fetch('http://localhost:8080/api/getCustomers', {
     //     cache: 'no-store',
@@ -28,8 +29,8 @@ export default async function CustomerPage() {
             userId: null,
             cateId: null,
         },
-      });
-    console.log(response2)
+    });
+    console.log(response2.data)
     return (
         <section>
             <CustomerSearch/>
