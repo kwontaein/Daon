@@ -1,10 +1,9 @@
+import { ResponseCustomer } from '@/types/customer/type';
 import './search-result.scss';
 
-interface CustomerItem{
-    
-}
-export default function CustomerSearchResult(){
-    
+
+export default function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
+    console.log(customers)
     return(
             <table className="customer-result-table">
                 <colgroup>
@@ -30,8 +29,19 @@ export default function CustomerSearchResult(){
                         <td>현잔액</td>
                         <td>옵션</td>
                     </tr>
-
                 </thead>
+                <tbody>
+                    {customers.map((customer:ResponseCustomer, index) => (
+                        <tr key={index}>
+                            <td><input type="checkbox" /></td>
+                            <td>{customer.customerName}</td>
+                            <td>
+                                <button>수정</button>
+                                <button>삭제</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
       
     )
