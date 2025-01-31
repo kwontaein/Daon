@@ -1,4 +1,4 @@
-import { Receipt } from "./type";
+import { Receipt } from "@/types/receipt/type";
 
 export const ReceiptDummy:Receipt[] = [
     {
