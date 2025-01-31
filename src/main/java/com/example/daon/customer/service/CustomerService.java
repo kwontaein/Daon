@@ -32,10 +32,12 @@ public class CustomerService {
             if (category != null) {
                 predicates.add(criteriaBuilder.equal(root.get("category"), category));
             }
-
-            CustomerCateEntity customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
+            CustomerCateEntity customerCateEntity = null;
+            if (cateId != null) {
+                customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
+            }
             // 거래처 소속
-            if (cateId != null && customerCateEntity != null) {
+            if (customerCateEntity != null) {
                 predicates.add(criteriaBuilder.equal(root.get("cateId"), cateId));
             }
 
