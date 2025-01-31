@@ -88,8 +88,9 @@ public class CustomerEntity {
     private String memo;
 
     //구분
+    @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private String category;
+    private CustomerCate category;
 
     //전화
     @Column(name = "phone_number")
