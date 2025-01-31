@@ -11,13 +11,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public enum TaxationCate {
 
-    //과세
-    //면세
-    //예비
-    //영세
-
-    TAXATION("과세"),
     EXEMPTION("비과세"),
+    TAXATION("과세"),
     ZEROTAX("영세"),
     ETC("예비");
 

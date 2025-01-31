@@ -40,7 +40,6 @@ public class CustomerRequest {
                 .customerId(customerId)
                 .customerName(customerName)
                 .contactInfo(contactInfo)
-                .category(category)
                 .phoneNumber(phoneNumber)
                 .fax(fax)
                 .user(user)
