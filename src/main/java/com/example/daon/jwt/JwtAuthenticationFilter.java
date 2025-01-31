@@ -71,6 +71,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         return "/api/SignIn".equals(requestURI) ||
                 "/api/postCookie".equals(requestURI) ||
                 "/api/getCustomers".equals(requestURI) ||
+                "/api/getCustomerCate".equals(requestURI) ||
                 "/api/test".equals(requestURI);
     }
 
