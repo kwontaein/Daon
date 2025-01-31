@@ -6,12 +6,8 @@ import '@/styles/_global.scss';
 import { ReceiptDummy } from "@/constants/receipt/receipt-dummy";
 import ReceiptSearchResult from "@/components/main-view/sales/receipt/search/search-result";
 import Pagination from "@/components/pagination";
+import { ReceiptPageProps } from "@/types/receipt/type";
 
-type ReceiptPageProps ={
-    searchParams: Promise<{
-        page :number |undefined,
-    }>
-}
 
 export default async function ReceiptPage({searchParams}:ReceiptPageProps) {
     const page = (await searchParams).page || 1;

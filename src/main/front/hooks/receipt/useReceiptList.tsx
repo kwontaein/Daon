@@ -1,7 +1,6 @@
-import { Receipt } from "@/constants/receipt/type"
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
 import {v4 as uuidv4} from "uuid";
-import { useItemSelection } from "../share/useItemSelection";
+import { Receipt } from "@/types/receipt/type";
 
 const initReceipt:Receipt = {
     uuid: uuidv4(),
