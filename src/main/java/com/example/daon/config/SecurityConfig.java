@@ -24,7 +24,7 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final String[] allAllowedUrls = {"/api/postCookie", "/api/SignIn", "/api/test",};    // 모두 허가
+    private final String[] allAllowedUrls = {/*"/api/postCookie", "/api/SignIn", "/api/test",*/"/**"};    // 모두 허가
     private final String[] UserAllowedUrls = {"/**"};    // 유저만 허가
     private final String[] AdminAllowedUrls = {"/**"};    // 매니저만 허가
     private final String[] ManagerAllowedUrls = {"/api/testSuccess"};    // 관리자만 허가
