@@ -2,20 +2,15 @@
 import { useEffect, useState } from 'react';
 
 import './table-body.scss';
-import { AccountType } from '@/constants/receipt/type';
+
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main-view/sales/receipt/options';
 import dayjs from 'dayjs';
 import { DisabledStatus } from '@/constants/receipt/disabled-status';
 import useReceiptList from '@/hooks/receipt/useReceiptList';
+import { AccountType } from '@/types/receipt/type';
+import { ClientMousePosition } from '@/types/share/type';
 
-
-
-
-type ClientMousePosition = {
-    x:number,
-    y:number
-}
 
 export default function ReceiptTableBody(){
     const {target,setTarget,itemsRef} = useItemSelection<string>(true) //복사 및 삭제대상 지정

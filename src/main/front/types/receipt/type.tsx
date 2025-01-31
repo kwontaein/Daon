@@ -1,3 +1,9 @@
+export type ReceiptPageProps ={
+    searchParams: Promise<{
+        page :number |undefined,
+    }>
+}
+
 export type AccountType =
   | 'disabled'
   | 'sales'
@@ -23,4 +29,3 @@ export type Receipt = {
     quantity?: string,
     briefs?: string,
 };
-
