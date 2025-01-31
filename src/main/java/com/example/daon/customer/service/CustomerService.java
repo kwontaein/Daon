@@ -24,7 +24,7 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final CustomerCateRepository customerCateRepository;
 
-    public List<CustomerEntity> getCustomers(String category, UUID cateId, String userId) {
+    public List<CustomerEntity> getCustomers(String category, UUID cateId, String userId, String customerName) {
         return customerRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -46,7 +46,10 @@ public class CustomerService {
                 Join<CustomerEntity, UserEntity> userJoin = root.join("user"); // 'user'는 외래 키 필드 이름
                 predicates.add(criteriaBuilder.equal(userJoin.get("id"), userId));
             }
-
+            // 고객명 부분 검색 (customerName이 비어있지 않을 경우)
+            if (customerName != null && !customerName.trim().isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%"));
+            }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

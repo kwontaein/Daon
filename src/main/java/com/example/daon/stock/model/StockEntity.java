@@ -42,7 +42,8 @@ public class StockEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_category_id")
     private StockCate category; // 분류 코드
-
+    
+    @Enumerated(EnumType.STRING)
     @Column(name = "stock_taxation")
     private TaxationCate taxation; // 과세 기준
 
