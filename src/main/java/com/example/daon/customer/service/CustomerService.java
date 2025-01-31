@@ -60,4 +60,8 @@ public class CustomerService {
     public void deleteCustomers(CustomerRequest request) {
         customerRepository.deleteById(request.getCustomerId());
     }
+
+    public List<CustomerCateEntity> getCustomerCate() {
+        return customerCateRepository.findAll();
+    }
 }
