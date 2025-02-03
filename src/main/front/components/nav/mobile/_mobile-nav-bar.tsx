@@ -33,13 +33,20 @@ export default function MobileNavBar(){
         }
     },[size.width])
 
+    useEffect(()=>{
+        if(searchParams.get('toggle')){
+            // document.body.style.overflow = "hidden";
+        }else{
+            document.body.style.overflow = "auto";
+        }
+    },[searchParams])
     return(
         <>
-        {(searchParams.get('toggle') && mobile) && <div className={'modal-background'}/>}
+        {(searchParams.get('toggle') && mobile) && <div className='modal-background'/>}
             {/*when toggle is true show mobile navigation, else check mount state because to prevent animation when the window is resized */}         
             <nav className={`nav-mobile-container ${searchParams.get('toggle') ? `slide` : !isMount && 'opacity'}`}>
-            <section className={'nav-mobile-wrapper'}>
-                <ul className={'nav-mobile-ul'}>
+            <section className='nav-mobile-wrapper'>
+                <ul className='nav-mobile-ul'>
                         <li className={nav === 'sales' ? 'hover' : ''}> 
                             <Link href={'/main/sales/receipt?toggle=true'}>판매회계</Link>
                         </li>
