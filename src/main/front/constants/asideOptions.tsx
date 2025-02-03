@@ -12,7 +12,7 @@ export const AsideOptions = {
         asideTitle: '고객관리',
         asideItems: [
             {name: '거래처관리', link: 'customer'},
-            {name: '분류관리', link: 'customer-cate'}]
+            {name: '소속관리', link: 'customer-cate'}]
     },
     stock: {
         asideTitle: '품목/재고',
@@ -78,7 +78,7 @@ export const AsideKeyOfValues = {
     "remain": "미수/미지급현황",
     "official": "관리비관리",
     "customer": "거래처관리",
-    "customer-cate": "분류관리",
+    "customer-cate": "소속관리",
     "stock": "품목/재곡 관리",
     "stock-cate": "분류관리",
     "point": "구매적립금설정",
