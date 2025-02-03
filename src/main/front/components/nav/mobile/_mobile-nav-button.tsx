@@ -5,31 +5,27 @@ import "./_mobile-nav-button.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function MobileNavButton(){
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const [showNavList,toggleShowNavList] = useReducer((prev)=>!prev, !!searchParams.get('toggle'));
-    const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-    useEffect(()=>{
-      if(!searchParams.get('toggle') && showNavList){
-        toggleShowNavList()
-      }
-    },[searchParams]);
 
-    const navigationHandler = () => {
-      if(!showNavList){
-        router.push(`?toggle=true`);
-      }else{
-        router.push(`${pathname}`)
-      }
-      toggleShowNavList()
-    };
+  const toggleNav = () => {
+    const params = new URLSearchParams(searchParams.toString()); 
+    if (params.get("toggle") === "true") {
+      params.delete("toggle"); 
+    } else {
+      params.set("toggle", "true"); 
+    }
+  // 기존 pathname 유지
+    router.push(`${pathname}?${params.toString()}`, { scroll: false }); 
+  };
 
-    return(
-        <div className='mobile-nav-wrapper' onClick={navigationHandler}>
-            <div className={showNavList ? 'animation' : ''}/>
-            {!showNavList && <div/>}
-            <div className={showNavList ? 'animation' : ''}/>    
-        </div>
-    )
+  return(
+      <div className='mobile-nav-wrapper' onClick={toggleNav}>
+          <div className={searchParams.get('toggle') ? 'animation' : ''}/>
+          {!searchParams.get('toggle') && <div/>}
+          <div className={searchParams.get('toggle') ? 'animation' : ''}/>    
+      </div>
+  )
 } 

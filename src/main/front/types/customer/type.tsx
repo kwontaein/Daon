@@ -30,7 +30,7 @@ export interface ResponseCustomer {
     phoneNumber?: string;
     fax?: string;
     userId: string; 
-    customerCateId: string; 
+    customerCateId: CustomerCate; 
     estimates: Estimate[]; // 견적서 목록 (배열)
     zipCode?: string;
     address1?: string;
@@ -43,7 +43,12 @@ export interface Estimate {
     estimateName: string;
     amount: number;
 }
-  
+
+export interface CustomerCate{
+    customerCateId:string;
+    customerCateKey:string;
+    customerCateName:string;
+}
   
 
 export type CustomerPageProps ={

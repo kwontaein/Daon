@@ -10,7 +10,8 @@
     align-items: center;
     font-size: 1.2rem;
     border-bottom: 1px solid var.$default-border-color;
-    
+    margin-top: 30px;
+    position: fixed;
     @media (max-width: 620px){
         display: none !important;
     }
