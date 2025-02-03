@@ -16,7 +16,7 @@ const allRequestData:{params:RequestCustomer} = {params:{
 
 export default async function CustomerPage({searchParams}:CustomerPageProps) {
     const page = (await searchParams).page || 1;
-
+    const pageKey = JSON.stringify({ page }); //key값을 전달하여 리랜더 방지
 
     const controller = new AbortController();
     const signal = controller.signal;
@@ -44,7 +44,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
 
     const pageByCustomers = customers.slice((page-1)*20, ((page-1)*20)+20)
     return (
-        <section>
+        <section key={pageKey}>
             <CustomerSearch/>
             <CustomerSearchResult customers={pageByCustomers}/>
             <Pagination
