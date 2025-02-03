@@ -1,4 +1,5 @@
 import '@/styles/_global.scss';
+import '@/styles/main-view/main.scss';
 import MainHeader from "@/components/header/_header";
 
 
@@ -15,9 +16,9 @@ export default async function MainLayout({navigation,aside,children}: {
           <MainHeader />
         </header>
         {navigation}
-        <section className="flex-row" style={{paddingBlock : '1rem', position :'relative'}}>
-            {aside}
-            {children}
+        <section className='main-layout-wrapper'>
+          {aside}
+          {children}
         </section>
       </>
     );
