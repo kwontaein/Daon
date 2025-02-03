@@ -26,7 +26,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(allRequestData),
+        body: JSON.stringify(allRequestData.params),
         signal,
         next: {revalidate: 36000, tags: ['customers']} //1시간마다 재검증
     }).then((response) => {
