@@ -1,9 +1,19 @@
+"use client";
+
 import { ResponseCustomer } from '@/types/customer/type';
 import './search-result.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { memo } from 'react';
 
-
-export default function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
-    console.log(customers)
+const CustomerCategoryMap = {
+    SALE:'판매처', 
+    BUY: '구매처',
+    CONSUMER: '소비자',
+    WORK: '하청업체',
+    ETC: '기타'
+}
+function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
     return(
             <table className="customer-result-table">
                 <colgroup>
@@ -34,10 +44,15 @@ export default function CustomerSearchResult({customers}:{customers:ResponseCust
                     {customers.map((customer:ResponseCustomer, index) => (
                         <tr key={index}>
                             <td><input type="checkbox" /></td>
-                            <td>{customer.customerName}</td>
+                            <td>{customer.customerCateId.customerCateName}</td>
+                            <td>{CustomerCategoryMap[customer.category]}</td>
+                            <td className='left-align'>{customer.customerName}</td>
+                            <td>{customer.phoneNumber}</td>
+                            <td>{customer.fax}</td>
+                            <td>{customer.etc}</td>
+                            <td></td>
                             <td>
-                                <button>수정</button>
-                                <button>삭제</button>
+                                <FontAwesomeIcon icon={faEllipsis} />
                             </td>
                         </tr>
                     ))}
@@ -46,3 +61,7 @@ export default function CustomerSearchResult({customers}:{customers:ResponseCust
       
     )
 }
+
+export default memo(CustomerSearchResult, (prevProps, nextProps) => {
+    return JSON.stringify(prevProps.customers) === JSON.stringify(nextProps.customers);
+});

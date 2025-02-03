@@ -22,15 +22,14 @@
 
 .nav-mobile-container{
     height: calc(100% - 40px);
+    margin-top: 40px;
+
     font-size: 1rem;
-    display: flex;
     flex-direction: row;
-    position: absolute;
     right: 0;
     display: none;
     animation: FadeOutSlide 0.2s ease-out forwards; 
     border-left: 1px solid var.$default-border-color;
-
     @media (max-width : 620px){
         display: flex;
     }
