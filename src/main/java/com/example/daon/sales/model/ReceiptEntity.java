@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Receipt")
+@Table(name = "receipt")
 public class ReceiptEntity {
 
     @Id
@@ -48,7 +47,7 @@ public class ReceiptEntity {
     private Integer quantity; // 사용 품목 수량
 
     @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice; // 품목 총 가격
+    private int totalPrice; // 품목 총 가격
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description; // 전표 설명 (적요)
