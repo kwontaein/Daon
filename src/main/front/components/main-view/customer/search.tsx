@@ -18,10 +18,10 @@ export default function CustomerSearch(){
                 <thead>
                     <tr>
                     <td colSpan={3} className="table-title">
-                        거래처 분류 &nbsp;: &nbsp;
+                        거래처 구분 &nbsp;: &nbsp;
                             <label>
                                 <select className="title-selector" size={1} value={division} onChange={(e)=>setDivision(e.target.value)}>
-                                    <option value='disabled' disabled>구분</option>
+                                    <option value='disabled' disabled>거래처 구분선택</option>
                                     <option value="sale">판매처</option>
                                     <option value="purchase">구매처</option>
                                     <option value="consumer">소비자</option>
@@ -34,11 +34,11 @@ export default function CustomerSearch(){
                 </thead>
                 <tbody>
                     <tr>
-                        <td className='table-label'>분류</td>
+                        <td className='table-label'>소속</td>
                         <td className="table-input">
                             <label>
                                 <select name="classification" size={1} value={correspondent} onChange={(e)=>setCorrespondent(e.target.value)}>
-                                    <option value='disabled' disabled>분류</option>
+                                    <option value='disabled' disabled>소속선택</option>
                                     <option value="sale">임시분류</option>
                                     <option value="purchase">매입거래처</option>
                                     <option value="consumer">화성시청</option>
