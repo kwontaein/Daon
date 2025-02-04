@@ -28,8 +28,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
 
+        //todo 로그인이 생긴 뒤로는 삭제할 것.
+        return;
+
         // 특정 API는 필터링 없이 바로 통과
-        if (isExcludedURI(requestURI)) {
+        /*if (isExcludedURI(requestURI)) {
             chain.doFilter(request, response);
             return;
         }
@@ -63,7 +66,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 응답이 아직 커밋되지 않았다면, 필터 체인을 계속 진행
         if (!httpResponse.isCommitted()) {
             chain.doFilter(request, response);
-        }
+        }*/
     }
 
     private boolean isExcludedURI(String requestURI) {

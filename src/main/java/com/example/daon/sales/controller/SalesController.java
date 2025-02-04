@@ -1,7 +1,7 @@
 package com.example.daon.sales.controller;
 
 import com.example.daon.sales.dto.request.EstimateRequest;
-import com.example.daon.sales.dto.request.NoPaidRequest;
+import com.example.daon.sales.dto.request.CustomerBillRequest;
 import com.example.daon.sales.dto.request.ReceiptRequest;
 import com.example.daon.sales.model.ReceiptEntity;
 import com.example.daon.sales.service.SalesService;
@@ -22,7 +22,7 @@ public class SalesController {
     /**
      * 조건부 전표 검색
      */
-    @GetMapping("api/getReceipts")
+    @PostMapping("api/getReceipts")
     public List<ReceiptEntity> getReceipts(@RequestBody ReceiptRequest request) {
         //고객 아이디 ,품목 아이디 -> 이름 전달받으면 아이디 찾아서 넣는걸로 변경
         return salesService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
@@ -45,7 +45,7 @@ public class SalesController {
     }
 
     //견적서관리-----------------------------------
-    @GetMapping("api/getEstimates")
+    @PostMapping("api/getEstimates")
     public void getEstimates(@RequestBody EstimateRequest request) {
         salesService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
     }
@@ -63,10 +63,10 @@ public class SalesController {
     }
 
     //미수미지급현황------------------------------------
-    @GetMapping("api/getNoPaid")
-    public void getNoPaid(@RequestBody NoPaidRequest request) {
+    @PostMapping("api/getNoPaid")
+    public void getNoPaid(@RequestBody CustomerBillRequest request) {
         //db 조건부 조회
-        //salesService.getNoPaid(request);
+        salesService.getCustomerBills(request);
     }
 
     //관리비관리---------------------------------------
