@@ -17,18 +17,15 @@ import java.util.UUID;
 @Table(name = "customer_bills")
 public class CustomerBillEntity {
 
-    //id
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "customer_bill_id", columnDefinition = "BINARY(16)")
+    @Column(name = "customer_id")
     private UUID id;
 
-    //상호명
     @OneToOne
     @MapsId
-    @JoinColumn(name = "customer_id") // customer 테이블의 id와 매핑
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
+
     //전기이월
     @Column(name = "previous_balance")
     private int previousBalance;

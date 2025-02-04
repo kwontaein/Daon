@@ -25,7 +25,7 @@ public class SalesController {
     @PostMapping("api/getReceipts")
     public List<ReceiptEntity> getReceipts(@RequestBody ReceiptRequest request) {
         //고객 아이디 ,품목 아이디 -> 이름 전달받으면 아이디 찾아서 넣는걸로 변경
-        return salesService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
+        return salesService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerId(), request.getItemNumber());
     }
 
     @PostMapping("api/updateReceipt")
@@ -35,6 +35,7 @@ public class SalesController {
 
     @PostMapping("api/saveReceipts")
     public void saveReceipt(@RequestBody List<ReceiptRequest> requests) {
+        System.out.println(requests.toString());
         salesService.saveReceipt(requests);
     }
 

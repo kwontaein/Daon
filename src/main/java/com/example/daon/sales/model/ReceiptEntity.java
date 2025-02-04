@@ -26,7 +26,7 @@ public class ReceiptEntity {
     private UUID receiptId; // 전표 아이디
 
     @ManyToOne
-    @JoinColumn(name = "estimate_id", nullable = false)
+    @JoinColumn(name = "estimate_id", nullable = true)
     private EstimateEntity estimate; // 견적서 아이디
 
     @Column(name = "timestamp", nullable = false)
@@ -41,7 +41,7 @@ public class ReceiptEntity {
     private CustomerEntity customer; // 고객 아이디
 
     @Column(name = "item_number", nullable = false)
-    private Long itemNumber; // 품목 번호
+    private UUID itemNumber; // 품목 아이디
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity; // 사용 품목 수량
