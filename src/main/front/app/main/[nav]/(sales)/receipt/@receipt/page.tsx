@@ -32,13 +32,13 @@ export default async function ReceiptPage({searchParams}: ReceiptPageProps) {
      console.log("서버 요청 결과:", response.data);*/
 
 
-    const response2 = await axios.post("http://localhost:8080/api/getReceipts", {
-        searchSDate: null, // UUID는 문자열로 처리
-        searchEDate: null,
-        customerId: "8c30114d-de15-11ef-9723-d8bbc19e908c",
-        itemNumber: "7f1cfad5-de10-11ef-9723-d8bbc19e908c",
-    });
-    console.log("서버 요청 결과:", response2.data);
+    /* const response2 = await axios.post("http://localhost:8080/api/getReceipts", {
+         searchSDate: null, // UUID는 문자열로 처리
+         searchEDate: null,
+         customerId: "8c30114d-de15-11ef-9723-d8bbc19e908c",
+         itemNumber: "7f1cfad5-de10-11ef-9723-d8bbc19e908c",
+     });
+     console.log("서버 요청 결과:", response2.data);*/
 
     return (
         <div className="flex-row">
