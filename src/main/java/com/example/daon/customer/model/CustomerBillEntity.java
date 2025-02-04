@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -32,26 +31,26 @@ public class CustomerBillEntity {
     private CustomerEntity customer;
     //전기이월
     @Column(name = "previous_balance")
-    private BigDecimal previousBalance;
+    private int previousBalance;
     //매출액
     @Column(name = "sales_amount")
-    private BigDecimal salesAmount;
+    private int salesAmount;
     //수금액
     @Column(name = "collection_amount")
-    private BigDecimal collectionAmount;
+    private int collectionAmount;
     //매입액
     @Column(name = "purchase_amount")
-    private BigDecimal purchaseAmount;
+    private int purchaseAmount;
     //지급액
     @Column(name = "payment_amount")
-    private BigDecimal paymentAmount;
+    private int paymentAmount;
     //매출할인액
     @Column(name = "sales_discount")
-    private BigDecimal salesDiscount;
+    private int salesDiscount;
     //매입할인액
     @Column(name = "purchase_discount")
-    private BigDecimal purchaseDiscount;
+    private int purchaseDiscount;
     //잔액
     @Column(name = "current_balance")
-    private BigDecimal currentBalance;
+    private int currentBalance;
 }
