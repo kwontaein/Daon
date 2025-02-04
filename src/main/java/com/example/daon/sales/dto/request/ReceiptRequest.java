@@ -1,5 +1,6 @@
 package com.example.daon.sales.dto.request;
 
+import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.sales.model.EstimateEntity;
 import com.example.daon.sales.model.ReceiptCategory;
 import com.example.daon.sales.model.ReceiptEntity;
@@ -26,13 +27,13 @@ public class ReceiptRequest {
 
     private ReceiptCategory category; // 전표 분류 (ENUM 사용)
 
-    private Long customerId; // 고객 아이디
+    private UUID customerId; // 고객 아이디
 
     private Long itemNumber; // 품목 번호
 
     private Integer quantity; // 사용 품목 수량
 
-    private BigDecimal totalPrice; // 품목 총 가격
+    private int totalPrice; // 품목 총 가격
 
     private String description; // 전표 설명 (적요)
 
@@ -44,7 +45,7 @@ public class ReceiptRequest {
     private String customerName; //고객명
     private String itemName; //품명
 
-    public ReceiptEntity toEntity(EstimateEntity entity) {
+    public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer) {
         return ReceiptEntity
                 .builder()
                 .receiptId(receiptId)
@@ -55,6 +56,7 @@ public class ReceiptRequest {
                 .quantity(quantity)
                 .totalPrice(totalPrice)
                 .description(description)
+                .customer(customer)
                 .build();
     }
 }
