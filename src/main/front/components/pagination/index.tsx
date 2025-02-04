@@ -14,14 +14,22 @@ interface Props {
 
 export default function Pagination({ totalItems, itemCountPerPage, pageCount, currentPage }: Props) {
   const totalPages = Math.ceil(totalItems / itemCountPerPage); //전체 페이지 = 아이템 / 한페이지당 노출할 개수
-  const [start, setStart] = useState(1);
+  const [start, setStart] = useState(()=>Math.max(1, currentPage - (currentPage % pageCount) + 1));
   const noPrev = start === 1; //이전 페이지 유무
   const noNext = start + pageCount - 1 >= totalPages; //다음 페이지 유무
   
   useEffect(() => {
-    if (currentPage === start + pageCount) setStart((prev) => prev + pageCount); //다음으로 갈 시 start 갱신
-    if (currentPage < start) setStart((prev) => prev - pageCount);
-  }, [currentPage, pageCount, start]);
+    setStart((prev) => {
+      if (currentPage >= prev + pageCount) {
+        return Math.min(prev + pageCount, totalPages - pageCount + 1);
+      }
+      if (currentPage < prev) {
+        return Math.max(1, prev - pageCount);
+      }
+      return prev;
+    });
+  }, [currentPage, pageCount]);
+
 
   return (
     <div className={'wrapper'}>
