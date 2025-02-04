@@ -29,7 +29,7 @@ public class ReceiptRequest {
 
     private UUID customerId; // 고객 아이디
 
-    private Long itemNumber; // 품목 번호
+    private UUID itemNumber; // 품목 번호
 
     private Integer quantity; // 사용 품목 수량
 

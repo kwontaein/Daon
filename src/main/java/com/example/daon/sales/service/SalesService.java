@@ -18,6 +18,7 @@ import com.example.daon.sales.model.ReceiptEntity;
 import com.example.daon.sales.repository.EstimateItemRepository;
 import com.example.daon.sales.repository.EstimateRepository;
 import com.example.daon.sales.repository.ReceiptRepository;
+import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -43,10 +44,11 @@ public class SalesService {
     private final CustomerRepository customerRepository;
     private final CustomerBillRepository customerBillRepository;
     private final CompanyRepository companyRepository;
+    private final StockRepository stockRepository;
 
     private final GlobalService globalService;
 
-    public List<ReceiptEntity> getReceipts(LocalDate startDate, LocalDate endDate, String customerName, String itemName) {
+    public List<ReceiptEntity> getReceipts(LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -57,16 +59,15 @@ public class SalesService {
             }
 
             // 거래처 조건
-            if (customerName != null) {
-                //거래처 이름으로 아이디 얻기
-                CustomerEntity customer = customerRepository.findByCustomerName(customerName).orElseThrow(() -> new IllegalArgumentException("잘못된 고객 이름입니다."));
-                predicates.add(criteriaBuilder.equal(root.get("customerId"), customer.getCustomerId()));
+            if (customerId != null) {
+                //거래처 얻기
+                CustomerEntity customer = customerRepository.findById(customerId).orElse(null);
+                predicates.add(criteriaBuilder.equal(root.get("customer"), customer));
             }
 
             // 품목 조건
-            if (itemName != null) {
-                //TODO 품목 이름으로 아이디 얻기
-                predicates.add(criteriaBuilder.equal(root.get("itemNumber"), itemName));
+            if (stockId != null) {
+                predicates.add(criteriaBuilder.equal(root.get("itemNumber"), stockId));
             }
 
             // 동적 조건을 조합하여 반환
@@ -93,9 +94,7 @@ public class SalesService {
     }
 
     private void updateCustomerBill(CustomerEntity customer, ReceiptCategory type, int price) {
-
-        CustomerBillEntity customerBillEntity = customerBillRepository.findByCustomer(customer)
-                .orElseThrow(() -> new IllegalArgumentException("해당 고객의 미수미지급 현황이 존재하지 않습니다."));
+        CustomerBillEntity customerBillEntity = customerBillRepository.findByCustomer(customer).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
 
         //내용 수정
         switch (type) {
