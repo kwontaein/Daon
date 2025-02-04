@@ -4,7 +4,7 @@ import Pagination from "@/components/pagination";
 import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
 
 
-const allRequestData:{params:RequestCustomer} = {params:{
+const allRequestData:RequestCustomer={
     customerId: null, 
     customerName: null,
     contactInfo: null,
@@ -12,7 +12,7 @@ const allRequestData:{params:RequestCustomer} = {params:{
     phoneNumber: null,
     fax: null,
     userId: null,
-    cateId: null}}
+    cateId: null}
 
 export default async function CustomerPage({searchParams}:CustomerPageProps) {
     const page = (await searchParams).page || 1;
@@ -28,11 +28,14 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
         },
         body: JSON.stringify(allRequestData),
         signal,
-        next: {revalidate: 36000, tags: ['customers']} //1시간마다 재검증
-    }).then((response) => {
+        // next: {revalidate: 360000, tags: ['customers']} //1시간마다 재검증
+    }).then(async (response) => {
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const text = await response.text();
+        console.log(text)
+        if (!text) return [];
         return response.json();
     }).catch((error) => {
             if(error.name=== 'AbortError'){
@@ -42,7 +45,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
     }).finally(() => clearTimeout(timeoutId));
 
 
-    const pageByCustomers = customers.slice((page-1)*20, ((page-1)*20)+20)
+    const pageByCustomers = customers.slice((page-1)*20, ((page-1)*20)+20) 
     return (
         <section key={pageKey}>
             <CustomerSearch/>
