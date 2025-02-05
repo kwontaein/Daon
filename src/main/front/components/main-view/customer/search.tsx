@@ -2,8 +2,9 @@
 import { useState } from 'react';
 import './search.scss';
 import { useComponentSize } from '@/hooks/share/useComponentsSize';
+import { CustomerCateType } from '@/types/customer/cate/type';
 
-export default function CustomerSearch(){
+export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
     const [division,setDivision] = useState('disabled')
     const [correspondent,setCorrespondent] = useState('disabled')
 
@@ -21,7 +22,7 @@ export default function CustomerSearch(){
                         거래처 구분 &nbsp;: &nbsp;
                             <label>
                                 <select className="title-selector" size={1} value={division} onChange={(e)=>setDivision(e.target.value)}>
-                                    <option value='disabled' disabled>거래처 구분선택</option>
+                                    <option value='disabled'>선택안함</option>
                                     <option value="sale">판매처</option>
                                     <option value="purchase">구매처</option>
                                     <option value="consumer">소비자</option>
@@ -38,12 +39,10 @@ export default function CustomerSearch(){
                         <td className="table-input">
                             <label>
                                 <select name="classification" size={1} value={correspondent} onChange={(e)=>setCorrespondent(e.target.value)}>
-                                    <option value='disabled' disabled>소속선택</option>
-                                    <option value="sale">임시분류</option>
-                                    <option value="purchase">매입거래처</option>
-                                    <option value="consumer">화성시청</option>
-                                    <option value="subcontractor">(주)화성시사회복지재단</option>
-                                    <option value="etc">기타</option>
+                                    <option value='disabled'>선택안함</option>
+                                    {customerCate.map((cate)=>(
+                                        <option key={cate.customerCateId} value={cate.customerCateKey}>{cate.customerCateName}</option>
+                                    ))}
                                 </select>
                             </label>
                         </td>
