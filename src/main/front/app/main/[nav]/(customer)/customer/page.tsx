@@ -21,6 +21,19 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
+
+    
+    const customerCate = await fetch("http://localhost:8080/api/getCustomerCate",{
+        next: {revalidate: 360000, tags: ['customers-cate']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {console.error('Error:', error)})
+
     const customers:ResponseCustomer[] = await fetch("http://localhost:8080/api/getCustomers", {
         method: "POST",
         headers: {
@@ -28,15 +41,14 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
         },
         body: JSON.stringify(allRequestData),
         signal,
-        // next: {revalidate: 360000, tags: ['customers']} //1시간마다 재검증
+        next: {revalidate: 360000, tags: ['customers']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const text = await response.text();
-        console.log(text)
         if (!text) return [];
-        return response.json();
+        return JSON.parse(text);
     }).catch((error) => {
             if(error.name=== 'AbortError'){
                 console.log('Fetch 요청이 시간초과되었습니다.')
@@ -44,11 +56,11 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
             console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 
-
     const pageByCustomers = customers.slice((page-1)*20, ((page-1)*20)+20) 
+
     return (
         <section key={pageKey}>
-            <CustomerSearch/>
+            <CustomerSearch customerCate={customerCate}/>
             <CustomerSearchResult customers={pageByCustomers}/>
             <Pagination
                        totalItems={customers.length}
