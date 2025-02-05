@@ -4,7 +4,10 @@ import { ResponseCustomer } from '@/types/customer/type';
 import './search-result.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
+import { useItemSelection } from '@/hooks/share/useItemSelection';
+import CustomerOptions from './options';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
 
 const CustomerCategoryMap = {
     SALE:'판매처', 
@@ -14,6 +17,10 @@ const CustomerCategoryMap = {
     ETC: '기타'
 }
 function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
+    const { itemsRef, target, setTarget } = useItemSelection<string>(true);
+    const customerIdList = customers.map((({customerId})=> customerId))
+    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
+ 
     return(
             <table className="customer-result-table">
                 <colgroup>
@@ -29,7 +36,7 @@ function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
                 </colgroup>
                 <thead>
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox" onChange={toggleAllChecked} checked={isAllChecked}/></td>
                         <td>구분</td>
                         <td>분류</td>
                         <td>상호명</td>
@@ -42,8 +49,11 @@ function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
                 </thead>
                 <tbody>
                     {customers.map((customer:ResponseCustomer, index) => (
-                        <tr key={index}>
-                            <td><input type="checkbox" /></td>
+                        <tr key={index} ref={(el)=> {itemsRef.current[customer.customerId] = el}} className={target === customer.customerId ?'is-click' :''}>
+                            <td><input type="checkbox" 
+                                       checked={checkedState[customer.customerId]|| false} 
+                                       onChange={update_checked.bind(null,customer.customerId)}/>
+                            </td>
                             <td>{customer.customerCateId.customerCateName}</td>
                             <td>{CustomerCategoryMap[customer.category]}</td>
                             <td className='left-align'>{customer.customerName}</td>
@@ -51,8 +61,9 @@ function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
                             <td>{customer.fax}</td>
                             <td>{customer.etc}</td>
                             <td></td>
-                            <td>
-                                <FontAwesomeIcon icon={faEllipsis} />
+                            <td className='icon' onClick={()=> target === customer.customerId ? setTarget(null) :setTarget(customer.customerId)}>
+                                <FontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
+                                {target === customer.customerId && <CustomerOptions customerId={customer.customerId}/>}
                             </td>
                         </tr>
                     ))}
