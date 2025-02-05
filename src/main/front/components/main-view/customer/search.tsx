@@ -22,7 +22,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         거래처 구분 &nbsp;: &nbsp;
                             <label>
                                 <select className="title-selector" size={1} value={division} onChange={(e)=>setDivision(e.target.value)}>
-                                    <option value='disabled'>거래처 구분선택</option>
+                                    <option value='disabled'>선택안함</option>
                                     <option value="sale">판매처</option>
                                     <option value="purchase">구매처</option>
                                     <option value="consumer">소비자</option>
@@ -39,7 +39,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className="table-input">
                             <label>
                                 <select name="classification" size={1} value={correspondent} onChange={(e)=>setCorrespondent(e.target.value)}>
-                                    <option value='disabled'>소속선택</option>
+                                    <option value='disabled'>선택안함</option>
                                     {customerCate.map((cate)=>(
                                         <option key={cate.customerCateId} value={cate.customerCateKey}>{cate.customerCateName}</option>
                                     ))}
