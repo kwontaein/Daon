@@ -1,7 +1,7 @@
 import CustomerSearch from "@/components/main-view/customer/search";
 import CustomerSearchResult from "@/components/main-view/customer/search-result";
 import Pagination from "@/components/pagination";
-import { PostSearchInfo } from "@/hooks/redux/slice/customer-search";
+import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
 import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
 
 
@@ -16,7 +16,7 @@ const allRequestData:RequestCustomer={
     cateId: null
 }
 
-const allRequestData2:PostSearchInfo ={
+const allRequestData2:CustomerSearchCondition ={
     category: null,
     cateId:null,
     searchTarget :'all',
