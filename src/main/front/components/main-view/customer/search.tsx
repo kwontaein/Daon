@@ -1,13 +1,23 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './search.scss';
 import { useComponentSize } from '@/hooks/share/useComponentsSize';
 import { CustomerCateType } from '@/types/customer/cate/type';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/hooks/redux/store';
+import { useDispatch } from 'react-redux';
+import { RequestCustomerData, ResetSearchQuery, SearchInputOption, updateSearchInput, updateSearchInputTarget, updateSearchQuery } from '@/hooks/redux/slice/customer-search';
 
 export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
-    const [division,setDivision] = useState('disabled')
-    const [correspondent,setCorrespondent] = useState('disabled')
+    const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
+    const dispatch = useDispatch()
 
+    useEffect(()=>{
+        return ()=>{
+            dispatch(ResetSearchQuery())
+        }
+    },[])
+    
     return(
         <div className='customer-search-container'>
             <table className="search-table">
@@ -21,8 +31,10 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                     <td colSpan={3} className="table-title">
                         거래처 구분 &nbsp;: &nbsp;
                             <label>
-                                <select className="title-selector" size={1} value={division} onChange={(e)=>setDivision(e.target.value)}>
-                                    <option value='disabled'>선택안함</option>
+                                <select className="title-selector" size={1} 
+                                        value={postSearchInfo.category}
+                                        onChange={(e)=>dispatch(updateSearchQuery({category: e.target.value}))}>
+                                    <option value='none'>선택안함</option>
                                     <option value="sale">판매처</option>
                                     <option value="purchase">구매처</option>
                                     <option value="consumer">소비자</option>
@@ -38,17 +50,24 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>소속</td>
                         <td className="table-input">
                             <label>
-                                <select name="classification" size={1} value={correspondent} onChange={(e)=>setCorrespondent(e.target.value)}>
-                                    <option value='disabled'>선택안함</option>
+                                <select name="classification" size={1} 
+                                        value={postSearchInfo.cateId}
+                                        onChange={(e)=>dispatch(updateSearchQuery({cateId: e.target.value}))}>
+                                    <option value='none'>선택안함</option>
                                     {customerCate.map((cate)=>(
-                                        <option key={cate.customerCateId} value={cate.customerCateKey}>{cate.customerCateName}</option>
+                                        <option key={cate.customerCateKey} value={cate.customerCateId}>
+                                                {cate.customerCateName}
+                                        </option>
                                     ))}
                                 </select>
                             </label>
                         </td>
                         <td rowSpan={3}>
                            <div className="table-buttons">
-                                <button>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button onClick={()=>{
+                                    dispatch(RequestCustomerData(true))
+                                    setTimeout(()=>{dispatch(RequestCustomerData(false))},1000)
+                                }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button>전 체 보 기</button>
                                 <button>신 규 등 록</button>
                                 <button>엑 셀 변 환</button>
@@ -59,22 +78,30 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>검색대상</td>
                         <td className='table-radio-container'>
                             <label>
-                                <input type='radio' name='target'/>전체
+                                <input type='radio' name='target' value='all' 
+                                       checked={postSearchInfo.searchTarget ==='all'} 
+                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
+                                       전체
                             </label>
                             <label>
-                                <input type='radio' name='target'/>미수/미지급 거래처만
+                                <input type='radio' name='target' value='payment' 
+                                       checked={postSearchInfo.searchTarget ==='payment'}
+                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
+                                       미수/미지급 거래처만
                             </label>
                         </td>
                     </tr>
                     <tr>
                         <td className='table-label'>
-                            <select className='classification' name="searchOptions" size={1}>
-                                <option value="business">상호명/담당기사</option>
-                                <option value="exponent">대표자</option>
+                            <select className='classification' name="searchOptions" size={1}
+                                    value={searchInputTarget} 
+                                    onChange={(e)=> dispatch(updateSearchInputTarget(e.target.value as SearchInputOption))}>
+                                <option value="customerName">상호명/담당기사</option>
+                                <option value="ceo">대표자</option>
                             </select>
                         </td>
                         <td className='table-input '>
-                            <input type='text'/>
+                            <input type='text' value={searchInput} onChange={(e)=>dispatch(updateSearchInput(e.target.value))}/>
                         </td>
                     </tr>       
                 </tbody>
