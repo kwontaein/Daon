@@ -100,11 +100,6 @@ public class CustomerEntity {
     @Column(name = "fax")
     private String fax;
 
-    //담당기사
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
     //고객분류
     @ManyToOne
     @JoinColumn(name = "customer_cate_id")
@@ -126,7 +121,12 @@ public class CustomerEntity {
     @Column(name = "address_2")
     private String address2;
 
-    //상세주소
+    //담당기사명
     @Column(name = "etc")
     private String etc;
+
+    //담당기사
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 }

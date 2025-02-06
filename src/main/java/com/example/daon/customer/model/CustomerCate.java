@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 public enum CustomerCate {
 
     SALE("판매처"),
-    BUY("구매처"),
+    PURCHASE("구매처"),
     CONSUMER("소비자"),
-    WORK("하청업체"),
+    SUBCONTRACTOR("하청업체"),
     ETC("기타");
 
     private final String cate;
