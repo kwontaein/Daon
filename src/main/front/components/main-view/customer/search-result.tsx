@@ -8,6 +8,10 @@ import { memo, useEffect, useState } from 'react';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import CustomerOptions from './options';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
+import Pagination from '@/components/pagination';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/hooks/redux/store';
+import { PostSearchInfo } from '@/hooks/redux/slice/customer-search';
 
 const CustomerCategoryMap = {
     SALE:'판매처', 
@@ -16,12 +20,53 @@ const CustomerCategoryMap = {
     WORK: '하청업체',
     ETC: '기타'
 }
-function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
+function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
-    const customerIdList = customers.map((({customerId})=> customerId))
+    const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
+    const [pageByCustomer, setPageByCustomer] = useState<ResponseCustomer[]>([])
+    
+    const customerIdList = pageByCustomer.map((({customerId})=> customerId))
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
- 
+    const {searchInputTarget, searchInput, postSearchInfo, isSearch} = useSelector((state:RootState)=> state.customerSearch);
+
+    const fetchSearchCustomers = async (searchCondition:PostSearchInfo) =>{
+        await fetch("http://localhost:8080/api/getCustomers", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(searchCondition),
+        }).then(async (response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const text = await response.text();
+            if (!text) return [];
+            setCustomers(JSON.parse(text));
+        }).catch((error) => {
+                if(error.name=== 'AbortError'){
+                    console.log('Fetch 요청이 시간초과되었습니다.')
+                }
+                console.error('Error:', error)
+        })
+
+
+    }
+    useEffect(()=>{
+        if(isSearch) {
+            const cateId = postSearchInfo.cateId ==='none' ? null : postSearchInfo.cateId
+            const category =  postSearchInfo.category ==='none' ? null : postSearchInfo.category
+            const searchCondition ={...postSearchInfo, cateId, category, [searchInputTarget]:searchInput}
+            fetchSearchCustomers(searchCondition)
+        }
+    },[isSearch])
+
+    useEffect(()=>{
+        setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
+    },[customers, page])
+
     return(
+        <>
             <table className="customer-result-table">
                 <colgroup>
                         <col style={{ width: '1%' }} />
@@ -48,7 +93,7 @@ function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map((customer:ResponseCustomer, index) => (
+                    {pageByCustomer.map((customer:ResponseCustomer, index) => (
                         <tr key={index} ref={(el)=> {itemsRef.current[customer.customerId] = el}} className={target === customer.customerId ?'is-click' :''}>
                             <td><input type="checkbox" 
                                        checked={checkedState[customer.customerId]|| false} 
@@ -69,10 +114,16 @@ function CustomerSearchResult({customers}:{customers:ResponseCustomer[]}){
                     ))}
                 </tbody>
             </table>
-      
+            <Pagination
+                       totalItems={customers.length}
+                       itemCountPerPage={20} 
+                       pageCount={5} 
+                       currentPage={Number(page)}
+                />
+        </>
     )
 }
 
 export default memo(CustomerSearchResult, (prevProps, nextProps) => {
-    return JSON.stringify(prevProps.customers) === JSON.stringify(nextProps.customers);
+    return JSON.stringify(prevProps.initialCustomers) === JSON.stringify(nextProps.initialCustomers);
 });

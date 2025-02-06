@@ -1,6 +1,7 @@
 import CustomerSearch from "@/components/main-view/customer/search";
 import CustomerSearchResult from "@/components/main-view/customer/search-result";
 import Pagination from "@/components/pagination";
+import { PostSearchInfo } from "@/hooks/redux/slice/customer-search";
 import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
 
 
@@ -12,14 +13,22 @@ const allRequestData:RequestCustomer={
     phoneNumber: null,
     fax: null,
     userId: null,
-    cateId: null}
+    cateId: null
+}
 
+const allRequestData2:PostSearchInfo ={
+    category: null,
+    cateId:null,
+    searchTarget :'all',
+    customerName: null,
+    ceo:null,
+}
 export default async function CustomerPage({searchParams}:CustomerPageProps) {
     const page = (await searchParams).page || 1;
     const pageKey = JSON.stringify({ page }); //key값을 전달하여 리랜더 방지
 
     const controller = new AbortController();
-    const signal = controller.signal;
+    const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     
@@ -34,7 +43,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
         return JSON.parse(text);
     }).catch((error) => {console.error('Error:', error)})
 
-    const customers:ResponseCustomer[] = await fetch("http://localhost:8080/api/getCustomers", {
+    const initialCustomers:ResponseCustomer[] = await fetch("http://localhost:8080/api/getCustomers", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -56,18 +65,11 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
             console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 
-    const pageByCustomers = customers.slice((page-1)*20, ((page-1)*20)+20) 
 
     return (
         <section key={pageKey}>
             <CustomerSearch customerCate={customerCate}/>
-            <CustomerSearchResult customers={pageByCustomers}/>
-            <Pagination
-                       totalItems={customers.length}
-                       itemCountPerPage={20} 
-                       pageCount={5} 
-                       currentPage={Number(page)}
-                />
+            <CustomerSearchResult initialCustomers={initialCustomers} page={page}/>
         </section>
     )
 }
