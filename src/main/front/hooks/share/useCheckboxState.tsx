@@ -12,7 +12,7 @@ export default function useCheckBoxState(items:string[]):ReturnCheckBoxHook{
     const [checkedState, dispatchCheckedState] = useReducer(checkboxReducer, initialCheckState)
 
     const checkedItemList = Object.keys(checkedState)
-    const isAllChecked = checkedItemList.length === items.length
+    const isAllChecked = items.length>0 && checkedItemList.length === items.length
     
     const update_checked = (id:string)=>{
         dispatchCheckedState({type:'UPDATE_CHECKED_ITEMS', payload :id})
