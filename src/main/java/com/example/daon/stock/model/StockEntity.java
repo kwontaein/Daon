@@ -39,25 +39,21 @@ public class StockEntity {
     @Column(name = "model_name")
     private String modelName; // 품목 모델명
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "stock_category_id")
     private StockCate category; // 분류 코드
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "stock_taxation")
     private TaxationCate taxation; // 과세 기준
-
-    //호환기종
-    @Column(name = "compatible_model")
-    private String compatibleModel;
 
     //메모
     @Column(name = "note")
     private String note;
 
-    //메모
+    //재고계산여부
     @Column(name = "stock_use_ea")
-    private String stockUseEa;
+    private boolean stockUseEa;
 
     //키워드
     @Column(name = "key_word")
