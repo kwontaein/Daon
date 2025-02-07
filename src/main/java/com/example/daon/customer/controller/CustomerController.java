@@ -24,7 +24,13 @@ public class CustomerController {
 
     @PostMapping("api/getCustomers")
     public List<CustomerEntity> getCustomers(@RequestBody CustomerRequest request) {
-        System.out.println("고객정보 받아오기");
+        System.out.println("고객정보 받아오기 : " + request.toString());
+        System.out.println(customerService.getCustomers(request.getCategory()
+                , request.getCateId()
+                , request.getCustomerName()
+                , request.getSearchTarget()
+                , request.getCeo()
+        ));
         return customerService.getCustomers(request.getCategory()
                 , request.getCateId()
                 , request.getCustomerName()
