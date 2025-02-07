@@ -56,7 +56,7 @@ public class SalesController {
     public void updateEstimate(@RequestBody EstimateRequest request) {
         salesService.updateTest(request);
     }
-
+ 
     //전표전환
     @PostMapping("api/estimatesPaid")
     public void estimatesPaid(@RequestBody EstimateRequest request) {
