@@ -33,6 +33,9 @@ public class CustomerRequest {
     //------------
     private UUID cateId;
 
+    private String ceo;
+    private String searchTarget;
+
 
     public CustomerEntity toEntity(UserEntity user) {
         return CustomerEntity
