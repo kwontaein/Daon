@@ -20,7 +20,7 @@ public class StockCate {
     @Column(nullable = false, name = "stock_cate_name")
     private String stockCateName; // 분류 명
 
-    @Column(nullable = false, unique = true, name = "cate_key")
+    @Column(nullable = false, name = "cate_key")
     private String cateKey; // 분류 키
 
     @Column(nullable = false, name = "cate_code")

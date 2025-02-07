@@ -24,19 +24,21 @@ public class StockRequest {
 
     private String modelName; // 품목 모델명
 
-    private StockCate category; // 분류 코드
+    private UUID category; // 분류 코드
 
     private TaxationCate taxation; // 과세 기준
 
-    private String compatibleModel; //호환기종
-
     private String note;  //메모
 
-    private String stockUseEa;    //메모
+    private boolean stockUseEa;    //메모
 
     private String keyWord;  //키워드
 
-    public StockEntity toEntity() {
+    //----------------------------------------------
+
+    private boolean remain;
+
+    public StockEntity toEntity(StockCate stockCate) {
         return StockEntity
                 .builder()
                 .stockId(stockId)
@@ -45,9 +47,8 @@ public class StockRequest {
                 .inPrice(inPrice)
                 .outPrice(outPrice)
                 .modelName(modelName)
-                .category(category)
+                .category(stockCate)
                 .taxation(taxation)
-                .compatibleModel(compatibleModel)
                 .note(note)
                 .stockUseEa(stockUseEa)
                 .keyWord(keyWord)
