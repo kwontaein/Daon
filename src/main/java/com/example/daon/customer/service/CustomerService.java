@@ -26,7 +26,7 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final CustomerCateRepository customerCateRepository;
 
-    public List<CustomerEntity> getCustomers(String category, UUID cateId, String customerName, String ceo, String searchTarget) {
+    public List<CustomerEntity> getCustomers(String category, UUID cateId, String customerName, String searchTarget, String ceo) {
         return customerRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -34,34 +34,33 @@ public class CustomerService {
             if (category != null) {
                 predicates.add(criteriaBuilder.equal(root.get("category"), category));
             }
-            CustomerCateEntity customerCateEntity = null;
-            if (cateId != null) {
-                customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
-            }
-            // 거래처 소속
-            if (customerCateEntity != null) {
-                predicates.add(criteriaBuilder.equal(root.get("cateId"), cateId));
-            }
 
-            // 대표자 부분 검색 (ceo 가 비어있지 않을 경우)
-            if (ceo != null && !ceo.trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("ceo"), "%" + ceo + "%"));
+            if (cateId != null) {
+                CustomerCateEntity customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
+                // 거래처 소속
+                if (customerCateEntity != null) {
+                    predicates.add(criteriaBuilder.equal(root.get("cateId"), cateId));
+                }
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (customerName != null && !customerName.trim().isEmpty()) {
+                System.out.println("customerName : " + customerName);
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
-                        criteriaBuilder.or(
-                                criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%"),
+                        //criteriaBuilder.or(
+                        criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%")/*,
                                 // 필요한 경우 아래와 같이 다른 조건을 함께 OR로 묶을 수 있음
-                                criteriaBuilder.like(root.get("etc"), "%" + customerName + "%")
-                        )
+                                criteriaBuilder.like(root.get("etc"), "%" + customerName + "%")*/
+                        //)
                 );
+            } else if (ceo != null && !ceo.trim().isEmpty()) {// 대표자 부분 검색 (ceo 가 비어있지 않을 경우)
+                System.out.println("ceo : " + ceo);
+                predicates.add(criteriaBuilder.like(root.get("ceo"), "%" + ceo + "%"));
             }
 
             // (5) searchTarget 이 'payment' 라면, customerBills 의 currentBalance 값이 0이 아닌 조건 추가
-            if ("payment".equals(searchTarget)) {
+            if (searchTarget != null && searchTarget.equals("payment")) {
                 // customerBills 엔티티에 조인
                 Join<CustomerEntity, CustomerBillEntity> billsJoin = root.join("customerBills", JoinType.INNER);
                 predicates.add(criteriaBuilder.notEqual(billsJoin.get("currentBalance"), 0));

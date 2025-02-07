@@ -30,12 +30,15 @@ public class EstimateEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
+    //생성일
     @Column(name = "estimate_date", nullable = false)
     private LocalDateTime estimateDate;
 
+    //전표화 여부
     @Column(name = "receipted", nullable = false)
     private boolean receipted;
 
+    //총금액
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
@@ -50,6 +53,7 @@ public class EstimateEntity {
     private CompanyEntity company;
 
 
+    //품목 목록
     @OneToMany(mappedBy = "estimate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstimateItem> items; // 필드 업데이트 메서드
 
