@@ -32,8 +32,8 @@ export default async function ReceiptPage({searchParams}: ReceiptPageProps) {
      console.log("서버 요청 결과:", response.data);*/
 
 
-    const response2 = await axios.post("http://localhost:8080/api/", {});
-    console.log("서버 요청 결과:", response2.data);
+    /*  const response2 = await axios.post("http://localhost:8080/api/", {});
+      console.log("서버 요청 결과:", response2.data);*/
 
     return (
         <div className="flex-row">
