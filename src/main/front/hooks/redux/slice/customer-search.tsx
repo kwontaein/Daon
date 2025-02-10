@@ -2,22 +2,22 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {v4 as uuidv4} from "uuid";
 
 export type CategoryType = 'none' |'sale' | 'purchase' | 'consumer' | 'subcontractor' | 'etc';
-export type SearchTarget = 'all' | 'payment'
-export type SearchInputOption = 'customerName' | 'ceo';
+export type CustomerSearchTarget = 'all' | 'payment'
+export type CustomerSearchInputTarget = 'customerName' | 'ceo';
 
-type PostSearchInfoKeys = keyof PostSearchInfo;
+type CustomerSearchConditionKeys = keyof CustomerSearchCondition;
 
-export interface PostSearchInfo {
+export interface CustomerSearchCondition {
     category: CategoryType|null,
     cateId:string|null,
-    searchTarget :SearchTarget,
+    searchTarget :CustomerSearchTarget,
     customerName: string|null,
     ceo:string|null,
 } 
 
 export interface CustomerSearch{
-    postSearchInfo: PostSearchInfo,
-    searchInputTarget:SearchInputOption
+    postSearchInfo: CustomerSearchCondition,
+    searchInputTarget:CustomerSearchInputTarget
     searchInput:string
     isSearch: boolean
 }
@@ -40,10 +40,10 @@ const customerSearch = createSlice({
     name:'customerSearch',
     initialState,
     reducers:{
-        updateSearchQuery: (state, action: PayloadAction<Partial<Record<PostSearchInfoKeys, PostSearchInfo[PostSearchInfoKeys]>>>)=>{
+        updateSearchQuery: (state, action: PayloadAction<Partial<Record<CustomerSearchConditionKeys, CustomerSearchCondition[CustomerSearchConditionKeys]>>>)=>{
             Object.assign(state.postSearchInfo, action.payload);
         },
-        updateSearchInputTarget: (state, action: PayloadAction<SearchInputOption>)=>{
+        updateSearchInputTarget: (state, action: PayloadAction<CustomerSearchInputTarget>)=>{
             state.searchInputTarget = action.payload
         },
         updateSearchInput: (state, action: PayloadAction<string>)=>{
