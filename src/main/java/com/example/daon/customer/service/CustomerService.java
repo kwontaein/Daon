@@ -40,7 +40,7 @@ public class CustomerService {
                 CustomerCateEntity customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
                 // 거래처 소속
                 if (customerCateEntity != null) {
-                    predicates.add(criteriaBuilder.equal(root.get("cateId"), cateId));
+                    predicates.add(criteriaBuilder.equal(root.get("customerCateId"), customerCateEntity));
                 }
             }
 
@@ -49,11 +49,11 @@ public class CustomerService {
                 System.out.println("customerName : " + customerName);
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
-                        //criteriaBuilder.or(
-                        criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%")/*,
+                        criteriaBuilder.or(
+                                criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%"),
                                 // 필요한 경우 아래와 같이 다른 조건을 함께 OR로 묶을 수 있음
-                                criteriaBuilder.like(root.get("etc"), "%" + customerName + "%")*/
-                        //)
+                                criteriaBuilder.like(root.get("etc"), "%" + customerName + "%")
+                        )
                 );
             } else if (ceo != null && !ceo.trim().isEmpty()) {// 대표자 부분 검색 (ceo 가 비어있지 않을 경우)
                 System.out.println("ceo : " + ceo);
@@ -87,9 +87,32 @@ public class CustomerService {
 
     public void saveCustomerCate(List<CustomerCateRequest> requests) {
         for (CustomerCateRequest request : requests) {
-            customerCateRepository.save(request.toEntity());
+            // 요청 객체에서 ID 추출
+            UUID cateId = request.getCustomerCateId();
+
+            if (cateId != null) {
+                // 1) 이미 존재하는 ID인지 확인
+                CustomerCateEntity existingEntity = customerCateRepository.findById(cateId)
+                        .orElse(null);
+
+                if (existingEntity != null) {
+                    // → 존재하는 경우: 업데이트
+                    //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
+                    existingEntity.updateFromRequest(request);
+
+                    //    변경된 엔티티 저장
+                    customerCateRepository.save(existingEntity);
+                } else {
+                    // → 해당 ID에 해당하는 엔티티가 없으면 새로 저장
+                    customerCateRepository.save(request.toEntity());
+                }
+            } else {
+                // 2) ID가 없으므로, 새로 생성
+                customerCateRepository.save(request.toEntity());
+            }
         }
     }
+
 
     public void deleteCustomerCate(CustomerCateRequest request) {
         customerRepository.deleteById(request.getCustomerCateId());
