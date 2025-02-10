@@ -6,7 +6,7 @@ import { CustomerCateType } from '@/types/customer/cate/type';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
 import { useDispatch } from 'react-redux';
-import { RequestCustomerData, ResetSearchQuery, SearchInputOption, updateSearchInput, updateSearchInputTarget, updateSearchQuery } from '@/hooks/redux/slice/customer-search';
+import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery } from '@/hooks/redux/slice/customer-search';
 
 export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
     const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
@@ -95,7 +95,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>
                             <select className='classification' name="searchOptions" size={1}
                                     value={searchInputTarget} 
-                                    onChange={(e)=> dispatch(updateSearchInputTarget(e.target.value as SearchInputOption))}>
+                                    onChange={(e)=> dispatch(updateSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
                                 <option value="customerName">상호명/담당기사</option>
                                 <option value="ceo">대표자</option>
                             </select>

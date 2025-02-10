@@ -1,6 +1,5 @@
 package com.example.daon.stock.model.cate;
 
-import com.example.daon.ledger.model.cate.ExpenseCategory;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

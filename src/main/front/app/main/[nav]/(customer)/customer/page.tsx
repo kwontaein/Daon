@@ -5,18 +5,9 @@ import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
 import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
 
 
-const allRequestData:RequestCustomer={
-    customerId: null, 
-    customerName: null,
-    contactInfo: null,
-    category: null,
-    phoneNumber: null,
-    fax: null,
-    userId: null,
-    cateId: null
-}
 
-const allRequestData2:CustomerSearchCondition ={
+
+const allRequestData:CustomerSearchCondition ={
     category: null,
     cateId:null,
     searchTarget :'all',
