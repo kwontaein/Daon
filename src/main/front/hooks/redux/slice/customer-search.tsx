@@ -53,7 +53,9 @@ const customerSearch = createSlice({
             state.isSearch = action.payload;
         },
         ResetSearchQuery: (state)=>{
-            state = initialState;
+            state.postSearchInfo = initialState.postSearchInfo;
+            state.searchInput = initialState.searchInput;
+            state.searchInputTarget = initialState.searchInputTarget;
         }
     }
 })
