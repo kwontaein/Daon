@@ -85,8 +85,10 @@ public class CustomerService {
         return customerCateRepository.findAll();
     }
 
-    public void saveCustomerCate(CustomerCateRequest request) {
-        customerCateRepository.save(request.toEntity());
+    public void saveCustomerCate(List<CustomerCateRequest> requests) {
+        for (CustomerCateRequest request : requests) {
+            customerCateRepository.save(request.toEntity());
+        }
     }
 
     public void deleteCustomerCate(CustomerCateRequest request) {
