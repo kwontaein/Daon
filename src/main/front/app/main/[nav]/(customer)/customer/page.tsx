@@ -3,6 +3,7 @@ import CustomerSearchResult from "@/components/main-view/customer/search-result"
 import Pagination from "@/components/pagination";
 import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
 import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
+import { Suspense } from "react";
 
 
 
@@ -58,9 +59,11 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
 
 
     return (
-        <section key={pageKey}>
+        <section>
             <CustomerSearch customerCate={customerCate}/>
-            <CustomerSearchResult initialCustomers={initialCustomers} page={page}/>
+            <Suspense fallback={<div>loading..</div>}>
+                <CustomerSearchResult initialCustomers={initialCustomers} page={page}/>
+            </Suspense>
         </section>
     )
 }
