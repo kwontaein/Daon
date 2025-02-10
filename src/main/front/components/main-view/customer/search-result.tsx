@@ -11,7 +11,7 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import Pagination from '@/components/pagination';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
-import { PostSearchInfo } from '@/hooks/redux/slice/customer-search';
+import { CustomerSearchCondition } from '@/hooks/redux/slice/customer-search';
 
 const CustomerCategoryMap = {
     SALE:'판매처', 
@@ -29,7 +29,7 @@ function CustomerSearchResult({initialCustomers, page}:{initialCustomers:Respons
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
     const {searchInputTarget, searchInput, postSearchInfo, isSearch} = useSelector((state:RootState)=> state.customerSearch);
 
-    const fetchSearchCustomers = async (searchCondition:PostSearchInfo) =>{
+    const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition) =>{
         await fetch("http://localhost:8080/api/getCustomers", {
             method: "POST",
             headers: {
@@ -49,8 +49,6 @@ function CustomerSearchResult({initialCustomers, page}:{initialCustomers:Respons
                 }
                 console.error('Error:', error)
         })
-
-
     }
     useEffect(()=>{
         if(isSearch) {
