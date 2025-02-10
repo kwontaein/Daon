@@ -57,7 +57,7 @@ public class CustomerController {
     }
 
     @PostMapping("api/saveCustomerCate")
-    public void saveCustomerCate(@RequestBody CustomerCateRequest request) {
+    public void saveCustomerCate(@RequestBody List<CustomerCateRequest> request) {
         customerService.saveCustomerCate(request);
     }
 
