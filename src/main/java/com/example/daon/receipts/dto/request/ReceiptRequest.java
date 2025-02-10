@@ -1,14 +1,13 @@
-package com.example.daon.sales.dto.request;
+package com.example.daon.receipts.dto.request;
 
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.sales.model.EstimateEntity;
-import com.example.daon.sales.model.ReceiptCategory;
-import com.example.daon.sales.model.ReceiptEntity;
+import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.receipts.model.ReceiptCategory;
+import com.example.daon.receipts.model.ReceiptEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

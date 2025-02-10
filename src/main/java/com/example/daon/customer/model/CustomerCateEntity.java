@@ -28,8 +28,4 @@ public class CustomerCateEntity {
     //이름
     @Column(name = "customer_cate_name")
     private String customerCateName;
-
-    //대분류키 ?
-    @Column(name = "customer_cate_key")
-    private String customerCateKey;
 }

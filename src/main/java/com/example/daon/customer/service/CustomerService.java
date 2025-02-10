@@ -2,6 +2,7 @@ package com.example.daon.customer.service;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.customer.dto.request.CustomerCateRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerBillEntity;
 import com.example.daon.customer.model.CustomerCateEntity;
@@ -82,5 +83,13 @@ public class CustomerService {
 
     public List<CustomerCateEntity> getCustomerCate() {
         return customerCateRepository.findAll();
+    }
+
+    public void saveCustomerCate(CustomerCateRequest request) {
+        customerCateRepository.save(request.toEntity());
+    }
+
+    public void deleteCustomerCate(CustomerCateRequest request) {
+        customerRepository.deleteById(request.getCustomerCateId());
     }
 }
