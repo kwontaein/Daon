@@ -1,5 +1,11 @@
 export type CustomerCateType = {
-    customerCateId:string,
-    customerCateKey:string,
+    customerCateId:string|null,
     customerCateName:string,
 }
+export type CustomerCatePageProps ={
+    searchParams: Promise<{
+        mode: CateMode
+    }>
+}
+
+export type CateMode = 'add' | 'edit' | null
