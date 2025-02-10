@@ -1,7 +1,6 @@
 package com.example.daon.customer.dto.request;
 
 import com.example.daon.customer.model.CustomerCateEntity;
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.util.UUID;
@@ -13,6 +12,7 @@ public class CustomerCateRequest {
 
     public CustomerCateEntity toEntity() {
         return CustomerCateEntity.builder()
+                .customerCateId(customerCateId)
                 .customerCateName(customerCateName)
                 .build();
     }
