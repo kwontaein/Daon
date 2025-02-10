@@ -29,7 +29,11 @@ public class StockService {
                 if (stockCate != null) {
                     predicates.add(criteriaBuilder.equal(root.get("category"), stockCate));
                 }
+            } else {//분류가 없다면 관리비를 제외한 모든 것 검색
+                StockCate stockCate = stockCateRepository.findByCateKey("MC").orElse(null);
+                predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
+
 
             // 이름 (name) 검색
             if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
@@ -45,6 +49,24 @@ public class StockService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
+
+    public List<StockEntity> getMCList(StockRequest stockRequest) {
+        return stockRepository.findAll((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            // 분류가 관리비인 것만 검색
+            StockCate stockCate = stockCateRepository.findByCateKey("MC").orElse(null);
+            predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
+
+            // 이름 (name) 검색
+            if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getName()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+    }
+
 
     //업데이트 및 생성
     @Transactional

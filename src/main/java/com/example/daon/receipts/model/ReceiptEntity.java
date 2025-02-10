@@ -1,6 +1,7 @@
-package com.example.daon.sales.model;
+package com.example.daon.receipts.model;
 
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.estimate.model.EstimateEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

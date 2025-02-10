@@ -1,4 +1,4 @@
-package com.example.daon.sales.model;
+package com.example.daon.estimate.model;
 
 import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;

@@ -1,11 +1,10 @@
-package com.example.daon.sales.dto.request;
+package com.example.daon.estimate.dto.request;
 
 import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.sales.model.EstimateEntity;
-import com.example.daon.sales.model.EstimateItem;
-import jakarta.persistence.*;
+import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.estimate.model.EstimateItem;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.example.daon.sales.dto.request;
+package com.example.daon.estimate.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,11 +1,10 @@
 package com.example.daon.stock.dto.request;
 
+import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.model.cate.TaxationCate;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -37,6 +36,8 @@ public class StockRequest {
     //----------------------------------------------
 
     private boolean remain;
+
+    private ReceiptCategory receiptCategory;
 
     public StockEntity toEntity(StockCate stockCate) {
         return StockEntity
