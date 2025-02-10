@@ -1,5 +1,6 @@
 package com.example.daon.customer.controller;
 
+import com.example.daon.customer.dto.request.CustomerCateRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerCateEntity;
 import com.example.daon.customer.model.CustomerEntity;
@@ -49,8 +50,19 @@ public class CustomerController {
         customerService.deleteCustomers(request);
     }
 
+    //customerCate ------------------------------------
     @GetMapping("api/getCustomerCate")
     public List<CustomerCateEntity> getCustomerCate() {
         return customerService.getCustomerCate();
+    }
+
+    @PostMapping("api/saveCustomerCate")
+    public void saveCustomerCate(@RequestBody CustomerCateRequest request) {
+        customerService.saveCustomerCate(request);
+    }
+
+    @PostMapping("api/deleteCustomerCate")
+    public void deleteCustomerCate(@RequestBody CustomerCateRequest request) {
+        customerService.deleteCustomerCate(request);
     }
 }

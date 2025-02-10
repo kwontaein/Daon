@@ -1,8 +1,6 @@
 package com.example.daon.task.model;
 
-import com.example.daon.sales.model.ReceiptCategory;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

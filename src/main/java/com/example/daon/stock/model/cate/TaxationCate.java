@@ -1,6 +1,5 @@
 package com.example.daon.stock.model.cate;
 
-import com.example.daon.ledger.model.cate.ExpenseCategory;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ public enum TaxationCate {
     EXEMPTION("비과세"),
     TAXATION("과세"),
     ZEROTAX("영세"),
+    MC("관리비"),
     ETC("예비");
 
     private final String cate;

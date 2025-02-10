@@ -22,7 +22,4 @@ public class StockCate {
 
     @Column(nullable = false, name = "cate_key")
     private String cateKey; // 분류 키
-
-    @Column(nullable = false, name = "cate_code")
-    private String cateCode; // 분류 코드
 }
