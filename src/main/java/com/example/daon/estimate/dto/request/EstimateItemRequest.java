@@ -1,15 +1,10 @@
-package com.example.daon.sales.dto.request;
+package com.example.daon.estimate.dto.request;
 
-import com.example.daon.sales.model.EstimateEntity;
-import com.example.daon.sales.model.EstimateItem;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.estimate.model.EstimateItem;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Data

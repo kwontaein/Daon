@@ -1,11 +1,9 @@
-package com.example.daon.sales.model;
+package com.example.daon.receipts.model;
 
-import com.example.daon.customer.model.CustomerBillEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 @Getter

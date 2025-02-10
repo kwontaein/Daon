@@ -1,7 +1,6 @@
-package com.example.daon.sales.repository;
+package com.example.daon.estimate.repository;
 
-import com.example.daon.sales.model.EstimateEntity;
-import com.example.daon.sales.model.ReceiptEntity;
+import com.example.daon.estimate.model.EstimateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

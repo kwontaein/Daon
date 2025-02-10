@@ -2,14 +2,10 @@ package com.example.daon.customer.dto.request;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.sales.model.EstimateEntity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data

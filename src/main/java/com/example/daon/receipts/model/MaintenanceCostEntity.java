@@ -1,14 +1,21 @@
-package com.example.daon.sales.model;
+package com.example.daon.receipts.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-public class ReceiptOfficialEntity {
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "maintenance_cost")
+public class MaintenanceCostEntity {
     //관리비 분류
     //아이디
     @Id

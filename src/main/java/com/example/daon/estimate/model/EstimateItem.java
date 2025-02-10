@@ -1,4 +1,4 @@
-package com.example.daon.sales.model;
+package com.example.daon.estimate.model;
 
 import jakarta.persistence.*;
 import lombok.*;
