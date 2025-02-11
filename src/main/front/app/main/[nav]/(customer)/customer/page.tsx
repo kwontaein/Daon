@@ -24,7 +24,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
 
     
     const customerCate = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 360000, tags: ['customers-cate']} //1시간마다 재검증
+        next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
