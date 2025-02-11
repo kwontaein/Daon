@@ -20,6 +20,8 @@ public class StockService {
     private final StockRepository stockRepository;
     private final StockCateRepository stockCateRepository;
 
+
+    //품목 목록 불러오기
     public List<StockEntity> getStockList(StockRequest stockRequest) {
         return stockRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -51,6 +53,7 @@ public class StockService {
         });
     }
 
+    //관리비 목록 불러오기
     public List<StockEntity> getMCList(StockRequest stockRequest) {
         return stockRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -69,17 +72,25 @@ public class StockService {
     }
 
 
-    //업데이트 및 생성
+    // 생성
     @Transactional
     public void saveStock(StockRequest stockRequest) {
         // 1) 카테고리 조회
         StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
 
+        // 새로 생성
+        StockEntity newStock = stockRequest.toEntity(stockCate);
+        stockRepository.save(newStock);
+    }
+
+    //업데이트
+    public void updateStock(StockRequest stockRequest) {
+        StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
         // 2) 기존 재고 존재 여부 확인
         UUID stockId = stockRequest.getStockId();
         // stockId가 null이면 "새로 생성"으로 처리한다고 가정
-
         if (stockId != null) {
             // 업데이트 로직
             StockEntity existingStock = stockRepository.findById(stockId)
@@ -91,12 +102,12 @@ public class StockService {
                 // 실제로는 existingStock가 영속 상태이므로 save() 호출 없이도 업데이트 가능
                 // 하지만 명시적으로 호출해줘도 문제는 없다.
                 stockRepository.save(existingStock);
-                return;
             }
         }
+    }
 
-        // 새로 생성
-        StockEntity newStock = stockRequest.toEntity(stockCate);
-        stockRepository.save(newStock);
+    @Transactional
+    public void deleteStock(StockRequest stockRequest) {
+        stockRepository.deleteById(stockRequest.getStockId());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.daon.admin.service;
 
+import com.example.daon.admin.dto.request.CompanyRequest;
 import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.Position;
@@ -15,14 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.core.Authentication;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 
 //회사, 사원관리
 @Service
@@ -92,16 +94,10 @@ public class AdminService {
             // 비밀번호가 틀린 경우
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PW_ERROR");
         }
-
-    }
-
-    //회원가입
-    public void SignUp(UserRequest userRequest) {
-
     }
 
     //회사정보 crud
-    public void CreateCompany() {
+    public void CreateCompany(CompanyRequest companyRequest) {
 
     }
 
@@ -109,11 +105,11 @@ public class AdminService {
 
     }
 
-    public void UpdateCompany() {
+    public void UpdateCompany(CompanyRequest companyRequest) {
 
     }
 
-    public void DeleteCompany() {
+    public void DeleteCompany(CompanyRequest companyRequest) {
 
     }
 
@@ -121,20 +117,22 @@ public class AdminService {
     //사원정보 crud
 
     public void CreateEmployee(UserRequest userRequest) {
-        System.out.println(userRequest.toEntity().toString());
-        userRepository.save(userRequest.toEntity());
+        System.out.println(userRequest.toEntity(passwordEncoder).toString());
+        userRepository.save(userRequest.toEntity(passwordEncoder));
     }
 
-    public void ReadEmployee() {
-
+    public List<UserEntity> GetEmployee() {
+        return userRepository.findAll();
     }
 
-    public void UpdateEmployee() {
-
+    public void UpdateEmployee(UserRequest userRequest) {
+        UserEntity user = userRepository.findById(userRequest.getId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+        user.updateFromRequest(userRequest);
+        userRepository.save(user);
     }
 
-    public void DeleteEmployee() {
-
+    public void DeleteEmployee(UserRequest userRequest) {
+        userRepository.deleteById(userRequest.getId());
     }
 
 }
