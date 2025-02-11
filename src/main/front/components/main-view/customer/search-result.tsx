@@ -12,19 +12,25 @@ import Pagination from '@/components/pagination';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
 import { CustomerSearchCondition } from '@/hooks/redux/slice/customer-search';
+import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 
 const CustomerCategoryMap = {
     SALE:'판매처', 
-    BUY: '구매처',
+    PURCHASE: '구매처',
     CONSUMER: '소비자',
-    WORK: '하청업체',
+    SUBCONTRACTOR: '하청업체',
     ETC: '기타'
 }
-function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
+export default function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
     const [pageByCustomer, setPageByCustomer] = useState<ResponseCustomer[]>([])
-    
+    const [loading, setLoading] = useState<boolean>(true)
+    //router control
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+  
     const customerIdList = pageByCustomer.map((({customerId})=> customerId))
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
     const {searchInputTarget, searchInput, postSearchInfo, isSearch} = useSelector((state:RootState)=> state.customerSearch);
@@ -49,6 +55,10 @@ function CustomerSearchResult({initialCustomers, page}:{initialCustomers:Respons
                 }
                 console.error('Error:', error)
         })
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.delete("page"); 
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`); 
     }
     useEffect(()=>{
         if(isSearch) {
@@ -61,6 +71,7 @@ function CustomerSearchResult({initialCustomers, page}:{initialCustomers:Respons
 
     useEffect(()=>{
         setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
+        setLoading(false)
     },[customers, page])
 
     return(
@@ -110,18 +121,24 @@ function CustomerSearchResult({initialCustomers, page}:{initialCustomers:Respons
                             </td>
                         </tr>
                     ))}
+                    {!loading && pageByCustomer.length===0 && 
+                        <tr>
+                            <td colSpan={9}>
+                                <p>조회된 결과가 없습니다.</p>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-            <Pagination
-                       totalItems={customers.length}
-                       itemCountPerPage={20} 
-                       pageCount={5} 
-                       currentPage={Number(page)}
+            {!loading  &&
+                <Pagination
+                    totalItems={customers.length}
+                    itemCountPerPage={20} 
+                    pageCount={5} 
+                    currentPage={Number(page)}
                 />
+            }
         </>
     )
 }
 
-export default memo(CustomerSearchResult, (prevProps, nextProps) => {
-    return JSON.stringify(prevProps.initialCustomers) === JSON.stringify(nextProps.initialCustomers);
-});

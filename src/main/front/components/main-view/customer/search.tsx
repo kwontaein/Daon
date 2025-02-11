@@ -50,15 +50,15 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>소속</td>
                         <td className="table-input">
                             <label>
-                                <select name="classification" size={1} 
+                                <select name="classification" size={1}
                                         value={postSearchInfo.cateId}
                                         onChange={(e)=>dispatch(updateSearchQuery({cateId: e.target.value}))}>
-                                    <option value='none'>선택안함</option>
-                                    {customerCate.map((cate)=>(
-                                        <option key={cate.customerCateKey} value={cate.customerCateId}>
-                                                {cate.customerCateName}
-                                        </option>
-                                    ))}
+                                        <option value='none'>선택안함</option>
+                                        {customerCate.map((cate)=>(
+                                            <option key={cate.customerCateId} value={cate.customerCateId}>
+                                                    {cate.customerCateName}
+                                            </option>
+                                        ))}
                                 </select>
                             </label>
                         </td>
