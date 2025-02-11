@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class StockService {
                     predicates.add(criteriaBuilder.equal(root.get("category"), stockCate));
                 }
             } else {//분류가 없다면 관리비를 제외한 모든 것 검색
-                StockCate stockCate = stockCateRepository.findByCateKey("MC").orElse(null);
+                StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
                 predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
 
@@ -55,7 +56,7 @@ public class StockService {
             List<Predicate> predicates = new ArrayList<>();
 
             // 분류가 관리비인 것만 검색
-            StockCate stockCate = stockCateRepository.findByCateKey("MC").orElse(null);
+            StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
             predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
 
             // 이름 (name) 검색
@@ -71,7 +72,31 @@ public class StockService {
     //업데이트 및 생성
     @Transactional
     public void saveStock(StockRequest stockRequest) {
-        StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory()).orElse(null);
-        stockRepository.save(stockRequest.toEntity(stockCate));
+        // 1) 카테고리 조회
+        StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
+
+        // 2) 기존 재고 존재 여부 확인
+        UUID stockId = stockRequest.getStockId();
+        // stockId가 null이면 "새로 생성"으로 처리한다고 가정
+
+        if (stockId != null) {
+            // 업데이트 로직
+            StockEntity existingStock = stockRepository.findById(stockId)
+                    .orElse(null);
+
+            if (existingStock != null) {
+                // 이미 존재하면 필요한 필드만 업데이트
+                existingStock.updateFromRequest(stockRequest, stockCate);
+                // 실제로는 existingStock가 영속 상태이므로 save() 호출 없이도 업데이트 가능
+                // 하지만 명시적으로 호출해줘도 문제는 없다.
+                stockRepository.save(existingStock);
+                return;
+            }
+        }
+
+        // 새로 생성
+        StockEntity newStock = stockRequest.toEntity(stockCate);
+        stockRepository.save(newStock);
     }
 }
