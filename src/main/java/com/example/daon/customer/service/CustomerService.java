@@ -90,8 +90,8 @@ public class CustomerService {
             // 요청 객체에서 ID 추출
             UUID cateId = request.getCustomerCateId();
             // 1) 이미 존재하는 ID인지 확인
-            CustomerCateEntity existingEntity = customerCateRepository.findById(cateId)
-                    .orElse(null);
+            CustomerCateEntity existingEntity;
+            existingEntity = customerCateRepository.findById(cateId).orElse(null);
 
             if (existingEntity != null) {
                 // → 존재하는 경우: 업데이트
@@ -99,11 +99,11 @@ public class CustomerService {
                 existingEntity.updateFromRequest(request);
 
                 //    변경된 엔티티 저장
-                customerCateRepository.save(existingEntity);
             } else {
                 // → 해당 ID에 해당하는 엔티티가 없으면 새로 저장
-                customerCateRepository.save(request.toEntity());
+                existingEntity = request.toEntity();
             }
+            customerCateRepository.save(existingEntity);
         }
     }
 
