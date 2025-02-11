@@ -17,7 +17,6 @@ const allRequestData:CustomerSearchCondition ={
 }
 export default async function CustomerPage({searchParams}:CustomerPageProps) {
     const page = (await searchParams).page || 1;
-    const pageKey = JSON.stringify({ page }); //key값을 전달하여 리랜더 방지
 
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
