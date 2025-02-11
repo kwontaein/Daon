@@ -13,6 +13,7 @@ interface Props {
 }
 
 export default function Pagination({ totalItems, itemCountPerPage, pageCount, currentPage }: Props) {
+  
   const totalPages = Math.ceil(totalItems / itemCountPerPage); //전체 페이지 = 아이템 / 한페이지당 노출할 개수
   const [start, setStart] = useState(()=>Math.max(1, currentPage - (currentPage % pageCount) + 1));
   const noPrev = start === 1; //이전 페이지 유무
@@ -24,6 +25,9 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
         return Math.min(prev + pageCount, totalPages - pageCount + 1);
       }
       if (currentPage < prev) {
+        if(prev>totalPages){
+           return Math.max(1, currentPage - (currentPage % pageCount) + 1)
+        }
         return Math.max(1, prev - pageCount);
       }
       return prev;
