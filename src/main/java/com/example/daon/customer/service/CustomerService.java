@@ -109,6 +109,7 @@ public class CustomerService {
 
 
     public void deleteCustomerCate(CustomerCateRequest request) {
+        System.out.println("삭제요청"+request);
         customerRepository.deleteById(request.getCustomerCateId());
     }
 }

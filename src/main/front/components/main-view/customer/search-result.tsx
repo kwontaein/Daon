@@ -33,7 +33,7 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
   
     const customerIdList = pageByCustomer.map((({customerId})=> customerId))
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
-    const {searchInputTarget, searchInput, postSearchInfo, isSearch} = useSelector((state:RootState)=> state.customerSearch);
+    const {searchInputTarget, searchInput, postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.customerSearch);
 
     const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition) =>{
         await fetch("http://localhost:8080/api/getCustomers", {
@@ -67,7 +67,11 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             const searchCondition ={...postSearchInfo, cateId, category, [searchInputTarget]:searchInput}
             fetchSearchCustomers(searchCondition)
         }
-    },[isSearch])
+        if(allView){
+            setCustomers(initialCustomers)
+            setPageByCustomer(initialCustomers.slice((page-1)*20, ((page-1)*20)+20))
+        }
+    },[isSearch,allView])
 
     useEffect(()=>{
         setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
