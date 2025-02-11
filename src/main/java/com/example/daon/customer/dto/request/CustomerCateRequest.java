@@ -12,6 +12,7 @@ public class CustomerCateRequest {
 
     public CustomerCateEntity toEntity() {
         return CustomerCateEntity.builder()
+                .customerCateId(customerCateId)
                 .customerCateName(customerCateName)
                 .build();
     }

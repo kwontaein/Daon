@@ -1,5 +1,6 @@
 package com.example.daon.customer.model;
 
+import com.example.daon.customer.dto.request.CustomerCateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +29,9 @@ public class CustomerCateEntity {
     //이름
     @Column(name = "customer_cate_name")
     private String customerCateName;
+
+    public void updateFromRequest(CustomerCateRequest request) {
+        this.customerCateName = request.getCustomerCateName();
+        // 필요한 필드 추가 업데이트
+    }
 }
