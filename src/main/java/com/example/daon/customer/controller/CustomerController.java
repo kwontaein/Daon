@@ -26,7 +26,8 @@ public class CustomerController {
     @PostMapping("api/getCustomers")
     public List<CustomerEntity> getCustomers(@RequestBody CustomerRequest request) {
         System.out.println("고객정보 받아오기 : " + request.toString());
-        return customerService.getCustomers(request.getCategory()
+        return customerService.getCustomers(
+                request.getCategory()
                 , request.getCateId()
                 , request.getCustomerName()
                 , request.getSearchTarget()
@@ -37,6 +38,11 @@ public class CustomerController {
     @PostMapping("api/saveCustomer")
     public void saveCustomer(@RequestBody CustomerRequest request) {
         customerService.saveCustomer(request);
+    }
+
+    @PostMapping("api/updateCustomer")
+    public void updateCustomer(@RequestBody CustomerRequest request) {
+        customerService.updateCustomer(request);
     }
 
     @PostMapping("api/deleteCustomers")
@@ -50,9 +56,13 @@ public class CustomerController {
         return customerService.getCustomerCate();
     }
 
+    @PostMapping("api/updateCustomerCate")
+    public void updateCustomerCate(@RequestBody List<CustomerCateRequest> request) {
+        customerService.updateCustomerCate(request);
+    }
+
     @PostMapping("api/saveCustomerCate")
-    public void saveCustomerCate(@RequestBody List<CustomerCateRequest> request) {
-        System.out.println(request.toString());
+    public void saveCustomerCate(@RequestBody CustomerCateRequest request) {
         customerService.saveCustomerCate(request);
     }
 

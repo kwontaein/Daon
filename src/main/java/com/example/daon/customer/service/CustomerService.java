@@ -5,6 +5,7 @@ import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.customer.dto.request.CustomerCateRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerBillEntity;
+import com.example.daon.customer.model.CustomerCate;
 import com.example.daon.customer.model.CustomerCateEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerCateRepository;
@@ -14,6 +15,7 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final CustomerCateRepository customerCateRepository;
 
-    public List<CustomerEntity> getCustomers(String category, UUID cateId, String customerName, String searchTarget, String ceo) {
+    public List<CustomerEntity> getCustomers(CustomerCate category, UUID cateId, String customerName, String searchTarget, String ceo) {
         return customerRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -74,9 +76,19 @@ public class CustomerService {
 
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
-        customerRepository.save(request.toEntity(user));
+        CustomerCateEntity customerCateEntity = customerCateRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        customerRepository.save(request.toEntity(user, customerCateEntity));
     }
 
+    @Transactional
+    public void updateCustomer(CustomerRequest request) {
+        CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 고객입니다."));
+        CustomerCateEntity customerCateEntity = customerCateRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        customer.updateFromRequest(request, customerCateEntity);
+        customerRepository.save(customer);
+    }
+
+    @Transactional
     public void deleteCustomers(CustomerRequest request) {
         customerRepository.deleteById(request.getCustomerId());
     }
@@ -85,29 +97,26 @@ public class CustomerService {
         return customerCateRepository.findAll();
     }
 
-    public void saveCustomerCate(List<CustomerCateRequest> requests) {
+    public void saveCustomerCate(CustomerCateRequest request) {
+        customerCateRepository.save(request.toEntity());
+    }
+
+    @Transactional
+    public void updateCustomerCate(List<CustomerCateRequest> requests) {
         for (CustomerCateRequest request : requests) {
-            // 요청 객체에서 ID 추출
-            UUID cateId = request.getCustomerCateId();
-            // 1) 이미 존재하는 ID인지 확인
             CustomerCateEntity existingEntity;
-            existingEntity = customerCateRepository.findById(cateId).orElse(null);
+            existingEntity = customerCateRepository.findById(request.getCustomerCateId()).orElse(null);
 
-            if (existingEntity != null) {
-                // → 존재하는 경우: 업데이트
-                //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
-                existingEntity.updateFromRequest(request);
+            //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
+            existingEntity.updateFromRequest(request);
 
-                //    변경된 엔티티 저장
-            } else {
-                // → 해당 ID에 해당하는 엔티티가 없으면 새로 저장
-                existingEntity = request.toEntity();
-            }
+            //    변경된 엔티티 저장
             customerCateRepository.save(existingEntity);
         }
     }
 
 
+    @Transactional
     public void deleteCustomerCate(CustomerCateRequest request) {
         customerRepository.deleteById(request.getCustomerCateId());
     }

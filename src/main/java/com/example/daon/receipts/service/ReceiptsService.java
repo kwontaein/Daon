@@ -12,6 +12,7 @@ import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.stock.model.StockEntity;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -70,7 +71,14 @@ public class ReceiptsService {
         if (request.getEstimateId() != null) {
             entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
         }
+        ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+
+        if (receiptEntity != null) {
+            receiptEntity.updateFromRequest(request, customer);
+            return;
+        }
+
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer);
         //그리고 저장
@@ -88,7 +96,7 @@ public class ReceiptsService {
      */
     private void updateCustomerBill(CustomerEntity customer, ReceiptCategory type, int price) {
         CustomerBillEntity customerBillEntity = customerBillRepository.findByCustomer(customer).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
-        //잔액 = 입금 + 매입 - 지급액 + 전기이월 + 매출액 - 매출할인 - 수금액 + 매입할인
+        //잔액 = 전기이월  + 매출액 - 수금액 + 매입 - 지급액 - 매출할인 + 매입할인
         //currentBalance = paymentAmount + purchaseAmount - paymentAmount + previousBalance + salesAmount - salesDiscount - collectionAmount + purchaseDiscount
         //내용 수정
         switch (type) {
@@ -225,4 +233,7 @@ public class ReceiptsService {
     }
 
     //관리비 목록 불러오기
+    public List<StockEntity> getMCList() {
+        return null;
+    }
 }
