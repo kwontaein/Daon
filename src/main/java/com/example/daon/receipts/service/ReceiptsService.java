@@ -79,9 +79,17 @@ public class ReceiptsService {
         updateCustomerBill(customer, receipt.getCategory(), receipt.getTotalPrice());
     }
 
+    /**
+     * 미수미지급을 위한 각 계산 통계
+     *
+     * @param customer 고객
+     * @param type     전표 타입
+     * @param price    가격
+     */
     private void updateCustomerBill(CustomerEntity customer, ReceiptCategory type, int price) {
         CustomerBillEntity customerBillEntity = customerBillRepository.findByCustomer(customer).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
-
+        //잔액 = 입금 + 매입 - 지급액 + 전기이월 + 매출액 - 매출할인 - 수금액 + 매입할인
+        //currentBalance = paymentAmount + purchaseAmount - paymentAmount + previousBalance + salesAmount - salesDiscount - collectionAmount + purchaseDiscount
         //내용 수정
         switch (type) {
             case SALES -> customerBillEntity.setSalesAmount(customerBillEntity.getSalesAmount() + price);
@@ -94,6 +102,7 @@ public class ReceiptsService {
             default -> throw new UnsupportedOperationException("처리할 수 없는 ReceiptCategory 입니다: " + type);
         }
         //저장
+        customerBillEntity.setCurrentBalance(0);
         customerBillRepository.save(customerBillEntity);
     }
 
