@@ -7,9 +7,9 @@ import com.example.daon.admin.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -69,11 +69,10 @@ public class UserRequest {
     //부서 -> enum
     private Position position;
 
-
-    public UserEntity toEntity() {
+    public UserEntity toEntity(PasswordEncoder passwordEncoder) {
         return UserEntity.builder()
                 .userId(id)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .married(married)
                 .joinDate(joinDate)
                 .birthday(birthday)

@@ -31,9 +31,22 @@ public class StockController {
         return stockEntities;
     }
 
-    //업데이트 및 생성
+    //생성
     @PostMapping("api/saveStock")
     public void saveStock(@RequestBody StockRequest stockRequest) {
         stockService.saveStock(stockRequest);
+    }
+
+
+    //업데이트
+    @PostMapping("api/updateStock")
+    public void updateStock(@RequestBody StockRequest stockRequest) {
+        stockService.updateStock(stockRequest);
+    }
+
+    //삭제
+    @PostMapping("api/deleteStock")
+    public void deleteStock(@RequestBody StockRequest stockRequest) {
+        stockService.deleteStock(stockRequest);
     }
 }

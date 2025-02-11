@@ -1,10 +1,13 @@
 package com.example.daon.admin.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.example.daon.admin.dto.request.UserRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 @Entity(name = "user")
 @Builder
@@ -162,4 +164,22 @@ public class UserEntity implements UserDetails {
     }
 
 
+    public void updateFromRequest(UserRequest userRequest) {
+        this.married = userRequest.isMarried();
+        this.joinDate = userRequest.getJoinDate();
+        this.birthday = userRequest.getBirthday();
+        this.name = userRequest.getName();
+        this.engName = userRequest.getEngName();
+        this.chName = userRequest.getChName();
+        this.zipcode = userRequest.getZipcode();
+        this.address = userRequest.getAddress();
+        this.addressDetail = userRequest.getAddressDetail();
+        this.tel = userRequest.getTel();
+        this.phone = userRequest.getPhone();
+        this.email = userRequest.getEmail();
+        this.memo = userRequest.getMemo();
+        this.userClass = userRequest.getUserClass();
+        this.userRole = userRequest.getUserRole();
+        this.position = userRequest.getPosition();
+    }
 }
