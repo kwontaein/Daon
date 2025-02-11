@@ -1,31 +1,18 @@
 'use client'
 import {CateMode, CustomerCateType} from "@/types/customer/cate/type";
 import './customer-cate.scss';
-import Link from "next/link";
 import {useState, useRef} from "react";
-import {revalidatePath} from "next/cache";
+import {v4 as uuidv4} from "uuid";
+
+import { deleteCateApi, updateCateApi } from "@/hooks/customer/updateCateApi";
+import { useConfirm } from "@/hooks/share/useConfrim";
+
 
 export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: CustomerCateType[] }) {
     const [cateState, setCateState] = useState<CustomerCateType[]>(InitCustomerCate)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
-    const updateCate = async (cates: CustomerCateType[]) => {
-        return fetch("http://localhost:8080/api/saveCustomerCate", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(cates),
-        }).then(async (response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            revalidatePath('customersCate')
-        }).catch((error) => {
-            console.error('Error:', error)
-        })
-    }
 
     const editHandler = () => {
         if (!mode) {
@@ -35,13 +22,15 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
         const postCate = cateState.filter(({customerCateName}, index) =>
             InitCustomerCate[index].customerCateName !== customerCateName)
         const postAble = postCate.every(({customerCateName}) => customerCateName !== '')
-        if (postAble) {
-            updateCate(postCate).then(() => {
+        if (postCate.length>0 && postAble) {
+            updateCateApi(postCate).then(() => {
                 window.alert('수정이 완료되었습니다.')
                 setMode(null)
             })
-        } else {
+        } else if(postCate.length>0 && !postAble){
             window.alert('소속명을 입력하세요.')
+        }else{
+            setMode(null)
         }
     }
 
@@ -52,7 +41,8 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            updateCate([{customerCateId: null, customerCateName: addInputRef.current.value}])
+            const uuid = uuidv4()
+            updateCateApi([{customerCateId: uuid, customerCateName: addInputRef.current.value}],)
                 .then(() => {
                     window.alert('저장이 완료되었습니다.')
                     setMode(null)
@@ -61,6 +51,12 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
             window.alert('소속명을 입력하세요.')
         }
     }
+
+    const deleteHandler=(cate:CustomerCateType)=>{
+        const isPost = useConfirm('정말로 삭제하시겠습니까?', ()=>deleteCateApi(cate),()=>{})
+        if(isPost) window.alert('삭제가 완료되었습니다.')
+    }
+
     return (
         <>
             <table className="customer-cate-table">
@@ -96,7 +92,7 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
                             }
                         </td>
                         <td>
-                            <button>삭제</button>
+                            <button onClick={deleteHandler.bind(null,cate)}>삭제</button>
                         </td>
                     </tr>
                 ))}
