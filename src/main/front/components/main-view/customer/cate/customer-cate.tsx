@@ -4,7 +4,7 @@ import './customer-cate.scss';
 import {useState, useRef} from "react";
 import {v4 as uuidv4} from "uuid";
 
-import { deleteCateApi, updateCateApi } from "@/hooks/customer/updateCateApi";
+import { deleteCateApi, updateCateApi } from "@/hooks/customer/cate/updateCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
 
 
@@ -23,9 +23,11 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
             InitCustomerCate[index].customerCateName !== customerCateName)
         const postAble = postCate.every(({customerCateName}) => customerCateName !== '')
         if (postCate.length>0 && postAble) {
-            updateCateApi(postCate).then(() => {
-                window.alert('수정이 완료되었습니다.')
-                setMode(null)
+            updateCateApi(postCate).then((status) => {
+                if(status === 200){
+                     window.alert('수정이 완료되었습니다.')
+                     setMode(null)
+                }
             })
         } else if(postCate.length>0 && !postAble){
             window.alert('소속명을 입력하세요.')
@@ -42,12 +44,14 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
             const uuid = uuidv4()
-            updateCateApi([{customerCateId: uuid, customerCateName: addInputRef.current.value}],)
-                .then(() => {
-                    window.alert('저장이 완료되었습니다.')
-                    setMode(null)
+            updateCateApi([{customerCateId: uuid, customerCateName: addInputRef.current.value}])
+                .then((status) => {
+                    if(status === 200){
+                        window.alert('수정이 완료되었습니다.')
+                        setMode(null)
+                   }
                 })
-        } else {
+        }else {
             window.alert('소속명을 입력하세요.')
         }
     }
