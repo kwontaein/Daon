@@ -9,9 +9,10 @@ export default async function CustomerCatePage() {
             next: { tags: ['customersCate']} 
         }
     )
-        .then((response)=> response.json())
-        .catch((error) => console.error('Error:', error));
+    .then((response)=> response.json())
+    .catch((error) => console.error('Error:', error));
         
+    console.log(InitCustomerCate)
     return (
         <section>
             <CustomerCate InitCustomerCate={InitCustomerCate}/>
