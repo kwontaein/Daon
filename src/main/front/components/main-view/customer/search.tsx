@@ -6,7 +6,7 @@ import { CustomerCateType } from '@/types/customer/cate/type';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
 import { useDispatch } from 'react-redux';
-import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery } from '@/hooks/redux/slice/customer-search';
+import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery, RequestAllCustomerData } from '@/hooks/redux/slice/customer-search';
 
 export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
     const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
@@ -68,7 +68,11 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                                     dispatch(RequestCustomerData(true))
                                     setTimeout(()=>{dispatch(RequestCustomerData(false))},1000)
                                 }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button>전 체 보 기</button>
+                                <button onClick={()=>{
+                                    dispatch(RequestAllCustomerData(true))
+                                    dispatch(ResetSearchQuery())
+                                    setTimeout(()=>{dispatch(RequestAllCustomerData(false))},1000)
+                                }}>전 체 보 기</button>
                                 <button>신 규 등 록</button>
                                 <button>엑 셀 변 환</button>
                            </div>
