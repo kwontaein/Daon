@@ -1,5 +1,6 @@
 package com.example.daon.stock.model;
 
+import com.example.daon.stock.dto.request.StockRequest;
 import com.example.daon.stock.model.cate.TaxationCate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -58,4 +59,18 @@ public class StockEntity {
     //키워드
     @Column(name = "key_word")
     private String keyWord;
+
+    public void updateFromRequest(StockRequest request, StockCate category) {
+
+        this.name = request.getName();
+        this.quantity = request.getQuantity();
+        this.inPrice = request.getInPrice();
+        this.outPrice = request.getOutPrice();
+        this.modelName = request.getModelName();
+        this.category = category;
+        this.taxation = request.getTaxation();
+        this.note = request.getNote();
+        this.stockUseEa = request.isStockUseEa();
+        this.keyWord = request.getKeyWord();
+    }
 }
