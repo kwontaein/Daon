@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface StockCateRepository extends JpaRepository<StockCate, UUID>, JpaSpecificationExecutor<StockCate> {
-    Optional<StockCate> findByCateKey(@Param("Mc") String mc);
+    Optional<StockCate> findByStockCateName(@Param("name") String name);
 
 }
