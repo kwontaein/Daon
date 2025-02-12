@@ -118,6 +118,6 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomerCate(CustomerCateRequest request) {
-        customerRepository.deleteById(request.getCustomerCateId());
+        customerCateRepository.deleteById(request.getCustomerCateId());
     }
 }
