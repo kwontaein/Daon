@@ -1,6 +1,7 @@
 package com.example.daon.customer.model;
 
 import com.example.daon.admin.model.UserEntity;
+import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.estimate.model.EstimateEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -132,4 +133,56 @@ public class CustomerEntity {
 
     @OneToOne
     private CustomerBillEntity customerBills;
+
+    public void updateFromRequest(CustomerRequest request, CustomerCateEntity customerCate) {
+        //상호명
+        this.customerName = request.getCustomerName();
+        //고객정보
+        this.contactInfo = request.getContactInfo();
+        //계산서명
+        this.billName = request.getBillName();
+        //대표자
+        this.ceo = request.getCeo();
+        //대표자 주민등록번호
+        this.ceoNum = request.getCeoNum();
+        //사업자등록번호
+        this.companyNum = request.getCompanyNum();
+        //업태
+        this.businessType = request.getBusinessType();
+        //종목
+        this.contents = request.getContents();
+        //담당
+        this.customerRp = request.getCustomerRp();
+        //담당자 연락처
+        this.customerRpCall = request.getCustomerRpCall();
+        //통장명
+        this.bankName = request.getBankName();
+        //계좌번호
+        this.bankNum = request.getBankNum();
+        //예금주
+        this.bankOwner = request.getBankOwner();
+        //취급품목
+        this.handlingItem = request.getHandlingItem();
+        //메모
+        this.memo = request.getMemo();
+        //구분
+        this.category = request.getCategory();
+        //전화
+        this.phoneNumber = request.getPhoneNumber();
+        //팩스
+        this.fax = request.getFax();
+        //고객분류
+        this.customerCateId = customerCate;
+        //우편번호
+        this.zipCode = request.getZipCode();
+        //주소
+        this.address1 = request.getAddress1();
+        //상세주소
+        this.address2 = request.getAddress2();
+        //담당기사명
+        this.etc = request.getEtc();
+        //담당기사
+        this.user = request.getUser();
+
+    }
 }
