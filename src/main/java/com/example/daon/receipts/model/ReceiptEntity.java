@@ -2,6 +2,7 @@ package com.example.daon.receipts.model;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.receipts.dto.request.ReceiptRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,4 +53,13 @@ public class ReceiptEntity {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description; // 전표 설명 (적요)
+
+    public void updateFromRequest(ReceiptRequest request, CustomerEntity customer) {
+        this.category = request.getCategory();
+        this.customer = customer;
+        this.itemNumber = request.getItemNumber();
+        this.quantity = request.getQuantity();
+        this.totalPrice = request.getTotalPrice();
+        this.description = request.getDescription();
+    }
 }

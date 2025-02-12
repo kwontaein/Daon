@@ -1,13 +1,16 @@
 package com.example.daon.admin.controller;
 
+import com.example.daon.admin.dto.request.CompanyRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 회사 사원관리
@@ -34,8 +37,8 @@ public class AdminController {
 
     //회사정보 crud
     @PostMapping("api/CreateCompany")
-    public void CreateCompany() {
-        adminService.CreateCompany();
+    public void CreateCompany(@RequestBody CompanyRequest companyRequest) {
+        adminService.CreateCompany(companyRequest);
     }
 
     @PostMapping("api/ReadCompany")
@@ -44,13 +47,13 @@ public class AdminController {
     }
 
     @PostMapping("api/UpdateCompany")
-    public void UpdateCompany() {
-        adminService.UpdateCompany();
+    public void UpdateCompany(@RequestBody CompanyRequest companyRequest) {
+        adminService.UpdateCompany(companyRequest);
     }
 
     @PostMapping("api/DeleteCompany")
-    public void DeleteCompany() {
-        adminService.DeleteCompany();
+    public void DeleteCompany(@RequestBody CompanyRequest companyRequest) {
+        adminService.DeleteCompany(companyRequest);
     }
 
 
@@ -60,20 +63,19 @@ public class AdminController {
         adminService.CreateEmployee(userRequest);
     }
 
-    @PostMapping("api/ReadEmployee")
-    public void ReadEmployee() {
-        adminService.ReadEmployee();
+    @PostMapping("api/GetEmployee")
+    public List<UserEntity> GetEmployee() {
+        return adminService.GetEmployee();
     }
 
     @PostMapping("api/UpdateEmployee")
-    public void UpdateEmployee() {
-        adminService.UpdateEmployee();
+    public void UpdateEmployee(@RequestBody UserRequest userRequest) {
+        adminService.UpdateEmployee(userRequest);
     }
 
     @PostMapping("api/DeleteEmployee")
-    public void DeleteEmployee() {
-        adminService.DeleteEmployee();
+    public void DeleteEmployee(@RequestBody UserRequest userRequest) {
+        adminService.DeleteEmployee(userRequest);
     }
-
 
 }
