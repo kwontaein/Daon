@@ -23,7 +23,7 @@ public class CompanyEntity {
     //회사이름
     @Column(nullable = false, unique = false, name = "company_name")
     private String companyName;
-
+    
     //인쇄명
     @Column(nullable = false, unique = false, name = "print_name")
     private String printName;

@@ -3,9 +3,9 @@ package com.example.daon.estimate.controller;
 import com.example.daon.estimate.dto.request.EstimateRequest;
 import com.example.daon.estimate.service.EstimateService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 판매회계
@@ -33,5 +33,10 @@ public class EstimateController {
         estimateService.estimatesPaid(request);
     }
 
+    @PostMapping("api/saveEstimate")
+    public void saveEstimate(@RequestBody EstimateRequest request) {
+        estimateService.saveEstimate(request);
+
+    }
 
 }
