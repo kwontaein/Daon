@@ -4,16 +4,15 @@ import com.example.daon.customer.model.CustomerBillEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
-import com.example.daon.estimate.dto.request.CustomerBillRequest;
-import com.example.daon.global.GlobalService;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
-import com.example.daon.receipts.repository.ReceiptRepository;
+import com.example.daon.receipts.dto.request.CustomerBillRequest;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,8 +31,6 @@ public class ReceiptsService {
     private final ReceiptRepository receiptRepository;
     private final CustomerRepository customerRepository;
     private final CustomerBillRepository customerBillRepository;
-
-    private final GlobalService globalService;
 
     public List<ReceiptEntity> getReceipts(LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {

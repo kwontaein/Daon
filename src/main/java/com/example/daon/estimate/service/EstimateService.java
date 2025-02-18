@@ -3,6 +3,7 @@ package com.example.daon.estimate.service;
 import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.CompanyRepository;
+import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
@@ -32,7 +33,9 @@ public class EstimateService {
     private final EstimateItemRepository estimateItemRepository;
     private final CustomerRepository customerRepository;
     private final CustomerBillRepository customerBillRepository;
+    private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
+
 
     private final GlobalService globalService;
 
@@ -90,7 +93,8 @@ public class EstimateService {
         // 2. 관련 엔티티 가져오기
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findByCompanyName(request.getCompanyName()).orElse(null);
-        UserEntity user = globalService.getUserEntity(null);
+        UserEntity user = userRepository.findById("권태인").orElse(null);
+
 
         // 3. 새로운 아이템 리스트 변환
         List<EstimateItem> newItems = request.getItems().stream()
@@ -149,6 +153,33 @@ public class EstimateService {
         EstimateEntity estimate = estimateRepository.findById(request.getEstimateId()).orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
         //원래의 반대로 저장
         estimate.setReceipted(!estimate.isReceipted());
+        estimateRepository.save(estimate);
     }
 
+    @Transactional
+    public void saveEstimate(EstimateRequest request) {
+        System.out.println(request.toString());
+        // 1. 필요한 엔티티 조회
+        CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
+        CompanyEntity company = companyRepository.findByCompanyName(request.getCompanyName()).orElse(null);
+        UserEntity user = userRepository.findById("권태인").orElse(null);
+
+        // 2. EstimateEntity 생성
+        EstimateEntity estimate = request.toEntity(customer, company, user, null);
+
+        // 3. 아이템 리스트 변환
+        List<EstimateItem> newItems = request.getItems().stream()
+                .map(itemRequest -> itemRequest.toEntity(estimate))
+                .collect(Collectors.toList());
+
+        // 4. 연관관계 세팅(양방향인 경우):
+        // 만약 편의 메서드를 사용하지 않고 직접 리스트에 추가할 경우:
+        estimate.setItems(new ArrayList<>());  // 혹은 request.toEntity(...) 내부에서 초기화
+        for (EstimateItem item : newItems) {
+            item.setEstimate(estimate);
+            estimate.getItems().add(item);
+        }
+        // 5. EstimateEntity 저장 (cascade = ALL이므로 item들도 자동으로 저장됨)
+        estimateRepository.save(estimate);
+    }
 }
