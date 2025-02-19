@@ -3,7 +3,7 @@ import {useState, useRef} from "react";
 import {v4 as uuidv4} from "uuid";
 import {CateMode, CustomerCateType} from "@/types/customer/cate/type";
 
-import { deleteCateApi, updateCateApi } from "./customerCateApi";
+import { createCateApi, deleteCateApi, updateCateApi } from "./customerCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
 
 export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
@@ -42,7 +42,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
             const uuid = uuidv4()
-            updateCateApi([{customerCateId: uuid, customerCateName: addInputRef.current.value}])
+            createCateApi({customerCateId: uuid, customerCateName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')

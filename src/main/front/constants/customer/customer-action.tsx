@@ -1,5 +1,6 @@
-
 "use server";
+
+import {v4 as uuidv4} from "uuid";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -31,7 +32,6 @@ export async function submitBusinessInfo(prevState, formData) {
       memo: formData.get('memo'),
     };
 
-
     const errors =[]
     if(customerData.category==='none'){
         errors.push(['category', '거래처구분을 선택해주세요.'])
@@ -42,13 +42,19 @@ export async function submitBusinessInfo(prevState, formData) {
     if(isInvalidText(customerData.customerName)){
         errors.push(['customerName', '상호명을 입력해주세요.'])
     }
-    if(isInvalidText(customerData.etc)){
+    if(customerData.etc==='none'){
         errors.push(['etc', '담당자를 입력해주세요.'])
     }
 
     if(errors.length>0){
+      
         const formErrors = Object.fromEntries(errors)
-        return formErrors ;
+        formErrors.errorKey = uuidv4()
+        const state = {
+            ...customerData,
+            formErrors
+        } 
+        return state ;
     }
 
   }
