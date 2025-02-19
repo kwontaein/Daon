@@ -20,6 +20,7 @@ export interface CustomerSearch{
     searchInputTarget:CustomerSearchInputTarget
     searchInput:string
     isSearch: boolean
+    allView :boolean,
 }
 
 
@@ -33,7 +34,8 @@ const initialState:CustomerSearch={
     },
     searchInputTarget : 'customerName',
     searchInput : '',
-    isSearch:false
+    isSearch:false,
+    allView :false,
 }
 
 const customerSearch = createSlice({
@@ -56,11 +58,14 @@ const customerSearch = createSlice({
             state.postSearchInfo = initialState.postSearchInfo;
             state.searchInput = initialState.searchInput;
             state.searchInputTarget = initialState.searchInputTarget;
-        }
+        },
+        RequestAllCustomerData: (state, action:PayloadAction<boolean>)=>{
+            state.allView = action.payload;
+        },
     }
 })
 
-export const {updateSearchQuery, updateSearchInputTarget, updateSearchInput, RequestCustomerData, ResetSearchQuery} = customerSearch.actions;
+export const {updateSearchQuery, updateSearchInputTarget, updateSearchInput, RequestCustomerData, ResetSearchQuery,RequestAllCustomerData} = customerSearch.actions;
 
 
 export default customerSearch.reducer;

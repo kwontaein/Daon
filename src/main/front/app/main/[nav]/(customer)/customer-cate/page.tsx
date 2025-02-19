@@ -11,10 +11,9 @@ export default async function CustomerCatePage() {
     )
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
-        
-    console.log(InitCustomerCate)
+
     return (
-        <section>
+        <section key={JSON.stringify(InitCustomerCate)}>
             <CustomerCate InitCustomerCate={InitCustomerCate}/>
         </section>
     )
