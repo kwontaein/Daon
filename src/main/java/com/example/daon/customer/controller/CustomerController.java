@@ -35,6 +35,14 @@ public class CustomerController {
         );
     }
 
+    @PostMapping("api/getCustomer")
+    public CustomerEntity getCustomer(@RequestBody CustomerRequest request) {
+        System.out.println("고객정보 받아오기 : " + request.toString());
+        return customerService.getCustomer(
+                request.getCustomerId()
+        );
+    }
+
     @PostMapping("api/saveCustomer")
     public void saveCustomer(@RequestBody CustomerRequest request) {
         customerService.saveCustomer(request);
