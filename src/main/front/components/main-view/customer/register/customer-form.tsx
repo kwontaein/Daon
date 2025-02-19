@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { startTransition, useEffect, useOptimistic, useRef, useState } from 'react';
 import { useActionState } from 'react';
+
 import './customer-form.scss';
 import { submitBusinessInfo } from '@/constants/customer/customer-action';
 import ErrorBox from '@/components/share/error-box';
+import asideArrow from '@/assets/aside-arrow.gif';
+import Image from 'next/image';
 
 
 export default function CustomerForm() {
@@ -12,6 +15,9 @@ export default function CustomerForm() {
   const memoAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const productAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  useEffect(()=>{
+    console.log(state.category)
+  },[state])
   useEffect(() => {
     if (!memoAreaRef.current) return;
     memoAreaRef.current.style.height = 'auto';
@@ -25,44 +31,67 @@ export default function CustomerForm() {
   }, []);
 
   return (
-    <form action={action} className="customer-from-container">
+    <>
+      <header className="register-customer-header">
+          <Image src={asideArrow} alt=">" />
+          <h4>전표입력</h4>
+      </header>
+      <form onSubmit={(e)=>{
+        e.preventDefault()
+        startTransition(()=>{
+          const formData = new FormData(e.currentTarget); // 폼 데이터 생성
+          action(formData); // action 함수에 전달
+        })
+    }} className="customer-from-container">
       <table className="customer-form-table">
         <tbody>
             <tr>
               <td className='table-label'>거래처 구분</td>
               <td>
                 <select className="title-selector" size={1} name="category">
-                    <option value='none'>선택안함</option>
+                    <option value='none'>선택</option>
                     <option value="sale">판매처</option>
                     <option value="purchase">구매처</option>
                     <option value="consumer">소비자</option>
                     <option value="subcontractor">하청업체</option>
                     <option value="etc">기타</option>
                 </select>
-                {state.category &&  
-                  <ErrorBox>
-                    {state.category}
+                {state.formErrors?.category &&  
+                  <ErrorBox key={state.formErrors.errorKey}>
+                    {state.formErrors.category}
                   </ErrorBox>
                  }
               </td>
               <td className='table-label'>소속</td>
               <td>
                 <select className="title-selector" size={1} name="customerCateId">
-                    <option value='none'>선택안함</option>
+                    <option value='none'>소속선택</option>
                     <option value="individual">개인</option>
                     <option value="corporate">법인</option>
                     <option value="limited">유한������</option>
                     <option value="public">공공기관</option>
                 </select>
+                {state.formErrors?.customerCateId &&  
+                  <ErrorBox key={state.formErrors.errorKey}>
+                    {state.formErrors.customerCateId}
+                  </ErrorBox>
+                 }
               </td>
             </tr>
             <tr>
               <td className='table-label'>상호명</td>
-              <td colSpan={3}><input type='text' name="customerName"/></td>
+              <td colSpan={3}>
+                <input type='text' name="customerName"/>
+                 {state.formErrors?.customerName &&
+                  <ErrorBox key={state.formErrors?.errorKey}>
+                    {state.formErrors.customerName}
+                  </ErrorBox>
+                 }
+              </td>
             </tr>
             <tr>
               <td className='table-label'>계산서명</td>
-              <td colSpan={3}><input type='text' name="billName"/></td>
+              <td colSpan={3}><input type='text' name="billName" /></td>
             </tr>
             <tr>
               <td className='table-label'>대표자</td>
@@ -82,11 +111,17 @@ export default function CustomerForm() {
               <td className='table-label'>담당자</td>
               <td>
                 <select className="title-selector" size={1} name="etc">
-                    <option value='none'>권태인</option>
-                    <option value="sales">강승재</option>
+                    <option value='none'>선택</option>
+                    <option value='kwang'>권태인</option>
+                    <option value="kang">강승재</option>
                     <option value="purchase">어쩌고</option>
                     <option value="etc">저쩌고</option>
                 </select>
+                {state.formErrors?.etc &&  
+                  <ErrorBox key={state.formErrors.errorKey}>
+                    {state.formErrors.etc}
+                  </ErrorBox>
+                 }
               </td>
             </tr>
             <tr>
@@ -104,12 +139,12 @@ export default function CustomerForm() {
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address1'/>
+                <input name='address1' defaultValue={state.address1}/>
               </td>
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address2'/>
+                <input name='address2' defaultValue={state.address2}/>
               </td>
             </tr>
             <tr>
@@ -119,7 +154,7 @@ export default function CustomerForm() {
               <td><input type='text' name="customerRpCall"/></td>
             </tr>
             <tr>
-              <td className='table-label'>통장명</td>
+              <td className='table-label'>거래은행</td>
               <td><input type='text' name="bankName"/></td>
               <td className='table-label'>계좌번호</td>
               <td><input type='text' name="bankNum"/></td>
@@ -140,8 +175,12 @@ export default function CustomerForm() {
             </tr>
         </tbody>
       </table>
-      <button formAction={action}>전송</button>
-      
+      <div className='button-container'>
+        <button type={'submit'} disabled={isPending}>저장</button>
+        <button type={'button'} onClick={()=>window.close()}>취소</button>
+      </div>
     </form>
+    </>
+    
   );
 }
