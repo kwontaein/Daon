@@ -1,16 +1,30 @@
 'use client'
-import { useEffect, useState } from 'react';
-import './search.scss';
-import { useComponentSize } from '@/hooks/share/useComponentsSize';
-import { CustomerCateType } from '@/types/customer/cate/type';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
+import './search.scss';
+
+import { apiUrl } from '@/constants/apiUrl';
+import { CustomerCateType } from '@/types/customer/cate/type';
+
 import { useDispatch } from 'react-redux';
-import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery } from '@/hooks/redux/slice/customer-search';
+import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery, RequestAllCustomerData } from '@/hooks/redux/slice/customer-search';
+import { useWindowSize } from '@/hooks/share/useWindowSize';
 
 export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
     const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
     const dispatch = useDispatch()
+    const size = useWindowSize()
+
+    //TODO: 모바일버전 구현
+    const registerCustomer =()=>{
+        //pc
+        if(size.width>620){
+            const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
+            const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            window.open(url, "PopupWindow", popupOptions);
+        }
+    }
 
     useEffect(()=>{
         return ()=>{
@@ -68,8 +82,12 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                                     dispatch(RequestCustomerData(true))
                                     setTimeout(()=>{dispatch(RequestCustomerData(false))},1000)
                                 }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button>전 체 보 기</button>
-                                <button>신 규 등 록</button>
+                                <button onClick={()=>{
+                                    dispatch(RequestAllCustomerData(true))
+                                    dispatch(ResetSearchQuery())
+                                    setTimeout(()=>{dispatch(RequestAllCustomerData(false))},1000)
+                                }}>전 체 보 기</button>
+                                <button onClick={registerCustomer}>신 규 등 록</button>
                                 <button>엑 셀 변 환</button>
                            </div>
                         </td>

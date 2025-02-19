@@ -37,6 +37,12 @@ export interface ResponseCustomer {
     address2?: string;
     etc?: string;
 }
+
+export interface SelectRegisterCate{
+    customerCateId: string;
+    category: string;
+    etc: string;
+}
   
 export interface Estimate {
     estimateId: string;
