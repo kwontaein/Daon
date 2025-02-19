@@ -1,31 +1,30 @@
 "use client";
+import './search-result.scss';
+
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { usePathname, useSearchParams, useRouter} from 'next/navigation';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ResponseCustomer } from '@/types/customer/type';
-import './search-result.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-import { memo, useEffect, useState } from 'react';
-import { useItemSelection } from '@/hooks/share/useItemSelection';
-import CustomerOptions from './options';
-import useCheckBoxState from '@/hooks/share/useCheckboxState';
-import Pagination from '@/components/pagination';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
+import { useItemSelection } from '@/hooks/share/useItemSelection';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { CustomerSearchCondition } from '@/hooks/redux/slice/customer-search';
-import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 
-const CustomerCategoryMap = {
-    SALE:'판매처', 
-    PURCHASE: '구매처',
-    CONSUMER: '소비자',
-    SUBCONTRACTOR: '하청업체',
-    ETC: '기타'
-}
+import CustomerOptions from './options';
+import Pagination from '@/components/pagination';
+import { CustomerCategoryMap } from '@/constants/customer/customer-data';
+
+
+
 export default function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
     const [pageByCustomer, setPageByCustomer] = useState<ResponseCustomer[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+
     //router control
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -55,11 +54,9 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
                 }
                 console.error('Error:', error)
         })
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
     }
+    
+    //if start search then retry settings customer data
     useEffect(()=>{
         if(isSearch) {
             const cateId = postSearchInfo.cateId ==='none' ? null : postSearchInfo.cateId
@@ -71,12 +68,20 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             setCustomers(initialCustomers)
             setPageByCustomer(initialCustomers.slice((page-1)*20, ((page-1)*20)+20))
         }
+        if(allView ||isSearch){
+            const params = new URLSearchParams(searchParams.toString()); 
+            params.delete("page"); 
+            // 기존 pathname 유지
+            router.push(`${pathname}?${params.toString()}`); 
+        }
     },[isSearch,allView])
 
     useEffect(()=>{
         setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
         setLoading(false)
     },[customers, page])
+
+
 
     return(
         <>

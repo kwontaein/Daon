@@ -1,12 +1,11 @@
 'use client'
-import { Receipt } from "@/constants/receipt/type";
 import './search-result.scss'
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/hooks/redux/store";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addReceiptId, removeReceiptId } from "@/hooks/redux/slice/receipt-select";
+import { Receipt } from '@/types/receipt/type';
 
 
 interface ReceiptItemProps{

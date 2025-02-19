@@ -1,24 +1,49 @@
-.error-box{
+@use '@/styles/_variables' as var;
+
+@keyframes shakeAndDisappear {
+  0% {
+    transform: translateX(0);
+  }
+  5% {
+      transform: translateX(-5px);
+  }
+  10% {
+      transform: translateX(5px);
+  }
+  15% {
+      transform: translateX(-5px);
+  }
+  20% {
+      transform: translateX(0);
+  }
+  100%{
+    display: none;
+  }
+}
+
+.error-box{ 
     position: absolute;
     display: flex;
     flex-direction: row;
-    padding: 5px;
+    padding: 3px;
     border-radius: 3px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
     font-size: 11px;
     gap: 5px;
     align-items: center;
     justify-content: center;
+    animation: shakeAndDisappear 1.5s ease forwards;
   }
   .error-icon-wrapper{
     width: 10px;
     height: 10px;
     padding: 2px;
-    background-color: rgb(250, 211, 37);
+    background-color:var.$header-color;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 2px;
-    color: black;
+    color: white;
   }
