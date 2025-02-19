@@ -74,6 +74,10 @@ public class CustomerService {
         });
     }
 
+    public CustomerEntity getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId).orElse(null);
+    }
+
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
         CustomerCateEntity customerCateEntity = customerCateRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
@@ -120,4 +124,5 @@ public class CustomerService {
     public void deleteCustomerCate(CustomerCateRequest request) {
         customerCateRepository.deleteById(request.getCustomerCateId());
     }
+
 }
