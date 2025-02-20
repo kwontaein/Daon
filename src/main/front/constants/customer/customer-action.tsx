@@ -57,5 +57,6 @@ export async function submitBusinessInfo(prevState, formData) {
         return state ;
     }
 
+    return {};
   }
   
