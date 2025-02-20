@@ -1,11 +1,12 @@
 'use server';
 
 import { CustomerCateType } from "@/types/customer/cate/type";
+import { StockCateType } from "@/types/stock/cate/type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 
-export const updateCateApi = async (cates: CustomerCateType[]) => {
-    return fetch("http://localhost:8080/api/updateCustomerCate", {
+export const updateCateApi = async (cates: StockCateType[]) => {
+    return fetch("http://localhost:8080/api/updateStockCate", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -19,21 +20,21 @@ export const updateCateApi = async (cates: CustomerCateType[]) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("customersCate");
-        revalidatePath("/main/customer/customer-cate");
+        revalidateTag("stocksCate");
+        revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
     })
 }
 
-export const createCateApi = async (customer: Pick<CustomerCateType,'customerCateName'>) => {
-    return fetch("http://localhost:8080/api/saveCustomerCate", {
+export const createCateApi = async (stock: Pick<StockCateType, 'stockCateName'>) => {
+    return fetch("http://localhost:8080/api/saveStockCate", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(customer),
+        body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {
         if (!response.ok) {
@@ -42,8 +43,8 @@ export const createCateApi = async (customer: Pick<CustomerCateType,'customerCat
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("customersCate");
-        revalidatePath("/main/customer/customer-cate");
+        revalidateTag("stocksCate");
+        revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -51,13 +52,13 @@ export const createCateApi = async (customer: Pick<CustomerCateType,'customerCat
 }
 
 
-export const deleteCateApi =async (customer: CustomerCateType) => {
-    return fetch("http://localhost:8080/api/deleteCustomerCate", {
+export const deleteCateApi =async (stock: StockCateType) => {
+    return fetch("http://localhost:8080/api/deleteStockCate", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(customer),
+        body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {
         if (!response.ok) {
@@ -66,8 +67,8 @@ export const deleteCateApi =async (customer: CustomerCateType) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("customersCate")
-        revalidatePath("/main/customer/customer-cate");
+        revalidateTag("stocksCate")
+        revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
