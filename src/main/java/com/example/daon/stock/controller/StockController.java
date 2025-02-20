@@ -70,7 +70,7 @@ public class StockController {
 
     //업데이트
     @PostMapping("api/updateStockCate")
-    public void updateStockCate(@RequestBody StockCateRequest stockCateRequest) {
+    public void updateStockCate(@RequestBody List<StockCateRequest> stockCateRequest) {
         stockService.updateStockCate(stockCateRequest);
     }
 
