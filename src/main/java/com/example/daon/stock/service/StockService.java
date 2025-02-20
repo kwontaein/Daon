@@ -1,5 +1,6 @@
 package com.example.daon.stock.service;
 
+import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
@@ -97,6 +98,7 @@ public class StockService {
         StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
 
+        System.out.println(stockRequest.toString());
         // 새로 생성
         StockEntity newStock = stockRequest.toEntity(stockCate);
         stockRepository.save(newStock);
@@ -127,5 +129,24 @@ public class StockService {
     @Transactional
     public void deleteStock(StockRequest stockRequest) {
         stockRepository.deleteById(stockRequest.getStockId());
+    }
+
+    public List<StockCate> getStockCateList() {
+        return stockCateRepository.findAll();
+    }
+
+    public void saveStockCate(StockCateRequest stockCateRequest) {
+        stockCateRepository.save(stockCateRequest.toEntity());
+    }
+
+    public void updateStockCate(StockCateRequest stockCateRequest) {
+        StockCate stockCate = stockCateRepository.findById(stockCateRequest.getStockCateId()).orElse(null);
+        stockCate.setStockCateName(stockCateRequest.getStockCateName());
+        stockCate.setCateKey(stockCateRequest.getCateKey());
+        stockCateRepository.save(stockCate);
+    }
+
+    public void deleteStockCate(StockCateRequest stockCateRequest) {
+        stockCateRepository.deleteById(stockCateRequest.getStockCateId());
     }
 }
