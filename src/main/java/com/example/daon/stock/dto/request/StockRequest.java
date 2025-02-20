@@ -37,7 +37,7 @@ public class StockRequest {
 
     private boolean remain; //재고있는 품목만 검색
 
-    private ReceiptCategory receiptCategory;
+    private ReceiptCategory receiptCategory; //? 아 관리비
 
     public StockEntity toEntity(StockCate stockCate) {
         return StockEntity

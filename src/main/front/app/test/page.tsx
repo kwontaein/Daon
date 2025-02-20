@@ -85,17 +85,132 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
         }
     }
 
+    async function createStock() {
+        // 전송할 데이터 (예시)
+        const stockData = {
+            // stockId: 'a3f36c9f3-174a-4a43-b58f-6d2cdf60f5da',  // 예시 UUID
+            name: '샘플품목',
+            quantity: 100,
+            inPrice: 2500.5,
+            outPrice: 3000.0,
+            modelName: 'MODEL-1234',
+            category: '8ad6affe-de05-11ef-9723-d8bbc19e908c',  // 카테고리 UUID
+            taxation: 'TAXATION',  // 예시: 과세 or 면세 (enum 형태일 경우 서버 스펙에 맞게 조정)
+            note: '이 품목은 테스트용 메모입니다.',
+            stockUseEa: true,  // 재고 관리 여부
+            keyWord: '샘플,테스트',  // 키워드
+            remain: true,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
+            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+        };
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/saveStock', // 실제 API 주소로 변경
+                stockData
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function updateStock() {
+        // 전송할 데이터 (예시)
+        const stockData = {
+            stockId: '7484b411-909e-4886-8f0d-01b211131932',  // 예시 UUID
+            name: '샘플품목2',
+            quantity: 100,
+            inPrice: 2500.5,
+            outPrice: 3000.0,
+            modelName: 'MODEL-1234',
+            category: '8ad6affe-de05-11ef-9723-d8bbc19e908c',  // 카테고리 UUID
+            taxation: 'TAXATION',  // 예시: 과세 or 면세 (enum 형태일 경우 서버 스펙에 맞게 조정)
+            note: '이 품목은 테스트용 메모입니다.',
+            stockUseEa: true,  // 재고 관리 여부
+            keyWord: '샘플,테스트',  // 키워드
+            remain: true,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
+            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+        };
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/updateStock', // 실제 API 주소로 변경
+                stockData
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function getStock() {
+        // 전송할 데이터 (예시)
+        const stockData = {
+            // stockId: 'a3f36c9f3-174a-4a43-b58f-6d2cdf60f5da',  // 예시 UUID
+            name: '임시품목',
+            quantity: 100,
+            inPrice: 2500,
+            outPrice: 3000,
+            modelName: 'MODEL-1234',
+            category: '8ad6affe-de05-11ef-9723-d8bbc19e908c',  // 카테고리 UUID
+            taxation: 'TAXATION',  // 예시: 과세 or 면세 (enum 형태일 경우 서버 스펙에 맞게 조정)
+            note: '이 품목은 테스트용 메모입니다.',
+            stockUseEa: true,  // 재고 관리 여부
+            keyWord: '샘플,테스트',  // 키워드
+            remain: false,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
+            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+        };
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/getStockList', // 실제 API 주소로 변경
+                stockData
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function deleteStock() {
+        // 전송할 데이터 (예시)
+        const stockData = {
+            stockId: '7484b411-909e-4886-8f0d-01b211131932',  // 예시 UUID
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/deleteStock', // 실제 API 주소로 변경
+                stockData
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
     return (
-        <div className="flex-row">
+        <div>
             <div>테스트용 페이지</div>
             <div>
-                <button onClick={testEstimateRequest}>테스트</button>
+                <button onClick={testEstimateRequest}>견적서입력 테스트</button>
             </div>
             <div>
-                <button onClick={test}>테스트</button>
+                <button onClick={test}>유저 가입 테스트</button>
             </div>
             <div>
-                <button onClick={testCreateReceipt}>테스트</button>
+                <button onClick={testCreateReceipt}>전표입력 테스트</button>
+            </div>
+            <div>
+                <button onClick={createStock}>품목저장 테스트</button>
+            </div>
+            <div>
+                <button onClick={updateStock}>품목수정 테스트</button>
+            </div>
+            <div>
+                <button onClick={getStock}>품목리스트</button>
+            </div>
+            <div>
+                <button onClick={deleteStock}>품목삭제</button>
             </div>
         </div>
     );
