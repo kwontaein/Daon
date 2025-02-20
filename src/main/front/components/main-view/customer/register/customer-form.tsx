@@ -1,6 +1,6 @@
 'use client';
 
-import React, { startTransition, useEffect, useOptimistic, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
 import { useActionState } from 'react';
 
 import './customer-form.scss';
@@ -8,53 +8,51 @@ import { submitBusinessInfo } from '@/constants/customer/customer-action';
 import ErrorBox from '@/components/share/error-box';
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
+import { ResponseCustomer } from '@/types/customer/type';
+import { useRouter } from 'next/navigation';
+import { CustomerCateType } from '@/types/customer/cate/type';
 
 
-export default function CustomerForm() {
-  const [state, action, isPending] = useActionState(submitBusinessInfo, {});
-  const memoAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const productAreaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(()=>{
-    console.log(state.category)
-  },[state])
-  useEffect(() => {
-    if (!memoAreaRef.current) return;
-    memoAreaRef.current.style.height = 'auto';
-    memoAreaRef.current.style.height = memoAreaRef.current.scrollHeight + 'px';
-  }, []);
-
-  useEffect(() => {
-    if (!productAreaRef.current) return;
-    productAreaRef.current.style.height = 'auto';
-    productAreaRef.current.style.height = productAreaRef.current.scrollHeight + 'px';
-  }, []);
+export default function CustomerForm({customerCate, customer}:{customerCate:CustomerCateType[], customer?:ResponseCustomer}) {
+  const initialState = useMemo(() => customer ?? {}, [customer]);
+  const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
+  const router = useRouter();
 
   return (
     <>
+    {!customer &&
       <header className="register-customer-header">
           <Image src={asideArrow} alt=">" />
           <h4>전표입력</h4>
       </header>
+      }
       <form onSubmit={(e)=>{
         e.preventDefault()
         startTransition(()=>{
           const formData = new FormData(e.currentTarget); // 폼 데이터 생성
           action(formData); // action 함수에 전달
         })
-    }} className="customer-from-container">
-      <table className="customer-form-table">
+      }} 
+      className="customer-from-container">
+      <table className="customer-form-table print-section" key={state.customerId}>
+          <colgroup>
+                  <col style={{ width: '17%' }} />
+                  <col style={{ width: '33%' }} />
+                  <col style={{ width: '17%' }} />
+                  <col style={{ width: '33%' }} />
+          </colgroup>
         <tbody>
             <tr>
               <td className='table-label'>거래처 구분</td>
               <td>
-                <select className="title-selector" size={1} name="category">
+                <select className="title-selector" 
+                        size={1} name="category" defaultValue={state.category ??'none'}>
                     <option value='none'>선택</option>
-                    <option value="sale">판매처</option>
-                    <option value="purchase">구매처</option>
-                    <option value="consumer">소비자</option>
-                    <option value="subcontractor">하청업체</option>
-                    <option value="etc">기타</option>
+                    <option value="SALE">판매처</option>
+                    <option value="PURCHASE">구매처</option>
+                    <option value="CONSUMER">소비자</option>
+                    <option value="SUBCONTRACTOR">하청업체</option>
+                    <option value="ETC">기타</option>
                 </select>
                 {state.formErrors?.category &&  
                   <ErrorBox key={state.formErrors.errorKey}>
@@ -64,12 +62,14 @@ export default function CustomerForm() {
               </td>
               <td className='table-label'>소속</td>
               <td>
-                <select className="title-selector" size={1} name="customerCateId">
+                <select className="title-selector" 
+                        size={1} name="customerCateId" defaultValue={state.customerCateId ? state.customerCateId.customerCateId ??'none' :'none'}>
                     <option value='none'>소속선택</option>
-                    <option value="individual">개인</option>
-                    <option value="corporate">법인</option>
-                    <option value="limited">유한������</option>
-                    <option value="public">공공기관</option>
+                    {customerCate.map((cate)=>(
+                        <option key={cate.customerCateId} value={cate.customerCateId}>
+                                {cate.customerCateName}
+                        </option>
+                    ))}
                 </select>
                 {state.formErrors?.customerCateId &&  
                   <ErrorBox key={state.formErrors.errorKey}>
@@ -81,7 +81,7 @@ export default function CustomerForm() {
             <tr>
               <td className='table-label'>상호명</td>
               <td colSpan={3}>
-                <input type='text' name="customerName"/>
+                <input type='text' name="customerName" defaultValue={state.customerName ?? ''}/>
                  {state.formErrors?.customerName &&
                   <ErrorBox key={state.formErrors?.errorKey}>
                     {state.formErrors.customerName}
@@ -95,19 +95,19 @@ export default function CustomerForm() {
             </tr>
             <tr>
               <td className='table-label'>대표자</td>
-              <td><input type='text' name="ceo"/></td>
+              <td><input type='text' name="ceo" defaultValue={state.ceo ?? ''}/></td>
               <td className='table-label'>주민번호</td>
-              <td><input type='text' name="ceoNum"/></td>
+              <td><input type='text' name="ceoNum"  defaultValue={state.ceoNum ?? ''}/></td>
             </tr>
             <tr>
               <td className='table-label'>사업자등록번호</td>
-              <td><input type='text' name="companyNum"/></td>
+              <td><input type='text' name="companyNum"  defaultValue={state.companyNum ?? ''}/></td>
               <td className='table-label'>업태</td>
-              <td><input type='text' name="businessType"/></td>
+              <td><input type='text' name="businessType"  defaultValue={state.businessType ?? ''}/></td>
             </tr>
             <tr>
               <td className='table-label'>종목</td>
-              <td><input type='text' name="contents"/></td>
+              <td><input type='text' name="contents" defaultValue={state.contents ?? ''}/></td>
               <td className='table-label'>담당자</td>
               <td>
                 <select className="title-selector" size={1} name="etc">
@@ -126,58 +126,58 @@ export default function CustomerForm() {
             </tr>
             <tr>
               <td className='table-label'>전화</td>
-              <td><input type='text' name="phoneNumber"/></td>
+              <td><input type='text' name="phoneNumber" defaultValue={state.phoneNumber ?? ''}/></td>
               <td className='table-label'>FAX</td>
-              <td><input type='text' name="fax"/></td>
+              <td><input type='text' name="fax" defaultValue={state.fax ?? ''}/></td>
             </tr>
             <tr>
               <td rowSpan={3} className='table-label'>주소</td>
               <td colSpan={3}>
                 [우편번호]
-                <input className='zip-code-input' name='zipCode'/>
+                <input className='zip-code-input' name='zipCode' defaultValue={state.zipCode ?? ''}/>
               </td>
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address1' defaultValue={state.address1}/>
+                <input name='address1' defaultValue={state.address1 ?? ''} />
               </td>
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address2' defaultValue={state.address2}/>
+                <input name='address2' defaultValue={state.address2 ?? ''}/>
               </td>
             </tr>
             <tr>
               <td className='table-label'>담당</td>
-              <td><input type='text' name='customerRp'/></td>
+              <td><input type='text' name='customerRp' defaultValue={state.customerRp ?? ''}/></td>
               <td className='table-label'>담당자연락처</td>
-              <td><input type='text' name="customerRpCall"/></td>
+              <td><input type='text' name="customerRpCall" defaultValue={state.customerRpCall ?? ''}/></td>
             </tr>
             <tr>
               <td className='table-label'>거래은행</td>
-              <td><input type='text' name="bankName"/></td>
+              <td><input type='text' name="bankName" defaultValue={state.bankName ?? ''}/></td>
               <td className='table-label'>계좌번호</td>
-              <td><input type='text' name="bankNum"/></td>
+              <td><input type='text' name="bankNum" defaultValue={state.bankNum ?? ''}/></td>
             </tr>
             <tr>
               <td className='table-label'>예금주</td>
-              <td><input type='text' name="bankOwner"/></td>
+              <td><input type='text' name="bankOwner" defaultValue={state.bankOwner ?? ''}/></td>
               <td className='table-label'>이월잔액</td>
               <td><input type='text' name=""/></td>
             </tr>
             <tr>
                 <td className='table-label'>취급품목</td>
-                <td colSpan={3}><textarea ref={productAreaRef} name="handlingItem"/></td>
+                <td colSpan={3}><textarea  name="handlingItem" defaultValue={state.handlingItem ?? ''}/></td>
             </tr>
             <tr>
                 <td className='table-label'>메모</td>
-                <td colSpan={3}><textarea ref={memoAreaRef} name="memo"/></td>
+                <td colSpan={3}><textarea name="memo" defaultValue={state.memo ?? ''}/></td>
             </tr>
         </tbody>
       </table>
       <div className='button-container'>
         <button type={'submit'} disabled={isPending}>저장</button>
-        <button type={'button'} onClick={()=>window.close()}>취소</button>
+        <button type={'button'} onClick={ ()=> customer ? router.push(`customer?target=${customer.customerId}`):window.close()}>취소</button>
       </div>
     </form>
     </>
