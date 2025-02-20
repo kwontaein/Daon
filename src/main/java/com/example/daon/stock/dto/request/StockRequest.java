@@ -35,7 +35,7 @@ public class StockRequest {
 
     //----------------------------------------------
 
-    private boolean remain;
+    private boolean remain; //재고있는 품목만 검색
 
     private ReceiptCategory receiptCategory;
 
