@@ -142,7 +142,6 @@ public class StockService {
     public void updateStockCate(StockCateRequest stockCateRequest) {
         StockCate stockCate = stockCateRepository.findById(stockCateRequest.getStockCateId()).orElse(null);
         stockCate.setStockCateName(stockCateRequest.getStockCateName());
-        stockCate.setCateKey(stockCateRequest.getCateKey());
         stockCateRepository.save(stockCate);
     }
 
