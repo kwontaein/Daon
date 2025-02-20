@@ -139,10 +139,12 @@ public class StockService {
         stockCateRepository.save(stockCateRequest.toEntity());
     }
 
-    public void updateStockCate(StockCateRequest stockCateRequest) {
-        StockCate stockCate = stockCateRepository.findById(stockCateRequest.getStockCateId()).orElse(null);
-        stockCate.setStockCateName(stockCateRequest.getStockCateName());
-        stockCateRepository.save(stockCate);
+    public void updateStockCate(List<StockCateRequest> stockCateRequests) {
+        for (StockCateRequest stockCateRequest : stockCateRequests) {
+            StockCate stockCate = stockCateRepository.findById(stockCateRequest.getStockCateId()).orElse(null);
+            stockCate.setStockCateName(stockCateRequest.getStockCateName());
+            stockCateRepository.save(stockCate);
+        }
     }
 
     public void deleteStockCate(StockCateRequest stockCateRequest) {
