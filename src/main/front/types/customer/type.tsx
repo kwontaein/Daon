@@ -62,3 +62,10 @@ export type CustomerPageProps ={
         page: number| undefined
     }>
 }
+
+export type CustomerDetailPageProps ={
+    searchParams: Promise<{
+        target:string
+        mode: 'detail' | 'edit'
+    }>
+}
