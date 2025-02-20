@@ -188,6 +188,55 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
         }
     }
 
+    async function getStockCate() {
+        // 전송할 데이터 (예시)
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/getStockCateList', // 실제 API 주소로 변경
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function saveStockCate() {
+        // 전송할 데이터 (예시)
+        const stockCate = {
+            stockCateName: '테스트분류2',
+            cateKey: 'EXX',
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/saveStockCate', // 실제 API 주소로 변경
+                stockCate
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function updateStockCate() {
+        // 전송할 데이터 (예시)
+        const stockCate = {
+            stockCateId: '42e55dad-ea16-48d1-ac5a-23d9736535a6',
+            stockCateName: '테스트분류',
+            cateKey: 'EX',
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/updateStockCate', // 실제 API 주소로 변경
+                stockCate
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+
     return (
         <div>
             <div>테스트용 페이지</div>
@@ -211,6 +260,15 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
             </div>
             <div>
                 <button onClick={deleteStock}>품목삭제</button>
+            </div>
+            <div>
+                <button onClick={getStockCate}>품목분류 조회</button>
+            </div>
+            <div>
+                <button onClick={saveStockCate}>품목분류 생성</button>
+            </div>
+            <div>
+                <button onClick={updateStockCate}>품목분류 수정</button>
             </div>
         </div>
     );
