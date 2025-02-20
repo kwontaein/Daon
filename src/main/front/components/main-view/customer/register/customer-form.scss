@@ -42,6 +42,7 @@
     border: 1px solid var.$default-border-color;
     white-space: nowrap;
     color: black;
+    padding-inline: 4px;
   }
 
   .zip-code-input{
@@ -53,7 +54,6 @@
     background-color: #f4f4f4;
     text-align: center;
   }
-  
 }
 .title-selector{
   border: none;
@@ -69,5 +69,11 @@
   button{
     width: 100px;
     height: 30px;
+  }
+}
+
+@media print {
+  .button-container {
+    display: none; // 버튼 숨김
   }
 }

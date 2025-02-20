@@ -1,12 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
-import {CateMode, CustomerCateType} from "@/types/customer/cate/type";
+import {v4 as uuidv4} from "uuid";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "./customerCateApi";
+import { createCateApi, deleteCateApi, updateCateApi } from "./stockCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
+import { CateMode, StockCateType } from "@/types/stock/cate/type";
 
-export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
-    const [cateState, setCateState] = useState<CustomerCateType[]>(InitCustomerCate)
+export default function useStockCate(InitStockCate:StockCateType[]){
+    const [cateState, setCateState] = useState<StockCateType[]>(InitStockCate)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -16,9 +17,9 @@ export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
             setMode('edit')
             return
         }
-        const postCate = cateState.filter(({customerCateName}, index) =>
-            InitCustomerCate[index].customerCateName !== customerCateName)
-        const postAble = postCate.every(({customerCateName}) => customerCateName !== '')
+        const postCate = cateState.filter(({stockCateName}, index) =>
+            InitStockCate[index].stockCateName !== stockCateName)
+        const postAble = postCate.every(({stockCateName}) => stockCateName !== '')
         if (postCate.length>0 && postAble) {
             updateCateApi(postCate).then((status) => {
                 if(status === 200){
@@ -40,7 +41,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            createCateApi({customerCateName: addInputRef.current.value})
+            createCateApi({stockCateName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -52,7 +53,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
         }
     }
 
-    const deleteHandler=(cate:CustomerCateType)=>{
+    const deleteHandler=(cate:StockCateType)=>{
         const deleteRequest = ()=>{
             deleteCateApi(cate).then((status)=>{
                 if(status === 200){
