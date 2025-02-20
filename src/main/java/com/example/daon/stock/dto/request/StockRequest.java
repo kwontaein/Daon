@@ -21,7 +21,7 @@ public class StockRequest {
 
     private double outPrice; // 품목 출고 가격
 
-    private String modelName; // 품목 모델명
+    private String modelName; // 품목 모델명 - 규격
 
     private UUID category; // 분류 코드
 
@@ -29,7 +29,7 @@ public class StockRequest {
 
     private String note;  //메모
 
-    private boolean stockUseEa;    //메모
+    private boolean stockUseEa;  //재고관리여부
 
     private String keyWord;  //키워드
 
