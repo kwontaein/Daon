@@ -1,6 +1,8 @@
 package com.example.daon.stock.controller;
 
+import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
+import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +50,30 @@ public class StockController {
     @PostMapping("api/deleteStock")
     public void deleteStock(@RequestBody StockRequest stockRequest) {
         stockService.deleteStock(stockRequest);
+    }
+
+
+    @PostMapping("api/getStockCateList")
+    public List<StockCate> getStockCateList() {
+        return stockService.getStockCateList();
+    }
+
+    //생성
+    @PostMapping("api/saveStockCate")
+    public void saveStockCate(@RequestBody StockCateRequest stockCateRequest) {
+        stockService.saveStockCate(stockCateRequest);
+    }
+
+
+    //업데이트
+    @PostMapping("api/updateStockCate")
+    public void updateStockCate(@RequestBody StockCateRequest stockCateRequest) {
+        stockService.updateStockCate(stockCateRequest);
+    }
+
+    //삭제
+    @PostMapping("api/deleteStockCate")
+    public void deleteStockCate(@RequestBody StockCateRequest stockCateRequest) {
+        stockService.deleteStockCate(stockCateRequest);
     }
 }
