@@ -5,14 +5,14 @@ import { RootState } from '@/hooks/redux/store';
 import './search.scss';
 
 import { apiUrl } from '@/constants/apiUrl';
-import { CustomerCateType } from '@/types/customer/cate/type';
 
 import { useDispatch } from 'react-redux';
-import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery, RequestAllCustomerData } from '@/hooks/redux/slice/customer-search';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
+import { StockCate } from '@/types/stock/cate/type';
+import { RequestAllStockData, RequestStockData, ResetStockSearchQuery, updateStockSearchQuery } from '@/hooks/redux/slice/stock-search';
 
-export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
-    const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
+export default function StockSearch({stockCate}:{stockCate: StockCate[]}){
+    const {postSearchInfo} = useSelector((state:RootState)=> state.stockSearch);
     const dispatch = useDispatch()
     const size = useWindowSize()
 
@@ -20,7 +20,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
     const registerStock =()=>{
         //pc
         if(size.width>620){
-            const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
+            const url = `${apiUrl}/register-stock`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
@@ -28,13 +28,13 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
 
     useEffect(()=>{
         return ()=>{
-            dispatch(ResetSearchQuery())
+            dispatch(ResetStockSearchQuery())
         }
     },[])
 
     
     return(
-        <div className='customer-search-container'>
+        <div className='stock-search-container'>
             <table className="search-table">
                 <colgroup>
                     <col style={{ width: '5%' }} />
@@ -44,49 +44,45 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                 <thead>
                     <tr>
                     <td colSpan={3} className="table-title">
-                        품목 구분 &nbsp;: &nbsp;
-                            <label>
-                                <select className="title-selector" size={1} 
-                                        value={postSearchInfo.category}
-                                        onChange={(e)=>dispatch(updateSearchQuery({category: e.target.value}))}>
-                                    <option value='none'>선택안함</option>
-                                    <option value="sale">판매처</option>
-                                    <option value="purchase">구매처</option>
-                                    <option value="consumer">소비자</option>
-                                    <option value="subcontractor">하청업체</option>
-                                    <option value="etc">기타</option>
-                                </select>
-                            </label>
+                            <select className="title-selector" name="searchOptions" size={1}
+                                    value={postSearchInfo.isConditionSearch ? 'condition' :'none' } 
+                                    onChange={(e)=> dispatch(updateStockSearchQuery({isConditionSearch:!postSearchInfo.isConditionSearch}))}>
+                                <option value="none">일반검색</option>
+                                <option value="condition">조건부검색</option>
+                            </select>
+                           
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td className='table-label'>대분류</td>
-                        <td className="table-input">
+                          <td className='table-label'>분류</td>
+                          <td>
                             <label>
-                                <select name="classification" size={1}
-                                        value={postSearchInfo.cateId}
-                                        onChange={(e)=>dispatch(updateSearchQuery({cateId: e.target.value}))}>
+                                <select className='stock-classification' size={1} 
+                                        value={postSearchInfo.category}
+                                        onChange={(e)=>dispatch(updateStockSearchQuery({category: e.target.value}))}>
                                         <option value='none'>선택안함</option>
-                                        {customerCate.map((cate)=>(
-                                            <option key={cate.customerCateId} value={cate.customerCateId}>
-                                                    {cate.customerCateName}
+                                        {stockCate.map((cate:StockCate)=>(
+                                            <option key={cate.stockCateId} value={cate.stockCateId}>
+                                                    {cate.stockCateName}
                                             </option>
                                         ))}
                                 </select>
                             </label>
-                        </td>
-                        <td rowSpan={3}>
+                          </td>
+                          <td rowSpan={4}>
                            <div className="table-buttons">
                                 <button onClick={()=>{
-                                    dispatch(RequestCustomerData(true))
-                                    setTimeout(()=>{dispatch(RequestCustomerData(false))},1000)
+                                    dispatch(RequestStockData(true))
+                                    setTimeout(()=>{dispatch(RequestStockData(false))},1000)
                                 }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button onClick={()=>{
-                                    dispatch(RequestAllCustomerData(true))
-                                    dispatch(ResetSearchQuery())
-                                    setTimeout(()=>{dispatch(RequestAllCustomerData(false))},1000)
+                                    dispatch(RequestAllStockData(true))
+                                    dispatch(ResetStockSearchQuery())
+                                    setTimeout(()=>{
+                                        dispatch(RequestAllStockData(false))
+                                    },1000)
                                 }}>전 체 보 기</button>
                                 <button onClick={registerStock}>신 규 등 록</button>
                                 <button>엑 셀 변 환</button>
@@ -94,33 +90,47 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>검색대상</td>
+                        <td className='table-label'>재고사용여부</td>
                         <td className='table-radio-container'>
-                            <label>
-                                <input type='radio' name='target' value='all' 
-                                       checked={postSearchInfo.searchTarget ==='all'} 
-                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
-                                       전체
+                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                <input type='radio' name='stockUseEa'
+                                       checked={postSearchInfo.isConditionSearch && postSearchInfo.isStockUseEa} 
+                                       onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa:true}))}/>
+                                       사용
                             </label>
-                            <label>
-                                <input type='radio' name='target' value='payment' 
-                                       checked={postSearchInfo.searchTarget ==='payment'}
-                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
-                                       미수/미지급 거래처만
+                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                <input type='radio' name='stockUseEa'
+                                       checked={postSearchInfo.isConditionSearch && !postSearchInfo.isStockUseEa}
+                                       onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa: false}))}/>
+                                       사용안함
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='table-label'>재고(유/무)</td>
+                        <td className='table-radio-container'>
+                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                <input type='radio' name='remain' 
+                                       checked={postSearchInfo.isConditionSearch && postSearchInfo.isRemain} 
+                                       onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: true}))}/>
+                                       있음
+                            </label>
+                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                <input type='radio' name='remain'
+                                       checked={postSearchInfo.isConditionSearch && !postSearchInfo.isRemain}
+                                       onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: false}))}/>
+                                       없음
                             </label>
                         </td>
                     </tr>
                     <tr>
                         <td className='table-label'>
-                            <select className='classification' name="searchOptions" size={1}
-                                    value={searchInputTarget} 
-                                    onChange={(e)=> dispatch(updateSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
-                                <option value="customerName">상호명/담당기사</option>
-                                <option value="ceo">대표자</option>
-                            </select>
+                            품명
                         </td>
                         <td className='table-input '>
-                            <input type='text' value={searchInput} onChange={(e)=>dispatch(updateSearchInput(e.target.value))}/>
+                            <input type='text' 
+                                   value={postSearchInfo.searchInput} 
+                                   onChange={(e)=>dispatch(updateStockSearchQuery({searchInput:e.target.value}))}/>
                         </td>
                     </tr>       
                 </tbody>

@@ -2,7 +2,7 @@
 import './search-result.scss';
 
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,6 +24,7 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
     const [pageByCustomer, setPageByCustomer] = useState<ResponseCustomer[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
     //router control
     const router = useRouter();
@@ -34,41 +35,38 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
     const {searchInputTarget, searchInput, postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.customerSearch);
 
-    const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition) =>{
-        await fetch("http://localhost:8080/api/getCustomers", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(searchCondition),
-        }).then(async (response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+    const fetchSearchCustomers = useCallback(async (searchCondition:CustomerSearchCondition)=>{
+        try {
+            const response = await fetch("http://localhost:8080/api/getCustomers", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(searchCondition),
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
             const text = await response.text();
-            if (!text) return [];
-            setCustomers(JSON.parse(text));
-        }).catch((error) => {
-                if(error.name=== 'AbortError'){
-                    console.log('Fetch 요청이 시간초과되었습니다.')
-                }
-                console.error('Error:', error)
-        })
-    }
-    
+            setCustomers(text ? JSON.parse(text) : []);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },[])
+
+  
     //if start search then retry settings customer data
     useEffect(()=>{
-        if(isSearch) {
-            const cateId = postSearchInfo.cateId ==='none' ? null : postSearchInfo.cateId
-            const category =  postSearchInfo.category ==='none' ? null : postSearchInfo.category
-            const searchCondition ={...postSearchInfo, cateId, category, [searchInputTarget]:searchInput}
-            fetchSearchCustomers(searchCondition)
-        }
-        if(allView){
-            setCustomers(initialCustomers)
-            setPageByCustomer(initialCustomers.slice((page-1)*20, ((page-1)*20)+20))
-        }
         if(allView ||isSearch){
+            if(isSearch) {
+                const cateId = postSearchInfo.cateId ==='none' ? null : postSearchInfo.cateId
+                const category =  postSearchInfo.category ==='none' ? null : postSearchInfo.category
+                const searchCondition ={...postSearchInfo, cateId, category, [searchInputTarget]:searchInput}
+                fetchSearchCustomers(searchCondition)
+            }
+            if(allView){
+                setCustomers(initialCustomers)
+                setPageByCustomer(initialCustomers.slice((page-1)*20, ((page-1)*20)+20))
+            }
+        
             const params = new URLSearchParams(searchParams.toString()); 
             params.delete("page"); 
             // 기존 pathname 유지
@@ -82,9 +80,9 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     },[customers, page])
 
 
-
-    return(
-        <>
+    const tableRender = useMemo(()=>{
+        return(
+            <>
             <table className="customer-result-table">
                 <colgroup>
                         <col style={{ width: '1%' }} />
@@ -125,13 +123,13 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
                             <td>{customer.etc}</td>
                             <td></td>
                             <td className='icon' onClick={()=> target === customer.customerId ? setTarget(null) :setTarget(customer.customerId)}>
-                                <FontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
+                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
                                 {target === customer.customerId && <CustomerOptions customerId={customer.customerId}/>}
                             </td>
                         </tr>
                     ))}
                     {!loading && pageByCustomer.length===0 && 
-                        <tr>
+                        <tr className='none-hover'>
                             <td colSpan={9}>
                                 <p>조회된 결과가 없습니다.</p>
                             </td>
@@ -148,6 +146,13 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
                 />
             }
         </>
+        )
+    },[pageByCustomer,target])
+
+    return(
+       <>
+        {tableRender}
+       </>
     )
 }
 

@@ -8,7 +8,7 @@ import { apiUrl } from '@/constants/apiUrl';
 import { CustomerCateType } from '@/types/customer/cate/type';
 
 import { useDispatch } from 'react-redux';
-import { RequestCustomerData, ResetSearchQuery, CustomerSearchInputTarget, updateSearchInput, updateSearchInputTarget, updateSearchQuery, RequestAllCustomerData } from '@/hooks/redux/slice/customer-search';
+import { RequestCustomerData, CustomerSearchInputTarget, RequestAllCustomerData, updateCustomerSearchQuery, ResetCustomerSearchQuery, updateCustomerSearchInputTarget, updateCustomerSearchInput } from '@/hooks/redux/slice/customer-search';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 
 export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
@@ -28,7 +28,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
 
     useEffect(()=>{
         return ()=>{
-            dispatch(ResetSearchQuery())
+            dispatch(ResetCustomerSearchQuery())
         }
     },[])
     
@@ -47,7 +47,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                             <label>
                                 <select className="title-selector" size={1} 
                                         value={postSearchInfo.category}
-                                        onChange={(e)=>dispatch(updateSearchQuery({category: e.target.value}))}>
+                                        onChange={(e)=>dispatch(updateCustomerSearchQuery({category: e.target.value}))}>
                                     <option value='none'>선택안함</option>
                                     <option value="sale">판매처</option>
                                     <option value="purchase">구매처</option>
@@ -66,7 +66,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                             <label>
                                 <select name="classification" size={1}
                                         value={postSearchInfo.cateId}
-                                        onChange={(e)=>dispatch(updateSearchQuery({cateId: e.target.value}))}>
+                                        onChange={(e)=>dispatch(updateCustomerSearchQuery({cateId: e.target.value}))}>
                                         <option value='none'>선택안함</option>
                                         {customerCate.map((cate)=>(
                                             <option key={cate.customerCateId} value={cate.customerCateId}>
@@ -84,7 +84,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                                 }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button onClick={()=>{
                                     dispatch(RequestAllCustomerData(true))
-                                    dispatch(ResetSearchQuery())
+                                    dispatch(ResetCustomerSearchQuery())
                                     setTimeout(()=>{dispatch(RequestAllCustomerData(false))},1000)
                                 }}>전 체 보 기</button>
                                 <button onClick={registerCustomer}>신 규 등 록</button>
@@ -98,13 +98,13 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                             <label>
                                 <input type='radio' name='target' value='all' 
                                        checked={postSearchInfo.searchTarget ==='all'} 
-                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
+                                       onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
                                        전체
                             </label>
                             <label>
                                 <input type='radio' name='target' value='payment' 
                                        checked={postSearchInfo.searchTarget ==='payment'}
-                                       onChange={(e)=>dispatch(updateSearchQuery({searchTarget: e.target.value}))}/>
+                                       onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
                                        미수/미지급 거래처만
                             </label>
                         </td>
@@ -113,13 +113,13 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>
                             <select className='classification' name="searchOptions" size={1}
                                     value={searchInputTarget} 
-                                    onChange={(e)=> dispatch(updateSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
+                                    onChange={(e)=> dispatch(updateCustomerSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
                                 <option value="customerName">상호명/담당기사</option>
                                 <option value="ceo">대표자</option>
                             </select>
                         </td>
                         <td className='table-input '>
-                            <input type='text' value={searchInput} onChange={(e)=>dispatch(updateSearchInput(e.target.value))}/>
+                            <input type='text' value={searchInput} onChange={(e)=>dispatch(updateCustomerSearchInput(e.target.value))}/>
                         </td>
                     </tr>       
                 </tbody>
