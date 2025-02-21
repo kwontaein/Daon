@@ -1,4 +1,4 @@
-.customer-search-container{
+.stock-search-container{
     font-size: 1.2rem;
     @media (max-width: 620px) {
         font-size: 0.5rem
@@ -50,13 +50,16 @@
     .table-radio-container{
         display: flex;
         flex-direction: row;
-        margin-top: 5px;
+        margin-top: 3px;
         border: none !important;
         gap: 0.5em;
+        
         label{
             height: 100%;
             display: flex;
             gap: 0.4em;
+            font-size: inherit;
+
             @media (max-width:620px) {
                 font-size: 1.2em;
             }
@@ -72,6 +75,9 @@
         }
     }
 
+    .lock{
+        color: #bbb;
+    }
 
 
     .table-buttons {
@@ -139,9 +145,8 @@ select{
     }
 }
 
-//상호명, 담당기사 선택
-.classification{
-    width: 100%;
+.stock-classification{
+    width: auto;
     margin-left: -0.4em;
     font-weight: 500;
     min-width: unset;
@@ -149,7 +154,7 @@ select{
     font-size: 1.3rem;
     @media (max-width: 620px){
         margin-left: none;
-        font-size: 1.12em;
+        font-size: 1.5em;
         font-weight: 550;
     }
 }
