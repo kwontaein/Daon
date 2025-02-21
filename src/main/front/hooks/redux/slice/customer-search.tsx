@@ -42,19 +42,19 @@ const customerSearch = createSlice({
     name:'customerSearch',
     initialState,
     reducers:{
-        updateSearchQuery: (state, action: PayloadAction<Partial<Record<CustomerSearchConditionKeys, CustomerSearchCondition[CustomerSearchConditionKeys]>>>)=>{
+        updateCustomerSearchQuery: (state, action: PayloadAction<Partial<Record<CustomerSearchConditionKeys, CustomerSearchCondition[CustomerSearchConditionKeys]>>>)=>{
             Object.assign(state.postSearchInfo, action.payload);
         },
-        updateSearchInputTarget: (state, action: PayloadAction<CustomerSearchInputTarget>)=>{
+        updateCustomerSearchInputTarget: (state, action: PayloadAction<CustomerSearchInputTarget>)=>{
             state.searchInputTarget = action.payload
         },
-        updateSearchInput: (state, action: PayloadAction<string>)=>{
+        updateCustomerSearchInput: (state, action: PayloadAction<string>)=>{
             state.searchInput = action.payload
         },
         RequestCustomerData: (state, action:PayloadAction<boolean>)=>{
             state.isSearch = action.payload;
         },
-        ResetSearchQuery: (state)=>{
+        ResetCustomerSearchQuery: (state)=>{
             state.postSearchInfo = initialState.postSearchInfo;
             state.searchInput = initialState.searchInput;
             state.searchInputTarget = initialState.searchInputTarget;
@@ -65,7 +65,7 @@ const customerSearch = createSlice({
     }
 })
 
-export const {updateSearchQuery, updateSearchInputTarget, updateSearchInput, RequestCustomerData, ResetSearchQuery,RequestAllCustomerData} = customerSearch.actions;
+export const {updateCustomerSearchQuery, updateCustomerSearchInputTarget, updateCustomerSearchInput, RequestCustomerData, ResetCustomerSearchQuery, RequestAllCustomerData} = customerSearch.actions;
 
 
 export default customerSearch.reducer;

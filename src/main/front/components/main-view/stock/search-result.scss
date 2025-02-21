@@ -1,6 +1,6 @@
 @use '@/styles/_variables.scss' as var;
 
-.customer-result-table{
+.stock-result-table{
     font-size: 1.2rem;
     margin-top: 0.5rem;
     width: 100%;
@@ -9,6 +9,7 @@
         tr{
             border-bottom: 1px solid var.$default-border-color;
             height: 30px;
+            
             &:hover{
                 background-color: rgb(197,202,254);
             }
@@ -32,7 +33,6 @@
 .left-align{
     text-align: left !important;
 }
-
 
 .none-hover{
     &:hover{
