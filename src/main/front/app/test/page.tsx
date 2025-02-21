@@ -192,7 +192,7 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
         // 전송할 데이터 (예시)
 
         try {
-            const response = await axios.post(
+            const response = await axios.get(
                 'http://localhost:8080/api/getStockCateList', // 실제 API 주소로 변경
             );
             console.log('등록 성공:', response.data);
