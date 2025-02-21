@@ -1,6 +1,6 @@
 'use client';
 
-import React, { startTransition, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
+import React, { startTransition, useMemo} from 'react';
 import { useActionState } from 'react';
 
 import './customer-form.scss';
@@ -33,7 +33,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
           action(formData); // action 함수에 전달
         })
       }} 
-      className="customer-from-container">
+      className="customer-form-container">
       <table className="customer-form-table print-section" key={state.customerId}>
           <colgroup>
                   <col style={{ width: '17%' }} />

@@ -1,6 +1,6 @@
 @use '@/styles/_variables.scss' as var;
 
-.register-customer-header{
+.register-staff-header{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -14,11 +14,10 @@
   }
 }
 
-.customer-form-container{
+.staff-form-container{
   width: 100%;
-
 }
-.customer-form-table{
+.staff-form-table{
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
@@ -54,6 +53,33 @@
     background-color: #f4f4f4;
     text-align: center;
   }
+
+  .table-radio-container{
+        div{
+            display: flex;
+            flex-direction: row;
+            gap: 0.5em;
+            label{
+                height: 100%;
+                display: flex;
+                gap: 0.4em;
+                font-size: inherit;
+
+                @media (max-width:620px) {
+                    font-size: 1.2em;
+                }
+            }
+            @media (max-width:767px) {
+                gap: 0.4em;
+                label{
+                    gap: 0.1em;
+                }
+            }
+            @media (max-width:620px) {
+                font-size: 1.2em;
+            }
+        }
+    }
 }
 .title-selector{
   border: none;

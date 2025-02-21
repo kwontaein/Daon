@@ -92,35 +92,39 @@ export default function StockSearch({stockCate}:{stockCate: StockCate[]}){
                     <tr>
                         <td className='table-label'>재고사용여부</td>
                         <td className='table-radio-container'>
-                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
-                                <input type='radio' name='stockUseEa'
-                                       checked={postSearchInfo.isConditionSearch && postSearchInfo.isStockUseEa} 
-                                       onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa:true}))}/>
-                                       사용
-                            </label>
-                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
-                                <input type='radio' name='stockUseEa'
-                                       checked={postSearchInfo.isConditionSearch && !postSearchInfo.isStockUseEa}
-                                       onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa: false}))}/>
-                                       사용안함
-                            </label>
+                            <div>
+                                <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                    <input type='radio' name='stockUseEa'
+                                        checked={postSearchInfo.isConditionSearch && postSearchInfo.isStockUseEa} 
+                                        onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa:true}))}/>
+                                        사용
+                                </label>
+                                <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                    <input type='radio' name='stockUseEa'
+                                        checked={postSearchInfo.isConditionSearch && !postSearchInfo.isStockUseEa}
+                                        onChange={()=>dispatch(updateStockSearchQuery({isStockUseEa: false}))}/>
+                                        사용안함
+                                </label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td className='table-label'>재고(유/무)</td>
                         <td className='table-radio-container'>
-                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
-                                <input type='radio' name='remain' 
-                                       checked={postSearchInfo.isConditionSearch && postSearchInfo.isRemain} 
-                                       onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: true}))}/>
-                                       있음
-                            </label>
-                            <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
-                                <input type='radio' name='remain'
-                                       checked={postSearchInfo.isConditionSearch && !postSearchInfo.isRemain}
-                                       onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: false}))}/>
-                                       없음
-                            </label>
+                            <div>
+                                <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                    <input type='radio' name='remain' 
+                                        checked={postSearchInfo.isConditionSearch && postSearchInfo.isRemain} 
+                                        onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: true}))}/>
+                                        있음
+                                </label>
+                                <label className={postSearchInfo.isConditionSearch ? '' : 'lock'}>
+                                    <input type='radio' name='remain'
+                                        checked={postSearchInfo.isConditionSearch && !postSearchInfo.isRemain}
+                                        onChange={(e)=>dispatch(updateStockSearchQuery({isRemain: false}))}/>
+                                        없음
+                                </label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
