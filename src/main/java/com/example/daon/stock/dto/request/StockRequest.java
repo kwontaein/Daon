@@ -33,6 +33,8 @@ public class StockRequest {
 
     private String keyWord;  //키워드
 
+    private boolean condition; //조건부 검색 여부
+
     //----------------------------------------------
 
     private boolean remain; //재고있는 품목만 검색
