@@ -44,11 +44,6 @@ public class StockService {
                 predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getName()));
             }
 
-            // 재고 유무 여부(remain)
-            if (stockRequest.isRemain()) {
-                // 0이 아닌 재고 -> notEqual 또는 greaterThan(0보다 큰) 등 자유롭게 선택
-                predicates.add(criteriaBuilder.greaterThan(root.get("quantity"), 0));
-            }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
@@ -62,12 +57,17 @@ public class StockService {
                         )
                 );
             }
-
-            //재고사용 / 재고사용안함
-            if (stockRequest.isStockUseEa()) {
-                predicates.add(criteriaBuilder.equal(root.get("stockUseEa"), stockRequest.isStockUseEa()));
+            if (stockRequest.isCondition()) {
+                // 재고 유무 여부(remain)
+                if (stockRequest.isRemain()) {
+                    // 0이 아닌 재고 -> notEqual 또는 greaterThan(0보다 큰) 등 자유롭게 선택
+                    predicates.add(criteriaBuilder.greaterThan(root.get("quantity"), 0));
+                }
+                //재고사용 / 재고사용안함
+                if (stockRequest.isStockUseEa()) {
+                    predicates.add(criteriaBuilder.equal(root.get("stockUseEa"), stockRequest.isStockUseEa()));
+                }
             }
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
