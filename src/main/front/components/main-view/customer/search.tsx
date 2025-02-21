@@ -95,18 +95,20 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                     <tr>
                         <td className='table-label'>검색대상</td>
                         <td className='table-radio-container'>
-                            <label>
-                                <input type='radio' name='target' value='all' 
-                                       checked={postSearchInfo.searchTarget ==='all'} 
-                                       onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
-                                       전체
-                            </label>
-                            <label>
-                                <input type='radio' name='target' value='payment' 
-                                       checked={postSearchInfo.searchTarget ==='payment'}
-                                       onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
-                                       미수/미지급 거래처만
-                            </label>
+                            <div>
+                                <label>
+                                    <input type='radio' name='target' value='all' 
+                                        checked={postSearchInfo.searchTarget ==='all'} 
+                                        onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
+                                        전체
+                                </label>
+                                <label>
+                                    <input type='radio' name='target' value='payment' 
+                                        checked={postSearchInfo.searchTarget ==='payment'}
+                                        onChange={(e)=>dispatch(updateCustomerSearchQuery({searchTarget: e.target.value}))}/>
+                                        미수/미지급 거래처만
+                                </label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
