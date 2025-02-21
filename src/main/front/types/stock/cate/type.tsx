@@ -1,5 +1,5 @@
-export type StockCateType = {
-    stockCateId :string|null,
+export type StockCate = {
+    stockCateId :string,
     stockCateName :string,
 }
 export type StockCatePageProps ={
@@ -9,3 +9,4 @@ export type StockCatePageProps ={
 }
 
 export type CateMode = 'add' | 'edit' | null
+

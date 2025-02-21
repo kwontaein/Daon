@@ -1,23 +1,23 @@
 'use client'
-import type { StockCate } from '@/types/stock/cate/type';
-import './stock-cate.scss';
-import useStockCate from "@/hooks/stock/cate/useStockCate";
+import type { StockPoint } from '@/types/stock/point/types';
+import './point.scss';
+import useStockPoint from "@/hooks/stock/point/useStockPoint";
 
 
-export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] }) {
+export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoint[] }) {
     const { addInputRef, 
-            cateState,
+            pointState,
             mode,
             setMode,
-            setCateState,
+            setPointState,
             addHandler,
             deleteHandler,
             editHandler
-        } = useStockCate(InitStockCate)
+        } = useStockPoint(InitStockPoint)
 
     return (
         <>
-            <table className="stock-cate-table">
+            <table className="stock-point-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>
                     <col style={{width: '60%'}}/>
@@ -26,40 +26,40 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                 <thead>
                 <tr>
                     <td>순번</td>
-                    <td>소속명</td>
+                    <td>구매적립금율</td>
                     <td>관리</td>
                 </tr>
                 </thead>
                 <tbody>
-                {cateState.map((cate: StockCate, index) => (
-                    <tr key={cate.stockCateId}>
+                {pointState.map((point: StockPoint, index) => (
+                    <tr key={point.stockPointId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
-                                       className="stock-cate-input"
+                                       className="stock-point-input"
                                        placeholder="품목명을 입력해주세요"
                                        required={true}
-                                       value={cate.stockCateName}
+                                       value={point.stockPointName}
                                        onChange={(e) =>
-                                           setCateState(cateState.map((item: StockCate, i: number) =>
-                                               i === index ? {...item, stockCateName: e.target.value} : item))}/>
+                                           setPointState(pointState.map((item: StockPoint, i: number) =>
+                                               i === index ? {...item, stockPointName: e.target.value} : item))}/>
                                 :
-                                <>{cate.stockCateName}</>
+                                <>{point.stockPointName}</>
                             }
                         </td>
                         <td>
-                            <button onClick={deleteHandler.bind(null,cate)}>삭제</button>
+                            <button onClick={deleteHandler.bind(null,point)}>삭제</button>
                         </td>
                     </tr>
                 ))}
                 {mode === 'add' &&
                     <tr>
-                        <td>{cateState.length + 1}</td>
+                        <td>{pointState.length + 1}</td>
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
-                                   className="stock-cate-input"
+                                   className="stock-point-input"
                                    placeholder="생성할 품목명을 입력해주세요"/>
                         </td>
                         <td>
@@ -69,7 +69,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                 }
                 </tbody>
             </table>
-            <div className='cate-button-container'>
+            <div className='point-button-container'>
                 {mode !== "edit" &&
                     <button onClick={addHandler}>
                         {mode === 'add' ? '저장하기' : '추가하기'}

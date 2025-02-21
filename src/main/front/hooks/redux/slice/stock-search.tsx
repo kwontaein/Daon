@@ -1,71 +1,59 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {v4 as uuidv4} from "uuid";
 
-export type CategoryType = 'none' |'sale' | 'purchase' | 'consumer' | 'subcontractor' | 'etc';
-export type CustomerSearchTarget = 'all' | 'payment'
-export type CustomerSearchInputTarget = 'customerName' | 'ceo';
 
-type CustomerSearchConditionKeys = keyof CustomerSearchCondition;
 
-export interface CustomerSearchCondition {
-    category: CategoryType|null,
-    cateId:string|null,
-    searchTarget :CustomerSearchTarget,
-    customerName: string|null,
-    ceo:string|null,
+type StockSearchConditionKeys = keyof stockSearchCondition;
+
+export interface stockSearchCondition {
+    category: string,
+    isRemain: boolean, //true => 재고있는 품목만 검색
+    isStockUseEa: boolean, //재고관리여부 
+    searchInput:string,
+    isConditionSearch:boolean, //조건부 검색여부
 } 
 
-export interface CustomerSearch{
-    postSearchInfo: CustomerSearchCondition,
-    searchInputTarget:CustomerSearchInputTarget
-    searchInput:string
+export interface StockSearch{
+    postSearchInfo: stockSearchCondition,
     isSearch: boolean
     allView :boolean,
 }
 
 
-const initialState:CustomerSearch={
+const initialState:StockSearch={
     postSearchInfo:{
         category: 'none',
-        cateId:'none',
-        searchTarget :'all',
-        customerName: null,
-        ceo:null,
+        isRemain :true,
+        isStockUseEa: true,
+        searchInput:'',
+        isConditionSearch:false
     },
-    searchInputTarget : 'customerName',
-    searchInput : '',
     isSearch:false,
     allView :false,
 }
 
-const customerSearch = createSlice({
-    name:'customerSearch',
+const stockSearch = createSlice({
+    name:'stockSearch',
     initialState,
     reducers:{
-        updateSearchQuery: (state, action: PayloadAction<Partial<Record<CustomerSearchConditionKeys, CustomerSearchCondition[CustomerSearchConditionKeys]>>>)=>{
+        updateStockSearchQuery: (state, action: PayloadAction<Partial<Record<StockSearchConditionKeys, stockSearchCondition[StockSearchConditionKeys]>>>)=>{
             Object.assign(state.postSearchInfo, action.payload);
         },
-        updateSearchInputTarget: (state, action: PayloadAction<CustomerSearchInputTarget>)=>{
-            state.searchInputTarget = action.payload
+        updateStockSearchInput: (state, action: PayloadAction<string>)=>{
+            state.postSearchInfo.searchInput = action.payload
         },
-        updateSearchInput: (state, action: PayloadAction<string>)=>{
-            state.searchInput = action.payload
-        },
-        RequestCustomerData: (state, action:PayloadAction<boolean>)=>{
+        RequestStockData: (state, action:PayloadAction<boolean>)=>{
             state.isSearch = action.payload;
         },
-        ResetSearchQuery: (state)=>{
+        ResetStockSearchQuery: (state)=>{
             state.postSearchInfo = initialState.postSearchInfo;
-            state.searchInput = initialState.searchInput;
-            state.searchInputTarget = initialState.searchInputTarget;
         },
-        RequestAllCustomerData: (state, action:PayloadAction<boolean>)=>{
+        RequestAllStockData: (state, action:PayloadAction<boolean>)=>{
             state.allView = action.payload;
         },
     }
 })
 
-export const {updateSearchQuery, updateSearchInputTarget, updateSearchInput, RequestCustomerData, ResetSearchQuery,RequestAllCustomerData} = customerSearch.actions;
+export const {updateStockSearchQuery, updateStockSearchInput, RequestStockData, ResetStockSearchQuery,RequestAllStockData} = stockSearch.actions;
 
 
-export default customerSearch.reducer;
+export default stockSearch.reducer;
