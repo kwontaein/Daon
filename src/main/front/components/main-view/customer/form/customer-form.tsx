@@ -4,6 +4,8 @@ import React, { startTransition, useMemo} from 'react';
 import { useActionState } from 'react';
 
 import './customer-form.scss';
+import '@/styles/main-view/register/register.scss'
+
 import { submitBusinessInfo } from '@/constants/customer/customer-action';
 import ErrorBox from '@/components/share/error-box';
 import asideArrow from '@/assets/aside-arrow.gif';
@@ -21,7 +23,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
   return (
     <>
     {!customer &&
-      <header className="register-customer-header">
+      <header className="register-header">
           <Image src={asideArrow} alt=">" />
           <h4>전표입력</h4>
       </header>

@@ -59,7 +59,7 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     {pageByStaff.map((staff:ResponseStaff)=>(
                         <tr key={staff.userId} ref={(el)=> {itemsRef.current[staff.userId] = el}} className={target === staff.userId ?'is-click' :''}>
                             <td>{staff.name}</td>
-                            <td>{DeptMap[staff.position]}</td>
+                            <td>{DeptMap[staff.dept]}</td>
                             <td>{EmployeeClassMap[staff.userClass]}</td>
                             <td>{staff.engName}</td>
                             <td>{staff.tel}</td>
