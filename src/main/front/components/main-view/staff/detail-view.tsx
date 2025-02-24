@@ -44,7 +44,18 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                 </colgroup>
                 <tbody>
                 <tr>
-                        {UserGrade[staff.userClass]}
+                    <td colSpan={2} className="table-label">관리등급</td>
+                    <td colSpan={2}>
+                        {UserGrade[staff.userRole]}
+                    </td>
+                    <td colSpan={2} className="table-label">직위</td>
+                    <td colSpan={2}>
+                       {EmployeeClassMap[staff.userClass]}
+                    </td>                         
+                    <td colSpan={2} className="table-label">부서</td>
+                    <td colSpan={2}>
+                        {DeptMap[staff.dept]}
+                    </td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">성&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;명</td>
