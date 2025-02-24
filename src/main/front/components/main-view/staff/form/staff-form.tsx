@@ -72,7 +72,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
-                        <select name="position" defaultValue={state.position}>
+                        <select name="dept" defaultValue={state.dept}>
                             <option value="none">부서선택</option>
                             <option value="management">관리부</option>
                             <option value="business">영업부</option>
