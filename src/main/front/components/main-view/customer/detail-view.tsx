@@ -1,8 +1,7 @@
 'use client'
 import { CustomerCategoryMap } from "@/constants/customer/customer-data";
 import { ResponseCustomer } from "@/types/customer/type";
-import './register/customer-form.scss'
-import Link from "next/link";
+import './form/customer-form.scss'
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
     const router = useRouter();
