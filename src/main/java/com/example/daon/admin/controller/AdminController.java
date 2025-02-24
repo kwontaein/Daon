@@ -43,6 +43,7 @@ public class AdminController {
         adminService.CreateCompany(companyRequest);
     }
 
+
     @GetMapping("api/readCompany")
     public List<CompanyEntity> ReadCompany() {
         return adminService.ReadCompany();
@@ -65,7 +66,6 @@ public class AdminController {
         adminService.CreateEmployee(userRequest);
     }
 
-
     @GetMapping("api/getEmployees")
     public List<UserEntity> GetEmployees() {
         return adminService.GetEmployees();
@@ -76,6 +76,10 @@ public class AdminController {
         return adminService.GetEmployeeDetail(userRequest);
     }
 
+    @PostMapping("api/updateEmployee")
+    public void UpdateEmployee(@RequestBody UserRequest userRequest) {
+        adminService.UpdateEmployee(userRequest);
+    }
 
     @PostMapping("api/deleteEmployee")
     public void DeleteEmployee(@RequestBody UserRequest userRequest) {
