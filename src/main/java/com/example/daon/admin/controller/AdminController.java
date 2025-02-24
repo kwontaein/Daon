@@ -33,8 +33,8 @@ public class AdminController {
     //로그인
     @PostMapping("api/signIn")
     public void SignIn(@RequestBody UserRequest userRequest) {
-        System.out.println(userRequest.getId() + " / " + userRequest.getPassword());
-        adminService.SignIn(userRequest.getId(), userRequest.getPassword());
+        System.out.println(userRequest.getUserId() + " / " + userRequest.getPassword());
+        adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
     }
 
     //회사정보 crud

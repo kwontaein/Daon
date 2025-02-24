@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class UserRequest {
     //아이디
-    private String id;
+    private String userId;
 
     //비밀번호
     private String password;
@@ -71,7 +71,7 @@ public class UserRequest {
 
     public UserEntity toEntity(PasswordEncoder passwordEncoder) {
         return UserEntity.builder()
-                .userId(id)
+                .userId(userId)
                 .password(passwordEncoder.encode(password))
                 .married(married)
                 .joinDate(joinDate)
