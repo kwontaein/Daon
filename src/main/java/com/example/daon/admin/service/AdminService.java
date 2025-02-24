@@ -100,7 +100,7 @@ public class AdminService {
         companyRepository.save(companyRequest.toEntity());
     }
 
-    public List<CompanyEntity> ReadCompany() {
+    public List<CompanyEntity> getCompany() {
         return companyRepository.findAll();
     }
 
@@ -127,16 +127,17 @@ public class AdminService {
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
-        UserEntity user = userRepository.findById(userRequest.getId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
+        UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         user.updateFromRequest(userRequest);
         userRepository.save(user);
     }
 
     public void DeleteEmployee(UserRequest userRequest) {
-        userRepository.deleteById(userRequest.getId());
+        userRepository.deleteById(userRequest.getUserId());
     }
 
     public UserEntity GetEmployeeDetail(UserRequest userRequest) {
-        return userRepository.findById(userRequest.getId()).orElse(null);
+        System.out.println(userRequest.toString());
+        return userRepository.findById(userRequest.getUserId()).orElse(null);
     }
 }
