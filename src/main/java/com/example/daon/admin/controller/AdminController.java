@@ -30,29 +30,29 @@ public class AdminController {
     }
 
     //로그인
-    @PostMapping("api/SignIn")
+    @PostMapping("api/signIn")
     public void SignIn(@RequestBody UserRequest userRequest) {
         System.out.println(userRequest.getId() + " / " + userRequest.getPassword());
         adminService.SignIn(userRequest.getId(), userRequest.getPassword());
     }
 
     //회사정보 crud
-    @PostMapping("api/CreateCompany")
+    @PostMapping("api/createCompany")
     public void CreateCompany(@RequestBody CompanyRequest companyRequest) {
         adminService.CreateCompany(companyRequest);
     }
 
-    @PostMapping("api/ReadCompany")
+    @PostMapping("api/readCompany")
     public void ReadCompany() {
         adminService.ReadCompany();
     }
 
-    @PostMapping("api/UpdateCompany")
+    @PostMapping("api/updateCompany")
     public void UpdateCompany(@RequestBody CompanyRequest companyRequest) {
         adminService.UpdateCompany(companyRequest);
     }
 
-    @PostMapping("api/DeleteCompany")
+    @PostMapping("api/deleteCompany")
     public void DeleteCompany(@RequestBody CompanyRequest companyRequest) {
         adminService.DeleteCompany(companyRequest);
     }
@@ -64,17 +64,17 @@ public class AdminController {
         adminService.CreateEmployee(userRequest);
     }
 
-    @GetMapping("api/GetEmployee")
+    @GetMapping("api/getEmployee")
     public List<UserEntity> GetEmployee() {
         return adminService.GetEmployee();
     }
 
-    @PostMapping("api/UpdateEmployee")
+    @PostMapping("api/updateEmployee")
     public void UpdateEmployee(@RequestBody UserRequest userRequest) {
         adminService.UpdateEmployee(userRequest);
     }
 
-    @PostMapping("api/DeleteEmployee")
+    @PostMapping("api/deleteEmployee")
     public void DeleteEmployee(@RequestBody UserRequest userRequest) {
         adminService.DeleteEmployee(userRequest);
     }

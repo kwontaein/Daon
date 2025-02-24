@@ -7,20 +7,23 @@ import CustomerDetail from "@/components/main-view/customer/detail-view";
 import CustomerForm from "@/components/main-view/customer/form/customer-form";
 import { ResponseCustomer } from "@/types/customer/type";
 import { DetailPageProps } from "@/types/share/type";
+import { ResponseStaff } from "@/types/staff/type";
+import StaffDetailView from "@/components/main-view/staff/detail-view";
+import StaffForm from "@/components/main-view/staff/form/staff-form";
 
 
 
-export default async function CustomerDetailPage({searchParams}:DetailPageProps){
-    const customerId = (await searchParams).target || ''
+export default async function StaffDetailPage({searchParams}:DetailPageProps){
+    const staffId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    const customer:ResponseCustomer = await fetch("http://localhost:8080/api/getCustomer", {
+    const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({customerId}),
-        next: {revalidate: 18000, tags: [`${customerId}`]} //30분마다 재검증
+        body: JSON.stringify({staffId}),
+        next: {revalidate: 18000, tags: [`${staffId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -35,19 +38,6 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
             console.error('Error:', error)
     })
 
-       
-    const customerCate = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
-    }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
-    }).catch((error) => {console.error('Error:', error)})
-
-    
     return(
         <>
         <header className="register-customer-header">
@@ -58,9 +48,9 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
                 </h4>
             </header>
             {mode ==='detail' ?
-             <CustomerDetail customer={customer}/>
+             <StaffDetailView staff={staff}/>
              :
-             <CustomerForm customerCate={customerCate} customer={customer}/>
+             <StaffForm staff={staff}/>
             }
         </>
        

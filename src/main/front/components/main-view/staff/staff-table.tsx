@@ -1,16 +1,26 @@
 'use client'
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import './staff-table.scss';
 import Pagination from "@/components/pagination";
+import { ResponseStaff } from "@/types/staff/type";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useItemSelection } from "@/hooks/share/useItemSelection";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import StaffOptions from "./staff-options";
+import { DeptMap, EmployeeClassMap } from "@/constants/staff/staff-info-map";
 
-export default function StaffTable({initialStaff, page}){
-    const [staff,setStaff] = useState(initialStaff)
+
+export default function StaffTable({initialStaff, page}:{initialStaff:ResponseStaff[], page:number}){
+    const { itemsRef, target, setTarget } = useItemSelection<string>(true);
+    const [staff,setStaff] = useState<ResponseStaff[]>(initialStaff)
     const [allView,setAllView] = useState(true)
-    const [pageByStaff,setPageByStaff] = useState()
+    const [pageByStaff,setPageByStaff] = useState<ResponseStaff[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
-    
+    const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
+
+
     useEffect(()=>{
         setPageByStaff(staff.slice((page-1)*20, ((page-1)*20)+20))
         setLoading(false)
@@ -26,25 +36,19 @@ export default function StaffTable({initialStaff, page}){
             </section>
             <table className="staff-table">
                 <colgroup>
-                    <col style={{ width: '5%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '5%' }} />
-                    <col style={{ width: '10%' }} />
-                    <col style={{ width: '10%' }} />
                     <col style={{ width: '15%' }} />
                     <col style={{ width: '15%' }} />
                     <col style={{ width: '15%' }} />
-                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '1%' }} />
                 </colgroup>
                 <thead>
                     <tr>
-                        <td>사번</td>
-                        <td>아이디</td>
+                        <td>성명</td>
                         <td>부서</td>
                         <td>직위</td>
-                        <td>한글성명</td>
-                        <td>한자성명</td>
                         <td>영문성명</td>
                         <td>연락처</td>
                         <td>핸드폰</td>
@@ -52,7 +56,20 @@ export default function StaffTable({initialStaff, page}){
                     </tr>
                 </thead>
                 <tbody>
-
+                    {pageByStaff.map((staff:ResponseStaff)=>(
+                        <tr key={staff.userId} ref={(el)=> {itemsRef.current[staff.userId] = el}} className={target === staff.userId ?'is-click' :''}>
+                            <td>{staff.name}</td>
+                            <td>{DeptMap[staff.position]}</td>
+                            <td>{EmployeeClassMap[staff.userClass]}</td>
+                            <td>{staff.engName}</td>
+                            <td>{staff.tel}</td>
+                            <td>{staff.phone}</td>
+                            <td className='icon' onClick={()=> target === staff.userId ? setTarget(null) :setTarget(staff.userId)}>
+                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === staff.userId &&{color:'orange'}}/>
+                                {target === staff.userId && <StaffOptions staffId={staff.userId}/>}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             {!loading &&

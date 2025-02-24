@@ -3,11 +3,12 @@ import {useState, useRef} from "react";
 
 import { createPointApi, deletePointApi, updatePointApi } from "./pointApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
-import { PointMode, StockPoint } from "@/types/stock/point/types";
+import { StockPoint } from "@/types/stock/point/types";
+import { CateMode } from "@/types/share/type";
 
 export default function useStockPoint(InitStockPoint:StockPoint[]){
     const [pointState, setPointState] = useState<StockPoint[]>(InitStockPoint)
-    const [mode, setMode] = useState<PointMode>(null)
+    const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
 
