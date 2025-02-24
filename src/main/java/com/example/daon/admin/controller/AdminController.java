@@ -44,7 +44,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("api/ReadCompany")
+    @GetMapping("api/readCompany")
     public List<CompanyEntity> ReadCompany() {
         return adminService.ReadCompany();
     }
@@ -61,17 +61,17 @@ public class AdminController {
 
 
     //사원정보 crud
-    @PostMapping("api/CreateEmployee")
+    @PostMapping("api/createEmployee")
     public void CreateEmployee(@RequestBody UserRequest userRequest) {
         adminService.CreateEmployee(userRequest);
     }
 
-    @GetMapping("api/GetEmployees")
+    @GetMapping("api/getEmployees")
     public List<UserEntity> GetEmployees() {
         return adminService.GetEmployees();
     }
 
-    @PostMapping("api/GetEmployeeDetail")
+    @PostMapping("api/getEmployeeDetail")
     public UserEntity GetEmployeeDetail(@RequestBody UserRequest userRequest) {
         return adminService.GetEmployeeDetail(userRequest);
     }
