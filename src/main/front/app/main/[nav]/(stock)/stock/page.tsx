@@ -8,7 +8,6 @@ const allStockRequestBody ={
     remain: false,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
     receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
     condition:false,
-
 }
 
 export default async function StockPage({searchParams}:StockPageProps){
@@ -35,8 +34,8 @@ export default async function StockPage({searchParams}:StockPageProps){
         },
         body: JSON.stringify(allStockRequestBody),
         signal,
-        cache:'no-store'
-        // next: {revalidate: 360000, tags: ['stock']} //1시간마다 재검증
+        // cache:'no-store'
+        next: {revalidate: 360000, tags: ['stock']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
