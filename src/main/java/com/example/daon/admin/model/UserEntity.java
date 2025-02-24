@@ -93,7 +93,7 @@ public class UserEntity implements UserDetails {
 
     //부서 -> enum
     @Column(name = "position")
-    private Position position;
+    private Dept dept;
 
 
     //--여기서부터 UserDetails 요소들 오버라이드
@@ -180,6 +180,6 @@ public class UserEntity implements UserDetails {
         this.memo = userRequest.getMemo();
         this.userClass = userRequest.getUserClass();
         this.userRole = userRequest.getUserRole();
-        this.position = userRequest.getPosition();
+        this.dept = userRequest.getDept();
     }
 }

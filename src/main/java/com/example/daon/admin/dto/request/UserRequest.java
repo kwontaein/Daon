@@ -1,7 +1,7 @@
 package com.example.daon.admin.dto.request;
 
 import com.example.daon.admin.model.ClassType;
-import com.example.daon.admin.model.Position;
+import com.example.daon.admin.model.Dept;
 import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import lombok.AllArgsConstructor;
@@ -67,7 +67,7 @@ public class UserRequest {
     private RoleType userRole;
 
     //부서 -> enum
-    private Position position;
+    private Dept dept;
 
     public UserEntity toEntity(PasswordEncoder passwordEncoder) {
         return UserEntity.builder()
@@ -88,7 +88,7 @@ public class UserRequest {
                 .memo(memo)
                 .userClass(userClass)
                 .userRole(userRole)
-                .position(position)
+                .dept(dept)
                 .build();
     }
 }
