@@ -1,13 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "./stockCateApi";
+import { createCateApi, deleteCateApi, updateCateApi } from "./staffCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
-import { StockCate } from "@/types/stock/cate/type";
+import { StaffCate } from "@/types/staff/cate/type";
 import { CateMode } from "@/types/share/type";
 
-export default function useStockCate(InitStockCate:StockCate[]){
-    const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)
+export default function useStaffCate(InitStaffCate:StaffCate[]){
+    const [cateState, setCateState] = useState<StaffCate[]>(InitStaffCate)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -17,9 +17,9 @@ export default function useStockCate(InitStockCate:StockCate[]){
             setMode('edit')
             return
         }
-        const postCate = cateState.filter(({stockCateName}, index) =>
-            InitStockCate[index].stockCateName !== stockCateName)
-        const postAble = postCate.every(({stockCateName}) => stockCateName !== '')
+        const postCate = cateState.filter(({staffCateName}, index) =>
+            InitStaffCate[index].staffCateName !== staffCateName)
+        const postAble = postCate.every(({staffCateName}) => staffCateName !== '')
         if (postCate.length>0 && postAble) {
             updateCateApi(postCate).then((status) => {
                 if(status === 200){
@@ -28,7 +28,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
                 }
             })
         } else if(postCate.length>0 && !postAble){
-            window.alert('소속명을 입력하세요.')
+            window.alert('부서명을 입력하세요.')
         }else{
             setMode(null)
         }
@@ -41,7 +41,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            createCateApi({stockCateName: addInputRef.current.value})
+            createCateApi({staffCateName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -53,7 +53,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
         }
     }
 
-    const deleteHandler=(cate:StockCate)=>{
+    const deleteHandler=(cate:StaffCate)=>{
         const deleteRequest = ()=>{
             deleteCateApi(cate).then((status)=>{
                 if(status === 200){

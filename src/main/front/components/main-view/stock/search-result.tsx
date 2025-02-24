@@ -55,31 +55,27 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
     }, []);
     
     //if start search then retry settings stock data
-    useEffect(()=>{
-        if(isSearch) {
-            const {category, isRemain, isStockUseEa, isConditionSearch, searchInput} = postSearchInfo
-            const searchCondition = {
-                condition: isConditionSearch,
-                category: category ==='none' ? null : category,
-                remain: isRemain,
-                stockUseEa: isStockUseEa,
-                name: searchInput,
-                receiptCategory: 'DEPOSIT',
+    useEffect(() => {
+        if (isSearch || allView) {
+            if (isSearch) {
+                const { category, isRemain, isStockUseEa, isConditionSearch, searchInput } = postSearchInfo;
+                fetchSearchStocks({
+                    condition: isConditionSearch,
+                    category: category === 'none' ? null : category,
+                    remain: isRemain,
+                    stockUseEa: isStockUseEa,
+                    name: searchInput,
+                    receiptCategory: 'DEPOSIT',
+                });
+            } else if (allView) {
+                setStocks(initialStocks);
             }
-            fetchSearchStocks(searchCondition)
+
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete("page");
+            router.push(`${pathname}?${params.toString()}`);
         }
-        if(allView){
-            console.log(allView)
-            setStocks(initialStocks)
-            setPageByStock(initialStocks.slice((page-1)*20, ((page-1)*20)+20))
-        }
-        if(allView ||isSearch){
-            const params = new URLSearchParams(searchParams.toString()); 
-            params.delete("page"); 
-            // 기존 pathname 유지
-            router.push(`${pathname}?${params.toString()}`); 
-        }
-    },[isSearch,allView])
+    }, [isSearch, allView, fetchSearchStocks]);
 
     useEffect(()=>{
         setPageByStock(stocks.slice((page-1)*20, ((page-1)*20)+20))

@@ -2,20 +2,21 @@ import CustomerSearch from "@/components/main-view/customer/search";
 import CustomerSearchResult from "@/components/main-view/customer/search-result";
 import Pagination from "@/components/pagination";
 import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
-import { RequestCustomer, ResponseCustomer, CustomerPageProps } from "@/types/customer/type";
+import { RequestCustomer, ResponseCustomer } from "@/types/customer/type";
+import { PageByProps } from "@/types/share/type";
 import { Suspense } from "react";
 
 
 
 
-const allRequestData:CustomerSearchCondition ={
+const allCustomerRequestBody:CustomerSearchCondition ={
     category: null,
     cateId:null,
     searchTarget :'all',
     customerName: null,
     ceo:null,
 }
-export default async function CustomerPage({searchParams}:CustomerPageProps) {
+export default async function CustomerPage({searchParams}:PageByProps) {
     const page = (await searchParams).page || 1;
 
     const controller = new AbortController();
@@ -39,7 +40,7 @@ export default async function CustomerPage({searchParams}:CustomerPageProps) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(allRequestData),
+        body: JSON.stringify(allCustomerRequestBody),
         signal,
         next: {revalidate: 360000, tags: ['customers']} //1시간마다 재검증
     }).then(async (response) => {

@@ -1,5 +1,4 @@
 import CustomerCate from "@/components/main-view/customer/cate/customer-cate";
-import { CustomerCatePageProps } from "@/types/customer/cate/type";
 
 
 export default async function CustomerCatePage() {
