@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/components/main-view/customer/register/customer-form.scss'
+import '@/styles/main-view/register/register.scss'
 
 import CustomerDetail from "@/components/main-view/customer/detail-view";
 import CustomerForm from "@/components/main-view/customer/form/customer-form";
@@ -50,7 +50,7 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
     
     return(
         <>
-        <header className="register-customer-header">
+        <header className="register-header">
             <Image src={asideArrow} alt=">" />
                 <h4>
                     {mode === 'detail' && '거래처 상세보기'}

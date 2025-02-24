@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/components/main-view/customer/register/customer-form.scss'
+import '@/components/main-view/staff/form/staff-form.scss'
 
 import { DetailPageProps } from "@/types/share/type";
 import { ResponseStaff } from "@/types/staff/type";
@@ -14,6 +14,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
     const staffId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
+    console.log(staffId)
     const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
@@ -37,7 +38,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
 
     return(
         <>
-        <header className="register-customer-header">
+        <header className="register-staff-header">
             <Image src={asideArrow} alt=">" />
                 <h4>
                     {mode === 'detail' && '사용자정보 상세보기'}
