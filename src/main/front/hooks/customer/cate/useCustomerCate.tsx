@@ -1,9 +1,10 @@
 'use client'
 import {useState, useRef} from "react";
-import {CateMode, CustomerCateType} from "@/types/customer/cate/type";
+import {CustomerCateType} from "@/types/customer/cate/type";
 
 import { createCateApi, deleteCateApi, updateCateApi } from "./customerCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
+import { CateMode } from "@/types/share/type";
 
 export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
     const [cateState, setCateState] = useState<CustomerCateType[]>(InitCustomerCate)
