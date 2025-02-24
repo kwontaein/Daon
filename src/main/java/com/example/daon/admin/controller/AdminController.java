@@ -2,6 +2,7 @@ package com.example.daon.admin.controller;
 
 import com.example.daon.admin.dto.request.CompanyRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +43,10 @@ public class AdminController {
         adminService.CreateCompany(companyRequest);
     }
 
-    @PostMapping("api/readCompany")
-    public void ReadCompany() {
-        adminService.ReadCompany();
+
+    @GetMapping("api/ReadCompany")
+    public List<CompanyEntity> ReadCompany() {
+        return adminService.ReadCompany();
     }
 
     @PostMapping("api/updateCompany")
@@ -64,9 +66,14 @@ public class AdminController {
         adminService.CreateEmployee(userRequest);
     }
 
-    @GetMapping("api/getEmployee")
-    public List<UserEntity> GetEmployee() {
-        return adminService.GetEmployee();
+    @GetMapping("api/GetEmployees")
+    public List<UserEntity> GetEmployees() {
+        return adminService.GetEmployees();
+    }
+
+    @PostMapping("api/GetEmployeeDetail")
+    public UserEntity GetEmployeeDetail(@RequestBody UserRequest userRequest) {
+        return adminService.GetEmployeeDetail(userRequest);
     }
 
     @PostMapping("api/updateEmployee")
