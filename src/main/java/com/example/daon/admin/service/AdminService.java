@@ -2,10 +2,8 @@ package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.CompanyRequest;
 import com.example.daon.admin.dto.request.UserRequest;
-import com.example.daon.admin.model.ClassType;
-import com.example.daon.admin.model.Position;
-import com.example.daon.admin.model.RoleType;
-import com.example.daon.admin.model.UserEntity;
+import com.example.daon.admin.model.*;
+import com.example.daon.admin.repository.CompanyRepository;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.RedisService;
 import com.example.daon.jwt.JwtToken;
@@ -31,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminService {
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
     private final RedisService redisService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -61,7 +60,7 @@ public class AdminService {
                         "",
                         ClassType.STAFF,
                         RoleType.ADMIN,
-                        Position.WEB);
+                        Dept.WEB);
 
         CreateEmployee(userRequest);
 
@@ -98,19 +97,21 @@ public class AdminService {
 
     //회사정보 crud
     public void CreateCompany(CompanyRequest companyRequest) {
-
+        companyRepository.save(companyRequest.toEntity());
     }
 
-    public void ReadCompany() {
-
+    public List<CompanyEntity> ReadCompany() {
+        return companyRepository.findAll();
     }
 
     public void UpdateCompany(CompanyRequest companyRequest) {
-
+        CompanyEntity company = companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
+        company.updateFromRequest(companyRequest);
+        companyRepository.save(company);
     }
 
     public void DeleteCompany(CompanyRequest companyRequest) {
-
+        companyRepository.deleteById(companyRequest.getCompanyId());
     }
 
 
@@ -121,7 +122,7 @@ public class AdminService {
         userRepository.save(userRequest.toEntity(passwordEncoder));
     }
 
-    public List<UserEntity> GetEmployee() {
+    public List<UserEntity> GetEmployees() {
         return userRepository.findAll();
     }
 
@@ -135,4 +136,7 @@ public class AdminService {
         userRepository.deleteById(userRequest.getId());
     }
 
+    public UserEntity GetEmployeeDetail(UserRequest userRequest) {
+        return userRepository.findById(userRequest.getId()).orElse(null);
+    }
 }
