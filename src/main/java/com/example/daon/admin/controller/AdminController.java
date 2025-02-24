@@ -6,6 +6,7 @@ import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +64,7 @@ public class AdminController {
         adminService.CreateEmployee(userRequest);
     }
 
-    @PostMapping("api/GetEmployee")
+    @GetMapping("api/GetEmployee")
     public List<UserEntity> GetEmployee() {
         return adminService.GetEmployee();
     }

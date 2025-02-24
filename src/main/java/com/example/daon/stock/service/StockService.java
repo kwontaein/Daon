@@ -38,12 +38,10 @@ public class StockService {
                 predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
 
-
             // 이름 (name) 검색
             if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getName()));
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + stockRequest.getName() + "%"));
             }
-
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
