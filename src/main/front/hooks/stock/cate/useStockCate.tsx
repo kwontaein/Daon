@@ -1,13 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
-import {v4 as uuidv4} from "uuid";
 
 import { createCateApi, deleteCateApi, updateCateApi } from "./stockCateApi";
 import { useConfirm } from "@/hooks/share/useConfrim";
-import { CateMode, StockCateType } from "@/types/stock/cate/type";
+import { StockCate } from "@/types/stock/cate/type";
+import { CateMode } from "@/types/share/type";
 
-export default function useStockCate(InitStockCate:StockCateType[]){
-    const [cateState, setCateState] = useState<StockCateType[]>(InitStockCate)
+export default function useStockCate(InitStockCate:StockCate[]){
+    const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,7 +53,7 @@ export default function useStockCate(InitStockCate:StockCateType[]){
         }
     }
 
-    const deleteHandler=(cate:StockCateType)=>{
+    const deleteHandler=(cate:StockCate)=>{
         const deleteRequest = ()=>{
             deleteCateApi(cate).then((status)=>{
                 if(status === 200){
