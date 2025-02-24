@@ -18,7 +18,7 @@ export interface ResponseStaff {
   memo: string;
   userClass: ClassType; //직급
   userRole: RoleType;   //권한등급
-  position: Dept;   //부서
+  dept: Dept;   //부서
 }
 
 
