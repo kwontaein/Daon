@@ -32,3 +32,10 @@
 .left-align{
     text-align: left !important;
 }
+
+
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
+    }
+}

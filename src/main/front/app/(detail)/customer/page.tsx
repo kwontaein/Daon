@@ -4,12 +4,13 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/components/main-view/customer/register/customer-form.scss'
 
 import CustomerDetail from "@/components/main-view/customer/detail-view";
-import CustomerForm from "@/components/main-view/customer/register/customer-form";
-import { CustomerDetailPageProps, ResponseCustomer } from "@/types/customer/type";
+import CustomerForm from "@/components/main-view/customer/form/customer-form";
+import { ResponseCustomer } from "@/types/customer/type";
+import { DetailPageProps } from "@/types/share/type";
 
 
 
-export default async function CustomerDetailPage({searchParams}:CustomerDetailPageProps){
+export default async function CustomerDetailPage({searchParams}:DetailPageProps){
     const customerId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 

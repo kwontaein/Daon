@@ -1,10 +1,10 @@
 'use client'
+import type { StockCate } from '@/types/stock/cate/type';
 import './stock-cate.scss';
 import useStockCate from "@/hooks/stock/cate/useStockCate";
-import { StockCateType } from "@/types/stock/cate/type";
 
 
-export default function StockCate({InitStockCate}: { InitStockCate: StockCateType[] }) {
+export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] }) {
     const { addInputRef, 
             cateState,
             mode,
@@ -31,7 +31,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCateTyp
                 </tr>
                 </thead>
                 <tbody>
-                {cateState.map((cate: StockCateType, index) => (
+                {cateState.map((cate: StockCate, index) => (
                     <tr key={cate.stockCateId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
@@ -42,7 +42,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCateTyp
                                        required={true}
                                        value={cate.stockCateName}
                                        onChange={(e) =>
-                                           setCateState(cateState.map((item: StockCateType, i: number) =>
+                                           setCateState(cateState.map((item: StockCate, i: number) =>
                                                i === index ? {...item, stockCateName: e.target.value} : item))}/>
                                 :
                                 <>{cate.stockCateName}</>
