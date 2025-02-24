@@ -1,11 +1,11 @@
 'use server';
 
 import { CustomerCateType } from "@/types/customer/cate/type";
-import { StockCateType } from "@/types/stock/cate/type";
+import { StockCate } from "@/types/stock/cate/type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 
-export const updateCateApi = async (cates: StockCateType[]) => {
+export const updateCateApi = async (cates: StockCate[]) => {
     return fetch("http://localhost:8080/api/updateStockCate", {
         method: "POST",
         headers: {
@@ -28,7 +28,7 @@ export const updateCateApi = async (cates: StockCateType[]) => {
     })
 }
 
-export const createCateApi = async (stock: Pick<StockCateType, 'stockCateName'>) => {
+export const createCateApi = async (stock: Pick<StockCate, 'stockCateName'>) => {
     return fetch("http://localhost:8080/api/saveStockCate", {
         method: "POST",
         headers: {
@@ -52,7 +52,7 @@ export const createCateApi = async (stock: Pick<StockCateType, 'stockCateName'>)
 }
 
 
-export const deleteCateApi =async (stock: StockCateType) => {
+export const deleteCateApi =async (stock: StockCate) => {
     return fetch("http://localhost:8080/api/deleteStockCate", {
         method: "POST",
         headers: {
