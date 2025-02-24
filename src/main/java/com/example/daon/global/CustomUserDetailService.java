@@ -33,7 +33,7 @@ public class CustomUserDetailService implements UserDetailsService {
                 .name(userEntity.getName())
                 .userClass(userEntity.getUserClass())
                 .userRole(userEntity.getUserRole())
-                .position(userEntity.getPosition())
+                .dept(userEntity.getDept())
                 .build();
     }
 }
