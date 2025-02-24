@@ -236,6 +236,75 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
         }
     }
 
+    async function createUser() {
+        try {
+            // 전송할 데이터 객체 생성
+            const userData = {
+                id: '홍길동',
+                password: 'password',
+                married: true,
+                joinDate: '2025-02-21T10:00:00',  // Timestamp 예: 'YYYY-MM-DDTHH:mm:ss'
+                birthday: '2025-02-21T00:00:00',
+                name: '홍길동',
+                engName: 'Hong Gil Dong',
+                chName: '洪吉同',
+                zipcode: '12345',
+                address: '서울특별시 종로구',
+                addressDetail: '1번지',
+                tel: '02-000-0000',
+                phone: '010-0000-0000',
+                email: 'test@example.com',
+                memo: '가입 테스트',
+                userClass: 'STAFF', // 예: enum 값
+                userRole: 'MANAGER',    // 예: enum 값
+                position: 'WEB'   // 예: enum 값
+            };
+
+            // POST 요청
+            const response = await axios.post('http://localhost:8080/api/CreateEmployee', userData);
+
+            // 요청 성공 시 처리
+            console.log('서버 응답:', response.data);
+        } catch (error) {
+            // 에러 처리
+            console.error('에러 발생:', error);
+        }
+    }
+
+    async function updateUser() {
+        try {
+            // 전송할 데이터 객체 생성
+            const userData = {
+                id: '홍길동',
+                password: 'password',
+                married: true,
+                joinDate: '2025-02-21T10:00:00',  // Timestamp 예: 'YYYY-MM-DDTHH:mm:ss'
+                birthday: '2025-02-21T00:00:00',
+                name: '홍길동2',
+                engName: 'Hong Gil Dong',
+                chName: '洪吉同',
+                zipcode: '12345',
+                address: '서울특별시 종로구',
+                addressDetail: '1번지',
+                tel: '02-000-0000',
+                phone: '010-0000-0000',
+                email: 'test@example.com',
+                memo: '가입 테스트',
+                userClass: 'STAFF', // 예: enum 값
+                userRole: 'MANAGER',    // 예: enum 값
+                position: 'WEB'   // 예: enum 값
+            };
+
+            // POST 요청
+            const response = await axios.post('http://localhost:8080/api/UpdateEmployee', userData);
+
+            // 요청 성공 시 처리
+            console.log('서버 응답:', response.data);
+        } catch (error) {
+            // 에러 처리
+            console.error('에러 발생:', error);
+        }
+    }
 
     return (
         <div>
@@ -243,12 +312,18 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
             <div>
                 <button onClick={testEstimateRequest}>견적서입력 테스트</button>
             </div>
+            <hr/>
             <div>
-                <button onClick={test}>유저 가입 테스트</button>
+                <button onClick={createUser}>유저 가입 테스트</button>
             </div>
+            <div>
+                <button onClick={updateUser}>유저 수정 테스트</button>
+            </div>
+            <hr/>
             <div>
                 <button onClick={testCreateReceipt}>전표입력 테스트</button>
             </div>
+            <hr/>
             <div>
                 <button onClick={createStock}>품목저장 테스트</button>
             </div>
@@ -261,6 +336,7 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
             <div>
                 <button onClick={deleteStock}>품목삭제</button>
             </div>
+            <hr/>
             <div>
                 <button onClick={getStockCate}>품목분류 조회</button>
             </div>
