@@ -3,7 +3,7 @@ package com.example.daon.admin.service;
 import com.example.daon.admin.dto.request.CompanyRequest;
 import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.model.ClassType;
-import com.example.daon.admin.model.Position;
+import com.example.daon.admin.model.Dept;
 import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
@@ -61,7 +61,7 @@ public class AdminService {
                         "",
                         ClassType.STAFF,
                         RoleType.ADMIN,
-                        Position.WEB);
+                        Dept.WEB);
 
         CreateEmployee(userRequest);
 

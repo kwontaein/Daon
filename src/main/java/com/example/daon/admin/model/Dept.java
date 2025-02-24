@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 @Getter
 @RequiredArgsConstructor
-public enum Position { //enum을 활용한 권한종류 설정
+public enum Dept { //enum을 활용한 권한종류 설정
     WEB("웹관리팀"),
     BUSINESS("영업부"),
     ELSE("기타"),
@@ -18,10 +18,10 @@ public enum Position { //enum을 활용한 권한종류 설정
 
     //user_role 유효성 검사
     @JsonCreator
-    public static Position positionParsing(String inputValue) {
+    public static Dept positionParsing(String inputValue) {
 
-        return Stream.of(Position.values())
-                .filter(position -> position.toString().equals(inputValue))
+        return Stream.of(Dept.values())
+                .filter(dept -> dept.toString().equals(inputValue))
                 .findFirst()
                 .orElse(BUSINESS);
     }
