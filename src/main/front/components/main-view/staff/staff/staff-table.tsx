@@ -1,25 +1,57 @@
 'use client'
-import React, { useEffect, useState } from "react"
-
 import './staff-table.scss';
-import Pagination from "@/components/pagination";
-import { ResponseStaff } from "@/types/staff/type";
+
+import React, { useEffect, useRef, useState } from "react"
+import { usePathname , useRouter, useSearchParams } from "next/navigation";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useItemSelection } from "@/hooks/share/useItemSelection";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+
+import { useItemSelection } from "@/hooks/share/useItemSelection";
+
+import Pagination from "@/components/pagination";
 import StaffOptions from "./staff-options";
+
 import { DeptMap, EmployeeClassMap } from "@/constants/staff/staff-info-map";
+import { ResponseStaff } from "@/types/staff/type";
 
 
 export default function StaffTable({initialStaff, page}:{initialStaff:ResponseStaff[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
+
     const [staff,setStaff] = useState<ResponseStaff[]>(initialStaff)
-    const [allView,setAllView] = useState(true)
     const [pageByStaff,setPageByStaff] = useState<ResponseStaff[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
+    //search input variables 
+    const inputRef = useRef<HTMLInputElement|null>(null)
+    
+    //router variables
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const router = useRouter()
+
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
+
+
+    const searchHandler = () =>{
+        console.log(initialStaff.filter(({name})=>name.includes(inputRef.current.value)))
+        setStaff(()=>{
+            return initialStaff.filter(({name})=>name.includes(inputRef.current.value))
+        })
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.delete("page"); 
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`); 
+    }
+    const allViewHandler =()=>{
+        setStaff(initialStaff)
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.delete("page"); 
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`); 
+    }
 
     useEffect(()=>{
         setPageByStaff(staff.slice((page-1)*20, ((page-1)*20)+20))
@@ -30,9 +62,9 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
         <>
             <section className="staff-search-container">
                 <h4>사원명</h4>
-                <input type='text'/>
-                <button>조회</button>
-                <button>전체검색</button>
+                <input type='text' ref={inputRef}/>
+                <button onClick={searchHandler}>조회</button>
+                <button onClick={allViewHandler}>전체검색</button>
             </section>
             <table className="staff-table">
                 <colgroup>
@@ -70,9 +102,16 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                             </td>
                         </tr>
                     ))}
+                    {!loading && pageByStaff.length===0 && 
+                        <tr className='none-hover'>
+                            <td colSpan={9}>
+                                <p>조회된 결과가 없습니다.</p>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-            {!loading &&
+            {(!loading && staff.length>20) &&
                 <Pagination
                     totalItems={staff.length}
                     itemCountPerPage={20} 

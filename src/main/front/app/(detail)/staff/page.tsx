@@ -6,22 +6,22 @@ import '@/components/main-view/staff/form/staff-form.scss'
 import { DetailPageProps } from "@/types/share/type";
 import { ResponseStaff } from "@/types/staff/type";
 import StaffDetailView from "@/components/main-view/staff/detail-view";
-import StaffForm from "@/components/main-view/staff/form/staff-form";
+import StaffForm from "@/components/main-view/staff/staff/form/staff-form";
 
 
 
 export default async function StaffDetailPage({searchParams}:DetailPageProps){
-    const staffId = (await searchParams).target || ''
+    const userId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    console.log(staffId)
+    console.log(userId)
     const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({staffId}),
-        next: {revalidate: 18000, tags: [`${staffId}`]} //30분마다 재검증
+        body: JSON.stringify({userId}),
+        next: {revalidate: 18000, tags: [`${userId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

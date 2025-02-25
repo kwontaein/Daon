@@ -3,6 +3,13 @@
     @media (max-width: 620px) {
         font-size: 0.65rem
     }
+    tbody{
+        tr{
+            &:hover{
+                background-color: rgb(197,202,254);
+            }
+        }
+    }
     td {
         border: 1px solid #ddd;
         padding-block: 0.1em;
@@ -101,5 +108,14 @@
     }
     button{
         padding-inline: 5px;
+    }
+}
+
+.is-click{
+    background-color: rgb(197,202,254);
+}
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
     }
 }
