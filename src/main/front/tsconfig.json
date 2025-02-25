@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "constants/receipt/lunarcalndar.js", "components/main-view/staff/form/staff-form2tsx"  ],
+, "constants/receipt/lunarcalndar.js", "components/main-view/staff/staff/form/staff-form2tsx"  ],
   "exclude": [
     "node_modules"
   ],
