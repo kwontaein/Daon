@@ -4,7 +4,6 @@ import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.model.TaskType;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public class TaskRequest {
 
     public TaskType taskType; // 구분 (ENUM 사용)
 
-    public CustomerEntity customer; // 거래처
+    public UUID customer; // 거래처
 
     public String requesterName; // 의뢰자명
 
@@ -28,7 +27,7 @@ public class TaskRequest {
 
     public Boolean isCompleted; // 처리 여부
 
-    public UserEntity assignedUser; // 담당 기사 (유저)
+    public String assignedUser; // 담당 기사 (유저)
 
     public String details; // 내용
 
@@ -38,7 +37,11 @@ public class TaskRequest {
 
     public LocalDateTime updatedAt; // 수정일
 
-    public TaskEntity toEntity() {
+    //--------------------------------------
+
+    public String receiptCate;
+
+    public TaskEntity toEntity(CustomerEntity customer, UserEntity user) {
         return TaskEntity
                 .builder()
                 .taskId(taskId)
@@ -49,7 +52,7 @@ public class TaskRequest {
                 .requesterContact2(requesterContact2)
                 .model(model)
                 .isCompleted(isCompleted)
-                .assignedUser(assignedUser)
+                .assignedUser(user)
                 .details(details)
                 .remarks(remarks)
                 .createdAt(createdAt)
