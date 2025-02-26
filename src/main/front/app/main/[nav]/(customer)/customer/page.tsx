@@ -2,6 +2,7 @@ import CustomerSearch from "@/components/main-view/customer/search";
 import CustomerSearchResult from "@/components/main-view/customer/search-result";
 import Pagination from "@/components/pagination";
 import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
+import { CustomerCate } from "@/types/customer/cate/type";
 import { RequestCustomer, ResponseCustomer } from "@/types/customer/type";
 import { PageByProps } from "@/types/share/type";
 import { Suspense } from "react";
@@ -24,7 +25,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     
-    const customerCate = await fetch("http://localhost:8080/api/getCustomerCate",{
+    const customerCate:CustomerCate[] = await fetch("http://localhost:8080/api/getCustomerCate",{
         next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {

@@ -1,6 +1,6 @@
 'use client'
 
-import './search.scss';
+import '@/styles/table-style/search.scss';
 import '@/styles/_global.scss';
 
 import dayjs from 'dayjs';
