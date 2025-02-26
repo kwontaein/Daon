@@ -1,15 +1,13 @@
 package com.example.daon.admin.dto.request;
 
-import com.example.daon.admin.model.ClassType;
-import com.example.daon.admin.model.Dept;
-import com.example.daon.admin.model.RoleType;
-import com.example.daon.admin.model.UserEntity;
+import com.example.daon.admin.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -67,9 +65,9 @@ public class UserRequest {
     private RoleType userRole;
 
     //부서 -> enum
-    private Dept dept;
+    private UUID dept;
 
-    public UserEntity toEntity(PasswordEncoder passwordEncoder) {
+    public UserEntity toEntity(PasswordEncoder passwordEncoder, DeptEntity dept) {
         return UserEntity.builder()
                 .userId(userId)
                 .password(passwordEncoder.encode(password))
