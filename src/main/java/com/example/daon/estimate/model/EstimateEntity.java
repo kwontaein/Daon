@@ -1,10 +1,13 @@
 package com.example.daon.estimate.model;
 
-import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
+import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
