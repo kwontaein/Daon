@@ -38,8 +38,8 @@ public class AdminController {
     }
 
     //사원정보 crud
-    @PostMapping("api/createEmployee")
-    public void CreateEmployee(@RequestBody UserRequest userRequest) {
+    @PostMapping("api/saveEmployee")
+    public void saveEmployee(@RequestBody UserRequest userRequest) {
         adminService.CreateEmployee(userRequest);
     }
 
@@ -69,8 +69,8 @@ public class AdminController {
         return adminService.getDept();
     }
 
-    @PostMapping("api/createDept")
-    public void CreateDept(@RequestBody DeptRequest deptRequest) {
+    @PostMapping("api/saveDept")
+    public void saveDept(@RequestBody DeptRequest deptRequest) {
         adminService.CreateDept(deptRequest);
     }
 
