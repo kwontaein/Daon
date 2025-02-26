@@ -1,6 +1,6 @@
-package com.example.daon.admin.repository;
+package com.example.daon.company.repository;
 
-import com.example.daon.admin.model.CompanyEntity;
+import com.example.daon.company.model.CompanyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

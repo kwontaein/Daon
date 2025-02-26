@@ -1,9 +1,13 @@
-package com.example.daon.admin.model;
+package com.example.daon.company.model;
 
-import com.example.daon.admin.dto.request.CompanyRequest;
-import jakarta.persistence.*;
+import com.example.daon.company.dto.request.CompanyRequest;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,6 +15,7 @@ import java.util.UUID;
 
 @Entity(name = "company")
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanyEntity {

@@ -1,7 +1,7 @@
 package com.example.daon.estimate.dto.request;
 
-import com.example.daon.admin.model.CompanyEntity;
 import com.example.daon.admin.model.UserEntity;
+import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
