@@ -1,5 +1,5 @@
-import StockSearch from "@/components/main-view/stock/search";
-import StockSearchResult from "@/components/main-view/stock/search-result";
+import StockSearch from "@/components/main-view/stock/stock/search";
+import StockSearchResult from "@/components/main-view/stock/stock/search-result";
 import { ResponseStock, StockPageProps } from "@/types/stock/types";
 import { Suspense } from "react";
 

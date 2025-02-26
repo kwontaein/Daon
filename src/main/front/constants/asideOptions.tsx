@@ -38,7 +38,7 @@ export const AsideOptions = {
         asideItems: [
             {name: '회사정보', link: 'company'},
             {name: '사원관리', link: 'staff'},
-            {name: '부서관리', link: 'category'}
+            {name: '부서관리', link: 'dept'}
         ]
     },
     task: {

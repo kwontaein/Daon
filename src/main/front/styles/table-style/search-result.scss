@@ -1,0 +1,42 @@
+@use '@/styles/_variables.scss' as var;
+
+.search-result-table{
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    tbody{
+        tr{
+            border-bottom: 1px solid var.$default-border-color;
+            height: 30px;
+            
+            &:hover{
+                background-color: rgb(197,202,254);
+            }
+        }
+    }
+    
+    td{
+        text-align: center;
+    }
+    @media (max-width:620px){
+        font-size: 0.7rem;
+        margin-top: 0.5rem;
+    }
+}
+.is-click{
+    background-color: rgb(197,202,254);
+}
+
+.icon{
+    cursor: pointer;
+}
+.left-align{
+    text-align: left !important;
+}
+
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
+    }
+}

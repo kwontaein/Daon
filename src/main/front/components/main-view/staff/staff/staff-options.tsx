@@ -1,5 +1,5 @@
 'use client'
-import './staff-options.scss';
+import '@/styles/options/options.scss';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/constants/apiUrl';
 
@@ -20,10 +20,10 @@ export default function StaffOptions({staffId}:{staffId:string}){
             }
         }
     return(
-        <menu className='staff-options-container'>
+        <menu className='options-container'>
             <li onClick={viewStaffInfoHandler.bind(null,staffId)}>회원정보</li>
             <li>권한관리</li>
-            <li>삭제하기</li>
+            <li className='delete-option'>삭제하기</li>
         </menu>    
     )
 }

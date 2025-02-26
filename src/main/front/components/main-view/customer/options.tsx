@@ -1,6 +1,6 @@
 'use client'
 import { ResponseCustomer } from '@/types/customer/type';
-import './options.scss';
+import '@/styles/options/options.scss';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/constants/apiUrl';
 

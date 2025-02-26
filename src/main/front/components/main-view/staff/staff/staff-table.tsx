@@ -36,7 +36,6 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
 
 
     const searchHandler = () =>{
-        console.log(initialStaff.filter(({name})=>name.includes(inputRef.current.value)))
         setStaff(()=>{
             return initialStaff.filter(({name})=>name.includes(inputRef.current.value))
         })

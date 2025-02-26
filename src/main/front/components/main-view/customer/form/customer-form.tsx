@@ -12,10 +12,10 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
 import { ResponseCustomer } from '@/types/customer/type';
 import { useRouter } from 'next/navigation';
-import { CustomerCateType } from '@/types/customer/cate/type';
+import { CustomerCate } from '@/types/customer/cate/type';
 
 
-export default function CustomerForm({customerCate, customer}:{customerCate:CustomerCateType[], customer?:ResponseCustomer}) {
+export default function CustomerForm({customerCate, customer}:{customerCate:CustomerCate[], customer?:ResponseCustomer}) {
   const initialState = useMemo(() => customer ?? {}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const router = useRouter();

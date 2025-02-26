@@ -1,4 +1,5 @@
-import './search.scss'
+import '@/styles/table-style/search.scss';
+
 export default function EstimateSearch(){
     return(
         <div className="search-container">

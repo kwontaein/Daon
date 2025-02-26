@@ -5,7 +5,7 @@ import '@/components/main-view/staff/form/staff-form.scss'
 
 import { DetailPageProps } from "@/types/share/type";
 import { ResponseStaff } from "@/types/staff/type";
-import StaffDetailView from "@/components/main-view/staff/detail-view";
+import StaffDetailView from "@/components/main-view/staff/staff/detail-view";
 import StaffForm from "@/components/main-view/staff/staff/form/staff-form";
 
 
