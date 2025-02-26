@@ -1,7 +1,7 @@
 import '@/styles/_global.scss';
 import '@/styles/main-view/main.scss';
 
-import MainViewHeader from '@/components/main-view/header';
+import MainViewHeader from '@/components/share/header';
 
 
 

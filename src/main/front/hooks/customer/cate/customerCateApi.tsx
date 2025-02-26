@@ -1,10 +1,10 @@
 'use server';
 
-import { CustomerCateType } from "@/types/customer/cate/type";
+import { CustomerCate } from "@/types/customer/cate/type";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 
-export const updateCateApi = async (cates: CustomerCateType[]) => {
+export const updateCateApi = async (cates: CustomerCate[]) => {
     return fetch("http://localhost:8080/api/updateCustomerCate", {
         method: "POST",
         headers: {
@@ -27,7 +27,7 @@ export const updateCateApi = async (cates: CustomerCateType[]) => {
     })
 }
 
-export const createCateApi = async (customer: Pick<CustomerCateType,'customerCateName'>) => {
+export const createCateApi = async (customer: Pick<CustomerCate,'customerCateName'>) => {
     return fetch("http://localhost:8080/api/saveCustomerCate", {
         method: "POST",
         headers: {
@@ -51,7 +51,7 @@ export const createCateApi = async (customer: Pick<CustomerCateType,'customerCat
 }
 
 
-export const deleteCateApi =async (customer: CustomerCateType) => {
+export const deleteCateApi =async (customer: CustomerCate) => {
     return fetch("http://localhost:8080/api/deleteCustomerCate", {
         method: "POST",
         headers: {

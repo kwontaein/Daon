@@ -2,16 +2,17 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/hooks/redux/store';
-import './search.scss';
+
+import '@/styles/table-style/search.scss';
 
 import { apiUrl } from '@/constants/apiUrl';
-import { CustomerCateType } from '@/types/customer/cate/type';
+import { CustomerCate } from '@/types/customer/cate/type';
 
 import { useDispatch } from 'react-redux';
 import { RequestCustomerData, CustomerSearchInputTarget, RequestAllCustomerData, updateCustomerSearchQuery, ResetCustomerSearchQuery, updateCustomerSearchInputTarget, updateCustomerSearchInput } from '@/hooks/redux/slice/customer-search';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 
-export default function CustomerSearch({customerCate}:{customerCate: CustomerCateType[]}){
+export default function CustomerSearch({customerCate}:{customerCate: CustomerCate[]}){
     const {searchInputTarget, searchInput, postSearchInfo} = useSelector((state:RootState)=> state.customerSearch);
     const dispatch = useDispatch()
     const size = useWindowSize()
@@ -33,7 +34,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
     },[])
     
     return(
-        <div className='customer-search-container'>
+        <div className='search-container'>
             <table className="search-table">
                 <colgroup>
                     <col style={{ width: '5%' }} />
@@ -49,12 +50,12 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                                         value={postSearchInfo.category}
                                         onChange={(e)=>dispatch(updateCustomerSearchQuery({category: e.target.value}))}>
                                     <option value='none'>선택안함</option>
-                                    <option value="sale">판매처</option>
-                                    <option value="purchase">구매처</option>
-                                    <option value="consumer">소비자</option>
-                                    <option value="subcontractor">하청업체</option>
-                                    <option value="etc">기타</option>
-                                </select>
+                                    <option value="SALE">판매처</option>
+                                    <option value="PURCHASE">구매처</option>
+                                    <option value="CONSUMER">소비자</option>
+                                    <option value="SUBCONTRACTOR">하청업체</option>
+                                    <option value="ETC">기타</option>
+                           </select>
                             </label>
                         </td>
                     </tr>
@@ -64,7 +65,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td className='table-label'>소속</td>
                         <td className="table-input">
                             <label>
-                                <select name="classification" size={1}
+                                <select className="classification" size={1}
                                         value={postSearchInfo.cateId}
                                         onChange={(e)=>dispatch(updateCustomerSearchQuery({cateId: e.target.value}))}>
                                         <option value='none'>선택안함</option>
@@ -77,7 +78,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                             </label>
                         </td>
                         <td rowSpan={3}>
-                           <div className="table-buttons">
+                           <div className="grid-table-buttons">
                                 <button onClick={()=>{
                                     dispatch(RequestCustomerData(true))
                                     setTimeout(()=>{dispatch(RequestCustomerData(false))},1000)
@@ -113,7 +114,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                     </tr>
                     <tr>
                         <td className='table-label'>
-                            <select className='classification' name="searchOptions" size={1}
+                            <select className='classification-label' name="searchOptions" size={1}
                                     value={searchInputTarget} 
                                     onChange={(e)=> dispatch(updateCustomerSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
                                 <option value="customerName">상호명/담당기사</option>

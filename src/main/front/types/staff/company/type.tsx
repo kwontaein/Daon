@@ -1,5 +1,5 @@
 
-export interface Company {
+export interface ResponseCompany {
     companyName: string;      // 회사이름
     printName: string;        // 인쇄명
     ceo: string;              // CEO 이름
