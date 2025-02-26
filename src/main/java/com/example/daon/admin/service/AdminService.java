@@ -1,9 +1,10 @@
 package com.example.daon.admin.service;
 
-import com.example.daon.admin.dto.request.CompanyRequest;
+import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
-import com.example.daon.admin.model.*;
-import com.example.daon.admin.repository.CompanyRepository;
+import com.example.daon.admin.model.DeptEntity;
+import com.example.daon.admin.model.UserEntity;
+import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.RedisService;
 import com.example.daon.jwt.JwtToken;
@@ -29,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminService {
     private final UserRepository userRepository;
-    private final CompanyRepository companyRepository;
+    private final DeptRepository deptRepository;
     private final RedisService redisService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -44,7 +45,7 @@ public class AdminService {
         calendar.set(2000, Calendar.DECEMBER, 11, 00, 00, 10); // 월은 0부터 시작!
         Timestamp birthDay = new Timestamp(calendar.getTimeInMillis());
 
-        UserRequest userRequest = new UserRequest
+      /*  UserRequest userRequest = new UserRequest
                 ("권태인",
                         passwordEncoder.encode("guswlsxodls"),
                         false, joinDate,
@@ -60,9 +61,9 @@ public class AdminService {
                         "",
                         ClassType.STAFF,
                         RoleType.ADMIN,
-                        Dept.WEB);
+                        Dept.WEB);*/
 
-        CreateEmployee(userRequest);
+        // CreateEmployee(userRequest);
 
     }
 
@@ -95,31 +96,11 @@ public class AdminService {
         }
     }
 
-    //회사정보 crud
-    public void CreateCompany(CompanyRequest companyRequest) {
-        companyRepository.save(companyRequest.toEntity());
-    }
-
-    public List<CompanyEntity> getCompany() {
-        return companyRepository.findAll();
-    }
-
-    public void UpdateCompany(CompanyRequest companyRequest) {
-        CompanyEntity company = companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
-        company.updateFromRequest(companyRequest);
-        companyRepository.save(company);
-    }
-
-    public void DeleteCompany(CompanyRequest companyRequest) {
-        companyRepository.deleteById(companyRequest.getCompanyId());
-    }
-
-
     //사원정보 crud
 
     public void CreateEmployee(UserRequest userRequest) {
-        System.out.println(userRequest.toEntity(passwordEncoder).toString());
-        userRepository.save(userRequest.toEntity(passwordEncoder));
+        DeptEntity dept = deptRepository.findById(userRequest.getDept()).orElse(null);
+        userRepository.save(userRequest.toEntity(passwordEncoder, dept));
     }
 
     public List<UserEntity> GetEmployees() {
@@ -128,7 +109,8 @@ public class AdminService {
 
     public void UpdateEmployee(UserRequest userRequest) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
-        user.updateFromRequest(userRequest);
+        DeptEntity dept = deptRepository.findById(userRequest.getDept()).orElse(null);
+        user.updateFromRequest(userRequest, dept);
         userRepository.save(user);
     }
 
@@ -140,4 +122,23 @@ public class AdminService {
         System.out.println(userRequest.toString());
         return userRepository.findById(userRequest.getUserId()).orElse(null);
     }
+
+    public List<DeptEntity> getDept() {
+        return deptRepository.findAll();
+    }
+
+    public void CreateDept(DeptRequest deptRequest) {
+        deptRepository.save(deptRequest.toEntity());
+    }
+
+    public void UpdateDept(DeptRequest deptRequest) {
+        DeptEntity dept = deptRepository.findById(deptRequest.getDeptId()).orElse(null);
+        dept.updateFromRequest(deptRequest);
+        deptRepository.save(dept);
+    }
+
+    public void DeleteDept(DeptRequest deptRequest) {
+        deptRepository.deleteById(deptRequest.getDeptId());
+    }
+
 }

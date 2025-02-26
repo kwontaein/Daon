@@ -1,8 +1,8 @@
 package com.example.daon.admin.controller;
 
-import com.example.daon.admin.dto.request.CompanyRequest;
+import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
-import com.example.daon.admin.model.CompanyEntity;
+import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -37,29 +37,6 @@ public class AdminController {
         adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
     }
 
-    //회사정보 crud
-    @PostMapping("api/createCompany")
-    public void CreateCompany(@RequestBody CompanyRequest companyRequest) {
-        adminService.CreateCompany(companyRequest);
-    }
-
-
-    @GetMapping("api/getCompany")
-    public List<CompanyEntity> getCompany() {
-        return adminService.getCompany();
-    }
-
-    @PostMapping("api/updateCompany")
-    public void UpdateCompany(@RequestBody CompanyRequest companyRequest) {
-        adminService.UpdateCompany(companyRequest);
-    }
-
-    @PostMapping("api/deleteCompany")
-    public void DeleteCompany(@RequestBody CompanyRequest companyRequest) {
-        adminService.DeleteCompany(companyRequest);
-    }
-
-
     //사원정보 crud
     @PostMapping("api/createEmployee")
     public void CreateEmployee(@RequestBody UserRequest userRequest) {
@@ -86,6 +63,27 @@ public class AdminController {
     @PostMapping("api/deleteEmployee")
     public void DeleteEmployee(@RequestBody UserRequest userRequest) {
         adminService.DeleteEmployee(userRequest);
+    }
+
+
+    @GetMapping("api/getDept")
+    public List<DeptEntity> getDept() {
+        return adminService.getDept();
+    }
+
+    @PostMapping("api/createDept")
+    public void CreateDept(@RequestBody DeptRequest deptRequest) {
+        adminService.CreateDept(deptRequest);
+    }
+
+    @PostMapping("api/updateDept")
+    public void UpdateDept(@RequestBody DeptRequest deptRequest) {
+        adminService.UpdateDept(deptRequest);
+    }
+
+    @PostMapping("api/deleteDept")
+    public void DeleteDept(@RequestBody DeptRequest deptRequest) {
+        adminService.DeleteDept(deptRequest);
     }
 
 }
