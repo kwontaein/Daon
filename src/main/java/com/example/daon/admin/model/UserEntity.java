@@ -1,9 +1,7 @@
 package com.example.daon.admin.model;
 
 import com.example.daon.admin.dto.request.UserRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -92,8 +90,9 @@ public class UserEntity implements UserDetails {
     private RoleType userRole;
 
     //부서 -> enum
-    @Column(name = "position")
-    private Dept dept;
+    @JoinColumn(name = "dept_id")
+    @ManyToOne
+    private DeptEntity dept;
 
 
     //--여기서부터 UserDetails 요소들 오버라이드
@@ -164,7 +163,7 @@ public class UserEntity implements UserDetails {
     }
 
 
-    public void updateFromRequest(UserRequest userRequest) {
+    public void updateFromRequest(UserRequest userRequest, DeptEntity dept) {
         this.married = userRequest.isMarried();
         this.joinDate = userRequest.getJoinDate();
         this.birthday = userRequest.getBirthday();
@@ -180,6 +179,6 @@ public class UserEntity implements UserDetails {
         this.memo = userRequest.getMemo();
         this.userClass = userRequest.getUserClass();
         this.userRole = userRequest.getUserRole();
-        this.dept = userRequest.getDept();
+        this.dept = dept;
     }
 }

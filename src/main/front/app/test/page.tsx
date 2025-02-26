@@ -1,10 +1,9 @@
 "use client";  // 최상단에 추가
 import '@/styles/_global.scss';
-import {ReceiptPageProps} from "@/types/receipt/type";
 import axios from "axios";
 
 
-export default async function TestPage({searchParams}: ReceiptPageProps) {
+export default async function TestPage() {
 
     /**
      * 테스트
@@ -306,6 +305,19 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
         }
     }
 
+    async function getCompany() {
+        // 전송할 데이터 (예시)
+
+        try {
+            const response = await axios.get(
+                'http://localhost:8080/api/getCompany', // 실제 API 주소로 변경
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
     return (
         <div>
             <div>테스트용 페이지</div>
@@ -345,6 +357,16 @@ export default async function TestPage({searchParams}: ReceiptPageProps) {
             </div>
             <div>
                 <button onClick={updateStockCate}>품목분류 수정</button>
+            </div>
+            <hr/>
+            <div>
+                <button onClick={getCompany}>회사목록 조회</button>
+            </div>
+            <div>
+                <button onClick={saveStockCate}>회사목록 생성</button>
+            </div>
+            <div>
+                <button onClick={updateStockCate}>회사목록 수정</button>
             </div>
         </div>
     );
