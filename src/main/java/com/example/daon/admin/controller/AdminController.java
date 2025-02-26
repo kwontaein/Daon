@@ -44,9 +44,9 @@ public class AdminController {
     }
 
 
-    @GetMapping("api/readCompany")
-    public List<CompanyEntity> ReadCompany() {
-        return adminService.ReadCompany();
+    @GetMapping("api/getCompany")
+    public List<CompanyEntity> getCompany() {
+        return adminService.getCompany();
     }
 
     @PostMapping("api/updateCompany")

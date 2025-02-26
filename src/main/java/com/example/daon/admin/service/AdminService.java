@@ -100,7 +100,7 @@ public class AdminService {
         companyRepository.save(companyRequest.toEntity());
     }
 
-    public List<CompanyEntity> ReadCompany() {
+    public List<CompanyEntity> getCompany() {
         return companyRepository.findAll();
     }
 
