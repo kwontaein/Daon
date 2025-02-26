@@ -1,6 +1,6 @@
-package com.example.daon.admin.dto.request;
+package com.example.daon.company.dto.request;
 
-import com.example.daon.admin.model.CompanyEntity;
+import com.example.daon.company.model.CompanyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
