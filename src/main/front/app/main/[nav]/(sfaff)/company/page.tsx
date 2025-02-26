@@ -9,13 +9,13 @@ export default async function CompanyPage({searchParams}:PageByProps){
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    const initialCompany:ResponseCompany[] = await fetch("http://localhost:8080/api/readCompany", {
+    const initialCompany:ResponseCompany[] = await fetch("http://localhost:8080/api/getCompany", {
         headers: {
             'Content-Type': 'application/json',
         },
         signal,
-        // cache:'no-store',
-        next: {revalidate: 360000, tags: ['company']} //1시간마다 재검증
+        cache:'no-store',
+        // next: {revalidate: 360000, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,10 +1,10 @@
 'use client'
-import { CustomerCateType} from "@/types/customer/cate/type";
+import type { CustomerCate } from '@/types/customer/cate/type';
 import './customer-cate.scss';
 import useCustomerCate from "@/hooks/customer/cate/useCustomerCate";
 
 
-export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: CustomerCateType[] }) {
+export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: CustomerCate[] }) {
     const { addInputRef, 
             cateState,
             mode,
@@ -31,7 +31,7 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
                 </tr>
                 </thead>
                 <tbody>
-                {cateState.map((cate: CustomerCateType, index) => (
+                {cateState.map((cate: CustomerCate, index) => (
                     <tr key={cate.customerCateId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
@@ -42,7 +42,7 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
                                        required={true}
                                        value={cate.customerCateName}
                                        onChange={(e) =>
-                                           setCateState(cateState.map((item: CustomerCateType, i: number) =>
+                                           setCateState(cateState.map((item: CustomerCate, i: number) =>
                                                i === index ? {...item, customerCateName: e.target.value} : item))}/>
                                 :
                                 <>{cate.customerCateName}</>

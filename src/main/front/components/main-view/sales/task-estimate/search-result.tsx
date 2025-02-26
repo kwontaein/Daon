@@ -1,7 +1,8 @@
-import './search-result.scss';
+import '@/styles/table-style/search-result.scss';
+
 export default function EstimateSearchResults(){
     return(
-        <table className="estimate-table-container">
+        <table className="search-result-table">
               <colgroup>
                 <col style={{ width: '5%', minWidth:'60px'}} />
                 <col style={{ width: '5%', minWidth:'60px' }} />

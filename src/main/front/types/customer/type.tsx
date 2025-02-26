@@ -1,3 +1,5 @@
+import { CustomerCate } from "./cate/type";
+
 export interface RequestCustomer {
     customerId: string; // UUID는 문자열로 처리
     customerName: string;
@@ -50,11 +52,6 @@ export interface Estimate {
     amount: number;
 }
 
-export interface CustomerCate{
-    customerCateId:string;
-    customerCateKey:string;
-    customerCateName:string;
-}
-  
+
 
 

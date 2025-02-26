@@ -1,5 +1,5 @@
 "use client";
-import './search-result.scss';
+import '@/styles/table-style/search-result.scss';
 
 import { useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -83,7 +83,7 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     const tableRender = useMemo(()=>{
         return(
             <>
-            <table className="customer-result-table">
+            <table className="search-result-table">
                 <colgroup>
                         <col style={{ width: '1%' }} />
                         <col style={{ width: '11%' }} />
@@ -147,7 +147,7 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             }
         </>
         )
-    },[pageByCustomer,target])
+    },[pageByCustomer,target,checkedState,isAllChecked])
 
     return(
        <>
