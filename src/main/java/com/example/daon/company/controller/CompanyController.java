@@ -22,7 +22,7 @@ public class CompanyController {
 
 
     //회사정보 crud
-    @PostMapping("api/createCompany")
+    @PostMapping("api/saveCompany")
     public void CreateCompany(@RequestBody CompanyRequest companyRequest) {
         companyService.CreateCompany(companyRequest);
     }

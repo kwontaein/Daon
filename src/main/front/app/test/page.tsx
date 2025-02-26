@@ -260,7 +260,7 @@ export default async function TestPage() {
             };
 
             // POST 요청
-            const response = await axios.post('http://localhost:8080/api/CreateEmployee', userData);
+            const response = await axios.post('http://localhost:8080/api/saveEmployee', userData);
 
             // 요청 성공 시 처리
             console.log('서버 응답:', response.data);
@@ -291,7 +291,7 @@ export default async function TestPage() {
                 memo: '가입 테스트',
                 userClass: 'STAFF', // 예: enum 값
                 userRole: 'MANAGER',    // 예: enum 값
-                position: 'WEB'   // 예: enum 값
+                dept: '0x9FD4AD75F40C11EFA0E0D8BBC19E908C'   // 예: enum 값
             };
 
             // POST 요청
