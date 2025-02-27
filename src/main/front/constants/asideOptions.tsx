@@ -72,37 +72,9 @@ export const AsideOptions = {
     }
 }
 
-export const AsideKeyOfValues = {
-    "receipt": "전표입력",
-    "task-estimate": "견적서관리",
-    "remain": "미수/미지급현황",
-    "official": "관리비관리",
-    "customer": "거래처관리",
-    "customer-cate": "소속관리",
-    "stock": "품목/재고 관리",
-    "stock-cate": "분류관리",
-    "point": "구매적립금설정",
-    "ledger-customer": "거래처별원장출력",
-    "ledger-customers": "복수거래처원장출력",
-    "ledger-stock": "품목별원장출력",
-    "ledger-sales": "매출장 출력",
-    "ledger-purchase": "매입장 출력",
-    "ledger-official": "관리비 원장출력",
-    "ledger-stock-count": "재고조사서",
-    "ledger-etc": "기타원장",
-    "company": "회사정보",
-    "staff": "사원관리",
-    "category": "부서관리",
-    "task": "업무관리",
-    "admin": "관리자데이터조회",
-    "estimate": "견적서관리",
-    "bills": "세금계산서",
-    "deposit": "입금표",
-    "board": "사내게시판",
-    "pvat": "매입부가세",
-    "svat": "매출부가세",
-    "pset": "조달및수익계약정산",
-    "card": "카드결제내역",
-    "proof": "지출증빙",
-    "schedule": "내 일정"
-}
+export const AsideKeyOfValues= Object.values(AsideOptions).reduce((acc, category) => {
+    category.asideItems.forEach(({ name, link }) => {
+        acc[link] = name;
+    });
+    return acc;
+}, {} as Record<string, string>);

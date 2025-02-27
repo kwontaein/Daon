@@ -135,15 +135,15 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>
                     <td colSpan={2} className="table-label">전화번호</td>
                     <td colSpan={4}>
-                        <input className="short-input" name="tel1" defaultValue={state.tel.split('-')[0] ||''} style={{marginLeft:'0'}} maxLength={4}/>
-                         - <input className="short-input" name="tel1" defaultValue={state.tel.split('-')[1] ||''} maxLength={4}/>
-                         - <input className="short-input" name="tel1" defaultValue={state.tel.split('-')[2] ||''}maxLength={4}/>
+                        <input className="short-input" name="tel1" defaultValue={state.tel && state.tel.split('-')[0] ||''} style={{marginLeft:'0'}} maxLength={4}/>
+                         - <input className="short-input" name="tel1" defaultValue={state.tel && state.tel.split('-')[1] ||''} maxLength={4}/>
+                         - <input className="short-input" name="tel1" defaultValue={state.tel && state.tel.split('-')[2] ||''}maxLength={4}/>
                     </td>  
                     <td colSpan={2} className="table-label">핸드폰</td>
                     <td colSpan={4}>
-                        <input className="short-input" name="phone" defaultValue={state.phone.split('-')[1] ||''} style={{marginLeft:'0'}} maxLength={4}/>
-                         - <input className="short-input" name="phone" defaultValue={state.phone.split('-')[1] ||''} maxLength={4}/>
-                         - <input className="short-input" name="phone" defaultValue={state.phone.split('-')[1] ||''} maxLength={4}/>
+                        <input className="short-input" name="phone" defaultValue={state.phone && state.phone.split('-')[1] ||''} style={{marginLeft:'0'}} maxLength={4}/>
+                         - <input className="short-input" name="phone" defaultValue={state.phone && state.phone.split('-')[1] ||''} maxLength={4}/>
+                         - <input className="short-input" name="phone" defaultValue={state.phone && state.phone.split('-')[1] ||''} maxLength={4}/>
                     </td>
                 </tr>
                 <tr>

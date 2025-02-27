@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/components/main-view/staff/form/staff-form.scss'
+import '@/components/main-view/staff/staff/form/staff-form.scss'
 
 import { DetailPageProps } from "@/types/share/type";
 import { ResponseStaff } from "@/types/staff/type";

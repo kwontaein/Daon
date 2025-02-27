@@ -1,23 +1,25 @@
 'use client'
-import { AsideKeyOfValues } from '@/constants/asideOptions';
+import { AsideKeyOfValues, AsideOptions } from '@/constants/asideOptions';
 import '@/styles/_global.scss';
 import '@/styles/main-view/header.scss';
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
-import { notFound, useParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 
 export default function MainViewHeader(){
     const pathname = usePathname();
-    const aside = pathname.split('/')[3]
-    const asideTitle = AsideKeyOfValues[aside];
-    if(!asideTitle){
-        return notFound();
-    }
+    const pathSlice = pathname.split('/')
+    const asideTitle = AsideKeyOfValues[pathSlice[3]];
+
     return(
-            <h3 className={'header-title'}>
-                <Image src={asideArrow} alt='>'></Image>
-                {asideTitle}
-            </h3>
+        <>
+            {asideTitle &&
+                <h3 className={'header-title'}>
+                    <Image src={asideArrow} alt='>'></Image>
+                    {asideTitle}
+                </h3>
+            }
+        </>
     )
 }
