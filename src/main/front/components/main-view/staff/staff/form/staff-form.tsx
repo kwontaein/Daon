@@ -26,10 +26,12 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
 
     return(
         <section className="staff-form-container">
-            <header className="register-staff-header">
-                <Image src={asideArrow} alt=">" />
-                <h4>직원등록</h4>
-            </header>
+            {!staff &&
+                <header className="register-staff-header">
+                    <Image src={asideArrow} alt=">" />
+                    <h4>직원등록</h4>
+                </header>
+            }
             <table className="staff-form-table"  key={state.staffId}>
                 <colgroup>
                     <col style={{ width: '8.8%' }} />
@@ -60,27 +62,27 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     <td colSpan={2}>
                         <select name="userClass" defaultValue={state.userClass}>
                             <option value="none">직위선택</option>
-                            <option value="">대표</option>
-                            <option value="">이사</option>
-                            <option value="">팀장</option>
-                            <option value="">차장</option>
-                            <option value="">과장</option>
-                            <option value="">대리</option>
-                            <option value="">주임</option>
-                            <option value="">사원</option>
+                            <option value="CEO">대표</option>
+                            <option value="DIRECTOR">이사</option>
+                            <option value="TEAM_LEADER">팀장</option>
+                            <option value="DEPUTY_GENERAL_MANAGER">차장</option>
+                            <option value="MANAGER">과장</option>
+                            <option value="ASSISTANT_MANAGER">대리</option>
+                            <option value="PROFESSIONAL">주임</option>
+                            <option value="STAFF">사원</option>
                         </select>
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
                         <select name="dept" defaultValue={state.dept}>
                             <option value="none">부서선택</option>
-                            <option value="management">관리부</option>
-                            <option value="business">영업부</option>
-                            <option value="development">웹관리팀</option>
+                            <option value="MANAGE">관리부</option>
+                            <option value="BUSINESS">영업부</option>
+                            <option value="WEB">웹관리팀</option>
                         </select>
                     </td>
                 </tr>
-                <tr>
+                <tr>    
                     <td colSpan={2} className="table-label">성&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;명</td>
                     <td colSpan={2}><input type="text" name="name" defaultValue={state.name}/></td>
                     <td colSpan={2} className="table-label">영문성명</td>
@@ -90,7 +92,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 </tr>
 
                 <tr>
-                    <td rowSpan={4} colSpan={2} className="image-container">
+                    <td rowSpan={5} colSpan={2} className="image-container">
                         <label htmlFor='image-input' className={`image-upload-label ${image && 'absolute-label'}`}>{buttonText}</label>
                         {image && (
                         <div>
@@ -110,8 +112,16 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>
                     <td colSpan={2}className="table-label">아이디</td>
                     <td colSpan={8}>
-                        <input  name="userId" defaultValue={state.userId} className="id-input" type="text"/>
-                        {!staff &&  <button>중복확인</button>}
+                        
+                        {!staff ? 
+                        <>
+                            <input  name="userId" defaultValue={state.userId} className="id-input" type="text"/>
+                            <button>중복확인</button>
+                        </> :
+                             <div>
+                                {staff.userId}
+                             </div>
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -121,18 +131,6 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>
                     <td colSpan={2} className="table-label">이메일</td>
                     <td colSpan={8}><input name="email" defaultValue={state.email} type="text"/></td>
-                </tr>
-                <tr>
-                    <td rowSpan={3} colSpan={2} className="table-label">주소</td>
-                    <td colSpan={11}>
-                        <input  name="zipCode" defaultValue={state.zipcode} className="zip-code-input"/>[우변번호]
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={11}><input name="address" defaultValue={state.address}/></td>
-                </tr>
-                <tr>
-                    <td colSpan={11}><input  name="addressDetail" defaultValue={state.addressDetail}/></td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">전화번호</td>
@@ -149,6 +147,18 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     </td>
                 </tr>
                 <tr>
+                    <td rowSpan={3} colSpan={2} className="table-label">주소</td>
+                    <td colSpan={11}>
+                        <input  name="zipCode" defaultValue={state.zipcode} className="zip-code-input"/>[우변번호]
+                    </td>
+                </tr>
+                <tr>
+                    <td colSpan={11}><input name="address" defaultValue={state.address}/></td>
+                </tr>
+                <tr>
+                    <td colSpan={11}><input  name="addressDetail" defaultValue={state.addressDetail}/></td>
+                </tr>
+                <tr>
                     <td colSpan={2} className="table-label">생년월일</td>
                     <td colSpan={4}><input type="date" name="birthday" defaultValue={state.birthday}/></td>
                     <td colSpan={2} className="table-label">결혼여부</td>
@@ -162,11 +172,15 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>
                     <td colSpan={2} className="table-label">메모</td>
                     <td colSpan={10}>
-                        <textarea name='memo' defaultChecked={state.memo}/>
+                        <textarea name='memo' defaultValue={state.memo}/>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <div className='button-container'>
+                <button type={'submit'} disabled={isPending}>저장</button>
+                <button type={'button'} onClick={ ()=> staff ? router.push(`staff?mode=detail&target=${staff.userId}`):window.close()}>취소</button>
+            </div>
         </section>
     )
 }
