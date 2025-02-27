@@ -1,6 +1,9 @@
 import '@/styles/_global.scss';
 import '@/styles/main-view/main.scss';
+
 import MainHeader from "@/components/header/_header";
+import MainViewHeader from '@/components/share/header';
+
 
 
 
@@ -18,7 +21,10 @@ export default async function MainLayout({navigation,aside,children}: {
         {navigation}
         <section className='main-layout-wrapper'>
           {aside}
-          {children}
+          <section className={'main-view-container'}>
+            <MainViewHeader/> 
+            {children}
+          </section>
         </section>
       </>
     );

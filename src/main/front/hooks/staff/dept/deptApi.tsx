@@ -27,7 +27,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
 }
 
 export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
-    return fetch("http://localhost:8080/api/saveDept", {
+    return fetch("http://localhost:8080/api/createDept", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

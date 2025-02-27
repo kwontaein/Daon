@@ -1,36 +1,55 @@
 'use client';
 import Link from "next/link";
 import './_aside.scss'
-import { notFound, useParams, useRouter } from "next/navigation";
+import { notFound, usePathname, useRouter } from "next/navigation";
 import { AsideOptions } from "@/constants/asideOptions";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function MainAside(){
-    const nav = useParams().nav as string;
+    const pathName = usePathname()
+    const nav = pathName.split("/")[2]
     const router = useRouter();
-    const navKeys = Object.keys(AsideOptions);
-  
+
+    const cacheRouteRef = useRef<Record<string, Record<string, boolean>>>({});
+
     useEffect(() => {
         if (!nav) {
-            router.push("/main/schedule/schedule");
-        }else{
-            if(!navKeys.includes(nav)){
-                return notFound()
-            }
+            router.replace("/main/schedule/schedule");
+            return;
         }
-    }, [nav, router]);
+        const { asideItems } = AsideOptions[nav];
+        const subNav = pathName.split("/")[3];
+        //nav에 대한 객체 초기화
+        if (!cacheRouteRef.current[nav]) {
+            cacheRouteRef.current[nav] = {};
+        }
+        // 이미 허용된 경로라면 리턴
+        if (cacheRouteRef.current[nav][subNav]) {
+            return;
+        }
+        const isAbleRoute = asideItems.some(({ link }) => link === subNav);
+
+        if (!isAbleRoute) {
+            router.replace(`/main/${nav}/${asideItems[0].link}`);
+        } else {
+            cacheRouteRef.current[nav][subNav] = true;
+        }
+    }, [nav]);
 
     return(
-        <aside className="aside-container">
-            <div className="aside-header">
-                {AsideOptions[nav|| 'schedule'].asideTitle}
-            </div>
-            {AsideOptions[nav || 'schedule'].asideItems.map((item)=>(
-                <li key={item.link}>
-                    <b>ㆍ</b><Link href={`/main/${nav}/${item.link}`}>{item.name}</Link>
-                </li>
-            ))}
-        </aside>
+        <>
+        {nav &&  
+            <aside className="aside-container">
+                <div className="aside-header">
+                    {AsideOptions[nav|| 'schedule'].asideTitle}
+                </div>
+                {AsideOptions[nav].asideItems.map((item)=>(
+                    <li key={item.link}>
+                        <b>ㆍ</b><Link href={`/main/${nav}/${item.link}`}>{item.name}</Link>
+                    </li>
+                ))}
+            </aside>}
+        </>
     )
 }
 

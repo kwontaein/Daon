@@ -1,4 +1,5 @@
 import LedgerCustomerSearch from "@/components/main-view/ledger/ledger-customer/search";
+import FilterButton from "@/components/share/filter";
 import { CustomerCate} from "@/types/customer/cate/type";
 
 export default async function LedgerCustomerPage(){
@@ -15,6 +16,11 @@ export default async function LedgerCustomerPage(){
     }).catch((error) => {console.error('Error:', error)})
 
     return(
-        <LedgerCustomerSearch customerCate={customerCate}/>
+        <section>
+            <LedgerCustomerSearch customerCate={customerCate}/>
+            <FilterButton>
+                <div>Filter</div>
+            </FilterButton>
+        </section>
     )
 }

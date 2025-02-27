@@ -18,7 +18,7 @@ export interface ResponseStaff {
   memo: string;
   userClass: ClassType; //직급
   userRole: RoleType;   //권한등급
-  dept: Dept;   //부서
+  dept: DeptEum;   //부서
 }
 
 
@@ -43,7 +43,7 @@ export enum ClassType {
   }
   
   // 부서
-  export enum Dept {
+  export enum DeptEum {
     WEB = "WEB",
     BUSINESS = "BUSINESS",
     ELSE = "ELSE",
