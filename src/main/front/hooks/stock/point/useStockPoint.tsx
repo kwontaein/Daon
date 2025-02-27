@@ -1,10 +1,10 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { createPointApi, deletePointApi, updatePointApi } from "./pointApi";
-import { useConfirm } from "@/hooks/share/useConfrim";
-import { StockPoint } from "@/types/stock/point/types";
-import { CateMode } from "@/types/share/type";
+import { createPointApi, deletePointApi, updatePointApi } from "../../../features/stock/point/api/pointApi";
+import { useConfirm } from "@/hooks/share/useConfirm";
+import { StockPoint } from "@/model/types/stock/point/types";
+import { CateMode } from "@/model/types/share/type";
 
 export default function useStockPoint(InitStockPoint:StockPoint[]){
     const [pointState, setPointState] = useState<StockPoint[]>(InitStockPoint)

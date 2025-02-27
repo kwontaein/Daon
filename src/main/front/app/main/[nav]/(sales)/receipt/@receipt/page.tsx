@@ -1,12 +1,12 @@
-import ReceiptSearch from "@/components/main-view/sales/receipt/search/search";
-import ReceiptButtons from "@/components/main-view/sales/receipt/total-buttons";
-import ReceiptTableContainer from "@/components/main-view/sales/receipt/table/table-header";
+import ReceiptSearch from "@/components/main/sales/receipt/search/search";
+import ReceiptButtons from "@/components/main/sales/receipt/total-buttons";
+import ReceiptTableContainer from "@/components/main/sales/receipt/table/table-header";
 
 import '@/styles/_global.scss';
-import {ReceiptDummy} from "@/constants/receipt/receipt-dummy";
-import ReceiptSearchResult from "@/components/main-view/sales/receipt/search/search-result";
-import Pagination from "@/components/pagination";
-import { PageByProps } from "@/types/share/type";
+import {ReceiptDummy} from "@/model/constants/receipt/receipt-dummy";
+import ReceiptSearchResult from "@/components/main/sales/receipt/search/search-result";
+import Pagination from "@/components/share/pagination";
+import { PageByProps } from "@/model/types/share/type";
 
 
 export default async function ReceiptPage({searchParams}: PageByProps) {
