@@ -29,7 +29,6 @@ export default async function CompanyPage({searchParams}:PageByProps){
             }
             console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-    console.log(initialCompany)
 
     return(
         <section>

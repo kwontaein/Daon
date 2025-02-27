@@ -104,7 +104,7 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     {!loading && pageByStaff.length===0 && 
                         <tr className='none-hover'>
                             <td colSpan={9}>
-                                <p>조회된 결과가 없습니다.</p>
+                                <p>등록된 사원이 존재하지 않습니다.</p>
                             </td>
                         </tr>
                     }
