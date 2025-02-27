@@ -1,7 +1,9 @@
 import Dept from "@/components/main-view/staff/dept/dept";
+import { PageByProps } from "@/types/share/type";
 
 
-export default async function DeptPage() {
+export default async function DeptPage({searchParams}:PageByProps){
+
     const initDept = await fetch("http://localhost:8080/api/getDept",
         {
             cache:'force-cache',

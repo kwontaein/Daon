@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
-import './staff/form/staff-form.scss'
+import './form/staff-form.scss'
 
 import { useState } from "react";
 import { ResponseStaff } from "@/types/staff/type";
