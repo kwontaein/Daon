@@ -1,6 +1,6 @@
-import StaffTable from "@/components/main-view/staff/staff/staff-table";
-import { PageByProps } from "@/types/share/type";
-import { ResponseStaff } from "@/types/staff/type";
+import StaffTable from "@/components/main/staff/staff/staff-table";
+import { PageByProps } from "@/model/types/share/type";
+import { ResponseStaff } from "@/model/types/staff/staff/type";
 import { Suspense } from "react";
 
 

@@ -1,4 +1,4 @@
-import StaffForm from "@/components/main-view/staff/staff/form/staff-form";
+import StaffForm from "@/components/main/staff/staff/form/staff-form";
 
 export default function RegisterStaff(){
     return(

@@ -1,4 +1,4 @@
-import CustomerForm from "@/components/main-view/customer/form/customer-form";
+import CustomerForm from "@/components/main/customer/form/customer-form";
 
 export default async function RegisterCustomerCate(){
     

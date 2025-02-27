@@ -1,5 +1,5 @@
-import StockPoint from "@/components/main-view/stock/point/point";
-import '@/components/main-view/stock/point/point.scss';
+import StockPoint from "@/components/main/stock/point/point";
+import '@/components/main/stock/point/point.scss';
 export default async function StockPointPage(){
     const InitStockPoint = await fetch("http://localhost:8080/api/getStockPointList",
         {

@@ -1,12 +1,12 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/components/main-view/staff/staff/form/staff-form.scss'
+import '@/components/main/staff/staff/form/staff-form.scss'
 
-import { DetailPageProps } from "@/types/share/type";
-import { ResponseStaff } from "@/types/staff/type";
-import StaffDetailView from "@/components/main-view/staff/staff/detail-view";
-import StaffForm from "@/components/main-view/staff/staff/form/staff-form";
+import { DetailPageProps } from "@/model/types/share/type";
+import { ResponseStaff } from "@/model/types/staff/staff/type";
+import StaffDetailView from "@/components/main/staff/staff/detail-view";
+import StaffForm from "@/components/main/staff/staff/form/staff-form";
 
 
 

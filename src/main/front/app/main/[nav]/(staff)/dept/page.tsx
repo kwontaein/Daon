@@ -1,5 +1,5 @@
-import Dept from "@/components/main-view/staff/dept/dept";
-import { PageByProps } from "@/types/share/type";
+import Dept from "@/components/main/staff/dept/dept";
+import { PageByProps } from "@/model/types/share/type";
 
 
 export default async function DeptPage({searchParams}:PageByProps){

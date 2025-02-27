@@ -1,10 +1,10 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "./officialApi";
-import { useConfirm } from "@/hooks/share/useConfrim";
-import { StockCate } from "@/types/stock/cate/type";
-import { CateMode } from "@/types/share/type";
+import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/receipt/official/api/officialApi";
+import { useConfirm } from "@/hooks/share/useConfirm";
+import { StockCate } from "@/model/types/stock/cate/type";
+import { CateMode } from "@/model/types/share/type";
 
 export default function useStockCate(InitStockCate:StockCate[]){
     const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)

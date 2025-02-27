@@ -1,10 +1,9 @@
-import CustomerSearch from "@/components/main-view/customer/search";
-import CustomerSearchResult from "@/components/main-view/customer/search-result";
-import Pagination from "@/components/pagination";
-import { CustomerSearchCondition } from "@/hooks/redux/slice/customer-search";
-import { CustomerCate } from "@/types/customer/cate/type";
-import { RequestCustomer, ResponseCustomer } from "@/types/customer/type";
-import { PageByProps } from "@/types/share/type";
+import CustomerSearch from "@/components/main/customer/search";
+import CustomerSearchResult from "@/components/main/customer/search-result";
+import { CustomerSearchCondition } from "@/store/slice/customer-search";
+import { CustomerCate } from "@/model/types/customer/cate/type";
+import { RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
+import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
 
 

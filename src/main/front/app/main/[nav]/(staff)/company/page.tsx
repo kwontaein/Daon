@@ -1,6 +1,6 @@
-import CompanyTable from "@/components/main-view/staff/company/company-table";
-import { PageByProps } from "@/types/share/type";
-import { ResponseCompany } from "@/types/staff/company/type";
+import CompanyTable from "@/components/main/staff/company/company-table";
+import { PageByProps } from "@/model/types/share/type";
+import { ResponseCompany } from "@/model/types/staff/company/type";
 import { Suspense } from "react";
 
 export default async function CompanyPage({searchParams}:PageByProps){
