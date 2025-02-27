@@ -86,4 +86,8 @@ public class AdminController {
         adminService.DeleteDept(deptRequest);
     }
 
+    @PostMapping("api/duplicationCheck")
+    public boolean duplicationCheck(@RequestBody UserRequest userRequest) {
+        return adminService.duplicationCheck(userRequest.getUserId());
+    }
 }
