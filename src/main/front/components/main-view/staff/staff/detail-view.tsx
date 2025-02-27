@@ -1,16 +1,20 @@
 "use client";
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import './form/staff-form.scss'
+import './staff/form/staff-form.scss'
 
 import { useState } from "react";
 import { ResponseStaff } from "@/types/staff/type";
 import { DeptMap, EmployeeClassMap, UserGrade } from "@/constants/staff/staff-info-map";
 import dayjs from "dayjs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function StaffDetailView({staff}:{staff:ResponseStaff}){
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]; // 사용자가 선택한 파일 가져오기
@@ -21,12 +25,16 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
         }
     };
 
+      
+    const editModeHandler = () => {
+        const params = new URLSearchParams(searchParams.toString()); 
+          params.set("mode", "edit"); 
+      // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`); 
+      };
+    
     return(
         <section className="staff-form-container">
-            <header className="register-staff-header">
-                <Image src={asideArrow} alt=">" />
-                <h4>직원등록</h4>
-            </header>
             <table className="staff-form-table">
                 <colgroup>
                     <col style={{ width: '8.8%' }} />
@@ -67,7 +75,7 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                 </tr>
 
                 <tr>
-                    <td rowSpan={4} colSpan={2} className="image-container">
+                    <td rowSpan={5} colSpan={2} className="image-container">
                         <label htmlFor='image-input' className={`image-upload-label ${image && 'absolute-label'}`}>{buttonText}</label>
                         
                         {image && (
@@ -100,11 +108,11 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
   
                 <tr>
                     <td colSpan={2} className="table-label">전화번호</td>
-                    <td colSpan={4}>
+                    <td colSpan={3}>
                         {staff.tel}
                     </td>  
                     <td colSpan={2} className="table-label">핸드폰</td>
-                    <td colSpan={4}>
+                    <td colSpan={3}>
                         {staff.phone}
                     </td>
                 </tr>
@@ -136,6 +144,10 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                 </tr>
             </tbody>
         </table>
+        <div className="button-container">
+        <button onClick={editModeHandler}>수정</button>
+        <button onClick={()=>window.close()}>창닫기</button>
+      </div>
     </section>
     )
 }

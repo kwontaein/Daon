@@ -50,6 +50,8 @@ public class AdminController {
 
     @PostMapping("api/getEmployeeDetail")
     public UserEntity GetEmployeeDetail(@RequestBody UserRequest userRequest) {
+        System.out.println("Received userId: " + userRequest.getUserId()); // 디버깅용 출력
+
         return adminService.GetEmployeeDetail(userRequest);
     }
 
