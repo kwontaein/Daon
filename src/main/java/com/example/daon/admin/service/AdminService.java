@@ -141,4 +141,11 @@ public class AdminService {
         deptRepository.deleteById(deptRequest.getDeptId());
     }
 
+    public boolean duplicationCheck(String userId) {
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return false;
+        }
+        return true;
+    }
 }
