@@ -1,6 +1,6 @@
-import StockSearch from "@/components/main-view/stock/stock/search";
-import StockSearchResult from "@/components/main-view/stock/stock/search-result";
-import { ResponseStock, StockPageProps } from "@/types/stock/types";
+import StockSearch from "@/components/main/stock/stock/search";
+import StockSearchResult from "@/components/main/stock/stock/search-result";
+import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 
 const allStockRequestBody ={

@@ -1,6 +1,6 @@
-import LedgerCustomerSearch from "@/components/main-view/ledger/ledger-customer/search";
-import FilterButton from "@/components/share/filter";
-import { CustomerCate} from "@/types/customer/cate/type";
+import LedgerCustomerSearch from "@/components/main/ledger/ledger-customer/search";
+import FilterButton from "@/components/share/filter/filter";
+import { CustomerCate} from "@/model/types/customer/cate/type";
 
 export default async function LedgerCustomerPage(){
       

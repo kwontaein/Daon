@@ -1,10 +1,10 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { createDeptApi, deleteDeptApi, updateDeptApi } from "./deptApi";
-import { useConfirm } from "@/hooks/share/useConfrim";
-import { CateMode } from "@/types/share/type";
-import { Dept } from "@/types/staff/dept/type";
+import { createDeptApi, deleteDeptApi, updateDeptApi } from "../../../features/staff/dept/api/deptApi";
+import { useConfirm } from "@/hooks/share/useConfirm";
+import { CateMode } from "@/model/types/share/type";
+import { Dept } from "@/model/types/staff/dept/type";
 
 export default function useDept(InitDept:Dept[]){
     const [deptState, setDeptState] = useState<Dept[]>(InitDept)
