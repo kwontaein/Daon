@@ -32,6 +32,12 @@ public class CompanyController {
         return companyService.getCompany();
     }
 
+    @PostMapping("api/getCompanyDetail")
+    public CompanyEntity getCompanyDetail(@RequestBody CompanyRequest companyRequest) {
+        return companyService.getCompanyDetail(companyRequest);
+    }
+
+
     @PostMapping("api/updateCompany")
     public void UpdateCompany(@RequestBody CompanyRequest companyRequest) {
         companyService.UpdateCompany(companyRequest);
