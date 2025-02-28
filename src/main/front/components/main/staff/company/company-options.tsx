@@ -1,5 +1,5 @@
 'use client'
-import './company-options.scss';
+import '@/styles/options/options.scss';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 
@@ -20,9 +20,9 @@ export default function CompanyOptions({companyId}:{companyId:string}){
             }
         }
     return(
-        <menu className='staff-options-container'>
-            <li onClick={viewStaffInfoHandler.bind(null,companyId)}>수정하기</li>
-            <li>삭제하기</li>
+        <menu className='options-container'>
+            <li onClick={viewStaffInfoHandler.bind(null,companyId)}>상세보기</li>
+            <li className='delete-option'>삭제하기</li>
         </menu>    
     )
 }
