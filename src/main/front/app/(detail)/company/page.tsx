@@ -7,21 +7,21 @@ import { DetailPageProps } from "@/model/types/share/type";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import CompanyDetail from "@/components/main/staff/company/detail-view";
 import CompanyForm from "@/components/main/staff/company/form/company-form";
+import { notFound } from "next/navigation";
 
 
 
 export default async function CompanyDetailPage({searchParams}:DetailPageProps){
-    const userId = (await searchParams).target || ''
+    const companyId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    console.log(userId)
     const company:ResponseCompany = await fetch("http://localhost:8080/api/getCompanyDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userId}),
-        next: {revalidate: 18000, tags: [`${userId}`]} //30분마다 재검증
+        body: JSON.stringify({companyId}),
+        next: {revalidate: 18000, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -35,6 +35,9 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
             }
             console.error('Error:', error)
     })
+    if(!company){
+        return notFound()
+    }
 
     return(
         <>

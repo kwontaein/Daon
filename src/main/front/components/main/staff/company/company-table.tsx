@@ -83,18 +83,25 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                 </thead>
                 <tbody>
                     {pageByCompany.map(company => (
-                        <tr key={company.businessNum} ref={(el)=> {itemsRef.current[company.businessNum] = el}} className={target === company.businessNum ?'is-click' :''} >
+                        <tr key={company.companyId} ref={(el)=> {itemsRef.current[company.companyId] = el}} className={target === company.companyId ?'is-click' :''} >
                             <td>{company.companyName}</td>
                             <td>{company.businessNum}</td>
                             <td>{company.tel}</td>
                             <td>{company.fax}</td>
                             <td>{company.ceo}</td>
-                            <td className='icon' onClick={()=> target === company.businessNum ? setTarget(null) :setTarget(company.businessNum)}>
-                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === company.businessNum &&{color:'orange'}}/>
-                                {target === company.businessNum && <CompanyOptions companyId={company.businessNum}/>}
+                            <td className='icon' onClick={()=> target === company.companyId ? setTarget(null) :setTarget(company.companyId)}>
+                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === company.companyId &&{color:'orange'}}/>
+                                {target === company.companyId && <CompanyOptions companyId={company.companyId}/>}
                             </td>
                         </tr>
                     ))}
+                    {!loading && pageByCompany.length===0 && 
+                        <tr className='none-hover'>
+                            <td colSpan={9}>
+                                <p>등록된 회사가 존재하지 않습니다.</p>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
             {(!loading && company.length>20) &&
