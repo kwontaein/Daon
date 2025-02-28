@@ -45,4 +45,7 @@ public class CompanyService {
         companyRepository.deleteById(companyRequest.getCompanyId());
     }
 
+    public CompanyEntity getCompanyDetail(CompanyRequest companyRequest) {
+        return companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
+    }
 }
