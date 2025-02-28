@@ -4,18 +4,18 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/main-view/register/register.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
-import StaffDetailView from "@/components/main/staff/staff/detail-view";
-import StaffForm from "@/components/main/staff/staff/form/staff-form";
+import { ResponseCompany } from "@/model/types/staff/company/type";
+import CompanyDetail from "@/components/main/staff/company/detail-view";
+import CompanyForm from "@/components/main/staff/company/form/company-form";
 
 
 
-export default async function StaffDetailPage({searchParams}:DetailPageProps){
+export default async function CompanyDetailPage({searchParams}:DetailPageProps){
     const userId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
     console.log(userId)
-    const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
+    const company:ResponseCompany = await fetch("http://localhost:8080/api/getCompanyDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -38,17 +38,17 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
 
     return(
         <>
-            <header className="register-header">
-                <Image src={asideArrow} alt=">" />
-                    <h4>
-                        {mode === 'detail' && '사용자정보 상세보기'}
-                        {mode === 'edit' && '사용자정보 수정하기'}
-                    </h4>
+        <header className="register-header">
+            <Image src={asideArrow} alt=">" />
+                <h4>
+                    {mode === 'detail' && '회사정보 상세보기'}
+                    {mode === 'edit' && '회사정보 수정하기'}
+                </h4>
             </header>
             {mode ==='detail' ?
-             <StaffDetailView staff={staff}/>
+             <CompanyDetail company={company}/>
              :
-             <StaffForm staff={staff}/>
+             <CompanyForm company={company}/>
             }
         </>
        
