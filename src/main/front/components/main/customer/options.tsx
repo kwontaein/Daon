@@ -1,5 +1,4 @@
 'use client'
-import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import '@/styles/options/options.scss';
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
