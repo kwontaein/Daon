@@ -1,6 +1,6 @@
 'use client'
-import Calendar from "@/components/main-view/sales/receipt/aside/calendar";
-import DateSummary from "@/components/main-view/sales/receipt/aside/date-summary";
+import Calendar from "@/components/main/sales/receipt/aside/calendar";
+import DateSummary from "@/components/main/sales/receipt/aside/date-summary";
 import '@/styles/_global.scss'
 import '@/styles/main-view/daily-summary.scss'
 import { useRouter } from "next/navigation";

@@ -1,4 +1,4 @@
-import StockCate from "@/components/main-view/stock/cate/stock-cate";
+import StockCate from "@/components/main/stock/category/stock-cate";
 
 
 export default async function CustomerCatePage() {
