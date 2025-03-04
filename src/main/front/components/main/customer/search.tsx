@@ -63,9 +63,9 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                 <tbody>
                     <tr>
                         <td className='table-label'>소속</td>
-                        <td className="table-input">
+                        <td>
                             <label>
-                                <select className="classification" size={1}
+                                <select size={1}
                                         value={postSearchInfo.cateId}
                                         onChange={(e)=>dispatch(updateCustomerSearchQuery({cateId: e.target.value}))}>
                                         <option value='none'>선택안함</option>
@@ -113,7 +113,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>
+                        <td className='table-label' style={{paddingInline:'0.4em'}}>
                             <select className='classification-label' name="searchOptions" size={1}
                                     value={searchInputTarget} 
                                     onChange={(e)=> dispatch(updateCustomerSearchInputTarget(e.target.value as CustomerSearchInputTarget))}>
@@ -121,7 +121,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                                 <option value="ceo">대표자</option>
                             </select>
                         </td>
-                        <td className='table-input '>
+                        <td>
                             <input type='text' value={searchInput} onChange={(e)=>dispatch(updateCustomerSearchInput(e.target.value))}/>
                         </td>
                     </tr>       

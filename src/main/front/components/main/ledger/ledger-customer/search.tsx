@@ -33,9 +33,9 @@ export default function LedgerCustomerSearch({customerCate}:{customerCate:Custom
                 <tbody>
                 <tr>
                         <td className='table-label'>소속</td>
-                        <td className="table-input">
+                        <td>
                             <label>
-                                <select className="classification" size={1}>                      
+                                <select size={1}>                      
                                         <option value='none'>선택안함</option>
                                         {customerCate.map((cate)=>(
                                             <option key={cate.customerCateId} value={cate.customerCateId}>
@@ -60,7 +60,7 @@ export default function LedgerCustomerSearch({customerCate}:{customerCate:Custom
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>
-                        <td className='table-input'><input type='text'/></td>
+                        <td><input type='text'/></td>
                     </tr>
                 </tbody>
             </table>

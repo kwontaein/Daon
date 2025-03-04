@@ -109,7 +109,7 @@ export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
                 </tr>
                 <tr>
                     <td className='table-label'>메모</td>
-                    <td colSpan={3}>{customer.memo}</td>
+                    <td colSpan={3} className={customer.memo ? '':'memo'}>{customer.memo}</td>
                 </tr>
             </tbody>
       </table>

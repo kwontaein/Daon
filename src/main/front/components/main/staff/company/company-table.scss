@@ -17,6 +17,13 @@
         white-space: nowrap;
         color: black;
         text-align: center;
+        input{
+            width: 100%;
+            max-width: 418px;
+            @media (max-width:620px){
+                max-width: none;
+            }
+        }
     }
     thead{
         tr{
@@ -43,19 +50,7 @@
         }
     }
 
-    .table-input {
-        width: auto;
-        text-align: left;
-        font-size: 1em;
-        input{
-            width: 100%;
-            max-width: 418px;
-            @media (max-width:620px){
-                max-width: none;
-            }
-        }
-    }
-
+ 
     .table-buttons {
         display: grid;
         grid-template-columns: repeat(3, 1fr);

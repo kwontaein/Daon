@@ -44,7 +44,7 @@ export default function ReceiptSearch() {
                 <tbody>
                     <tr>
                         <td className="table-label">전표종류</td>
-                        <td className="table-input">
+                        <td>
                             <label>
                                 <select name="kindNumSch" size={1} value={receiptKind} onChange={(e)=>setReceiptKind(e.target.value)}>
                                     <option value="disabled" disabled>전표선택</option>
@@ -77,8 +77,8 @@ export default function ReceiptSearch() {
                     </tr>
                     <tr>
                         <td className="table-label">출력일자</td>
-                        <td className="table-input">
-                            <div className="flex-row">
+                        <td>
+                            <div className="flex-row dates-container">
                                 <input className='date-input' type="date" /> ~ <input className='date-input' type="date" />
                                
                             </div>
@@ -87,13 +87,13 @@ export default function ReceiptSearch() {
                     </tr>
                     <tr>
                         <td className="table-label">거래처선택</td>
-                        <td className="table-input">
+                        <td>
                             <input placeholder="거래처명을 입력하세요." />
                         </td>
                     </tr>
                     <tr>
                         <td className="table-label">품목선택</td>
-                        <td className="table-input">
+                        <td>
                             <input placeholder="품명을 입력하세요." />
                         </td>
                     </tr>
