@@ -16,7 +16,7 @@ import prevYear from '@/assets/prevYear.gif';
 import prevMonth from '@/assets/prevMonth.gif';
 
 
-import { getHolidays } from '@/model/constants/receipt/holidays';
+import { getHolidays } from '@/model/constants/sales/receipt/holidays';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { updateSearchDate } from '@/store/slice/receipt-search';

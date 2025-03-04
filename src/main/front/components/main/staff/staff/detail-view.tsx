@@ -137,7 +137,7 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">메모</td>
-                    <td colSpan={10}>
+                    <td colSpan={10} className={staff.memo ? '' :'memo'}>
                         {staff.memo}
                     </td>
                 </tr>

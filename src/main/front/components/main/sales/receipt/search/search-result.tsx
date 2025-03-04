@@ -6,6 +6,7 @@ import { RootState } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { addReceiptId, removeReceiptId } from "@/store/slice/receipt-select";
 import { Receipt } from '@/model/types/receipt/type';
+import { keyOfAccount } from '@/model/constants/sales/receipt/receipt_constants';
 
 
 interface ReceiptItemProps{
@@ -14,18 +15,7 @@ interface ReceiptItemProps{
 }
 
 export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptItemProps){
-    const keyOfAccount ={
-        sales: '매출',
-        purchase: '매입',
-        deposit: '입금',
-        withdrawal: '출금',
-        sale_discount: '매출할인',
-        purchase_discount: '매입할인',
-        cost: '관리비',
-        return_delivery: '반품출고', 
-        sales_replacement: '매출대체',
-        returned_received: '반품입고'
-    }
+
 
     const {selectList, isSelected} = useSelector((state:RootState) => state.receiptSelector);
     const dispatch = useDispatch()

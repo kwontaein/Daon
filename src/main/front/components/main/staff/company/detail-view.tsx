@@ -59,7 +59,9 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
                     <tr>
                         <td rowSpan={3} className="table-label">주소</td>
                         <td colSpan={3}>
-                            {company.zipcode} &nbsp; [우편번호]
+                            <input className="zip-code-input" value={company ? company.zipcode.split('0')[0] : ''} disabled/> -
+                            <input className="zip-code-input" value={company ? company.zipcode.split('0')[1] : ''} disabled style={{marginLeft:'4px'}}/>
+                            [우편번호]
                         </td>
                     </tr>
                     <tr>
@@ -74,7 +76,7 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
                     </tr>
                     <tr>
                         <td className="table-label">메모</td>
-                        <td colSpan={3}>{company.memo}</td>
+                        <td colSpan={3}  className={company.memo ? '' :'memo'}>{company.memo}</td>
                     </tr>
                     <tr>
                         <td className="table-label">견적서파일명</td>

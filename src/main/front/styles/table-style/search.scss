@@ -15,12 +15,30 @@
         padding-inline:0.5em;
         white-space: nowrap;
         color: black;
+        input{
+            width: 100%;
+            max-width: 418px;
+            @media (max-width:620px){
+                max-width: 226px;
+            }
+        }
+        select{
+            width: auto;
+            margin-left: -0.3em;
+            font-weight: 500;
+            min-width: unset;
+            font-size: 1.3rem;
+            @media (max-width: 620px){
+                margin-left: none;
+                font-size: 1.5em;
+                font-weight: 550;
+            }
+        }
     }
 
     .table-title {
-        td{
-            color: white !important;
-        }
+        color: white !important;
+        height: 20px;
         text-align: left;
         font-weight: bold;
         @media (max-width: 620px){
@@ -36,18 +54,7 @@
         }
     }
 
-    .table-input {
-        width: auto;
-        text-align: left;
-        font-size: 1em;
-        input{
-            width: 100%;
-            max-width: 418px;
-            @media (max-width:620px){
-                max-width: 222px;
-            }
-        }
-    }
+    
 
     .table-radio-container{
         div{
@@ -80,6 +87,11 @@
         color: #bbb;
     }
 
+    .dates-container{
+        display: flex;
+        gap:5px;
+        align-items: center;
+    }
     .date-input{
         max-width: 200px !important;
         @media(max-width:620px){
@@ -179,30 +191,17 @@ select{
     }
 }
 
-.classification{
-    width: auto;
-    margin-left: -0.4em;
-    font-weight: 500;
-    min-width: unset;
+
+
+.classification-label{
     min-width: 120px;
     font-size: 1.3rem;
     @media (max-width: 620px){
-        margin-left: none;
-        font-size: 1.5em;
+        font-size: 1.1em !important;
         font-weight: 550;
     }
 }
 
-.classification-label{
-    width: auto;
-    margin-left: -0.4em;
-    font-weight: 500;
-    min-width: unset;
-    min-width: 120px;
-    font-size: 1.3rem;
-    @media (max-width: 620px){
-        margin-left: none;
-        font-size: 1.1em;
-        font-weight: 550;
-    }
+.td-gap{
+    gap:10px;
 }
