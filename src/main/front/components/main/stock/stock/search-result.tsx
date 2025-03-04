@@ -33,7 +33,7 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
     const searchParams = useSearchParams();
     const pathname = usePathname();
   
-    const stockIdList = pageByStock.map((({stockId})=> stockId))
+    const stockIdList = pageByStock.map(({stockId})=> stockId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(stockIdList)
     const {postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.stockSearch);
 
@@ -118,7 +118,7 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
                             <td className='left-align'>{stock.name}</td>
                             <td>{stock.modelName}</td>
                             <td>{stock.quantity}</td>
-                            <td>{stock.outPrice}</td>
+                            <td>{stock.outPrice.toLocaleString('ko-KR')}</td>
                             <td className='icon' onClick={()=> target === stock.stockId ? setTarget(null) :setTarget(stock.stockId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === stock.stockId &&{color:'orange'}}/>
                                 {target === stock.stockId && <StockOptions stockId={stock.stockId}/>}

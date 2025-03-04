@@ -6,7 +6,7 @@ import './table-body.scss';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main/sales/receipt/options';
 import dayjs from 'dayjs';
-import { DisabledStatus } from '@/model/constants/receipt/disabled-status';
+import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/receipt/useReceiptList';
 import { AccountType } from '@/model/types/receipt/type';
 import { ClientMousePosition } from '@/model/types/share/type';

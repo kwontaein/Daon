@@ -50,7 +50,6 @@ export default function StockSearch({stockCate}:{stockCate: StockCate[]}){
                                 <option value="none">일반검색</option>
                                 <option value="condition">조건부검색</option>
                             </select>
-                           
                         </td>
                     </tr>
                 </thead>
@@ -59,7 +58,7 @@ export default function StockSearch({stockCate}:{stockCate: StockCate[]}){
                           <td className='table-label'>분류</td>
                           <td>
                             <label>
-                                <select className='classification' size={1} 
+                                <select size={1} 
                                         value={postSearchInfo.category}
                                         onChange={(e)=>dispatch(updateStockSearchQuery({category: e.target.value}))}>
                                         <option value='none'>선택안함</option>
@@ -131,7 +130,7 @@ export default function StockSearch({stockCate}:{stockCate: StockCate[]}){
                         <td className='table-label'>
                             품명
                         </td>
-                        <td className='table-input '>
+                        <td>
                             <input type='text' 
                                    value={postSearchInfo.searchInput} 
                                    onChange={(e)=>dispatch(updateStockSearchQuery({searchInput:e.target.value}))}/>

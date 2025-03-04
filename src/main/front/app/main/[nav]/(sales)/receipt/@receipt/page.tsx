@@ -3,7 +3,7 @@ import ReceiptButtons from "@/components/main/sales/receipt/total-buttons";
 import ReceiptTableContainer from "@/components/main/sales/receipt/table/table-header";
 
 import '@/styles/_global.scss';
-import {ReceiptDummy} from "@/model/constants/receipt/receipt-dummy";
+import {ReceiptDummy} from "@/model/constants/sales/receipt/receipt-dummy";
 import ReceiptSearchResult from "@/components/main/sales/receipt/search/search-result";
 import Pagination from "@/components/share/pagination";
 import { PageByProps } from "@/model/types/share/type";

@@ -11,7 +11,7 @@ export default function EstimateSearch(){
                 </colgroup>
                 <thead>
                     <tr>
-                        <td colSpan={3} className="table-title center">
+                        <td colSpan={3} className="table-title">
                             검색 옵션
                         </td>
                     </tr>
@@ -19,22 +19,22 @@ export default function EstimateSearch(){
                 <tbody>
                     <tr>
                         <td className="table-label">사업자</td>
-                        <td className="table-input">
+                        <td>
                         <label>
-                                    <select name="kindNumSch" size={1}>
-                                        <option>사업자선택</option>
-                                        <option value="sales">매출</option>
-                                        <option value="purchase">매입</option>
-                                        <option value="deposit">입금</option>
-                                        <option value="withdrawal">출금</option>
-                                        <option value="sale-discount">매출할인</option>
-                                        <option value="purchase-discount">매입할인</option>
-                                        <option value="cost">관리비</option>
-                                        <option value="return-delivery">반품출고</option>
-                                        <option value="sales-replacement">매출대체</option>
-                                        <option value="returned-received">반품입고</option>
-                                    </select>
-                                </label>
+                                <select name="kindNumSch" size={1}>
+                                    <option>사업자선택</option>
+                                    <option value="sales">매출</option>
+                                    <option value="purchase">매입</option>
+                                    <option value="deposit">입금</option>
+                                    <option value="withdrawal">출금</option>
+                                    <option value="sale-discount">매출할인</option>
+                                    <option value="purchase-discount">매입할인</option>
+                                    <option value="cost">관리비</option>
+                                    <option value="return-delivery">반품출고</option>
+                                    <option value="sales-replacement">매출대체</option>
+                                    <option value="returned-received">반품입고</option>
+                                </select>
+                            </label>
                         </td>
                         <td rowSpan={4} className="table-buttons">
                             <button>
@@ -47,8 +47,8 @@ export default function EstimateSearch(){
                     </tr>
                     <tr>
                         <td className="table-label">출력일자</td>
-                        <td className="table-input">
-                            <div className="flex-row">
+                        <td>
+                            <div className="flex-row dates-container">
                                 <input className='date-input' type="date" /> ~ <input className='date-input' type="date" />
                                
                             </div>
@@ -57,13 +57,13 @@ export default function EstimateSearch(){
                     </tr>
                     <tr>
                         <td className="table-label">거래처선택</td>
-                        <td className="table-input">
+                        <td>
                             <input placeholder="거래처명을 입력하세요." />
                         </td>
                     </tr>
                     <tr>
                         <td className="table-label">품목선택</td>
-                        <td className="table-input">
+                        <td>
                             <input placeholder="품명을 입력하세요." />
                         </td>
                     </tr>

@@ -76,7 +76,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                         <td>상호</td>
                         <td>사업자등록번호</td>
                         <td>전화</td>
-                        <td>FAX</td>
+                        {size.width>700 && <td>FAX</td>}
                         <td>대표자명</td>
                         <td>관리</td>
                     </tr>   
@@ -84,10 +84,10 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                 <tbody>
                     {pageByCompany.map(company => (
                         <tr key={company.companyId} ref={(el)=> {itemsRef.current[company.companyId] = el}} className={target === company.companyId ?'is-click' :''} >
-                            <td>{company.companyName}</td>
+                            <td>{company.companyName}[{company.printName}]</td>
                             <td>{company.businessNum}</td>
                             <td>{company.tel}</td>
-                            <td>{company.fax}</td>
+                            {size.width>700 &&<td>{company.fax}</td>}
                             <td>{company.ceo}</td>
                             <td className='icon' onClick={()=> target === company.companyId ? setTarget(null) :setTarget(company.companyId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === company.companyId &&{color:'orange'}}/>

@@ -2,7 +2,7 @@
 import '@/styles/table-style/search-result.scss';
 
 import { useSelector } from 'react-redux';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,11 +31,11 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     const searchParams = useSearchParams();
     const pathname = usePathname();
   
-    const customerIdList = pageByCustomer.map((({customerId})=> customerId))
+    const customerIdList = pageByCustomer.map(({customerId})=> customerId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
     const {searchInputTarget, searchInput, postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.customerSearch);
 
-    const fetchSearchCustomers = useCallback(async (searchCondition:CustomerSearchCondition)=>{
+    const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition)=>{
         try {
             const response = await fetch("http://localhost:8080/api/getCustomers", {
                 method: "POST",
@@ -50,7 +50,7 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
         } catch (error) {
             console.error('Error:', error);
         }
-    },[])
+    }
 
   
     //if start search then retry settings customer data
@@ -64,7 +64,6 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             }
             if(allView){
                 setCustomers(initialCustomers)
-                setPageByCustomer(initialCustomers.slice((page-1)*20, ((page-1)*20)+20))
             }
         
             const params = new URLSearchParams(searchParams.toString()); 
@@ -73,6 +72,8 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             router.push(`${pathname}?${params.toString()}`); 
         }
     },[isSearch,allView])
+
+    
 
     useEffect(()=>{
         setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
