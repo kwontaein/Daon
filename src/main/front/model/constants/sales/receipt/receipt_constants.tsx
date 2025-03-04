@@ -122,3 +122,16 @@ export const DisabledStatus = {
     }, 
 }
 
+
+export const keyOfAccount ={
+    sales: '매출',
+    purchase: '매입',
+    deposit: '입금',
+    withdrawal: '출금',
+    sale_discount: '매출할인',
+    purchase_discount: '매입할인',
+    cost: '관리비',
+    return_delivery: '반품출고', 
+    sales_replacement: '매출대체',
+    returned_received: '반품입고'
+}
