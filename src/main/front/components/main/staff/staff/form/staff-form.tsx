@@ -66,14 +66,8 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     <h4>직원등록</h4>
                 </header>
             }
-            <form onSubmit={(e)=>{
-                e.preventDefault()
-                startTransition(()=>{
-                const formData = new FormData(e.currentTarget); // 폼 데이터 생성
-                action(formData); // action 함수에 전달
-                })
-            }}>
-            <table className="staff-form-table"  key={state.staffId}>
+            <form action={action}>
+            <table className="staff-form-table">
                 <colgroup>
                     <col style={{ width: '5%' }} />
                     <col style={{ width: '10%' }} />
@@ -91,7 +85,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>
                     <td colSpan={2} className="table-label">관리등급</td>
                     <td colSpan={2}>
-                        <select name='userRole' defaultValue={state.userRole}>
+                        <select name='userRole' defaultValue={state.userRole} key={state.userRole}>
                             <option value="GM">운영자</option>
                             <option value="SGM">부운영자</option>
                             <option value="MEM">일반회원</option>
@@ -105,7 +99,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     </td>
                     <td colSpan={2} className="table-label">직위</td>
                     <td colSpan={2}>
-                        <select name="userClass" defaultValue={state.userClass}>
+                        <select name="userClass" defaultValue={state.userClass} key={state.userClass}>
                             <option value="none">직위선택</option>
                             <option value="CEO">대표</option>
                             <option value="DIRECTOR">이사</option>
@@ -124,7 +118,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
-                        <select name="dept" defaultValue={state.dept}>
+                        <select name="dept" defaultValue={state.dept} key={state.dept}>
                             <option value="none">부서선택</option>
                             <option value="MANAGE">관리부</option>
                             <option value="BUSINESS">영업부</option>
@@ -140,7 +134,7 @@ export default function StaffForm({staff}:{staff?:ResponseStaff}){
                 <tr>    
                     <td colSpan={2} className="table-label">성&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;명</td>
                     <td colSpan={2}>
-                        <input type="text" name="name" defaultValue={state.name}/>
+                        <input type="text" name="name" defaultValue={state.name} key={state.name}/>
                         {state.formErrors?.name &&  
                             <ErrorBox key={state.formErrors.errorKey}>
                                 {state.formErrors.name}

@@ -25,13 +25,7 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                     <h4>회사등록</h4>
                 </header>
             }
-            <form onSubmit={(e)=>{
-                e.preventDefault()
-                startTransition(()=>{
-                const formData = new FormData(e.currentTarget); // 폼 데이터 생성
-                action(formData); // action 함수에 전달
-                })
-            }}>
+            <form action={action}>
             <table className="company-form-table"  key={state.companyId}>
                 <colgroup>
                     <col style={{ width: '15%' }} />
@@ -42,19 +36,47 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                 <tbody>
                     <tr>
                         <td className="table-label">상호명</td>
-                        <td><input type="text" name="companyName" defaultValue={state.companyName}/></td>
+                        <td>
+                            <input type="text" name="companyName" defaultValue={state.companyName}/>
+                            {state.formErrors?.companyName &&  
+                            <ErrorBox key={state.formErrors.errorKey}>
+                                {state.formErrors.companyName}
+                            </ErrorBox>
+                            }   
+                        </td>
                         <td className="table-label">인쇄명</td>
-                        <td><input type="text" name="printName" defaultValue={state.printName}/></td>
+                        <td>
+                            <input type="text" name="printName" defaultValue={state.printName}/>
+                            {state.formErrors?.printName &&  
+                            <ErrorBox key={state.formErrors.errorKey}>
+                                {state.formErrors.printName}
+                            </ErrorBox>
+                            }     
+                        </td>
                     </tr>
                     <tr>
                         <td className="table-label">대표자</td>
-                        <td><input type="text" name="ceo" defaultValue={state.ceo}/></td>
+                        <td>
+                            <input type="text" name="ceo" defaultValue={state.ceo}/>
+                            {state.formErrors?.ceo &&  
+                            <ErrorBox key={state.formErrors.errorKey}>
+                                {state.formErrors.ceo}
+                            </ErrorBox>
+                            }  
+                        </td>
                         <td className="table-label">주민등록번호</td>
                         <td><input type="text" name="ceoCert" defaultValue={state.ceoCert}/></td>
                     </tr>
                     <tr>
                         <td className="table-label">사업자등록번호</td>
-                        <td><input type="text" name="businessNum" defaultValue={state.businessNum}/></td>
+                        <td>
+                            <input type="text" name="businessNum" defaultValue={state.businessNum}/>
+                            {state.formErrors?.businessNum &&  
+                            <ErrorBox key={state.formErrors.errorKey}>
+                                {state.formErrors.businessNum}
+                            </ErrorBox>
+                            }  
+                        </td>
                         <td className="table-label">전화</td>
                         <td><input type="text" name="tel" defaultValue={state.tel}/></td>
                     </tr>

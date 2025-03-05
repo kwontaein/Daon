@@ -39,10 +39,10 @@ export async function submitCompanyInfo(prevState, formData) {
         errors.push(['printName', '인쇄명을 입력해주세요.'])
     }
     if(isInvalidText(companyData.businessNum)){
-        errors.push(['companyName', '사업자등록번호를 입력해주세요.'])
+        errors.push(['businessNum', '사업자등록번호를 입력해주세요.'])
     }
     if(isInvalidText(companyData.ceo)){
-        errors.push(['etc', '대표자명을 입력해주세요.'])
+        errors.push(['ceo', '대표자명을 입력해주세요.'])
     }
 
     if(errors.length>0){

@@ -60,9 +60,8 @@ export default async function CustomerPage({searchParams}:PageByProps) {
 
     return (
         <section>
-            <CustomerSearch customerCate={customerCate}/>
             <Suspense fallback={<div>loading..</div>}>
-                <CustomerSearchResult initialCustomers={initialCustomers} page={page}/>
+                <CustomerSearch customerCate={customerCate}  initialCustomers={initialCustomers} page={page}/>
             </Suspense>
         </section>
     )
