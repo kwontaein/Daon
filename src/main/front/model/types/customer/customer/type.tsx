@@ -11,6 +11,26 @@ export interface RequestCustomer {
     cateId: string; // UUID는 문자열로 처리
 }
 
+
+export type CategoryType = 'none' |'sale' | 'purchase' | 'consumer' | 'subcontractor' | 'etc';
+export type CustomerSearchTarget = 'all' | 'payment'
+export type CustomerSearchInputTarget = 'customerName' | 'ceo';
+
+
+export interface CustomerSearchCondition {
+    category?: CategoryType,
+    cateId?:string,
+    searchTarget :CustomerSearchTarget,
+    customerName?: string,
+    ceo?:string,
+} 
+
+export interface CustomerSearch{
+    postSearchInfo: CustomerSearchCondition,
+    searchInputTarget:string,
+    searchInput:string
+}
+
 export interface ResponseCustomer {
     customerId: string;
     customerName: string;

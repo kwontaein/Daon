@@ -1,92 +1,31 @@
 "use client";
 import '@/styles/table-style/search-result.scss';
 
-import { useSelector } from 'react-redux';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {  useMemo } from 'react';
 
-import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { RootState } from '@/store/store';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 
-import Pagination from '@/components/share/pagination';
 
-import { RequestSearchStock, ResponseStock } from '@/model/types/stock/stock/types';
+import { ResponseStock } from '@/model/types/stock/stock/types';
 import StockOptions from './options';
 
 
 
-export default function StockSearchResult({initialStocks, page}:{initialStocks:ResponseStock[], page:number}){
+const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock[]})=>{
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
-    const [stocks, setStocks] = useState<ResponseStock[]>(initialStocks)
-    const [pageByStock, setPageByStock] = useState<ResponseStock[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
 
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
-    
-    //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-  
-    const stockIdList = pageByStock.map(({stockId})=> stockId)
+    const stockIdList = pageByStocks.map(({stockId})=> stockId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(stockIdList)
-    const {postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.stockSearch);
 
-    const fetchSearchStocks = useCallback(async (searchCondition: RequestSearchStock) => {
-        try {
-            const response = await fetch("http://localhost:8080/api/getStockList", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(searchCondition),
-            });
-
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-            const text = await response.text();
-            setStocks(text ? JSON.parse(text) : []);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }, []);
-    
-    //if start search then retry settings stock data
-    useEffect(() => {
-        if (isSearch || allView) {
-            if (isSearch) {
-                const { category, isRemain, isStockUseEa, isConditionSearch, searchInput } = postSearchInfo;
-                fetchSearchStocks({
-                    condition: isConditionSearch,
-                    category: category === 'none' ? null : category,
-                    remain: isRemain,
-                    stockUseEa: isStockUseEa,
-                    name: searchInput,
-                    receiptCategory: 'DEPOSIT',
-                });
-            } else if (allView) {
-                setStocks(initialStocks);
-            }
-
-            const params = new URLSearchParams(searchParams.toString());
-            params.delete("page");
-            router.push(`${pathname}?${params.toString()}`);
-        }
-    }, [isSearch, allView, fetchSearchStocks]);
-
-    useEffect(()=>{
-        setPageByStock(stocks.slice((page-1)*20, ((page-1)*20)+20))
-        setLoading(false)
-    },[stocks, page])
-
-    
-    const tableRender = useMemo(()=>{
-        return(
-            <>
-            <table className="search-result-table">
+    return(
+       <>
+         <table className="search-result-table">
                 <colgroup>
                         <col style={{ width: '1%' }} />
                         <col style={{ width: '15%', minWidth:'40px'}} />
@@ -108,7 +47,7 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
                     </tr>
                 </thead>
                 <tbody>
-                    {pageByStock.map((stock:ResponseStock, index) => (
+                    {pageByStocks.map((stock:ResponseStock, index) => (
                         <tr key={index} ref={(el)=> {itemsRef.current[stock.stockId] = el}} className={target === stock.stockId ?'is-click' :''}>
                             <td><input type="checkbox" 
                                        checked={checkedState[stock.stockId]|| false} 
@@ -125,7 +64,7 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
                             </td>
                         </tr>
                     ))}
-                    {!loading && pageByStock.length===0 && 
+                    {pageByStocks.length===0 && 
                         <tr  className={'none-hover'}>
                             <td colSpan={9}>
                                 <p>조회된 결과가 없습니다.</p>
@@ -134,23 +73,8 @@ export default function StockSearchResult({initialStocks, page}:{initialStocks:R
                     }
                 </tbody>
             </table>
-            {!loading  &&
-                <Pagination
-                    totalItems={stocks.length}
-                    itemCountPerPage={20} 
-                    pageCount={5} 
-                    currentPage={Number(page)}
-                />
-            }
-        </>
-        )
-    },[pageByStock,target,loading,checkedState,isAllChecked])
-
-
-    return(
-       <>
-        {tableRender}
        </>
     )
-}
+})
 
+export default StockSearchResult;
