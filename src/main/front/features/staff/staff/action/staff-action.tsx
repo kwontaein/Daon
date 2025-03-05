@@ -7,7 +7,6 @@ function isInvalidText(text) {
   }
 
 export async function submitStaffInfo(prevState, formData) {
-    console.log(prevState.duplicationChecked)
     const staffData= {
         userId: formData.get('userId'),
         password: formData.get('password'),

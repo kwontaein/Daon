@@ -1,147 +1,84 @@
 "use client";
 import '@/styles/table-style/search-result.scss';
 
-import { useSelector } from 'react-redux';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { usePathname, useSearchParams, useRouter} from 'next/navigation';
+import React from 'react';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { RootState } from '@/store/store';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
-import { CustomerSearchCondition } from '@/store/slice/customer-search';
 
 import CustomerOptions from './options';
-import Pagination from '@/components/share/pagination';
 import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
-import { fetchSearchCustomers } from '@/features/customer/customer/api/searchCustomerApi';
 
 
 
-export default function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
+const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:ResponseCustomer[]})=>{
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
-    const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
-    const [loading, setLoading] = useState<boolean>(true)
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
-    //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    
-    const pageByCustomer = useMemo(()=>{
-        setLoading(false)
-        return customers.slice((page-1)*20, ((page-1)*20)+20)
-    },[customers,page])  
-
-    const customerIdList = pageByCustomer.map(({customerId})=> customerId)
+    const customerIdList = pageByCustomers.map(({customerId})=> customerId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
-    const {searchInputTarget, searchInput, postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.customerSearch);
 
 
-            
-
-
-
-    
-    //when you start search, retry settings task data
-    useCallback(async()=>{
-        if(allView ||isSearch){
-            if(isSearch) {
-                const searchCondition ={...postSearchInfo, [searchInputTarget]:searchInput}
-                const customer = await fetchSearchCustomers(searchCondition)
-                setCustomers(customer)
-            }
-            if(allView){
-                setCustomers(initialCustomers)
-            }
-        
-            const params = new URLSearchParams(searchParams.toString()); 
-            params.delete("page"); 
-            // 기존 pathname 유지
-            router.push(`${pathname}?${params.toString()}`); 
-        }
-    },[isSearch])
-
-    
-
-
-    const tableRender = useMemo(()=>{
-        return(
-            <>
-            <table className="search-result-table">
-                <colgroup>
-                        <col style={{ width: '1%' }} />
-                        <col style={{ width: '11%' }} />
-                        <col style={{ width: '9%' }} />
-                        <col style={{ width: '30%' }} />
-                        <col style={{ width: '11%' }} />
-                        <col style={{ width: '11%' }} />
-                        <col style={{ width: '9%' }} />
-                        <col style={{ width: '11%' }} />
-                        <col style={{ width: '3%', minWidth: '32px' }} />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <td><input type="checkbox" onChange={toggleAllChecked} checked={isAllChecked}/></td>
-                        <td>구분</td>
-                        <td>분류</td>
-                        <td>상호명</td>
-                        <td>전화</td>
-                        <td>FAX</td>
-                        <td>담당</td>
-                        <td>현잔액</td>
-                        <td>옵션</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {pageByCustomer.map((customer:ResponseCustomer, index) => (
-                        <tr key={index} ref={(el)=> {itemsRef.current[customer.customerId] = el}} className={target === customer.customerId ?'is-click' :''}>
-                            <td><input type="checkbox" 
-                                       checked={checkedState[customer.customerId]|| false} 
-                                       onChange={update_checked.bind(null,customer.customerId)}/>
-                            </td>
-                            <td>{customer.customerCateId.customerCateName}</td>
-                            <td>{CustomerCategoryMap[customer.category]}</td>
-                            <td className='left-align'>{customer.customerName}</td>
-                            <td>{customer.phoneNumber}</td>
-                            <td>{customer.fax}</td>
-                            <td>{customer.etc}</td>
-                            <td></td>
-                            <td className='icon' onClick={()=> target === customer.customerId ? setTarget(null) :setTarget(customer.customerId)}>
-                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
-                                {target === customer.customerId && <CustomerOptions customerId={customer.customerId}/>}
-                            </td>
-                        </tr>
-                    ))}
-                    {!loading && pageByCustomer.length===0 && 
-                        <tr className='none-hover'>
-                            <td colSpan={9}>
-                                <p>조회된 결과가 없습니다.</p>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            {!loading  &&
-                <Pagination
-                    totalItems={customers.length}
-                    itemCountPerPage={20} 
-                    pageCount={5} 
-                    currentPage={Number(page)}
-                />
-            }
-        </>
-        )
-    },[pageByCustomer,target,checkedState,isAllChecked])
-
+  
     return(
-       <>
-        {tableRender}
-       </>
+        <table className="search-result-table">
+        <colgroup>
+                <col style={{ width: '1%' }} />
+                <col style={{ width: '11%' }} />
+                <col style={{ width: '9%' }} />
+                <col style={{ width: '30%' }} />
+                <col style={{ width: '11%' }} />
+                <col style={{ width: '11%' }} />
+                <col style={{ width: '9%' }} />
+                <col style={{ width: '11%' }} />
+                <col style={{ width: '3%', minWidth: '32px' }} />
+        </colgroup>
+        <thead>
+            <tr>
+                <td><input type="checkbox" onChange={toggleAllChecked} checked={isAllChecked}/></td>
+                <td>구분</td>
+                <td>분류</td>
+                <td>상호명</td>
+                <td>전화</td>
+                <td>FAX</td>
+                <td>담당</td>
+                <td>현잔액</td>
+                <td>옵션</td>
+            </tr>
+        </thead>
+        <tbody>
+            {pageByCustomers.map((customer:ResponseCustomer, index) => (
+                <tr key={index} ref={(el)=> {itemsRef.current[customer.customerId] = el}} className={target === customer.customerId ?'is-click' :''}>
+                    <td><input type="checkbox" 
+                               checked={checkedState[customer.customerId]|| false} 
+                               onChange={update_checked.bind(null,customer.customerId)}/>
+                    </td>
+                    <td>{customer.customerCateId.customerCateName}</td>
+                    <td>{CustomerCategoryMap[customer.category]}</td>
+                    <td className='left-align'>{customer.customerName}</td>
+                    <td>{customer.phoneNumber}</td>
+                    <td>{customer.fax}</td>
+                    <td>{customer.etc}</td>
+                    <td></td>
+                    <td className='icon' onClick={()=> target === customer.customerId ? setTarget(null) :setTarget(customer.customerId)}>
+                        <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
+                        {target === customer.customerId && <CustomerOptions customerId={customer.customerId}/>}
+                    </td>
+                </tr>
+            ))}
+            {pageByCustomers.length===0 && 
+                <tr className='none-hover'>
+                    <td colSpan={9}>
+                        <p>조회된 결과가 없습니다.</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     )
-}
+})
 
+export default CustomerSearchResult;

@@ -52,9 +52,8 @@ export default async function StockPage({searchParams}:StockPageProps){
 
     return(
         <section>
-            <StockSearch stockCate={InitStockCate}/>
             <Suspense fallback={<div>loading...</div>}>
-                <StockSearchResult initialStocks={initialStocks} page={page}/>
+                <StockSearch stockCate={InitStockCate}  initialStocks={initialStocks} page={page}/>
             </Suspense>
         </section>
     )

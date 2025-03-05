@@ -1,6 +1,6 @@
 'use client';
 
-import React, { startTransition, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import { useActionState } from 'react';
 
 import './customer-form.scss';
@@ -16,9 +16,10 @@ import { CustomerCate } from '@/model/types/customer/cate/type';
 
 
 export default function CustomerForm({customerCate, customer}:{customerCate:CustomerCate[], customer?:ResponseCustomer}) {
-  const initialState = useMemo(() => customer ?? {}, [customer]);
+  const initialState = useMemo(() => customer ? {...customer,customerCateId:customer.customerCateId.customerCateId}:{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const router = useRouter();
+
 
   return (
     <>
@@ -28,14 +29,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
           <h4>전표입력</h4>
       </header>
       }
-      <form onSubmit={(e)=>{
-        e.preventDefault()
-        startTransition(()=>{
-          const formData = new FormData(e.currentTarget); // 폼 데이터 생성
-          action(formData); // action 함수에 전달
-        })
-      }} 
-      className="customer-form-container">
+      <form action={action} className="customer-form-container">
       <table className="customer-form-table print-section" key={state.customerId}>
           <colgroup>
                   <col style={{ width: '17%' }} />
@@ -48,7 +42,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
               <td className='table-label'>거래처 구분</td>
               <td>
                 <select className="title-selector" 
-                        size={1} name="category" defaultValue={state.category ??'none'}>
+                        size={1} name="category" defaultValue={state.category ??'none'} key={state.category??'none'}>
                     <option value='none'>선택</option>
                     <option value="SALE">판매처</option>
                     <option value="PURCHASE">구매처</option>
@@ -65,7 +59,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
               <td className='table-label'>소속</td>
               <td>
                 <select className="title-selector" 
-                        size={1} name="customerCateId" defaultValue={state.customerCateId ? state.customerCateId.customerCateId ??'none' :'none'}>
+                        size={1} name="customerCateId" defaultValue={state.customerCateId?? 'none'} key={state.customerCateId?? 'none'}>
                     <option value='none'>소속선택</option>
                     {customerCate.map((cate)=>(
                         <option key={cate.customerCateId} value={cate.customerCateId}>
@@ -112,7 +106,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
               <td><input type='text' name="contents" defaultValue={state.contents ?? ''}/></td>
               <td className='table-label'>담당자</td>
               <td>
-                <select className="title-selector" size={1} name="etc">
+                <select className="title-selector" size={1} name="etc" key={state.etc} defaultValue={state.etc}>
                     <option value='none'>선택</option>
                     <option value='kwang'>권태인</option>
                     <option value="kang">강승재</option>

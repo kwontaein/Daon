@@ -1,11 +1,11 @@
-import { TaskSearchCondition } from "@/model/types/task/task/type";
+import { RequestSearchStock, StockSearchCondition } from "@/model/types/stock/stock/types";
 
-export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
+export const fetchSearchStocks = async(searchCondition: StockSearchCondition) => {
     try {
-        const response = await fetch("http://localhost:8080/api/getTaskByOption", {
+        const response = await fetch("http://localhost:8080/api/getStockList", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(searchCondition),
+            body: JSON.stringify({...searchCondition, receiptCategory: 'DEPOSIT'}),
         });
 
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -15,4 +15,4 @@ export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     } catch (error) {
         console.error('Error:', error);
     }
-}
+};
