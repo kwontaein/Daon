@@ -47,7 +47,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         거래처 구분 &nbsp;: &nbsp;
                             <label>
                                 <select className="title-selector" size={1} 
-                                        value={postSearchInfo.category}
+                                        value={postSearchInfo.category ?? 'none'}
                                         onChange={(e)=>dispatch(updateCustomerSearchQuery({category: e.target.value}))}>
                                     <option value='none'>선택안함</option>
                                     <option value="SALE">판매처</option>
@@ -66,7 +66,7 @@ export default function CustomerSearch({customerCate}:{customerCate: CustomerCat
                         <td>
                             <label>
                                 <select size={1}
-                                        value={postSearchInfo.cateId}
+                                        value={postSearchInfo.cateId ?? 'none'}
                                         onChange={(e)=>dispatch(updateCustomerSearchQuery({cateId: e.target.value}))}>
                                         <option value='none'>선택안함</option>
                                         {customerCate.map((cate)=>(
