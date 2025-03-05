@@ -1,8 +1,6 @@
 import CustomerSearch from "@/components/main/customer/search";
-import CustomerSearchResult from "@/components/main/customer/search-result";
-import { CustomerSearchCondition } from "@/store/slice/customer-search";
 import { CustomerCate } from "@/model/types/customer/cate/type";
-import { RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
+import { CustomerSearchCondition, RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
 
