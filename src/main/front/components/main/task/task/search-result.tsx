@@ -5,51 +5,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { ResponseTask } from '@/model/types/task/task/type'
 import useCheckBoxState from '@/hooks/share/useCheckboxState'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store/store'
-import { fetchSearchTask } from '@/features/task/task/api/searchTaskApi'
 
-export default function TaskSearchResult({initialTask, page}:{initialTask:ResponseTask[], page:number}){
-    const [task, setTask] = useState<ResponseTask[]>(initialTask)
-    
-    const pageByTask = useMemo(()=>{
-        setLoading(false)
-        return task.slice((page-1)*20, ((page-1)*20)+20)
-    },[task])  
+ const TaskSearchResult= React.memo(({pageByTasks}:{pageByTasks:ResponseTask[]})=>{
 
-    const stockIds = pageByTask.map(({taskId})=> taskId)
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(stockIds)
-    const {postSearchInfo, isSearch} = useSelector((state:RootState)=> state.taskSearch);
-
-    const [loading, setLoading] = useState<boolean>(true)
-        
-
-    //router variables
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
-
-    
-
-    //when you start search, retry settings task data
-   useCallback(async()=>{
-        if(isSearch){
-            const {taskType, customer, customerCate, assignedUser} = postSearchInfo
-            if(!taskType && !customerCate && !assignedUser && !customer){
-                setTask(initialTask)
-            }else {
-                const task = await fetchSearchTask(postSearchInfo)
-                setTask(task)
-            }
-
-            const params = new URLSearchParams(searchParams.toString()); 
-            params.delete("page"); 
-            // 기존 pathname 유지
-            router.push(`${pathname}?${params.toString()}`); 
-        }
-    },[isSearch])
-
+    const taskIds = pageByTasks.map(({taskId})=> taskId)
+    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
 
     return(
         <table className='search-result-table'>
@@ -72,25 +32,25 @@ export default function TaskSearchResult({initialTask, page}:{initialTask:Respon
               </tr>
             </thead>
             <tbody>
-                    {pageByTask.map(stock=>(
-                        <tr key={stock.taskId}>
+                    {pageByTasks.map(Tasks=>(
+                        <tr key={Tasks.taskId}>
                             <td><input type='checkbox' 
-                                       checked={checkedState[stock.taskId]} 
-                                       onChange={()=>update_checked(stock.taskId)}/></td>
-                            <td>{stock.taskType}</td>
-                            <td>{stock.createdAt}</td>
-                            <td>{stock.isCompleted}</td>
-                            <td>{stock.customer}</td>
-                            <td>{stock.requesterName}</td>
-                            <td>{stock.assignedUser}</td>
-                            <td>{stock.requesterContact}</td>
-                            <td>{stock.model}</td>
-                            <td>{stock.details}</td>
-                            <td>{stock.remarks}</td>
-                            <td>{stock.isCompleted}</td>
+                                       checked={checkedState[Tasks.taskId]} 
+                                       onChange={()=>update_checked(Tasks.taskId)}/></td>
+                            <td>{Tasks.taskType}</td>
+                            <td>{Tasks.createdAt}</td>
+                            <td>{Tasks.isCompleted}</td>
+                            <td>{Tasks.customer}</td>
+                            <td>{Tasks.requesterName}</td>
+                            <td>{Tasks.assignedUser}</td>
+                            <td>{Tasks.requesterContact}</td>
+                            <td>{Tasks.model}</td>
+                            <td>{Tasks.details}</td>
+                            <td>{Tasks.remarks}</td>
+                            <td>{Tasks.isCompleted}</td>
                         </tr>
                     ))}
-                    {!loading && pageByTask.length===0 && 
+                    {pageByTasks.length===0 && 
                         <tr  className={'none-hover'}>
                             <td colSpan={12}>
                                 <p>조회된 결과가 없습니다.</p>
@@ -100,4 +60,6 @@ export default function TaskSearchResult({initialTask, page}:{initialTask:Respon
             </tbody>
         </table>
     )
-}
+})
+
+export default TaskSearchResult;

@@ -48,8 +48,7 @@ export default async function TaskPage({searchParams}:PageByProps){
 
     return(
         <section>
-            <TaskSearch customerCate={customerCate}/>
-            <TaskSearchResult initialTask={initialTask} page={page}/>
+            <TaskSearch customerCate={customerCate} initialTask={initialTask} page={page}/>
         </section>
     )
 }

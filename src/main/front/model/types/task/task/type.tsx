@@ -12,22 +12,22 @@ export enum TaskType {
 export interface ResponseTask {
     taskId: string; // 업무 아이디
     taskType: TaskType; // 구분 (ENUM 사용)
-  
     customer: string; // 거래처
-  
     requesterName: string; // 의뢰자명
     requesterContact: string; // 의뢰자 연락처
     requesterContact2?: string; // 의뢰자 연락처2 (선택적)
-  
     model: string; // 모델
-  
     isCompleted: boolean; // 처리 여부
-  
     assignedUser: string; // 담당 기사 (유저)
-  
     details?: string; // 내용 (선택적)
     remarks?: string; // 비고 (선택적)
-  
     createdAt: string; // 생성일 (ISO 문자열)
     updatedAt: string; // 수정일 (ISO 문자열)
   }
+
+  export interface TaskSearchCondition {
+    customer:string,
+    taskType: TaskType|'none'|null, //구분
+    customerCate:string|null, //거래처구분
+    assignedUser:string|null, //담당자
+} 
