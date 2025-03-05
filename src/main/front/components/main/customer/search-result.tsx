@@ -2,7 +2,7 @@
 import '@/styles/table-style/search-result.scss';
 
 import { useSelector } from 'react-redux';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePathname, useSearchParams, useRouter} from 'next/navigation';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,13 +16,13 @@ import { CustomerSearchCondition } from '@/store/slice/customer-search';
 import CustomerOptions from './options';
 import Pagination from '@/components/share/pagination';
 import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
+import { fetchSearchCustomers } from '@/features/customer/customer/api/searchCustomerApi';
 
 
 
 export default function CustomerSearchResult({initialCustomers, page}:{initialCustomers:ResponseCustomer[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const [customers, setCustomers] = useState<ResponseCustomer[]>(initialCustomers)
-    const [pageByCustomer, setPageByCustomer] = useState<ResponseCustomer[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
@@ -30,37 +30,30 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-  
+
+    
+    const pageByCustomer = useMemo(()=>{
+        setLoading(false)
+        return customers.slice((page-1)*20, ((page-1)*20)+20)
+    },[customers,page])  
+
     const customerIdList = pageByCustomer.map(({customerId})=> customerId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
     const {searchInputTarget, searchInput, postSearchInfo, isSearch, allView} = useSelector((state:RootState)=> state.customerSearch);
 
-    const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition)=>{
-        try {
-            const response = await fetch("http://localhost:8080/api/getCustomers", {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(searchCondition),
-            });
 
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            
 
-            const text = await response.text();
-            setCustomers(text ? JSON.parse(text) : []);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
 
-  
-    //if start search then retry settings customer data
-    useEffect(()=>{
+
+    
+    //when you start search, retry settings task data
+    useCallback(async()=>{
         if(allView ||isSearch){
             if(isSearch) {
-                const cateId = postSearchInfo.cateId ==='none' ? null : postSearchInfo.cateId
-                const category =  postSearchInfo.category ==='none' ? null : postSearchInfo.category
-                const searchCondition ={...postSearchInfo, cateId, category, [searchInputTarget]:searchInput}
-                fetchSearchCustomers(searchCondition)
+                const searchCondition ={...postSearchInfo, [searchInputTarget]:searchInput}
+                const customer = await fetchSearchCustomers(searchCondition)
+                setCustomers(customer)
             }
             if(allView){
                 setCustomers(initialCustomers)
@@ -71,14 +64,9 @@ export default function CustomerSearchResult({initialCustomers, page}:{initialCu
             // 기존 pathname 유지
             router.push(`${pathname}?${params.toString()}`); 
         }
-    },[isSearch,allView])
+    },[isSearch])
 
     
-
-    useEffect(()=>{
-        setPageByCustomer(customers.slice((page-1)*20, ((page-1)*20)+20))
-        setLoading(false)
-    },[customers, page])
 
 
     const tableRender = useMemo(()=>{

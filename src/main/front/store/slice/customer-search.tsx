@@ -25,8 +25,8 @@ export interface CustomerSearch{
 
 const initialState:CustomerSearch={
     postSearchInfo:{
-        category: 'none',
-        cateId:'none',
+        category: null,
+        cateId:null,
         searchTarget :'all',
         customerName: null,
         ceo:null,
@@ -42,7 +42,10 @@ const customerSearch = createSlice({
     initialState,
     reducers:{
         updateCustomerSearchQuery: (state, action: PayloadAction<Partial<Record<CustomerSearchConditionKeys, CustomerSearchCondition[CustomerSearchConditionKeys]>>>)=>{
-            Object.assign(state.postSearchInfo, action.payload);
+            for(let [key,value] of Object.entries(action.payload)){
+                if(value ==='none') value = null
+                state.postSearchInfo[key] = value;
+            }
         },
         updateCustomerSearchInputTarget: (state, action: PayloadAction<CustomerSearchInputTarget>)=>{
             state.searchInputTarget = action.payload
