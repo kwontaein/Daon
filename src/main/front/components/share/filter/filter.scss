@@ -20,4 +20,7 @@
     &:hover{
         filter: brightness(95%);
     }
+    @media (max-width:620px){
+        font-size: 0.8rem;
+    }
 }
