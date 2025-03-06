@@ -19,7 +19,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("dept");
-        revalidatePath("/main/staff/dept");
+        // revalidatePath("/main/staff/dept");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -42,7 +42,7 @@ export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("dept");
-        revalidatePath("/main/staff/dept");
+        // revalidatePath("/main/staff/dept");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -66,7 +66,7 @@ export const deleteDeptApi =async (dept: Dept) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("dept");
-        revalidatePath("/main/staff/dept");
+        // revalidatePath("/main/staff/dept");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
