@@ -1,12 +1,12 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/components/main-view/staff/form/staff-form.scss'
+import '@/styles/main-view/register/register.scss'
 
-import { DetailPageProps } from "@/types/share/type";
-import { ResponseStaff } from "@/types/staff/type";
-import StaffDetailView from "@/components/main-view/staff/detail-view";
-import StaffForm from "@/components/main-view/staff/staff/form/staff-form";
+import { DetailPageProps } from "@/model/types/share/type";
+import { ResponseStaff } from "@/model/types/staff/staff/type";
+import StaffDetailView from "@/components/main/staff/staff/detail-view";
+import StaffForm from "@/components/main/staff/staff/form/staff-form";
 
 
 
@@ -38,12 +38,12 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
 
     return(
         <>
-        <header className="register-staff-header">
-            <Image src={asideArrow} alt=">" />
-                <h4>
-                    {mode === 'detail' && '사용자정보 상세보기'}
-                    {mode === 'edit' && '사용자정보 수정하기'}
-                </h4>
+            <header className="register-header">
+                <Image src={asideArrow} alt=">" />
+                    <h4>
+                        {mode === 'detail' && '사용자정보 상세보기'}
+                        {mode === 'edit' && '사용자정보 수정하기'}
+                    </h4>
             </header>
             {mode ==='detail' ?
              <StaffDetailView staff={staff}/>

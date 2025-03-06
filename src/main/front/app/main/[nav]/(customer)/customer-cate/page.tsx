@@ -1,4 +1,4 @@
-import CustomerCate from "@/components/main-view/customer/cate/customer-cate";
+import CustomerCate from "@/components/main/customer/cate/customer-cate";
 
 
 export default async function CustomerCatePage() {

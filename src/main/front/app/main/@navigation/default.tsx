@@ -1,5 +1,5 @@
-import Navigation from "@/components/nav/_navigation";
-import MobileNavBar from "@/components/nav/mobile/_mobile-nav-bar";
+import Navigation from "@/components/main/layout/nav/_navigation";
+import MobileNavBar from "@/components/main/layout/nav/mobile/_mobile-nav-bar";
 
 export default async function MainNavigation(){
 
