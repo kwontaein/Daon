@@ -1,4 +1,4 @@
-import MainAside from "@/components/aside/_aside"
+import MainAside from "@/components/main/layout/aside/_aside"
 
 
 

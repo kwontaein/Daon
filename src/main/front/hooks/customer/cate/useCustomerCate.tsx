@@ -1,13 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
-import {CustomerCateType} from "@/types/customer/cate/type";
+import {CustomerCate} from "@/model/types/customer/cate/type";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "./customerCateApi";
-import { useConfirm } from "@/hooks/share/useConfrim";
-import { CateMode } from "@/types/share/type";
+import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/customer/category/api/customerCateApi";
+import { useConfirm } from "@/hooks/share/useConfirm";
+import { CateMode } from "@/model/types/share/type";
 
-export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
-    const [cateState, setCateState] = useState<CustomerCateType[]>(InitCustomerCate)
+export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
+    const [cateState, setCateState] = useState<CustomerCate[]>(InitCustomerCate)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,7 +53,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCateType[]){
         }
     }
 
-    const deleteHandler=(cate:CustomerCateType)=>{
+    const deleteHandler=(cate:CustomerCate)=>{
         const deleteRequest = ()=>{
             deleteCateApi(cate).then((status)=>{
                 if(status === 200){

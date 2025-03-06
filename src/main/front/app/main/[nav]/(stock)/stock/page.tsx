@@ -1,6 +1,6 @@
-import StockSearch from "@/components/main-view/stock/search";
-import StockSearchResult from "@/components/main-view/stock/search-result";
-import { ResponseStock, StockPageProps } from "@/types/stock/types";
+import StockSearch from "@/components/main/stock/stock/search";
+import StockSearchResult from "@/components/main/stock/stock/search-result";
+import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 
 const allStockRequestBody ={
@@ -52,9 +52,8 @@ export default async function StockPage({searchParams}:StockPageProps){
 
     return(
         <section>
-            <StockSearch stockCate={InitStockCate}/>
             <Suspense fallback={<div>loading...</div>}>
-                <StockSearchResult initialStocks={initialStocks} page={page}/>
+                <StockSearch stockCate={InitStockCate}  initialStocks={initialStocks} page={page}/>
             </Suspense>
         </section>
     )
