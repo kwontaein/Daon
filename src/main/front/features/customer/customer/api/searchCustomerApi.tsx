@@ -1,4 +1,4 @@
-import { CustomerSearchCondition } from "@/store/slice/customer-search";
+import { CustomerSearchCondition } from "@/model/types/customer/customer/type";
 
 export const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition)=>{
     try {
