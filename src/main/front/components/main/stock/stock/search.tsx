@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/table-style/search.scss';
 
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
 import {apiUrl} from '@/model/constants/apiUrl';
@@ -198,10 +198,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                 <td className='table-label'>품명</td>
                                 <td>
                                     <input type='text' 
-                                           ref={useCallback((node)=>{
-                                                inputRef.current = node;
-                                                inputRef.current?.focus();
-                                            },[pageByStocks])}
+                                           ref={inputRef}
                                            name='name' 
                                            key={state.searchKey} 
                                            defaultValue={state.name} />

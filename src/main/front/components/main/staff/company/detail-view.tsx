@@ -59,8 +59,8 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
                     <tr>
                         <td rowSpan={3} className="table-label">주소</td>
                         <td colSpan={3}>
-                            <input className="zip-code-input" value={company ? company.zipcode.split('0')[0] : ''} disabled/> -
-                            <input className="zip-code-input" value={company ? company.zipcode.split('0')[1] : ''} disabled style={{marginLeft:'4px'}}/>
+                            <input className="zip-code-input" value={company.zipcode ? company.zipcode.split('-')[0] : ''} disabled/> -
+                            <input className="zip-code-input" value={company.zipcode ? company.zipcode.split('-')[1] : ''} disabled style={{marginLeft:'4px'}}/>
                             [우편번호]
                         </td>
                     </tr>

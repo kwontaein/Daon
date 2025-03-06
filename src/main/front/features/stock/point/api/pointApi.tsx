@@ -20,7 +20,7 @@ export const updatePointApi = async (Points: StockPoint[]) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stockPoint");
-        revalidatePath("/main/stock/stock-point");
+        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -43,7 +43,7 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stockPoint");
-        revalidatePath("/main/stock/stock-point");
+        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -67,7 +67,7 @@ export const deletePointApi =async (stock: StockPoint) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stockPoint")
-        revalidatePath("/main/stock/stock-point");
+        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)

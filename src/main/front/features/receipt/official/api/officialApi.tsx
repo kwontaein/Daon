@@ -20,7 +20,7 @@ export const updateCateApi = async (cates: StockCate[]) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stocksCate");
-        revalidatePath("/main/stock/stock-cate");
+        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -43,7 +43,7 @@ export const createCateApi = async (stock: Pick<StockCate, 'stockCateName'>) => 
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stocksCate");
-        revalidatePath("/main/stock/stock-cate");
+        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -67,7 +67,7 @@ export const deleteCateApi =async (stock: StockCate) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("stocksCate")
-        revalidatePath("/main/stock/stock-cate");
+        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
