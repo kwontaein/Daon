@@ -8,7 +8,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 @Aspect
 @Component
@@ -20,20 +20,43 @@ public class WebSocketAspect {
     // @PostMapping이 붙은 모든 메소드가 정상 종료된 후 실행
     @AfterReturning("@annotation(org.springframework.web.bind.annotation.PostMapping)")
     public void afterPostMethods(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
-        System.out.println("[AOP] @PostMapping 메소드 정상 종료: " + methodName);
-
-        // 메서드 시그니처를 통해 호출된 메서드 정보 확인
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+        String[] parameterNames = signature.getParameterNames();
 
-        // AOP로 감싸진 실제 메서드의 파라미터 가져오기
+        Message message = new Message();
+
         Object[] args = joinPoint.getArgs();
 
-        // args를 순회하며 DTO를 특정 타입으로 캐스팅해 사용하는 예시
-        for (Object arg : args) {
-            // 여기서 DTO 정보 활용
-            messagingTemplate.convertAndSend("/topic/updates", arg);
+        for (int i = 0; i < parameterNames.length; i++) {
+            String paramName = parameterNames[i];
+            Object paramValue = args[i];
+            message.setDestination(paramName.replace("Request", ""));
+            if (paramValue instanceof List<?>) {
+                break;
+            }
+            String dtoString = paramValue.toString();
+
+            int startIndex = dtoString.indexOf("(");
+            if (startIndex != -1) {
+
+                int endIndex = dtoString.indexOf(",", startIndex);
+
+                if (endIndex == -1) {
+                    endIndex = dtoString.indexOf(")", startIndex);
+                }
+
+                String firstFieldPart = dtoString.substring(startIndex + 1, endIndex).trim();
+
+                String[] keyValue = firstFieldPart.split("=");
+                if (keyValue.length == 2) {
+                    String fieldKey = keyValue[0];   // "stockCateId"
+                    String fieldValue = keyValue[1]; // "null"
+
+                    message.setId(fieldValue);
+                }
+            }
         }
+        System.out.println(message);
+        messagingTemplate.convertAndSend("/topic/updates", message);
     }
 }
