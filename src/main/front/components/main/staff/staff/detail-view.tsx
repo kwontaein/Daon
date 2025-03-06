@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import './form/staff-form.scss'
+import '@/styles/form-style/form.scss'
 
 import { useState } from "react";
 import { ResponseStaff } from "@/model/types/staff/staff/type";
-import { DeptMap, EmployeeClassMap, UserGrade } from "@/model/constants/staff/staff-info-map";
+import { EmployeeClassMap, UserGrade } from "@/model/constants/staff/staff-info-map";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -33,21 +33,20 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
       };
     
     return(
-        <section className="staff-form-container">
-            <table className="staff-form-table">
+        <section className="register-form-container">
+            <table className="register-form-table">
                 <colgroup>
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
-                    <col style={{ width: '8.8%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '25%' }} />
                 </colgroup>
                 <tbody>
                 <tr>
@@ -61,16 +60,16 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
-                        {DeptMap[staff.dept]}
+                        {staff.dept.deptName}
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">성&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;명</td>
                     <td colSpan={2}>{staff.name}</td>
-                    <td colSpan={2} className="table-label">영문성명</td>
-                    <td colSpan={2}>{staff.engName}</td>
                     <td colSpan={2} className="table-label">한자성명</td>
                     <td colSpan={2}>{staff.chName}</td>
+                    <td colSpan={2} className="table-label">영문성명</td>
+                    <td colSpan={2}>{staff.engName}</td>
                 </tr>
 
                 <tr>
@@ -98,7 +97,7 @@ export default function StaffDetailView({staff}:{staff:ResponseStaff}){
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">비밀번호</td>
-                    <td colSpan={8}>-</td>
+                    <td colSpan={8}>{("*").repeat(staff.password.length)}</td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">이메일</td>

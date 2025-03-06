@@ -31,7 +31,7 @@ export default function LedgerCustomerSearch({customerCate}:{customerCate:Custom
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
+                    <tr>
                         <td className='table-label'>소속</td>
                         <td>
                             <label>
@@ -56,7 +56,7 @@ export default function LedgerCustomerSearch({customerCate}:{customerCate:Custom
                     </tr>
                     <tr>
                         <td className='table-label'>출력일자</td>
-                        <td><input className='date-input' type='date'/> ~ <input className='date-input' type='date'/></td>
+                        <td className='dates-container'><input className='date-input' type='date'/> ~ <input className='date-input' type='date'/></td>
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>

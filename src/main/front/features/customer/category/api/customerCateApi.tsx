@@ -20,7 +20,7 @@ export const updateCateApi = async (cates: CustomerCate[]) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("customersCate");
-        revalidatePath("/main/customer/customer-cate");
+        // revalidatePath("/main/customer/customer-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -43,7 +43,7 @@ export const createCateApi = async (customer: Pick<CustomerCate,'customerCateNam
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("customersCate");
-        revalidatePath("/main/customer/customer-cate");
+        // revalidatePath("/main/customer/customer-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -67,7 +67,7 @@ export const deleteCateApi =async (customer: CustomerCate) => {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
         revalidateTag("customersCate")
-        revalidatePath("/main/customer/customer-cate");
+        // revalidatePath("/main/customer/customer-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
