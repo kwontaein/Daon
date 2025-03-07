@@ -2,7 +2,7 @@
 import {useState, useRef} from "react";
 import {CustomerCate} from "@/model/types/customer/cate/type";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/customer/category/api/customerCateApi";
+import { saveCustomerCateApi, deleteCustomerCateApi, updateCustomerCateApi } from "../../../features/customer/category/api/customerCateApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
 
@@ -21,7 +21,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
             InitCustomerCate[index].customerCateName !== customerCateName)
         const postAble = postCate.every(({customerCateName}) => customerCateName !== '')
         if (postCate.length>0 && postAble) {
-            updateCateApi(postCate).then((status) => {
+            updateCustomerCateApi(postCate).then((status) => {
                 if(status === 200){
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
@@ -41,7 +41,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            createCateApi({customerCateName: addInputRef.current.value})
+            saveCustomerCateApi({customerCateName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -55,7 +55,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
 
     const deleteHandler=(cate:CustomerCate)=>{
         const deleteRequest = ()=>{
-            deleteCateApi(cate).then((status)=>{
+            deleteCustomerCateApi(cate).then((status)=>{
                 if(status === 200){
                     window.alert('삭제가 완료되었습니다.')
                     setMode(null)

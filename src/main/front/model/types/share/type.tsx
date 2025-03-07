@@ -11,6 +11,12 @@ export type PageByProps ={
         page: number| undefined
     }>
 }
+export type SearchNameProps ={
+    searchParams: Promise<{
+        page: number| undefined,
+        searchName : string,
+    }>
+}
 
 
 export type ModeByProps ={

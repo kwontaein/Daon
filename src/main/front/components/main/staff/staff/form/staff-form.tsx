@@ -47,7 +47,12 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
 
     useEffect(()=>{
         if(state.post_success){
-            staff ? window.alert('사원정보 변경이 완료되었습니다.') : window.alert('사원등록에 성공했습니다.')
+            if(state.isUpdate){
+                window.alert('사원정보 변경이 완료되었습니다.')
+                router.push(`staff?mode=detail&target=${staff.userId}`)
+            }else{
+                window.alert('사원등록에 성공했습니다.')
+            }
             setIsDuplicateChecked(false)
         }
     },[state])
@@ -57,7 +62,6 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
         const changeDuplicationState = ()=>{
             setIsDuplicateChecked(true);
         }
-
         if(idRef.current.value){
             const isDuplicate =await userIdDuplicationChecked(idRef.current.value)
             if(!isDuplicate){
@@ -76,7 +80,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
         <section className="register-form-container">
             {!staff &&
                 <header className="register-header">
-                    <Image src={asideArrow} alt=">" />
+                    <Image src={asideArrow} alt=">" width={15}/>
                     <h4>직원등록</h4>
                 </header>
             }
@@ -198,7 +202,11 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                                 className={staff ? '' : 'id-input'}
                                 defaultValue={state.userId}
                                 readOnly={!!staff||isDuplicateChecked}/>
-                             {!state.isUpdate && <button type='button' disabled={isDuplicateChecked} onClick={(e)=>duplicationCheckHandler(e)}>중복확인</button>}
+                             {!state.isUpdate && 
+                                <button type='button'
+                                        disabled={isDuplicateChecked}
+                                        onClick={(e)=>duplicationCheckHandler(e)}>
+                                        중복확인</button>}
                             {state.formErrors?.userId &&  
                                 <ErrorBox>
                                     {state.formErrors.userId}
