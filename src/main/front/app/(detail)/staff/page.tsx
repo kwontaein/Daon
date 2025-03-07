@@ -7,6 +7,7 @@ import { DetailPageProps } from "@/model/types/share/type";
 import { ResponseStaff } from "@/model/types/staff/staff/type";
 import StaffDetailView from "@/components/main/staff/staff/detail-view";
 import StaffForm from "@/components/main/staff/staff/form/staff-form";
+import { Dept } from "@/model/types/staff/dept/type";
 
 
 
@@ -14,7 +15,15 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
     const userId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    console.log(userId)
+    const dept:Dept[] = await fetch("http://localhost:8080/api/getDept",
+        {
+            cache:'force-cache',
+            next: { tags: ['dept']} 
+        }
+    )
+    .then((response)=> response.json())
+    .catch((error) => console.error('Error:', error));
+
     const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
@@ -35,6 +44,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
             }
             console.error('Error:', error)
     })
+    console.log(staff)
 
     return(
         <>
@@ -48,7 +58,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
             {mode ==='detail' ?
              <StaffDetailView staff={staff}/>
              :
-             <StaffForm staff={staff}/>
+             <StaffForm staff={staff} dept={dept}/>
             }
         </>
        
