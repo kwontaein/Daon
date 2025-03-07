@@ -1,5 +1,5 @@
 import { TaskSearchCondition } from "@/model/types/task/task/type"
-import { fetchSearchTask } from "../api/searchTaskApi";
+import { fetchSearchTask } from "../api/taskApi";
 import {v4 as uuidv4} from "uuid";
 
 

@@ -1,17 +1,19 @@
 'use client'
 import '@/styles/form-style/form.scss';
 
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
+
 import { ResponseStaff } from '@/model/types/staff/staff/type';
-import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
-import { useActionState, useEffect, useRef, useState } from 'react';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
-import { apiUrl } from '@/model/constants/apiUrl';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { changeFormData } from '@/features/share/changeFormData';
 import { ResponseTask } from '@/model/types/task/task/type';
+import { apiUrl } from '@/model/constants/apiUrl';
+
+import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
+import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { useConfirm } from '@/hooks/share/useConfirm';
+import ErrorBox from '@/components/share/error-box/error-box';
 
 export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:ResponseTask}){
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
@@ -19,52 +21,83 @@ export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:Resp
         customerName:'',
         customerId:''
     })
-    const formRef = useRef<HTMLFormElement>(null);
+    const formRef = useRef<HTMLFormElement|null>(null);
     const customerNameRef = useRef(null);
     const size = useWindowSize()
 
     const searchCustomerHandler = (e)=>{
         //거래처를 찾고나서 수정 시도 시
-        if(customerInfo.customerId!=='' &&( e.key=='Delete' || e.key =='Backspace')){
-            useConfirm('거래처를 다시 선택하시겠습니까?',()=>{setCustomerInfo({customerName:'',customerId:''})},()=>{})
+        if(customerInfo.customerId){
+            const deleteCustomer = ()=>{
+                setCustomerInfo({customerName:'',customerId:''})
+            }
+            useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer,()=>{})
         }
-        if(!customerNameRef.current.value || e.key !=='Enter') return
+        //Enter 외의 다른 키 입력 시
+        if(!customerNameRef.current?.value || e.key !=='Enter') return
         e.preventDefault();
         //pc
         if(size.width>620){
-            const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current.value}`; // 열고 싶은 링크
+            const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchCustomer", popupOptions);
         }
     }
+    
+    const submitTaskHandler = ()=>{
+        if(!state.customerId){
+            window.alert('거래처를 선택해주세요')
+            return
+        }
+        const formData = new FormData(formRef.current);
+        formData.set('action','submit')
+        startTransition(()=>{
+            action(formData)
+        }) 
+    }
+    
 
     useEffect(()=>{
         if (formRef.current) {
             const formData = new FormData(formRef.current);
             formData.set('customer', customerInfo.customerName||'')
             formData.set('customerId', customerInfo.customerId||'')
-            action(formData)
+            startTransition(()=>{
+                action(formData)
+            })
+           
         }
-    
     },[customerInfo])
-    
+
+    useEffect(()=>{
+        if(!state.result) return
+        if(state.result===200){
+            window.alert('업무를 등록했습니다.')
+        }else{
+            window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
+        }
+    },[state])
+
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
-          if (event.data) {
-            const {customerName,customerId} = event.data;
-            setCustomerInfo({customerName,customerId})
-        }
+            if (event.data) {
+                const { customerName, customerId } = event.data;
+                if(customerName && customerId){
+                    setCustomerInfo({ customerName, customerId })
+                }
+            }
         };
-    
-        window.addEventListener("message", handleMessage);
+        window.removeEventListener("message", handleMessage);
+        window.addEventListener("message", handleMessage);  
+
         return () => window.removeEventListener("message", handleMessage);
-      }, []);
+    }, []);
 
     return(
         <>
         {!task &&
         <header className="register-header">
-            <Image src={asideArrow} alt=">" width={15}/>
+            <Image src={asideArrow} alt=">" width={15} priority/>
             <h4>업무등록</h4>
         </header>
         }
@@ -80,49 +113,49 @@ export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:Resp
                                 name='taskType'
                                 value='AS'
                                 defaultChecked={state.taskType ==='AS'}
-                                key={state.taskType}/>A/S</label>
+                                />A/S</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='INCOMING'
                                 defaultChecked={state.taskType ==='INCOMING'}
-                                key={state.taskType}/>입고</label>
+                               />입고</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='DELIVERY'
                                 defaultChecked={state.taskType ==='DELIVERY'}
-                                key={state.taskType}/>납품</label>
+                                />납품</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='INVENTORY'
                                 defaultChecked={state.taskType ==='INVENTORY'}
-                                key={state.taskType}/>재고</label>
+                                />재고</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='OTHER'
                                 defaultChecked={state.taskType ==='OTHER'}
-                                key={state.taskType}/>기타</label>
+                                />기타</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='RENTAL'
                                 defaultChecked={state.taskType ==='RENTAL'}
-                                key={state.taskType}/>임대</label>
+                                />임대</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='MAINTENANCE'
                                 defaultChecked={state.taskType ==='MAINTENANCE'}
-                                key={state.taskType}/>유지보수</label>
+                                />유지보수</label>
                             <label><input
                                 type='radio'
                                 name='taskType'
                                 value='ATTENDANCE'
                                 defaultChecked={state.taskType ==='ATTENDANCE'}
-                                key={state.taskType}/>근태</label>
+                                />근태</label>
                         </div>
                         </td>
                     </tr>
@@ -149,6 +182,11 @@ export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:Resp
                                     <option key={userId} value={userId}>{name}</option>
                                 )}
                             </select>
+                            {state.error &&
+                                <ErrorBox key={state.error.key}>
+                                    {state.error.message}
+                                </ErrorBox>
+                            }
                         </td>
                     </tr>
                     <tr>
@@ -166,7 +204,7 @@ export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:Resp
                 </tbody>
             </table>
             <div className='button-container'>
-                <button>저장</button>
+                <button onClick={submitTaskHandler}>저장</button>
                 <button>취소</button>
             </div>
         </form>
