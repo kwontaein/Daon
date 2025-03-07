@@ -31,7 +31,7 @@ export async function submitStaffInfo(prevState, formData) {
         memo: formData.get('memo'),
         userClass: formData.get('userClass'), //직급
         userRole: formData.get('userRole'), //권한등급
-        dept: formData.get('dept'),
+        deptId: formData.get('deptId'),
     };
 
     
@@ -40,7 +40,7 @@ export async function submitStaffInfo(prevState, formData) {
     if(staffData.userClass==='none'){
         errors.push(['userClass', '직급을 선택해주세요.'])
     }
-    if(staffData.dept==='none'){
+    if(staffData.deptId==='none'){
         errors.push(['dept', '부서를 선택해주세요.'])
     }
     if(staffData.userClass==='none'){
@@ -60,11 +60,9 @@ export async function submitStaffInfo(prevState, formData) {
     }
    
 
-    console.log(staffData.dept)
     const formKey = uuidv4()
 
     if(errors.length>0){
-      
         const formErrors = Object.fromEntries(errors)
         const state = {
             ...prevState,
@@ -93,6 +91,9 @@ export async function submitStaffInfo(prevState, formData) {
     delete postData.tel3
 
     let res;
+
+    console.log(postData)
+
     // API 요청 
     if(prevState.isUpdate){
         res = await updateEmployeeApi(postData)
@@ -102,9 +103,9 @@ export async function submitStaffInfo(prevState, formData) {
 
     if(res && res === 200){
         revalidateTag("staff");
-        // revalidatePath("/main/staff/staff");
         return {
-            post_success: true,
+            post_success: true, 
+            ...(prevState.isUpdate? staffData :{}),
             formKey,
         }
     }else{

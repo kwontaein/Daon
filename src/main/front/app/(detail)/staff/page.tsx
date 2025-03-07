@@ -44,6 +44,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
             }
             console.error('Error:', error)
     })
+    console.log(staff)
 
     return(
         <>

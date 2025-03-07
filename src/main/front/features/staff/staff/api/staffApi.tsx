@@ -20,7 +20,7 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
     })
 }
 
-export const saveEmployeeApi = async(userInfo:ResponseStaff):Promise<number|void>=>{
+export const saveEmployeeApi = async(userInfo:Omit<ResponseStaff,'dept'> & {deptId:string}):Promise<number|void>=>{
     return fetch("http://localhost:8080/api/saveEmployee", {
         method: "POST",
         headers: {
@@ -39,7 +39,7 @@ export const saveEmployeeApi = async(userInfo:ResponseStaff):Promise<number|void
     })
 }
 
-export const updateEmployeeApi = async(userInfo:ResponseStaff):Promise<number|void>=>{
+export const updateEmployeeApi = async(userInfo:Omit<ResponseStaff,'dept'> & {deptId:string}):Promise<number|void>=>{
     return fetch("http://localhost:8080/api/updateEmployee", {
         method: "POST",
         headers: {
