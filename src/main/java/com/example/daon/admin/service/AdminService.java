@@ -108,6 +108,7 @@ public class AdminService {
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
+        System.out.println(userRequest.toString());
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         user.updateFromRequest(userRequest, dept);
@@ -119,7 +120,6 @@ public class AdminService {
     }
 
     public UserEntity GetEmployeeDetail(UserRequest userRequest) {
-        System.out.println(userRequest.toString());
         return userRepository.findById(userRequest.getUserId()).orElse(null);
     }
 
