@@ -6,6 +6,8 @@ export const fetchSearchCustomers = async (searchCondition:CustomerSearchConditi
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
+            next: {revalidate: 300000, tags: [`${searchCondition.customerName}`]} //5분마다 재검증
+
         });
 
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

@@ -23,7 +23,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
 
     
     const customerCate:CustomerCate[] = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
+        next: {revalidate: 3600000, tags: ['customersCate']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,7 +40,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
         },
         body: JSON.stringify(allCustomerRequestBody),
         signal,
-        next: {revalidate: 360000, tags: ['customers']} //1시간마다 재검증
+        next: {revalidate: 3600000, tags: ['customers']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

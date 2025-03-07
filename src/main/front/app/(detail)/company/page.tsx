@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/styles/main-view/register/register.scss'
+import '@/styles/form-style/form.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
 import { ResponseCompany } from "@/model/types/staff/company/type";
@@ -21,7 +21,7 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({companyId}),
-        next: {revalidate: 18000, tags: [`${companyId}`]} //30분마다 재검증
+        next: {revalidate: 1800000, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -42,7 +42,7 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
     return(
         <>
         <header className="register-header">
-            <Image src={asideArrow} alt=">" />
+            <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
                     {mode === 'detail' && '회사정보 상세보기'}
                     {mode === 'edit' && '회사정보 수정하기'}
