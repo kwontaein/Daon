@@ -1,6 +1,6 @@
 @use '@/styles/_variables.scss' as var;
 
-.register-staff-header{
+.register-header{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -14,10 +14,10 @@
   }
 }
 
-.staff-form-container{
+.register-form-container{
   width: 100%;
 }
-.staff-form-table{
+.register-form-table{
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
@@ -29,13 +29,17 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+    border:1px solid #c2c2c2;
+  }
+  select{
+    border:none;
   }
   textarea{
     box-sizing: border-box;
     width: 100%;
     height: 100%;
     resize: none;
-
+    border:1px solid #c2c2c2;
   }
   td{
     border: 1px solid var.$default-border-color;
@@ -68,31 +72,21 @@
         div{
             display: flex;
             flex-direction: row;
-            gap: 0.5em;
+            gap: 0.4em;
             label{
                 height: 100%;
                 display: flex;
-                gap: 0.4em;
+                gap: 0.1em;
                 font-size: inherit;
-
-                @media (max-width:620px) {
-                    font-size: 1em;
-                }
-            }
-            @media (max-width:767px) {
-                gap: 0.4em;
-                label{
-                    gap: 0.1em;
-                }
             }
             @media (max-width:620px) {
-                font-size: 1.2em;
+                font-size: 1em;
             }
         }
     }
 }
-.title-selector{
-  border: none;
+.label-selector{
+    border: none;
 }
 
 .button-container{
@@ -101,7 +95,7 @@
   gap: 5px;
   align-items: center;
   justify-content: right;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   button{
     width: 100px;
     height: 30px;
@@ -128,6 +122,16 @@
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
 }
+
+.memo{
+    height:43px !important;
+}
+
+.big-memo{
+    height:140px !important;
+}
+
+//이미지  label 전용
 .absolute-label{
     position: absolute;
     top: 50%;
@@ -154,6 +158,3 @@
     z-index: 0;
 }
 
-.memo{
-  height:43px !important;
-}
