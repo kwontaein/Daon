@@ -14,11 +14,22 @@ import { Dept } from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
 
 export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff}){
-  
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
+   const initialState = useMemo(() => 
+    staff ? {
+            ...staff,
+            joinDate: dayjs(staff.joinDate).format('YYYY-MM-DD'),
+            birthday: dayjs(staff.birthday).format('YYYY-MM-DD'),
+            deptId: staff.dept.deptId,
+            married: staff.married
+                ? 'married'
+                : 'single',
+            isUpdate: true,
+        }
+        : {},
+    [staff]);
 
-    const initialState = useMemo(() => staff ?{ ...staff, joinDate: dayjs(staff.joinDate).format('YYYY-MM-DD'), birthday:dayjs(staff.birthday).format('YYYY-MM-DD'), dept:staff.dept.deptId, isUpdate:true}: {}, [staff]);
     const [state, action, isPending] = useActionState(submitStaffInfo, initialState);
     //중복체크 상태
     const [isDuplicateChecked,setIsDuplicateChecked] = useState<boolean>(!!staff)
@@ -43,7 +54,6 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
 
     const duplicationCheckHandler = async(e)=>{
         if(state.duplicationChecked) return;
-        console.log(state)
         const changeDuplicationState = ()=>{
             setIsDuplicateChecked(true);
         }
@@ -122,7 +132,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
-                        <select name="dept" defaultValue={state.dept}>
+                        <select name="deptId" defaultValue={state.deptId}>
                             <option value="none">부서선택</option>
                             {dept.map(({deptId,deptName})=>
                                 <option value={deptId} key={deptId}>
@@ -181,25 +191,20 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                 <tr>
                     <td colSpan={2}className="table-label">아이디</td>
                     <td colSpan={8}>
-                        {!staff ? 
                         <>
                             <input ref={idRef} 
-                                   type="text"
-                                   name="userId"
-                                   className="id-input" 
-                                   defaultValue={state.userId}
-                                   readOnly={isDuplicateChecked}/>
-                            <button type='button' disabled={isDuplicateChecked} onClick={(e)=>duplicationCheckHandler(e)}>중복확인</button>
+                                type="text"
+                                name="userId"
+                                className={staff ? '' : 'id-input'}
+                                defaultValue={state.userId}
+                                readOnly={!!staff||isDuplicateChecked}/>
+                             {!state.isUpdate && <button type='button' disabled={isDuplicateChecked} onClick={(e)=>duplicationCheckHandler(e)}>중복확인</button>}
                             {state.formErrors?.userId &&  
                                 <ErrorBox>
                                     {state.formErrors.userId}
                                 </ErrorBox>
-                            }    
-                        </> :
-                             <div>
-                                {staff.userId}
-                             </div>
-                        }
+                            }   
+                        </>
                     </td>
                 </tr>
                 <tr>
@@ -249,8 +254,8 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                     <td colSpan={2} className="table-label">결혼여부</td>
                     <td colSpan={4} className="table-radio-container">
                         <div>
-                            <label><input type="radio" value="single" name="married" defaultChecked={state.married}/>미혼</label>
-                            <label><input type="radio" value="married"  name="married" defaultChecked={!state.married}/>기혼</label>
+                            <label><input type="radio" value="single" name="married" defaultChecked={state.married==='single'}/>미혼</label>
+                            <label><input type="radio" value="married"  name="married" defaultChecked={state.married==='married'}/>기혼</label>
                         </div>
                     </td>
                 </tr>
