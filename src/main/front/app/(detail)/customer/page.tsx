@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/styles/main-view/register/register.scss'
+import '@/styles/form-style/form.scss'
 
 import CustomerDetail from "@/components/main/customer/detail-view";
 import CustomerForm from "@/components/main/customer/form/customer-form";
@@ -20,7 +20,7 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({customerId}),
-        next: {revalidate: 18000, tags: [`${customerId}`]} //30분마다 재검증
+        next: {revalidate: 1800000, tags: [`${customerId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +51,7 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
     return(
         <>
         <header className="register-header">
-            <Image src={asideArrow} alt=">" />
+            <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
                     {mode === 'detail' && '거래처 상세보기'}
                     {mode === 'edit' && '거래처 수정하기'}
