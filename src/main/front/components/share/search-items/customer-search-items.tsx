@@ -22,7 +22,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
         }
         if (window.opener) {
           window.opener.postMessage(message, "*");
-        //   window.close();
+          window.close();
         }
     };
       
