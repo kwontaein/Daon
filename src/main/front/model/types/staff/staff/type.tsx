@@ -1,3 +1,4 @@
+import { Dept } from "../dept/type";
 
 // 인터페이스 정의
 export interface ResponseStaff {
@@ -18,7 +19,7 @@ export interface ResponseStaff {
   memo: string;
   userClass: ClassType; //직급
   userRole: RoleType;   //권한등급
-  dept: DeptEum;   //부서
+  dept: Dept;   //부서
 }
 
 
@@ -42,10 +43,3 @@ export enum ClassType {
     MANAGER = "MANAGER",
   }
   
-  // 부서
-  export enum DeptEum {
-    WEB = "WEB",
-    BUSINESS = "BUSINESS",
-    ELSE = "ELSE",
-    MANAGE = "MANAGE",
-  }

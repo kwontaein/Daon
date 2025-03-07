@@ -1,7 +1,7 @@
 .staff-table{
     font-size: 1.2rem;
     @media (max-width: 620px) {
-        font-size: 0.65rem
+        font-size: 0.8rem
     }
     tbody{
         tr{
@@ -17,6 +17,7 @@
         white-space: nowrap;
         color: black;
         text-align: center;
+        height: 25px;
     }
     thead{
         tr{
