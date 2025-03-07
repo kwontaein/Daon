@@ -2,8 +2,9 @@ import '@/styles/form-style/form.scss';
 
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
+import { ResponseStaff } from '@/model/types/staff/staff/type';
 
-export default function TaskForm({task}:{task?:[]}){
+export default function TaskForm({staff, task}:{staff:ResponseStaff[],task?:[]}){
     
     return(
         <>
@@ -50,6 +51,9 @@ export default function TaskForm({task}:{task?:[]}){
                         <td>
                             <select>
                                 <option value='none'>미지정</option>
+                                {staff.map(({userId, name})=>
+                                    <option key={userId} value={userId}>{name}</option>
+                                )}
                             </select>
                         </td>
                     </tr>

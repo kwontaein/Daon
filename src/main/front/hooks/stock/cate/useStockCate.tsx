@@ -1,7 +1,7 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/stock/category/api/stockCateApi";
+import { saveStockCateApi, deleteStockCateApi, updateStockCateApi } from "../../../features/stock/category/api/stockCateApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { StockCate } from "@/model/types/stock/cate/type";
 import { CateMode } from "@/model/types/share/type";
@@ -21,7 +21,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
             InitStockCate[index].stockCateName !== stockCateName)
         const postAble = postCate.every(({stockCateName}) => stockCateName !== '')
         if (postCate.length>0 && postAble) {
-            updateCateApi(postCate).then((status) => {
+            updateStockCateApi(postCate).then((status) => {
                 if(status === 200){
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
@@ -41,7 +41,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            createCateApi({stockCateName: addInputRef.current.value})
+            saveStockCateApi({stockCateName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -55,7 +55,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
 
     const deleteHandler=(cate:StockCate)=>{
         const deleteRequest = ()=>{
-            deleteCateApi(cate).then((status)=>{
+            deleteStockCateApi(cate).then((status)=>{
                 if(status === 200){
                     window.alert('삭제가 완료되었습니다.')
                     setMode(null)
