@@ -65,7 +65,7 @@ public class UserRequest {
     private RoleType userRole;
 
     //부서 -> enum
-    private UUID dept;
+    private UUID deptId;
 
     public UserEntity toEntity(PasswordEncoder passwordEncoder, DeptEntity dept) {
         return UserEntity.builder()
