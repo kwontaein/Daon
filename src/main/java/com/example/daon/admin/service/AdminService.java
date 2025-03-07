@@ -99,7 +99,7 @@ public class AdminService {
     //사원정보 crud
 
     public void CreateEmployee(UserRequest userRequest) {
-        DeptEntity dept = deptRepository.findById(userRequest.getDept()).orElse(null);
+        DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         userRepository.save(userRequest.toEntity(passwordEncoder, dept));
     }
 
@@ -109,7 +109,7 @@ public class AdminService {
 
     public void UpdateEmployee(UserRequest userRequest) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
-        DeptEntity dept = deptRepository.findById(userRequest.getDept()).orElse(null);
+        DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         user.updateFromRequest(userRequest, dept);
         userRepository.save(user);
     }
