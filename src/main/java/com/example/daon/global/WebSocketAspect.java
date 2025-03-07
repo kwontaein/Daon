@@ -56,7 +56,6 @@ public class WebSocketAspect {
                 }
             }
         }
-        System.out.println(message);
         messagingTemplate.convertAndSend("/topic/updates", message);
     }
 }
