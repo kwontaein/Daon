@@ -35,7 +35,7 @@ export default async function StockPage({searchParams}:StockPageProps){
         body: JSON.stringify(allStockRequestBody),
         signal,
         // cache:'no-store'
-        next: {revalidate: 360000, tags: ['stock']} //1시간마다 재검증
+        next: {revalidate: 3600000, tags: ['stock']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
