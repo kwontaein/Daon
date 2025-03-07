@@ -1,4 +1,5 @@
-export default function TaskRegisterAction(prevState, formData){
+
+export default function taskRegisterAction(prevState, formData){
     const TaskData ={
         taskType: formData.get('taskType'),
         customer: formData.get('customer'),
@@ -9,6 +10,15 @@ export default function TaskRegisterAction(prevState, formData){
         assignedUser: formData.get('assignedUser'),
         details: formData.get('details'), //내용
         remarks: formData.get('remarks'), //비고
+        customerId:formData.get('customerId') ?? prevState.customerId
     }
-    
+  
+    console.log({
+        ...prevState,
+        ...TaskData,
+    })
+    return{
+        ...prevState,
+        ...TaskData,
+    }
 }

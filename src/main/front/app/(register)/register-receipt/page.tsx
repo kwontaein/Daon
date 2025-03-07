@@ -13,7 +13,7 @@ export default function RegisterReceiptPage() {
     return (
             <div className="register-receipt-container">
             <header className="flex-row receipt-header">
-                <Image src={asideArrow} alt=">" />
+                <Image src={asideArrow} alt=">" width={15}/>
                 <h4>전표입력</h4>
             </header>
             <main>
