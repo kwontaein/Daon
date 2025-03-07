@@ -24,7 +24,6 @@ export interface ResponseTask {
     createdAt: string; // 생성일 (ISO 문자열)
     updatedAt: string; // 수정일 (ISO 문자열)
   }
-
   export interface TaskSearchCondition {
     customer:string,
     taskType: TaskType|'none'|null, //구분
