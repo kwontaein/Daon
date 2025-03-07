@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 import './customer-form.scss';
-import '@/styles/main-view/register/register.scss'
+import '@/styles/form-style/form.scss'
 
 import asideArrow from '@/assets/aside-arrow.gif';
 
@@ -26,7 +26,7 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
     <>
     {!customer &&
       <header className="register-header">
-          <Image src={asideArrow} alt=">" />
+          <Image src={asideArrow} alt=">" width={15}/>
           <h4>전표입력</h4>
       </header>
       }

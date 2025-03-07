@@ -92,8 +92,6 @@ export async function submitStaffInfo(prevState, formData) {
 
     let res;
 
-    console.log(postData)
-
     // API 요청 
     if(prevState.isUpdate){
         res = await updateEmployeeApi(postData)
@@ -102,11 +100,14 @@ export async function submitStaffInfo(prevState, formData) {
     }
 
     if(res && res === 200){
+        revalidateTag(`${staffData.userId}`)
         revalidateTag("staff");
-        return {
-            post_success: true, 
-            ...(prevState.isUpdate? staffData :{}),
-            formKey,
+
+        return{
+            post_success: true,
+            isUpdate:prevState.isUpdate, 
+            ...staffData,
+            formKey, 
         }
     }else{
         return {
