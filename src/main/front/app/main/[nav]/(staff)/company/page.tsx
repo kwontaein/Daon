@@ -14,8 +14,8 @@ export default async function CompanyPage({searchParams}:PageByProps){
             'Content-Type': 'application/json',
         },
         signal,
-        cache:'no-store',
-        // next: {revalidate: 360000, tags: ['company']} //1시간마다 재검증
+        // cache:'no-store',
+        next: {revalidate: 360000, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

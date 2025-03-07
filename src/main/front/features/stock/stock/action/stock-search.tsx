@@ -32,7 +32,6 @@ export async function stockSearchAction(prevState, formData){
 
     const searchKey = uuidv4()
 
-    console.log(prevState)
     const{category, condition, name} = searchData
     if(!category && !condition && !name){
         return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
