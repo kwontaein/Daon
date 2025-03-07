@@ -1,9 +1,3 @@
-export const DeptMap ={
-    WEB: "웹관리팀",
-    BUSINESS: "영업부",
-    ELSE: "ELSE",
-    MANAGE: "관리부"
-}
 
 
 export const EmployeeClassMap ={

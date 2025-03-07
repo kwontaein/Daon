@@ -187,7 +187,7 @@ select{
         color: black;
     }
     @media(max-width:620px){
-        font-size: 1em;
+        font-size: 1em !important;
     }
 }
 

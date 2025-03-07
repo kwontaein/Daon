@@ -12,7 +12,7 @@ import { useItemSelection } from "@/hooks/share/useItemSelection";
 import Pagination from "@/components/share/pagination";
 import StaffOptions from "./staff-options";
 
-import { DeptMap, EmployeeClassMap } from "@/model/constants/staff/staff-info-map";
+import {  EmployeeClassMap } from "@/model/constants/staff/staff-info-map";
 import { ResponseStaff } from "@/model/types/staff/staff/type";
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
@@ -83,7 +83,7 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '5%' }} />
                     <col style={{ width: '15%' }} />
-                    <col style={{ width: '15%' }} />
+                    {size.width>720 && <col style={{ width: '15%' }} />}
                     <col style={{ width: '15%' }} />
                     <col style={{ width: '1%' }} />
                 </colgroup>
@@ -94,7 +94,7 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                         <td>직위</td>
                         <td>영문성명</td>
                         <td>연락처</td>
-                        <td>핸드폰</td>
+                        {size.width>720 && <td>핸드폰</td>}
                         <td>관리</td>
                     </tr>
                 </thead>
@@ -102,11 +102,11 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     {pageByStaff.map((staff:ResponseStaff)=>(
                         <tr key={staff.userId} ref={(el)=> {itemsRef.current[staff.userId] = el}} className={target === staff.userId ?'is-click' :''}>
                             <td>{staff.name}</td>
-                            <td>{DeptMap[staff.dept]}</td>
+                            <td>{staff.dept.deptName}</td>
                             <td>{EmployeeClassMap[staff.userClass]}</td>
                             <td>{staff.engName}</td>
                             <td>{staff.tel}</td>
-                            <td>{staff.phone}</td>
+                            {size.width>720 &&<td>{staff.phone}</td>}
                             <td className='icon' onClick={()=> target === staff.userId ? setTarget(null) :setTarget(staff.userId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === staff.userId &&{color:'orange'}}/>
                                 {target === staff.userId && <StaffOptions staffId={staff.userId}/>}

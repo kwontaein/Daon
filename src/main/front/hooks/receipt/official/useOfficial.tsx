@@ -1,69 +1,69 @@
-'use client'
-import {useState, useRef} from "react";
+// 'use client'
+// import {useState, useRef} from "react";
 
-import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/receipt/official/api/officialApi";
-import { useConfirm } from "@/hooks/share/useConfirm";
-import { StockCate } from "@/model/types/stock/cate/type";
-import { CateMode } from "@/model/types/share/type";
+// import { createCateApi, deleteCateApi, updateCateApi } from "../../../features/receipt/official/api/officialApi";
+// import { useConfirm } from "@/hooks/share/useConfirm";
+// import { StockCate } from "@/model/types/stock/cate/type";
+// import { CateMode } from "@/model/types/share/type";
 
-export default function useStockCate(InitStockCate:StockCate[]){
-    const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)
-    const [mode, setMode] = useState<CateMode>(null)
-    const addInputRef = useRef<HTMLInputElement>(null)
+// export default function useStockCate(InitStockCate:StockCate[]){
+//     const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)
+//     const [mode, setMode] = useState<CateMode>(null)
+//     const addInputRef = useRef<HTMLInputElement>(null)
 
 
-    const editHandler = () => {
-        if (!mode) {
-            setMode('edit')
-            return
-        }
-        const postCate = cateState.filter(({stockCateName}, index) =>
-            InitStockCate[index].stockCateName !== stockCateName)
-        const postAble = postCate.every(({stockCateName}) => stockCateName !== '')
-        if (postCate.length>0 && postAble) {
-            updateCateApi(postCate).then((status) => {
-                if(status === 200){
-                    window.alert('수정이 완료되었습니다.')
-                    setMode(null)
-                }
-            })
-        } else if(postCate.length>0 && !postAble){
-            window.alert('소속명을 입력하세요.')
-        }else{
-            setMode(null)
-        }
-    }
+//     const editHandler = () => {
+//         if (!mode) {
+//             setMode('edit')
+//             return
+//         }
+//         const postCate = cateState.filter(({stockCateName}, index) =>
+//             InitStockCate[index].stockCateName !== stockCateName)
+//         const postAble = postCate.every(({stockCateName}) => stockCateName !== '')
+//         if (postCate.length>0 && postAble) {
+//             updateCateApi(postCate).then((status) => {
+//                 if(status === 200){
+//                     window.alert('수정이 완료되었습니다.')
+//                     setMode(null)
+//                 }
+//             })
+//         } else if(postCate.length>0 && !postAble){
+//             window.alert('소속명을 입력하세요.')
+//         }else{
+//             setMode(null)
+//         }
+//     }
 
-    const addHandler = () => {
-        if (!mode) {
-            setMode('add')
-            return
-        }
-        const postAble = addInputRef.current.value !== ''
-        if (postAble) {
-            createCateApi({stockCateName: addInputRef.current.value})
-                .then((status) => {
-                    if(status === 200){
-                        window.alert('저장이 완료되었습니다.')
-                        setMode(null)
-                }
-                })
-        }else {
-            window.alert('소속명을 입력하세요.')
-        }
-    }
+//     const addHandler = () => {
+//         if (!mode) {
+//             setMode('add')
+//             return
+//         }
+//         const postAble = addInputRef.current.value !== ''
+//         if (postAble) {
+//             createCateApi({stockCateName: addInputRef.current.value})
+//                 .then((status) => {
+//                     if(status === 200){
+//                         window.alert('저장이 완료되었습니다.')
+//                         setMode(null)
+//                 }
+//                 })
+//         }else {
+//             window.alert('소속명을 입력하세요.')
+//         }
+//     }
 
-    const deleteHandler=(cate:StockCate)=>{
-        const deleteRequest = ()=>{
-            deleteCateApi(cate).then((status)=>{
-                if(status === 200){
-                    window.alert('삭제가 완료되었습니다.')
-                    setMode(null)
-                }
-            })
-        }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
-    }
+//     const deleteHandler=(cate:StockCate)=>{
+//         const deleteRequest = ()=>{
+//             deleteCateApi(cate).then((status)=>{
+//                 if(status === 200){
+//                     window.alert('삭제가 완료되었습니다.')
+//                     setMode(null)
+//                 }
+//             })
+//         }
+//         useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
+//     }
 
-    return  { addInputRef, cateState, mode, setMode, setCateState,addHandler,deleteHandler,editHandler}
-}
+//     return  { addInputRef, cateState, mode, setMode, setCateState,addHandler,deleteHandler,editHandler}
+// }
