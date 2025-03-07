@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/styles/main-view/register/register.scss'
+import '@/styles/form-style/form.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
 import { ResponseStaff } from "@/model/types/staff/staff/type";
@@ -30,7 +30,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({userId}),
-        next: {revalidate: 18000, tags: [`${userId}`]} //30분마다 재검증
+        next: {revalidate: 1800000, tags: [`${userId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -44,12 +44,11 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
             }
             console.error('Error:', error)
     })
-    console.log(staff)
 
     return(
         <>
             <header className="register-header">
-                <Image src={asideArrow} alt=">" />
+                <Image src={asideArrow} alt=">" width={15}/>
                     <h4>
                         {mode === 'detail' && '사용자정보 상세보기'}
                         {mode === 'edit' && '사용자정보 수정하기'}
