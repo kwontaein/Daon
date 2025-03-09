@@ -1,6 +1,6 @@
 package com.example.daon.customer.dto.request;
 
-import com.example.daon.customer.model.CustomerCateEntity;
+import com.example.daon.customer.model.AffiliationEntity;
 import lombok.Data;
 
 import java.util.UUID;
@@ -10,8 +10,8 @@ public class CustomerCateRequest {
     private UUID customerCateId;
     private String customerCateName;
 
-    public CustomerCateEntity toEntity() {
-        return CustomerCateEntity.builder()
+    public AffiliationEntity toEntity() {
+        return AffiliationEntity.builder()
                 .customerCateName(customerCateName)
                 .build();
     }

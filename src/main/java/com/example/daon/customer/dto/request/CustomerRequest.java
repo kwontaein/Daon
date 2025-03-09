@@ -2,7 +2,7 @@ package com.example.daon.customer.dto.request;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerCate;
-import com.example.daon.customer.model.CustomerCateEntity;
+import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,7 +47,7 @@ public class CustomerRequest {
     private UserEntity user;
 
 
-    public CustomerEntity toEntity(UserEntity user, CustomerCateEntity customerCate) {
+    public CustomerEntity toEntity(UserEntity user, AffiliationEntity customerCate) {
         return CustomerEntity
                 .builder()
                 .user(user)
