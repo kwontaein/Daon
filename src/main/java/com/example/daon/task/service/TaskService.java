@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,8 @@ public class TaskService {
     public void saveTask(TaskRequest taskRequest) {
         CustomerEntity customer = customerRepository.findById(taskRequest.getCustomer()).orElse(null);
         UserEntity assignedUser = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
-        taskRepository.save(taskRequest.toEntity(customer, assignedUser));
+        LocalDateTime createdDate = LocalDateTime.now();
+        taskRepository.save(taskRequest.toEntity(customer, assignedUser, createdDate));
     }
 
     //업무수정

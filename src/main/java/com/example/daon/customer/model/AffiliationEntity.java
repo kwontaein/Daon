@@ -15,8 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "customer_cate")
-public class CustomerCateEntity {
+@Table(name = "customer_affiliation")
+public class AffiliationEntity {
     //고객분류
 
     //아이디

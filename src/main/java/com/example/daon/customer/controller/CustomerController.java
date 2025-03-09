@@ -2,7 +2,7 @@ package com.example.daon.customer.controller;
 
 import com.example.daon.customer.dto.request.CustomerCateRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
-import com.example.daon.customer.model.CustomerCateEntity;
+import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class CustomerController {
 
     //customerCate ------------------------------------
     @GetMapping("api/getCustomerCate")
-    public List<CustomerCateEntity> getCustomerCate() {
+    public List<AffiliationEntity> getCustomerCate() {
         return customerService.getCustomerCate();
     }
 

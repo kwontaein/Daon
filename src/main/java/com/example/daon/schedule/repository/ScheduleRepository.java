@@ -1,7 +1,6 @@
 package com.example.daon.schedule.repository;
 
 import com.example.daon.admin.model.UserEntity;
-import com.example.daon.customer.model.CustomerCateEntity;
 import com.example.daon.schedule.model.ScheduleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

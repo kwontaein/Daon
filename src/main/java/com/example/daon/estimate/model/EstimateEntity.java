@@ -3,6 +3,7 @@ package com.example.daon.estimate.model;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.task.model.TaskEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,6 +61,10 @@ public class EstimateEntity {
     @OneToMany(mappedBy = "estimate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstimateItem> items; // 필드 업데이트 메서드
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "task")
+    private TaskEntity task;
 
     // === 필드 업데이트 메서드 ===
 
