@@ -41,7 +41,7 @@ public class TaskRequest {
 
     public String receiptCate;
 
-    public TaskEntity toEntity(CustomerEntity customer, UserEntity user) {
+    public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt) {
         return TaskEntity
                 .builder()
                 .taskId(taskId)
@@ -51,7 +51,7 @@ public class TaskRequest {
                 .requesterContact(requesterContact)
                 .requesterContact2(requesterContact2)
                 .model(model)
-                .isCompleted(isCompleted)
+                .isCompleted(false)
                 .assignedUser(user)
                 .details(details)
                 .remarks(remarks)

@@ -6,9 +6,9 @@ import com.example.daon.customer.dto.request.CustomerCateRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerBillEntity;
 import com.example.daon.customer.model.CustomerCate;
-import com.example.daon.customer.model.CustomerCateEntity;
+import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.customer.repository.CustomerCateRepository;
+import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -27,7 +27,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
-    private final CustomerCateRepository customerCateRepository;
+    private final AffiliationRepository affiliationRepository;
 
     public List<CustomerEntity> getCustomers(CustomerCate category, UUID cateId, String customerName, String searchTarget, String ceo) {
         return customerRepository.findAll((root, query, criteriaBuilder) -> {
@@ -39,10 +39,10 @@ public class CustomerService {
             }
 
             if (cateId != null) {
-                CustomerCateEntity customerCateEntity = customerCateRepository.findById(cateId).orElse(null);
+                AffiliationEntity affiliationEntity = affiliationRepository.findById(cateId).orElse(null);
                 // 거래처 소속
-                if (customerCateEntity != null) {
-                    predicates.add(criteriaBuilder.equal(root.get("customerCateId"), customerCateEntity));
+                if (affiliationEntity != null) {
+                    predicates.add(criteriaBuilder.equal(root.get("customerCateId"), affiliationEntity));
                 }
             }
 
@@ -80,15 +80,15 @@ public class CustomerService {
 
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
-        CustomerCateEntity customerCateEntity = customerCateRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
-        customerRepository.save(request.toEntity(user, customerCateEntity));
+        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        customerRepository.save(request.toEntity(user, affiliationEntity));
     }
 
     @Transactional
     public void updateCustomer(CustomerRequest request) {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 고객입니다."));
-        CustomerCateEntity customerCateEntity = customerCateRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
-        customer.updateFromRequest(request, customerCateEntity);
+        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        customer.updateFromRequest(request, affiliationEntity);
         customerRepository.save(customer);
     }
 
@@ -97,32 +97,32 @@ public class CustomerService {
         customerRepository.deleteById(request.getCustomerId());
     }
 
-    public List<CustomerCateEntity> getCustomerCate() {
-        return customerCateRepository.findAll();
+    public List<AffiliationEntity> getCustomerCate() {
+        return affiliationRepository.findAll();
     }
 
     public void saveCustomerCate(CustomerCateRequest request) {
-        customerCateRepository.save(request.toEntity());
+        affiliationRepository.save(request.toEntity());
     }
 
     @Transactional
     public void updateCustomerCate(List<CustomerCateRequest> requests) {
         for (CustomerCateRequest request : requests) {
-            CustomerCateEntity existingEntity;
-            existingEntity = customerCateRepository.findById(request.getCustomerCateId()).orElse(null);
+            AffiliationEntity existingEntity;
+            existingEntity = affiliationRepository.findById(request.getCustomerCateId()).orElse(null);
 
             //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
             existingEntity.updateFromRequest(request);
 
             //    변경된 엔티티 저장
-            customerCateRepository.save(existingEntity);
+            affiliationRepository.save(existingEntity);
         }
     }
 
 
     @Transactional
     public void deleteCustomerCate(CustomerCateRequest request) {
-        customerCateRepository.deleteById(request.getCustomerCateId());
+        affiliationRepository.deleteById(request.getCustomerCateId());
     }
 
 }
