@@ -1,18 +1,18 @@
 import TaskForm from "@/components/main/task/task/form/task-form";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 export default async function RegisterTask(){
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    const staff:ResponseStaff[] = await fetch("http://localhost:8080/api/getEmployees", {
+    const employees:ResponseEmployee[] = await fetch("http://localhost:8080/api/getEmployees", {
         headers: {
             'Content-Type': 'application/json',
         },
         signal,
         // cache:'no-store',
-        next: {revalidate: 3600000, tags: ['staff']} //1시간마다 재검증
+        next: {revalidate: 3600000, tags: ['employee']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -28,6 +28,6 @@ export default async function RegisterTask(){
     }).finally(() => clearTimeout(timeoutId));
 
     return(
-        <TaskForm staff={staff}/>
+        <TaskForm employees={employees}/>
     )
 }

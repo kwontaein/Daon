@@ -7,6 +7,7 @@ import CustomerDetail from "@/components/main/customer/detail-view";
 import CustomerForm from "@/components/main/customer/form/customer-form";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { DetailPageProps } from "@/model/types/share/type";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 
 
@@ -36,8 +37,8 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
     })
 
        
-    const customerCate = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
+    const affiliation = await fetch("http://localhost:8080/api/getAffiliation",{
+        next: {revalidate: 360000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -46,6 +47,28 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {console.error('Error:', error)})
+
+    
+    const employees:ResponseEmployee[] = await fetch("http://localhost:8080/api/getEmployees", {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // cache:'no-store',
+        next: {revalidate: 3600000, tags: ['employee']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {
+            if(error.name=== 'AbortError'){
+                console.log('Fetch 요청이 시간초과되었습니다.')
+            }
+            console.error('Error:', error)
+    })
+
 
     
     return(
@@ -60,7 +83,7 @@ export default async function CustomerDetailPage({searchParams}:DetailPageProps)
             {mode ==='detail' ?
              <CustomerDetail customer={customer}/>
              :
-             <CustomerForm customerCate={customerCate} customer={customer}/>
+             <CustomerForm affiliation={affiliation} customer={customer} employees={employees}/>
             }
         </>
        

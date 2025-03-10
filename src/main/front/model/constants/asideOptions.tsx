@@ -12,7 +12,7 @@ export const AsideOptions = {
         asideTitle: '고객관리',
         asideItems: [
             {name: '거래처관리', link: 'customer'},
-            {name: '소속관리', link: 'customer-cate'}]
+            {name: '소속관리', link: 'affiliation'}]
     },
     stock: {
         asideTitle: '품목/재고',
@@ -37,7 +37,7 @@ export const AsideOptions = {
         asideTitle: '회사/사원관리',
         asideItems: [
             {name: '회사정보', link: 'company'},
-            {name: '사원관리', link: 'staff'},
+            {name: '사원관리', link: 'employee'},
             {name: '부서관리', link: 'dept'}
         ]
     },
