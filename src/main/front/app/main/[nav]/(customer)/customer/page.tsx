@@ -1,5 +1,5 @@
 import CustomerSearch from "@/components/main/customer/search";
-import { CustomerCate } from "@/model/types/customer/cate/type";
+import { CustomerAffiliation } from "@/model/types/customer/affiliation/type";
 import { CustomerSearchCondition, RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
@@ -22,8 +22,8 @@ export default async function CustomerPage({searchParams}:PageByProps) {
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     
-    const customerCate:CustomerCate[] = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 3600000, tags: ['customersCate']} //1시간마다 재검증
+    const affiliations:CustomerAffiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
+        next: {revalidate: 3600000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -59,7 +59,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
     return (
         <section>
             <Suspense fallback={<div>loading..</div>}>
-                <CustomerSearch customerCate={customerCate}  initialCustomers={initialCustomers} page={page}/>
+                <CustomerSearch affiliations={affiliations}  initialCustomers={initialCustomers} page={page}/>
             </Suspense>
         </section>
     )

@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import { CustomerCate } from '@/model/types/customer/cate/type'
+import { CustomerAffiliation } from '@/model/types/customer/affiliation/type'
 
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
@@ -11,7 +11,7 @@ import { ResponseTask } from '@/model/types/task/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import TaskSearchResult from './search-result';
 
-export default function TaskSearch({customerCate, initialTask, page}:{customerCate:CustomerCate[], initialTask:ResponseTask[], page:number}){
+export default function TaskSearch({customerAffiliations, initialTask, page}:{customerAffiliations:CustomerAffiliation[], initialTask:ResponseTask[], page:number}){
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
     const pageByTasks = useMemo(()=>state.task.slice((page-1)*20, ((page-1)*20)+20),[state.task, page])
     const inputRef = useRef(null)
@@ -94,11 +94,11 @@ export default function TaskSearch({customerCate, initialTask, page}:{customerCa
                         <td className='table-label'>거래처분류</td>
                         <td>
                             <label>
-                                <select name='customerCate'  key={state.searchKey} defaultValue={state.customerCate}>
+                                <select name='CustomerAffiliation'  key={state.searchKey} defaultValue={state.CustomerAffiliation}>
                                         <option value='none'>선택안함</option>
-                                        {customerCate.map((cate)=>(
-                                            <option key={cate.customerCateId} value={cate.customerCateId}>
-                                                    {cate.customerCateName}
+                                        {customerAffiliations.map((customerAffiliation)=>(
+                                            <option key={customerAffiliation.customerAffiliationId} value={customerAffiliation.customerAffiliationId}>
+                                                    {customerAffiliation.customerAffiliationName}
                                             </option>
                                         ))}
                                 </select>

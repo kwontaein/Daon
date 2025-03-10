@@ -4,35 +4,36 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 
 import { useActionState, useEffect, useMemo, useRef, useState } from "react";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
 import { useRouter } from "next/navigation";
-import { submitStaffInfo } from "@/features/staff/staff/action/staff-action";
+
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
+import { submitEmployeeInfo } from "@/features/staff/employee/action/employee-action";
 import ErrorBox from "@/components/share/error-box/error-box";
 import { useConfirm } from "@/hooks/share/useConfirm";
-import { userIdDuplicationChecked } from "@/features/staff/staff/api/staffApi";
+import { userIdDuplicationChecked } from "@/features/staff/employee/api/employeeApi";
 import { Dept } from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
 
-export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff}){
+export default function EmployeeForm({dept,employee}:{dept:Dept[],employee?:ResponseEmployee}){
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
    const initialState = useMemo(() => 
-    staff ? {
-            ...staff,
-            joinDate: dayjs(staff.joinDate).format('YYYY-MM-DD'),
-            birthday: dayjs(staff.birthday).format('YYYY-MM-DD'),
-            deptId: staff.dept.deptId,
-            married: staff.married
+    employee ? {
+            ...employee,
+            joinDate: dayjs(employee.joinDate).format('YYYY-MM-DD'),
+            birthday: dayjs(employee.birthday).format('YYYY-MM-DD'),
+            deptId: employee.dept.deptId,
+            married: employee.married
                 ? 'married'
                 : 'single',
             isUpdate: true,
         }
         : {},
-    [staff]);
+    [employee]);
 
-    const [state, action, isPending] = useActionState(submitStaffInfo, initialState);
+    const [state, action, isPending] = useActionState(submitEmployeeInfo, initialState);
     //중복체크 상태
-    const [isDuplicateChecked,setIsDuplicateChecked] = useState<boolean>(!!staff)
+    const [isDuplicateChecked,setIsDuplicateChecked] = useState<boolean>(!!employee)
     const idRef = useRef<HTMLInputElement>(null)
     const router = useRouter();
 
@@ -49,7 +50,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
         if(state.post_success){
             if(state.isUpdate){
                 window.alert('사원정보 변경이 완료되었습니다.')
-                router.push(`staff?mode=detail&target=${staff.userId}`)
+                router.push(`employee?mode=detail&target=${employee.userId}`)
             }else{
                 window.alert('사원등록에 성공했습니다.')
             }
@@ -78,7 +79,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
 
     return(
         <section className="register-form-container">
-            {!staff &&
+            {!employee &&
                 <header className="register-header">
                     <Image src={asideArrow} alt=">" width={15}/>
                     <h4>직원등록</h4>
@@ -126,7 +127,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                             <option value="MANAGER">과장</option>
                             <option value="ASSISTANT_MANAGER">대리</option>
                             <option value="PROFESSIONAL">주임</option>
-                            <option value="STAFF">사원</option>
+                            <option value="employee">사원</option>
                         </select>
                         {state.formErrors?.userClass &&  
                             <ErrorBox>
@@ -199,9 +200,9 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                             <input ref={idRef} 
                                 type="text"
                                 name="userId"
-                                className={staff ? '' : 'id-input'}
+                                className={employee ? '' : 'id-input'}
                                 defaultValue={state.userId}
-                                readOnly={!!staff||isDuplicateChecked}/>
+                                readOnly={!!employee||isDuplicateChecked}/>
                              {!state.isUpdate && 
                                 <button type='button'
                                         disabled={isDuplicateChecked}
@@ -233,15 +234,15 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                 <tr>
                     <td colSpan={2} className="table-label">전화번호</td>
                     <td colSpan={4}>
-                        <input className="short-input" name="tel1" defaultValue={state.tel1 ?? (staff && staff.tel.split('-')[0]||'')} style={{marginLeft:'0'}} maxLength={4}/>
-                         - <input className="short-input" name="tel2" defaultValue={state.tel2 ?? (staff && staff.tel.split('-')[1]||'')} maxLength={4}/>
-                         - <input className="short-input" name="tel3" defaultValue={state.tel3 ?? (staff && staff.tel.split('-')[0]||'')}maxLength={4}/>
+                        <input className="short-input" name="tel1" defaultValue={state.tel1 ?? (employee && employee.tel.split('-')[0]||'')} style={{marginLeft:'0'}} maxLength={4}/>
+                         - <input className="short-input" name="tel2" defaultValue={state.tel2 ?? (employee && employee.tel.split('-')[1]||'')} maxLength={4}/>
+                         - <input className="short-input" name="tel3" defaultValue={state.tel3 ?? (employee && employee.tel.split('-')[0]||'')}maxLength={4}/>
                     </td>  
                     <td colSpan={2} className="table-label">핸드폰</td>
                     <td colSpan={4}>
-                        <input className="short-input" name="phone1"  defaultValue={state.phone1 ?? (staff && staff.phone.split('-')[0]||'')} style={{marginLeft:'0'}} maxLength={4}/>
-                         - <input className="short-input" name="phone2"  defaultValue={state.phone2 ?? (staff && staff.phone.split('-')[1]||'')} maxLength={4}/>
-                         - <input className="short-input" name="phone3" defaultValue={state.phone3 ?? (staff && staff.phone.split('-')[2]||'')} maxLength={4}/>
+                        <input className="short-input" name="phone1"  defaultValue={state.phone1 ?? (employee && employee.phone.split('-')[0]||'')} style={{marginLeft:'0'}} maxLength={4}/>
+                         - <input className="short-input" name="phone2"  defaultValue={state.phone2 ?? (employee && employee.phone.split('-')[1]||'')} maxLength={4}/>
+                         - <input className="short-input" name="phone3" defaultValue={state.phone3 ?? (employee && employee.phone.split('-')[2]||'')} maxLength={4}/>
                     </td>
                 </tr>
                 <tr>
@@ -284,7 +285,7 @@ export default function StaffForm({dept,staff}:{dept:Dept[],staff?:ResponseStaff
                                 window.alert('아이디 중복체크를 해주세요')
                             }
                         }}>저장</button>
-                <button type={'button'} onClick={ ()=> staff ? router.push(`staff?mode=detail&target=${staff.userId}`):window.close()}>취소</button>
+                <button type={'button'} onClick={ ()=> employee ? router.push(`employee?mode=detail&target=${employee.userId}`):window.close()}>취소</button>
             </div>
             </form>
         </section>

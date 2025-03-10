@@ -1,7 +1,7 @@
 import { Dept } from "../dept/type";
 
 // 인터페이스 정의
-export interface ResponseStaff {
+export interface ResponseEmployee {
   userId: string;
   password: string;
   married: boolean;
