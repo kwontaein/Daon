@@ -1,13 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
-import {CustomerCate} from "@/model/types/customer/cate/type";
+import {CustomerAffiliation} from "@/model/types/customer/affiliation/type";
 
-import { saveCustomerCateApi, deleteCustomerCateApi, updateCustomerCateApi } from "../../../features/customer/category/api/customerCateApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
+import { updateAffiliationApi, saveAffiliationApi, deleteAffiliationApi } from "@/features/customer/affiliation/api/customerCateApi";
 
-export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
-    const [cateState, setCateState] = useState<CustomerCate[]>(InitCustomerCate)
+export default function useAffiliation(InitAffiliation:CustomerAffiliation[]){
+    const [affiliationState, setAffiliationState] = useState<CustomerAffiliation[]>(InitAffiliation)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -17,11 +17,11 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
             setMode('edit')
             return
         }
-        const postCate = cateState.filter(({customerCateName}, index) =>
-            InitCustomerCate[index].customerCateName !== customerCateName)
-        const postAble = postCate.every(({customerCateName}) => customerCateName !== '')
+        const postCate = affiliationState.filter(({customerAffiliationName}, index) =>
+            InitAffiliation[index].customerAffiliationName !== customerAffiliationName)
+        const postAble = postCate.every(({customerAffiliationName}) => customerAffiliationName !== '')
         if (postCate.length>0 && postAble) {
-            updateCustomerCateApi(postCate).then((status) => {
+            updateAffiliationApi(postCate).then((status) => {
                 if(status === 200){
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
@@ -41,7 +41,7 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            saveCustomerCateApi({customerCateName: addInputRef.current.value})
+            saveAffiliationApi({customerAffiliationName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -53,9 +53,9 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
         }
     }
 
-    const deleteHandler=(cate:CustomerCate)=>{
+    const deleteHandler=(cate:CustomerAffiliation)=>{
         const deleteRequest = ()=>{
-            deleteCustomerCateApi(cate).then((status)=>{
+            deleteAffiliationApi(cate).then((status)=>{
                 if(status === 200){
                     window.alert('삭제가 완료되었습니다.')
                     setMode(null)
@@ -65,5 +65,5 @@ export default function useCustomerCate(InitCustomerCate:CustomerCate[]){
         useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
     }
 
-    return  { addInputRef, cateState, mode, setMode, setCateState,addHandler,deleteHandler,editHandler}
+    return  { addInputRef, affiliationState, mode, setMode, setAffiliationState,addHandler,deleteHandler,editHandler}
 }

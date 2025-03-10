@@ -4,15 +4,15 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
-import StaffDetailView from "@/components/main/staff/staff/detail-view";
-import StaffForm from "@/components/main/staff/staff/form/staff-form";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
+import EmployeeDetailView from "@/components/main/staff/employee/detail-view";
+import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import { Dept } from "@/model/types/staff/dept/type";
 
 
 
-export default async function StaffDetailPage({searchParams}:DetailPageProps){
-    const userId = (await searchParams).target || ''
+export default async function EmployeeDetailPage({searchParams}:DetailPageProps){
+    const employeeId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
     const dept:Dept[] = await fetch("http://localhost:8080/api/getDept",
@@ -24,13 +24,13 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
+    const employee:ResponseEmployee = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userId}),
-        next: {revalidate: 1800000, tags: [`${userId}`]} //30분마다 재검증
+        body: JSON.stringify({employeeId}),
+        next: {revalidate: 1800000, tags: [`${employeeId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -55,9 +55,9 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
                     </h4>
             </header>
             {mode ==='detail' ?
-             <StaffDetailView staff={staff}/>
+             <EmployeeDetailView employee={employee}/>
              :
-             <StaffForm staff={staff} dept={dept}/>
+             <EmployeeForm employee={employee} dept={dept}/>
             }
         </>
        

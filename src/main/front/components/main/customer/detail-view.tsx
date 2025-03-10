@@ -33,7 +33,7 @@ export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
                 </td>
                 <td className='table-label'>소속</td>
                 <td>
-                    {customer.customerCateId.customerCateName}
+                    {customer.customerAffiliation.customerAffiliationName}
                 </td>
                 </tr>
                 <tr>

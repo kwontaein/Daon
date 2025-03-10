@@ -1,9 +1,9 @@
 
 import '@/styles/table-style/search.scss';
-import { CustomerCate } from '@/model/types/customer/cate/type';
+import { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
 import { useActionState } from 'react';
 
-export default function LedgerCustomerSearch({customerCate}:{customerCate:CustomerCate[]}){
+export default function LedgerCustomerSearch({affiliations}:{affiliations:CustomerAffiliation[]}){
     // const [state, action] = useActionState(()=>{},{startDate: new Date(),})
     return(
         <section className='search-container'>
@@ -37,9 +37,9 @@ export default function LedgerCustomerSearch({customerCate}:{customerCate:Custom
                             <label>
                                 <select size={1}>                      
                                         <option value='none'>선택안함</option>
-                                        {customerCate.map((cate)=>(
-                                            <option key={cate.customerCateId} value={cate.customerCateId}>
-                                                    {cate.customerCateName}
+                                        {affiliations.map((affiliation)=>(
+                                            <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
+                                                    {affiliation.customerAffiliationName}
                                             </option>
                                         ))}
                                 </select>

@@ -1,17 +1,16 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import { CustomerCate } from '@/model/types/customer/cate/type'
+import { CustomerAffiliation } from '@/model/types/customer/affiliation/type'
 
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
-import {  startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
+import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialTaskState, taskSearchAction } from '@/features/task/task/action/taskSearchAction';
 import { ResponseTask } from '@/model/types/task/task/type';
-import { changeFormData } from '@/features/share/changeFormData';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function AdminSearch({customerCate, initialTask, page}:{customerCate:CustomerCate[], initialTask:ResponseTask[], page:number}){
+export default function AdminSearch({customerAffiliations, initialTask, page}:{customerAffiliations:CustomerAffiliation[], initialTask:ResponseTask[], page:number}){
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
     const pageByTasks = useMemo(()=>state.task.slice((page-1)*20, ((page-1)*20)+20),[state.task, page])
     const inputRef = useRef(null)
@@ -94,11 +93,11 @@ export default function AdminSearch({customerCate, initialTask, page}:{customerC
                         <td className='table-label'>거래처분류</td>
                         <td>
                             <label>
-                                <select name='customerCate'  key={state.searchKey} defaultValue={state.customerCate}>
+                                <select name='customerAffiliation' key={state.searchKey} defaultValue={state.customerAffiliation}>
                                         <option value='none'>선택안함</option>
-                                        {customerCate.map((cate)=>(
-                                            <option key={cate.customerCateId} value={cate.customerCateId}>
-                                                    {cate.customerCateName}
+                                        {customerAffiliations.map((customerAffiliation)=>(
+                                            <option key={customerAffiliation.customerAffiliationId} value={customerAffiliation.customerAffiliationId}>
+                                                    {customerAffiliation.customerAffiliationName}
                                             </option>
                                         ))}
                                 </select>

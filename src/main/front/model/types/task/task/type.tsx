@@ -27,6 +27,8 @@ export interface ResponseTask {
   export interface TaskSearchCondition {
     customer:string,
     taskType: TaskType|'none'|null, //구분
-    customerCate:string|null, //거래처구분
+    customerAffiliation:string|null, //거래처구분
     assignedUser:string|null, //담당자
 } 
+
+export type SaveTask = Omit<ResponseTask,'taskId'|'updatedAt'|'createdAt'|'isCompleted'>

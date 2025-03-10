@@ -1,17 +1,19 @@
 'use client'
 
 import './company-table.scss';
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 
-import { useItemSelection } from "@/hooks/share/useItemSelection";
-import { ResponseCompany } from "@/model/types/staff/company/type";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
-import CompanyOptions from "./company-options";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import Pagination from '@/components/share/pagination';
-import { apiUrl } from '@/model/constants/apiUrl';
+
+import { useItemSelection } from "@/hooks/share/useItemSelection";
 import { useWindowSize } from '@/hooks/share/useWindowSize';
+
+import CompanyOptions from "./company-options";
+import { ResponseCompany } from "@/model/types/staff/company/type";
+import { apiUrl } from '@/model/constants/apiUrl';
+import Pagination from '@/components/share/pagination';
 
 export default function CompanyTable({initialCompany, page}:{initialCompany:ResponseCompany[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
