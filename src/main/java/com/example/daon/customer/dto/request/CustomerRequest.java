@@ -47,7 +47,7 @@ public class CustomerRequest {
     private UserEntity user;
 
 
-    public CustomerEntity toEntity(UserEntity user, AffiliationEntity customerCate) {
+    public CustomerEntity toEntity(UserEntity user, AffiliationEntity affiliation) {
         return CustomerEntity
                 .builder()
                 .user(user)
@@ -73,7 +73,7 @@ public class CustomerRequest {
                 .contactInfo(contactInfo)
                 .phoneNumber(phoneNumber)
                 .fax(fax)
-                .customerCateId(customerCate)
+                .customerAffiliationId(affiliation)
                 .build();
     }
 }
