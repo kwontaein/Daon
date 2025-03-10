@@ -12,7 +12,7 @@ import { Dept } from "@/model/types/staff/dept/type";
 
 
 export default async function EmployeeDetailPage({searchParams}:DetailPageProps){
-    const userId = (await searchParams).target || ''
+    const employeeId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
     const dept:Dept[] = await fetch("http://localhost:8080/api/getDept",
@@ -29,8 +29,8 @@ export default async function EmployeeDetailPage({searchParams}:DetailPageProps)
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userId}),
-        next: {revalidate: 1800000, tags: [`${userId}`]} //30분마다 재검증
+        body: JSON.stringify({employeeId}),
+        next: {revalidate: 1800000, tags: [`${employeeId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
