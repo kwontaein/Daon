@@ -6,6 +6,7 @@ import com.example.daon.ledger.dto.LedgerRequest;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
+import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -148,11 +149,12 @@ public class LedgerService {
         });
     }
 
-    public List<ReceiptEntity> getStockSurvey(LedgerRequest ledgerRequest) {
-        return null;
+    public List<StockEntity> getStockSurvey(LedgerRequest ledgerRequest) {
+        return stockRepository.findAll();
     }
 
 
+    //넌 일단 보류
     public List<ReceiptEntity> getExtraLedger(LedgerRequest ledgerRequest) {
         return null;
     }

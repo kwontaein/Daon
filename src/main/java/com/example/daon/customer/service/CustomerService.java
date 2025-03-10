@@ -97,7 +97,7 @@ public class CustomerService {
         customerRepository.deleteById(request.getCustomerId());
     }
 
-    public List<AffiliationEntity> getCustomerCate() {
+    public List<AffiliationEntity> getAffiliation() {
         return affiliationRepository.findAll();
     }
 
