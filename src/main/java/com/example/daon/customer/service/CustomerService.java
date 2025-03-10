@@ -2,7 +2,7 @@ package com.example.daon.customer.service;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
-import com.example.daon.customer.dto.request.CustomerCateRequest;
+import com.example.daon.customer.dto.request.AffiliationRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.CustomerBillEntity;
 import com.example.daon.customer.model.CustomerCate;
@@ -101,15 +101,15 @@ public class CustomerService {
         return affiliationRepository.findAll();
     }
 
-    public void saveCustomerCate(CustomerCateRequest request) {
+    public void saveAffiliation(AffiliationRequest request) {
         affiliationRepository.save(request.toEntity());
     }
 
     @Transactional
-    public void updateCustomerCate(List<CustomerCateRequest> requests) {
-        for (CustomerCateRequest request : requests) {
+    public void updateAffiliation(List<AffiliationRequest> requests) {
+        for (AffiliationRequest request : requests) {
             AffiliationEntity existingEntity;
-            existingEntity = affiliationRepository.findById(request.getCustomerCateId()).orElse(null);
+            existingEntity = affiliationRepository.findById(request.getCustomerAffiliationId()).orElse(null);
 
             //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
             existingEntity.updateFromRequest(request);
@@ -121,8 +121,8 @@ public class CustomerService {
 
 
     @Transactional
-    public void deleteCustomerCate(CustomerCateRequest request) {
-        affiliationRepository.deleteById(request.getCustomerCateId());
+    public void deleteAffiliation(AffiliationRequest request) {
+        affiliationRepository.deleteById(request.getCustomerAffiliationId());
     }
 
 }

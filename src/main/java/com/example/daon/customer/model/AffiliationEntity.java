@@ -1,6 +1,6 @@
 package com.example.daon.customer.model;
 
-import com.example.daon.customer.dto.request.CustomerCateRequest;
+import com.example.daon.customer.dto.request.AffiliationRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,15 +23,15 @@ public class AffiliationEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "customer_cate_id", columnDefinition = "BINARY(16)")
-    private UUID customerCateId;
+    @Column(nullable = false, unique = true, name = "customer_affiliation_id", columnDefinition = "BINARY(16)")
+    private UUID customerAffiliationId;
 
     //이름
-    @Column(name = "customer_cate_name")
-    private String customerCateName;
+    @Column(name = "customer_affiliation_name")
+    private String customerAffiliationName;
 
-    public void updateFromRequest(CustomerCateRequest request) {
-        this.customerCateName = request.getCustomerCateName();
+    public void updateFromRequest(AffiliationRequest request) {
+        this.customerAffiliationName = request.getCustomerAffiliationName();
         // 필요한 필드 추가 업데이트
     }
 }

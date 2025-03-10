@@ -1,6 +1,6 @@
 package com.example.daon.customer.controller;
 
-import com.example.daon.customer.dto.request.CustomerCateRequest;
+import com.example.daon.customer.dto.request.AffiliationRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
@@ -65,17 +65,17 @@ public class CustomerController {
     }
 
     @PostMapping("api/updateCustomerCate")
-    public void updateCustomerCate(@RequestBody List<CustomerCateRequest> request) {
-        customerService.updateCustomerCate(request);
+    public void updateCustomerCate(@RequestBody List<AffiliationRequest> request) {
+        customerService.updateAffiliation(request);
     }
 
     @PostMapping("api/saveCustomerCate")
-    public void saveCustomerCate(@RequestBody CustomerCateRequest request) {
-        customerService.saveCustomerCate(request);
+    public void saveCustomerCate(@RequestBody AffiliationRequest request) {
+        customerService.saveAffiliation(request);
     }
 
     @PostMapping("api/deleteCustomerCate")
-    public void deleteCustomerCate(@RequestBody CustomerCateRequest request) {
-        customerService.deleteCustomerCate(request);
+    public void deleteCustomerCate(@RequestBody AffiliationRequest request) {
+        customerService.deleteAffiliation(request);
     }
 }
