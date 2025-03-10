@@ -103,8 +103,8 @@ public class CustomerEntity {
 
     //고객분류
     @ManyToOne
-    @JoinColumn(name = "customer_cate_id")
-    private AffiliationEntity customerCateId;
+    @JoinColumn(name = "customer_affiliation_id")
+    private AffiliationEntity customerAffiliationId;
 
     //견적서 목록
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -134,7 +134,7 @@ public class CustomerEntity {
     @OneToOne
     private CustomerBillEntity customerBills;
 
-    public void updateFromRequest(CustomerRequest request, AffiliationEntity customerCate) {
+    public void updateFromRequest(CustomerRequest request, AffiliationEntity affiliation) {
         //상호명
         this.customerName = request.getCustomerName();
         //고객정보
@@ -172,7 +172,7 @@ public class CustomerEntity {
         //팩스
         this.fax = request.getFax();
         //고객분류
-        this.customerCateId = customerCate;
+        this.customerAffiliationId = affiliation;
         //우편번호
         this.zipCode = request.getZipCode();
         //주소

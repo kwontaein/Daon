@@ -17,16 +17,37 @@ public class LedgerController {
 
     //거래처별
     //복수거래처
-    //품목별
-    //--이 3개 한번에 합치기?
-
     public List<ReceiptEntity> getLedgers(@RequestBody LedgerRequest ledgerRequest) {
         return ledgerService.getLedgers(ledgerRequest);
     }
 
+    //품목별
+    public List<ReceiptEntity> getStockLedger(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getStockLedger(ledgerRequest);
+    }
+
     //매출장
+    public List<ReceiptEntity> getSaleReceipt(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getSaleReceipt(ledgerRequest);
+    }
+
     //매입장
+    public List<ReceiptEntity> getPurchaseReceipt(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getPurchaseReceipt(ledgerRequest);
+    }
+
     //관리비원장
+    public List<ReceiptEntity> getFeeReceipt(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getFeeReceipt(ledgerRequest);
+    }
+
     //재고조사서
+    public List<ReceiptEntity> getStockSurvey(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getStockSurvey(ledgerRequest);
+    }
+
     //기타
+    public List<ReceiptEntity> getExtraLedger(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getExtraLedger(ledgerRequest);
+    }
 }
