@@ -1,4 +1,4 @@
-import StaffForm from "@/components/main/staff/staff/form/staff-form";
+import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import { Dept } from "@/model/types/staff/dept/type";
 
 export default async function RegisterStaff(){
@@ -12,6 +12,6 @@ export default async function RegisterStaff(){
     .catch((error) => console.error('Error:', error));
     console.log(dept)
     return(
-        <StaffForm dept={dept}/>
+        <EmployeeForm dept={dept}/>
     )
 }

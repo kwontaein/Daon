@@ -1,11 +1,11 @@
 'use server';
 
-import { CustomerCate } from "@/model/types/customer/cate/type";
+import { CustomerAffiliation } from "@/model/types/customer/affiliation/type";
 import { revalidateTag } from "next/cache";
 
 
-export const updateCustomerCateApi = async (cates: CustomerCate[]) => {
-    return fetch("http://localhost:8080/api/updateCustomerCate", {
+export const updateAffiliationApi = async (cates: CustomerAffiliation[]) => {
+    return fetch("http://localhost:8080/api/updateAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -27,8 +27,8 @@ export const updateCustomerCateApi = async (cates: CustomerCate[]) => {
     })
 }
 
-export const saveCustomerCateApi = async (customer: Pick<CustomerCate,'customerCateName'>) => {
-    return fetch("http://localhost:8080/api/saveCustomerCate", {
+export const saveAffiliationApi = async (customer: Pick<CustomerAffiliation,'customerAffiliationName'>) => {
+    return fetch("http://localhost:8080/api/saveAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -51,8 +51,8 @@ export const saveCustomerCateApi = async (customer: Pick<CustomerCate,'customerC
 }
 
 
-export const deleteCustomerCateApi =async (customer: CustomerCate) => {
-    return fetch("http://localhost:8080/api/deleteCustomerCate", {
+export const deleteAffiliationApi =async (customer: CustomerAffiliation) => {
+    return fetch("http://localhost:8080/api/deleteAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

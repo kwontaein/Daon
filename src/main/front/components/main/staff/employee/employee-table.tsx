@@ -1,5 +1,5 @@
 'use client'
-import './staff-table.scss';
+import './employee-table.scss';
 
 import React, { useEffect, useRef, useState } from "react"
 import { usePathname , useRouter, useSearchParams } from "next/navigation";
@@ -10,19 +10,19 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useItemSelection } from "@/hooks/share/useItemSelection";
 
 import Pagination from "@/components/share/pagination";
-import StaffOptions from "./staff-options";
+import EmployeeOptions from "./employee-options";
 
-import {  EmployeeClassMap } from "@/model/constants/staff/staff-info-map";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
+import {  EmployeeClassMap } from "@/model/constants/employee/employee-info-map";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 
 
-export default function StaffTable({initialStaff, page}:{initialStaff:ResponseStaff[], page:number}){
+export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
 
-    const [staff,setStaff] = useState<ResponseStaff[]>(initialStaff)
-    const [pageByStaff,setPageByStaff] = useState<ResponseStaff[]>([])
+    const [employee,setEmployee] = useState<ResponseEmployee[]>(initialEmployee)
+    const [pageByEmployee,setPageByEmployee] = useState<ResponseEmployee[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
     //search input variables 
@@ -38,8 +38,8 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
 
 
     const searchHandler = () =>{
-        setStaff(()=>{
-            return initialStaff.filter(({name})=>name.includes(inputRef.current.value))
+        setEmployee(()=>{
+            return initialEmployee.filter(({name})=>name.includes(inputRef.current.value))
         })
         const params = new URLSearchParams(searchParams.toString()); 
         params.delete("page"); 
@@ -47,7 +47,7 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
         router.push(`${pathname}?${params.toString()}`); 
     }
     const allViewHandler =()=>{
-        setStaff(initialStaff)
+        setEmployee(initialEmployee)
         const params = new URLSearchParams(searchParams.toString()); 
         params.delete("page"); 
         // 기존 pathname 유지
@@ -55,15 +55,15 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
     }
 
     useEffect(()=>{
-        setPageByStaff(staff.slice((page-1)*20, ((page-1)*20)+20))
+        setPageByEmployee(employee.slice((page-1)*20, ((page-1)*20)+20))
         setLoading(false)
-    },[staff, page])
+    },[employee, page])
 
     //TODO: add mobile version
-    const signNewStaffHandler = ()=>{
+    const signNewemployeeHandler = ()=>{
            
         if(size.width>620){
-            const url = `${apiUrl}/register-staff`; 
+            const url = `${apiUrl}/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
@@ -71,13 +71,13 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
 
     return(
         <>
-            <section className="staff-search-container">
+            <section className="employee-search-container">
                 <h4>사원명</h4>
                 <input type='text' ref={inputRef}/>
                 <button onClick={searchHandler}>조회</button>
                 <button onClick={allViewHandler}>전체검색</button>
             </section>
-            <table className="staff-table">
+            <table className="employee-table">
                 <colgroup>
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
@@ -99,21 +99,21 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     </tr>
                 </thead>
                 <tbody>
-                    {pageByStaff.map((staff:ResponseStaff)=>(
-                        <tr key={staff.userId} ref={(el)=> {itemsRef.current[staff.userId] = el}} className={target === staff.userId ?'is-click' :''}>
-                            <td>{staff.name}</td>
-                            <td>{staff.dept.deptName}</td>
-                            <td>{EmployeeClassMap[staff.userClass]}</td>
-                            <td>{staff.engName}</td>
-                            <td>{staff.tel}</td>
-                            {size.width>720 &&<td>{staff.phone}</td>}
-                            <td className='icon' onClick={()=> target === staff.userId ? setTarget(null) :setTarget(staff.userId)}>
-                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === staff.userId &&{color:'orange'}}/>
-                                {target === staff.userId && <StaffOptions staffId={staff.userId}/>}
+                    {pageByEmployee.map((employee:ResponseEmployee)=>(
+                        <tr key={employee.userId} ref={(el)=> {itemsRef.current[employee.userId] = el}} className={target === employee.userId ?'is-click' :''}>
+                            <td>{employee.name}</td>
+                            <td>{employee.dept.deptName}</td>
+                            <td>{EmployeeClassMap[employee.userClass]}</td>
+                            <td>{employee.engName}</td>
+                            <td>{employee.tel}</td>
+                            {size.width>720 &&<td>{employee.phone}</td>}
+                            <td className='icon' onClick={()=> target === employee.userId ? setTarget(null) :setTarget(employee.userId)}>
+                                <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === employee.userId &&{color:'orange'}}/>
+                                {target === employee.userId && <EmployeeOptions employeeId={employee.userId}/>}
                             </td>
                         </tr>
                     ))}
-                    {!loading && pageByStaff.length===0 && 
+                    {!loading && pageByEmployee.length===0 && 
                         <tr className='none-hover'>
                             <td colSpan={9}>
                                 <p>등록된 사원이 존재하지 않습니다.</p>
@@ -122,17 +122,17 @@ export default function StaffTable({initialStaff, page}:{initialStaff:ResponseSt
                     }
                 </tbody>
             </table>
-            {(!loading && staff.length>20) &&
+            {(!loading && employee.length>20) &&
                 <Pagination
-                    totalItems={staff.length}
+                    totalItems={employee.length}
                     itemCountPerPage={20} 
                     pageCount={5} 
                     currentPage={Number(page)}
                 />
             }
             {!loading &&
-            <div className='staff-button-container'>
-                <button onClick={signNewStaffHandler}>신규등록</button>
+            <div className='employee-button-container'>
+                <button onClick={signNewemployeeHandler}>신규등록</button>
             </div>
             }
         </>
