@@ -1,23 +1,23 @@
 'use client'
-import type { CustomerCate } from '@/model/types/customer/cate/type';
-import './customer-cate.scss';
-import useCustomerCate from "@/hooks/customer/cate/useCustomerCate";
+import type { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
+import './affiliation.scss';
+import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
 
 
-export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: CustomerCate[] }) {
+export default function Affiliation({InitAffiliation}: { InitAffiliation: CustomerAffiliation[] }) {
     const { addInputRef, 
-            cateState,
+            affiliationState,
             mode,
             setMode,
-            setCateState,
+            setAffiliationState,
             addHandler,
             deleteHandler,
             editHandler
-        } = useCustomerCate(InitCustomerCate)
+        } = useAffiliation(InitAffiliation)
 
     return (
         <>
-            <table className="customer-cate-table">
+            <table className="customer-affiliation-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>
                     <col style={{width: '60%'}}/>
@@ -31,35 +31,35 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
                 </tr>
                 </thead>
                 <tbody>
-                {cateState.map((cate: CustomerCate, index) => (
-                    <tr key={cate.customerCateId}>
+                {affiliationState.map((affiliation: CustomerAffiliation, index) => (
+                    <tr key={affiliation.customerAffiliationId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
-                                       className="customer-cate-input"
+                                       className="customer-affiliation-input"
                                        placeholder="소속명을 입력해주세요"
                                        required={true}
-                                       value={cate.customerCateName}
+                                       value={affiliation.customerAffiliationName}
                                        onChange={(e) =>
-                                           setCateState(cateState.map((item: CustomerCate, i: number) =>
-                                               i === index ? {...item, customerCateName: e.target.value} : item))}/>
+                                           setAffiliationState(affiliationState.map((item: CustomerAffiliation, i: number) =>
+                                               i === index ? {...item, AffiliationName: e.target.value} : item))}/>
                                 :
-                                <>{cate.customerCateName}</>
+                                <>{affiliation.customerAffiliationName}</>
                             }
                         </td>
                         <td>
-                            <button onClick={deleteHandler.bind(null,cate)}>삭제</button>
+                            <button onClick={deleteHandler.bind(null,affiliation)}>삭제</button>
                         </td>
                     </tr>
                 ))}
                 {mode === 'add' &&
                     <tr>
-                        <td>{cateState.length + 1}</td>
+                        <td>{affiliationState.length + 1}</td>
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
-                                   className="customer-cate-input"
+                                   className="customer-affiliation-input"
                                    placeholder="생성할 소속명을 입력해주세요"/>
                         </td>
                         <td>
@@ -69,7 +69,7 @@ export default function CustomerCate({InitCustomerCate}: { InitCustomerCate: Cus
                 }
                 </tbody>
             </table>
-            <div className='cate-button-container'>
+            <div className='affiliation-button-container'>
                 {mode !== "edit" &&
                     <button onClick={addHandler}>
                         {mode === 'add' ? '저장하기' : '추가하기'}

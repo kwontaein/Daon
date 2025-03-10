@@ -1,15 +1,15 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveEmployeeApi, updateEmployeeApi } from "../api/staffApi";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { saveEmployeeApi, updateEmployeeApi } from "../api/employeeApi";
+import { revalidateTag } from "next/cache";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
   }
 
-export async function submitStaffInfo(prevState, formData) {
-    const staffData= {
+export async function submitEmployeeInfo(prevState, formData) {
+    const employeeData= {
         userId: formData.get('userId'),
         password: formData.get('password'),
         married: formData.get('married'),
@@ -37,25 +37,25 @@ export async function submitStaffInfo(prevState, formData) {
     
 
     const errors =[]
-    if(staffData.userClass==='none'){
+    if(employeeData.userClass==='none'){
         errors.push(['userClass', '직급을 선택해주세요.'])
     }
-    if(staffData.deptId==='none'){
+    if(employeeData.deptId==='none'){
         errors.push(['dept', '부서를 선택해주세요.'])
     }
-    if(staffData.userClass==='none'){
+    if(employeeData.userClass==='none'){
         errors.push(['userClass', '직급을 입력해주세요.'])
     }
-    if(isInvalidText(staffData.name)){
+    if(isInvalidText(employeeData.name)){
         errors.push(['name', '이름을 입력해주세요.'])
     }
-    if(isInvalidText(staffData.userId)){
+    if(isInvalidText(employeeData.userId)){
         errors.push(['userId', '아이디를 입력해주세요.'])
     }
-    if(isInvalidText(staffData.password)){
+    if(isInvalidText(employeeData.password)){
         errors.push(['password', '비밀번호를 입력해주세요.'])
     }
-    if(!staffData.joinDate){
+    if(!employeeData.joinDate){
         errors.push(['joinDate', '입사일을 입력해주세요.'])
     }
    
@@ -66,7 +66,7 @@ export async function submitStaffInfo(prevState, formData) {
         const formErrors = Object.fromEntries(errors)
         const state = {
             ...prevState,
-            ...staffData,
+            ...employeeData,
             formErrors,
             formKey,
             post_success:false,
@@ -74,14 +74,14 @@ export async function submitStaffInfo(prevState, formData) {
         return state ;
     }
 
-    const {phone1, phone2, phone3, tel1, tel2, tel3} = staffData
+    const {phone1, phone2, phone3, tel1, tel2, tel3} = employeeData
     const phone =[phone1,phone2,phone3]
     const tel = [tel1,tel2,tel3]
     const postData ={
-        ...staffData,
+        ...employeeData,
         phone: phone.join('-'),
         tel: tel.join('-'),
-        married: staffData.married ==='married'
+        married: employeeData.married ==='married'
     }
     delete postData.phone1
     delete postData.phone2
@@ -100,19 +100,19 @@ export async function submitStaffInfo(prevState, formData) {
     }
 
     if(res && res === 200){
-        revalidateTag(`${staffData.userId}`)
-        revalidateTag("staff");
+        revalidateTag(`${employeeData.userId}`)
+        revalidateTag("employee");
 
         return{
             post_success: true,
             isUpdate:prevState.isUpdate, 
-            ...staffData,
+            ...employeeData,
             formKey, 
         }
     }else{
         return {
             ...prevState,
-            ...staffData,
+            ...employeeData,
             post_success: false,
             formKey
         }

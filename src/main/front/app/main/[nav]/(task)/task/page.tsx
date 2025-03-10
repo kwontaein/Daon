@@ -1,7 +1,7 @@
 import TaskSearch from "@/components/main/task/task/search";
 import TaskSearchResult from "@/components/main/task/task/search-result";
 
-import { CustomerCate } from "@/model/types/customer/cate/type";
+import { CustomerAffiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseTask } from "@/model/types/task/task/type";
 
@@ -34,7 +34,7 @@ export default async function TaskPage({searchParams}:PageByProps){
     }).finally(() => clearTimeout(timeoutId));
 
 
-    const customerCate:CustomerCate[] = await fetch("http://localhost:8080/api/getCustomerCate",{
+    const customerAffiliations:CustomerAffiliation[] = await fetch("http://localhost:8080/api/getCustomerCate",{
         next: {revalidate: 3600000, tags: ['customersCate']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
@@ -48,7 +48,7 @@ export default async function TaskPage({searchParams}:PageByProps){
 
     return(
         <section>
-            <TaskSearch customerCate={customerCate} initialTask={initialTask} page={page}/>
+            <TaskSearch customerAffiliations={customerAffiliations} initialTask={initialTask} page={page}/>
         </section>
     )
 }

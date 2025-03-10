@@ -1,6 +1,6 @@
-import StaffTable from "@/components/main/staff/staff/staff-table";
+import EmployeeTable from "@/components/main/staff/employee/employee-table";
 import { PageByProps } from "@/model/types/share/type";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { Suspense } from "react";
 
 
@@ -10,13 +10,13 @@ export default async function StaffPage({searchParams}:PageByProps){
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    const initialStaff:ResponseStaff[] = await fetch("http://localhost:8080/api/getEmployees", {
+    const initialEmployee:ResponseEmployee[] = await fetch("http://localhost:8080/api/getEmployees", {
         headers: {
             'Content-Type': 'application/json',
         },
         signal,
         // cache:'no-store',
-        next: {revalidate: 3600000, tags: ['staff']} //1시간마다 재검증
+        next: {revalidate: 3600000, tags: ['employee']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +34,7 @@ export default async function StaffPage({searchParams}:PageByProps){
     return(
         <section>
             <Suspense fallback={<div>loading...</div>}>
-                <StaffTable initialStaff={initialStaff} page={page}/>
+                <EmployeeTable initialEmployee={initialEmployee} page={page}/>
             </Suspense>
         </section>
     )
