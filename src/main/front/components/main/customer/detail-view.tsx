@@ -1,46 +1,47 @@
 'use client'
-import { CustomerCategoryMap } from "@/model/constants/customer/customer-data";
-import { ResponseCustomer } from "@/model/types/customer/customer/type";
+import {CustomerCategoryMap} from "@/model/constants/customer/customer-data";
+import {ResponseCustomer} from "@/model/types/customer/customer/type";
 import './form/customer-form.scss'
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+
+export default function CustomerDetail({customer}: { customer: ResponseCustomer }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-  
-  
+
+    console.log(customer)
     const editModeHandler = () => {
-      const params = new URLSearchParams(searchParams.toString()); 
-        params.set("mode", "edit"); 
-    // 기존 pathname 유지
-      router.push(`${pathname}?${params.toString()}`); 
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("mode", "edit");
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`);
     };
-  
-    return(
+
+    return (
         <>
-        <table className="customer-form-table">
-            <colgroup>
-                    <col style={{ width: '17%' }} />
-                    <col style={{ width: '33%' }} />
-                    <col style={{ width: '17%' }} />
-                    <col style={{ width: '33%' }} />
-            </colgroup>
-            <tbody>
+            <table className="customer-form-table">
+                <colgroup>
+                    <col style={{width: '17%'}}/>
+                    <col style={{width: '33%'}}/>
+                    <col style={{width: '17%'}}/>
+                    <col style={{width: '33%'}}/>
+                </colgroup>
+                <tbody>
                 <tr>
-                <td className='table-label'>거래처 구분</td>
-                <td>
-                    {CustomerCategoryMap[customer.category]}
-                </td>
-                <td className='table-label'>소속</td>
-                <td>
-                    {customer.customerAffiliation.customerAffiliationName}
-                </td>
+                    <td className='table-label'>거래처 구분</td>
+                    <td>
+                        {CustomerCategoryMap[customer.category]}
+                    </td>
+                    <td className='table-label'>소속</td>
+                    <td>
+                        {customer.customerAffiliation.customerAffiliationName}
+                    </td>
                 </tr>
                 <tr>
-                <td className='table-label'>상호명</td>
-                <td colSpan={3}>
-                    {customer.customerName}
-                </td>
+                    <td className='table-label'>상호명</td>
+                    <td colSpan={3}>
+                        {customer.customerName}
+                    </td>
                 </tr>
                 <tr>
                     <td className='table-label'>계산서명</td>
@@ -62,9 +63,9 @@ export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
                     <td className='table-label'>종목</td>
                     <td>{customer.contents}</td>
                     <td className='table-label'>담당자</td>
-                <td>
-                    {customer.etc}
-                </td>
+                    <td>
+                        {customer.etc}
+                    </td>
                 </tr>
                 <tr>
                     <td className='table-label'>전화</td>
@@ -109,16 +110,16 @@ export default function CustomerDetail({customer}:{customer:ResponseCustomer}){
                 </tr>
                 <tr>
                     <td className='table-label'>메모</td>
-                    <td colSpan={3} className={customer.memo ? '':'memo'}>{customer.memo}</td>
+                    <td colSpan={3} className={customer.memo ? '' : 'memo'}>{customer.memo}</td>
                 </tr>
-            </tbody>
-      </table>
-      <div className="button-container">
-        <button onClick={()=>window.print()}>인쇄</button>
-        <button onClick={editModeHandler}>수정</button>
-        <button>삭제</button>
-        <button onClick={()=>window.close()}>창닫기</button>
-      </div>
-    </>
+                </tbody>
+            </table>
+            <div className="button-container">
+                <button onClick={() => window.print()}>인쇄</button>
+                <button onClick={editModeHandler}>수정</button>
+                <button>삭제</button>
+                <button onClick={() => window.close()}>창닫기</button>
+            </div>
+        </>
     )
 }

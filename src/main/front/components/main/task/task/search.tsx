@@ -1,119 +1,126 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import { CustomerAffiliation } from '@/model/types/customer/affiliation/type'
+import {CustomerAffiliation} from '@/model/types/customer/affiliation/type'
 
-import { useWindowSize } from '@/hooks/share/useWindowSize';
-import { apiUrl } from '@/model/constants/apiUrl';
-import {  useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import { initialTaskState, taskSearchAction } from '@/features/task/task/action/taskSearchAction';
-import { ResponseTask } from '@/model/types/task/task/type';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {useWindowSize} from '@/hooks/share/useWindowSize';
+import {apiUrl} from '@/model/constants/apiUrl';
+import {useActionState, useEffect, useMemo, useRef, useState} from 'react';
+import {initialTaskState, taskSearchAction} from '@/features/task/task/action/taskSearchAction';
+import {ResponseTask} from '@/model/types/task/task/type';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 
-export default function TaskSearch({customerAffiliations, initialTask, page}:{customerAffiliations:CustomerAffiliation[], initialTask:ResponseTask[], page:number}){
-    const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
-    const pageByTasks = useMemo(()=>state.task.slice((page-1)*20, ((page-1)*20)+20),[state.task, page])
+export default function TaskSearch({customerAffiliations, initialTask, page}: {
+    customerAffiliations: CustomerAffiliation[],
+    initialTask: ResponseTask[],
+    page: number
+}) {
+    const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask});
+    const pageByTasks = useMemo(() => state.task.slice((page - 1) * 20, ((page - 1) * 20) + 20), [state.task, page])
     const inputRef = useRef(null)
 
     const [loading, setLoading] = useState(true)
 
-    useEffect(()=>{
+    useEffect(() => {
         setLoading(isPending)
-    },[isPending])
+    }, [isPending])
     //router control
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
 
-
     const size = useWindowSize()
 
-    const registerTask =()=>{
+    const registerTask = () => {
         //pc
-        if(size.width>620){
+        if (size.width > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
     }
-    const redirectPage =()=>{
+    const redirectPage = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");
         router.push(`${pathname}?${params.toString()}`);
     }
 
-    return(
+    return (
         <>
-        <section className='search-container'>
-            <form action={action}>
-            <table className='search-table'>
-                <colgroup>
-                    <col style={{ width: '5%' }} />
-                    <col style={{ width: '70%' }} />
-                    <col style={{ width: '1%' }} />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <td colSpan={3} className="table-title">
-                        검색옵션
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td className='table-label'>구분/담당자</td>
-                        <td className='td-gap'>
-                            <select name='taskType' key={state.searchKey} defaultValue={state.taskType}>
-                                <option value='none'>구분</option>
-                                <option value='AS'>A/S</option>
-                                <option value='INCOMING'>입고</option>
-                                <option value='DELIVERY'>납품</option>
-                                <option value='INVENTORY'>재고</option>
-                                <option value='OTHER'>기타</option>
-                                <option value='RENTAL'>임대</option>
-                                <option value='MAINTENANCE'>유지보수</option>
-                                <option value='ATTENDANCE'>근태</option>
-                            </select>         
-                            <select name='assignedUser' key={state.searchKey+2} defaultValue={state.assignedUser}>
-                                <option value='none'>담당자구분</option>
-                                <option value='햄부기'>햄부기</option>
-                            </select>
-                        </td>
-                        <td rowSpan={3}>
-                            <div  className='grid-table-buttons'>
-                                <button type='submit' disabled={isPending} onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button>엑 셀 변 환</button>
-                                <button onClick={registerTask}>업 무 등 록</button>
-                                <button>체 크 삭 제</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='table-label'>거래처분류</td>
-                        <td>
-                            <label>
-                                <select name='CustomerAffiliation'  key={state.searchKey} defaultValue={state.CustomerAffiliation}>
+            <section className='search-container'>
+                <form action={action}>
+                    <table className='search-table'>
+                        <colgroup>
+                            <col style={{width: '5%'}}/>
+                            <col style={{width: '70%'}}/>
+                            <col style={{width: '1%'}}/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <td colSpan={3} className="table-title">
+                                검색옵션
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td className='table-label'>구분/담당자</td>
+                            <td className='td-gap'>
+                                <select name='taskType' key={state.searchKey} defaultValue={state.taskType}>
+                                    <option value='none'>구분</option>
+                                    <option value='AS'>A/S</option>
+                                    <option value='INCOMING'>입고</option>
+                                    <option value='DELIVERY'>납품</option>
+                                    <option value='INVENTORY'>재고</option>
+                                    <option value='OTHER'>기타</option>
+                                    <option value='RENTAL'>임대</option>
+                                    <option value='MAINTENANCE'>유지보수</option>
+                                    <option value='ATTENDANCE'>근태</option>
+                                </select>
+                                <select name='assignedUser' key={state.searchKey + 2} defaultValue={state.assignedUser}>
+                                    <option value='none'>담당자구분</option>
+                                    <option value='햄부기'>햄부기</option>
+                                </select>
+                            </td>
+                            <td rowSpan={3}>
+                                <div className='grid-table-buttons'>
+                                    <button type='submit' disabled={isPending}
+                                            onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                    </button>
+                                    <button>엑 셀 변 환</button>
+                                    <button onClick={registerTask}>업 무 등 록</button>
+                                    <button>체 크 삭 제</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className='table-label'>거래처분류</td>
+                            <td>
+                                <label>
+                                    <select name='customerAffiliation' key={state.customerAffiliation}
+                                            defaultValue={state.customerAffiliation}>
                                         <option value='none'>선택안함</option>
-                                        {customerAffiliations.map((customerAffiliation)=>(
-                                            <option key={customerAffiliation.customerAffiliationId} value={customerAffiliation.customerAffiliationId}>
-                                                    {customerAffiliation.customerAffiliationName}
+                                        {customerAffiliations.map((customerAffiliation) => (
+                                            <option key={customerAffiliation.customerAffiliationId}
+                                                    value={customerAffiliation.customerAffiliationId}>
+                                                {customerAffiliation.customerAffiliationName}
                                             </option>
                                         ))}
-                                </select>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='table-label'>거래처명</td>
-                        <td><input type='text' name='customer' ref={inputRef}/></td>
-                    </tr>
-                </tbody>
-            </table> 
-            </form>
-        </section>
-        <TaskSearchResult pageByTasks={pageByTasks}/>
-    </>
+                                    </select>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className='table-label'>거래처명</td>
+                            <td><input type='text' name='customer' ref={inputRef}/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </section>
+            <TaskSearchResult pageByTasks={pageByTasks}/>
+        </>
     )
 }
