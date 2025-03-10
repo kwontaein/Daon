@@ -73,7 +73,7 @@ public class CustomerRequest {
                 .contactInfo(contactInfo)
                 .phoneNumber(phoneNumber)
                 .fax(fax)
-                .customerAffiliationId(affiliation)
+                .customerAffiliation(affiliation)
                 .build();
     }
 }

@@ -1,19 +1,20 @@
 'use client'
-import type { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
+import type {CustomerAffiliation} from '@/model/types/customer/affiliation/type';
 import './affiliation.scss';
 import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
 
 
 export default function Affiliation({InitAffiliation}: { InitAffiliation: CustomerAffiliation[] }) {
-    const { addInputRef, 
-            affiliationState,
-            mode,
-            setMode,
-            setAffiliationState,
-            addHandler,
-            deleteHandler,
-            editHandler
-        } = useAffiliation(InitAffiliation)
+    const {
+        addInputRef,
+        affiliationState,
+        mode,
+        setMode,
+        setAffiliationState,
+        addHandler,
+        deleteHandler,
+        editHandler
+    } = useAffiliation(InitAffiliation)
 
     return (
         <>
@@ -43,13 +44,16 @@ export default function Affiliation({InitAffiliation}: { InitAffiliation: Custom
                                        value={affiliation.customerAffiliationName}
                                        onChange={(e) =>
                                            setAffiliationState(affiliationState.map((item: CustomerAffiliation, i: number) =>
-                                               i === index ? {...item, AffiliationName: e.target.value} : item))}/>
+                                               i === index ? {
+                                                   ...item,
+                                                   customerAffiliationName: e.target.value
+                                               } : item))}/>
                                 :
                                 <>{affiliation.customerAffiliationName}</>
                             }
                         </td>
                         <td>
-                            <button onClick={deleteHandler.bind(null,affiliation)}>삭제</button>
+                            <button onClick={deleteHandler.bind(null, affiliation)}>삭제</button>
                         </td>
                     </tr>
                 ))}

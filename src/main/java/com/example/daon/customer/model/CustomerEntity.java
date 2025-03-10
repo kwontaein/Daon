@@ -104,7 +104,7 @@ public class CustomerEntity {
     //고객분류
     @ManyToOne
     @JoinColumn(name = "customer_affiliation_id")
-    private AffiliationEntity customerAffiliationId;
+    private AffiliationEntity customerAffiliation;
 
     //견적서 목록
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -172,7 +172,7 @@ public class CustomerEntity {
         //팩스
         this.fax = request.getFax();
         //고객분류
-        this.customerAffiliationId = affiliation;
+        this.customerAffiliation = affiliation;
         //우편번호
         this.zipCode = request.getZipCode();
         //주소
