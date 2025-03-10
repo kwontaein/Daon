@@ -1,11 +1,11 @@
 import LedgerCustomerSearch from "@/components/main/ledger/ledger-customer/search";
 import FilterButton from "@/components/share/filter/filter";
-import { CustomerCate} from "@/model/types/customer/cate/type";
+import { CustomerAffiliation} from "@/model/types/customer/affiliation/type";
 
 export default async function LedgerCustomerPage(){
       
-    const customerCate:CustomerCate[] = await fetch("http://localhost:8080/api/getCustomerCate",{
-        next: {revalidate: 360000, tags: ['customersCate']} //1시간마다 재검증
+    const affiliations:CustomerAffiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
+        next: {revalidate: 360000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,7 +17,7 @@ export default async function LedgerCustomerPage(){
 
     return(
         <section>
-            <LedgerCustomerSearch customerCate={customerCate}/>
+            <LedgerCustomerSearch affiliations={affiliations}/>
             <FilterButton>
                 <div>Filter</div>
             </FilterButton>

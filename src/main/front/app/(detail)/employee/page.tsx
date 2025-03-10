@@ -4,14 +4,14 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
-import { ResponseStaff } from "@/model/types/staff/staff/type";
-import StaffDetailView from "@/components/main/staff/staff/detail-view";
-import StaffForm from "@/components/main/staff/staff/form/staff-form";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
+import EmployeeDetailView from "@/components/main/staff/employee/detail-view";
+import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import { Dept } from "@/model/types/staff/dept/type";
 
 
 
-export default async function StaffDetailPage({searchParams}:DetailPageProps){
+export default async function EmployeeDetailPage({searchParams}:DetailPageProps){
     const userId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
@@ -24,7 +24,7 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    const staff:ResponseStaff = await fetch("http://localhost:8080/api/getEmployeeDetail", {
+    const employee:ResponseEmployee = await fetch("http://localhost:8080/api/getEmployeeDetail", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -55,9 +55,9 @@ export default async function StaffDetailPage({searchParams}:DetailPageProps){
                     </h4>
             </header>
             {mode ==='detail' ?
-             <StaffDetailView staff={staff}/>
+             <EmployeeDetailView employee={employee}/>
              :
-             <StaffForm staff={staff} dept={dept}/>
+             <EmployeeForm employee={employee} dept={dept}/>
             }
         </>
        
