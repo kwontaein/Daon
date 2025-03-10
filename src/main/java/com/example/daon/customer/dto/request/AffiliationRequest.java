@@ -6,13 +6,13 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class CustomerCateRequest {
-    private UUID customerCateId;
-    private String customerCateName;
+public class AffiliationRequest {
+    private UUID customerAffiliationId;
+    private String customerAffiliationName;
 
     public AffiliationEntity toEntity() {
         return AffiliationEntity.builder()
-                .customerCateName(customerCateName)
+                .customerAffiliationName(customerAffiliationName)
                 .build();
     }
 }
