@@ -3,6 +3,7 @@ package com.example.daon.ledger.controller;
 import com.example.daon.ledger.dto.LedgerRequest;
 import com.example.daon.ledger.service.LedgerService;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.stock.model.StockEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,7 @@ public class LedgerController {
     }
 
     //재고조사서
-    public List<ReceiptEntity> getStockSurvey(@RequestBody LedgerRequest ledgerRequest) {
+    public List<StockEntity> getStockSurvey(@RequestBody LedgerRequest ledgerRequest) {
         return ledgerService.getStockSurvey(ledgerRequest);
     }
 

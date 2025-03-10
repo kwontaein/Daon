@@ -38,9 +38,8 @@ public class CustomerController {
     @PostMapping("api/getCustomer")
     public CustomerEntity getCustomer(@RequestBody CustomerRequest request) {
         System.out.println("고객정보 받아오기 : " + request.toString());
-        return customerService.getCustomer(
-                request.getCustomerId()
-        );
+        System.out.println("고객정보 받아오기 : " + customerService.getCustomer(request.getCustomerId()));
+        return customerService.getCustomer(request.getCustomerId());
     }
 
     @PostMapping("api/saveCustomer")
@@ -59,23 +58,23 @@ public class CustomerController {
     }
 
     //customerCate ------------------------------------
-    @GetMapping("api/getCustomerCate")
-    public List<AffiliationEntity> getCustomerCate() {
-        return customerService.getCustomerCate();
+    @GetMapping("api/getAffiliation")
+    public List<AffiliationEntity> getAffiliation() {
+        return customerService.getAffiliation();
     }
 
-    @PostMapping("api/updateCustomerCate")
-    public void updateCustomerCate(@RequestBody List<AffiliationRequest> request) {
+    @PostMapping("api/updateAffiliation")
+    public void updateAffiliation(@RequestBody List<AffiliationRequest> request) {
         customerService.updateAffiliation(request);
     }
 
-    @PostMapping("api/saveCustomerCate")
-    public void saveCustomerCate(@RequestBody AffiliationRequest request) {
+    @PostMapping("api/saveAffiliation")
+    public void saveAffiliation(@RequestBody AffiliationRequest request) {
         customerService.saveAffiliation(request);
     }
 
-    @PostMapping("api/deleteCustomerCate")
-    public void deleteCustomerCate(@RequestBody AffiliationRequest request) {
+    @PostMapping("api/deleteAffiliation")
+    public void deleteAffiliation(@RequestBody AffiliationRequest request) {
         customerService.deleteAffiliation(request);
     }
 }
