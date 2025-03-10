@@ -13,11 +13,12 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import { submitBusinessInfo } from '@/features/customer/customer/actions/customer-action';
 import ErrorBox from '@/components/share/error-box/error-box';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { CustomerCate } from '@/model/types/customer/cate/type';
+import { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
+import { ResponseEmployee } from '@/model/types/staff/employee/type';
 
 
-export default function CustomerForm({customerCate, customer}:{customerCate:CustomerCate[], customer?:ResponseCustomer}) {
-  const initialState = useMemo(() => customer ? {...customer,customerCateId:customer.customerCateId.customerCateId}:{}, [customer]);
+export default function CustomerForm({affiliation, employees, customer}:{affiliation:CustomerAffiliation[], employees:ResponseEmployee[], customer?:ResponseCustomer}) {
+  const initialState = useMemo(() => customer ? {...customer,affiliationId:customer.customerAffiliation.customerAffiliationId}:{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const router = useRouter();
 
@@ -59,17 +60,17 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
               </td>
               <td className='table-label'>소속</td>
               <td>
-                <select size={1} name="customerCateId" defaultValue={state.customerCateId?? 'none'} key={state.customerCateId?? 'none'}>
+                <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId?? 'none'}>
                     <option value='none'>소속선택</option>
-                    {customerCate.map((cate)=>(
-                        <option key={cate.customerCateId} value={cate.customerCateId}>
-                                {cate.customerCateName}
+                    {affiliation.map((affiliation)=>(
+                        <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
+                                {affiliation.customerAffiliationName}
                         </option>
                     ))}
                 </select>
-                {state.formErrors?.customerCateId &&  
+                {state.formErrors?.affiliationId &&  
                   <ErrorBox key={state.formErrors.errorKey}>
-                    {state.formErrors.customerCateId}
+                    {state.formErrors.affiliationId}
                   </ErrorBox>
                  }
               </td>
@@ -108,10 +109,9 @@ export default function CustomerForm({customerCate, customer}:{customerCate:Cust
               <td>
                 <select className="label-selector" size={1} name="etc" key={state.etc} defaultValue={state.etc}>
                     <option value='none'>선택</option>
-                    <option value='kwang'>권태인</option>
-                    <option value="kang">강승재</option>
-                    <option value="purchase">어쩌고</option>
-                    <option value="etc">저쩌고</option>
+                    {employees.map((employee)=>(
+                      <option value={employee.userId}>{employee.name}</option>
+                    ))}
                 </select>
                 {state.formErrors?.etc &&  
                   <ErrorBox key={state.formErrors.errorKey}>

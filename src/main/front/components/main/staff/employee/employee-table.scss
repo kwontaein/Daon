@@ -1,4 +1,4 @@
-.staff-table{
+.employee-table{
     font-size: 1.2rem;
     @media (max-width: 620px) {
         font-size: 0.8rem
@@ -28,7 +28,7 @@
 }
 
 
-.staff-search-container{
+.employee-search-container{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -60,7 +60,7 @@
     cursor: pointer;
 }
 
-.staff-button-container{
+.employee-button-container{
     width: 100%;
     margin-top: 5px;
     display: flex;

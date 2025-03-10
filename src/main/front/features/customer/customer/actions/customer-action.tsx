@@ -9,7 +9,7 @@ function isInvalidText(text) {
 export async function submitBusinessInfo(prevState, formData) {
     const customerData = {
       category: formData.get('category'),
-      customerCateId: formData.get('customerCateId'),
+      affiliationId: formData.get('affiliationId'),
       customerName: formData.get('customerName'),
       billName: formData.get('billName'),
       ceo: formData.get('ceo'),
@@ -36,8 +36,8 @@ export async function submitBusinessInfo(prevState, formData) {
     if(customerData.category==='none'){
         errors.push(['category', '거래처구분을 선택해주세요.'])
     }
-    if(customerData.customerCateId==='none'){
-        errors.push(['customerCateId', '소속을 선택해주세요.'])
+    if(customerData.affiliationId==='none'){
+        errors.push(['affiliationId', '소속을 선택해주세요.'])
     }
     if(isInvalidText(customerData.customerName)){
         errors.push(['customerName', '상호명을 입력해주세요.'])

@@ -1,6 +1,6 @@
 'use server'
 
-import { ResponseStaff } from "@/model/types/staff/staff/type";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 export const userIdDuplicationChecked = async(userId:string):Promise<boolean|null>=>{
     return fetch("http://localhost:8080/api/duplicationCheck", {
@@ -20,7 +20,7 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
     })
 }
 
-export const saveEmployeeApi = async(userInfo:Omit<ResponseStaff,'dept'> & {deptId:string}):Promise<number|void>=>{
+export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
     return fetch("http://localhost:8080/api/saveEmployee", {
         method: "POST",
         headers: {
@@ -39,7 +39,7 @@ export const saveEmployeeApi = async(userInfo:Omit<ResponseStaff,'dept'> & {dept
     })
 }
 
-export const updateEmployeeApi = async(userInfo:Omit<ResponseStaff,'dept'> & {deptId:string}):Promise<number|void>=>{
+export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
     return fetch("http://localhost:8080/api/updateEmployee", {
         method: "POST",
         headers: {

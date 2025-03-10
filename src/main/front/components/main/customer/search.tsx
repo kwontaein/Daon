@@ -12,7 +12,7 @@ import {
 import '@/styles/table-style/search.scss';
 
 import {apiUrl} from '@/model/constants/apiUrl';
-import {CustomerCate} from '@/model/types/customer/cate/type';
+import {CustomerAffiliation} from '@/model/types/customer/affiliation/type';
 
 import {useWindowSize} from '@/hooks/share/useWindowSize';
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
@@ -23,8 +23,8 @@ import CustomerSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
 
 export default function CustomerSearch(
-    {customerCate, initialCustomers, page} : {
-        customerCate: CustomerCate[],
+    {affiliations, initialCustomers, page} : {
+        affiliations: CustomerAffiliation[],
         initialCustomers: ResponseCustomer[],
         page: number
     }
@@ -112,9 +112,9 @@ export default function CustomerSearch(
                                     key={state.searchKey}>
                                     <option value='none'>선택안함</option>
                                     {
-                                        customerCate.map((cate) => (
-                                            <option key={cate.customerCateId} value={cate.customerCateId}>
-                                                {cate.customerCateName}
+                                        affiliations.map((affiliation) => (
+                                            <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
+                                                {affiliation.customerAffiliationName}
                                             </option>
                                         ))
                                     }

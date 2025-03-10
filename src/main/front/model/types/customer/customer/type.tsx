@@ -1,4 +1,4 @@
-import { CustomerCate } from "../cate/type";
+import { CustomerAffiliation } from "../affiliation/type";
 
 export interface RequestCustomer {
     customerId: string; // UUID는 문자열로 처리
@@ -52,7 +52,7 @@ export interface ResponseCustomer {
     phoneNumber?: string;
     fax?: string;
     userId: string; 
-    customerCateId: CustomerCate; 
+    customerAffiliation: CustomerAffiliation; 
     estimates: Estimate[]; // 견적서 목록 (배열)
     zipCode?: string;
     address1?: string;
@@ -60,12 +60,6 @@ export interface ResponseCustomer {
     etc?: string;
 }
 
-export interface SelectRegisterCate{
-    customerCateId: string;
-    category: string;
-    etc: string;
-}
-  
 export interface Estimate {
     estimateId: string;
     estimateName: string;
