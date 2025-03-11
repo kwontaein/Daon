@@ -2,17 +2,17 @@ package com.example.daon.stock.controller;
 
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
+import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /**
@@ -25,9 +25,8 @@ public class StockController {
     private final StockService stockService;
 
     @PostMapping("api/getStockList")
-    public List<StockEntity> getStockList(@RequestBody StockRequest stockRequest) {
-        System.out.println("실행");
-        List<StockEntity> stockEntities;
+    public List<StockResponse> getStockList(@RequestBody StockRequest stockRequest) {
+        List<StockResponse> stockEntities;
         if (stockRequest.getReceiptCategory().equals("MAINTENANCE_FEE")) {
             stockEntities = stockService.getMCList(stockRequest);
         } else {
