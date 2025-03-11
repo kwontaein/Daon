@@ -1,6 +1,7 @@
+'use server'
 import {v4 as uuidv4} from "uuid";
 import { saveTask } from "../api/taskApi";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export default async function taskRegisterAction(prevState, formData){
     const TaskData ={
@@ -34,9 +35,6 @@ export default async function taskRegisterAction(prevState, formData){
         delete postData.customerId
 
         const status = await saveTask(postData)
-        if(status ===200){
-            revalidatePath('/main/task/task');
-        }
         return{
             ...prevState,
             ...TaskData,
@@ -48,4 +46,9 @@ export default async function taskRegisterAction(prevState, formData){
         ...prevState,
         ...TaskData,
     }
+}
+
+
+export async function revalidateTask() {
+  revalidateTag("task"); // 태그 무효화
 }

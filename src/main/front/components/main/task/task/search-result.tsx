@@ -1,64 +1,155 @@
 'use client'
-import '@/styles/table-style/search-result.scss'
+import './search-result.scss'
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { ResponseTask } from '@/model/types/task/task/type'
 import useCheckBoxState from '@/hooks/share/useCheckboxState'
+import dayjs from 'dayjs'
+import { ResponseEmployee } from '@/model/types/staff/employee/type'
+import { useWindowSize } from '@/hooks/share/useWindowSize'
+import { apiUrl } from '@/model/constants/apiUrl'
+import { taskTypeMap } from '@/model/constants/task/taskTypeMap'
 
- const TaskSearchResult= React.memo(({pageByTasks}:{pageByTasks:ResponseTask[]})=>{
+ const TaskSearchResult= React.memo(({pageByTasks, employees}:{pageByTasks:ResponseTask[], employees:ResponseEmployee[]})=>{
 
     const taskIds = pageByTasks.map(({taskId})=> taskId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+    const size = useWindowSize()   
+
+    //TODO: add mobile version
+    const viewCustomerHandler = (customerId:string)=>{
+        if(size.width>620){
+            const params = new URLSearchParams({
+                mode: "detail",
+                target: customerId,
+              });
+            const url = `${apiUrl}/customer?${params.toString()}`;
+            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
+            
+            window.open(url, "PopupWindow", popupOptions);
+        }
+    }
 
     return(
-        <table className='search-result-table'>
+        size.width ? 
+        <table className='task-search-result-table'>
+            <colgroup>
+                <col style={{ width: '1%' }}/>
+                <col style={{ width: `${size.width>820 ? '10%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${size.width>820 ? '10%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${size.width>820 ? '5%' :'30%'}`, minWidth :`${size.width>820 ? '55px' :'none'}`}}/>
+                <col style={{ width: `${size.width>820 ? '20%' :'10%'}`}}/>
+                <col style={{ width: '5%', minWidth :`${size.width>820 ? '50px' :'none'}`}}/>
+                <col style={{ width: '5%', minWidth :`${size.width>820 ? '50px' :'none'}`}}/>
+            </colgroup>
             <thead>
               <tr>
-                <td><input type='checkbox' 
+                <td rowSpan={size.width>820? 1:2}><input type='checkbox' 
                             onChange={toggleAllChecked} 
                             checked={isAllChecked}/></td>
-                <td>구분</td>
+                <td rowSpan={size.width>820? 1:2}>구분</td>
                 <td>접수</td>
-                <td>조치</td>
+                {size.width>820 &&<td>조치</td>}
                 <td>거래처</td>
                 <td>의뢰자</td>
                 <td>담당</td>
-                <td>연락처</td>
-                <td>모델</td>
-                <td>내용</td>
-                <td>비고</td>
-                <td>견적서</td>
+                {size.width>820 &&
+                <>
+                    <td>연락처</td>
+                    <td>모델</td>
+                    <td>내용</td>
+                    <td>비고</td>
+                </>
+                }
+                <td rowSpan={size.width>820? 1:2}>견적서</td>
               </tr>
+              {size.width<=820 &&
+                <tr>
+                    <td>조치</td>
+                    <td>내용</td>
+                    <td>모델</td>
+                    <td>연락처</td>
+                </tr>
+              }
             </thead>
-            <tbody>
-                    {pageByTasks.map(Tasks=>(
-                        <tr key={Tasks.taskId}>
-                            <td><input type='checkbox' 
-                                       checked={checkedState[Tasks.taskId]} 
-                                       onChange={()=>update_checked(Tasks.taskId)}/></td>
-                            <td>{Tasks.taskType}</td>
-                            <td>{Tasks.createdAt}</td>
-                            <td>{Tasks.isCompleted}</td>
-                            <td>{Tasks.customer}</td>
-                            <td>{Tasks.requesterName}</td>
-                            <td>{Tasks.assignedUser}</td>
-                            <td>{Tasks.requesterContact}</td>
-                            <td>{Tasks.model}</td>
-                            <td>{Tasks.details}</td>
-                            <td>{Tasks.remarks}</td>
-                            <td>{Tasks.isCompleted}</td>
-                        </tr>
-                    ))}
-                    {pageByTasks.length===0 && 
-                        <tr  className={'none-hover'}>
-                            <td colSpan={12}>
-                                <p>조회된 결과가 없습니다.</p>
-                            </td>
-                        </tr>
-                    }
-            </tbody>
+                    {pageByTasks.length>0 ?
+                        pageByTasks.map((task)=>(
+                            <tbody key={task.taskId}>
+                                <tr>
+                                    <td rowSpan={size.width>820? 1:2}>
+                                        <input type='checkbox' 
+                                            checked={checkedState[task.taskId]||false} 
+                                            onChange={()=>update_checked(task.taskId)}/></td>
+                                    <td rowSpan={size.width>820? 1:2}>
+                                        <div className='row-flex'>
+                                            <p>{taskTypeMap[task.taskType]}</p>
+                                            <p>[{task.assignedUser.name}]</p>
+                                        </div>
+                                    </td>
+                                    <td>{dayjs(task.createdAt).format('MM.DD HH:mm')}</td>
+                                    {size.width>820 &&
+                                    <td>
+                                        <button style={{paddingInline:'4px'}}>
+                                            {task.isCompleted ? '':'처리중'}
+                                        </button>
+                                    </td>}
+                                    <td>
+                                        <a onClick={()=>viewCustomerHandler(task.customer.customerId)}>
+                                            {task.customer.customerName}
+                                        </a>
+                                    </td>
+                                    <td>{task.requesterName}</td>
+                                    <td>
+                                        <select defaultValue={task.assignedUser.userId}>
+                                            <option value='none'>미지정</option>
+                                            {employees.map((employee) =>(
+                                                <option key={employee.userId} value={employee.userId}>{employee.name}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    {size.width>820 &&
+                                        <>
+                                            <td>{task.requesterContact}</td>
+                                            <td>{task.model}</td>
+                                            <td>{task.details}</td>
+                                            <td>{task.remarks}</td>
+                                    </>
+                                    }
+                                    <td rowSpan={size.width>820? 1:2}>
+                                        <button style={{paddingInline:'4px'}}>
+                                            {task.estimate ? '인쇄':'작성'}
+                                        </button>
+                                    </td>
+                                </tr>   
+                                {size.width<=820 &&
+                                    <tr>
+                                        <td>
+                                            <button style={{paddingInline:'2px'}}>
+                                                {task.isCompleted ? '':'처리중'}
+                                            </button>
+                                        </td>
+                                        <td>{task.details}</td>
+                                        <td>{task.model}</td>
+                                        <td>
+                                           {task.requesterContact}
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        )):
+                        (pageByTasks.length===0 && 
+                            <tbody>
+                                <tr className={'none-hover'}>
+                                    <td colSpan={12}>
+                                        <p>조회된 결과가 없습니다.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        )}
         </table>
+        :
+        <div style={{marginTop:'14px'}}>loading...</div>
     )
 })
 
