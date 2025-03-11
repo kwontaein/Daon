@@ -131,8 +131,8 @@ public class GlobalService {
     public AffiliationResponse convertToAffiliationResponse(AffiliationEntity affiliation) {
         return AffiliationResponse
                 .builder()
-                .customerAffiliationId(affiliation.getCustomerAffiliationId())
-                .customerAffiliationName(affiliation.getCustomerAffiliationName())
+                .affiliationId(affiliation.getCustomerAffiliationId())
+                .affiliationName(affiliation.getCustomerAffiliationName())
                 .build();
     }
 
