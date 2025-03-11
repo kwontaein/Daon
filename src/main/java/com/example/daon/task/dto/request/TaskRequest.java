@@ -2,6 +2,7 @@ package com.example.daon.task.dto.request;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.model.TaskType;
 import lombok.Data;
@@ -37,11 +38,14 @@ public class TaskRequest {
 
     public LocalDateTime updatedAt; // 수정일
 
+    private UUID estimateId;
     //--------------------------------------
 
     public String receiptCate;
 
-    public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt) {
+    public UUID[] taskIds;
+
+    public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt, EstimateEntity estimate) {
         return TaskEntity
                 .builder()
                 .taskId(taskId)
@@ -57,6 +61,7 @@ public class TaskRequest {
                 .remarks(remarks)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
+                .estimate(estimate)
                 .build();
     }
 }
