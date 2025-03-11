@@ -2,8 +2,8 @@ package com.example.daon.customer.controller;
 
 import com.example.daon.customer.dto.request.AffiliationRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
-import com.example.daon.customer.model.AffiliationEntity;
-import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.customer.dto.response.AffiliationResponse;
+import com.example.daon.customer.dto.response.CustomerResponse;
 import com.example.daon.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +24,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("api/getCustomers")
-    public List<CustomerEntity> getCustomers(@RequestBody CustomerRequest request) {
-        System.out.println("고객정보 받아오기 : " + request.toString());
+    public List<CustomerResponse> getCustomers(@RequestBody CustomerRequest request) {
         return customerService.getCustomers(
                 request.getCategory()
                 , request.getCateId()
@@ -36,9 +35,7 @@ public class CustomerController {
     }
 
     @PostMapping("api/getCustomer")
-    public CustomerEntity getCustomer(@RequestBody CustomerRequest request) {
-        System.out.println("고객정보 받아오기 : " + request.toString());
-        System.out.println("고객정보 받아오기 : " + customerService.getCustomer(request.getCustomerId()));
+    public CustomerResponse getCustomer(@RequestBody CustomerRequest request) {
         return customerService.getCustomer(request.getCustomerId());
     }
 
@@ -59,7 +56,7 @@ public class CustomerController {
 
     //customerCate ------------------------------------
     @GetMapping("api/getAffiliation")
-    public List<AffiliationEntity> getAffiliation() {
+    public List<AffiliationResponse> getAffiliation() {
         return customerService.getAffiliation();
     }
 

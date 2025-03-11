@@ -6,8 +6,10 @@ import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
+import com.example.daon.global.GlobalService;
 import com.example.daon.receipts.dto.request.CustomerBillRequest;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
+import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
@@ -22,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,9 +34,11 @@ public class ReceiptsService {
     private final ReceiptRepository receiptRepository;
     private final CustomerRepository customerRepository;
     private final CustomerBillRepository customerBillRepository;
+    private final GlobalService globalService;
 
-    public List<ReceiptEntity> getReceipts(LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+
+    public List<ReceiptResponse> getReceipts(LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
@@ -57,6 +62,11 @@ public class ReceiptsService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return receiptEntities
+                .stream()
+                .map(globalService::convertToReceiptResponse)
+                .collect(Collectors.toList());
     }
 
     /**
