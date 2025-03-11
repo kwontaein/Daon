@@ -1,7 +1,9 @@
 package com.example.daon.stock.service;
 
+import com.example.daon.global.GlobalService;
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
+import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockCateRepository;
@@ -14,17 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class StockService {
     private final StockRepository stockRepository;
+    private final GlobalService globalService;
     private final StockCateRepository stockCateRepository;
 
 
     //품목 목록 불러오기
-    public List<StockEntity> getStockList(StockRequest stockRequest) {
-        return stockRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<StockResponse> getStockList(StockRequest stockRequest) {
+        List<StockEntity> stockEntities = stockRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // 분류 (category) 검색
@@ -68,11 +72,13 @@ public class StockService {
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
     }
 
     //관리비 목록 불러오기
-    public List<StockEntity> getMCList(StockRequest stockRequest) {
-        return stockRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<StockResponse> getMCList(StockRequest stockRequest) {
+        List<StockEntity> stockEntities = stockRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // 분류가 관리비인 것만 검색
@@ -86,6 +92,8 @@ public class StockService {
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
     }
 
 

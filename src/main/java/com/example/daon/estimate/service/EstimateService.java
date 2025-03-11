@@ -5,9 +5,9 @@ import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.company.repository.CompanyRepository;
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.dto.request.EstimateRequest;
+import com.example.daon.estimate.dto.response.EstimateResponse;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.estimate.repository.EstimateItemRepository;
@@ -34,22 +34,20 @@ public class EstimateService {
     private final EstimateRepository estimateRepository;
     private final EstimateItemRepository estimateItemRepository;
     private final CustomerRepository customerRepository;
-    private final CustomerBillRepository customerBillRepository;
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
-
-
     private final GlobalService globalService;
 
     //견적서 조회
-    public List<EstimateEntity> getEstimates(LocalDate searchSDate, LocalDate searchEDate, String customerName, String itemName) {
+    public List<EstimateResponse> getEstimates(LocalDate searchSDate, LocalDate searchEDate, String customerName, String itemName) {
+        List<EstimateEntity> estimateEntities;
         // 견적서 조회 조건: 전표로 전환되지 않은 견적서
         if (searchSDate == null && searchEDate == null && customerName == null && itemName == null) {
-            return estimateRepository.findByReceipted(false).orElse(null);
+            estimateEntities = estimateRepository.findByReceipted(false).orElse(null);
         }
 
         // 동적 검색 조건 적용
-        return estimateRepository.findAll((root, query, criteriaBuilder) -> {
+        estimateEntities = estimateRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // 기간 조건
@@ -84,6 +82,11 @@ public class EstimateService {
             // 동적 조건 조합
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return estimateEntities
+                .stream()
+                .map(globalService::convertToEstimateResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional

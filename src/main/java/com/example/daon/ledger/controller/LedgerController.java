@@ -1,6 +1,6 @@
 package com.example.daon.ledger.controller;
 
-import com.example.daon.ledger.dto.LedgerRequest;
+import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.service.LedgerService;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.stock.model.StockEntity;

@@ -1,11 +1,14 @@
 package com.example.daon.estimate.controller;
 
 import com.example.daon.estimate.dto.request.EstimateRequest;
+import com.example.daon.estimate.dto.response.EstimateResponse;
 import com.example.daon.estimate.service.EstimateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 판매회계
@@ -17,8 +20,8 @@ public class EstimateController {
 
     //견적서관리-----------------------------------
     @PostMapping("api/getEstimates")
-    public void getEstimates(@RequestBody EstimateRequest request) {
-        estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
+    public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest request) {
+        return estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
     }
 
     //수정
