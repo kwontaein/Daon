@@ -1,4 +1,4 @@
-import { CustomerAffiliation } from "../affiliation/type";
+import { Affiliation } from "../affiliation/type";
 
 export interface RequestCustomer {
     customerId: string; // UUID는 문자열로 처리
@@ -52,7 +52,7 @@ export interface ResponseCustomer {
     phoneNumber?: string;
     fax?: string;
     userId: string; 
-    customerAffiliation: CustomerAffiliation; 
+    affiliation: Affiliation; 
     estimates: Estimate[]; // 견적서 목록 (배열)
     zipCode?: string;
     address1?: string;
