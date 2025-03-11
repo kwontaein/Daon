@@ -123,7 +123,7 @@ public class CustomerService {
     public void updateAffiliation(List<AffiliationRequest> requests) {
         for (AffiliationRequest request : requests) {
             AffiliationEntity existingEntity;
-            existingEntity = affiliationRepository.findById(request.getCustomerAffiliationId()).orElse(null);
+            existingEntity = affiliationRepository.findById(request.getAffiliationId()).orElse(null);
 
             //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
             existingEntity.updateFromRequest(request);
@@ -136,7 +136,7 @@ public class CustomerService {
 
     @Transactional
     public void deleteAffiliation(AffiliationRequest request) {
-        affiliationRepository.deleteById(request.getCustomerAffiliationId());
+        affiliationRepository.deleteById(request.getAffiliationId());
     }
 
 }
