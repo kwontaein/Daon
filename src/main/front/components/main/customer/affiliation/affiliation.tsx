@@ -1,10 +1,10 @@
 'use client'
-import type {CustomerAffiliation} from '@/model/types/customer/affiliation/type';
+import type {Affiliation} from '@/model/types/customer/affiliation/type';
 import './affiliation.scss';
 import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
 
 
-export default function Affiliation({InitAffiliation}: { InitAffiliation: CustomerAffiliation[] }) {
+export default function Affiliation({InitAffiliation}: { InitAffiliation: Affiliation[] }) {
     const {
         addInputRef,
         affiliationState,
@@ -32,8 +32,8 @@ export default function Affiliation({InitAffiliation}: { InitAffiliation: Custom
                 </tr>
                 </thead>
                 <tbody>
-                {affiliationState.map((affiliation: CustomerAffiliation, index) => (
-                    <tr key={affiliation.customerAffiliationId}>
+                {affiliationState.map((affiliation: Affiliation, index) => (
+                    <tr key={affiliation.affiliationId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
                             {mode === 'edit' ?
@@ -41,15 +41,15 @@ export default function Affiliation({InitAffiliation}: { InitAffiliation: Custom
                                        className="customer-affiliation-input"
                                        placeholder="소속명을 입력해주세요"
                                        required={true}
-                                       value={affiliation.customerAffiliationName}
+                                       value={affiliation.affiliationName}
                                        onChange={(e) =>
-                                           setAffiliationState(affiliationState.map((item: CustomerAffiliation, i: number) =>
+                                           setAffiliationState(affiliationState.map((item: Affiliation, i: number) =>
                                                i === index ? {
                                                    ...item,
-                                                   customerAffiliationName: e.target.value
+                                                   AffiliationName: e.target.value
                                                } : item))}/>
                                 :
-                                <>{affiliation.customerAffiliationName}</>
+                                <>{affiliation.affiliationName}</>
                             }
                         </td>
                         <td>

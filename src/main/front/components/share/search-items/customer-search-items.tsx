@@ -15,6 +15,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
+    
     const selectValue = (value: ResponseCustomer) => {
         const message ={
             customerId:value.customerId,
