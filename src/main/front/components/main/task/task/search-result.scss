@@ -1,6 +1,6 @@
 @use '@/styles/_variables.scss' as var;
 
-.search-result-table{
+.task-search-result-table{
     font-size: 1.2rem;
     margin-top: 0.5rem;
     width: 100%;
@@ -8,15 +8,14 @@
     @media (max-width:620px){
         font-size: 0.7rem;
     }
+    tr{
+        height: 30px;
+    }
     tbody{
-        tr{
-            border-bottom: 1px solid var.$default-border-color;
-            height: 30px;
-            
-            &:hover{
-                background-color: rgb(197,202,254);
-            }
+        &:hover{
+            background-color: rgb(197,202,254);
         }
+        border-bottom: 1px solid var.$default-border-color;
     }
     
     td{
