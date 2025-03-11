@@ -1,13 +1,13 @@
 'use client'
 import {useState, useRef} from "react";
-import {CustomerAffiliation} from "@/model/types/customer/affiliation/type";
+import {Affiliation} from "@/model/types/customer/affiliation/type";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
 import { updateAffiliationApi, saveAffiliationApi, deleteAffiliationApi } from "@/features/customer/affiliation/api/customerCateApi";
 
-export default function useAffiliation(InitAffiliation:CustomerAffiliation[]){
-    const [affiliationState, setAffiliationState] = useState<CustomerAffiliation[]>(InitAffiliation)
+export default function useAffiliation(InitAffiliation:Affiliation[]){
+    const [affiliationState, setAffiliationState] = useState<Affiliation[]>(InitAffiliation)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -17,9 +17,9 @@ export default function useAffiliation(InitAffiliation:CustomerAffiliation[]){
             setMode('edit')
             return
         }
-        const postCate = affiliationState.filter(({customerAffiliationName}, index) =>
-            InitAffiliation[index].customerAffiliationName !== customerAffiliationName)
-        const postAble = postCate.every(({customerAffiliationName}) => customerAffiliationName !== '')
+        const postCate = affiliationState.filter(({affiliationName}, index) =>
+            InitAffiliation[index].affiliationName !== affiliationName)
+        const postAble = postCate.every(({affiliationName}) => affiliationName !== '')
         if (postCate.length>0 && postAble) {
             updateAffiliationApi(postCate).then((status) => {
                 if(status === 200){
@@ -41,7 +41,7 @@ export default function useAffiliation(InitAffiliation:CustomerAffiliation[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            saveAffiliationApi({customerAffiliationName: addInputRef.current.value})
+            saveAffiliationApi({affiliationName: addInputRef.current.value})
                 .then((status) => {
                     if(status === 200){
                         window.alert('저장이 완료되었습니다.')
@@ -53,7 +53,7 @@ export default function useAffiliation(InitAffiliation:CustomerAffiliation[]){
         }
     }
 
-    const deleteHandler=(cate:CustomerAffiliation)=>{
+    const deleteHandler=(cate:Affiliation)=>{
         const deleteRequest = ()=>{
             deleteAffiliationApi(cate).then((status)=>{
                 if(status === 200){
