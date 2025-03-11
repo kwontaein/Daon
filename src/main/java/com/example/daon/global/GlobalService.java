@@ -100,6 +100,7 @@ public class GlobalService {
         }
         return CustomerResponse
                 .builder()
+                .customerId(customer.getCustomerId())
                 .ceo(customer.getCeo())
                 .ceoNum(customer.getCeoNum())
                 .companyNum(customer.getCustomerName())
