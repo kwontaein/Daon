@@ -3,6 +3,7 @@ package com.example.daon.task.model;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.task.dto.request.TaskRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -66,4 +67,18 @@ public class TaskEntity {
     @MapsId
     @JoinColumn(name = "estimate")
     private EstimateEntity estimate;
+
+    public void updateFromRequest(TaskRequest request, UserEntity user, EstimateEntity estimate) {
+        this.taskType = request.getTaskType();
+        this.requesterName = request.getRequesterName();
+        this.requesterContact = request.getRequesterContact();
+        this.requesterContact2 = request.getRequesterContact2();
+        this.model = request.getModel();
+        this.isCompleted = request.getIsCompleted();
+        this.details = request.getDetails();
+        this.remarks = request.getRemarks();
+        this.assignedUser = user;
+        this.estimate = estimate;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
