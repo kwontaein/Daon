@@ -58,7 +58,9 @@ export async function submitEmployeeInfo(prevState, formData) {
     if(!employeeData.joinDate){
         errors.push(['joinDate', '입사일을 입력해주세요.'])
     }
-   
+    if(isInvalidText(employeeData.birthday)){
+        errors.push(['birthday','생년월일을 입력해주세요.'])
+    }
 
     const formKey = uuidv4()
 
