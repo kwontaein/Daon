@@ -31,7 +31,7 @@ public class AffiliationEntity {
     private String customerAffiliationName;
 
     public void updateFromRequest(AffiliationRequest request) {
-        this.customerAffiliationName = request.getCustomerAffiliationName();
+        this.customerAffiliationName = request.getAffiliationName();
         // 필요한 필드 추가 업데이트
     }
 }

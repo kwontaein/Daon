@@ -7,12 +7,12 @@ import java.util.UUID;
 
 @Data
 public class AffiliationRequest {
-    private UUID customerAffiliationId;
-    private String customerAffiliationName;
+    private UUID affiliationId;
+    private String affiliationName;
 
     public AffiliationEntity toEntity() {
         return AffiliationEntity.builder()
-                .customerAffiliationName(customerAffiliationName)
+                .customerAffiliationName(affiliationName)
                 .build();
     }
 }
