@@ -34,6 +34,7 @@ export default function CustomerSearch(
         customers: initialCustomers,
         initialCustomers
     });
+    console.log(affiliations)
 
     const pageByCustomers = useMemo(() =>
         state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
@@ -68,6 +69,7 @@ export default function CustomerSearch(
         }
     }
 
+    console.log(pageByCustomers)
     return (
         <>
         <div className='search-container'>

@@ -12,6 +12,10 @@ import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { revalidateTask } from '@/features/task/task/action/taskRegisterAction';
+import Pagination from '@/components/share/pagination';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
+import { deleteTask } from '@/features/task/task/api/taskApi';
+import { useConfirm } from '@/hooks/share/useConfirm';
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
     affiliations: Affiliation[],
@@ -22,20 +26,21 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask});
     const pageByTasks = useMemo(() => state.task.slice((page - 1) * 20, ((page - 1) * 20) + 20), [state.task, page])
     const inputRef = useRef(null)
-
+    const taskIds = pageByTasks.map(({taskId})=> taskId)
+    const useCheckState = useCheckBoxState(taskIds)
+    
     const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        setLoading(isPending)
-    }, [isPending])
-
     //router control
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-
     const size = useWindowSize()
+
+
+    useEffect(() => {
+        setLoading(isPending)
+    }, [isPending])
 
 
     const revalidateHandler = (event: MessageEvent) => {
@@ -58,12 +63,19 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         }
     }
 
-
-
     const redirectPage = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");
         router.push(`${pathname}?${params.toString()}`);
+    }
+
+    const deleteTaskHandler =()=>{
+        const onDelete =()=>{
+            const checkedTaskIds = Object.keys(useCheckState.checkedState)
+            console.log(checkedTaskIds)
+            deleteTask(checkedTaskIds)
+        }
+        useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete, ()=>{})
     }
 
     return (
@@ -111,8 +123,8 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                                             onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
                                     <button>엑 셀 변 환</button>
-                                    <button onClick={registerTask}>업 무 등 록</button>
-                                    <button>체 크 삭 제</button>
+                                    <button type='button' onClick={registerTask}>업 무 등 록</button>
+                                    <button type='button' onClick={deleteTaskHandler}>체 크 삭 제</button>
                                 </div>
                             </td>
                         </tr>
@@ -141,7 +153,18 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                     </table>
                 </form>
             </section>
-            <TaskSearchResult pageByTasks={pageByTasks} employees={employees}/>
+            <TaskSearchResult
+                pageByTasks={pageByTasks}
+                employees={employees}
+                taskCheckedHook={useCheckState}/>            
+            {(!loading && initialTask.length>20) &&
+                <Pagination
+                    totalItems={initialTask.length}
+                    itemCountPerPage={20} 
+                    pageCount={5} 
+                    currentPage={Number(page)}
+                />
+            }
         </>
     )
 }
