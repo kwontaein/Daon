@@ -10,11 +10,14 @@ import {initialTaskState, taskSearchAction} from '@/features/task/task/action/ta
 import {ResponseTask} from '@/model/types/task/task/type';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
+import { ResponseEmployee } from '@/model/types/staff/employee/type';
+import { revalidateTask } from '@/features/task/task/action/taskRegisterAction';
 
-export default function TaskSearch({customerAffiliations, initialTask, page}: {
+export default function TaskSearch({customerAffiliations, initialTask, employees, page}: {
     customerAffiliations: CustomerAffiliation[],
     initialTask: ResponseTask[],
-    page: number
+    page: number,
+    employees: ResponseEmployee[]
 }) {
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask});
     const pageByTasks = useMemo(() => state.task.slice((page - 1) * 20, ((page - 1) * 20) + 20), [state.task, page])
@@ -25,6 +28,7 @@ export default function TaskSearch({customerAffiliations, initialTask, page}: {
     useEffect(() => {
         setLoading(isPending)
     }, [isPending])
+
     //router control
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -33,14 +37,29 @@ export default function TaskSearch({customerAffiliations, initialTask, page}: {
 
     const size = useWindowSize()
 
+
+    const revalidateHandler = (event: MessageEvent) => {
+        if (event.data) {
+            const {status} = event.data 
+            if(status===200){
+                revalidateTask()
+            }
+        }
+    };
+
     const registerTask = () => {
         //pc
         if (size.width > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            window.removeEventListener("message", revalidateHandler);
+            window.addEventListener("message", revalidateHandler);  
             window.open(url, "PopupWindow", popupOptions);
         }
     }
+
+
+
     const redirectPage = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");
@@ -81,7 +100,9 @@ export default function TaskSearch({customerAffiliations, initialTask, page}: {
                                 </select>
                                 <select name='assignedUser' key={state.searchKey + 2} defaultValue={state.assignedUser}>
                                     <option value='none'>담당자구분</option>
-                                    <option value='햄부기'>햄부기</option>
+                                    {employees.map((employee)=>(
+                                        <option key={employee.userId} value={employee.userId}>{employee.name}</option>
+                                    ))}
                                 </select>
                             </td>
                             <td rowSpan={3}>
@@ -120,7 +141,7 @@ export default function TaskSearch({customerAffiliations, initialTask, page}: {
                     </table>
                 </form>
             </section>
-            <TaskSearchResult pageByTasks={pageByTasks}/>
+            <TaskSearchResult pageByTasks={pageByTasks} employees={employees}/>
         </>
     )
 }
