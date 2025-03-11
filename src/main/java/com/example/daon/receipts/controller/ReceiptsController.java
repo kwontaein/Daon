@@ -1,6 +1,7 @@
 package com.example.daon.receipts.controller;
 
 import com.example.daon.receipts.dto.request.ReceiptRequest;
+import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.service.ReceiptsService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ReceiptsController {
      * 조건부 전표 검색
      */
     @PostMapping("api/getReceipts")
-    public List<ReceiptEntity> getReceipts(@RequestBody ReceiptRequest request) {
+    public List<ReceiptResponse> getReceipts(@RequestBody ReceiptRequest request) {
         return receiptsService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerId(), request.getItemNumber());
     }
 
@@ -35,7 +36,7 @@ public class ReceiptsController {
         System.out.println(requests.toString());
         receiptsService.saveReceipt(requests);
     }
-    
+
     @PostMapping("api/deleteReceipt")
     public void deleteReceipt(@RequestBody ReceiptRequest request) {
         receiptsService.deleteReceipts(request.getIds());

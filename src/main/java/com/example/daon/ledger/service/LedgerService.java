@@ -2,7 +2,7 @@ package com.example.daon.ledger.service;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
-import com.example.daon.ledger.dto.LedgerRequest;
+import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;

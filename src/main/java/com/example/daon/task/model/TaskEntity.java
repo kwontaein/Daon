@@ -63,6 +63,7 @@ public class TaskEntity {
     private LocalDateTime updatedAt; // 수정일
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "estimate")
     private EstimateEntity estimate;
 }

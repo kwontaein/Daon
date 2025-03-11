@@ -1,4 +1,4 @@
-package com.example.daon.ledger.dto;
+package com.example.daon.ledger.dto.response;
 
 import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerCate;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class LedgerRequest {
+public class LedgerResponse {
     private LocalDate searchSDate;  //검색 날짜 시작일
     private LocalDate searchEDate;  //검색 날짜 종료일
     private CustomerCate customerCate;//구분

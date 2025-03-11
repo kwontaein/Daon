@@ -4,12 +4,15 @@ import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.customer.dto.request.AffiliationRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
+import com.example.daon.customer.dto.response.AffiliationResponse;
+import com.example.daon.customer.dto.response.CustomerResponse;
+import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerBillEntity;
 import com.example.daon.customer.model.CustomerCate;
-import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.GlobalService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +32,11 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
     private final AffiliationRepository affiliationRepository;
+    private final GlobalService globalService;
 
-    public List<CustomerEntity> getCustomers(CustomerCate category, UUID cateId, String customerName, String searchTarget, String ceo) {
-        return customerRepository.findAll((root, query, criteriaBuilder) -> {
+
+    public List<CustomerResponse> getCustomers(CustomerCate category, UUID cateId, String customerName, String searchTarget, String ceo) {
+        List<CustomerEntity> customer = customerRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 거래처 분류
@@ -72,10 +78,15 @@ public class CustomerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return customer.stream()
+                .map(globalService::convertToCustomerResponse)
+                .collect(Collectors.toList());
     }
 
-    public CustomerEntity getCustomer(UUID customerId) {
-        return customerRepository.findById(customerId).orElse(null);
+    public CustomerResponse getCustomer(UUID customerId) {
+        CustomerEntity customer = customerRepository.findById(customerId).orElse(null);
+        return globalService.convertToCustomerResponse(customer);
     }
 
     public void saveCustomer(CustomerRequest request) {
@@ -97,8 +108,11 @@ public class CustomerService {
         customerRepository.deleteById(request.getCustomerId());
     }
 
-    public List<AffiliationEntity> getAffiliation() {
-        return affiliationRepository.findAll();
+    public List<AffiliationResponse> getAffiliation() {
+        List<AffiliationEntity> affiliationEntities = affiliationRepository.findAll();
+        return affiliationEntities.stream()
+                .map(globalService::convertToAffiliationResponse)
+                .collect(Collectors.toList());
     }
 
     public void saveAffiliation(AffiliationRequest request) {

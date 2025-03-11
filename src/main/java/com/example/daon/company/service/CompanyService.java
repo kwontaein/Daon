@@ -3,35 +3,28 @@ package com.example.daon.company.service;
 import com.example.daon.company.dto.request.CompanyRequest;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.company.repository.CompanyRepository;
-import com.example.daon.global.RedisService;
-import com.example.daon.jwt.JwtTokenProvider;
+import com.example.daon.global.GlobalService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //회사, 사원관리
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
-    private final RedisService redisService;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final PasswordEncoder passwordEncoder;
+    private final GlobalService globalService;
 
-    //회사정보 crud
     public void CreateCompany(CompanyRequest companyRequest) {
         companyRepository.save(companyRequest.toEntity());
     }
 
+
     public List<CompanyEntity> getCompany() {
         List<CompanyEntity> companyEntities = companyRepository.findAll();
-        for (CompanyEntity company : companyEntities) {
-            System.out.println(company.toString());
-        }
+        companyEntities.stream().map(globalService::convertToCompanyResponse).collect(Collectors.toList());
         return companyEntities;
     }
 
@@ -46,6 +39,8 @@ public class CompanyService {
     }
 
     public CompanyEntity getCompanyDetail(CompanyRequest companyRequest) {
-        return companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
+        CompanyEntity company = companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
+        globalService.convertToCompanyResponse(company);
+        return company;
     }
 }
