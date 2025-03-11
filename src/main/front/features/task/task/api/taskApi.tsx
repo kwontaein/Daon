@@ -1,5 +1,6 @@
+'use server'
 import { SaveTask, TaskSearchCondition } from "@/model/types/task/task/type";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     try {
