@@ -66,7 +66,7 @@ export const deleteAffiliationApi = async (customer: CustomerAffiliation) => {
         if (response.status === 500) {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("customersCate")
+        revalidateTag("affiliation")
         // revalidatePath("/main/customer/customer-cate");
         return response.status
     }).catch((error) => {
