@@ -94,7 +94,10 @@ public class GlobalService {
 
     //응답 변환
     public CustomerResponse convertToCustomerResponse(CustomerEntity customer) {
-        UserResponse userResponse = new UserResponse(customer.getUser().getUserId(), customer.getUser().getUsername());
+        UserResponse userResponse = null;
+        if (customer.getUser() != null) {
+            userResponse = new UserResponse(customer.getUser().getUserId(), customer.getUser().getUsername());
+        }
         return CustomerResponse
                 .builder()
                 .ceo(customer.getCeo())
