@@ -31,7 +31,7 @@ export interface ResponseTask {
   export interface TaskSearchCondition {
     customer:string,
     taskType: TaskType|'none'|null, //구분
-    customerAffiliation:string|null, //거래처구분
+    affiliation:string|null, //거래처구분
     assignedUser:string|null, //담당자
 } 
 

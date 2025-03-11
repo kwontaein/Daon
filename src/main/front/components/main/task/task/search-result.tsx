@@ -4,17 +4,18 @@ import './search-result.scss'
 import React, { useEffect } from 'react'
 
 import { ResponseTask } from '@/model/types/task/task/type'
-import useCheckBoxState from '@/hooks/share/useCheckboxState'
+import useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { taskTypeMap } from '@/model/constants/task/taskTypeMap'
-
- const TaskSearchResult= React.memo(({pageByTasks, employees}:{pageByTasks:ResponseTask[], employees:ResponseEmployee[]})=>{
-
-    const taskIds = pageByTasks.map(({taskId})=> taskId)
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+const TaskSearchResult = React.memo(({pageByTasks, employees,taskCheckedHook} : {
+    pageByTasks: ResponseTask[],
+    employees: ResponseEmployee[],
+    taskCheckedHook: ReturnCheckBoxHook
+}) => {
+    const  {checkedState, isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
     const size = useWindowSize()   
 
     //TODO: add mobile version
