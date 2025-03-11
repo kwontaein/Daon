@@ -1,7 +1,7 @@
 package com.example.daon.task.controller;
 
 import com.example.daon.task.dto.request.TaskRequest;
-import com.example.daon.task.model.TaskEntity;
+import com.example.daon.task.dto.response.TaskResponse;
 import com.example.daon.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,19 +21,19 @@ public class TaskController {
 
     //관리자데이터조회
     @GetMapping("api/getTask")
-    public List<TaskEntity> getTask() {
+    public List<TaskResponse> getTask() {
         return taskService.getTask();
     }
 
     //관리자데이터조회
     @GetMapping("api/getTaskToday")
-    public List<TaskEntity> getTaskToday() {
+    public List<TaskResponse> getTaskToday() {
         return taskService.getTaskToday();
     }
 
     //업무검색-조건
     @PostMapping("api/getTaskByOption")
-    public List<TaskEntity> getTaskByOption(@RequestBody TaskRequest taskRequest) {
+    public List<TaskResponse> getTaskByOption(@RequestBody TaskRequest taskRequest) {
         return taskService.getTaskByOption(taskRequest);
     }
 
@@ -46,7 +46,7 @@ public class TaskController {
     //업무수정
     @PostMapping("api/updateTask")
     public void updateTask(@RequestBody TaskRequest taskRequest) {
-
+        taskService.updateTask(taskRequest);
     }
 
     //업무삭제
