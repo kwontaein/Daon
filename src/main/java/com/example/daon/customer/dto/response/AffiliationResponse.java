@@ -12,6 +12,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class AffiliationResponse {
-    private UUID customerAffiliationId;
-    private String customerAffiliationName;
+    private UUID affiliationId;
+    private String affiliationName;
 }
