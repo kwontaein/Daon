@@ -89,7 +89,10 @@ public class TaskService {
     public void saveTask(TaskRequest taskRequest) {
         CustomerEntity customer = customerRepository.findById(taskRequest.getCustomer()).orElse(null);
         UserEntity assignedUser = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
-        EstimateEntity estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
+        EstimateEntity estimate = null;
+        if (taskRequest.getEstimateId() != null) {
+            estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
+        }
         LocalDateTime createdDate = LocalDateTime.now();
         taskRepository.save(taskRequest.toEntity(customer, assignedUser, createdDate, estimate));
     }
