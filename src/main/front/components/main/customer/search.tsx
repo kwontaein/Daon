@@ -12,7 +12,7 @@ import {
 import '@/styles/table-style/search.scss';
 
 import {apiUrl} from '@/model/constants/apiUrl';
-import {CustomerAffiliation} from '@/model/types/customer/affiliation/type';
+import {Affiliation} from '@/model/types/customer/affiliation/type';
 
 import {useWindowSize} from '@/hooks/share/useWindowSize';
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
@@ -24,7 +24,7 @@ import Pagination from '@/components/share/pagination';
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page} : {
-        affiliations: CustomerAffiliation[],
+        affiliations: Affiliation[],
         initialCustomers: ResponseCustomer[],
         page: number
     }
@@ -88,7 +88,7 @@ export default function CustomerSearch(
                                     size={1}
                                     name='category'
                                     defaultValue={state.postSearchInfo.category ?? 'none'}
-                                    key={state.searchKey}>
+                                    key={state.postSearchInfo.category}>
                                     <option value='none'>선택안함</option>
                                     <option value="SALE">판매처</option>
                                     <option value="PURCHASE">구매처</option>
@@ -113,8 +113,8 @@ export default function CustomerSearch(
                                     <option value='none'>선택안함</option>
                                     {
                                         affiliations.map((affiliation) => (
-                                            <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
-                                                {affiliation.customerAffiliationName}
+                                            <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
+                                                {affiliation.affiliationName}
                                             </option>
                                         ))
                                     }

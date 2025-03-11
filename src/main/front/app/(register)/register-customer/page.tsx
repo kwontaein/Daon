@@ -1,10 +1,10 @@
 import CustomerForm from "@/components/main/customer/form/customer-form";
-import { CustomerAffiliation } from "@/model/types/customer/affiliation/type";
+import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 export default async function RegisterAffiliation(){
     
-    const affiliation:CustomerAffiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
+    const affiliation:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
         next: {revalidate: 3600000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {

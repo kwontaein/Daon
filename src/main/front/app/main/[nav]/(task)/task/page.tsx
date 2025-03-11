@@ -1,7 +1,7 @@
 import TaskSearch from "@/components/main/task/task/search";
 import TaskSearchResult from "@/components/main/task/task/search-result";
 
-import { CustomerAffiliation } from "@/model/types/customer/affiliation/type";
+import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { ResponseTask } from "@/model/types/task/task/type";
@@ -35,7 +35,7 @@ export default async function TaskPage({searchParams}:PageByProps){
     }).finally(() => clearTimeout(timeoutId));
 
 
-    const customerAffiliations:CustomerAffiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
+    const affiliations:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
         next: {revalidate: 3600000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
@@ -65,11 +65,11 @@ export default async function TaskPage({searchParams}:PageByProps){
         }
         console.error('Error:', error)
     })
-    
+
     return(
         <section key={JSON.stringify(initialTask)+page}>
            <TaskSearch
-                customerAffiliations={customerAffiliations}
+                affiliations={affiliations}
                 initialTask={initialTask}
                 employees={employees}
                 page={page}/>
