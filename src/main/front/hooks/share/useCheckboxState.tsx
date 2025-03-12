@@ -5,6 +5,7 @@ export interface ReturnCheckBoxHook {
     checkedState: checkedType,
     update_checked: (id:string)=>void,
     toggleAllChecked: ()=>void,
+    resetChecked:()=>void,
     isAllChecked: boolean,
 }
 
@@ -31,6 +32,9 @@ export default function useCheckBoxState(items:string[]):ReturnCheckBoxHook{
         }
     }
 
+    const resetChecked =()=>{
+        dispatchCheckedState({type:'TOGGLE_ALL_CHECKED_ITEMS', payload:{}})
+    }
 
-     return {checkedState, isAllChecked, update_checked, toggleAllChecked}
+     return {checkedState, isAllChecked, update_checked, resetChecked, toggleAllChecked}
 }

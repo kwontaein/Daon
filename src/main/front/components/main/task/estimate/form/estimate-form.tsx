@@ -13,9 +13,9 @@ import { apiUrl } from '@/model/constants/apiUrl';
 export default function EstimateForm(){
     const [estimateList, setEstimateList] = useState<StringifiedEstimateType[]>([])
     const estimateIds = useMemo(()=> estimateList.map(({estimateId})=> estimateId), [estimateList.length])
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(estimateIds)
+    const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(estimateIds)
     const targetRef = useRef<string>('')
-    
+
     const addEstimateHandler =(isHand:boolean)=>{
         setEstimateList([...estimateList,{
             estimateId: uuidv4(),
@@ -32,6 +32,7 @@ export default function EstimateForm(){
         setEstimateList((prev)=>{    
             return prev.filter(({estimateId})=> !checkedState[estimateId])
         })
+        resetChecked();
     }
 
 
