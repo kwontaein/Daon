@@ -1,15 +1,13 @@
 'use client'
 import '@/styles/options/options.scss';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 
 export default function CustomerOptions({customerId}:{customerId:string}){
-    const size = useWindowSize()
 
         //TODO: add mobile version
         const viewCustomerHandler = (customerId:string)=>{
            
-            if(size.width>620){
+            if(window.innerWidth>620){
                 const params = new URLSearchParams({
                     mode: "detail",
                     target: customerId,

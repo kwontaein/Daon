@@ -23,6 +23,7 @@
   @media (max-width: 620px) {
       font-size: 0.7rem
   }
+
   input{
     box-sizing: border-box;
     width: 100%;
@@ -31,6 +32,7 @@
   }
   select{
     border:none;
+    padding-block: 2px;
   }
   textarea{
     box-sizing: border-box;
@@ -45,6 +47,7 @@
     color: black;
     padding-inline: 4px;
     height: 25px;
+
   }
 
   .id-input{
@@ -52,8 +55,8 @@
     margin-right: 5px;
   }
   .short-input{
-    max-width:29%;
-    margin-inline: 1%;
+    max-width:29% !important;
+    margin-inline: 1% !important;
   }
 
   .zip-code-input{
@@ -156,3 +159,7 @@
     z-index: 0;
 }
 
+
+.bg-memo{
+  background-color: var.$memo-color !important;
+}

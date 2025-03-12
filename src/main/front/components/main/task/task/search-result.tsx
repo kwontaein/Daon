@@ -1,10 +1,10 @@
 'use client'
 import './search-result.scss'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { ResponseTask } from '@/model/types/task/task/type'
-import useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
+import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
@@ -32,6 +32,21 @@ const TaskSearchResult = React.memo(({pageByTasks, employees,taskCheckedHook} : 
         }
     }
 
+    const estimateHandler = (taskId:string,estimateId:string)=>{
+            if(size.width>620){
+                const params = new URLSearchParams
+                params.set('taskId',taskId)
+                if(estimateId){
+                    params.set("mode","detail")
+                    params.set("target",estimateId)
+                }
+                const path = estimateId ? 'estimate': 'register-estimate'
+                const url = `${apiUrl}/${path}?${params.toString()}`;
+                const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
+                
+                window.open(url, "PopupWindow", popupOptions);
+            }
+    }
     return(
         size.width ? 
         <table className='task-search-result-table'>
@@ -118,7 +133,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees,taskCheckedHook} : 
                                     </>
                                     }
                                     <td rowSpan={size.width>820? 1:2}>
-                                        <button style={{paddingInline:'4px'}}>
+                                        <button style={{paddingInline:'4px'}} onClick={estimateHandler.bind(null, task.taskId, task.estimate)}>
                                             {task.estimate ? '인쇄':'작성'}
                                         </button>
                                     </td>

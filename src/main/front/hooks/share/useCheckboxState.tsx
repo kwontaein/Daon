@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { checkboxReducer, checkedType, initialCheckState } from "./reducer/checkboxReducer";
 
-interface ReturnCheckBoxHook {
+export interface ReturnCheckBoxHook {
     checkedState: checkedType,
     update_checked: (id:string)=>void,
     toggleAllChecked: ()=>void,

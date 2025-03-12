@@ -1,0 +1,99 @@
+@use '@/styles/_variables.scss' as var;
+body{
+    margin: 0;
+    height: 100vh;
+}
+.estimate-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.estimate-form{
+    margin-top: 3px;
+    font-size: 0.9rem;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    @media(max-width:'620px'){
+        font-size: 0.8rem;
+    }
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../../../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+        }
+      }
+
+    
+    td{
+        text-align: center;
+        border: 1px solid var.$default-border-color;
+        p{
+            padding-inline: 2px;
+            font-size: 0.9rem;
+            font-weight: 550;
+            margin: 0 !important;
+            @media(max-width:'620px'){
+                font-size: 0.8rem;
+            }
+        }
+    }
+    input{
+        box-sizing: border-box;
+        width: 100%;
+        border:1px solid #c2c2c2;
+        background-color: inherit;
+      }
+      input[type="checkbox"]{
+        width: auto !important;
+      }
+}
+.is-click{
+    background-color: rgb(197,202,254);
+}
+
+.icon{
+    cursor: pointer;
+}
+.right-align{
+    text-align: right !important;
+}
+.center-align{
+    text-align: center;
+}
+
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
+    }
+}
+
+
+    
+.estimate-button-container{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: left;
+    margin-top: 0.5rem;
+    button{
+      width: 100px;
+      height: 30px;
+    }
+  }
+  
+
+  .hand-estimate{
+    // background-color: #e9f0fa;
+    background-color: #ececec;
+  }

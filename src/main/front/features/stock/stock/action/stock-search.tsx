@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
-import { fetchSearchStocks } from "../api/searchStockApi";
+import { searchStockApi } from "../api/searchStockApi";
 
 
 export const initialStockState = {
@@ -36,6 +36,6 @@ export async function stockSearchAction(prevState, formData){
     if(!category && !condition && !name){
         return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
     }
-    const stocks = await fetchSearchStocks(searchData)
+    const stocks = await searchStockApi(searchData,false)
     return {...prevState,...searchData, stocks, searchKey}
 }
