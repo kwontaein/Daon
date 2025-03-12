@@ -126,8 +126,8 @@ option[value="disabled"][disabled] {
 
 table{
   table-layout: auto;
-  width: 100%;
   border-collapse: collapse;
+  width: 100%;
 
     thead{
       background-color: #8091A7;
@@ -145,5 +145,5 @@ table{
           border: 1px solid var.$default-border-color;
           font-weight: 500;
       }
-  }
+    }
 }

@@ -14,7 +14,6 @@ import '@/styles/table-style/search.scss';
 import {apiUrl} from '@/model/constants/apiUrl';
 import {Affiliation} from '@/model/types/customer/affiliation/type';
 
-import {useWindowSize} from '@/hooks/share/useWindowSize';
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
@@ -34,14 +33,11 @@ export default function CustomerSearch(
         customers: initialCustomers,
         initialCustomers
     });
-    console.log(affiliations)
-
     const pageByCustomers = useMemo(() =>
         state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
     ,[state.customers, page])
 
     const [loading, setLoading] = useState(true)
-    const size = useWindowSize()
     const inputRef = useRef(null)
 
     useEffect(() => {
@@ -62,14 +58,13 @@ export default function CustomerSearch(
     //TODO: 모바일버전 구현
     const registerCustomer = () => {
         //pc
-        if (size.width > 620) {
+        if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
     }
 
-    console.log(pageByCustomers)
     return (
         <>
         <div className='search-container'>

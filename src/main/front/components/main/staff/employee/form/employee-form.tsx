@@ -30,7 +30,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                 }
                 : {},
         [employee]);
-    console.log(employee)
+        
     const [state, action, isPending] = useActionState(submitEmployeeInfo, initialState);
     //중복체크 상태
     const [isDuplicateChecked, setIsDuplicateChecked] = useState<boolean>(!!employee)

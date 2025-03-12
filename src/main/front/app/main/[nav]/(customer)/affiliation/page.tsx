@@ -2,7 +2,7 @@ import Affiliation from "@/components/main/customer/affiliation/affiliation";
 
 
 export default async function AffiliationPage() {
-    const InitAffiliation = await fetch("http://localhost:8080/api/getAffiliation",
+    const affiliations = await fetch("http://localhost:8080/api/getAffiliation",
         {
             cache:'force-cache',
             next: { tags: ['affiliation']} 
@@ -12,8 +12,8 @@ export default async function AffiliationPage() {
     .catch((error) => console.error('Error:', error));
 
     return (
-        <section key={JSON.stringify(InitAffiliation)}>
-            <Affiliation InitAffiliation={InitAffiliation}/>
+        <section key={JSON.stringify(affiliations)}>
+            <Affiliation affiliations={affiliations}/>
         </section>
     )
 }

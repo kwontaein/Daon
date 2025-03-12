@@ -8,6 +8,20 @@
     @media (max-width:620px){
         font-size: 0.7rem;
     }
+
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+        }
+      }
     tbody{
         tr{
             border-bottom: 1px solid var.$default-border-color;

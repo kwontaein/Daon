@@ -11,7 +11,6 @@ import { ResponseTask } from '@/model/types/task/task/type';
 import { apiUrl } from '@/model/constants/apiUrl';
 
 import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import ErrorBox from '@/components/share/error-box/error-box';
 
@@ -23,7 +22,6 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
     })
     const formRef = useRef<HTMLFormElement|null>(null);
     const customerNameRef = useRef(null);
-    const size = useWindowSize()
     
     //검색을 위한 이벤트등록
     useEffect(() => {
@@ -69,7 +67,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         if(!customerNameRef.current?.value || e.key !=='Enter') return
         e.preventDefault();
         //pc
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchCustomer", popupOptions);
