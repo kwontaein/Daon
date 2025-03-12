@@ -12,7 +12,9 @@ import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.estimate.repository.EstimateItemRepository;
 import com.example.daon.estimate.repository.EstimateRepository;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
+import com.example.daon.stock.model.StockEntity;
+import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -34,6 +36,7 @@ public class EstimateService {
     private final EstimateRepository estimateRepository;
     private final EstimateItemRepository estimateItemRepository;
     private final CustomerRepository customerRepository;
+    private final StockRepository stockRepository;
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final GlobalService globalService;
@@ -103,7 +106,14 @@ public class EstimateService {
 
         // 3. 새로운 아이템 리스트 변환
         List<EstimateItem> newItems = request.getItems().stream()
-                .map(itemRequest -> itemRequest.toEntity(estimate))
+                .map(itemRequest -> {
+                    StockEntity stock = null;
+                    if (itemRequest.getStockId() != null) {
+                        stock = stockRepository.findById(itemRequest.getStockId())
+                                .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
+                    }
+                    return itemRequest.toEntity(estimate, stock);
+                })
                 .collect(Collectors.toList());
 
         // 4. 기존 아이템과 새로운 아이템 비교 및 처리
@@ -174,7 +184,14 @@ public class EstimateService {
 
         // 3. 아이템 리스트 변환
         List<EstimateItem> newItems = request.getItems().stream()
-                .map(itemRequest -> itemRequest.toEntity(estimate))
+                .map(itemRequest -> {
+                    StockEntity stock = null;
+                    if (itemRequest.getStockId() != null) {
+                        stock = stockRepository.findById(itemRequest.getStockId())
+                                .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
+                    }
+                    return itemRequest.toEntity(estimate, stock);
+                })
                 .collect(Collectors.toList());
 
         // 4. 연관관계 세팅(양방향인 경우):

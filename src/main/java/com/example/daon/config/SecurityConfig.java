@@ -1,6 +1,6 @@
 package com.example.daon.config;
 
-import com.example.daon.global.RedisService;
+import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtAuthenticationEntryPoint;
 import com.example.daon.jwt.JwtAuthenticationFilter;
 import com.example.daon.jwt.JwtTokenProvider;
@@ -12,10 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;

@@ -1,5 +1,6 @@
 package com.example.daon.estimate.model;
 
+import com.example.daon.stock.model.StockEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,6 +35,10 @@ public class EstimateItem {
     @Column(name = "unit_price", nullable = false)
     private BigDecimal unitPrice;
     // 필드 업데이트 메서드
+
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private StockEntity stock;
 
     public void updateFields(EstimateItem newItem) {
         this.productName = newItem.getProductName();

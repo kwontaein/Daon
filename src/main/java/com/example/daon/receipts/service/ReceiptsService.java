@@ -6,7 +6,7 @@ import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.dto.request.CustomerBillRequest;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;

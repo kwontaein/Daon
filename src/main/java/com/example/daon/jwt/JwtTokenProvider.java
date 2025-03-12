@@ -2,7 +2,7 @@ package com.example.daon.jwt;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
-import com.example.daon.global.RedisService;
+import com.example.daon.global.service.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -25,7 +25,6 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
