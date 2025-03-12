@@ -6,7 +6,7 @@ import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
-import com.example.daon.global.RedisService;
+import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

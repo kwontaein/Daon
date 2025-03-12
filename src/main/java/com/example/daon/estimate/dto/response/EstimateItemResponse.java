@@ -19,4 +19,5 @@ public class EstimateItemResponse {
     private Integer quantity;
     private BigDecimal unitPrice;
     private EstimateResponse estimate;
+    private UUID stockId;
 }

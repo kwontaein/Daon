@@ -6,7 +6,7 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.task.dto.request.TaskRequest;
 import com.example.daon.task.dto.response.TaskResponse;
 import com.example.daon.task.model.TaskEntity;

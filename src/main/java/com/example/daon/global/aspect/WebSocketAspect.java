@@ -1,5 +1,6 @@
-package com.example.daon.global;
+package com.example.daon.global.aspect;
 
+import com.example.daon.global.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

@@ -1,7 +1,7 @@
 package com.example.daon.schedule.service;
 
 import com.example.daon.admin.model.UserEntity;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.schedule.dto.request.ScheduleRequest;
 import com.example.daon.schedule.model.ScheduleEntity;
 import com.example.daon.schedule.repository.ScheduleRepository;
