@@ -17,10 +17,10 @@ export type RequestSearchStock ={
 }
 
 export interface StockSearchCondition {
-    category: string,
+    category?: string,
     remain: boolean|string, //true => 재고있는 품목만 검색
     stockUseEa: boolean|string, //재고관리여부 
-    name:string,
+    name?:string,
     condition:boolean|string, //조건부 검색여부
 } 
 

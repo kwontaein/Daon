@@ -1,7 +1,6 @@
 'use client'
 
 import './total-buttons.scss';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useDispatch } from 'react-redux';
 import { clearReceiptIds, toggleSelect } from '@/store/slice/receipt-select';
@@ -12,7 +11,6 @@ import { useEffect } from 'react';
 
 
 export default function ReceiptButtons(){
-    const size = useWindowSize()
     const dispatch = useDispatch()
     const {isSelected, selectList} = useSelector((state:RootState)=>state.receiptSelector)
 
@@ -23,7 +21,7 @@ export default function ReceiptButtons(){
     },[isSelected])
     const registerReceipt =()=>{
         //pc
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/register-receipt`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);

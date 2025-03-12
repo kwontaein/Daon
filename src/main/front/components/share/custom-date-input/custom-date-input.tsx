@@ -1,12 +1,13 @@
 'use client'
 import dayjs from 'dayjs';
 import './custom-date-input.scss';
-import { useMemo, useRef, useState } from 'react';
+import { RefObject, useMemo, useRef, useState } from 'react';
 
-export default function CustomDateInput({ defaultValue, name, className }: {
+export default function CustomDateInput({ defaultValue, name, className , dateRef}: {
     defaultValue: Date,
     name: string,
     className?: string,
+    dateRef?: RefObject<HTMLInputElement>
 }) {
     const initialDate = useMemo(() => dayjs(defaultValue).format('YYYY-MM-DD'), [defaultValue]);
     const [date, setDate] = useState<string>(initialDate);
@@ -92,7 +93,7 @@ export default function CustomDateInput({ defaultValue, name, className }: {
                     일
                 </label>
             </div>
-            <input className="custom-date" type="date" name={name} value={date} onChange={dateHandler} key={date} />
+            <input ref={dateRef} className="custom-date" type="date" name={name} value={date} onChange={dateHandler} key={date} />
         </label>
     );
 }

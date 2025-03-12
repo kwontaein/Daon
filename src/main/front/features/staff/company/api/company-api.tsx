@@ -1,20 +1,15 @@
-import { StockSearchCondition } from "@/model/types/stock/stock/types";
-
-
-export async function searchStockApi(searchCondition: StockSearchCondition, isCache:boolean){
+export default async function getCompany(){
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    return await fetch("http://localhost:8080/api/getStockList", {
-        method: "POST",
+    return await fetch("http://localhost:8080/api/getCompany", {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...searchCondition,receiptCategory: 'DEPOSIT'}),
         signal,
-        // cache:'no-store'
-        next: isCache && {revalidate: 3600000, tags: ['stock']} //1시간마다 재검증
+        // cache:'no-store',
+        next: {revalidate: 360000, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
