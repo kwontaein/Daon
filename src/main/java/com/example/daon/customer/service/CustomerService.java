@@ -12,7 +12,7 @@ import com.example.daon.customer.model.CustomerCate;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;

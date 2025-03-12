@@ -1,6 +1,6 @@
 package com.example.daon.stock.service;
 
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
 import com.example.daon.stock.dto.response.StockResponse;

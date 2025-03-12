@@ -3,7 +3,7 @@ package com.example.daon.company.service;
 import com.example.daon.company.dto.request.CompanyRequest;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.company.repository.CompanyRepository;
-import com.example.daon.global.GlobalService;
+import com.example.daon.global.service.GlobalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
