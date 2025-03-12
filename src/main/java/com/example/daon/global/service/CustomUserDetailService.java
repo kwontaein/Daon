@@ -1,4 +1,4 @@
-package com.example.daon.global;
+package com.example.daon.global.service;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;

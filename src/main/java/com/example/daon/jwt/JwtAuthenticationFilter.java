@@ -1,6 +1,6 @@
 package com.example.daon.jwt;
 
-import com.example.daon.global.RedisService;
+import com.example.daon.global.service.RedisService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

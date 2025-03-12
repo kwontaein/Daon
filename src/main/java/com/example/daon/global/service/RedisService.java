@@ -1,4 +1,4 @@
-package com.example.daon.global;
+package com.example.daon.global.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,6 +2,7 @@ package com.example.daon.estimate.dto.request;
 
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
+import com.example.daon.stock.model.StockEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,7 +20,9 @@ public class EstimateItemRequest {
 
     private BigDecimal unitPrice;
 
-    public EstimateItem toEntity(EstimateEntity entity) {
+    private UUID stockId;
+
+    public EstimateItem toEntity(EstimateEntity entity, StockEntity stock) {
         return EstimateItem
                 .builder()
                 .itemId(itemId)
@@ -27,6 +30,7 @@ public class EstimateItemRequest {
                 .productName(productName)
                 .quantity(quantity)
                 .unitPrice(unitPrice)
+                .stock(stock)
                 .build();
     }
 }
