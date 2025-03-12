@@ -9,7 +9,6 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    console.log(customer)
     const editModeHandler = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set("mode", "edit");

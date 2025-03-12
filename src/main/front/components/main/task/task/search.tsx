@@ -3,7 +3,6 @@ import '@/styles/table-style/search.scss'
 
 import {Affiliation} from '@/model/types/customer/affiliation/type'
 
-import {useWindowSize} from '@/hooks/share/useWindowSize';
 import {apiUrl} from '@/model/constants/apiUrl';
 import {useActionState, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/task/task/action/taskSearchAction';
@@ -35,8 +34,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    const size = useWindowSize()
-
 
     useEffect(() => {
         setLoading(isPending)
@@ -54,7 +51,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
 
     const registerTask = () => {
         //pc
-        if (size.width > 620) {
+        if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.removeEventListener("message", revalidateHandler);
@@ -70,10 +67,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     }
 
     const deleteTaskHandler =()=>{
-        const onDelete =()=>{
+        const onDelete =async()=>{
             const checkedTaskIds = Object.keys(useCheckState.checkedState)
-            console.log(checkedTaskIds)
-            deleteTask(checkedTaskIds)
+            await deleteTask(checkedTaskIds).then((status)=>{
+                if(status===200) window.alert('삭제가 완료되었습니다.')
+            })
         }
         useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete, ()=>{})
     }

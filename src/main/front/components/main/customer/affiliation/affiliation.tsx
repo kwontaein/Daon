@@ -4,7 +4,7 @@ import './affiliation.scss';
 import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
 
 
-export default function Affiliation({InitAffiliation}: { InitAffiliation: Affiliation[] }) {
+export default function Affiliation({affiliations}: { affiliations: Affiliation[] }) {
     const {
         addInputRef,
         affiliationState,
@@ -14,7 +14,7 @@ export default function Affiliation({InitAffiliation}: { InitAffiliation: Affili
         addHandler,
         deleteHandler,
         editHandler
-    } = useAffiliation(InitAffiliation)
+    } = useAffiliation(affiliations)
 
     return (
         <>

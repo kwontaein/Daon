@@ -2,24 +2,22 @@
 import '@/styles/table-style/search-result.scss';
 import '@/styles/form-style/form.scss';
 import '@/styles/_global.scss'
-import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import asideArrow from '@/assets/aside-arrow.gif';
 
 import Pagination from '../pagination';
-import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-export default function CustomerSearchItems({customers, page, pageLength} : {
-    customers: ResponseCustomer[],
+import { ResponseStock } from '@/model/types/stock/stock/types';
+export default function StockSearchItems({stocks, page, pageLength} : {
+    stocks: ResponseStock[],
     page: number,
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
     
-    const selectValue = (value: ResponseCustomer) => {
+    const selectValue = (stock: ResponseStock) => {
         const message ={
-            customerId:value.customerId,
-            customerName:value.customerName
+            ...stock,
         }
         if (window.opener) {
           window.opener.postMessage(message, "*");
@@ -35,16 +33,16 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
           })
         } else if (event.key === "ArrowDown") {
             setIdx((prev)=>{
-                return idx >= customers.length -1 ? 0 : prev+1
+                return idx >= stocks.length -1 ? 0 : prev+1
              })
         } else if (event.key === "Enter"){
-            selectValue(customers[idx])
+            selectValue(stocks[idx])
         }
       };
 
       useEffect(()=>{
         setIdx(0)
-      },[customers])
+      },[stocks])
     
       useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -62,39 +60,36 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
             </header>
             <table className='search-result-table'>
                 <colgroup>
-                    <col style={{ width: '40%' }} />
-                    <col style={{ width: '11%' }} />
-                    <col style={{ width: '11%' }} />
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '30%' }} />
+                    <col style={{ width: '30%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '20%' }} />
                 </colgroup>
                 <thead>
                     <tr>
-                        <td>구분</td>
-                        <td>상호명</td>
-                        <td>전화</td>
-                        <td>FAX</td>
-                        <td>담당</td>
+                        <td>품명</td>
+                        <td>규격</td>
+                        <td>재고</td>
+                        <td>소비가</td>
                     </tr>
                 </thead>
                 <tbody>
-                    {customers.map((customer,index) => (
+                    {stocks.map((stock,index) => (
                         <tr
-                            key={customer.customerId}
+                            key={stock.stockId}
                             onClick={()=>setIdx(index)}
-                            onDoubleClick={()=>selectValue(customer)}
+                            onDoubleClick={()=>selectValue(stock)}
                             className={idx === index ? 'is-click' :''}
                             style={{cursor:'pointer'}}> 
-                            <td className='left-align'>{customer.customerName}</td>
-                            <td>{CustomerCategoryMap[customer.category]}</td>
-                            <td>{customer.phoneNumber}</td>
-                            <td>{customer.fax}</td>
-                            <td>{customer.etc}</td>
+                            <td className='left-align'>{stock.name}</td>
+                            <td>{stock.modelName}</td>
+                            <td>{stock.quantity}</td>
+                            <td>{stock.outPrice}</td>
                         </tr>
                     ))}
-                    {customers.length ===0 &&
+                    {stocks.length ===0 &&
                         <tr className='none-hover'>
-                        <td colSpan={9}>
+                        <td colSpan={4}>
                             <p style={{fontSize:'14px'}}>조회된 결과가 없습니다.</p>
                         </td>
                     </tr>

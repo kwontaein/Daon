@@ -1,5 +1,6 @@
 import TaskSearch from "@/components/main/task/task/search";
 import TaskSearchResult from "@/components/main/task/task/search-result";
+import getTask from "@/features/task/task/api/taskApi";
 
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
@@ -14,25 +15,7 @@ export default async function TaskPage({searchParams}:PageByProps){
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
  
-    const initialTask:ResponseTask[] = await fetch("http://localhost:8080/api/getTask", {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        signal,
-        next: {revalidate: 3600000, tags: ['task']} //1시간마다 재검증
-    }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
-    }).catch((error) => {
-            if(error.name=== 'AbortError'){
-                console.log('Fetch 요청이 시간초과되었습니다.')
-            }
-            console.error('Error:', error)
-    }).finally(() => clearTimeout(timeoutId));
+    const initialTask:ResponseTask[] =await getTask()
 
 
     const affiliations:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{

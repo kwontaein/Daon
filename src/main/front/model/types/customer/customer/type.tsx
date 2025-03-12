@@ -1,3 +1,4 @@
+import { EstimateType } from "../../task/estimate/type";
 import { Affiliation } from "../affiliation/type";
 
 export interface RequestCustomer {
@@ -53,17 +54,11 @@ export interface ResponseCustomer {
     fax?: string;
     userId: string; 
     affiliation: Affiliation; 
-    estimates: Estimate[]; // 견적서 목록 (배열)
+    estimates: EstimateType[]; // 견적서 목록 (배열)
     zipCode?: string;
     address1?: string;
     address2?: string;
     etc?: string;
-}
-
-export interface Estimate {
-    estimateId: string;
-    estimateName: string;
-    amount: number;
 }
 
 
