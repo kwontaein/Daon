@@ -1,5 +1,5 @@
 import CustomerSearchItems from "@/components/share/search-items/customer-search-items";
-import { fetchSearchCustomers } from "@/features/customer/customer/api/searchCustomerApi";
+import { searchCustomersApi } from "@/features/customer/customer/api/searchCustomerApi";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { SearchNameProps } from "@/model/types/share/type";
 import { revalidateTag } from "next/cache";
@@ -15,7 +15,7 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
         customerName: customerName,
         ceo:null,
     }
-    const searchResult:ResponseCustomer[] = await fetchSearchCustomers(postSearchInfo)
+    const searchResult:ResponseCustomer[] = await searchCustomersApi(postSearchInfo)
     const pageByCustomers = searchResult.slice((page-1)*20, ((page-1)*20)+20)
 
     if (typeof window !== "undefined") {
@@ -23,6 +23,7 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
           revalidateTag(`${customerName}`);
         });
       }
+      
     return(
         <CustomerSearchItems customers={pageByCustomers} page={page} pageLength={searchResult.length}/>
     )
