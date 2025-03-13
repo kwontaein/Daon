@@ -21,6 +21,10 @@ const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:Resp
     const customerIdList = pageByCustomers.map(({customerId})=> customerId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIdList)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     return(
         <table className="search-result-table">
         <colgroup>
