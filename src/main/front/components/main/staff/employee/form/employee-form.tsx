@@ -30,7 +30,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                 }
                 : {},
         [employee]);
-    console.log(employee)
+        
     const [state, action, isPending] = useActionState(submitEmployeeInfo, initialState);
     //중복체크 상태
     const [isDuplicateChecked, setIsDuplicateChecked] = useState<boolean>(!!employee)
@@ -275,7 +275,14 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     </tr>
                     <tr>
                         <td colSpan={2} className="table-label">생년월일</td>
-                        <td colSpan={4}><input type="date" name="birthday" defaultValue={state.birthday}/></td>
+                        <td colSpan={4}>
+                            <input type="date" name="birthday" defaultValue={state.birthday}/>
+                            {state.formErrors?.birthday &&
+                                <ErrorBox>
+                                    {state.formErrors.birthday}
+                                </ErrorBox>
+                            }
+                        </td>
                         <td colSpan={2} className="table-label">결혼여부</td>
                         <td colSpan={4} className="table-radio-container">
                             <div>

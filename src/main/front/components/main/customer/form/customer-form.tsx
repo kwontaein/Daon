@@ -13,12 +13,12 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import { submitBusinessInfo } from '@/features/customer/customer/actions/customer-action';
 import ErrorBox from '@/components/share/error-box/error-box';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
+import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 
 
-export default function CustomerForm({affiliation, employees, customer}:{affiliation:CustomerAffiliation[], employees:ResponseEmployee[], customer?:ResponseCustomer}) {
-  const initialState = useMemo(() => customer ? {...customer,affiliationId:customer.customerAffiliation.customerAffiliationId}:{}, [customer]);
+export default function CustomerForm({affiliation, employees, customer}:{affiliation:Affiliation[], employees:ResponseEmployee[], customer?:ResponseCustomer}) {
+  const initialState = useMemo(() => customer ? {...customer,affiliationId:customer.affiliation.affiliationId}:{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const router = useRouter();
 
@@ -63,8 +63,8 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
                 <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId?? 'none'}>
                     <option value='none'>소속선택</option>
                     {affiliation.map((affiliation)=>(
-                        <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
-                                {affiliation.customerAffiliationName}
+                        <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
+                                {affiliation.affiliationName}
                         </option>
                     ))}
                 </select>

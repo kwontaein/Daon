@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction, useCallback, useState } from "react";
 import {v4 as uuidv4} from "uuid";
 import { Receipt } from "@/model/types/receipt/type";
 
@@ -15,18 +15,18 @@ type ClientMousePosition = {
 
 export default function useReceiptList(){
     const [receiptList, setReceiptList] = useState<Receipt[]>([initReceipt]);
-    const numberInput =['unit_price', 'quantity', 'amount'] //number type input
 
-    const receiptHandler = (receiptToUpdate:Partial<Receipt> ,uuid:string)=>{
+    const receiptHandler = useCallback((receiptToUpdate:Partial<Receipt> ,uuid:string)=>{
         const [key, value] = Object.entries(receiptToUpdate)[0]
-        if(numberInput.some((i)=>i===key)){
+        if(['unit_price', 'quantity', 'amount'].some((i)=>i===key)){
+            if(isNaN(Number(value))) return
             receiptToUpdate[key] = value.replace(/[^0-9]/g, '')
         }
         const updatedReceipts = receiptList.map((receipt)=>
             receipt.uuid === uuid ? {...receipt, ...receiptToUpdate} : receipt
         )
         setReceiptList(updatedReceipts);
-    }
+    },[receiptList])
 
     const focusTarget = (uuid: string, setTarget: Dispatch<SetStateAction<string>>) => {
         setTarget(uuid);
