@@ -36,6 +36,9 @@ public class EstimateItem {
     private BigDecimal unitPrice;
     // 필드 업데이트 메서드
 
+    @Column(name = "hand", nullable = false)
+    private boolean hand;
+    // 필드 업데이트 메서드
     @ManyToOne
     @JoinColumn(name = "stock_id")
     private StockEntity stock;
