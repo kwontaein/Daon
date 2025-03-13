@@ -100,8 +100,8 @@ public class EstimateService {
 
         // 2. 관련 엔티티 가져오기
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
-        CompanyEntity company = companyRepository.findByCompanyName(request.getCompanyName()).orElse(null);
-        UserEntity user = userRepository.findById("권태인").orElse(null);
+        CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
+        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
 
 
         // 3. 새로운 아이템 리스트 변환
@@ -176,8 +176,8 @@ public class EstimateService {
         System.out.println(request.toString());
         // 1. 필요한 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
-        CompanyEntity company = companyRepository.findByCompanyName(request.getCompanyName()).orElse(null);
-        UserEntity user = userRepository.findById("권태인").orElse(null);
+        CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
+        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
 
         // 2. EstimateEntity 생성
         EstimateEntity estimate = request.toEntity(customer, company, user, null);
