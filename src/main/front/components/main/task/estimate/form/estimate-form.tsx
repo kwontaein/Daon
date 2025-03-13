@@ -55,10 +55,10 @@ export default function EstimateForm(){
             const newEstimate = estimateList.map((estimate)=>
                 estimate.estimateId === targetRef.current ? 
                 {...estimate,
-                    itemId:stockId,
-                    productName:name,
-                    modelName,
-                    unitPrice:outPrice
+                    itemId:stockId ??"",
+                    productName:name??"",
+                    modelName:modelName??"",
+                    unitPrice:outPrice??""
                 }: estimate
             )
             setEstimateList(newEstimate)

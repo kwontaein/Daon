@@ -4,7 +4,7 @@ import './pagination.scss';
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface Props {
   totalItems: number;
@@ -20,7 +20,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
   const noPrev = start === 1; //이전 페이지 유무
   const noNext = start + pageCount - 1 >= totalPages; //다음 페이지 유무
   const pathname = usePathname()
-
+  const searchParams = useSearchParams();
   useEffect(() => {
     setStart((prev) => {
       if (currentPage >= prev + pageCount) {
@@ -36,10 +36,17 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
     });
   }, [currentPage, pageCount]);
 
+
+  const createPageUrl = (newPage) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', newPage);
+    return `${pathname}?${params.toString()}`;
+  };
+
   return (
     <div className={'wrapper'}>
         <div className={`move ${noPrev && 'invisible'}`}>
-          <Link href={`?page=${start - 1}`}>
+          <Link href={createPageUrl(start - 1)}>
           <FontAwesomeIcon icon={faChevronLeft} />
           </Link>
         </div>
@@ -47,7 +54,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
         {[...Array(pageCount)].map((a, i) => (
             start + i <= totalPages && (
               <li key={i} className={`li_margin ${currentPage === start + i && 'active'}`}>
-                <Link className={`page`} href={`?page=${start + i}`}>
+                <Link className={`page`} href={createPageUrl(start + i)}>
                   {start + i}
                 </Link>
               </li>
@@ -55,7 +62,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
           ))}
         </> 
         <div className={`'move' ${noNext && 'invisible'}`}>
-          <Link href={`?page=${start + pageCount}`}>
+          <Link href={createPageUrl(start + pageCount)}>
             <FontAwesomeIcon icon={faChevronRight}/>
           </Link>
         </div>

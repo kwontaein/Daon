@@ -1,12 +1,17 @@
 import { CustomerSearchCondition } from "@/model/types/customer/customer/type";
 
-export const fetchSearchCustomers = async (searchCondition:CustomerSearchCondition)=>{
+export const searchCustomersApi = async (searchCondition:CustomerSearchCondition)=>{
+    
+    const nextOptions = {
+        revalidate: 300,
+        ...(searchCondition.customerName ? { tags: [searchCondition.customerName] } : {})
+    };
     try {
         const response = await fetch("http://localhost:8080/api/getCustomers", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
-            next: {revalidate: 300000, tags: [`${searchCondition.customerName}`]} //5분마다 재검증
+            next:nextOptions
 
         });
 
@@ -18,3 +23,4 @@ export const fetchSearchCustomers = async (searchCondition:CustomerSearchConditi
         console.error('Error:', error);
     }
 }
+
