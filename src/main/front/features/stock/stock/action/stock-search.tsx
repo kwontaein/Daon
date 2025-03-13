@@ -36,6 +36,6 @@ export async function stockSearchAction(prevState, formData){
     if(!category && !condition && !name){
         return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
     }
-    const stocks = await searchStockApi(searchData,false)
+    const stocks = await searchStockApi(searchData)
     return {...prevState,...searchData, stocks, searchKey}
 }
