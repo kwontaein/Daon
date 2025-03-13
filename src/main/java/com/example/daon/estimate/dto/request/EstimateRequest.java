@@ -17,6 +17,8 @@ import java.util.UUID;
 public class EstimateRequest {
     private UUID estimateId;
     private UUID customerId;
+    private UUID companyId;
+    private String userId;
     private LocalDateTime estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
@@ -37,7 +39,7 @@ public class EstimateRequest {
                 .customer(customer)
                 .company(company)
                 .user(user)
-                .receipted(receipted)
+                .receipted(false)
                 .totalAmount(totalAmount)
                 .estimateDate(estimateDate)
                 .items(items)

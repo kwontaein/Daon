@@ -4,7 +4,6 @@ import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
 import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockCate;
-import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +25,12 @@ public class StockController {
 
     @PostMapping("api/getStockList")
     public List<StockResponse> getStockList(@RequestBody StockRequest stockRequest) {
-        List<StockResponse> stockEntities;
+        System.out.println("시발 실행되는건가 이거");
         if (stockRequest.getReceiptCategory().equals("MAINTENANCE_FEE")) {
-            stockEntities = stockService.getMCList(stockRequest);
+            return stockService.getMCList(stockRequest);
         } else {
-            stockEntities = stockService.getStockList(stockRequest);
+            return stockService.getStockList(stockRequest);
         }
-        return stockEntities;
     }
 
     //생성

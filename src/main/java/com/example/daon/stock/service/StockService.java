@@ -49,13 +49,12 @@ public class StockService {
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
-                System.out.println("name : " + stockRequest.getName());
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
                         criteriaBuilder.or(
-                                criteriaBuilder.like(root.get("name"), "%" + stockRequest.getName() + "%"),
+                                criteriaBuilder.like(root.get("name"), "%" + stockRequest.getName() + "%")
                                 // 필요한 경우 아래와 같이 다른 조건을 함께 OR로 묶을 수 있음
-                                criteriaBuilder.like(root.get("modelName"), "%" + stockRequest.getName() + "%")
+                                , criteriaBuilder.like(root.get("modelName"), "%" + stockRequest.getName() + "%")
                         )
                 );
             }
