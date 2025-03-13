@@ -22,6 +22,10 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
     })
     const formRef = useRef<HTMLFormElement|null>(null);
     const customerNameRef = useRef(null);
+<<<<<<< HEAD
+=======
+    const size = useWindowSize()
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     
     //검색을 위한 이벤트등록
     useEffect(() => {

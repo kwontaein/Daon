@@ -4,6 +4,7 @@ import './pagination.scss';
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { usePathname } from "next/navigation";
 
 interface Props {
   totalItems: number;
@@ -18,7 +19,8 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
   const [start, setStart] = useState(()=>Math.max(1, currentPage - (currentPage % pageCount) + 1));
   const noPrev = start === 1; //이전 페이지 유무
   const noNext = start + pageCount - 1 >= totalPages; //다음 페이지 유무
-  
+  const pathname = usePathname()
+
   useEffect(() => {
     setStart((prev) => {
       if (currentPage >= prev + pageCount) {
@@ -33,7 +35,6 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
       return prev;
     });
   }, [currentPage, pageCount]);
-
 
   return (
     <div className={'wrapper'}>

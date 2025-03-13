@@ -177,7 +177,7 @@ export default function EstimateForm(){
                             <td> 
                                 <input
                                 className="right-align"
-                                value={(Number(estimate.unitPrice) * Number(estimate.quantity)).toLocaleString('ko-KR')}
+                                value={(Number(estimate.unitPrice??0) * Number(estimate.quantity??0)).toLocaleString('ko-KR')}
                                 readOnly/>
                                 </td>
                             <td>
@@ -188,9 +188,9 @@ export default function EstimateForm(){
                     {estimateList.length>0 &&
                     <tr>
                         <td colSpan={3}><p>합계</p></td>
-                        <td><p>{estimateList.reduce((prev,estimate)=>prev+Number(estimate.quantity),0).toLocaleString('ko-KR')}</p></td>
+                        <td><p>{estimateList.reduce((prev,estimate)=>prev+Number(estimate.quantity ??0),0).toLocaleString('ko-KR')}</p></td>
                         <td></td>
-                        <td className='right-align'><p>{estimateList.reduce((prev,estimate)=>prev+(Number(estimate.quantity)*Number(estimate.unitPrice)),0).toLocaleString('ko-KR')}</p></td>
+                        <td className='right-align'><p>{estimateList.reduce((prev,estimate)=>prev+(Number(estimate.quantity??0)*Number(estimate.unitPrice??0)),0).toLocaleString('ko-KR')}</p></td>
                         <td></td>
                     </tr>
                     }

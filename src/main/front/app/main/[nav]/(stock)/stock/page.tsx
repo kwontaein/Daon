@@ -24,7 +24,7 @@ export default async function StockPage({searchParams}:StockPageProps){
     .catch((error) => console.error('Error:', error));
 
     //getStocks
-    const initialStocks:ResponseStock[] = await searchStockApi(allStockRequestBody, true)
+    const initialStocks:ResponseStock[] = await searchStockApi(allStockRequestBody)
 
     return(
         <section>
