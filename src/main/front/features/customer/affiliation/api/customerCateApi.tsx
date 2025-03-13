@@ -1,16 +1,16 @@
 'use server';
 
-import {CustomerAffiliation} from "@/model/types/customer/affiliation/type";
+import {Affiliation} from "@/model/types/customer/affiliation/type";
 import {revalidateTag} from "next/cache";
 
 
-export const updateAffiliationApi = async (cates: CustomerAffiliation[]) => {
+export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
     return fetch("http://localhost:8080/api/updateAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(cates),
+        body: JSON.stringify(affiliation),
         cache: 'no-store'
     }).then(async (response) => {
         if (!response.ok) {
@@ -27,7 +27,7 @@ export const updateAffiliationApi = async (cates: CustomerAffiliation[]) => {
     })
 }
 
-export const saveAffiliationApi = async (customer: Pick<CustomerAffiliation, 'customerAffiliationName'>) => {
+export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
     return fetch("http://localhost:8080/api/saveAffiliation", {
         method: "POST",
         headers: {
@@ -51,7 +51,7 @@ export const saveAffiliationApi = async (customer: Pick<CustomerAffiliation, 'cu
 }
 
 
-export const deleteAffiliationApi = async (customer: CustomerAffiliation) => {
+export const deleteAffiliationApi = async (customer: Affiliation) => {
     return fetch("http://localhost:8080/api/deleteAffiliation", {
         method: "POST",
         headers: {
@@ -66,7 +66,7 @@ export const deleteAffiliationApi = async (customer: CustomerAffiliation) => {
         if (response.status === 500) {
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("customersCate")
+        revalidateTag("affiliation")
         // revalidatePath("/main/customer/customer-cate");
         return response.status
     }).catch((error) => {

@@ -12,9 +12,8 @@ import {
 import '@/styles/table-style/search.scss';
 
 import {apiUrl} from '@/model/constants/apiUrl';
-import {CustomerAffiliation} from '@/model/types/customer/affiliation/type';
+import {Affiliation} from '@/model/types/customer/affiliation/type';
 
-import {useWindowSize} from '@/hooks/share/useWindowSize';
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
@@ -24,7 +23,7 @@ import Pagination from '@/components/share/pagination';
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page} : {
-        affiliations: CustomerAffiliation[],
+        affiliations: Affiliation[],
         initialCustomers: ResponseCustomer[],
         page: number
     }
@@ -34,13 +33,11 @@ export default function CustomerSearch(
         customers: initialCustomers,
         initialCustomers
     });
-
     const pageByCustomers = useMemo(() =>
         state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
     ,[state.customers, page])
 
     const [loading, setLoading] = useState(true)
-    const size = useWindowSize()
     const inputRef = useRef(null)
 
     useEffect(() => {
@@ -61,7 +58,7 @@ export default function CustomerSearch(
     //TODO: 모바일버전 구현
     const registerCustomer = () => {
         //pc
-        if (size.width > 620) {
+        if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
@@ -88,7 +85,7 @@ export default function CustomerSearch(
                                     size={1}
                                     name='category'
                                     defaultValue={state.postSearchInfo.category ?? 'none'}
-                                    key={state.searchKey}>
+                                    key={state.postSearchInfo.category}>
                                     <option value='none'>선택안함</option>
                                     <option value="SALE">판매처</option>
                                     <option value="PURCHASE">구매처</option>
@@ -113,8 +110,8 @@ export default function CustomerSearch(
                                     <option value='none'>선택안함</option>
                                     {
                                         affiliations.map((affiliation) => (
-                                            <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
-                                                {affiliation.customerAffiliationName}
+                                            <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
+                                                {affiliation.affiliationName}
                                             </option>
                                         ))
                                     }
