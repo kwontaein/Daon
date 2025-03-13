@@ -47,7 +47,7 @@
     margin-left: -1px;
     border: 1px solid black !important;
     &:focus{
-        background-color: rgb(255, 251, 222);
+        background-color: var.$memo-color;
     }
     &::placeholder{
         color:silver;

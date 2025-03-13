@@ -1,0 +1,53 @@
+.custom-date-container{
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #c2c2c2;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    &:focus{
+        border: 1px solid black !important;
+    }
+    input[type="date"]::-webkit-datetime-edit-year-field,
+    input[type="date"]::-webkit-datetime-edit-month-field,
+    input[type="date"]::-webkit-datetime-edit-day-field {
+        visibility: hidden;
+    }
+
+    input{
+        all:unset;
+    }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.custom-date{
+    width: 20px !important;
+    cursor: pointer !important;
+}
+.custom-year{
+    width: 30px !important;
+    text-align: right !important;
+}
+.custom-month{
+    width: 15px !important;
+    text-align: right !important;
+}
+.custom-day{
+    width: 15px !important;
+    text-align: right !important;
+}
+.date-container{
+    width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    label{
+        margin-right: 3px;
+    }
+}

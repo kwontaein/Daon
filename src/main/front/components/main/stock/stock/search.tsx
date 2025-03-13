@@ -9,7 +9,6 @@ import {apiUrl} from '@/model/constants/apiUrl';
 import {changeFormData} from '@/features/share/changeFormData';
 import {initialStockState, stockSearchAction} from '@/features/stock/stock/action/stock-search';
 
-import {useWindowSize} from '@/hooks/share/useWindowSize';
 
 import {StockCate} from '@/model/types/stock/cate/type';
 import {ResponseStock} from '@/model/types/stock/stock/types';
@@ -30,7 +29,6 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     const pageByStocks = useMemo(()=>state.stocks.slice((page - 1) * 20, ((page - 1) * 20) + 20),[state.stocks,page])
     const [condition, setCondition] = useState(initialStockState.condition!=='none')
     const [loading, setLoading] = useState(true)
-    const size = useWindowSize()
     const inputRef = useRef(null)
 
     useEffect(()=>{
@@ -51,7 +49,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     //TODO: 모바일버전 구현
     const registerStock = () => {
         //pc
-        if (size.width > 620) {
+        if (window.innerWidth> 620) {
             const url = `${apiUrl}/register-stock`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);

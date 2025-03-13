@@ -1,9 +1,9 @@
 
 import '@/styles/table-style/search.scss';
-import { CustomerAffiliation } from '@/model/types/customer/affiliation/type';
+import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { useActionState } from 'react';
 
-export default function LedgerCustomerSearch({affiliations}:{affiliations:CustomerAffiliation[]}){
+export default function LedgerCustomerSearch({affiliations}:{affiliations:Affiliation[]}){
     // const [state, action] = useActionState(()=>{},{startDate: new Date(),})
     return(
         <section className='search-container'>
@@ -38,8 +38,8 @@ export default function LedgerCustomerSearch({affiliations}:{affiliations:Custom
                                 <select size={1}>                      
                                         <option value='none'>선택안함</option>
                                         {affiliations.map((affiliation)=>(
-                                            <option key={affiliation.customerAffiliationId} value={affiliation.customerAffiliationId}>
-                                                    {affiliation.customerAffiliationName}
+                                            <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
+                                                    {affiliation.affiliationName}
                                             </option>
                                         ))}
                                 </select>

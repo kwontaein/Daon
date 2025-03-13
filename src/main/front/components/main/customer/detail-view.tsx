@@ -9,7 +9,6 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-    console.log(customer)
     const editModeHandler = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set("mode", "edit");
@@ -34,7 +33,7 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
                     </td>
                     <td className='table-label'>소속</td>
                     <td>
-                        {customer.customerAffiliation.customerAffiliationName}
+                        {customer.affiliation.affiliationName}
                     </td>
                 </tr>
                 <tr>
