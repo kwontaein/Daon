@@ -11,6 +11,7 @@ import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { revalidateTask } from '@/features/task/task/action/taskRegisterAction';
+<<<<<<< HEAD
 import Pagination from '@/components/share/pagination';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { deleteTask } from '@/features/task/task/api/taskApi';
@@ -18,6 +19,11 @@ import { useConfirm } from '@/hooks/share/useConfirm';
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
     affiliations: Affiliation[],
+=======
+
+export default function TaskSearch({customerAffiliations, initialTask, employees, page}: {
+    customerAffiliations: CustomerAffiliation[],
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     initialTask: ResponseTask[],
     page: number,
     employees: ResponseEmployee[]
@@ -29,6 +35,14 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const useCheckState = useCheckBoxState(taskIds)
     
     const [loading, setLoading] = useState(true)
+<<<<<<< HEAD
+=======
+
+    useEffect(() => {
+        setLoading(isPending)
+    }, [isPending])
+
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     //router control
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -38,6 +52,16 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     useEffect(() => {
         setLoading(isPending)
     }, [isPending])
+
+
+    const revalidateHandler = (event: MessageEvent) => {
+        if (event.data) {
+            const {status} = event.data 
+            if(status===200){
+                revalidateTask()
+            }
+        }
+    };
 
 
     const revalidateHandler = (event: MessageEvent) => {
@@ -60,6 +84,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         }
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     const redirectPage = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");
@@ -151,6 +180,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                     </table>
                 </form>
             </section>
+<<<<<<< HEAD
             <TaskSearchResult
                 pageByTasks={pageByTasks}
                 employees={employees}
@@ -163,6 +193,9 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                     currentPage={Number(page)}
                 />
             }
+=======
+            <TaskSearchResult pageByTasks={pageByTasks} employees={employees}/>
+>>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
         </>
     )
 }

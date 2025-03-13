@@ -1,7 +1,9 @@
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
 
 
-export async function searchStockApi(searchCondition: StockSearchCondition, isCache:boolean){
+
+
+export async function searchStockApi(searchCondition: StockSearchCondition){
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -14,7 +16,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition, isCa
         body: JSON.stringify({...searchCondition,receiptCategory: 'DEPOSIT'}),
         signal,
         // cache:'no-store'
-        next: isCache && {revalidate: 3600000, tags: ['stock']} //1시간마다 재검증
+        next: {revalidate: searchCondition.name ?(1000 * 60* 5) : (1000 * 60 * 60), tags: [searchCondition.name ?? 'stock']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
