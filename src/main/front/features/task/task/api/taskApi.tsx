@@ -1,9 +1,6 @@
 'use server'
-<<<<<<< HEAD
-import { ResponseTask, SaveTask, TaskSearchCondition } from "@/model/types/task/task/type";
-=======
 import { SaveTask, TaskSearchCondition } from "@/model/types/task/task/type";
->>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
+
 import { revalidateTag } from "next/cache";
 
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
