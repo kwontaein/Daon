@@ -22,6 +22,8 @@ public class EstimateItemRequest {
 
     private UUID stockId;
 
+    private boolean hand;
+
     public EstimateItem toEntity(EstimateEntity entity, StockEntity stock) {
         return EstimateItem
                 .builder()
@@ -30,6 +32,7 @@ public class EstimateItemRequest {
                 .productName(productName)
                 .quantity(quantity)
                 .unitPrice(unitPrice)
+                .hand(hand)
                 .stock(stock)
                 .build();
     }
