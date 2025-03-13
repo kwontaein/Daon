@@ -1,40 +1,28 @@
 'use client'
 import './search-result.scss'
 
-<<<<<<< HEAD
 import React from 'react'
 
 import { ResponseTask } from '@/model/types/task/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
-=======
-import React, { useEffect } from 'react'
 
-import { ResponseTask } from '@/model/types/task/task/type'
 import useCheckBoxState from '@/hooks/share/useCheckboxState'
->>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { taskTypeMap } from '@/model/constants/task/taskTypeMap'
-<<<<<<< HEAD
-const TaskSearchResult = React.memo(({pageByTasks, employees,taskCheckedHook} : {
+
+const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} : {
     pageByTasks: ResponseTask[],
     employees: ResponseEmployee[],
     taskCheckedHook: ReturnCheckBoxHook
 }) => {
-    const  {checkedState, isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
-    const size = useWindowSize()   
-
-=======
-
- const TaskSearchResult= React.memo(({pageByTasks, employees}:{pageByTasks:ResponseTask[], employees:ResponseEmployee[]})=>{
 
     const taskIds = pageByTasks.map(({taskId})=> taskId)
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
     const size = useWindowSize()   
 
->>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
         if(size.width>620){
@@ -150,11 +138,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees,taskCheckedHook} : 
                                     </>
                                     }
                                     <td rowSpan={size.width>820? 1:2}>
-<<<<<<< HEAD
                                         <button style={{paddingInline:'4px'}} onClick={estimateHandler.bind(null, task.taskId, task.estimate)}>
-=======
-                                        <button style={{paddingInline:'4px'}}>
->>>>>>> 435d1d9d85ff8e39fb4176b15182c3ed5a814454
                                             {task.estimate ? '인쇄':'작성'}
                                         </button>
                                     </td>
