@@ -15,6 +15,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
+    
     const selectValue = (value: ResponseCustomer) => {
         const message ={
             customerId:value.customerId,
@@ -94,7 +95,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
                     {customers.length ===0 &&
                         <tr className='none-hover'>
                         <td colSpan={9}>
-                            <p>조회된 결과가 없습니다.</p>
+                            <p style={{fontSize:'14px'}}>조회된 결과가 없습니다.</p>
                         </td>
                     </tr>
                     }

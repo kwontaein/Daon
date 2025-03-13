@@ -1,4 +1,4 @@
-export type CustomerAffiliation = {
-    customerAffiliationId:string|null,
-    customerAffiliationName:string,
+export type Affiliation = {
+    affiliationId:string|null,
+    affiliationName:string,
 }

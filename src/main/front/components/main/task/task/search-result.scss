@@ -1,0 +1,65 @@
+@use '@/styles/_variables.scss' as var;
+
+.task-search-result-table{
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    @media (max-width:620px){
+        font-size: 0.7rem;
+    }
+    tr{
+        height: 30px;
+    }
+    tbody{
+        &:hover{
+            background-color: rgb(197,202,254);
+        }
+        border-bottom: 1px solid var.$default-border-color;
+    }
+    
+    td{
+        text-align: center;
+        select{
+            border-color: transparent;
+            background-color: transparent !important;
+            font-size: 1.1em;
+            color: black;
+            &:focus{
+                border: 1px solid #bbb;
+                border-radius: 2px;
+            }
+            @media (max-width: 620px){
+                font-size: 1em;
+            }
+        }
+    }
+
+
+    .row-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+.is-click{
+    background-color: rgb(197,202,254);
+}
+
+.icon{
+    cursor: pointer;
+}
+.left-align{
+    text-align: left !important;
+}
+
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
+    }
+}
+
+
+     

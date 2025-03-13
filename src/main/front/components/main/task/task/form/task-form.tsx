@@ -11,7 +11,6 @@ import { ResponseTask } from '@/model/types/task/task/type';
 import { apiUrl } from '@/model/constants/apiUrl';
 
 import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import ErrorBox from '@/components/share/error-box/error-box';
 
@@ -23,7 +22,38 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
     })
     const formRef = useRef<HTMLFormElement|null>(null);
     const customerNameRef = useRef(null);
-    const size = useWindowSize()
+    
+    //검색을 위한 이벤트등록
+    useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+            if (event.data) {
+                const { customerName, customerId } = event.data;
+                if(customerName && customerId){
+                    setCustomerInfo({ customerName, customerId })
+                }
+            }
+        };
+        window.removeEventListener("message", handleMessage);
+        window.addEventListener("message", handleMessage);  
+
+        return () => window.removeEventListener("message", handleMessage);
+    }, []);
+
+    //검색한 결과 폼세팅
+    useEffect(()=>{
+        if (formRef.current) {
+            const formData = new FormData(formRef.current);
+            formData.set('customer', customerInfo.customerName||'')
+            formData.set('customerId', customerInfo.customerId||'')
+            startTransition(()=>{
+                action(formData)
+            })
+           
+        }
+    },[customerInfo])
+
+
+
 
     const searchCustomerHandler = (e)=>{
         //거래처를 찾고나서 수정 시도 시
@@ -37,7 +67,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         if(!customerNameRef.current?.value || e.key !=='Enter') return
         e.preventDefault();
         //pc
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchCustomer", popupOptions);
@@ -55,43 +85,27 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
             action(formData)
         }) 
     }
-    
 
-    useEffect(()=>{
-        if (formRef.current) {
-            const formData = new FormData(formRef.current);
-            formData.set('customer', customerInfo.customerName||'')
-            formData.set('customerId', customerInfo.customerId||'')
-            startTransition(()=>{
-                action(formData)
-            })
-           
+    const postResult = async (value: number) => {
+        const message ={
+            status: value
         }
-    },[customerInfo])
+        if (window.opener) {
+          window.opener.postMessage(message, "*");
+        }
+    };
 
     useEffect(()=>{
         if(!state.result) return
         if(state.result===200){
-            window.alert('업무를 등록했습니다.')
+            postResult(state.result).then(()=>{
+                window.alert('업무를 등록했습니다.')
+                window.close()
+            })
         }else{
             window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
         }
     },[state])
-
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data) {
-                const { customerName, customerId } = event.data;
-                if(customerName && customerId){
-                    setCustomerInfo({ customerName, customerId })
-                }
-            }
-        };
-        window.removeEventListener("message", handleMessage);
-        window.addEventListener("message", handleMessage);  
-
-        return () => window.removeEventListener("message", handleMessage);
-    }, []);
 
     return(
         <>
@@ -205,7 +219,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
             </table>
             <div className='button-container'>
                 <button onClick={submitTaskHandler}>저장</button>
-                <button>취소</button>
+                <button type='button' onClick={()=>window.close()}>취소</button>
             </div>
         </form>
         </>

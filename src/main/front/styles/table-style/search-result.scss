@@ -5,6 +5,23 @@
     margin-top: 0.5rem;
     width: 100%;
     margin-top: 1rem;
+    @media (max-width:620px){
+        font-size: 0.7rem;
+    }
+
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+        }
+      }
     tbody{
         tr{
             border-bottom: 1px solid var.$default-border-color;
@@ -18,11 +35,29 @@
     
     td{
         text-align: center;
+        select{
+            border-color: transparent;
+            background-color: transparent !important;
+            font-size: 1.1em;
+            color: black;
+            &:focus{
+                border: 1px solid #bbb;
+                border-radius: 2px;
+            }
+            @media (max-width: 620px){
+                font-size: 1em;
+            }
+        }
     }
-    @media (max-width:620px){
-        font-size: 0.7rem;
-        margin-top: 0.5rem;
+
+
+    .row-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
+
 }
 .is-click{
     background-color: rgb(197,202,254);
@@ -41,3 +76,5 @@
     }
 }
 
+
+     
