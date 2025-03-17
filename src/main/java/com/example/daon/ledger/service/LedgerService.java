@@ -2,6 +2,7 @@ package com.example.daon.ledger.service;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class LedgerService {
     private final ReceiptRepository receiptRepository;
     private final StockRepository stockRepository;
     private final CustomerRepository customerRepository;
+    private final GlobalService globalService;
 
     /**
      * 공통검색조건
@@ -161,16 +164,26 @@ public class LedgerService {
     }
 
     public List<NoPaidResponse> getNoPaid(LedgerRequest ledgerRequest) {
-        //전표 - 거래처별 합산 정렬 + 날짜로 검색
-        receiptRepository.findAll((root, query, criteriaBuilder) -> {
-            //조건문 사용을 위한 객체
+        // 전표 - 거래처별 합산 정렬 +
+        // 기간 포함 검색
+        // 전표 중 해당 category(PURCHASE)로 저장된 전표만 조회
+
+        // 1) JPA Repository의 findAll 메서드를 이용하여 동적 쿼리를 구성
+        List<ReceiptEntity> receipts = receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            // 조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
+
+            // ledgerRequest에 따른 조건을 predicates에 추가(날짜, 거래처, 금액 범위 등)
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
 
+            // 특정 category(PURCHASE)에 해당하는 전표만 조회
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE));
-            // 동적 조건을 조합하여 반환
+
+            // 조합된 조건(Predicate 배열)을 반환하여 동적 쿼리 생성
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return null;
+        // 3) 변환된 결과를 반환
+        return receipts.stream().map(globalService::convertToNoPaidResponse).collect(Collectors.toList());
     }
+
 }
