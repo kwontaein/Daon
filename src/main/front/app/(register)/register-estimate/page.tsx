@@ -10,7 +10,7 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
 
     const companyList:ResponseCompany[] = await getCompany()
     const taskList:ResponseTask[] =await getTask()
-    const task = taskList.filter(({taskId})=>taskId ===targetId)[0]
+    const task = taskList.find(({taskId})=>taskId ===targetId)
 
     return(
         <RegisterEstimate companyList={companyList} task={task}/>
