@@ -14,6 +14,7 @@ import com.example.daon.estimate.dto.response.EstimateItemResponse;
 import com.example.daon.estimate.dto.response.EstimateResponse;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
+import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.stock.dto.response.StockResponse;
@@ -226,6 +227,13 @@ public class GlobalService {
                 .remarks(task.getRemarks())
                 .createdAt(task.getCreatedAt())
                 .updatedAt(task.getUpdatedAt())
+                .estimateId(task.getEstimate().getEstimateId())
+                .build();
+    }
+
+    public LedgerResponse convertToLedgerResponse(ReceiptEntity receipt) {
+        return LedgerResponse
+                .builder()
                 .build();
     }
 }

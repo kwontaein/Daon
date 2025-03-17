@@ -3,6 +3,7 @@ package com.example.daon.ledger.service;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.ledger.dto.request.LedgerRequest;
+import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
@@ -156,6 +157,20 @@ public class LedgerService {
 
     //넌 일단 보류
     public List<ReceiptEntity> getExtraLedger(LedgerRequest ledgerRequest) {
+        return null;
+    }
+
+    public List<NoPaidResponse> getNoPaid(LedgerRequest ledgerRequest) {
+        //전표 - 거래처별 합산 정렬 + 날짜로 검색
+        receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+            addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
+
+            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE));
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
         return null;
     }
 }

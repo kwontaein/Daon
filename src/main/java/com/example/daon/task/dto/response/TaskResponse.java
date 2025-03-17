@@ -45,4 +45,6 @@ public class TaskResponse {
 
     public String receiptCate;
 
+    public UUID estimateId;
+
 }
