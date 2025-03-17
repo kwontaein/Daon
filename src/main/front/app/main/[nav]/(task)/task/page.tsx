@@ -14,7 +14,7 @@ export default async function TaskPage({searchParams}:PageByProps){
 
 
     const affiliations:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
-        next: {revalidate: 3600000, tags: ['affiliation']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -31,7 +31,7 @@ export default async function TaskPage({searchParams}:PageByProps){
             'Content-Type': 'application/json',
         },
         // cache:'no-store',
-        next: {revalidate: 3600000, tags: ['employee']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['employee']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
