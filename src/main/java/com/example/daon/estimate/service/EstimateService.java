@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -204,4 +205,11 @@ public class EstimateService {
         // 5. EstimateEntity 저장 (cascade = ALL이므로 item들도 자동으로 저장됨)
         estimateRepository.save(estimate);
     }
+
+    public EstimateResponse getEstimate(UUID estimateId) {
+        EstimateEntity estimate = estimateRepository.findById(estimateId).orElse(null);
+        return globalService.convertToEstimateResponse(estimate);
+    }
 }
+
+
