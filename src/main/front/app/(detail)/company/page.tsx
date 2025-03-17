@@ -21,7 +21,7 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({companyId}),
-        next: {revalidate: 1800000, tags: [`${companyId}`]} //30분마다 재검증
+        next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
