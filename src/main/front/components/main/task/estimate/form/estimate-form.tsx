@@ -12,25 +12,26 @@ import { apiUrl } from '@/model/constants/apiUrl';
 
 export default function EstimateForm(){
     const [estimateList, setEstimateList] = useState<StringifiedEstimateType[]>([])
-    const estimateIds = useMemo(()=> estimateList.map(({estimateId})=> estimateId), [estimateList.length])
-    const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(estimateIds)
+    const itemIds = useMemo(()=> estimateList.map(({itemId})=> itemId), [estimateList.length])
+    const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
     const targetRef = useRef<string>('')
 
-    const addEstimateHandler =(isHand:boolean)=>{
+    const addEstimateHandler =(hand:boolean)=>{
         setEstimateList([...estimateList,{
-            estimateId: uuidv4(),
-            itemId:null,
+            itemId:uuidv4(),
+            stockId:'',
             productName:'',
             modelName:'',
-            quantity: null,
-            unitPrice:null,
-            isHand
+            quantity: '',
+            unitPrice:'',
+            hand
         }])
     }
 
+
     const removeEstimateHandler=()=>{
         setEstimateList((prev)=>{    
-            return prev.filter(({estimateId})=> !checkedState[estimateId])
+            return prev.filter(({itemId})=> !checkedState[itemId])
         })
         resetChecked();
     }
@@ -43,7 +44,7 @@ export default function EstimateForm(){
             estimateToUpdate[key] = (value as string).replace(/[^0-9]/g, '')
         }
         const updatedEstimates = estimateList.map((estimate)=>
-            estimate.estimateId === uuid ? {...estimate, ...estimateToUpdate} : estimate
+            estimate.itemId === uuid ? {...estimate, ...estimateToUpdate} : estimate
         )
         setEstimateList(updatedEstimates);
     },[estimateList])
@@ -53,9 +54,9 @@ export default function EstimateForm(){
         if (event.data) {
             const { stockId, name, modelName, outPrice} = event.data;
             const newEstimate = estimateList.map((estimate)=>
-                estimate.estimateId === targetRef.current ? 
+                estimate.itemId === targetRef.current ? 
                 {...estimate,
-                    itemId:stockId ??"",
+                    stockId:stockId ??"",
                     productName:name??"",
                     modelName:modelName??"",
                     unitPrice:outPrice??""
@@ -78,14 +79,14 @@ export default function EstimateForm(){
 
 
 
-    const searchStockHandler = (e,productName ,productId, target)=>{
+    const searchStockHandler = (e,productName ,stockId, itemId)=>{
         //거래처를 찾고나서 수정 시도 시
-        if(productId){
+        if(stockId){
             const deleteStock = ()=>{
                 setEstimateList((prev) =>
                     prev.map((prevItem) =>
-                      prevItem.itemId === productId
-                        ? { ...prevItem, itemId: null, productName: '', modelName: '', unitPrice: null }
+                      prevItem.itemId === itemId
+                        ? { ...prevItem, stockId: '', productName: '', modelName: '', unitPrice: '' }
                         : prevItem
                     )
                   );
@@ -97,9 +98,9 @@ export default function EstimateForm(){
         e.preventDefault();
         //pc
         if(window.innerWidth>620){
-            const estimate = estimateList.find(({estimateId})=>estimateId===target)
-            targetRef.current = target
-            const url = `${apiUrl}/search-stock-items?searchName=${estimate.productName}&target=${target}`; // 열고 싶은 링크
+            const estimate = estimateList.find((estimate)=>estimate.itemId===itemId)
+            targetRef.current = itemId
+            const url = `${apiUrl}/search-stock-items?searchName=${estimate.productName}&target=${itemId}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchStock", popupOptions);
         }
@@ -136,35 +137,35 @@ export default function EstimateForm(){
                 </thead>
                 <tbody>
                     {estimateList.map((estimate)=>(
-                        <tr key={estimate.estimateId} className={estimate.isHand ? 'hand-estimate' : ''}>
+                        <tr key={estimate.itemId} className={estimate.hand ? 'hand-estimate' : ''}>
                             <td>
                                 <input
                                 type="checkbox"
-                                checked={!!checkedState[estimate.estimateId]}
-                                onChange={() => update_checked(estimate.estimateId)}/>
+                                checked={!!checkedState[estimate.itemId]}
+                                onChange={() => update_checked(estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
                                 value={estimate.productName}
                                 onChange={(e) =>
-                                    estimateHandler({ productName: e.target.value }, estimate.estimateId)}
+                                    estimateHandler({ productName: e.target.value }, estimate.itemId)}
                                 onKeyDown={(e) =>
-                                    !estimate.isHand &&
-                                    searchStockHandler(e, estimate.productName, estimate.itemId, estimate.estimateId)}/>
+                                    !estimate.hand &&
+                                    searchStockHandler(e, estimate.productName, estimate.stockId, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
                                 value={estimate.modelName}
                                 readOnly={!!estimate.itemId}
                                 onChange={(e) =>
-                                    estimateHandler({ modelName: e.target.value }, estimate.estimateId)}/>
+                                    estimateHandler({ modelName: e.target.value }, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
                                 className="center-align"
                                 value={Number(estimate.quantity ?? 0).toLocaleString('ko-KR')}
                                 onChange={(e) =>
-                                    estimateHandler({ quantity: e.target.value.replaceAll(',', '') }, estimate.estimateId)}/>
+                                    estimateHandler({ quantity: e.target.value.replaceAll(',', '') }, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
@@ -172,7 +173,7 @@ export default function EstimateForm(){
                                 readOnly={!!estimate.itemId}
                                 value={Number(estimate.unitPrice ?? 0).toLocaleString('ko-KR')}
                                 onChange={(e) =>
-                                    estimateHandler({ unitPrice: e.target.value.replaceAll(',', '') }, estimate.estimateId)}/>
+                                    estimateHandler({ unitPrice: e.target.value.replaceAll(',', '') }, estimate.itemId)}/>
                             </td>
                             <td> 
                                 <input
@@ -188,14 +189,18 @@ export default function EstimateForm(){
                     {estimateList.length>0 &&
                     <tr>
                         <td colSpan={3}><p>합계</p></td>
-                        <td><p>{estimateList.reduce((prev,estimate)=>prev+Number(estimate.quantity ??0),0).toLocaleString('ko-KR')}</p></td>
+                        <td><input className='center-align result-input' value={estimateList.reduce((prev,estimate)=>prev+Number(estimate.quantity ??0),0).toLocaleString('ko-KR')} readOnly/></td>
                         <td></td>
-                        <td className='right-align'><p>{estimateList.reduce((prev,estimate)=>prev+(Number(estimate.quantity??0)*Number(estimate.unitPrice??0)),0).toLocaleString('ko-KR')}</p></td>
+                        <td><input className='right-align result-input' value={estimateList.reduce((prev,estimate)=>prev+(Number(estimate.quantity??0)*Number(estimate.unitPrice??0)),0).toLocaleString('ko-KR')} readOnly/></td>
                         <td></td>
                     </tr>
                     }
                 </tbody>
             </table>
+            <div className='estimate-button-container'>
+                    <button>견작서작성</button>
+                    <button>취 소</button>
+            </div>
         </section>
     )
 }
