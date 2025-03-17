@@ -55,7 +55,7 @@ export default async function CustomerDetailPage({searchParams}: DetailPageProps
             'Content-Type': 'application/json',
         },
         // cache:'no-store',
-        next: {revalidate: 3600000, tags: ['employee']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['employee']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
