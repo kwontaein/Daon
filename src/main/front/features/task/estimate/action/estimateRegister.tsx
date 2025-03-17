@@ -5,4 +5,7 @@ export default function estimateRegisterAction(prevState, formState){
         assignedUser: formState.get('assignedUser'),
         createAt: formState.get('createAt')
     }
+
+
+    return {...prevState, ...estimateData}
 }
