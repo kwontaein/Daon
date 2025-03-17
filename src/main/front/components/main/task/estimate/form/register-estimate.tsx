@@ -13,10 +13,11 @@ import EstimateForm from './estimate-form';
 
 export default function RegisterEstimate({companyList, task}:{companyList:ResponseCompany[], task:ResponseTask}){
     const initialState ={
-        companyId:companyList[0].companyId, 
+        companyId:companyList[0].companyId,
         createAt:dayjs(task.createdAt).format('YYYY-MM-DD')
     }
-    const [state,action,isPending] = useActionState(estimateRegisterAction,initialState)
+    console.log(task);
+    const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
@@ -29,6 +30,7 @@ export default function RegisterEstimate({companyList, task}:{companyList:Respon
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>견적서 작성하기</h4>
             </header>
+            <form action={action}>
             <table className='register-form-table'>
                 <colgroup>
                     <col style={{width: '15%'}}/>
@@ -72,6 +74,7 @@ export default function RegisterEstimate({companyList, task}:{companyList:Respon
                 </tbody>
             </table>
             <EstimateForm/>
+            </form>
         </section>
     )
 }
