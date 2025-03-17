@@ -91,7 +91,7 @@ body{
     flex-direction: row;
     gap: 5px;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     margin-top: 0.5rem;
     button{
       width: 100px;
@@ -99,7 +99,9 @@ body{
     }
   }
   
-
+.justify-center{
+    justify-content: center;
+}
 
   .hand-estimate{
     // background-color: #e9f0fa;

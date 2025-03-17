@@ -26,7 +26,7 @@ export interface ResponseTask {
     remarks?: string; // 비고 (선택적)
     createdAt: string; // 생성일 (ISO 문자열)
     updatedAt: string; // 수정일 (ISO 문자열)
-    estimate?:string;
+    estimateId?:string;
   }
   export interface TaskSearchCondition {
     customer:string,
