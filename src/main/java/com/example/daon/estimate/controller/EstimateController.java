@@ -24,6 +24,11 @@ public class EstimateController {
         return estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
     }
 
+    @PostMapping("api/getEstimates")
+    public EstimateResponse getEstimate(@RequestBody EstimateRequest request) {
+        return estimateService.getEstimate(request.getEstimateId());
+    }
+
     //수정
     @PostMapping("api/updateEstimate")
     public void updateEstimate(@RequestBody EstimateRequest request) {
