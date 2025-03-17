@@ -41,7 +41,7 @@ public class EstimateRequest {
                 .user(user)
                 .receipted(false)
                 .totalAmount(totalAmount)
-                .estimateDate(estimateDate)
+                .estimateDate(LocalDateTime.now())
                 .items(items)
                 .build();
     }
