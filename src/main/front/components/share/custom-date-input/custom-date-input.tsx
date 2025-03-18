@@ -77,23 +77,31 @@ export default function CustomDateInput({ defaultValue, name, className , dateRe
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         e.target.select(); // 포커스 시 텍스트 선택
       };
+
+    const renderDate = useMemo(()=>{
+            return(        
+            <label className={`custom-date-container ${className}`}>
+                <div className="date-container">
+                    <label>
+                        <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus} />
+                        년
+                    </label>
+                    <label>
+                        <input ref={monthInputRef} className="custom-month" type="number" value={date.split('-')[1]} onChange={monthHandler} onFocus={handleFocus}/>
+                        월
+                    </label>
+                    <label>
+                        <input ref={dayInputRef} className="custom-day" type="number" value={date.split('-')[2]} onChange={dayHandler} onFocus={handleFocus}/>
+                        일
+                    </label>
+                </div>
+                <input ref={dateRef} className="custom-date" type="date" name={name} value={date} onChange={dateHandler} key={date} />
+            </label>
+            )
+    },[className,date])
     return (
-        <label className={`custom-date-container ${className}`}>
-            <div className="date-container">
-                <label>
-                    <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus} />
-                    년
-                </label>
-                <label>
-                    <input ref={monthInputRef} className="custom-month" type="number" value={date.split('-')[1]} onChange={monthHandler} onFocus={handleFocus}/>
-                    월
-                </label>
-                <label>
-                    <input ref={dayInputRef} className="custom-day" type="number" value={date.split('-')[2]} onChange={dayHandler} onFocus={handleFocus}/>
-                    일
-                </label>
-            </div>
-            <input ref={dateRef} className="custom-date" type="date" name={name} value={date} onChange={dateHandler} key={date} />
-        </label>
+        <>
+            {renderDate}
+        </>
     );
 }
