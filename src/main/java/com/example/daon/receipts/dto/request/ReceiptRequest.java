@@ -28,7 +28,7 @@ public class ReceiptRequest {
 
     private UUID customerId; // 고객 아이디
 
-    private UUID itemNumber; // 품목 번호
+    private UUID stockId; // 품목 번호
 
     private Integer quantity; // 사용 품목 수량
 
@@ -51,7 +51,7 @@ public class ReceiptRequest {
                 .estimate(entity)
                 .timeStamp(timeStamp)
                 .category(category)
-                .itemNumber(itemNumber)
+                .stockId(stockId)
                 .quantity(quantity)
                 .totalPrice(totalPrice)
                 .description(description)
