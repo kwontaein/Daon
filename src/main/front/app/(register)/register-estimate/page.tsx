@@ -1,18 +1,31 @@
 import RegisterEstimate from "@/components/main/task/estimate/form/register-estimate"
 import getCompany from "@/features/staff/company/api/company-api"
+import {getEstimateApi} from "@/features/task/estimate/api/estimateApi"
 import getTask from "@/features/task/task/api/taskApi"
 import { ResponseCompany } from "@/model/types/staff/company/type"
-import { EstimateRegisterProps } from "@/model/types/task/estimate/type"
+import { EstimateRegisterProps, ResponseEstimate } from "@/model/types/task/estimate/type"
 import { ResponseTask } from "@/model/types/task/task/type"
 
 export default async function RegisterEstimatePage({searchParams}:EstimateRegisterProps){
-    const targetId = (await searchParams).taskId || ''
+    const targetId = (await searchParams).taskId
+    const estimateId = (await searchParams).target ||''
+    const mode = (await searchParams).mode
+    let estimate:ResponseEstimate|undefined;
+
 
     const companyList:ResponseCompany[] = await getCompany()
     const taskList:ResponseTask[] =await getTask()
-    const task = taskList.find(({taskId})=>taskId ===targetId)
+    if(estimateId){
+        estimate = await getEstimateApi(estimateId)
+    }
 
+    const task = taskList.find(({taskId})=>taskId ===targetId)
+    
     return(
-        <RegisterEstimate companyList={companyList} task={task}/>
+    <RegisterEstimate
+        companyList={companyList}
+        task={task}
+        estimate={estimate}
+        mode={mode}/>
     )
 }
