@@ -54,6 +54,9 @@ public class ReceiptEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description; // 전표 설명 (적요)
 
+    @Column(name = "memo", columnDefinition = "TEXT")
+    private String memo; //  (비고)
+
     public void updateFromRequest(ReceiptRequest request, CustomerEntity customer) {
         this.category = request.getCategory();
         this.customer = customer;

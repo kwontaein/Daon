@@ -36,6 +36,9 @@ public class ReceiptRequest {
 
     private String description; // 전표 설명 (적요)
 
+    private String memo; //  (비고)
+
+
     //추가-------------------------
 
     private LocalDate searchSDate;  //검색 날짜 시작일
@@ -56,6 +59,7 @@ public class ReceiptRequest {
                 .totalPrice(totalPrice)
                 .description(description)
                 .customer(customer)
+                .memo(memo)
                 .build();
     }
 }
