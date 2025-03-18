@@ -23,7 +23,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
 
     
     const affiliations:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
-        next: {revalidate: 3600000, tags: ['affiliation']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,7 +40,7 @@ export default async function CustomerPage({searchParams}:PageByProps) {
         },
         body: JSON.stringify(allCustomerRequestBody),
         signal,
-        next: {revalidate: 3600000, tags: ['customers']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['customers']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
