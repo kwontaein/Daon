@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import { CustomerSearch, CustomerSearchCondition } from "@/model/types/customer/customer/type";
-import { fetchSearchCustomers} from "../api/searchCustomerApi";
+import { searchCustomersApi} from "../api/searchCustomerApi";
 
 
 export const initialCustomerState = {
@@ -53,6 +53,6 @@ export async function customerSearchAction(prevState, formData){
         ...searchData.postSearchInfo,
         [searchData.searchInputTarget] : searchData.searchInput
     }
-    const customers = await fetchSearchCustomers(postData)
+    const customers = await searchCustomersApi(postData)
     return {...prevState,...searchData, customers, searchKey}
 }
