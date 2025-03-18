@@ -25,7 +25,6 @@ public class StockController {
 
     @PostMapping("api/getStockList")
     public List<StockResponse> getStockList(@RequestBody StockRequest stockRequest) {
-        System.out.println("시발 실행되는건가 이거");
         if (stockRequest.getReceiptCategory().equals("MAINTENANCE_FEE")) {
             return stockService.getMCList(stockRequest);
         } else {
