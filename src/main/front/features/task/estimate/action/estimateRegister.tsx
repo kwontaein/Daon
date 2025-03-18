@@ -6,7 +6,7 @@ import { ResponseCompany } from "@/model/types/staff/company/type"
 import { ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
 import { ResponseTask } from "@/model/types/task/task/type"
 import dayjs from "dayjs"
-import { saveEstimate } from "../api/estimateApi"
+import { saveEstimate, updateEstimate } from "../api/estimateApi"
 
 export const initialEstimate = (task:ResponseTask,companyList:ResponseCompany[],mode:string,estimate?:ResponseEstimate)=>{
     let view = mode;
@@ -68,9 +68,14 @@ export default async function estimateRegisterAction(prevState, formState){
     items.forEach((item:ResponseEstimateItem)=>{
         if((!item.hand && isInvalidText(item.stockId))
         || (item.hand && isInvalidText(item.productName))){
-            errors.push([item.itemId, '품명을 입력해주세요'])
+            errors.push(['message', '품명을 입력해주세요'])
         }
     })
+
+    if(items.length===0 && prevState.mode==='write'){
+        errors.push(['message', '품목을 하나이상 넣어주세요.'])
+    }
+
     console.log(action)
     if(action ==='submit'){
         if(errors.length>0){
@@ -79,11 +84,14 @@ export default async function estimateRegisterAction(prevState, formState){
         }
         if(prevState.mode ==='write'){
             saveEstimate(estimateData)
+        }else if(prevState.mode ==='edit'){
+            updateEstimate(estimateData)
         }
-
+        return {...prevState, ...estimateData}
+    }else{
+        delete prevState.formErrors
+        return {...prevState, ...estimateData}
     }
-   
 
 
-    return {...prevState, ...estimateData}
 }
