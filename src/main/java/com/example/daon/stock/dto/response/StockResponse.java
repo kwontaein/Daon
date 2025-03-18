@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -21,9 +22,9 @@ public class StockResponse {
 
     private int quantity; // 재고 갯수
 
-    private double inPrice; // 품목 입고 가격
+    private BigDecimal inPrice; // 품목 입고 가격
 
-    private double outPrice; // 품목 출고 가격
+    private BigDecimal outPrice; // 품목 출고 가격
 
     private String modelName; // 품목 모델명 - 규격
 
