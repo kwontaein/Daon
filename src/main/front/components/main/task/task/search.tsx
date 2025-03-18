@@ -24,9 +24,9 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
 }) {
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask});
     const pageByTasks = useMemo(() => state.task.slice((page - 1) * 20, ((page - 1) * 20) + 20), [state.task, page])
-    const inputRef = useRef(null)
     const taskIds = pageByTasks.map(({taskId})=> taskId)
     const useCheckState = useCheckBoxState(taskIds)
+    const inputRef = useRef(null) //검색 input
     
     const [loading, setLoading] = useState(true)
 
@@ -40,11 +40,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-
-
-    useEffect(() => {
-        setLoading(isPending)
-    }, [isPending])
 
 
     const revalidateHandler = (event: MessageEvent) => {
@@ -69,7 +64,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     }
 
 
-
+    //검색 시 페이지 제거
     const redirectPage = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");

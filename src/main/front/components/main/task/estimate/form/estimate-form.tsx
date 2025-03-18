@@ -11,7 +11,7 @@ import { apiUrl } from '@/model/constants/apiUrl';
 import ErrorBox from '@/components/share/error-box/error-box';
 
 
-export default function EstimateForm({estimate, submit}:{estimate?:ResponseEstimate, submit:()=>void}){
+export default function EstimateForm({estimate, submit, mode}:{estimate?:ResponseEstimate, submit:()=>void, mode:string}){
 
     const [items, setItems] = useState<Omit<ResponseEstimateItem,'estimateId'>[]>(estimate ? [...estimate.items] :[])
     const itemIds = useMemo(()=> items.map(({itemId})=> itemId), [items.length])
@@ -103,7 +103,7 @@ export default function EstimateForm({estimate, submit}:{estimate?:ResponseEstim
         if(window.innerWidth>620){
             const estimate = items.find((estimate)=>estimate.itemId===itemId)
             targetRef.current = itemId
-            const url = `${apiUrl}/search-stock-items?searchName=${estimate.productName}&target=${itemId}`; // 열고 싶은 링크
+            const url = `${apiUrl}/search-stock-items?searchName=${estimate.productName}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchStock", popupOptions);
         }
@@ -209,7 +209,7 @@ export default function EstimateForm({estimate, submit}:{estimate?:ResponseEstim
                 </tbody>
             </table>
             <div className='estimate-button-container justify-center'>
-                    <button type='button' onClick={submit}>견작서작성</button>
+                    <button type='button' onClick={submit}>{mode ==='write' ? '견적서작성' : '견적서수정'}</button>
                     <button>취 소</button>
             </div>
         </section>
