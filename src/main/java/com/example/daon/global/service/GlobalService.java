@@ -180,7 +180,7 @@ public class GlobalService {
                 .estimate(convertToEstimateResponse(receipt.getEstimate()))
                 .timeStamp(receipt.getTimeStamp())
                 .category(receipt.getCategory())
-                .itemNumber(receipt.getItemNumber())
+                .itemNumber(receipt.getStockId())
                 .quantity(receipt.getQuantity())
                 .totalPrice(receipt.getTotalPrice())
                 .description(receipt.getDescription())
