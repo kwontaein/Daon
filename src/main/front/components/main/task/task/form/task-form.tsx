@@ -13,32 +13,13 @@ import { apiUrl } from '@/model/constants/apiUrl';
 import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import ErrorBox from '@/components/share/error-box/error-box';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 export default function TaskForm({employees, task}:{employees:ResponseEmployee[],task?:ResponseTask}){
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
-    const [customerInfo, setCustomerInfo] = useState<Pick<ResponseCustomer,'customerName'|'customerId'>>({
-        customerName:'',
-        customerId:''
-    })
+    const {customerInfo, customerNameRef, searchCustomerHandler} = useSearchCustomer()
     const formRef = useRef<HTMLFormElement|null>(null);
-    const customerNameRef = useRef(null);
     
-    //검색을 위한 이벤트등록
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data) {
-                const { customerName, customerId } = event.data;
-                if(customerName && customerId){
-                    setCustomerInfo({ customerName, customerId })
-                }
-            }
-        };
-        window.removeEventListener("message", handleMessage);
-        window.addEventListener("message", handleMessage);  
-
-        return () => window.removeEventListener("message", handleMessage);
-    }, []);
-
     //검색한 결과 폼세팅
     useEffect(()=>{
         if (formRef.current) {
@@ -48,33 +29,11 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
             startTransition(()=>{
                 action(formData)
             })
-           
         }
     },[customerInfo])
-
-
-
-
-    const searchCustomerHandler = (e)=>{
-        //거래처를 찾고나서 수정 시도 시
-        if(customerInfo.customerId){
-            const deleteCustomer = ()=>{
-                setCustomerInfo({customerName:'',customerId:''})
-            }
-            useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer,()=>{})
-        }
-        //Enter 외의 다른 키 입력 시
-        if(!customerNameRef.current?.value || e.key !=='Enter') return
-        e.preventDefault();
-        //pc
-        if(window.innerWidth>620){
-            const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
-            const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-            window.open(url, "searchCustomer", popupOptions);
-        }
-    }
     
     const submitTaskHandler = ()=>{
+        if(isPending) return
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -86,6 +45,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         }) 
     }
 
+    //결과 다른창에 전달 => revalidate Task 
     const postResult = async (value: number) => {
         const message ={
             status: value
