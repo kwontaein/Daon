@@ -8,6 +8,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {v4 as uuidv4} from "uuid";
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { apiUrl } from '@/model/constants/apiUrl';
+import ErrorBox from '@/components/share/error-box/error-box';
 
 
 export default function EstimateForm({estimate, submit}:{estimate?:ResponseEstimate, submit:()=>void}){
@@ -208,7 +209,7 @@ export default function EstimateForm({estimate, submit}:{estimate?:ResponseEstim
                 </tbody>
             </table>
             <div className='estimate-button-container justify-center'>
-                    <button type='submit' onClick={submit}>견작서작성</button>
+                    <button type='button' onClick={submit}>견작서작성</button>
                     <button>취 소</button>
             </div>
         </section>
