@@ -42,8 +42,8 @@ public class ReceiptEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer; // 고객 아이디
 
-    @Column(name = "item_number", nullable = false)
-    private UUID itemNumber; // 품목 아이디
+    @Column(name = "stock_id", nullable = false)
+    private UUID stockId; // 품목 아이디
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity; // 사용 품목 수량
@@ -57,7 +57,7 @@ public class ReceiptEntity {
     public void updateFromRequest(ReceiptRequest request, CustomerEntity customer) {
         this.category = request.getCategory();
         this.customer = customer;
-        this.itemNumber = request.getItemNumber();
+        this.stockId = request.getStockId();
         this.quantity = request.getQuantity();
         this.totalPrice = request.getTotalPrice();
         this.description = request.getDescription();
