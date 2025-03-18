@@ -229,7 +229,7 @@ public class GlobalService {
                 .remarks(task.getRemarks())
                 .createdAt(task.getCreatedAt())
                 .updatedAt(task.getUpdatedAt())
-                .estimateId(task.getEstimate().getEstimateId())
+                .estimateId(task.getEstimate() != null ? task.getEstimate().getEstimateId() : null)
                 .build();
     }
 
