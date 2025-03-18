@@ -4,31 +4,54 @@ import '@/styles/form-style/form.scss';
 import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
-import { ChangeEvent, useActionState, useMemo, useState } from 'react';
-import estimateRegisterAction from '@/features/task/estimate/action/estimateRegister';
+import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
+import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegister';
 import { ResponseTask } from '@/model/types/task/task/type';
-import dayjs from 'dayjs';
+
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
+import { ResponseEstimate } from '@/model/types/task/estimate/type';
 
-export default function RegisterEstimate({companyList, task}:{companyList:ResponseCompany[], task:ResponseTask}){
-    const initialState ={
-        companyId:companyList[0].companyId, 
-        createAt:dayjs(task.createdAt).format('YYYY-MM-DD')
-    }
-    const [state,action,isPending] = useActionState(estimateRegisterAction,initialState)
+export default function RegisterEstimate({companyList, task, estimate, mode} : {
+    companyList: ResponseCompany[],
+    task: ResponseTask,
+    estimate: ResponseEstimate |undefined,
+    mode: string
+}) {
+    const initialState = initialEstimate(task, companyList, mode, estimate)
+    const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
     }
+    const formRef = useRef(null)
 
+    const submitEstimateHandler = ()=>{
+        if(!state.customerId){
+            window.alert('거래처를 선택해주세요')
+            return
+        }
+        const formData = new FormData(formRef.current);
+        formData.set('action','submit')
+        startTransition(()=>{
+            action(formData)
+        }) 
+    }
+
+
+    useEffect(()=>{
+        if(state.formErrors){
+            window.alert(state.formErrors.message)
+        }
+    },[state])
     return(
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>견적서 작성하기</h4>
             </header>
+            <form action={action} ref={formRef}>
             <table className='register-form-table'>
                 <colgroup>
                     <col style={{width: '15%'}}/>
@@ -52,26 +75,33 @@ export default function RegisterEstimate({companyList, task}:{companyList:Respon
                     <tr>
                         <td className='table-label'>일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자</td>
                         <td>
-                            <CustomDateInput defaultValue={state.createAt} name={'createAt'}/>
+                            <CustomDateInput defaultValue={state.estimateDate} name={'estimateDate'}/>
                         </td>
                         <td className='table-label'>등록번호</td>
                         <td>{company.businessNum}</td>
                     </tr>
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
-                        <td><input type='text' defaultValue={task.customer.customerName} readOnly/></td>
+                        <td>
+                            <input type='text' defaultValue={task.customer.customerName} readOnly/>
+                            <input type='hidden' name='customerId' value={task.customer.customerId} readOnly/>
+                        </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
                         <td>{company.ceo}</td>
                     </tr>
                     <tr>
                         <td className='table-label'>담당기사</td>
-                        <td><input type='text' defaultValue={task.assignedUser.name} readOnly/></td>
+                        <td>
+                            <input type='text' name='assignedUser' defaultValue={task.assignedUser.name} readOnly/>
+                            <input type='hidden' name='userId' value={task.assignedUser.userId} readOnly/>
+                        </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm/>
+            <EstimateForm estimate={estimate} submit={submitEstimateHandler}/> 
+            </form>
         </section>
     )
 }

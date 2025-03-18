@@ -41,8 +41,8 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
             if(size.width>620){
                 const params = new URLSearchParams
                 params.set('taskId',taskId)
+                params.set("mode", estimateId ? "detail" :"write")
                 if(estimateId){
-                    params.set("mode","detail")
                     params.set("target",estimateId)
                 }
                 const path = estimateId ? 'estimate': 'register-estimate'
@@ -138,8 +138,8 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     </>
                                     }
                                     <td rowSpan={size.width>820? 1:2}>
-                                        <button style={{paddingInline:'4px'}} onClick={estimateHandler.bind(null, task.taskId, task.estimate)}>
-                                            {task.estimate ? '인쇄':'작성'}
+                                        <button style={{paddingInline:'4px'}} onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
+                                            {task.estimateId ? '인쇄':'작성'}
                                         </button>
                                     </td>
                                 </tr>   
