@@ -29,6 +29,9 @@ public class EstimateItem {
     @Column(name = "product_name", nullable = false)
     private String productName;
 
+    @Column(name = "model_name", nullable = false)
+    private String modelName;
+
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
@@ -38,6 +41,7 @@ public class EstimateItem {
 
     @Column(name = "hand", nullable = false)
     private boolean hand;
+
     // 필드 업데이트 메서드
     @ManyToOne
     @JoinColumn(name = "stock_id")
@@ -47,5 +51,6 @@ public class EstimateItem {
         this.productName = newItem.getProductName();
         this.quantity = newItem.getQuantity();
         this.unitPrice = newItem.getUnitPrice();
+        this.modelName = newItem.getModelName();
     }
 }

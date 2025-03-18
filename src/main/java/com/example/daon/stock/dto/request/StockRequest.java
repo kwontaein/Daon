@@ -6,6 +6,7 @@ import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.model.cate.TaxationCate;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -17,9 +18,9 @@ public class StockRequest {
 
     private int quantity; // 재고 갯수
 
-    private double inPrice; // 품목 입고 가격
+    private BigDecimal inPrice; // 품목 입고 가격
 
-    private double outPrice; // 품목 출고 가격
+    private BigDecimal outPrice; // 품목 출고 가격
 
     private String modelName; // 품목 모델명 - 규격
 

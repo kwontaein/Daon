@@ -16,6 +16,8 @@ public class EstimateItemRequest {
 
     private String productName;
 
+    private String modelName;
+
     private Integer quantity;
 
     private BigDecimal unitPrice;
@@ -30,6 +32,7 @@ public class EstimateItemRequest {
                 .itemId(itemId)
                 .estimate(entity)
                 .productName(productName)
+                .modelName(modelName)
                 .quantity(quantity)
                 .unitPrice(unitPrice)
                 .hand(hand)
