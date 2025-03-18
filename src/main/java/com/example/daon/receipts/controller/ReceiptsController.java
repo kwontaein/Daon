@@ -2,10 +2,11 @@ package com.example.daon.receipts.controller;
 
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
-import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.service.ReceiptsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ReceiptsController {
      */
     @PostMapping("api/getReceipts")
     public List<ReceiptResponse> getReceipts(@RequestBody ReceiptRequest request) {
-        return receiptsService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerId(), request.getItemNumber());
+        return receiptsService.getReceipts(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerId(), request.getStockId());
     }
 
     @PostMapping("api/updateReceipt")
