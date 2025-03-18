@@ -4,7 +4,7 @@ import '@/styles/form-style/form.scss';
 import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
-import { ChangeEvent, startTransition, useActionState, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegister';
 import { ResponseTask } from '@/model/types/task/task/type';
 
@@ -38,6 +38,13 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
             action(formData)
         }) 
     }
+
+
+    useEffect(()=>{
+        if(state.formErrors){
+            window.alert(state.formErrors.message)
+        }
+    },[state])
     return(
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
