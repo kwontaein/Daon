@@ -18,6 +18,7 @@ public class EstimateItemResponse {
     private String productName;
     private Integer quantity;
     private BigDecimal unitPrice;
+    private String modelName;
     private EstimateResponse estimate;
     private UUID stockId;
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -32,10 +33,10 @@ public class StockEntity {
     private int quantity; // 재고 갯수
 
     @Column(nullable = false, name = "in_price")
-    private double inPrice; // 품목 입고 가격
+    private BigDecimal inPrice; // 품목 입고 가격
 
     @Column(nullable = false, name = "out_price")
-    private double outPrice; // 품목 출고 가격
+    private BigDecimal outPrice; // 품목 출고 가격
 
     @Column(name = "model_name")
     private String modelName; // 품목 모델명
