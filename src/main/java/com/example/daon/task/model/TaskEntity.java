@@ -63,6 +63,9 @@ public class TaskEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt; // 수정일
 
+    @Column(name = "complete_at")
+    private LocalDateTime completeAt; // 조치일
+
     @OneToOne
     @JoinColumn(name = "estimate")
     private EstimateEntity estimate;
