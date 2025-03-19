@@ -8,30 +8,34 @@ import Image from 'next/image';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseTask } from '@/model/types/task/task/type';
-import { apiUrl } from '@/model/constants/apiUrl';
 
 import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import ErrorBox from '@/components/share/error-box/error-box';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 export default function TaskForm({employees, task}:{employees:ResponseEmployee[],task?:ResponseTask}){
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
-    const {customerInfo, customerNameRef, searchCustomerHandler} = useSearchCustomer()
     const formRef = useRef<HTMLFormElement|null>(null);
+
     
-    //검색한 결과 폼세팅
-    useEffect(()=>{
+    const checkCustomerName = () => !!state.customerId
+
+    const changeHandler = (
+        customerInfo : Pick < ResponseCustomer,
+        'customerName' | 'customerId' >,
+    ) => {
         if (formRef.current) {
             const formData = new FormData(formRef.current);
-            formData.set('customer', customerInfo.customerName||'')
-            formData.set('customerId', customerInfo.customerId||'')
-            startTransition(()=>{
+            formData.set('customer', customerInfo.customerName || '')
+            formData.set('customerId', customerInfo.customerId || '')
+            startTransition(() => {
                 action(formData)
             })
         }
-    },[customerInfo])
-    
+    }
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerName, changeHandler)
+
     const submitTaskHandler = ()=>{
         if(isPending) return
         if(!state.customerId){
@@ -135,7 +139,11 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
                     </tr>
                     <tr>
                         <td className='table-label'>거래처선택</td>
-                        <td><input name='customer' ref={customerNameRef} key={state.customer} defaultValue={state.customer} onKeyDown={(e)=>searchCustomerHandler(e)}/></td>
+                        <td><input name='customer' 
+                                   key={state.customer} 
+                                   defaultValue={state.customer} 
+                                   onChange={(e) => !!state.customerId && (e.target.value = state.customer) }
+                                   onKeyDown={(e)=>searchCustomerHandler(e)}/></td>
                         <td className='table-label'>의뢰자명</td>
                         <td><input name='requesterName' defaultValue={state.requesterName}/></td>
                     </tr>
@@ -178,7 +186,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
                 </tbody>
             </table>
             <div className='button-container'>
-                <button onClick={submitTaskHandler}>저장</button>
+                <button type='button' onClick={submitTaskHandler}>저장</button>
                 <button type='button' onClick={()=>window.close()}>취소</button>
             </div>
         </form>

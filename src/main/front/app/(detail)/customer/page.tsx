@@ -35,7 +35,7 @@ export default async function CustomerDetailPage({searchParams}: DetailPageProps
         console.error('Error:', error)
     })
 
-
+    
     const affiliation = await fetch("http://localhost:8080/api/getAffiliation", {
         next: {revalidate: 360000, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
