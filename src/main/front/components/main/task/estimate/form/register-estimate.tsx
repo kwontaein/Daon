@@ -11,6 +11,10 @@ import { ResponseTask } from '@/model/types/task/task/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
 import { ResponseEstimate } from '@/model/types/task/estimate/type';
+import { useConfirm } from '@/hooks/share/useConfirm';
+import { ResponseCustomer } from '@/model/types/customer/customer/type';
+import { apiUrl } from '@/model/constants/apiUrl';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -20,13 +24,14 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
 }) {
     const initialState = initialEstimate(task, companyList, mode, estimate)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
+
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
     }
     const formRef = useRef(null)
-
+    
     const submitEstimateHandler = ()=>{
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
@@ -39,12 +44,33 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }) 
     }
 
-
     useEffect(()=>{
         if(state.formErrors){
             window.alert(state.formErrors.message)
         }
     },[state])
+
+
+    //거래처 검색관련
+    const checkCustomerName = () => !!state.customerId
+
+    const changeHandler = (
+        customerInfo : Pick < ResponseCustomer,
+        'customerName' | 'customerId' >,
+    ) => {
+        if (formRef.current) {
+            const formData = new FormData(formRef.current);
+            formData.set('customer', customerInfo.customerName || '')
+            formData.set('customerId', customerInfo.customerId || '')
+            startTransition(() => {
+                action(formData)
+            })
+        }
+    }
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerName, changeHandler)
+
+
     return(
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
@@ -83,8 +109,8 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
                         <td>
-                            <input type='text' defaultValue={task.customer.customerName} readOnly/>
-                            <input type='hidden' name='customerId' value={task.customer.customerId} readOnly/>
+                            <input type='text' name='customerName' defaultValue={state.customerName} key={state.customerName} readOnly={state.mode!=='edit'} onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>
+                            <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId} readOnly/>
                         </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
                         <td>{company.ceo}</td>
@@ -100,7 +126,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimate={estimate} submit={submitEstimateHandler}/> 
+            <EstimateForm estimate={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
             </form>
         </section>
     )

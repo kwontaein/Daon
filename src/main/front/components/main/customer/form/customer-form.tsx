@@ -5,7 +5,6 @@ import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-import './customer-form.scss';
 import '@/styles/form-style/form.scss'
 
 import asideArrow from '@/assets/aside-arrow.gif';
@@ -17,22 +16,25 @@ import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 
 
-export default function CustomerForm({affiliation, employees, customer}:{affiliation:Affiliation[], employees:ResponseEmployee[], customer?:ResponseCustomer}) {
+export default function CustomerForm({affiliation, employees, customer} : {
+    affiliation: Affiliation[],
+    employees: ResponseEmployee[],
+    customer?: ResponseCustomer
+}) {
   const initialState = useMemo(() => customer ? {...customer,affiliationId:customer.affiliation.affiliationId}:{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const router = useRouter();
 
-
   return (
-    <>
+    <section className='register-form-container'>
     {!customer &&
       <header className="register-header">
           <Image src={asideArrow} alt=">" width={15}/>
           <h4>전표입력</h4>
       </header>
       }
-      <form action={action} className="customer-form-container">
-      <table className="customer-form-table print-section" key={state.customerId}>
+      <form action={action}>
+      <table className="register-form-table print-section" key={state.customerId}>
           <colgroup>
                   <col style={{ width: '17%' }} />
                   <col style={{ width: '33%' }} />
@@ -44,7 +46,7 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
               <td className='table-label'>거래처 구분</td>
               <td>
                 <select className="label-selector" 
-                        size={1} name="category" defaultValue={state.category ??'none'} key={state.category??'none'}>
+                        size={1} name="category" defaultValue={state.category ??'category'} key={state.category}>
                     <option value='none'>선택</option>
                     <option value="SALE">판매처</option>
                     <option value="PURCHASE">구매처</option>
@@ -60,7 +62,7 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
               </td>
               <td className='table-label'>소속</td>
               <td>
-                <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId?? 'none'}>
+                <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId}>
                     <option value='none'>소속선택</option>
                     {affiliation.map((affiliation)=>(
                         <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
@@ -107,7 +109,7 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
               <td><input type='text' name="contents" defaultValue={state.contents ?? ''}/></td>
               <td className='table-label'>담당자</td>
               <td>
-                <select className="label-selector" size={1} name="etc" key={state.etc} defaultValue={state.etc}>
+                <select className="label-selector" size={1} name="etc" key={state.etc ?? 'etc'} defaultValue={state.etc}>
                     <option value='none'>선택</option>
                     {employees.map((employee)=>(
                       <option value={employee.userId}>{employee.name}</option>
@@ -129,8 +131,8 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
             <tr>
               <td rowSpan={3} className='table-label'>주소</td>
               <td colSpan={3}>
-                [우편번호]
                 <input className='zip-code-input' name='zipCode' defaultValue={state.zipCode ?? ''}/>
+                [우편번호]
               </td>
             </tr>
             <tr>
@@ -176,7 +178,7 @@ export default function CustomerForm({affiliation, employees, customer}:{affilia
         <button type={'button'} onClick={ ()=> customer ? router.push(`customer?target=${customer.customerId}`):window.close()}>취소</button>
       </div>
     </form>
-    </>
+    </section>
     
   );
 }

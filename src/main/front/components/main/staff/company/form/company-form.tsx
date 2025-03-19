@@ -2,9 +2,8 @@
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
 import './company-form.scss'
-import { startTransition, useActionState, useMemo } from "react";
+import { useActionState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useConfirm } from "@/hooks/share/useConfirm";
 import ErrorBox from "@/components/share/error-box/error-box";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import { submitCompanyInfo } from "@/features/staff/company/action/company-action";
@@ -124,7 +123,7 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                     </tr>
                 </tbody>
             </table>
-            <div className='button-container'>
+            <div className='company-button-container'>
                 <button type={'submit'} disabled={isPending}>저장</button>
                 <button type={'button'} onClick={ ()=> company ? router.push(`company?mode=detail&target=${company.companyId}`):window.close()}>취소</button>
             </div>

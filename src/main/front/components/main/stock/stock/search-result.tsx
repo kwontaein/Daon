@@ -1,7 +1,7 @@
 "use client";
 import '@/styles/table-style/search-result.scss';
 
-import React, {  useMemo } from 'react';
+import React from 'react';
 
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
