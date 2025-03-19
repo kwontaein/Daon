@@ -2,10 +2,13 @@
 
 
 .search-result-container{
+    tr{
+        background-color: inherit;
+    }
     td{
         padding: 0.4em;
         border: none !important;
-        background-color: var.$bg-color !important;
+        background-color: transparent !important;
         justify-content: center !important;
     }
     border-bottom: 1px solid var.$default-border-color;
@@ -22,8 +25,8 @@
 }
 
 .odd-item{
-    td{
-        background-color: var.$default-white-color !important;
+    tr{
+        background-color: #EFEFEF !important;;
     }   
 }
 

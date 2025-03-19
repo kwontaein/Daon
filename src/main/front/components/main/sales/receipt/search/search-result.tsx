@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { addReceiptId, removeReceiptId } from "@/store/slice/receipt-select";
-import { Receipt } from '@/model/types/receipt/type';
-import { keyOfAccount } from '@/model/constants/sales/receipt/receipt_constants';
+import { RequestReceipt } from '@/model/types/receipt/type';
 
 
 interface ReceiptItemProps{
-    receiptList:Receipt[]
+    receiptList:RequestReceipt[]
     basicIndex: number;
 }
 
@@ -30,32 +29,32 @@ export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptIte
     }
     return (
         <>
-            {receiptList.map((receipt: Receipt, index: number) => (
-                <tbody key={receipt.uuid} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''}`}>
+            {receiptList.map((receipt: RequestReceipt, index: number) => (
+                <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''}`}>
                     <tr>
                         <td rowSpan={2}>
                             {basicIndex + index + 1}
                         </td>
                         <td rowSpan={2}>
                             <div className="date-container">
-                                {isSelected && <input type="checkbox" onChange={receiptSelectHandler.bind(null, receipt.uuid)} checked={selectList.includes(receipt.uuid)}/>}
-                                <div>{dayjs(receipt.date).format('YY.M.DD')}</div>
+                                {isSelected && <input type="checkbox" onChange={receiptSelectHandler.bind(null, receipt.receiptId)} checked={selectList.includes(receipt.receiptId)}/>}
+                                <div>{dayjs(receipt.timeStamp).format('YY.M.DD')}</div>
                             </div>
                         </td>
                         <td rowSpan={2}>
-                            {keyOfAccount[receipt.account]}
+                            {receipt.category}
                         </td>
-                        <td className="left-align">{receipt.company}</td>
-                        <td className="left-align">{receipt.note}</td>
+                        <td className="left-align">{receipt.customerName}</td>
+                        <td className="left-align">{receipt.memo}</td>
                         <td className="left-align" colSpan={2}>
-                            {receipt.briefs}
+                            {receipt.description}
                         </td>
                     </tr>
                     <tr>
-                        <td className="left-align">{receipt.product}</td>
+                        <td className="left-align">{receipt.productName}</td>
                         <td>{receipt.quantity && Number(receipt.quantity).toLocaleString('ko-KR')}</td>
-                        <td className="right-align">{receipt.unit_price && Number(receipt.unit_price).toLocaleString('ko-KR')}</td>
-                        <td className="right-align">{receipt.amount && Number(receipt.amount).toLocaleString('ko-KR')}</td>
+                        <td className="right-align">{receipt.unitPrice.toLocaleString('ko-KR')}</td>
+                        <td className="right-align">{receipt.totalPrice.toLocaleString('ko-KR')}</td>
                     </tr>
                 </tbody>
             ))}
