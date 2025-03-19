@@ -43,13 +43,13 @@ export default function useEstimate(estimate:ResponseEstimate){
         [] // 의존성 배열 비워서 처음 마운트 시에만 유지
     );
 
-    const changeStockHandler = (stockInfo : Pick <ResponseStock,'stockId'| 'name'| 'modelName'| 'outPrice' >,uuid?: string)=>{
+    const changeStockHandler = (stockInfo : Pick <ResponseStock,'stockId'| 'productName'| 'modelName'| 'outPrice' >,uuid?: string)=>{
         setItems((prev)=>{
             return prev.map((estimate)=>
                 estimate.itemId === uuid? {
                     ...estimate,
                     stockId:stockInfo.stockId,
-                    productName:stockInfo.name,
+                    productName:stockInfo.productName,
                     modelName:stockInfo.modelName,
                     unitPrice:stockInfo.outPrice} : estimate
             )
