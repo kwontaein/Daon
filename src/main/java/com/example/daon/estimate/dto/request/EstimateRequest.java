@@ -29,7 +29,7 @@ public class EstimateRequest {
     private LocalDate searchEDate;  //검색 날짜 종료일
     private String companyName;
     private String customerName;
-    private String itemName;
+    private String productName;
     private boolean receipted;
 
     public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> items) {
