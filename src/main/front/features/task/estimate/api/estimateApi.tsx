@@ -28,7 +28,8 @@ export async function getEstimateApi(estimateId:string){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function saveEstimate(estimate:Omit<ResponseEstimate,'estimateId'>){
+export  async function saveEstimate(estimate:ResponseEstimate){
+    console.log(JSON.stringify(estimate))
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -38,7 +39,7 @@ export  async function saveEstimate(estimate:Omit<ResponseEstimate,'estimateId'>
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({estimate}),
+        body: JSON.stringify(estimate),
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
