@@ -14,7 +14,7 @@ public class StockRequest {
 
     private UUID stockId; // 아이디 - uuid
 
-    private String name; // 품목명
+    private String productName; // 품목명
 
     private int quantity; // 재고 갯수
 
@@ -46,7 +46,7 @@ public class StockRequest {
         return StockEntity
                 .builder()
                 .stockId(stockId)
-                .name(name)
+                .productName(productName)
                 .quantity(quantity)
                 .inPrice(inPrice)
                 .outPrice(outPrice)

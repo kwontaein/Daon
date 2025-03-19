@@ -11,5 +11,5 @@ import java.util.UUID;
 
 @Repository
 public interface StockRepository extends JpaRepository<StockEntity, UUID>, JpaSpecificationExecutor<StockEntity> {
-    Optional<StockEntity> findByName(@Param("name") String name);
+    Optional<StockEntity> findByProductName(@Param("productName") String ProductName);
 }
