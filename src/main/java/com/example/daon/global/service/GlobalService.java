@@ -143,12 +143,13 @@ public class GlobalService {
         return EstimateResponse
                 .builder()
                 .estimateId(estimate.getEstimateId())
-                .customer(convertToCustomerResponse(estimate.getCustomer()))
                 .company(convertToCompanyResponse(estimate.getCompany()))
                 .user(convertToUserResponse(estimate.getUser()))
                 .receipted(estimate.isReceipted())
                 .totalAmount(estimate.getTotalAmount())
                 .estimateDate(estimate.getEstimateDate())
+                .customerId(estimate.getCustomer().getCustomerId())
+                .customerName(estimate.getCustomer().getCustomerName())
                 .items(estimate.getItems().stream().map(this::convertToEstimateItemResponse).collect(Collectors.toList()))
                 .build();
     }
@@ -158,7 +159,7 @@ public class GlobalService {
                 .builder()
                 .itemId(estimateItem.getItemId())
                 .estimate(convertToEstimateResponse(estimateItem.getEstimate()))
-                .productName(estimateItem.getStock().getName())
+                .productName(estimateItem.getStock().getProductName())
                 .modelName(estimateItem.getStock().getModelName())
                 .quantity(estimateItem.getQuantity())
                 .unitPrice(estimateItem.getStock().getOutPrice())
@@ -177,14 +178,16 @@ public class GlobalService {
         return ReceiptResponse
                 .builder()
                 .receiptId(receipt.getReceiptId())
-                .estimate(convertToEstimateResponse(receipt.getEstimate()))
+                .estimateId(receipt.getEstimate().getEstimateId())
                 .timeStamp(receipt.getTimeStamp())
                 .category(receipt.getCategory())
-                .itemNumber(receipt.getStockId())
+                .stockId(receipt.getStock().getStockId())
                 .quantity(receipt.getQuantity())
                 .totalPrice(receipt.getTotalPrice())
                 .description(receipt.getDescription())
-                .customer(convertToCustomerResponse(receipt.getCustomer()))
+                .customerId(receipt.getCustomer().getCustomerId())
+                .customerName(receipt.getCustomer().getCustomerName())
+                .unitPrice(receipt.getStock().getOutPrice())
                 .build();
     }
 
@@ -192,7 +195,7 @@ public class GlobalService {
         return StockResponse
                 .builder()
                 .stockId(stock.getStockId())
-                .name(stock.getName())
+                .productName(stock.getProductName())
                 .quantity(stock.getQuantity())
                 .inPrice(stock.getInPrice())
                 .outPrice(stock.getOutPrice())

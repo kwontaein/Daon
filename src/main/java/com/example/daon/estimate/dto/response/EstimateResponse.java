@@ -26,4 +26,5 @@ public class EstimateResponse {
     private CustomerResponse customer;
     private CompanyResponse company;
     private UserResponse user;
+    private String customerName;
 }

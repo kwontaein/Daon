@@ -3,6 +3,7 @@ package com.example.daon.receipts.model;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
+import com.example.daon.stock.model.StockEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,8 +43,9 @@ public class ReceiptEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer; // 고객 아이디
 
-    @Column(name = "stock_id", nullable = false)
-    private UUID stockId; // 품목 아이디
+    @JoinColumn(name = "stock_id")
+    @ManyToOne
+    private StockEntity stock; // 품목 아이디
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity; // 사용 품목 수량
@@ -57,10 +59,10 @@ public class ReceiptEntity {
     @Column(name = "memo", columnDefinition = "TEXT")
     private String memo; //  (비고)
 
-    public void updateFromRequest(ReceiptRequest request, CustomerEntity customer) {
+    public void updateFromRequest(ReceiptRequest request, CustomerEntity customer, StockEntity stock) {
         this.category = request.getCategory();
         this.customer = customer;
-        this.stockId = request.getStockId();
+        this.stock = stock;
         this.quantity = request.getQuantity();
         this.totalPrice = request.getTotalPrice();
         this.description = request.getDescription();
