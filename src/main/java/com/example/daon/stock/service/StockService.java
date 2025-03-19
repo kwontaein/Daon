@@ -43,18 +43,18 @@ public class StockService {
             }
 
             // 이름 (name) 검색
-            if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + stockRequest.getName() + "%"));
+            if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + stockRequest.getProductName() + "%"));
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
-            if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
+            if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
                         criteriaBuilder.or(
-                                criteriaBuilder.like(root.get("name"), "%" + stockRequest.getName() + "%")
+                                criteriaBuilder.like(root.get("name"), "%" + stockRequest.getProductName() + "%")
                                 // 필요한 경우 아래와 같이 다른 조건을 함께 OR로 묶을 수 있음
-                                , criteriaBuilder.like(root.get("modelName"), "%" + stockRequest.getName() + "%")
+                                , criteriaBuilder.like(root.get("modelName"), "%" + stockRequest.getProductName() + "%")
                         )
                 );
             }
@@ -85,8 +85,8 @@ public class StockService {
             predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
 
             // 이름 (name) 검색
-            if (stockRequest.getName() != null && !stockRequest.getName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getName()));
+            if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getProductName()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

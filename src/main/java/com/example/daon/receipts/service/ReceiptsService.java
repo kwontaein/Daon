@@ -14,6 +14,7 @@ import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
+import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -34,6 +35,7 @@ public class ReceiptsService {
     private final ReceiptRepository receiptRepository;
     private final CustomerRepository customerRepository;
     private final CustomerBillRepository customerBillRepository;
+    private final StockRepository stockRepository;
     private final GlobalService globalService;
 
 
@@ -80,14 +82,14 @@ public class ReceiptsService {
         }
         ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-
+        StockEntity stock = stockRepository.findById(request.getStockId()).orElse(null);
         if (receiptEntity != null) {
-            receiptEntity.updateFromRequest(request, customer);
+            receiptEntity.updateFromRequest(request, customer, stock);
             return;
         }
 
         //엔티티화
-        ReceiptEntity receipt = request.toEntity(entity, customer);
+        ReceiptEntity receipt = request.toEntity(entity, customer, stock);
         //그리고 저장
         receiptRepository.save(receipt);
         //그 후 미수미지급 항목 업데이트

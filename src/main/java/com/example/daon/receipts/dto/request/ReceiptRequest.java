@@ -4,6 +4,7 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.stock.model.StockEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,14 +48,14 @@ public class ReceiptRequest {
     private String customerName; //고객명
     private String itemName; //품명
 
-    public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer) {
+    public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer, StockEntity stock) {
         return ReceiptEntity
                 .builder()
                 .receiptId(receiptId)
                 .estimate(entity)
                 .timeStamp(timeStamp)
                 .category(category)
-                .stockId(stockId)
+                .stock(stock)
                 .quantity(quantity)
                 .totalPrice(totalPrice)
                 .description(description)

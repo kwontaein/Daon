@@ -26,8 +26,8 @@ public class StockEntity {
     @Column(nullable = false, unique = true, name = "stock_id", columnDefinition = "BINARY(16)")
     private UUID stockId; // 아이디 - uuid
 
-    @Column(nullable = false, name = "stock_name")
-    private String name; // 품목명
+    @Column(nullable = false, name = "product_name")
+    private String productName; // 품목명
 
     @Column(nullable = false, name = "quantity")
     private int quantity; // 재고 갯수
@@ -63,7 +63,7 @@ public class StockEntity {
 
     public void updateFromRequest(StockRequest request, StockCate category) {
 
-        this.name = request.getName();
+        this.productName = request.getProductName();
         this.quantity = request.getQuantity();
         this.inPrice = request.getInPrice();
         this.outPrice = request.getOutPrice();
