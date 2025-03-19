@@ -43,10 +43,10 @@ public class EstimateService {
     private final GlobalService globalService;
 
     //견적서 조회
-    public List<EstimateResponse> getEstimates(LocalDate searchSDate, LocalDate searchEDate, String customerName, String itemName) {
+    public List<EstimateResponse> getEstimates(LocalDate searchSDate, LocalDate searchEDate, String customerName, String productName) {
         List<EstimateEntity> estimateEntities;
         // 견적서 조회 조건: 전표로 전환되지 않은 견적서
-        if (searchSDate == null && searchEDate == null && customerName == null && itemName == null) {
+        if (searchSDate == null && searchEDate == null && customerName == null && productName == null) {
             estimateEntities = estimateRepository.findByReceipted(false).orElse(null);
         }
 
@@ -75,11 +75,11 @@ public class EstimateService {
             }
 
             // 품목 조건
-            if (itemName != null) {
+            if (productName != null) {
                 // 서브 테이블인 estimateItem 과 조인
                 Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
                 // estimateItem 테이블에서 itemName 이 일치하는지 확인
-                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("itemName"), itemName));
+                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("itemName"), productName));
             }
 
 
