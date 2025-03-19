@@ -1,32 +1,3 @@
-import { ResponseCustomer } from "../customer/customer/type";
-import { ResponseEstimate } from "../task/estimate/type";
-
-export type AccountType =
-  | 'disabled'
-  | 'sales'
-  | 'purchase'
-  | 'deposit'
-  | 'withdrawal'
-  | 'sale_discount'
-  | 'purchase_discount'
-  | 'sales_replacement'
-  | 'cost'
-  | 'return_delivery'
-  | 'returned_received';
-
-export type Receipt = {
-  any,
-    date?: Date,
-    account?: AccountType,
-    customerName?: string,
-    customerId?:string
-    note?: string,
-    unit_price?: string,
-    amount?: string,
-    product?: string,
-    quantity?: string,
-    briefs?: string,
-};
 
 export type RequestReceipt={
   receiptId: string; // 전표 아이디
@@ -34,13 +5,15 @@ export type RequestReceipt={
   timeStamp:Date; // 전표 등록일
   category:ReceiptCategory | 'disabled'; // 전표 분류 =ENUM 사용
   customerId?:string; // 고객 아이디
-  itemNumber?:string; // 품목 번호
+  customerName?:string;
+  stockId?:string; // 품목 아이디
+  productName?:string; //품목 이름
+  modelName?:string;
   quantity?:number; // 사용 품목 수량
+  unitPrice?:number;
   totalPrice?:number; // 품목 총 가격
   description?:string; // 전표 설명 =적요
   memo?:string; //비고
-  estimate?:ResponseEstimate;
-  customer?:ResponseCustomer;
 }
 
 

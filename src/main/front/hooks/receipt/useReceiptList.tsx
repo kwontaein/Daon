@@ -1,128 +1,130 @@
 import { Dispatch, MouseEvent, SetStateAction, useCallback, useState } from "react";
-import {v4 as uuidv4} from "uuid";
-import { Receipt, RequestReceipt } from "@/model/types/receipt/type";
+import { v4 as uuidv4 } from "uuid";
+import { RequestReceipt } from "@/model/types/receipt/type";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 
-const initReceipt:RequestReceipt = {
+const initReceipt: RequestReceipt = {
     receiptId: uuidv4(),
-    timeStamp: new Date(Date.now()),
-    category: 'disabled',
-}
+    timeStamp: new Date(),
+    category: "disabled",
+    customerName: '',
+    memo: '',
+    productName: '',
+    modelName:'',
+    quantity:0,
+    unitPrice:0,
+    totalPrice:0,
+};
 
-type ClientMousePosition = {
-    x:number,
-    y:number
-}
+type ClientMousePosition = { x: number; y: number };
 
-export default function useReceiptList(){
+export default function useReceiptList() {
     const [receiptList, setReceiptList] = useState<RequestReceipt[]>([initReceipt]);
 
-    const receiptHandler = useCallback((receiptToUpdate:Partial<RequestReceipt> ,receiptId:string)=>{
-        const [key, value] = Object.entries(receiptToUpdate)[0]
-        if(['unit_price', 'quantity', 'amount'].some((i)=>i===key)){
-            if(isNaN(Number(value))) return
-            receiptToUpdate[key] = value+''.replace(/[^0-9]/g, '')
-        }
-        const updatedReceipts = receiptList.map((receipt) =>
-            receipt.receiptId === receiptId
-                ? {
-                      receiptId: receipt.receiptId,
-                      //category 변경 시 폼상태 부분초기화
-                      ...(key === "category"
-                          ? Object.fromEntries(
-                                Object.entries(receipt).filter(
-                                    ([key]) => !DisabledStatus[receipt.category]?.[key]
-                                )
-                            )
-                          : receipt),
-                      ...receiptToUpdate,
-                  }
-                : receipt
+    /** 공통 업데이트 함수 */
+    const updateReceiptList = (receiptId: string, updateData: Partial<RequestReceipt>) => {
+        setReceiptList((prev) =>
+            prev.map((receipt) =>
+                receipt.receiptId === receiptId ? { ...receipt, ...updateData } : receipt
+            )
         );
-        setReceiptList(updatedReceipts);
+    };
 
+    /** 입력값 업데이트 (숫자 필드 예외처리) */
+    const receiptHandler = useCallback((receiptToUpdate: Partial<RequestReceipt>, receiptId: string) => {
+        const [key, value] = Object.entries(receiptToUpdate)[0];
+        // 숫자형식에 다른 키 입력 시 Return
+        if (typeof value ==='number' && isNaN(value)) return;
         
-    },[receiptList])
+        setReceiptList((prev)=>
+            prev.map((receipt) =>
+                receipt.receiptId===receiptId
+                    ?   {
+                            ...initReceipt,
+                            ...(key === 'category' ?
+                                Object.fromEntries(Object.entries(receipt).filter(([filterKey])=>
+                                    !DisabledStatus[value as string]?.[filterKey]
+                                ))
+                            : receipt)
+                        ,...receiptToUpdate
+                        }
+                : receipt
+            ))
+    }, []);
 
+
+    /** 포커스 변경 */
     const focusTarget = (receiptId: string, setTarget: Dispatch<SetStateAction<string>>) => {
         setTarget(receiptId);
     };
 
+    /** 영수증 복사 */
+    const copyReceipt = (target: string) => {
+        if (receiptList.length >= 10) return alert("최대 10개까지만 추가할 수 있습니다.");
 
-
-    const copyReceipt = (target)=>{
-        if(receiptList.length>=10){
-            window.alert('최대 10개까지만 추가할 수 있습니다.')
-            return
+        const targetReceipt = receiptList.find(({ receiptId }) => receiptId === target);
+        if (targetReceipt) {
+            setReceiptList([...receiptList, { ...targetReceipt, receiptId: uuidv4() }]);
         }
-        const copyReceipt = receiptList.find(receipt => receipt.receiptId === target)
-        if(copyReceipt){
-            const newReceipt = {
-                ...copyReceipt,
-                receiptId: uuidv4()
-            };
-            setReceiptList([...receiptList, newReceipt]);
-        }
-    }
+    };
 
+    /** 전표아이템 삭제 */
+    const deleteReceipt = (target: string) => {
+        setReceiptList((prev) => prev.filter(({ receiptId }) => receiptId !== target));
+    };
 
-    const deleteReceipt = (target)=>{
-        const newReceiptList =receiptList.filter(({receiptId})=> receiptId !== target)
-        setReceiptList(newReceiptList)
-    }
-    
+    /** 전표아이템 추가 */
+    const newReceipt = () => {
+        if (receiptList.length >= 10) return alert("최대 10개까지만 추가할 수 있습니다.");
+        setReceiptList([...receiptList, { ...initReceipt, receiptId: uuidv4() }]);
+    };
 
-
-    const newReceipt =()=>{
-        if(receiptList.length>=10){
-            window.alert('최대 10개까지만 추가할 수 있습니다.')
-            return
-        }
-        const newReceipt = {...initReceipt}
-        newReceipt.receiptId = uuidv4();
-        setReceiptList([...receiptList, newReceipt])
-    }
-    
-    const mouseRightClick=(
-        receiptId:string,
-        mouseEvent: (receiptId:string,position:ClientMousePosition)=>{},
-        e:MouseEvent<HTMLTableSectionElement,MouseEvent>
-    )=>{
+    /** 우클릭 이벤트 처리 */
+    const getMousePosition = (
+        e: MouseEvent<HTMLTableSectionElement>,
+    ) => {
         e.preventDefault();
         const tableRect = e.currentTarget.getBoundingClientRect();
-        const mouseX = e.clientX - tableRect.left;
-        const mouseY = e.clientY - tableRect.top;
-        mouseEvent(receiptId, {x:mouseX, y:mouseY});
-    }
-
-    const checkCustomerId =(id:string)=>{
-        return !!receiptList.find(({receiptId})=>receiptId===id).customerId
-    }
-
-    const setCustomerInfo =(customerInfo:Pick<ResponseCustomer,'customerId'|'customerName'>, receiptId)=>{
-        const updatedReceipts = receiptList.map((receipt) =>
-            receipt.receiptId === receiptId
-                ? {...receipt, customerId:customerInfo.customerId, customerName:customerInfo.customerName} : receipt
+        return(
+            { x: e.clientX - tableRect.left, y: e.clientY - tableRect.top }
         )
-        
-        setReceiptList(updatedReceipts)
-    }
+    };
 
-    const checkStockId =(id:string)=>{
-        return !!receiptList.find(({receiptId})=>receiptId===id)
-    }
+    /** 고객 정보 관련 함수 */
+    const checkCustomerId = (id: string) => !!receiptList.find(({ receiptId }) => receiptId === id)?.customerId;
 
-    const setStockInfo =(stockInfo:Pick<ResponseStock,'stockId'|'modelName'|'outPrice'>, receiptId)=>{
-        const updatedReceipts = receiptList.map((receipt) =>
-            receipt.receiptId === receiptId
-                ? {...receipt, ...stockInfo} : receipt
-        )
-        
-        setReceiptList(updatedReceipts)
-    }
+    const setCustomerInfo = (customerInfo: Pick<ResponseCustomer, "customerId" | "customerName">, receiptId: string) => {
+        updateReceiptList(receiptId, customerInfo);
+    };
 
+    /** 재고 정보 관련 함수 */
+    const checkStockId = (id: string) => !!receiptList.find(({ receiptId }) => receiptId === id)?.stockId;
 
-    return {receiptList, receiptHandler, newReceipt, copyReceipt, deleteReceipt, mouseRightClick, focusTarget, checkCustomerId, setCustomerInfo}
+    const setStockInfo = (
+        stockInfo: Pick<ResponseStock, "stockId" | "name" | "modelName" | "outPrice">,
+        receiptId: string
+    ) => {
+        updateReceiptList(receiptId, {
+            stockId: stockInfo.stockId,
+            productName: stockInfo.name,
+            unitPrice: stockInfo.outPrice,
+            modelName: stockInfo.modelName,
+        });
+    };
+
+    return {
+        receiptList,
+        receiptHandler,
+        newReceipt,
+        copyReceipt,
+        deleteReceipt,
+        getMousePosition,
+        focusTarget,
+        checkCustomerId,
+        setCustomerInfo,
+        checkStockId,
+        setStockInfo,
+    };
 }
