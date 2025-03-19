@@ -83,8 +83,8 @@ export default function StockSearchItems({stocks, page, pageLength} : {
                             style={{cursor:'pointer'}}> 
                             <td className='left-align'>{stock.name}</td>
                             <td>{stock.modelName}</td>
-                            <td>{stock.quantity}</td>
-                            <td>{stock.outPrice}</td>
+                            <td>{stock.quantity.toLocaleString('ko-KR')}</td>
+                            <td>{stock.outPrice.toLocaleString('ko-KR')}</td>
                         </tr>
                     ))}
                     {stocks.length ===0 &&

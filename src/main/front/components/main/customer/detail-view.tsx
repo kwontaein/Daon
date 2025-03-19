@@ -1,7 +1,7 @@
 'use client'
+import '@/styles/form-style/form.scss'
 import {CustomerCategoryMap} from "@/model/constants/customer/customer-data";
 import {ResponseCustomer} from "@/model/types/customer/customer/type";
-import './form/customer-form.scss'
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 export default function CustomerDetail({customer}: { customer: ResponseCustomer }) {
@@ -17,8 +17,8 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
     };
 
     return (
-        <>
-            <table className="customer-form-table">
+        <section className='register-form-container'>
+            <table className="register-form-table">
                 <colgroup>
                     <col style={{width: '17%'}}/>
                     <col style={{width: '33%'}}/>
@@ -119,6 +119,6 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
                 <button>삭제</button>
                 <button onClick={() => window.close()}>창닫기</button>
             </div>
-        </>
+        </section>
     )
 }
