@@ -8,8 +8,10 @@ import ReceiptOptions from '@/components/main/sales/receipt/options';
 import dayjs from 'dayjs';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/receipt/useReceiptList';
-import { AccountType } from '@/model/types/receipt/type';
 import { ClientMousePosition } from '@/model/types/share/type';
+import { ReceiptCategory } from '@/model/types/receipt/type';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
+import useSearchStock from '@/hooks/stock/search/useSearchStock';
 
 
 export default function ReceiptTableBody(){
@@ -22,29 +24,34 @@ export default function ReceiptTableBody(){
             newReceipt,
             copyReceipt,
             deleteReceipt,
-            mouseRightClick,
-            focusTarget
+            getMousePosition,
+            focusTarget,
+            checkCustomerId,
+            setCustomerInfo,
+            checkStockId,
+            setStockInfo,
         } = useReceiptList()
 
 
-    const mouseEvent = (uuid: string, position:ClientMousePosition)=>{
-        setTarget(uuid)
-        setMousePosition(position)
-        setIsRightClick(true)
-    }
+    const searchCustomerHandler = useSearchCustomer(checkCustomerId,setCustomerInfo)
+    const searchStockHandler = useSearchStock(checkStockId,setStockInfo)
 
     return(
         <>
         {receiptList.map((receipt, index) => (
-                <tbody key={receipt.uuid} className={target===receipt.uuid ? 'focused' : ''} 
-                    ref={(el) => {(itemsRef.current[receipt.uuid] = el)}}
-                    onContextMenu={mouseRightClick.bind(null,receipt.uuid,mouseEvent)}
-                    onFocus={focusTarget.bind(null,receipt.uuid, setTarget)}
+                <tbody key={receipt.receiptId} className={target===receipt.receiptId ? 'focused' : ''} 
+                    ref={(el) => {(itemsRef.current[receipt.receiptId] = el)}}
+                    onContextMenu={(e)=>{
+                        setTarget(receipt.receiptId)
+                        setMousePosition(getMousePosition(e))
+                        setIsRightClick(true)
+                    }}
+                    onFocus={focusTarget.bind(null,receipt.receiptId, setTarget)}
                     onClick={()=>setIsRightClick(false)}
                     >
                     <tr>
                         <td rowSpan={2} style={{position:'relative'}}>
-                            {(target===receipt.uuid && isRightClick) && 
+                            {(target===receipt.receiptId && isRightClick) && 
                             <ReceiptOptions position={mousePosition} 
                                             copyFn={()=>{copyReceipt(target)}} 
                                             deleteFn={()=>{deleteReceipt(target)}} />}
@@ -52,78 +59,78 @@ export default function ReceiptTableBody(){
                         </td>
                         <td rowSpan={2}>
                             <input type="date" 
-                                   value={dayjs(receipt.date).format("YYYY-MM-DD")} 
-                                   onChange={(e)=>receiptHandler({date:new Date(e.target.value)}, receipt.uuid)}/>
+                                   value={dayjs(receipt.timeStamp).format("YYYY-MM-DD")} 
+                                   onChange={(e)=>receiptHandler({timeStamp:new Date(e.target.value)}, receipt.receiptId)}/>
                         </td>
                         <td rowSpan={2}>
-                            <select value={receipt.account} 
-                                    onChange={(e)=>receiptHandler({account:e.target.value as AccountType},receipt.uuid)} required>
+                            <select value={receipt.category} 
+                                    onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategory)},receipt.receiptId)} required>
                                 <option value="disabled" disabled>전표입력</option>
-                                <option value="sales">매출</option>
-                                <option value="purchase">매입</option>
-                                <option value="deposit">입금</option>
-                                <option value="withdrawal">출금</option>
-                                <option value="sale_discount">매출할인</option>
-                                <option value="purchase_discount">매입할인</option>
-                                <option value="cost">관리비</option>
-                                <option value="return_delivery">반품출고</option>
-                                <option value="sales_replacement">매출대체</option>
-                                <option value="returned_received">반품입고</option>
+                                <option value="SALES">매출</option>
+                                <option value="PURCHASE">매입</option>
+                                <option value="DEPOSIT">입금</option>
+                                <option value="WITHDRAWAL">출금</option>
+                                <option value="SALES_DISCOUNT">매출할인</option>
+                                <option value="PURCHASE_DISCOUNT">매입할인</option>
+                                <option value="MAINTENANCE_FEE">관리비</option>
+                                <option value="RETURN_OUT">반품출고</option>
+                                <option value="RETURN_IN">반품입고</option>
+                                <option value="SALES_ALTERNATIVE">매출대체</option>
                             </select>
                         </td>
                         <td><input type="text"
-                                className={DisabledStatus[receipt.account].company ? 'disabled' : ''}
+                                className={DisabledStatus[receipt.category].customerName ? 'disabled' : ''}
                                 placeholder='거 래 처' 
-                                value={receipt.company || ''}
-                                disabled={DisabledStatus[receipt.account].company}
-                                onChange={(e)=>receiptHandler({company:e.target.value}, receipt.uuid)}/> </td>
+                                value={receipt.customerName || ''}
+                                readOnly={DisabledStatus[receipt.category].customerName}
+                                onChange={(e)=>!(!!receipt.customerId) && receiptHandler({customerName:e.target.value}, receipt.receiptId)}
+                                onKeyDown={(e)=>searchCustomerHandler(e, receipt.receiptId)}
+                                /></td>
                         <td><input type="text"                                    
-                                className={DisabledStatus[receipt.account].note ? 'disabled' : ''}
+                                className={DisabledStatus[receipt.category].memo ? 'disabled' : ''}
                                 placeholder='비 고'
-                                value={receipt.note || ''} 
-                                disabled={DisabledStatus[receipt.account].note}
-                                onChange={(e)=>receiptHandler({note:e.target.value}, receipt.uuid)}/></td>
+                                value={receipt.memo || ''} 
+                                readOnly={DisabledStatus[receipt.category].memo}
+                                onChange={(e)=>receiptHandler({memo:e.target.value}, receipt.receiptId)}/></td>
                         <td colSpan={2}>
                             <input type="text"
-                                className={DisabledStatus[receipt.account].briefs ? 'disabled' : ''}
+                                className={DisabledStatus[receipt.category].description ? 'disabled' : ''}
                                 placeholder='적 요'
-                                value={receipt.briefs ||''}
-                                disabled={DisabledStatus[receipt.account].briefs}
-                                onChange={(e)=>receiptHandler({briefs:e.target.value}, receipt.uuid)}/></td>
+                                value={receipt.description ||''}
+                                readOnly={DisabledStatus[receipt.category].description}
+                                onChange={(e)=>receiptHandler({description:e.target.value}, receipt.receiptId)}/></td>
                     </tr>
                     <tr>
                         <td><input type="text" 
                                 placeholder='품 명'
-                                className={DisabledStatus[receipt.account].product ? 'disabled' : ''}
-                                value={receipt.product || ''}
-                                disabled={DisabledStatus[receipt.account].product}
-                                onChange={(e)=>receiptHandler({product:e.target.value}, receipt.uuid)}/></td>
+                                className={DisabledStatus[receipt.category].productName ? 'disabled' : ''}
+                                value={(receipt.productName || '') + (receipt.modelName && ` ${receipt.modelName}`)}
+                                readOnly={DisabledStatus[receipt.category].productName}
+                                onChange={(e)=>!(!!receipt.stockId) && receiptHandler({productName:e.target.value}, receipt.receiptId)}
+                                onKeyDown={(e)=>searchStockHandler(e, receipt.receiptId)}/></td>
                         <td><input type="text"
-                                className={DisabledStatus[receipt.account].quantity ? 'disabled' : 'number-input'}
+                                className={DisabledStatus[receipt.category].quantity ? 'disabled' : 'number-input'}
                                 placeholder='수 량'
-                                value={receipt.quantity!==undefined? Number(receipt.quantity).toLocaleString('ko-KR') : ''}
-                                disabled={DisabledStatus[receipt.account].quantity}
-                                onChange={(e)=>receiptHandler({quantity:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                                value={receipt.quantity.toLocaleString('ko-KR')}
+                                readOnly={DisabledStatus[receipt.category].quantity}
+                                onChange={(e)=>receiptHandler({quantity:Number(e.target.value.replaceAll(',',''))}, receipt.receiptId)}/></td>
                         <td><input type="text"  
-                                className={DisabledStatus[receipt.account].unit_price ? 'disabled' : 'number-input'}
+                                className={DisabledStatus[receipt.category].unitPrice ? 'disabled' : 'number-input'}
                                 placeholder='단 가'
-                                value={receipt.unit_price!==undefined? Number(receipt.unit_price).toLocaleString('ko-KR') : ''}
-                                disabled={DisabledStatus[receipt.account].unit_price}
-                                onChange={(e)=>receiptHandler({unit_price: e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                                value={receipt.unitPrice.toLocaleString('ko-KR')}
+                                readOnly={DisabledStatus[receipt.category].unitPrice || !!receipt.stockId}
+                                onChange={(e)=>receiptHandler({unitPrice:Number(e.target.value.replaceAll(',',''))}, receipt.receiptId)}/></td>
                         <td><input type="text" 
                                 className={'number-input'}
                                 placeholder='금 액'
-                                value={DisabledStatus[receipt.account].amount ?
-                                   (
-                                    (receipt.quantity!==undefined  && receipt.unit_price!==undefined) ? 
-                                        (Number(receipt.quantity) * Number(receipt.unit_price)).toLocaleString('ko-KR')
-                                        : ''
-                                    )
-                                    :
-                                    receipt.amount!==undefined? Number(receipt.amount).toLocaleString('ko-KR') : ''
+                                value={DisabledStatus[receipt.category].totalPrice ?
+                                        (receipt.quantity * receipt.unitPrice).toLocaleString('ko-KR')
+                                        :
+                                        Number(receipt.totalPrice).toLocaleString('ko-KR')
                                  }
-                                disabled={DisabledStatus[receipt.account].amount}
-                                onChange={(e)=>receiptHandler({amount:e.target.value.replaceAll(',','')}, receipt.uuid)}/></td>
+                                 key={receipt.unitPrice + receipt.quantity}
+                                readOnly={DisabledStatus[receipt.category].totalPrice}
+                                onChange={(e)=>receiptHandler({ totalPrice: Number(e.target.value.replaceAll(',',''))}, receipt.receiptId)}/></td>
                     </tr>
                 </tbody>
             ))}

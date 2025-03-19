@@ -21,6 +21,7 @@ export const initialEstimate = (task:ResponseTask,companyList:ResponseCompany[],
     userId: estimate ? estimate.userId : task.assignedUser,
     totalAmount: estimate ? estimate.totalAmount : 0,
     customerId: estimate ? estimate.customerId : task.customer.customerId,
+    customerName:estimate ? estimate.customerName : task.customer.customerName,
     items : estimate ? Object.fromEntries(estimate.items.map((item)=>{
         return [item.itemId, {...item}]
     })) : [],
@@ -57,6 +58,7 @@ export default async function estimateRegisterAction(prevState, formState){
         estimateId:prevState.estimateId,
         companyId: formState.get('companyId'),
         customerId: formState.get('customerId'),
+        customerName:formState.get('customerName'),
         userId: formState.get('userId'),
         estimateDate: formState.get('estimateDate'),
         totalAmount : items.length>0 ? Number( formState.get('totalAmount').replaceAll(',','')) : 0,
@@ -82,6 +84,7 @@ export default async function estimateRegisterAction(prevState, formState){
             const formErrors = Object.fromEntries(errors)
             return {...prevState,...estimateData, formErrors}
         }
+        console.log(estimateData)
         if(prevState.mode ==='write'){
             saveEstimate(estimateData)
         }else if(prevState.mode ==='edit'){

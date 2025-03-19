@@ -13,6 +13,7 @@ export type EstimateRegisterProps ={
     estimateId: string;       // UUID -> string
     companyId: string;
     customerId: string;       // UUID -> string
+    customerName:string,
     userId: string;
     estimateDate: string;     // 견적서 날짜
     totalAmount: number;      //종합
