@@ -6,6 +6,7 @@ import { RootState } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { addReceiptId, removeReceiptId } from "@/store/slice/receipt-select";
 import { RequestReceipt } from '@/model/types/receipt/type';
+import { ReceiptCategoryMap } from '@/model/constants/sales/receipt/receipt_constants';
 
 
 interface ReceiptItemProps{
@@ -42,7 +43,7 @@ export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptIte
                             </div>
                         </td>
                         <td rowSpan={2}>
-                            {receipt.category}
+                            {ReceiptCategoryMap[receipt.category]}
                         </td>
                         <td className="left-align">{receipt.customerName}</td>
                         <td className="left-align">{receipt.memo}</td>

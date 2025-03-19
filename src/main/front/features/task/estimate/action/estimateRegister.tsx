@@ -37,11 +37,11 @@ const EstimateItemSequence = ['itemId','modelName', 'quantity', 'unitPrice', 'st
 export default async function estimateRegisterAction(prevState, formState){
     const arr = []
     arr.push(formState.getAll('itemId'))
+    arr.push(formState.getAll('productName'))
     arr.push(formState.getAll('modelName'))
     arr.push(formState.getAll('quantity').map((item)=>Number(item.replaceAll(',',''))))
     arr.push(formState.getAll('unitPrice').map((item)=>Number(item.replaceAll(',',''))))
     arr.push( formState.getAll('stockId'))
-    arr.push(formState.getAll('productName'))
     arr.push(formState.getAll('hand').map((item)=>Boolean(item)))
 
     const items = arr.reduce((prev,next,row)=>{
@@ -54,13 +54,14 @@ export default async function estimateRegisterAction(prevState, formState){
         return prev
     },Array.from({length:formState.getAll('productName').length}, (_,i)=>[]))
 
-    let estimateData:Omit<ResponseEstimate,'customerName'> ={
+    let estimateData:ResponseEstimate ={
         estimateId:prevState.estimateId,
-        companyId: formState.get('companyId'),
         customerId: formState.get('customerId'),
+        companyId: formState.get('companyId'),
         userId: formState.get('userId'),
         estimateDate: formState.get('estimateDate'),
         totalAmount : items.length>0 ? Number( formState.get('totalAmount').replaceAll(',','')) : 0,
+        customerName:formState.get('customerName'),
         items
     }
     const action = formState.get('action')
@@ -90,7 +91,7 @@ export default async function estimateRegisterAction(prevState, formState){
         return {...prevState, ...estimateData}
     }else{
         delete prevState.formErrors
-        return {...prevState, ...estimateData, customerName:formState.get('customerName')}
+        return {...prevState, ...estimateData}
     }
 
 
