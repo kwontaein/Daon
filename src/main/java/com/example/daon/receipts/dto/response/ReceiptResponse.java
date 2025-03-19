@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class ReceiptResponse {
 
     private UUID customerId; // 고객 아이디
 
-    private UUID itemNumber; // 품목 번호
+    private UUID stockId; // 품목 번호
 
     private Integer quantity; // 사용 품목 수량
 
@@ -38,4 +39,10 @@ public class ReceiptResponse {
     private EstimateResponse estimate;
 
     private CustomerResponse customer;
+
+    private String customerName;
+
+    private String productName;
+
+    private BigDecimal unitPrice;
 }

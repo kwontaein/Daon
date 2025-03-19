@@ -2,7 +2,9 @@ package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.DeptEntity;
+import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
@@ -22,8 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 //회사, 사원관리
 @Service
@@ -38,18 +40,15 @@ public class AdminService {
 
     //test
     public void test() {
-
-        System.out.println("실행");
         Timestamp joinDate = new Timestamp(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2000, Calendar.DECEMBER, 11, 00, 00, 10); // 월은 0부터 시작!
-        Timestamp birthDay = new Timestamp(calendar.getTimeInMillis());
+        Timestamp birthDay = new Timestamp(System.currentTimeMillis());
 
-      /*  UserRequest userRequest = new UserRequest
+        UserRequest userRequest = new UserRequest
                 ("권태인",
                         passwordEncoder.encode("guswlsxodls"),
                         false, joinDate,
-                        birthDay, "권태인",
+                        birthDay,
+                        "권태인",
                         "kta",
                         "權泰人",
                         "12061",
@@ -61,10 +60,10 @@ public class AdminService {
                         "",
                         ClassType.STAFF,
                         RoleType.ADMIN,
-                        Dept.WEB);*/
+                        UUID.fromString("9fd4ad75-f40c-11ef-a0e0-d8bbc19e908c"));
 
-        // CreateEmployee(userRequest);
 
+        CreateEmployee(userRequest);
     }
 
     /**
