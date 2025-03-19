@@ -4,7 +4,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: "1",
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice:99000,
@@ -16,7 +16,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '2',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice:99000,
@@ -28,7 +28,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '3',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice:99000,
@@ -40,7 +40,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '4',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -52,7 +52,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '5',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -64,7 +64,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '6',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -76,7 +76,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '7',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -88,7 +88,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '8',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -100,7 +100,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '9',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -112,7 +112,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '10',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -124,7 +124,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '11',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -136,7 +136,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '12',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -148,7 +148,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '13',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -160,7 +160,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '14',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -172,7 +172,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '15',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -184,7 +184,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '16',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -196,7 +196,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '17',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -208,7 +208,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '18',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -220,7 +220,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '19',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -232,7 +232,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '20',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -244,7 +244,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '21',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -256,7 +256,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '22',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -268,7 +268,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '23',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -280,7 +280,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '24',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -292,7 +292,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '25',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -304,7 +304,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '26',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -316,7 +316,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '27',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -328,7 +328,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '28',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -340,7 +340,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '29',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -352,7 +352,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '30',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -364,7 +364,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '31',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -376,7 +376,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '32',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,
@@ -388,7 +388,7 @@ export const ReceiptDummy:RequestReceipt[] = [
     {
         receiptId: '33',
         timeStamp: new Date('2025-01-23'),
-        category: 'SALE' as ReceiptCategory,
+        category: 'SALES' as ReceiptCategory,
         customerName: '경기도농업기술원 통신실',
         memo: '',
         unitPrice: 99000,

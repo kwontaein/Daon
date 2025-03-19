@@ -28,7 +28,7 @@ export async function getEstimateApi(estimateId:string){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function saveEstimate(estimate:Omit<ResponseEstimate,'estimateId'>){
+export  async function saveEstimate(estimate:ResponseEstimate){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
