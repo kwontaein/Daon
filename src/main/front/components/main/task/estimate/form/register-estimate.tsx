@@ -14,6 +14,7 @@ import { ResponseEstimate } from '@/model/types/task/estimate/type';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { apiUrl } from '@/model/constants/apiUrl';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -23,11 +24,6 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
 }) {
     const initialState = initialEstimate(task, companyList, mode, estimate)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
-    const [customerInfo, setCustomerInfo] = useState<Pick<ResponseCustomer,'customerName'|'customerId'>>({
-        customerName: task.customer.customerName,
-        customerId: task.customer.customerId
-    })
-    const customerNameRef = useRef(null);
 
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
@@ -48,64 +44,31 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }) 
     }
 
-    //검색을 위한 이벤트등록
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data) {
-                const { customerName, customerId } = event.data;
-                if(customerName && customerId){
-                    setCustomerInfo({ customerName, customerId })
-                }
-            }
-        };
-        window.removeEventListener("message", handleMessage);
-        window.addEventListener("message", handleMessage);  
-
-        return () => window.removeEventListener("message", handleMessage);
-    }, []);
-
-    //검색한 결과 폼세팅
-    useEffect(()=>{
-        if (formRef.current) {
-            const formData = new FormData(formRef.current);
-            formData.set('customer', customerInfo.customerName||'')
-            formData.set('customerId', customerInfo.customerId||'')
-            startTransition(()=>{
-                action(formData)
-            })
-        
-        }
-    },[customerInfo])
-
-
-
-
-const searchCustomerHandler = (e)=>{
-    //거래처를 찾고나서 수정 시도 시
-    if(customerInfo.customerId){
-        const deleteCustomer = ()=>{
-            setCustomerInfo({customerName:'',customerId:''})
-        }
-        useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer,()=>{})
-    }
-    //Enter 외의 다른 키 입력 시
-    if(!customerNameRef.current?.value || e.key !=='Enter') return
-    e.preventDefault();
-    //pc
-    if(window.innerWidth>620){
-        const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
-        const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-        window.open(url, "searchCustomer", popupOptions);
-    }
-}
-
-
     useEffect(()=>{
         if(state.formErrors){
             window.alert(state.formErrors.message)
         }
     },[state])
 
+
+    //거래처 검색관련
+    const checkCustomerName = () => !!state.customerId
+
+    const changeHandler = (
+        customerInfo : Pick < ResponseCustomer,
+        'customerName' | 'customerId' >,
+    ) => {
+        if (formRef.current) {
+            const formData = new FormData(formRef.current);
+            formData.set('customer', customerInfo.customerName || '')
+            formData.set('customerId', customerInfo.customerId || '')
+            startTransition(() => {
+                action(formData)
+            })
+        }
+    }
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerName, changeHandler)
 
 
     return(
@@ -146,8 +109,8 @@ const searchCustomerHandler = (e)=>{
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
                         <td>
-                            <input type='text' defaultValue={customerInfo.customerName} readOnly={state.mode!=='edit'} onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>
-                            <input type='hidden' name='customerId' value={customerInfo.customerId} readOnly/>
+                            <input type='text' name='customerName' defaultValue={state.customerName} key={state.customerName} readOnly={state.mode!=='edit'} onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>
+                            <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId} readOnly/>
                         </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
                         <td>{company.ceo}</td>

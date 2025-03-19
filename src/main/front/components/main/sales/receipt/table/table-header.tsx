@@ -6,7 +6,7 @@ export default function ReceiptTableContainer({children, isRegister}:{children:R
             <colgroup>
                 <col style={{ width: '5%' }} />
                 <col style={{ width: '10%' }} />
-                <col style={{ width: isRegister ? '15%' : '8%', minWidth: isRegister ? '8   0px':'none'}} />
+                <col style={{ width: isRegister ? '15%' : '8%', minWidth: isRegister ? '80px':'none'}} />
                 <col style={{ width: isRegister ? '30%' :'35%' }} />
                 <col style={{ width: '10%', minWidth:'45px' }} />
                 <col style={{ width: '15%' }} />

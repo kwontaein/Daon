@@ -39,11 +39,20 @@ input[type="date"]{
 }
 
 
-.focused{
-    border: 2px solid #1b81d4;
-    font-weight: bold !important;
-    // zoom: 110%;
+.focused {
+    background-color: var.$memo-color !important;
+
+    tr,
+    td {
+        background-color: transparent !important;
+
+        select,
+        input:not(.disabled) {
+            background-color: transparent !important;
+        }
+    }
 }
+
 .focused input {
     outline: none; /* 입력 필드의 기본 아웃라인 제거 */
   }
@@ -71,7 +80,7 @@ input[type="date"]{
 }
 
 .disabled{
-    background-color: silver;
+    background-color: silver !important;
     cursor: not-allowed;
     color: silver !important;
     &::placeholder{
