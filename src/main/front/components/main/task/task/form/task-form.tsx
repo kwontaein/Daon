@@ -8,73 +8,36 @@ import Image from 'next/image';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseTask } from '@/model/types/task/task/type';
-import { apiUrl } from '@/model/constants/apiUrl';
 
 import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import ErrorBox from '@/components/share/error-box/error-box';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 export default function TaskForm({employees, task}:{employees:ResponseEmployee[],task?:ResponseTask}){
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
-    const [customerInfo, setCustomerInfo] = useState<Pick<ResponseCustomer,'customerName'|'customerId'>>({
-        customerName:'',
-        customerId:''
-    })
     const formRef = useRef<HTMLFormElement|null>(null);
-    const customerNameRef = useRef(null);
+
     
-    //검색을 위한 이벤트등록
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data) {
-                const { customerName, customerId } = event.data;
-                if(customerName && customerId){
-                    setCustomerInfo({ customerName, customerId })
-                }
-            }
-        };
-        window.removeEventListener("message", handleMessage);
-        window.addEventListener("message", handleMessage);  
+    const checkCustomerName = () => !!state.customerId
 
-        return () => window.removeEventListener("message", handleMessage);
-    }, []);
-
-    //검색한 결과 폼세팅
-    useEffect(()=>{
+    const changeHandler = (
+        customerInfo : Pick < ResponseCustomer,
+        'customerName' | 'customerId' >,
+    ) => {
         if (formRef.current) {
             const formData = new FormData(formRef.current);
-            formData.set('customer', customerInfo.customerName||'')
-            formData.set('customerId', customerInfo.customerId||'')
-            startTransition(()=>{
+            formData.set('customer', customerInfo.customerName || '')
+            formData.set('customerId', customerInfo.customerId || '')
+            startTransition(() => {
                 action(formData)
             })
-           
-        }
-    },[customerInfo])
-
-
-
-
-    const searchCustomerHandler = (e)=>{
-        //거래처를 찾고나서 수정 시도 시
-        if(customerInfo.customerId){
-            const deleteCustomer = ()=>{
-                setCustomerInfo({customerName:'',customerId:''})
-            }
-            useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer,()=>{})
-        }
-        //Enter 외의 다른 키 입력 시
-        if(!customerNameRef.current?.value || e.key !=='Enter') return
-        e.preventDefault();
-        //pc
-        if(window.innerWidth>620){
-            const url = `${apiUrl}/search-customer-items?searchName=${customerNameRef.current?.value}`; // 열고 싶은 링크
-            const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-            window.open(url, "searchCustomer", popupOptions);
         }
     }
-    
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerName, changeHandler)
+
     const submitTaskHandler = ()=>{
+        if(isPending) return
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -86,6 +49,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         }) 
     }
 
+    //결과 다른창에 전달 => revalidate Task 
     const postResult = async (value: number) => {
         const message ={
             status: value
@@ -175,7 +139,11 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
                     </tr>
                     <tr>
                         <td className='table-label'>거래처선택</td>
-                        <td><input name='customer' ref={customerNameRef} key={state.customer} defaultValue={state.customer} onKeyDown={(e)=>searchCustomerHandler(e)}/></td>
+                        <td><input name='customer' 
+                                   key={state.customer} 
+                                   defaultValue={state.customer} 
+                                   onChange={(e) => !!state.customerId && (e.target.value = state.customer) }
+                                   onKeyDown={(e)=>searchCustomerHandler(e)}/></td>
                         <td className='table-label'>의뢰자명</td>
                         <td><input name='requesterName' defaultValue={state.requesterName}/></td>
                     </tr>
@@ -218,7 +186,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
                 </tbody>
             </table>
             <div className='button-container'>
-                <button onClick={submitTaskHandler}>저장</button>
+                <button type='button' onClick={submitTaskHandler}>저장</button>
                 <button type='button' onClick={()=>window.close()}>취소</button>
             </div>
         </form>
