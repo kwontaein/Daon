@@ -14,7 +14,7 @@ export default function StockSearchItems({stocks, page, pageLength} : {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
-    
+    console.log(stocks)
     const selectValue = (stock: ResponseStock) => {
         const message ={
             ...stock,
@@ -81,7 +81,7 @@ export default function StockSearchItems({stocks, page, pageLength} : {
                             onDoubleClick={()=>selectValue(stock)}
                             className={idx === index ? 'is-click' :''}
                             style={{cursor:'pointer'}}> 
-                            <td className='left-align'>{stock.name}</td>
+                            <td className='left-align'>{stock.productName}</td>
                             <td>{stock.modelName}</td>
                             <td>{stock.quantity.toLocaleString('ko-KR')}</td>
                             <td>{stock.outPrice.toLocaleString('ko-KR')}</td>

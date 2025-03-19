@@ -103,12 +103,12 @@ export default function useReceiptList() {
     const checkStockId = (id: string) => !!receiptList.find(({ receiptId }) => receiptId === id)?.stockId;
 
     const setStockInfo = (
-        stockInfo: Pick<ResponseStock, "stockId" | "name" | "modelName" | "outPrice">,
+        stockInfo: Pick<ResponseStock, "stockId" | "productName" | "modelName" | "outPrice">,
         receiptId: string
     ) => {
         updateReceiptList(receiptId, {
             stockId: stockInfo.stockId,
-            productName: stockInfo.name,
+            productName: stockInfo.productName,
             unitPrice: stockInfo.outPrice,
             modelName: stockInfo.modelName,
         });

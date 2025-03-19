@@ -8,7 +8,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
 
     const nextOptions = {
         revalidate: 300,
-        ...(searchCondition.name ? { tags: [searchCondition.name] } : {})
+        ...(searchCondition.productName ? { tags: [searchCondition.productName] } : {})
     };
 
     return await fetch("http://localhost:8080/api/getStockList", {
@@ -21,8 +21,6 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         next:nextOptions
       
     }).then(async (response) => {
-        console.log("Cache Status:", response.headers.get("x-nextjs-cache")); // 캐싱 상태 확인
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
