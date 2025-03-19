@@ -188,6 +188,7 @@ public class GlobalService {
                 .customerId(receipt.getCustomer().getCustomerId())
                 .customerName(receipt.getCustomer().getCustomerName())
                 .unitPrice(receipt.getStock().getOutPrice())
+                .modelName(receipt.getStock().getModelName())
                 .build();
     }
 

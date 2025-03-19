@@ -21,7 +21,7 @@ public class EstimateController {
     //견적서관리-----------------------------------
     @PostMapping("api/getEstimates")
     public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest request) {
-        return estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getItemName());
+        return estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getProductName());
     }
 
     @PostMapping("api/getEstimate")
