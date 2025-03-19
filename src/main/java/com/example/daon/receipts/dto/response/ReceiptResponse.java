@@ -44,5 +44,6 @@ public class ReceiptResponse {
 
     private String productName;
 
+    private String modelName;
     private BigDecimal unitPrice;
 }
