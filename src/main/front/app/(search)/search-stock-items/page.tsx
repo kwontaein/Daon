@@ -15,7 +15,7 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
         condition:false,
         remain: false,
         stockUseEa: false,
-        name: stockName
+        productName: stockName
     }
     
     const searchResult:ResponseStock[] = await searchStockApi(postSearchInfo)

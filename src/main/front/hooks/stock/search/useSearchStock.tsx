@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function useSearchStock(checkStockName : (id? : string) => boolean, changeHandler : (
     stockInfo : Pick < ResponseStock,
-    'stockId'| 'name'| 'modelName'| 'outPrice' >,
+    'stockId'| 'productName'| 'modelName'| 'outPrice' >,
     uuid?: string
 ) => void) {
     const [target, setTarget] = useState('') 
@@ -14,9 +14,9 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
             if (event.data) {
-                const { stockId, name, modelName, outPrice } = event.data;
-                if(stockId && name){
-                    changeHandler({stockId, name, modelName, outPrice}, target)
+                const { stockId, productName, modelName, outPrice } = event.data;
+                if(stockId && productName){
+                    changeHandler({stockId, productName, modelName, outPrice}, target)
                 }
             }
         };
@@ -34,7 +34,7 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
         if(checkStockName(id) && (e.key ==='Backspace' || e.key==='Delete' || e.key==='Process')){
             e.preventDefault();
             const deleteStock = ()=>{
-                changeHandler({stockId:'', name:'', modelName:'', outPrice:0}, id)
+                changeHandler({stockId:'', productName:'', modelName:'', outPrice:0}, id)
             }
             useConfirm('물품을 다시 선택하시겠습니까?',deleteStock,()=>{})
         }
