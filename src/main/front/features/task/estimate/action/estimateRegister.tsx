@@ -16,7 +16,7 @@ export const initialEstimate = (task:ResponseTask,companyList:ResponseCompany[],
     }
     return  {
     companyId:estimate ? estimate.companyId : companyList[0].companyId,
-    estimateId: estimate ? estimate.estimateId : '',
+    estimateId: estimate ? estimate.estimateId : null,
     estimateDate:  dayjs(estimate ? estimate.estimateDate :task.createdAt).format('YYYY-MM-DD'),
     userId: estimate ? estimate.userId : task.assignedUser,
     totalAmount: estimate ? estimate.totalAmount : 0,
@@ -54,11 +54,10 @@ export default async function estimateRegisterAction(prevState, formState){
         return prev
     },Array.from({length:formState.getAll('productName').length}, (_,i)=>[]))
 
-    let estimateData:ResponseEstimate ={
+    let estimateData:Omit<ResponseEstimate,'customerName'> ={
         estimateId:prevState.estimateId,
         companyId: formState.get('companyId'),
         customerId: formState.get('customerId'),
-        customerName:formState.get('customerName'),
         userId: formState.get('userId'),
         estimateDate: formState.get('estimateDate'),
         totalAmount : items.length>0 ? Number( formState.get('totalAmount').replaceAll(',','')) : 0,
@@ -78,22 +77,20 @@ export default async function estimateRegisterAction(prevState, formState){
         errors.push(['message', '품목을 하나이상 넣어주세요.'])
     }
 
-    console.log(action)
     if(action ==='submit'){
         if(errors.length>0){
             const formErrors = Object.fromEntries(errors)
             return {...prevState,...estimateData, formErrors}
         }
-        console.log(estimateData)
         if(prevState.mode ==='write'){
-            saveEstimate(estimateData)
+            const status = await saveEstimate(estimateData)
         }else if(prevState.mode ==='edit'){
-            updateEstimate(estimateData)
+            const status = await updateEstimate(estimateData)
         }
         return {...prevState, ...estimateData}
     }else{
         delete prevState.formErrors
-        return {...prevState, ...estimateData}
+        return {...prevState, ...estimateData, customerName:formState.get('customerName')}
     }
 
 
