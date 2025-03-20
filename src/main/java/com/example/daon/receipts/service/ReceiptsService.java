@@ -39,10 +39,14 @@ public class ReceiptsService {
     private final GlobalService globalService;
 
 
-    public List<ReceiptResponse> getReceipts(LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
+    public List<ReceiptResponse> getReceipts(ReceiptCategory category, LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
+
+            if (!category.equals(ReceiptCategory.EX)) {
+                predicates.add(criteriaBuilder.equal(root.get("customer"), category));
+            }
 
             // 기간 조건
             if (startDate != null && endDate != null) {
@@ -92,7 +96,7 @@ public class ReceiptsService {
                 return;
             }
         }
-        
+
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock);
         //그리고 저장
