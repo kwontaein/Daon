@@ -24,7 +24,7 @@ export default function ReceiptButtons(){
         if(window.innerWidth>620){
             const url = `${apiUrl}/register-receipt`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-            window.open(url, "PopupWindow", popupOptions);
+            window.open(url, "register-receipt", popupOptions);
         }
     }
 
