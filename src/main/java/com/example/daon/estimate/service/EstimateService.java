@@ -15,6 +15,8 @@ import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
+import com.example.daon.task.model.TaskEntity;
+import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -38,6 +40,7 @@ public class EstimateService {
     private final EstimateItemRepository estimateItemRepository;
     private final CustomerRepository customerRepository;
     private final StockRepository stockRepository;
+    private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final GlobalService globalService;
@@ -178,9 +181,10 @@ public class EstimateService {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
+        TaskEntity task = taskRepository.findById(request.getTaskId()).orElse(null);
 
         // 2. EstimateEntity 생성 및 자식 엔티티 연결
-        EstimateEntity estimate = request.toEntity(customer, company, user, null);
+        EstimateEntity estimate = request.toEntity(customer, company, user, task, null);
         List<EstimateItem> items = request.getItems().stream()
                 .map(itemRequest -> {
                     StockEntity stock = null;

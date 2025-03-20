@@ -5,6 +5,7 @@ import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
+import com.example.daon.task.model.TaskEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ public class EstimateRequest {
     private UUID estimateId;
     private UUID customerId;
     private UUID companyId;
+    private UUID taskId;
     private String userId;
     private String estimateDate;
     private BigDecimal totalAmount;
@@ -32,7 +34,7 @@ public class EstimateRequest {
     private String productName;
     private boolean receipted;
 
-    public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> items) {
+    public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, TaskEntity task, List<EstimateItem> items) {
         return EstimateEntity
                 .builder()
                 .customer(customer)
