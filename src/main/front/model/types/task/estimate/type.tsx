@@ -10,6 +10,7 @@ export type EstimateRegisterProps ={
 
 
   export interface ResponseEstimate {
+    taskId:string;
     estimateId: string;       // UUID -> string
     companyId: string;
     customerId: string;       // UUID -> string
