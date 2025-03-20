@@ -58,7 +58,8 @@ public class ReceiptsService {
 
             // 품목 조건
             if (stockId != null) {
-                predicates.add(criteriaBuilder.equal(root.get("itemNumber"), stockId));
+                StockEntity stock = stockRepository.findById(stockId).orElse(null);
+                predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
             }
 
             // 동적 조건을 조합하여 반환

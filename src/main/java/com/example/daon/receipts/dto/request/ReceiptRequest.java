@@ -46,7 +46,7 @@ public class ReceiptRequest {
     private LocalDate searchEDate;  //검색 날짜 종료일
     private List<UUID> ids; //여러개 한번에 생성 시 보내는 아이디
     private String customerName; //고객명
-    private String itemName; //품명
+    private String productName; //품명
 
     public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer, StockEntity stock) {
         return ReceiptEntity

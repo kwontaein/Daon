@@ -41,12 +41,7 @@ public class StockService {
                 StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
                 predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
-
-            // 이름 (name) 검색
-            if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("productName"), "%" + stockRequest.getProductName() + "%"));
-            }
-
+            
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
                 // customerName 이 비어있지 않을 때 OR 조건 사용
