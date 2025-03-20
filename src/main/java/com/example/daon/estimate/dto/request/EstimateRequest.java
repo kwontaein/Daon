@@ -19,7 +19,7 @@ public class EstimateRequest {
     private UUID customerId;
     private UUID companyId;
     private String userId;
-    private LocalDateTime estimateDate;
+    private String estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
 

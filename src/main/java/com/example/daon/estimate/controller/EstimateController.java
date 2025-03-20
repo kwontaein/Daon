@@ -43,8 +43,8 @@ public class EstimateController {
 
     @PostMapping("api/saveEstimate")
     public void saveEstimate(@RequestBody EstimateRequest request) {
+        System.out.println(request);
         estimateService.saveEstimate(request);
-
     }
 
 }

@@ -79,7 +79,7 @@ public class EstimateService {
                 // 서브 테이블인 estimateItem 과 조인
                 Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
                 // estimateItem 테이블에서 itemName 이 일치하는지 확인
-                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("itemName"), productName));
+                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("productName"), productName));
             }
 
 
