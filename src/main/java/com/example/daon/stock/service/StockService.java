@@ -44,7 +44,7 @@ public class StockService {
 
             // 이름 (name) 검색
             if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + stockRequest.getProductName() + "%"));
+                predicates.add(criteriaBuilder.like(root.get("productName"), "%" + stockRequest.getProductName() + "%"));
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
@@ -52,7 +52,7 @@ public class StockService {
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
                         criteriaBuilder.or(
-                                criteriaBuilder.like(root.get("name"), "%" + stockRequest.getProductName() + "%")
+                                criteriaBuilder.like(root.get("productName"), "%" + stockRequest.getProductName() + "%")
                                 // 필요한 경우 아래와 같이 다른 조건을 함께 OR로 묶을 수 있음
                                 , criteriaBuilder.like(root.get("modelName"), "%" + stockRequest.getProductName() + "%")
                         )
@@ -86,7 +86,7 @@ public class StockService {
 
             // 이름 (name) 검색
             if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("name"), stockRequest.getProductName()));
+                predicates.add(criteriaBuilder.equal(root.get("productName"), stockRequest.getProductName()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
