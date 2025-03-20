@@ -7,11 +7,21 @@ import {ReceiptDummy} from "@/model/constants/sales/receipt/receipt-dummy";
 import ReceiptSearchResult from "@/components/main/sales/receipt/search/search-result";
 import Pagination from "@/components/share/pagination";
 import { PageByProps } from "@/model/types/share/type";
+import { getReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
 
+const allSearchConditions={
+    searchSDate:new Date(Date.now()),
+    searchEDate:new Date(Date.now()),
+    customerName:null,
+    productName:null,
+}
 
 export default async function ReceiptPage({searchParams}: PageByProps) {
     const page = (await searchParams).page || 1;
     const newArr = ReceiptDummy.slice((page - 1) * 10, ((page - 1) * 10) + 10)
+
+
+    // const initialReceipt = getReceiptListApi(allSearchConditions)
 
     return (
         <div className="flex-row">
