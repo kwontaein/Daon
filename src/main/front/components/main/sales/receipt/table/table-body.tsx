@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './table-body.scss';
 
@@ -30,11 +30,13 @@ export default function ReceiptTableBody(){
             setCustomerInfo,
             checkStockId,
             setStockInfo,
+            saveReceiptList
         } = useReceiptList()
 
 
     const searchCustomerHandler = useSearchCustomer(checkCustomerId,setCustomerInfo)
     const searchStockHandler = useSearchStock(checkStockId,setStockInfo)
+
 
     return(
         <>
@@ -137,9 +139,12 @@ export default function ReceiptTableBody(){
             <tfoot>
                 <tr>
                     <td colSpan={7} className='new-receipt-button-container'>
-                    <button onClick={newReceipt}>
-                        새전표 추가
-                    </button>
+                        <button onClick={newReceipt}>
+                            새전표 추가
+                        </button>
+                        <button onClick={saveReceiptList}>
+                            저장하기
+                        </button>
                     </td>
                 </tr>
             </tfoot>

@@ -4,6 +4,8 @@ import { RequestReceipt } from "@/model/types/receipt/type";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
+import { saveReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
+import { useConfirm } from "../share/useConfirm";
 
 const initReceipt: RequestReceipt = {
     receiptId: uuidv4(),
@@ -111,9 +113,31 @@ export default function useReceiptList() {
             productName: stockInfo.productName,
             unitPrice: stockInfo.outPrice,
             modelName: stockInfo.modelName,
+            quantity:1,
         });
     };
 
+
+    const saveReceiptList = ()=>{
+        if(receiptList.some(({customerId})=> !(!!customerId))){
+            window.alert('항목의 모든 거래처를 입력해주세요.')
+            return
+        }else if(receiptList.some(({stockId})=> !(!!stockId))){
+            window.alert('항목의 모든 품명를 입력해주세요.')
+            return
+        }
+        const postReceiptList = ()=>{
+            saveReceiptListApi(receiptList).then((status)=>{
+                if(status ===200){
+                    window.alert('저장이 완료되었습니다.')
+                    window.close();
+                }else{
+                    window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
+                }
+            })
+        }
+        useConfirm('모든 전표입력을 실행하시겠습니까?',postReceiptList,()=>{})
+    }
     return {
         receiptList,
         receiptHandler,
@@ -126,5 +150,6 @@ export default function useReceiptList() {
         setCustomerInfo,
         checkStockId,
         setStockInfo,
+        saveReceiptList
     };
 }
