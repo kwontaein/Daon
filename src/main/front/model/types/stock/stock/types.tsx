@@ -7,15 +7,6 @@ export type StockPageProps ={
 }
 
 
-export type RequestSearchStock ={
-    category: string,
-    remain: boolean,
-    stockUseEa: boolean,
-    name: string
-    condition:boolean
-    receiptCategory:string
-}
-
 export interface StockSearchCondition {
     category?: string,
     remain: boolean|string, //true => 재고있는 품목만 검색
