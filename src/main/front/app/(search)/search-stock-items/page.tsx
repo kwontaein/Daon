@@ -8,14 +8,14 @@ import { revalidateTag } from "next/cache";
 export const revalidate = 10 * 60 * 1; 
 export default async function SearchCustomerItemsPage({searchParams} : SearchNameProps) {
     const page = (await searchParams).page ||1;
-    const stockName = (await searchParams).searchName;
+    const productName = (await searchParams).searchName;
 
     const postSearchInfo:StockSearchCondition = {
         category:null,
         condition:false,
         remain: false,
         stockUseEa: false,
-        productName: stockName
+        productName: productName
     }
     
     const searchResult:ResponseStock[] = await searchStockApi(postSearchInfo)
@@ -23,7 +23,7 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
 
     if (typeof window !== "undefined") {
         window.addEventListener("beforeunload", () => {
-          revalidateTag(`${stockName}`);
+          revalidateTag(`${productName}`);
         });
       }
     return(
