@@ -26,13 +26,14 @@ export async function stockSearchAction(prevState, formData){
     if(searchData.category==='none'){
         searchData.category = null;
     }
-    searchData.condition= searchData.condition!=='none'
+    searchData.condition= searchData.condition==='condition'
     searchData.remain = searchData.remain==='use'
     searchData.stockUseEa = searchData.stockUseEa==='use'
 
     const searchKey = uuidv4()
 
     const{category, condition, productName} = searchData
+
     if(!category && !condition && !productName){
         return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
     }

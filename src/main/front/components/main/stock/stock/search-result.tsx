@@ -54,7 +54,7 @@ const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock
                                        onChange={update_checked.bind(null,stock.stockId)}/>
                             </td>
                             <td>{stock.category?.stockCateName || ''}</td>
-                            <td className='left-align'>{stock.name}</td>
+                            <td className='left-align'>{stock.productName}</td>
                             <td>{stock.modelName}</td>
                             <td>{stock.quantity}</td>
                             <td>{stock.outPrice.toLocaleString('ko-KR')}</td>
