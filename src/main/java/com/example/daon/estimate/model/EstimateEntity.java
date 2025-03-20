@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,13 +57,11 @@ public class EstimateEntity {
     @JoinColumn(name = "company_id", nullable = false)
     private CompanyEntity company;
 
-
     //품목 목록
     @OneToMany(mappedBy = "estimate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EstimateItem> items; // 필드 업데이트 메서드
+    private List<EstimateItem> items;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "task")
     private TaskEntity task;
 
@@ -72,11 +71,20 @@ public class EstimateEntity {
      * 전체 필드 업데이트
      */
     public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> newItems) {
-        this.customer = customer;
-        this.company = company;
-        this.user = user;
+        if (customer != null) {
+            this.customer = customer;
+        }
+        if (company != null) {
+            this.company = company;
+        }
+        if (user != null) {
+            this.user = user;
+        }
+
         // 항목 리스트 동기화
-        syncItems(newItems);
+        if (newItems != null) {
+            syncItems(newItems);
+        }
         // 금액 재계산
         recalculateTotalAmount();
     }
@@ -86,7 +94,11 @@ public class EstimateEntity {
      */
     private void syncItems(List<EstimateItem> newItems) {
         // 기존 항목 삭제 (orphanRemoval 설정으로 자동 삭제)
-        this.items.clear();
+        if (this.items != null) {
+            this.items.clear();
+        } else {
+            this.items = new ArrayList<>();
+        }
         // 새로운 항목 추가
         newItems.forEach(item -> {
             item.setEstimate(this); // 양방향 연관 관계 설정
