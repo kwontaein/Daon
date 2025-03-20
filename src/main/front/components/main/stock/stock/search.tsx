@@ -197,9 +197,9 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                 <td>
                                     <input type='text' 
                                            ref={inputRef}
-                                           name='name' 
+                                           name='productName' 
                                            key={state.searchKey} 
-                                           defaultValue={state.name} />
+                                           defaultValue={state.productName} />
                                 </td>
                             </tr>
                         </tbody>

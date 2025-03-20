@@ -1,5 +1,5 @@
 import StockSearch from "@/components/main/stock/stock/search";
-import { getStockListApi, searchStockApi } from "@/features/stock/stock/api/searchStockApi";
+import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 
