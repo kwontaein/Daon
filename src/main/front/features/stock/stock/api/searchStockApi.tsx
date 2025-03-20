@@ -6,11 +6,6 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const nextOptions = {
-        revalidate: 300,
-        ...(searchCondition.productName ? { tags: [searchCondition.productName] } : {})
-    };
-
     return await fetch("http://localhost:8080/api/getStockList", {
         method: "POST",
         headers: {
@@ -18,8 +13,6 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         },
         body: JSON.stringify({ ...searchCondition, receiptCategory: 'DEPOSIT' }),
         signal,
-        next:nextOptions
-      
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
