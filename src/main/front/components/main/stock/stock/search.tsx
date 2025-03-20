@@ -56,8 +56,6 @@ export default function StockSearch({stockCate, initialStocks, page} : {
         }
     }
 
-
-
     return (
         <>
             <div className='search-container'>
@@ -110,7 +108,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                     <div className="grid-table-buttons">
                                         <button type='submit' disabled={isPending} onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                         <button
-                                            type='submit'
+                                            type="button"
                                             disabled={isPending}
                                             onClick={(e) => startTransition(() => {
                                                 e.preventDefault();
@@ -121,8 +119,8 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                                 redirectPage()
                                                 setCondition(false)
                                             })}>전 체 보 기</button>
-                                        <button onClick={registerStock}>신 규 등 록</button>
-                                        <button>엑 셀 변 환</button>
+                                        <button type="button" onClick={registerStock}>신 규 등 록</button>
+                                        <button type="button">엑 셀 변 환</button>
                                     </div>
                                 </td>
                             </tr>
@@ -137,7 +135,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                             <input
                                                 type='radio'
                                                 name='stockUseEa'
-                                                key={state.searchKey}
+                                                key={state.stockUseEa}
                                                 value='use'
                                                 disabled={!condition}
                                                 defaultChecked={condition && state.stockUseEa}/>
@@ -150,7 +148,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                             <input
                                                 type='radio'
                                                 name='stockUseEa'
-                                                key={state.searchKey + 1}
+                                                key={state.stockUseEa + 1}
                                                 value='unUse'
                                                 disabled={!condition}
                                                 defaultChecked={condition && !state.stockUseEa}/>
@@ -170,7 +168,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                             <input
                                                 type='radio'
                                                 name='remain'
-                                                key={state.searchKey}
+                                                key={state.remain}
                                                 value='use'
                                                 disabled={!condition}
                                                 defaultChecked={condition && state.remain}/>
@@ -183,7 +181,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                             <input
                                                 type='radio'
                                                 name='remain'
-                                                key={state.searchKey}
+                                                key={state.remain+1}
                                                 value='unUse'
                                                 disabled={!condition}
                                                 defaultChecked={condition && !state.remain}/>
@@ -198,7 +196,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                     <input type='text' 
                                            ref={inputRef}
                                            name='productName' 
-                                           key={state.searchKey} 
+                                           key={state.productName} 
                                            defaultValue={state.productName} />
                                 </td>
                             </tr>

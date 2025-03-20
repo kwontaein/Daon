@@ -22,9 +22,10 @@ export default async function StockPage({searchParams}:StockPageProps){
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    
     //getStocks
     const initialStocks:ResponseStock[] = await getStockListApi(allStockRequestBody)
+
+
     return(
         <section>
             <Suspense fallback={<div>loading...</div>}>
