@@ -35,7 +35,6 @@ public class EstimateRequest {
     public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> items) {
         return EstimateEntity
                 .builder()
-                .estimateId(estimateId)
                 .customer(customer)
                 .company(company)
                 .user(user)

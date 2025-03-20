@@ -158,7 +158,6 @@ public class GlobalService {
         return EstimateItemResponse
                 .builder()
                 .itemId(estimateItem.getItemId())
-                .estimate(convertToEstimateResponse(estimateItem.getEstimate()))
                 .productName(estimateItem.getStock().getProductName())
                 .modelName(estimateItem.getStock().getModelName())
                 .quantity(estimateItem.getQuantity())
