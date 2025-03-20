@@ -38,7 +38,7 @@ export  async function saveEstimate(estimate:ResponseEstimate){
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({estimate}),
+        body: JSON.stringify(estimate),
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
