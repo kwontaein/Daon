@@ -74,8 +74,11 @@ input[type="date"]{
     background-color: unset !important;
     text-align: right !important;
     button{
-        margin-top: 0.5em;
+        width: 80px;
+        margin-top: 10px;
         padding: 0.2rem;
+        border-radius: 2px;
+        margin-left: 8px;
     }
 }
 
