@@ -29,7 +29,7 @@ public class EstimateItemRequest {
     public EstimateItem toEntity(EstimateEntity entity, StockEntity stock) {
         return EstimateItem
                 .builder()
-                .itemId(itemId)
+                .itemId(entity.getEstimateId())
                 .estimate(entity)
                 .productName(productName)
                 .modelName(modelName)

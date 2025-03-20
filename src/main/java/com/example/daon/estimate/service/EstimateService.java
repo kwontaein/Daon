@@ -174,37 +174,34 @@ public class EstimateService {
 
     @Transactional
     public void saveEstimate(EstimateRequest request) {
-        System.out.println(request.toString());
         // 1. 필요한 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
 
-        // 2. EstimateEntity 생성
+        // 2. EstimateEntity 생성 및 자식 엔티티 연결
         EstimateEntity estimate = request.toEntity(customer, company, user, null);
-
-        // 3. 아이템 리스트 변환
-        List<EstimateItem> newItems = request.getItems().stream()
+        List<EstimateItem> items = request.getItems().stream()
                 .map(itemRequest -> {
                     StockEntity stock = null;
                     if (itemRequest.getStockId() != null) {
                         stock = stockRepository.findById(itemRequest.getStockId())
                                 .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
                     }
-                    return itemRequest.toEntity(estimate, stock);
+                    EstimateItem item = itemRequest.toEntity(estimate, stock);
+                    // 양방향 연관관계 설정
+                    item.setEstimate(estimate);
+                    return item;
                 })
                 .collect(Collectors.toList());
 
-        // 4. 연관관계 세팅(양방향인 경우):
-        // 만약 편의 메서드를 사용하지 않고 직접 리스트에 추가할 경우:
-        estimate.setItems(new ArrayList<>());  // 혹은 request.toEntity(...) 내부에서 초기화
-        for (EstimateItem item : newItems) {
-            item.setEstimate(estimate);
-            estimate.getItems().add(item);
-        }
-        // 5. EstimateEntity 저장 (cascade = ALL이므로 item들도 자동으로 저장됨)
+        // 부모 엔티티에 자식 엔티티 리스트 설정
+        estimate.setItems(items);
+
+        // cascade 옵션이 올바르게 설정되어 있다면, 이 한 번의 save 호출로 부모와 자식 모두 저장됩니다.
         estimateRepository.save(estimate);
     }
+
 
     public EstimateResponse getEstimate(UUID estimateId) {
         EstimateEntity estimate = estimateRepository.findById(estimateId).orElse(null);

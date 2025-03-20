@@ -22,10 +22,6 @@ public class EstimateItem {
     @Column(nullable = false, unique = true, name = "item_id", columnDefinition = "BINARY(16)")
     private UUID itemId;
 
-    @ManyToOne
-    @JoinColumn(name = "estimate_id", nullable = false)
-    private EstimateEntity estimate;
-
     @Column(name = "product_name", nullable = false)
     private String productName;
 
@@ -42,6 +38,10 @@ public class EstimateItem {
     @Column(name = "hand", nullable = false)
     private boolean hand;
 
+    @ManyToOne
+    @JoinColumn(name = "estimate_id", nullable = false)
+    private EstimateEntity estimate;
+    
     // 필드 업데이트 메서드
     @ManyToOne
     @JoinColumn(name = "stock_id")
