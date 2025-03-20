@@ -33,16 +33,16 @@ function isInvalidText(text) {
     return !text || text.trim() === '';
   }
 
-const EstimateItemSequence = ['itemId','modelName', 'quantity', 'unitPrice', 'stockId', 'productName', 'hand']
+const EstimateItemSequence = ['itemId','productName','modelName', 'quantity', 'unitPrice', 'stockId' , 'hand']
 export default async function estimateRegisterAction(prevState, formState){
     const arr = []
-    arr.push(formState.getAll('itemId'))
-    arr.push(formState.getAll('productName'))
-    arr.push(formState.getAll('modelName'))
-    arr.push(formState.getAll('quantity').map((item)=>Number(item.replaceAll(',',''))))
-    arr.push(formState.getAll('unitPrice').map((item)=>Number(item.replaceAll(',',''))))
-    arr.push( formState.getAll('stockId'))
-    arr.push(formState.getAll('hand').map((item)=>Boolean(item)))
+    arr.push(formState.getAll(EstimateItemSequence[0]))
+    arr.push(formState.getAll(EstimateItemSequence[1]))
+    arr.push(formState.getAll(EstimateItemSequence[2]))
+    arr.push(formState.getAll(EstimateItemSequence[3]).map((item)=>Number(item.replaceAll(',',''))))
+    arr.push(formState.getAll(EstimateItemSequence[4]).map((item)=>Number(item.replaceAll(',',''))))
+    arr.push(formState.getAll(EstimateItemSequence[5]))
+    arr.push(formState.getAll(EstimateItemSequence[6]).map((item)=>Boolean(item)))
 
     const items = arr.reduce((prev,next,row)=>{
         next.forEach((item,column)=>{
