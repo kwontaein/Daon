@@ -13,6 +13,10 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         },
         body: JSON.stringify({ ...searchCondition, receiptCategory: 'DEPOSIT' }),
         signal,
+        next: {
+            revalidate: 300, 
+            ...(searchCondition.productName ? { tags: [`${searchCondition.productName}`] } : {})
+        }
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
