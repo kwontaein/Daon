@@ -30,3 +30,12 @@ export enum ReceiptCategory {
   RETURN_OUT="반품출고",         // 반품출고
   RETURN_IN="반품입고"  // 반품입고
 }
+
+
+export type ReceiptCondition = {
+  searchSDate :Date;  //검색 날짜 시작일
+  searchEDate:Date,  //검색 날짜 종료일
+  ids:string[], //여러개 한번에 생성 시 보내는 아이디
+  customerName:string; //고객명
+  productName:string; //품명
+}
