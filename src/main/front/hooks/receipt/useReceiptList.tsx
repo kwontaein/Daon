@@ -18,6 +18,7 @@ const initReceipt: RequestReceipt = {
     quantity:0,
     unitPrice:0,
     totalPrice:0,
+    description:''
 };
 
 type ClientMousePosition = { x: number; y: number };
@@ -130,6 +131,7 @@ export default function useReceiptList() {
             return
         }
         const postReceiptList = ()=>{
+            console.log(receiptList)
             saveReceiptListApi(receiptList).then((status)=>{
                 if(status ===200){
                     window.alert('저장이 완료되었습니다.')
