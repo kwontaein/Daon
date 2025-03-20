@@ -15,6 +15,7 @@ export const initialEstimate = (task:ResponseTask,companyList:ResponseCompany[],
         view='edit'
     }
     return  {
+    taskId:task.taskId,
     companyId:estimate ? estimate.companyId : companyList[0].companyId,
     estimateId: estimate ? estimate.estimateId : null,
     estimateDate:  dayjs(estimate ? estimate.estimateDate :task.createdAt).format('YYYY-MM-DD'),
@@ -55,6 +56,7 @@ export default async function estimateRegisterAction(prevState, formState){
     },Array.from({length:formState.getAll('productName').length}, (_,i)=>[]))
 
     let estimateData:ResponseEstimate ={
+        taskId:prevState.taskId,
         estimateId:prevState.estimateId,
         customerId: formState.get('customerId'),
         companyId: formState.get('companyId'),

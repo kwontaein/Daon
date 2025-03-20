@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import './_header.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -11,7 +12,7 @@ export default function MainHeader(){
         <section className="header-container">
             <span className="header-content left">
                 <p>2024년 12월 30일 (월요일)</p>
-                <b className="header-depart"> 웹관리팀 / 권태인 사원</b>
+                <b className="header-depart"> 웹관리팀 / 강승재 사원</b>
             </span>
             <span className="header-content right">
                 <p className="header-lastOnline">최종접속일시 : 2024-12-27 PM 17:08:48</p>
