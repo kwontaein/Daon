@@ -81,14 +81,18 @@ public class ReceiptsService {
         if (request.getEstimateId() != null) {
             entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
         }
-        ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
+
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         StockEntity stock = stockRepository.findById(request.getStockId()).orElse(null);
-        if (receiptEntity != null) {
-            receiptEntity.updateFromRequest(request, customer, stock);
-            return;
-        }
 
+        if (request.getReceiptId() != null) {
+            ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
+            if (receiptEntity != null) {
+                receiptEntity.updateFromRequest(request, customer, stock);
+                return;
+            }
+        }
+        
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock);
         //그리고 저장
@@ -137,6 +141,7 @@ public class ReceiptsService {
      */
     public void saveReceipt(List<ReceiptRequest> requests) {
         for (ReceiptRequest request : requests) {
+            request.setReceiptId(null);
             saveOrUpdateReceipt(request);
         }
     }
