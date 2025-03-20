@@ -22,7 +22,9 @@ public class TaskController {
     //관리자데이터조회
     @GetMapping("api/getTask")
     public List<TaskResponse> getTask() {
-        return taskService.getTask();
+        List<TaskResponse> taskResponses = taskService.getTask();
+        System.out.println(taskResponses.toString());
+        return taskResponses;
     }
 
     //관리자데이터조회
