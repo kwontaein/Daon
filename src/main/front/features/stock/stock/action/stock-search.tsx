@@ -7,7 +7,7 @@ export const initialStockState = {
     category: 'none',
     remain: true,
     stockUseEa: true,
-    name: '',
+    productName: '',
     condition:'none',
     stocks:[],
     initialStocks:[],
@@ -21,7 +21,7 @@ export async function stockSearchAction(prevState, formData){
         remain: formData.get('remain'),
         stockUseEa: formData.get('stockUseEa'),
         condition: formData.get('condition'),
-        name: formData.get('name'),
+        productName: formData.get('productName'),
     }
     if(searchData.category==='none'){
         searchData.category = null;
@@ -32,8 +32,8 @@ export async function stockSearchAction(prevState, formData){
 
     const searchKey = uuidv4()
 
-    const{category, condition, name} = searchData
-    if(!category && !condition && !name){
+    const{category, condition, productName} = searchData
+    if(!category && !condition && !productName){
         return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
     }
     const stocks = await searchStockApi(searchData)
