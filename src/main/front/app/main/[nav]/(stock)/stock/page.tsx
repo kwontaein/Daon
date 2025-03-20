@@ -1,5 +1,5 @@
 import StockSearch from "@/components/main/stock/stock/search";
-import { getStockListApi, searchStockApi } from "@/features/stock/stock/api/searchStockApi";
+import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 
@@ -22,9 +22,10 @@ export default async function StockPage({searchParams}:StockPageProps){
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    
     //getStocks
     const initialStocks:ResponseStock[] = await getStockListApi(allStockRequestBody)
+
+
     return(
         <section>
             <Suspense fallback={<div>loading...</div>}>
