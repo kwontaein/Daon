@@ -1,4 +1,4 @@
-package com.example.daon.accounting.dto;
+package com.example.daon.accounting.dto.request;
 
 public class AccountingRequest {
     //분류선택
