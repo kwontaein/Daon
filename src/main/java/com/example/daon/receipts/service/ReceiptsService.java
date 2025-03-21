@@ -102,7 +102,7 @@ public class ReceiptsService {
         //그리고 저장
         receiptRepository.save(receipt);
         //그 후 미수미지급 항목 업데이트
-        updateCustomerBill(customer, receipt.getCategory(), receipt.getTotalPrice());
+        //updateCustomerBill(customer, receipt.getCategory(), receipt.getTotalPrice());
     }
 
     /**
