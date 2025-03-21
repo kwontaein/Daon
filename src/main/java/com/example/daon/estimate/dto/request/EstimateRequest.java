@@ -44,6 +44,7 @@ public class EstimateRequest {
                 .totalAmount(totalAmount)
                 .estimateDate(LocalDateTime.now())
                 .items(items)
+                .task(task)
                 .build();
     }
 }
