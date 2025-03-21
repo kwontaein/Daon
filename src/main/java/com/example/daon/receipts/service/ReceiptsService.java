@@ -41,7 +41,7 @@ public class ReceiptsService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (!category.equals(ReceiptCategory.EX)) {
-                predicates.add(criteriaBuilder.equal(root.get("customer"), category));
+                predicates.add(criteriaBuilder.equal(root.get("category"), category));
             }
 
             // 기간 조건
@@ -77,7 +77,7 @@ public class ReceiptsService {
         return null;
     }
 
-    
+
     /**
      * 전표 저장 및 수정 공통 로직
      */
