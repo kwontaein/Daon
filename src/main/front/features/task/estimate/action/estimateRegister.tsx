@@ -8,27 +8,33 @@ import { ResponseTask } from "@/model/types/task/task/type"
 import dayjs from "dayjs"
 import { saveEstimate, updateEstimate } from "../api/estimateApi"
 
-export const initialEstimate = (task:ResponseTask,companyList:ResponseCompany[],mode:string,estimate?:ResponseEstimate)=>{
-    let view = mode;
-    //estimate가 존재하면 write상태가 아닌 edit이어야함
-    if(estimate && mode==='write'){
-        view='edit'
-    }
-    return  {
-    taskId:task.taskId,
-    companyId:estimate ? estimate.companyId : companyList[0].companyId,
-    estimateId: estimate ? estimate.estimateId : null,
-    estimateDate:  dayjs(estimate ? estimate.estimateDate :task.createdAt).format('YYYY-MM-DD'),
-    userId: estimate ? estimate.userId : task.assignedUser,
-    totalAmount: estimate ? estimate.totalAmount : 0,
-    customerId: estimate ? estimate.customerId : task.customer.customerId,
-    customerName:estimate ? estimate.customerName : task.customer.customerName,
-    items : estimate ? Object.fromEntries(estimate.items.map((item)=>{
-        return [item.itemId, {...item}]
-    })) : [],
-    mode : view,
-}
-}
+type InitialEstimateParams = {
+  task: ResponseTask;
+  companyList: ResponseCompany[];
+  mode: string;
+  estimate?: ResponseEstimate;
+};
+
+export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEstimateParams) => {
+  const isEditMode = estimate && mode === "write";
+  const viewMode = isEditMode ? "edit" : mode;
+
+  return {
+    taskId: task.taskId,
+    companyId: estimate?.companyId ?? companyList[0].companyId,
+    estimateId: estimate?.estimateId ?? null,
+    estimateDate: dayjs(estimate?.estimateDate ?? task.createdAt).format("YYYY-MM-DD"),
+    userId: estimate?.userId ?? task.assignedUser,
+    totalAmount: estimate?.totalAmount ?? 0,
+    customerId: estimate?.customerId ?? task.customer.customerId,
+    customerName: estimate?.customerName ?? task.customer.customerName,
+    items: estimate
+      ? Object.fromEntries(estimate.items.map((item) => [item.itemId, { ...item }]))
+      : [],
+    mode: viewMode,
+  };
+};
+
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
