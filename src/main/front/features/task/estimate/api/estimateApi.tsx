@@ -40,7 +40,7 @@ export  async function saveEstimate(estimate:ResponseEstimate){
         },
         body: JSON.stringify(estimate),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+        cache:'no-cache'
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
