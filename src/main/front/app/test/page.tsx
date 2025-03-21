@@ -1,6 +1,8 @@
 "use client";  // 최상단에 추가
 import '@/styles/_global.scss';
 import axios from "axios";
+import {getReceiptListApi} from "@/features/sales/receipt/api/receiptApi";
+import {ReceiptCategory} from "@/model/types/receipt/type";
 
 
 export default async function TestPage() {
@@ -318,6 +320,27 @@ export default async function TestPage() {
         }
     }
 
+
+    async function getReceipts() {
+        // 전송할 데이터 (예시)
+        const receipts = {
+            category: ReceiptCategory.SALES,
+            searchSDate: null,
+            searchEDate: null,
+            customerId: null,
+            stockId: null
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/getReceipts' // 실제 API 주소로 변경
+                , receipts
+            );
+            console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
     return (
         <div>
             <div>테스트용 페이지</div>
@@ -367,6 +390,9 @@ export default async function TestPage() {
             </div>
             <div>
                 <button onClick={updateStockCate}>회사목록 수정</button>
+            </div>
+            <div>
+                <button onClick={getReceipts}>견적서조회</button>
             </div>
         </div>
     );
