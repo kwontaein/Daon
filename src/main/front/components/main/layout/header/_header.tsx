@@ -6,13 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileNavButton from "../nav/mobile/_mobile-nav-button";
 import { useDispatch } from "react-redux";
-import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer2";
+import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 
 export default function MainHeader(){
     
     const dispatch = useDispatch()
-
+    const {message} = useSelector((state:RootState)=>state.stomp)
     useEffect(()=>{
         dispatch(stompConnect())
 
@@ -20,6 +22,10 @@ export default function MainHeader(){
             dispatch(stompDisconnect())
         }
     },[])
+
+    useEffect(()=>{
+        console.log(message)
+    },[message])
     return (
         <section className="header-container">
             <span className="header-content left">
