@@ -34,7 +34,6 @@ public class ReceiptsController {
 
     @PostMapping("api/saveReceipts")
     public void saveReceipt(@RequestBody List<ReceiptRequest> requests) {
-        System.out.println(requests.toString());
         receiptsService.saveReceipt(requests);
     }
 

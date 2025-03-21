@@ -23,7 +23,6 @@ public class TaskController {
     @GetMapping("api/getTask")
     public List<TaskResponse> getTask() {
         List<TaskResponse> taskResponses = taskService.getTask();
-        System.out.println(taskResponses.toString());
         return taskResponses;
     }
 
