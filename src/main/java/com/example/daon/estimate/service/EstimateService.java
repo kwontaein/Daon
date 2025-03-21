@@ -182,7 +182,7 @@ public class EstimateService {
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
         TaskEntity task = taskRepository.findById(request.getTaskId()).orElse(null);
-
+        System.out.println(task.toString());
         // 2. EstimateEntity 생성 및 자식 엔티티 연결
         EstimateEntity estimate = request.toEntity(customer, company, user, task, null);
         List<EstimateItem> items = request.getItems().stream()
