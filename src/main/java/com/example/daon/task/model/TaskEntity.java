@@ -67,7 +67,7 @@ public class TaskEntity {
     private LocalDateTime completeAt; // 조치일
 
     @OneToOne
-    @JoinColumn(name = "estimate")
+    @JoinColumn(name = "estimate", nullable = true)
     private EstimateEntity estimate;
 
     public void updateFromRequest(TaskRequest request, UserEntity user, EstimateEntity estimate) {
