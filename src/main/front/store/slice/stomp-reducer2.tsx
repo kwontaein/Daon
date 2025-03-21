@@ -1,6 +1,7 @@
 import {handleActions} from 'redux-actions';
 
 export const SYNCHRONIZATION_STOMP = 'SYNCHRONIZATION_STOMP';
+export const DISCONNECT_STOMP = 'DISCONNECT_STOMP';
 export const RECEIVED_STOMP_MSG = 'RECEIVED_STOMP_MSG';
 
 
@@ -22,9 +23,13 @@ const initialState: StompState ={
     },
 }
 
-export const stompConnect = (payload:{isConnect:boolean}) => ({ 
+export const stompConnect = () => ({ 
     type:SYNCHRONIZATION_STOMP,
-    payload:payload,
+    payload:true,
+})
+export const stompDisconnect = () => ({ 
+    type:DISCONNECT_STOMP,
+    payload:false,
 })
 
 
