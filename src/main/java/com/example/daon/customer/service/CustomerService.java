@@ -54,7 +54,6 @@ public class CustomerService {
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (customerName != null && !customerName.trim().isEmpty()) {
-                System.out.println("customerName : " + customerName);
                 // customerName 이 비어있지 않을 때 OR 조건 사용
                 predicates.add(
                         criteriaBuilder.or(
@@ -64,7 +63,6 @@ public class CustomerService {
                         )
                 );
             } else if (ceo != null && !ceo.trim().isEmpty()) {// 대표자 부분 검색 (ceo 가 비어있지 않을 경우)
-                System.out.println("ceo : " + ceo);
                 predicates.add(criteriaBuilder.like(root.get("ceo"), "%" + ceo + "%"));
             }
 

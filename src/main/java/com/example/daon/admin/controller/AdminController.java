@@ -26,14 +26,12 @@ public class AdminController {
     @PostMapping("api/test")
     public ResponseEntity test() {
         adminService.test();
-        System.out.println("api 호출");
         return ResponseEntity.ok("성공");
     }
 
     //로그인
     @PostMapping("api/signIn")
     public void SignIn(@RequestBody UserRequest userRequest) {
-        System.out.println(userRequest.getUserId() + " / " + userRequest.getPassword());
         adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
     }
 
@@ -50,8 +48,6 @@ public class AdminController {
 
     @PostMapping("api/getEmployeeDetail")
     public UserEntity GetEmployeeDetail(@RequestBody UserRequest userRequest) {
-        System.out.println("Received userId: " + userRequest.getUserId()); // 디버깅용 출력
-
         return adminService.GetEmployeeDetail(userRequest);
     }
 
