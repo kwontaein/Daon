@@ -41,7 +41,7 @@ public class StockService {
                 StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
                 predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
-            
+
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
             if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
                 // customerName 이 비어있지 않을 때 OR 조건 사용
@@ -98,7 +98,6 @@ public class StockService {
         StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
 
-        System.out.println(stockRequest.toString());
         // 새로 생성
         StockEntity newStock = stockRequest.toEntity(stockCate);
         stockRepository.save(newStock);

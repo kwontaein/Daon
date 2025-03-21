@@ -31,8 +31,6 @@ public class WebSocketAspect {
         for (int i = 0; i < parameterNames.length; i++) {
             String paramName = parameterNames[i];
             Object paramValue = args[i];
-            System.out.println(paramName);
-            System.out.println(paramValue);
             message.setDestination(paramName.replace("Request", ""));
             if (paramValue instanceof List<?>) {
                 break;
@@ -59,7 +57,6 @@ public class WebSocketAspect {
                 }
             }
         }
-        System.out.println(message);
         messagingTemplate.convertAndSend("/topic/transaction_alert", message);
     }
 }
