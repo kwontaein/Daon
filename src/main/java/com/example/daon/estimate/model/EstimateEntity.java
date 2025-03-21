@@ -61,8 +61,7 @@ public class EstimateEntity {
     @OneToMany(mappedBy = "estimate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EstimateItem> items;
 
-    @OneToOne
-    @JoinColumn(name = "task")
+    @OneToOne(mappedBy = "estimate", cascade = CascadeType.ALL, optional = true)
     private TaskEntity task;
 
     // === 필드 업데이트 메서드 ===
