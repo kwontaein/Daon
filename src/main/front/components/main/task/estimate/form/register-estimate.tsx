@@ -22,7 +22,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     estimate: ResponseEstimate |undefined,
     mode: string
 }) {
-    const initialState = initialEstimate(task, companyList, mode, estimate)
+    const initialState = initialEstimate({task, companyList, mode, estimate})
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
