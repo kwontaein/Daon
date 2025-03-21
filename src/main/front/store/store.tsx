@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import receiptSearchSlice from './slice/receipt-search'
 import receiptSelectorSlice  from './slice/receipt-select';
-import { initializeStompChannel } from './middleware/stomp-middleware';
+import { initializeStompChannel } from './middleware/stomp-middleware2';
 import { all } from "@redux-saga/core/effects"; 
 import StompReducer, { updateStompState } from './slice/stomp-reducer';
 import createSagaMiddleware from 'redux-saga';

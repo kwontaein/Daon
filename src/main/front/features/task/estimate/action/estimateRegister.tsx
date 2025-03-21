@@ -87,17 +87,19 @@ export default async function estimateRegisterAction(prevState, formState){
     }
 
     if(action ==='submit'){
+        let status;
         if(errors.length>0){
             const formErrors = Object.fromEntries(errors)
             return {...prevState,...estimateData, formErrors}
         }
         if(prevState.mode ==='write'){
-            const status = await saveEstimate(estimateData)
+            status = await saveEstimate(estimateData)
         }else if(prevState.mode ==='edit'){
-            const status = await updateEstimate(estimateData)
+            status = await updateEstimate(estimateData)
         }
-        return {...prevState, ...estimateData}
+        return {...prevState, ...estimateData, status}
     }else{
+        delete prevState.status
         delete prevState.formErrors
         return {...prevState, ...estimateData}
     }
