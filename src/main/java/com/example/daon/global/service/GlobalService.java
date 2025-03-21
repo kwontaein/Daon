@@ -177,7 +177,6 @@ public class GlobalService {
         return ReceiptResponse
                 .builder()
                 .receiptId(receipt.getReceiptId())
-                .estimateId(receipt.getEstimate() != null ? receipt.getEstimate().getEstimateId() : null)
                 .timeStamp(receipt.getTimeStamp())
                 .category(receipt.getCategory())
                 .stockId(receipt.getStock().getStockId())

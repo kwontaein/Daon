@@ -181,7 +181,11 @@ public class EstimateService {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
-        TaskEntity task = taskRepository.findById(request.getTaskId()).orElse(null);
+        TaskEntity task = null;
+        if (request.getTaskId() != null) {
+            task = taskRepository.findById(request.getTaskId()).orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
+        }
+
         // 2. EstimateEntity 생성 및 자식 엔티티 연결
         EstimateEntity estimate = request.toEntity(customer, company, user, task, null);
         List<EstimateItem> items = request.getItems().stream()
@@ -200,9 +204,12 @@ public class EstimateService {
 
         // 부모 엔티티에 자식 엔티티 리스트 설정
         estimate.setItems(items);
-
         // cascade 옵션이 올바르게 설정되어 있다면, 이 한 번의 save 호출로 부모와 자식 모두 저장됩니다.
-        estimateRepository.save(estimate);
+        if (task != null) {
+            estimate.setTask(task);
+            task.setEstimate(estimate);
+        }
+        estimateRepository.save(estimate); // task가 null이면 단순 저장, 존재하면 cascade에 의해 함께 저장
     }
 
 
