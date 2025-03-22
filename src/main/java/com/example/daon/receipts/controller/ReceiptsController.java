@@ -23,13 +23,13 @@ public class ReceiptsController {
      * 조건부 전표 검색
      */
     @PostMapping("api/getReceipts")
-    public List<ReceiptResponse> getReceipts(@RequestBody ReceiptRequest request) {
-        return receiptsService.getReceipts(request.getCategory(), request.getSearchSDate(), request.getSearchEDate(), request.getCustomerId(), request.getStockId());
+    public List<ReceiptResponse> getReceipts(@RequestBody ReceiptRequest receiptRequest) {
+        return receiptsService.getReceipts(receiptRequest.getCategory(), receiptRequest.getSearchSDate(), receiptRequest.getSearchEDate(), receiptRequest.getCustomerId(), receiptRequest.getStockId());
     }
 
     @PostMapping("api/updateReceipt")
-    public void updateReceipt(@RequestBody ReceiptRequest request) {
-        receiptsService.updateReceipt(request);
+    public void updateReceipt(@RequestBody ReceiptRequest receiptRequest) {
+        receiptsService.updateReceipt(receiptRequest);
     }
 
     @PostMapping("api/saveReceipts")
@@ -38,8 +38,8 @@ public class ReceiptsController {
     }
 
     @PostMapping("api/deleteReceipt")
-    public void deleteReceipt(@RequestBody ReceiptRequest request) {
-        receiptsService.deleteReceipts(request.getIds());
+    public void deleteReceipt(@RequestBody ReceiptRequest receiptRequest) {
+        receiptsService.deleteReceipts(receiptRequest.getIds());
     }
 
 }
