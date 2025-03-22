@@ -17,7 +17,6 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
     const formRef = useRef<HTMLFormElement|null>(null);
 
-    
     const checkCustomerName = () => !!state.customerId
 
     const changeHandler = (
