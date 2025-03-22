@@ -45,9 +45,8 @@ export  async function saveEstimate(estimate:ResponseEstimate){
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
+
+        return response.status
     }).catch((error) => {
             if(error.name=== 'AbortError'){
                 console.log('Fetch 요청이 시간초과되었습니다.')

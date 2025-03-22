@@ -7,7 +7,7 @@ export const RECEIVED_STOMP_MSG = 'RECEIVED_STOMP_MSG';
 
 export type StompMessage ={
     destination:string,
-    targetId:string,
+    id:string,
 }
 
 export interface StompState {
@@ -19,7 +19,7 @@ const initialState: StompState ={
     isConnect: false,
     message: {
         destination: '',
-        targetId: '',
+        id: '',
     },
 }
 
