@@ -109,8 +109,8 @@ public class ReceiptsService {
     /**
      * 전표 저장 및 수정 (단일 객체)
      */
-    public void updateReceipt(ReceiptRequest request) {
-        saveOrUpdateReceipt(request);
+    public void updateReceipt(ReceiptRequest receiptRequest) {
+        saveOrUpdateReceipt(receiptRequest);
     }
 
     /**

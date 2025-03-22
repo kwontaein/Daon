@@ -20,30 +20,30 @@ public class EstimateController {
 
     //견적서관리-----------------------------------
     @PostMapping("api/getEstimates")
-    public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest request) {
-        return estimateService.getEstimates(request.getSearchSDate(), request.getSearchEDate(), request.getCustomerName(), request.getProductName());
+    public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest estimateRequest) {
+        return estimateService.getEstimates(estimateRequest.getSearchSDate(), estimateRequest.getSearchEDate(), estimateRequest.getCustomerName(), estimateRequest.getProductName());
     }
 
     @PostMapping("api/getEstimate")
-    public EstimateResponse getEstimate(@RequestBody EstimateRequest request) {
-        return estimateService.getEstimate(request.getEstimateId());
+    public EstimateResponse getEstimate(@RequestBody EstimateRequest estimateRequest) {
+        return estimateService.getEstimate(estimateRequest.getEstimateId());
     }
 
     //수정
     @PostMapping("api/updateEstimate")
-    public void updateEstimate(@RequestBody EstimateRequest request) {
-        estimateService.updateTest(request);
+    public void updateEstimate(@RequestBody EstimateRequest estimateRequest) {
+        estimateService.updateTest(estimateRequest);
     }
 
     //전표전환
     @PostMapping("api/estimatesPaid")
-    public void estimatesPaid(@RequestBody EstimateRequest request) {
-        estimateService.estimatesPaid(request);
+    public void estimatesPaid(@RequestBody EstimateRequest estimateRequest) {
+        estimateService.estimatesPaid(estimateRequest);
     }
 
     @PostMapping("api/saveEstimate")
-    public void saveEstimate(@RequestBody EstimateRequest request) {
-        estimateService.saveEstimate(request);
+    public void saveEstimate(@RequestBody EstimateRequest estimateRequest) {
+        estimateService.saveEstimate(estimateRequest);
     }
 
 }

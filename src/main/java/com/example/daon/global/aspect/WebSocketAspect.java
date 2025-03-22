@@ -24,14 +24,25 @@ public class WebSocketAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String[] parameterNames = signature.getParameterNames();
 
+        for (String s : parameterNames) {
+            System.out.println("parameterName : " + s);
+        }
         Message message = new Message();
 
         Object[] args = joinPoint.getArgs();
 
+        System.out.println("args : " + args.toString());
+
+
         for (int i = 0; i < parameterNames.length; i++) {
             String paramName = parameterNames[i];
             Object paramValue = args[i];
+
+            System.out.println("paramName : " + paramName);
+            System.out.println("paramValue : " + paramValue.toString());
+
             message.setDestination(paramName.replace("Request", ""));
+
             if (paramValue instanceof List<?>) {
                 break;
             }
@@ -57,6 +68,7 @@ public class WebSocketAspect {
                 }
             }
         }
+        System.out.println(message);
         messagingTemplate.convertAndSend("/topic/transaction_alert", message);
     }
 }

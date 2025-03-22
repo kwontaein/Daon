@@ -24,34 +24,34 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("api/getCustomers")
-    public List<CustomerResponse> getCustomers(@RequestBody CustomerRequest request) {
+    public List<CustomerResponse> getCustomers(@RequestBody CustomerRequest customerRequest) {
         return customerService.getCustomers(
-                request.getCategory()
-                , request.getCateId()
-                , request.getCustomerName()
-                , request.getSearchTarget()
-                , request.getCeo()
+                customerRequest.getCategory()
+                , customerRequest.getCateId()
+                , customerRequest.getCustomerName()
+                , customerRequest.getSearchTarget()
+                , customerRequest.getCeo()
         );
     }
 
     @PostMapping("api/getCustomer")
-    public CustomerResponse getCustomer(@RequestBody CustomerRequest request) {
-        return customerService.getCustomer(request.getCustomerId());
+    public CustomerResponse getCustomer(@RequestBody CustomerRequest customerRequest) {
+        return customerService.getCustomer(customerRequest.getCustomerId());
     }
 
     @PostMapping("api/saveCustomer")
-    public void saveCustomer(@RequestBody CustomerRequest request) {
-        customerService.saveCustomer(request);
+    public void saveCustomer(@RequestBody CustomerRequest customerRequest) {
+        customerService.saveCustomer(customerRequest);
     }
 
     @PostMapping("api/updateCustomer")
-    public void updateCustomer(@RequestBody CustomerRequest request) {
-        customerService.updateCustomer(request);
+    public void updateCustomer(@RequestBody CustomerRequest customerRequest) {
+        customerService.updateCustomer(customerRequest);
     }
 
     @PostMapping("api/deleteCustomers")
-    public void deleteCustomers(@RequestBody CustomerRequest request) {
-        customerService.deleteCustomers(request);
+    public void deleteCustomers(@RequestBody CustomerRequest customerRequest) {
+        customerService.deleteCustomers(customerRequest);
     }
 
     //customerCate ------------------------------------
@@ -61,17 +61,17 @@ public class CustomerController {
     }
 
     @PostMapping("api/updateAffiliation")
-    public void updateAffiliation(@RequestBody List<AffiliationRequest> request) {
-        customerService.updateAffiliation(request);
+    public void updateAffiliation(@RequestBody List<AffiliationRequest> affiliationRequest) {
+        customerService.updateAffiliation(affiliationRequest);
     }
 
     @PostMapping("api/saveAffiliation")
-    public void saveAffiliation(@RequestBody AffiliationRequest request) {
-        customerService.saveAffiliation(request);
+    public void saveAffiliation(@RequestBody AffiliationRequest affiliationRequest) {
+        customerService.saveAffiliation(affiliationRequest);
     }
 
     @PostMapping("api/deleteAffiliation")
-    public void deleteAffiliation(@RequestBody AffiliationRequest request) {
-        customerService.deleteAffiliation(request);
+    public void deleteAffiliation(@RequestBody AffiliationRequest affiliationRequest) {
+        customerService.deleteAffiliation(affiliationRequest);
     }
 }
