@@ -41,12 +41,12 @@ function* startStomp(): any {
     //put : dispatch의 기능을 수행함
     while (isRunning) {
         //race -> 먼저 끝나는 것부터 처리
-        const {receiveMessage, timeout} = yield race({
+        const {message, timeout} = yield race({
             timeout: delay(60 * 60 * 1000), 
-            receiveMessage: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
+            message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
         });
         if (timeout) isRunning = false;
-        yield put(receivedStompMsg(receiveMessage));
+        yield put(receivedStompMsg(message));
         // const receiveData = yield put(receivedStompMsg(receiveMessage));
     }
 
@@ -97,7 +97,7 @@ function createEventChannel(stompClient: CompatClient) {
     return eventChannel(emit => {
         //subscriber 함수는 새로운 구독이 시작될 때 호출되고, 구독이 종료될 때 호출되는 unsubscribe 함수를 반환
         const subscribeMessage = ()=> {
-            stompClient.subscribe(`transaction_alert`, (iMessage: IMessage) => {
+            stompClient.subscribe(`/topic/transaction_alert`, (iMessage: IMessage) => {
                 emit(JSON.parse(iMessage.body));
             })
         
