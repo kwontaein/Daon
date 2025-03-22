@@ -30,7 +30,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     
     const [loading, setLoading] = useState(true)
 
-    console.log(initialTask)
 
     useEffect(() => {
         setLoading(isPending)
