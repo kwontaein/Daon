@@ -47,6 +47,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
             window.alert(state.formErrors.message)
         }
         if(state.status){
+            console.log(state.status)
             if(state.status === 200){
                 window.alert('견적서를 등록했습니다.')
             }else{

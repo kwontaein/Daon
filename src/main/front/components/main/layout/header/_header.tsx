@@ -14,7 +14,7 @@ import { RootState } from "@/store/store";
 export default function MainHeader(){
     
     const dispatch = useDispatch()
-    const {message} = useSelector((state:RootState)=>state.stomp)
+    const stomp = useSelector((state:RootState)=>state.stomp)
     useEffect(()=>{
         dispatch(stompConnect())
 
@@ -24,8 +24,9 @@ export default function MainHeader(){
     },[])
 
     useEffect(()=>{
-        console.log(message)
-    },[message])
+        console.log(stomp.message)
+    },[stomp])
+    
     return (
         <section className="header-container">
             <span className="header-content left">

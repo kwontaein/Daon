@@ -31,17 +31,18 @@ export default function useEstimate(estimate:ResponseEstimate){
 
     const estimateItemHandler = useCallback(
         (estimateToUpdate: Partial<Omit<ResponseEstimateItem, "estimateId">>, uuid: string) => {
-            const [key, value] = Object.entries(estimateToUpdate)[0];
-            if (typeof value === "number" && isNaN(value)) return;
-    
-            setItems((prevItems) =>
+
+            for(const [key, value] of Object.entries(estimateToUpdate)){
+                if(typeof value === "number" && isNaN(value)){
+                    delete estimateToUpdate[key];
+                }
+            }
+
+            setItems((prevItems)=>
                 prevItems.map((estimate) =>
                     estimate.itemId === uuid ? { ...estimate, ...estimateToUpdate } : estimate
-                )
-            );
-        },
-        [] // 의존성 배열 비워서 처음 마운트 시에만 유지
-    );
+            ));
+        },[]);
 
     const changeStockHandler = (stockInfo : Pick <ResponseStock,'stockId'| 'productName'| 'modelName'| 'outPrice' >,uuid?: string)=>{
         setItems((prev)=>{
@@ -51,7 +52,9 @@ export default function useEstimate(estimate:ResponseEstimate){
                     stockId:stockInfo.stockId,
                     productName:stockInfo.productName,
                     modelName:stockInfo.modelName,
-                    unitPrice:stockInfo.outPrice} : estimate
+                    unitPrice:stockInfo.outPrice,
+                    quantity:1,
+                } : estimate
             )
         })
     }
