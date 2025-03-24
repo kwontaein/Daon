@@ -8,7 +8,6 @@ import {ResponseTask} from '@/model/types/task/task/type';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
-import { revalidateTask } from '@/features/task/task/action/taskRegisterAction';
 import Pagination from '@/components/share/pagination';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { deleteTask } from '@/features/task/task/api/taskApi';
@@ -41,24 +40,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
-
-    const revalidateHandler = (event: MessageEvent) => {
-        if (event.data) {
-            const {status} = event.data 
-            if(status===200){
-                revalidateTask()
-            }
-        }
-    };
-
-
     const registerTask = () => {
         //pc
         if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-            window.removeEventListener("message", revalidateHandler);
-            window.addEventListener("message", revalidateHandler);  
             window.open(url, "PopupWindow", popupOptions);
         }
     }
