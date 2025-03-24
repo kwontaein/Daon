@@ -26,6 +26,7 @@ public class EstimateResponse {
     private List<EstimateItemResponse> items;
     private CustomerResponse customer;
     private CompanyResponse company;
-    private UserResponse user;
+    private String userId;
+    private String userName;
     private String customerName;
 }
