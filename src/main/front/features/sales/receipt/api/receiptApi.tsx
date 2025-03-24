@@ -29,7 +29,6 @@ export async function saveReceiptListApi(receiptList:RequestReceipt[]){
 
 
 export async function getReceiptListApi(receiptCondition:ReceiptCondition){
-    console.log(receiptCondition)
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -45,7 +44,8 @@ export async function getReceiptListApi(receiptCondition:ReceiptCondition){
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.status
+        const text = await response.text();
+        return text ? JSON.parse(text) : [];
         
     }).catch((error) => {
         if (error.name === 'AbortError') {
