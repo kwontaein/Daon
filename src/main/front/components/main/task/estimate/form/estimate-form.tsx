@@ -6,7 +6,7 @@ import { ResponseEstimate } from "@/model/types/task/estimate/type"
 import useEstimate from '@/hooks/task/estimate/useEstimate';
 
 
-export default function EstimateForm({estimate, submit, mode}:{estimate?:ResponseEstimate, submit:()=>void, mode:string}){
+export default function EstimateForm({estimateState, submit, mode}:{estimateState?:ResponseEstimate, submit:()=>void, mode:string}){
     const {
         items,
         itemIds,
@@ -14,11 +14,10 @@ export default function EstimateForm({estimate, submit, mode}:{estimate?:Respons
         removeEstimateItemHandler,
         estimateItemHandler,
         searchStockHandler,
-    } = useEstimate(estimate)
+    } = useEstimate(estimateState)
     const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
 
 
-  
     return(
         <section className='estimate-container'>
             <div className='estimate-button-container'>
@@ -52,52 +51,55 @@ export default function EstimateForm({estimate, submit, mode}:{estimate?:Respons
                         <tr key={estimate.itemId} className={estimate.hand ? 'hand-estimate' : ''}>
                             <td>
                                 <input
-                                type="checkbox"
-                                checked={!!checkedState[estimate.itemId]}
-                                onChange={() => update_checked(estimate.itemId)}/>
+                                    type="checkbox"
+                                    checked={!!checkedState[estimate.itemId]}
+                                    onChange={() => update_checked(estimate.itemId)}
+                                    readOnly={mode==='detail'}/>
                                 <input name='itemId' type='hidden' value={estimate.itemId} readOnly/>
                                 <input name='stockId' type='hidden' value={estimate.stockId} readOnly/>
                                 <input name='hand' type='hidden' value={estimate.hand+''} readOnly/>
                             </td>
                             <td>
                                 <input
-                                name='productName'
-                                value={estimate.productName}
-                                onChange={(e) => !(!!estimate.stockId) &&
-                                    estimateItemHandler({ productName: e.target.value }, estimate.itemId)}
-                                onKeyDown={(e) =>
-                                    !estimate.hand && searchStockHandler(e, estimate.itemId)}/>
+                                    name='productName'
+                                    value={estimate.productName}
+                                    onChange={(e) => !(!!estimate.stockId) &&
+                                        estimateItemHandler({ productName: e.target.value }, estimate.itemId)}
+                                    onKeyDown={(e) =>
+                                        !estimate.hand && searchStockHandler(e, estimate.itemId)}
+                                    readOnly={mode==='detail'}/>
                             </td>
                             <td>
                                 <input
-                                name='modelName'
-                                value={estimate.modelName}
-                                readOnly={!estimate.hand}
-                                onChange={(e) =>
-                                    estimateItemHandler({ modelName: e.target.value }, estimate.itemId)}/>
+                                    name='modelName'
+                                    value={estimate.modelName}
+                                    readOnly={!estimate.hand || mode==='detail'}
+                                    onChange={(e) =>
+                                        estimateItemHandler({ modelName: e.target.value }, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
-                                className="center-align"
-                                name='quantity'
-                                value={estimate.quantity.toLocaleString('ko-KR')}
-                                onChange={(e) =>
-                                    estimateItemHandler({ quantity: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
+                                    className="center-align"
+                                    name='quantity'
+                                    value={estimate.quantity.toLocaleString('ko-KR')}
+                                    readOnly={mode==='detail'}
+                                    onChange={(e) =>
+                                        estimateItemHandler({ quantity: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
-                                className="right-align"
-                                name='unitPrice'
-                                readOnly={!estimate.hand}
-                                value={estimate.unitPrice.toLocaleString('ko-KR')}
-                                onChange={(e) =>
-                                    estimateItemHandler({ unitPrice: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
+                                    className="right-align"
+                                    name='unitPrice'
+                                    readOnly={!estimate.hand || mode==='detail'}
+                                    value={estimate.unitPrice.toLocaleString('ko-KR')}
+                                    onChange={(e) =>
+                                        estimateItemHandler({ unitPrice: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
                             </td>
                             <td> 
                                 <input
-                                className="right-align"
-                                value={(estimate.unitPrice * estimate.quantity).toLocaleString('ko-KR')}
-                                readOnly/>
+                                    className="right-align"
+                                    value={(estimate.unitPrice * estimate.quantity).toLocaleString('ko-KR')}
+                                    readOnly/>
                                 </td>
                             <td>
                                 <input />
@@ -105,11 +107,20 @@ export default function EstimateForm({estimate, submit, mode}:{estimate?:Respons
                         </tr>
                     ))}
                     {items.length>0 ?
-                    <tr>
-                        <td colSpan={3}><p>합계</p></td>
-                        <td><input className='center-align result-input' value={items.reduce((prev,estimate)=>prev+Number(estimate.quantity ??0),0).toLocaleString('ko-KR')} readOnly/></td>
+                   <tr>
+                        <td colSpan={3}>
+                            <p>합계</p>
+                        </td>
+                        <td><input
+                            className='center-align result-input'
+                            value={items.reduce((prev,estimate)=>prev+Number(estimate.quantity ??0),0).toLocaleString('ko-KR')}
+                            readOnly/></td>
                         <td></td>
-                        <td><input className='right-align result-input' name='totalAmount' value={items.reduce((prev,estimate)=>prev+(Number(estimate.quantity??0)*Number(estimate.unitPrice??0)),0).toLocaleString('ko-KR')} readOnly/></td>
+                        <td><input
+                            className='right-align result-input'
+                            name='totalAmount'
+                            value={items.reduce((prev,estimate)=>prev+(Number(estimate.quantity??0)*Number(estimate.unitPrice??0)),0).toLocaleString('ko-KR')}
+                            readOnly/></td>
                         <td></td>
                     </tr>
                     :

@@ -5,27 +5,39 @@ import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegister';
 import { ResponseTask } from '@/model/types/task/task/type';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
 import { ResponseEstimate } from '@/model/types/task/estimate/type';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { apiUrl } from '@/model/constants/apiUrl';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
+import dayjs from 'dayjs';
+import estimateRegisterAction from '@/features/task/estimate/action/estimateRegisterAction';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     task: ResponseTask,
-    estimate: ResponseEstimate |undefined,
     mode: string
+    estimate?: ResponseEstimate |undefined,
 }) {
-    const initialState = initialEstimate(task, companyList, mode, estimate)
+    const initialState = useMemo(()=>{
+        return{
+            taskId: task.taskId,
+            ...estimate,
+            estimateDate: dayjs(estimate? estimate.estimateDate : task.createdAt).format('YYYY-MM-DD'),
+            customerId: task.customer.customerId,
+            customerName: task.customer.customerName,
+            mode: estimate ? mode : 'write',
+        }
+    },[task, estimate]) 
+
+    console.log(initialState)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
-    const [company, setCompany] = useState<ResponseCompany>(companyList[0])
+    const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
+    const [company, setCompany] = useState<ResponseCompany>(initialCompany)
+
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
@@ -126,7 +138,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimate={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
             </form>
         </section>
     )

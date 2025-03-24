@@ -2,7 +2,6 @@
 import { ReceiptCondition, RequestReceipt } from "@/model/types/receipt/type";
 
 export async function saveReceiptListApi(receiptList:RequestReceipt[]){
-    console.log(receiptList)
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
