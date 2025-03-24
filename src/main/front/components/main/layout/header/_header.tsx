@@ -1,13 +1,29 @@
 'use client'
-import React from "react";
+import React, { useEffect } from "react";
 import './_header.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileNavButton from "../nav/mobile/_mobile-nav-button";
+import { useDispatch } from "react-redux";
+import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import revalidateHandler from "@/features/revalidateHandler";
 
 
 export default function MainHeader(){
+    
+    const dispatch = useDispatch()
+    const stomp = useSelector((state:RootState)=>state.stomp)
+    useEffect(()=>{
+        dispatch(stompConnect())
+
+        return ()=>{
+            dispatch(stompDisconnect())
+        }
+    },[])
+    
     return (
         <section className="header-container">
             <span className="header-content left">

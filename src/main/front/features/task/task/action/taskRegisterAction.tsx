@@ -48,7 +48,3 @@ export default async function taskRegisterAction(prevState, formData){
     }
 }
 
-
-export async function revalidateTask() {
-  revalidateTag("task"); // 태그 무효화
-}

@@ -123,7 +123,7 @@ export default function useReceiptList() {
         if(receiptList.some(({customerId})=> !(!!customerId))){
             window.alert('항목의 모든 거래처를 입력해주세요.')
             return
-        }else if(receiptList.some(({stockId})=> !(!!stockId))){
+        }else if(receiptList.some(({stockId, category})=> DisabledStatus[category].productName ? false : !(!!stockId))){
             window.alert('항목의 모든 품명를 입력해주세요.')
             return
         }else if(receiptList.some(({category})=>category ==='disabled')){
@@ -131,7 +131,6 @@ export default function useReceiptList() {
             return
         }
         const postReceiptList = ()=>{
-            console.log(receiptList)
             saveReceiptListApi(receiptList).then((status)=>{
                 if(status ===200){
                     window.alert('저장이 완료되었습니다.')
