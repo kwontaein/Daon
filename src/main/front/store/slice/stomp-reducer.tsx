@@ -12,12 +12,12 @@ export type StompMessage ={
 
 export interface StompState {
     isConnect: boolean,
-    message: StompMessage,
+    Message: StompMessage,
 }
 
 const initialState: StompState ={
     isConnect: false,
-    message: {
+    Message: {
         destination: '',
         id: '',
     },
@@ -33,7 +33,7 @@ export const stompDisconnect = () => ({
 })
 
 
-export const receivedStompMsg = (payload:{message:StompMessage}) => ({ 
+export const receivedStompMsg = (payload:{Message:StompMessage}) => ({ 
     type:RECEIVED_STOMP_MSG,
     payload:payload,
 })
@@ -48,8 +48,8 @@ const stompReducer = handleActions(
         }),
         [RECEIVED_STOMP_MSG]: (state, action) => ({
             ...state,
-            message: {
-                ...action.payload.message
+            Message: {
+                ...action.payload.Message
             },
         }),
     },
