@@ -1,4 +1,4 @@
-import { ResponseEstimate } from "@/model/types/task/estimate/type";
+import { RequestEstimate } from "@/model/types/task/estimate/type";
 
 export async function getEstimateApi(estimateId:string){
     const controller = new AbortController();
@@ -28,7 +28,7 @@ export async function getEstimateApi(estimateId:string){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function saveEstimate(estimate:ResponseEstimate){
+export  async function saveEstimate(estimate:RequestEstimate){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -55,7 +55,7 @@ export  async function saveEstimate(estimate:ResponseEstimate){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function updateEstimate(estimate:ResponseEstimate){
+export  async function updateEstimate(estimate:RequestEstimate){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)

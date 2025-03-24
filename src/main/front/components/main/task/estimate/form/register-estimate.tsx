@@ -10,11 +10,10 @@ import { ResponseTask } from '@/model/types/task/task/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
 import { ResponseEstimate } from '@/model/types/task/estimate/type';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { apiUrl } from '@/model/constants/apiUrl';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
-import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegisterAction';
+import estimateRegisterAction from '@/features/task/estimate/action/estimateRegisterAction';
+import dayjs from 'dayjs';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -22,11 +21,23 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     estimate: ResponseEstimate |undefined,
     mode: string
 }) {
-    const initialState = initialEstimate({task, companyList, mode, estimate})
+    const initialState = useMemo(()=>{
+        return{
+            taskId: task.taskId,
+            ...estimate,
+            estimateDate: dayjs(estimate? estimate.estimateDate : task.createdAt).format('YYYY-MM-DD'),
+            customerId: task.customer.customerId,
+            customerName: task.customer.customerName,
+            mode: estimate ? mode : 'write',
+        }
+    },[task, estimate]) 
+
+    console.log(task)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
-    console.log(state, estimate)
-    const [company, setCompany] = useState<ResponseCompany>(companyList[0])
+    console.log(task, estimate)
+    const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.companyId): companyList[0] 
+    const [company, setCompany] = useState<ResponseCompany>(initialCompany)
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
