@@ -14,15 +14,16 @@ import { ResponseEstimate } from '@/model/types/task/estimate/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
-export default function RegisterEstimate({companyList, task, estimate, mode} : {
+export default function RegisterEstimate({companyList, task, mode,estimate} : {
     companyList: ResponseCompany[],
     task: ResponseTask,
-    estimate: ResponseEstimate |undefined,
     mode: string
+    estimate?: ResponseEstimate,
 }) {
     const initialState = initialEstimate({task, companyList, mode, estimate})
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
+    console.log(state)
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
@@ -81,7 +82,10 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
-                <h4>견적서 작성하기</h4>
+                <h4>
+                    {state.mode ==='write' && '견적서 작성하기'}
+                    {state.mode ==='edit' && '견적서 수정하기'}
+                </h4>
             </header>
             <form action={action} ref={formRef}>
             <table className='register-form-table'>
@@ -95,7 +99,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>사업자선택</td>
                         <td>
-                            <select className='bg-memo' name='companyId' value={company.companyId} onChange={(e)=>companyHandler(e)}>
+                            <select className='bg-memo' name='companyId' value={company.companyId} onChange={(e)=>companyHandler(e)} aria-readonly={state.mode==='detail'}>
                                 {companyList.map((company)=>(
                                     <option key={company.companyId} value={company.companyId}>{company.companyName}</option>
                                 ))}
@@ -132,7 +136,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimate={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
+            <EstimateForm estimateState={state} submit={submitEstimateHandler} mode={state.mode}/> 
             </form>
         </section>
     )
