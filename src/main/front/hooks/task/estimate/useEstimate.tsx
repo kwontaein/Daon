@@ -9,7 +9,6 @@ export default function useEstimate(estimate:ResponseEstimate){
     const [items, setItems] = useState<Omit<ResponseEstimateItem,'estimateId'>[]>(estimate ? [...estimate.items] :[])
     const itemIds = useMemo(()=> items.map(({itemId})=> itemId), [items.length])
 
-
     const addEstimateItemHandler =(hand:boolean)=>{
         setItems([...items,{
             itemId:uuidv4(),
