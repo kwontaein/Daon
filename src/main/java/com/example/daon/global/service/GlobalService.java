@@ -143,7 +143,7 @@ public class GlobalService {
         return EstimateResponse
                 .builder()
                 .estimateId(estimate.getEstimateId())
-                .company(convertToCompanyResponse(estimate.getCompany()))
+                .companyId(estimate.getCompany().getCompanyId())
                 .user(convertToUserResponse(estimate.getUser()))
                 .receipted(estimate.isReceipted())
                 .totalAmount(estimate.getTotalAmount())
