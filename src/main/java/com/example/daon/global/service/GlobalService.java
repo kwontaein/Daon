@@ -143,7 +143,7 @@ public class GlobalService {
         return EstimateResponse
                 .builder()
                 .estimateId(estimate.getEstimateId())
-                .companyId(estimate.getCompany().getCompanyId())
+                .company(convertToCompanyResponse(estimate.getCompany()))
                 .userId(estimate.getUser().getUserId())
                 .userName(estimate.getUser().getName())
                 .receipted(estimate.isReceipted())
@@ -190,6 +190,7 @@ public class GlobalService {
                 .customerName(receipt.getCustomer().getCustomerName())
                 .unitPrice(receipt.getStock().getOutPrice())
                 .modelName(receipt.getStock().getModelName())
+                .productName(receipt.getStock().getProductName())
                 .build();
     }
 
