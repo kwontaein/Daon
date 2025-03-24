@@ -24,7 +24,7 @@ export default function MainHeader(){
     },[])
 
     useEffect(()=>{
-        console.log(stomp.message)
+        console.log(stomp.Message)
     },[stomp])
     
     return (
