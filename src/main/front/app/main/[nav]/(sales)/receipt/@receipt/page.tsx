@@ -10,7 +10,7 @@ import { getReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
 import { ReceiptCategory } from "@/model/types/receipt/type";
 
 const allSearchConditions={
-    category:ReceiptCategory.SALES,
+    category:ReceiptCategory.EX,
     searchSDate: null,
     searchEDate: null,
     customerId: null,

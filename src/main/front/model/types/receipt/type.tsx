@@ -28,7 +28,8 @@ export enum ReceiptCategory {
   OPERATING_PROFIT="경상손익",   // 경상손익
   SALES_ALTERNATIVE="매출대체",  // 매출대체
   RETURN_OUT="반품출고",         // 반품출고
-  RETURN_IN="반품입고"  // 반품입고
+  RETURN_IN="반품입고",  // 반품입고
+  EX='전체',
 }
 
 
