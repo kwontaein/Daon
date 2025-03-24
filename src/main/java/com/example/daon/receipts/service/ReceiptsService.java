@@ -102,7 +102,8 @@ public class ReceiptsService {
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock);
         //그리고 저장
-        receiptRepository.save(receipt);
+        ReceiptEntity receiptEntity = receiptRepository.save(receipt);
+        request.setReceiptId(receiptEntity.getReceiptId());
     }
 
 

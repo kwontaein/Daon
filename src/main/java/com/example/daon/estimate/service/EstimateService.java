@@ -209,7 +209,8 @@ public class EstimateService {
             estimate.setTask(task);
             task.setEstimate(estimate);
         }
-        estimateRepository.save(estimate); // task가 null이면 단순 저장, 존재하면 cascade에 의해 함께 저장
+        EstimateEntity estimateEntity = estimateRepository.save(estimate); // task가 null이면 단순 저장, 존재하면 cascade에 의해 함께 저장
+        request.setEstimateId(estimateEntity.getEstimateId());
     }
 
 
