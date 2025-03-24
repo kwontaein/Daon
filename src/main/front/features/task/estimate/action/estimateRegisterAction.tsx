@@ -2,35 +2,8 @@
 
 //보내야 할 것 customerId companyId, items, userId
 
-import { ResponseCompany } from "@/model/types/staff/company/type"
-import { ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
-import { ResponseTask } from "@/model/types/task/task/type"
-import dayjs from "dayjs"
+import { RequestEstimate, ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
 import { saveEstimate, updateEstimate } from "../api/estimateApi"
-
-type InitialEstimateParams = {
-  task: ResponseTask;
-  companyList: ResponseCompany[];
-  mode: string;
-  estimate?: ResponseEstimate;
-};
-
-export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEstimateParams) => {
-  const estimateMode = estimate ? mode : 'write';
-
-  return {
-    taskId: task.taskId,
-    companyId: estimate?.companyId ?? companyList[0].companyId,
-    estimateId: estimate?.estimateId ?? null,
-    estimateDate: dayjs(estimate?.estimateDate ?? task.createdAt).format("YYYY-MM-DD"),
-    userId: estimate?.userId ?? task.assignedUser,
-    totalAmount: estimate?.totalAmount ?? 0,
-    customerId: estimate?.customerId ?? task.customer.customerId,
-    customerName: estimate?.customerName ?? task.customer.customerName,
-    items: estimate?.items ?? [],
-    mode: estimateMode,
-  };
-};
 
 
 function isInvalidText(text) {
@@ -58,12 +31,12 @@ export default async function estimateRegisterAction(prevState, formState){
         return prev
     },Array.from({length:formState.getAll('productName').length}, (_,i)=>[]))
 
-    let estimateData:ResponseEstimate ={
+    let estimateData:RequestEstimate ={
         taskId:prevState.taskId,
         estimateId:prevState.estimateId,
         customerId: formState.get('customerId'),
         companyId: formState.get('companyId'),
-        userId: formState.get('userId'),
+        userId:formState.get('userId'),
         estimateDate: formState.get('estimateDate'),
         totalAmount : items.length>0 ? Number( formState.get('totalAmount').replaceAll(',','')) : 0,
         customerName:formState.get('customerName'),

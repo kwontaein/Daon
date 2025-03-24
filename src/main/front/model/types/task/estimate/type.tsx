@@ -1,3 +1,5 @@
+import { ResponseCompany } from "../../staff/company/type"
+
 export type EstimateRegisterProps ={
     searchParams: Promise<{
         mode:'edit' | 'detail' | 'write'
@@ -7,15 +9,19 @@ export type EstimateRegisterProps ={
 }
 
 
-
+interface User{
+  userId:string,
+  name:string,
+}
 
   export interface ResponseEstimate {
-    taskId:string;
+    taskId?:string
     estimateId: string;       // UUID -> string
     companyId: string;
     customerId: string;       // UUID -> string
     customerName:string,
-    userId: string;
+    user: User;
+    receipted?:boolean
     estimateDate: string;     // 견적서 날짜
     totalAmount: number;      //종합
     items: ResponseEstimateItem[];
