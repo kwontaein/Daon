@@ -48,7 +48,7 @@ export const AsideOptions = {
             {name: '관리자데이터조회', link: 'admin'},
             {name: '견적서관리', link: 'estimate'},
             {name: '세금계산서', link: 'bills'},
-            {name: '입금표', link: 'deposit'}]
+            ]
     },
     accounting: {
         asideTitle: '회계 및 거래관리',
