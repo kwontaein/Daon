@@ -32,7 +32,6 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }
     },[task, estimate,mode]) 
 
-    console.log(initialState)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
     const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
