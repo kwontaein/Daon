@@ -1,6 +1,6 @@
 'use client'
 import type { StockPoint } from '@/model/types/stock/point/types';
-import './point.scss';
+import '@/styles/table-style/category.scss'
 import useStockPoint from "@/hooks/stock/point/useStockPoint";
 
 
@@ -17,7 +17,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
 
     return (
         <>
-            <table className="stock-point-table">
+            <table className="category-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>
                     <col style={{width: '60%'}}/>
@@ -69,7 +69,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                 }
                 </tbody>
             </table>
-            <div className='point-button-container'>
+            <div className='category-button-container'>
                 {mode !== "edit" &&
                     <button onClick={addHandler}>
                         {mode === 'add' ? '저장하기' : '추가하기'}
