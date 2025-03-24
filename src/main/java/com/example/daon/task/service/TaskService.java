@@ -94,7 +94,8 @@ public class TaskService {
             estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
         }
         LocalDateTime createdDate = LocalDateTime.now();
-        taskRepository.save(taskRequest.toEntity(customer, assignedUser, createdDate, estimate));
+        TaskEntity task = taskRepository.save(taskRequest.toEntity(customer, assignedUser, createdDate, estimate));
+        taskRequest.setTaskId(task.getTaskId());
     }
 
     //업무수정

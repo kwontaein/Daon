@@ -9,6 +9,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 @Aspect
@@ -23,52 +25,84 @@ public class WebSocketAspect {
     public void afterPostMethods(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String[] parameterNames = signature.getParameterNames();
-
-        for (String s : parameterNames) {
-            System.out.println("parameterName : " + s);
-        }
-        Message message = new Message();
-
         Object[] args = joinPoint.getArgs();
 
-        System.out.println("args : " + args.toString());
-
+        Message message = new Message();
 
         for (int i = 0; i < parameterNames.length; i++) {
-            String paramName = parameterNames[i];
+            // 파라미터 이름에서 "Request" 또는 "Requests"를 제거하여 대상 이름을 구함
+            String paramName = parameterNames[i].replace("Requests", "").replace("Request", "");
             Object paramValue = args[i];
 
-            System.out.println("paramName : " + paramName);
-            System.out.println("paramValue : " + paramValue.toString());
-
-            message.setDestination(paramName.replace("Request", ""));
+            // 메시지의 목적지를 해당 파라미터 이름으로 설정
+            message.setDestination(paramName);
 
             if (paramValue instanceof List<?>) {
-                break;
-            }
-            String dtoString = paramValue.toString();
-
-            int startIndex = dtoString.indexOf("(");
-            if (startIndex != -1) {
-
-                int endIndex = dtoString.indexOf(",", startIndex);
-
-                if (endIndex == -1) {
-                    endIndex = dtoString.indexOf(")", startIndex);
-                }
-
-                String firstFieldPart = dtoString.substring(startIndex + 1, endIndex).trim();
-
-                String[] keyValue = firstFieldPart.split("=");
-                if (keyValue.length == 2) {
-                    String fieldKey = keyValue[0];   // "stockCateId"
-                    String fieldValue = keyValue[1]; // "null"
-
-                    message.setId(fieldValue);
-                }
+                processListParam(paramName, (List<?>) paramValue, message);
+            } else {
+                processSingleParam(paramName, paramValue, message);
             }
         }
+
         System.out.println(message);
         messagingTemplate.convertAndSend("/topic/transaction_alert", message);
     }
+
+    // List 타입 파라미터를 처리하여 각 DTO의 [paramName + "Id"] 필드 값을 추출
+    private void processListParam(String paramName, List<?> dtoList, Message message) {
+        String targetFieldName = paramName + "Id";
+        List<String> ids = new ArrayList<>();
+
+        for (Object dto : dtoList) {
+            try {
+                Field idField = dto.getClass().getDeclaredField(targetFieldName);
+                idField.setAccessible(true);
+                Object idValue = idField.get(dto);
+                if (idValue != null) {
+                    ids.add(idValue.toString());
+                }
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // 필요에 따라 로깅 처리
+                e.printStackTrace();
+            }
+        }
+        message.setId(ids.toString());
+        System.out.println("Extracted IDs: " + ids);
+    }
+
+    // 단일 DTO 파라미터를 처리하여 toString() 결과를 파싱함으로써 [paramName + "Id"]와 추가 조건에 따른 값을 추출
+    private void processSingleParam(String paramName, Object paramValue, Message message) {
+        String targetFieldName = paramName + "Id";
+        boolean isEstimate = "estimate".equals(paramName);
+
+        String dtoString = paramValue.toString();
+        int startIndex = dtoString.indexOf("(");
+        int endIndex = dtoString.lastIndexOf(")");
+
+        if (startIndex != -1 && endIndex != -1) {
+            String fieldsPart = dtoString.substring(startIndex + 1, endIndex);
+            String[] fieldParts = fieldsPart.split(",");
+
+            for (String field : fieldParts) {
+                String[] keyValue = field.split("=");
+                if (keyValue.length == 2) {
+                    String key = keyValue[0].trim();
+                    String value = keyValue[1].trim();
+
+                    // 대상 필드와 일치하는 경우 메시지에 id 설정
+                    if (key.equals(targetFieldName)) {
+                        message.setId(value);
+                    }
+                    // paramName이 "estimate"인 경우 추가적으로 taskId 처리
+                    if (isEstimate && key.equals("taskId")) {
+                        Message taskMsg = new Message();
+                        taskMsg.setDestination("task");
+                        taskMsg.setId(value);
+                        messagingTemplate.convertAndSend("/topic/transaction_alert", taskMsg);
+                    }
+                }
+            }
+        }
+    }
+
 }

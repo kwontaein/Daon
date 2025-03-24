@@ -33,8 +33,8 @@ public class ReceiptsController {
     }
 
     @PostMapping("api/saveReceipts")
-    public void saveReceipt(@RequestBody List<ReceiptRequest> requests) {
-        receiptsService.saveReceipt(requests);
+    public void saveReceipt(@RequestBody List<ReceiptRequest> receiptRequests) {
+        receiptsService.saveReceipt(receiptRequests);
     }
 
     @PostMapping("api/deleteReceipt")
