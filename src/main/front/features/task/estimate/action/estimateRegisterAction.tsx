@@ -18,7 +18,7 @@ export default async function estimateRegisterAction(prevState, formState){
     arr.push(formState.getAll(EstimateItemSequence[3]).map((item)=>Number(item.replaceAll(',',''))))
     arr.push(formState.getAll(EstimateItemSequence[4]).map((item)=>Number(item.replaceAll(',',''))))
     arr.push(formState.getAll(EstimateItemSequence[5]))
-    arr.push(formState.getAll(EstimateItemSequence[6]).map((item)=>Boolean(item)))
+    arr.push(formState.getAll(EstimateItemSequence[6]).map((item)=>item==='true'))
 
     const items = arr.reduce((prev,next,row)=>{
         next.forEach((item,column)=>{
