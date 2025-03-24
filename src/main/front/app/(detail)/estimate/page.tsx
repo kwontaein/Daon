@@ -15,21 +15,12 @@ export default async function EstimateDetailPage({searchParams}:EstimateRegister
     const estimateId = (await searchParams).target ||''
     const mode = (await searchParams).mode || 'detail'
 
-
-<<<<<<< HEAD
-    const estimate:ResponseEstimate = await getEstimateApi(estimateId);
-=======
     let estimate:ResponseEstimate = await getEstimateApi(estimateId);
->>>>>>> bbdf0e0f47721e64cf1be20fdce013b7086f7672
     const companyList:ResponseCompany[] = await getCompany()
     const taskList:ResponseTask[] =await getTask()
 
     const task = taskList.find(({taskId})=>taskId ===targetId)
-    
-<<<<<<< HEAD
-    
-=======
->>>>>>> bbdf0e0f47721e64cf1be20fdce013b7086f7672
+
     return (
         <RegisterEstimate
             companyList={companyList}
