@@ -1,20 +1,19 @@
 'use client'
-import type {Affiliation} from '@/model/types/customer/affiliation/type';
 import '@/styles/table-style/category.scss'
-import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
+import useOfficial from '@/hooks/receipt/official/useOfficial';
+import type { Official } from '@/model/types/receipt/type';
 
 
-export default function Affiliation({affiliations}: { affiliations: Affiliation[] }) {
-    const {
-        addInputRef,
-        affiliationState,
-        mode,
-        setMode,
-        setAffiliationState,
-        addHandler,
-        deleteHandler,
-        editHandler
-    } = useAffiliation(affiliations)
+export default function OfficialCate({officials}: { officials: Official[] }) {
+    const { 
+            addInputRef, 
+            officialState,
+            mode,
+            setMode,
+            setOfficialState,
+            addHandler,
+            deleteHandler,
+            editHandler} = useOfficial(officials)
 
     return (
         <>
@@ -27,39 +26,39 @@ export default function Affiliation({affiliations}: { affiliations: Affiliation[
                 <thead>
                 <tr>
                     <td>순번</td>
-                    <td>소속명</td>
+                    <td>관리비명</td>
                     <td>관리</td>
                 </tr>
                 </thead>
                 <tbody>
-                {affiliationState.map((affiliation: Affiliation, index) => (
-                    <tr key={affiliation.affiliationId}>
+                {officialState.map((official: Official, index) => (
+                    <tr key={official.officialId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
                                        className="category-input"
-                                       placeholder="소속명을 입력해주세요"
+                                       placeholder="관리비명을 입력해주세요"
                                        required={true}
-                                       value={affiliation.affiliationName}
+                                       value={official.officialName}
                                        onChange={(e) =>
-                                           setAffiliationState(affiliationState.map((item: Affiliation, i: number) =>
+                                        setOfficialState(officialState.map((item: Official, i: number) =>
                                                i === index ? {
                                                    ...item,
-                                                   AffiliationName: e.target.value
+                                                   officialName: e.target.value
                                                } : item))}/>
                                 :
-                                <>{affiliation.affiliationName}</>
+                                <>{official.officialName}</>
                             }
                         </td>
                         <td>
-                            <button onClick={deleteHandler.bind(null, affiliation)}>삭제</button>
+                            <button onClick={deleteHandler.bind(null, official)}>삭제</button>
                         </td>
                     </tr>
                 ))}
                 {mode === 'add' &&
                     <tr>
-                        <td>{affiliationState.length + 1}</td>
+                        <td>{officialState.length + 1}</td>
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
