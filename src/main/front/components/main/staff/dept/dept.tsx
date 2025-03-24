@@ -1,6 +1,6 @@
 'use client'
 import type { Dept } from '@/model/types/staff/dept/type';
-import './dept.scss';
+import '@/styles/table-style/category.scss'
 import useDept from '@/hooks/staff/dept/useDept';
 
 
@@ -17,7 +17,7 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
 
     return (
         <>
-            <table className="staff-dept-table">
+            <table className="category-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>
                     <col style={{width: '60%'}}/>
@@ -37,7 +37,7 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
-                                       className="staff-dept-input"
+                                       className="category-input"
                                        placeholder="부서명을 입력해주세요"
                                        required={true}
                                        value={dept.deptName}
@@ -59,7 +59,7 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
-                                   className="staff-dept-input"
+                                   className="category-input"
                                    placeholder="생성할 부서명을 입력해주세요"/>
                         </td>
                         <td>
@@ -69,7 +69,7 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
                 }
                 </tbody>
             </table>
-            <div className='dept-button-container'>
+            <div className='category-button-container'>
                 {mode !== "edit" &&
                     <button onClick={addHandler}>
                         {mode === 'add' ? '저장하기' : '추가하기'}
