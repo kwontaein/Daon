@@ -5,6 +5,33 @@
 import { RequestEstimate, ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
 import { saveEstimate, updateEstimate } from "../api/estimateApi"
 
+<<<<<<< HEAD
+=======
+type InitialEstimateParams = {
+  task: ResponseTask;
+  companyList: ResponseCompany[];
+  mode: string;
+  estimate?: ResponseEstimate;
+};
+
+export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEstimateParams) => {
+  const estimateMode = estimate ? mode : 'write';
+
+  return {
+    taskId: task.taskId,
+    companyId: estimate?.companyId ?? companyList[0].companyId,
+    estimateId: estimate?.estimateId ?? null,
+    estimateDate: dayjs(estimate?.estimateDate ?? task.createdAt).format("YYYY-MM-DD"),
+    userId: estimate?.userId ?? task.assignedUser,
+    totalAmount: estimate?.totalAmount ?? 0,
+    customerId: estimate?.customerId ?? task.customer.customerId,
+    customerName: estimate?.customerName ?? task.customer.customerName,
+    items: estimate?.items ?? [],
+    mode: estimateMode,
+  };
+};
+
+>>>>>>> bbdf0e0f47721e64cf1be20fdce013b7086f7672
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
