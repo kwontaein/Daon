@@ -19,6 +19,7 @@ import java.util.UUID;
 public class EstimateResponse {
     private UUID estimateId;
     private UUID customerId;
+    private UUID companyId;
     private boolean receipted;
     private LocalDateTime estimateDate;
     private BigDecimal totalAmount;
