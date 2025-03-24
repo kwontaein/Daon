@@ -25,17 +25,17 @@ const initialState: StompState ={
 
 export const stompConnect = () => ({ 
     type:SYNCHRONIZATION_STOMP,
-    payload:true,
+    payload:{isConnect:true},
 })
 export const stompDisconnect = () => ({ 
     type:DISCONNECT_STOMP,
-    payload:false,
+    payload:{isConnect: false},
 })
 
 
-export const receivedStompMsg = (payload:{Message:StompMessage}) => ({ 
+export const receivedStompMsg = (Message:StompMessage) => ({ 
     type:RECEIVED_STOMP_MSG,
-    payload:payload,
+    payload:{Message},
 })
 
 
@@ -49,6 +49,7 @@ const stompReducer = handleActions(
         [RECEIVED_STOMP_MSG]: (state, action) => ({
             ...state,
             Message: {
+
                 ...action.payload.Message
             },
         }),
