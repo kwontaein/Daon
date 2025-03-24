@@ -1,4 +1,4 @@
-import { ResponseEstimate } from "@/model/types/task/estimate/type";
+import { RequestEstimate } from "@/model/types/task/estimate/type";
 
 export async function getEstimateApi(estimateId:string){
     const controller = new AbortController();
@@ -12,7 +12,7 @@ export async function getEstimateApi(estimateId:string){
         },
         body: JSON.stringify({estimateId}),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+        cache:'no-cache'
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -28,7 +28,7 @@ export async function getEstimateApi(estimateId:string){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function saveEstimate(estimate:ResponseEstimate){
+export  async function saveEstimate(estimate:RequestEstimate){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -40,14 +40,13 @@ export  async function saveEstimate(estimate:ResponseEstimate){
         },
         body: JSON.stringify(estimate),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+        cache:'no-cache'
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
+
+        return response.status
     }).catch((error) => {
             if(error.name=== 'AbortError'){
                 console.log('Fetch 요청이 시간초과되었습니다.')
@@ -56,7 +55,7 @@ export  async function saveEstimate(estimate:ResponseEstimate){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export  async function updateEstimate(estimate:ResponseEstimate){
+export  async function updateEstimate(estimate:RequestEstimate){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
