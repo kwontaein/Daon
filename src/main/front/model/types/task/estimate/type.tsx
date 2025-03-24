@@ -17,10 +17,22 @@ interface User{
   export interface ResponseEstimate {
     taskId?:string
     estimateId: string;       // UUID -> string
-    companyId: string;
+    company: ResponseCompany;
     customerId: string;       // UUID -> string
     customerName:string,
     user: User;
+    receipted?:boolean
+    estimateDate: string;     // 견적서 날짜
+    totalAmount: number;      //종합
+    items: ResponseEstimateItem[];
+  }
+  export interface RequestEstimate {
+    taskId?:string
+    estimateId: string;       // UUID -> string
+    companyId: string;
+    customerId: string;       // UUID -> string
+    customerName:string,
+    userId:string;
     receipted?:boolean
     estimateDate: string;     // 견적서 날짜
     totalAmount: number;      //종합
