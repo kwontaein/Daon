@@ -4,6 +4,7 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import './estimate-form.scss';
 import { ResponseEstimate } from "@/model/types/task/estimate/type"
 import useEstimate from '@/hooks/task/estimate/useEstimate';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 
 export default function EstimateForm({estimateState, submit, mode}:{estimateState?:ResponseEstimate, submit:()=>void, mode:string}){
@@ -16,7 +17,16 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
         searchStockHandler,
     } = useEstimate(estimateState)
     const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
+    
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
 
+    const changeMode = (mode)=>{
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.set("mode", mode); 
+      router.push(`${pathname}?${params.toString()}`); 
+    }
 
     return(
         <section className='estimate-container'>
@@ -47,7 +57,7 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((estimate)=>(
+                    {items.map((estimate,idx)=>(
                         <tr key={estimate.itemId} className={estimate.hand ? 'hand-estimate' : ''}>
                             <td>
                                 <input
@@ -56,8 +66,8 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                                     onChange={() => update_checked(estimate.itemId)}
                                     readOnly={mode==='detail'}/>
                                 <input name='itemId' type='hidden' value={estimate.itemId} readOnly/>
-                                <input name='stockId' type='hidden' value={estimate.stockId} readOnly/>
-                                <input name='hand' type='hidden' value={estimate.hand+''} readOnly/>
+                                <input name='stockId' type='hidden' value={estimate.stockId || `stockId${idx}`} readOnly/>
+                                <input name='hand' type='hidden' value={estimate.hand+`hand${idx}`} readOnly/>
                             </td>
                             <td>
                                 <input
@@ -131,8 +141,20 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                 </tbody>
             </table>
             <div className='estimate-button-container justify-center'>
-                    <button type='button' onClick={submit}>{mode ==='write' ? '견적서작성' : '견적서수정'}</button>
-                    <button type='button' onClick={()=>window.close()}>취 소</button>
+                    {mode==='detail' &&
+                        <>
+                            <button>견적서인쇄</button>
+                            <button onClick={()=>changeMode('edit')}>견적서수정</button>
+                        </>
+                    }
+                    {(mode=== 'write' || mode ==='edit') &&
+                         <button type='button' onClick={submit}>
+                            {mode ==='write' ? '견적서작성' : '수정완료'}
+                        </button>
+                    }
+                    <button type='button' onClick={()=>{
+                        mode==='edit' ? changeMode('detail') : window.close()
+                    }}>취 소</button>
             </div>
         </section>
     )

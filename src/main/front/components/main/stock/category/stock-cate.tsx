@@ -1,6 +1,6 @@
 'use client'
 import type { StockCate } from '@/model/types/stock/cate/type';
-import './stock-cate.scss';
+import '@/styles/table-style';
 import useStockCate from "@/hooks/stock/cate/useStockCate";
 
 
@@ -17,7 +17,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
 
     return (
         <>
-            <table className="stock-cate-table">
+            <table className="category-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>
                     <col style={{width: '60%'}}/>
@@ -37,7 +37,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
-                                       className="stock-cate-input"
+                                       className="category-input"
                                        placeholder="품목명을 입력해주세요"
                                        required={true}
                                        value={cate.stockCateName}
@@ -59,7 +59,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
-                                   className="stock-cate-input"
+                                   className="category-input"
                                    placeholder="생성할 품목명을 입력해주세요"/>
                         </td>
                         <td>
@@ -69,7 +69,7 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                 }
                 </tbody>
             </table>
-            <div className='cate-button-container'>
+            <div className='category-button-container'>
                 {mode !== "edit" &&
                     <button onClick={addHandler}>
                         {mode === 'add' ? '저장하기' : '추가하기'}
