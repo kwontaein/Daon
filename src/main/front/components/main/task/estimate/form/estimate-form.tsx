@@ -66,7 +66,7 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                                     onChange={() => update_checked(estimate.itemId)}
                                     readOnly={mode==='detail'}/>
                                 <input name='itemId' type='hidden' value={estimate.itemId} readOnly/>
-                                <input name='stockId' type='hidden' value={estimate.stockId} readOnly/>
+                                <input name='stockId' type='hidden' value={estimate.stockId??''} readOnly/>
                                 <input name='hand' type='hidden' value={estimate.hand+''} readOnly/>
                             </td>
                             <td>
@@ -82,7 +82,7 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                             <td>
                                 <input
                                     name='modelName'
-                                    value={estimate.modelName}
+                                    value={estimate.modelName??''}
                                     readOnly={!estimate.hand || mode==='detail'}
                                     onChange={(e) =>
                                         estimateItemHandler({ modelName: e.target.value }, estimate.itemId)}/>
