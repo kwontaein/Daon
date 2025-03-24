@@ -24,6 +24,7 @@ public class ReceiptsController {
      */
     @PostMapping("api/getReceipts")
     public List<ReceiptResponse> getReceipts(@RequestBody ReceiptRequest receiptRequest) {
+        System.out.println(receiptRequest);
         return receiptsService.getReceipts(receiptRequest.getCategory(), receiptRequest.getSearchSDate(), receiptRequest.getSearchEDate(), receiptRequest.getCustomerId(), receiptRequest.getStockId());
     }
 

@@ -324,7 +324,7 @@ export default async function TestPage() {
     async function getReceipts() {
         // 전송할 데이터 (예시)
         const receipts = {
-            category: ReceiptCategory.SALES,
+            category: ReceiptCategory.EX,
             searchSDate: null,
             searchEDate: null,
             customerId: null,
