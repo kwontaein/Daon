@@ -126,7 +126,8 @@ public class AdminService {
     }
 
     public void CreateDept(DeptRequest deptRequest) {
-        deptRepository.save(deptRequest.toEntity());
+        DeptEntity dept = deptRepository.save(deptRequest.toEntity());
+        deptRequest.setDeptId(dept.getDeptId());
     }
 
     public void UpdateDept(DeptRequest deptRequest) {

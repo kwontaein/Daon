@@ -18,7 +18,8 @@ public class CompanyService {
     private final GlobalService globalService;
 
     public void CreateCompany(CompanyRequest companyRequest) {
-        companyRepository.save(companyRequest.toEntity());
+        CompanyEntity company = companyRepository.save(companyRequest.toEntity());
+        companyRequest.setCompanyId(company.getCompanyId());
     }
 
 

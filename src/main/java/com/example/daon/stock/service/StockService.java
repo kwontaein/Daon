@@ -99,8 +99,8 @@ public class StockService {
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
 
         // 새로 생성
-        StockEntity newStock = stockRequest.toEntity(stockCate);
-        stockRepository.save(newStock);
+        StockEntity stock = stockRepository.save(stockRequest.toEntity(stockCate));
+        stockRequest.setStockId(stock.getStockId());
     }
 
     //업데이트
@@ -135,7 +135,8 @@ public class StockService {
     }
 
     public void saveStockCate(StockCateRequest stockCateRequest) {
-        stockCateRepository.save(stockCateRequest.toEntity());
+        StockCate cate = stockCateRepository.save(stockCateRequest.toEntity());
+        stockCateRequest.setStockCateId(cate.getStockCateId());
     }
 
     public void updateStockCate(List<StockCateRequest> stockCateRequests) {
