@@ -3,6 +3,7 @@ import SockJS from "sockjs-client";
 import {call, delay, fork, put, race, take} from 'redux-saga/effects';
 import {buffers, END, eventChannel} from 'redux-saga';
 import { DISCONNECT_STOMP, receivedStompMsg, SYNCHRONIZATION_STOMP } from "../slice/stomp-reducer";
+import revalidateHandler from "@/features/revalidateHandler";
 
 
 
@@ -42,13 +43,13 @@ function* startStomp(): any {
     while (isRunning) {
         //race -> 먼저 끝나는 것부터 처리
         const {Message, timeout} = yield race({
-            timeout: delay(60 * 60 * 1000), 
+            timeout: delay(60 * 60 * 1000 * 24), 
             Message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
         });
-        console.log(Message)
+        revalidateHandler(Message.destination)
+
         if (timeout) isRunning = false;
         yield put(receivedStompMsg(Message));
-        // const receiveData = yield put(receivedStompMsg(receiveMessage));
     }
 
 }

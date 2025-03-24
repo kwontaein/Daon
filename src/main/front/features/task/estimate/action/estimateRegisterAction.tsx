@@ -16,8 +16,7 @@ type InitialEstimateParams = {
 };
 
 export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEstimateParams) => {
-  const isEditMode = estimate && mode === "write";
-  const viewMode = isEditMode ? "edit" : mode;
+  const estimateMode = estimate ? mode : 'write';
 
   return {
     taskId: task.taskId,
@@ -29,9 +28,9 @@ export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEs
     customerId: estimate?.customerId ?? task.customer.customerId,
     customerName: estimate?.customerName ?? task.customer.customerName,
     items: estimate
-      ? Object.fromEntries(estimate.items.map((item) => [item.itemId, { ...item }]))
+      ? estimate.items
       : [],
-    mode: viewMode,
+    mode: estimateMode,
   };
 };
 
