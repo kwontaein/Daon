@@ -32,8 +32,8 @@ export async function getEstimateApi(estimateId: string) {
 export async function saveEstimate(estimate: RequestEstimate) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
-
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
+
     return fetch("http://localhost:8080/api/saveEstimate", {
         method: "POST",
         headers: {
