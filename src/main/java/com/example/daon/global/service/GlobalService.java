@@ -159,10 +159,10 @@ public class GlobalService {
         return EstimateItemResponse
                 .builder()
                 .itemId(estimateItem.getItemId())
-                .productName(estimateItem.getStock() == null ? estimateItem.getStock().getProductName() : null)
-                .modelName(estimateItem.getStock() == null ? estimateItem.getStock().getModelName() : null)
-                .stockId(estimateItem.getStock() == null ? estimateItem.getStock().getStockId() : null)
-                .unitPrice(estimateItem.getStock() == null ? estimateItem.getStock().getOutPrice() : estimateItem.getUnitPrice())
+                .productName(estimateItem.getStock() != null ? estimateItem.getStock().getProductName() : estimateItem.getProductName())
+                .modelName(estimateItem.getStock() != null ? estimateItem.getStock().getModelName() : estimateItem.getModelName())
+                .stockId(estimateItem.getStock() != null ? estimateItem.getStock().getStockId() : null)
+                .unitPrice(estimateItem.getStock() != null ? estimateItem.getStock().getOutPrice() : estimateItem.getUnitPrice())
                 .hand(estimateItem.isHand())
                 .quantity(estimateItem.getQuantity())
                 .build();
