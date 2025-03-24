@@ -160,6 +160,8 @@ public class GlobalService {
                 .itemId(estimateItem.getItemId())
                 .productName(estimateItem.getStock().getProductName())
                 .modelName(estimateItem.getStock().getModelName())
+                .stockId(estimateItem.getStock().getStockId())
+                .hand(estimateItem.isHand())
                 .quantity(estimateItem.getQuantity())
                 .unitPrice(estimateItem.getStock().getOutPrice())
                 .build();
