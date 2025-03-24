@@ -18,8 +18,8 @@ import dayjs from 'dayjs';
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     task: ResponseTask,
-    estimate: ResponseEstimate |undefined,
     mode: string
+    estimate?: ResponseEstimate |undefined,
 }) {
     const initialState = useMemo(()=>{
         return{
@@ -32,11 +32,10 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }
     },[task, estimate]) 
 
-    console.log(task)
+    console.log(initialState)
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
-    console.log(task, estimate)
-    const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.companyId): companyList[0] 
+    const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
