@@ -27,9 +27,7 @@ export const initialEstimate = ({ task, companyList, mode, estimate }: InitialEs
     totalAmount: estimate?.totalAmount ?? 0,
     customerId: estimate?.customerId ?? task.customer.customerId,
     customerName: estimate?.customerName ?? task.customer.customerName,
-    items: estimate
-      ? estimate.items
-      : [],
+    items: estimate?.items ?? [],
     mode: estimateMode,
   };
 };
