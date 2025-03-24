@@ -31,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 @Service
@@ -182,15 +183,15 @@ public class GlobalService {
                 .receiptId(receipt.getReceiptId())
                 .timeStamp(receipt.getTimeStamp())
                 .category(receipt.getCategory())
-                .stockId(receipt.getStock().getStockId())
+                .stockId(receipt.getStock() != null ? receipt.getStock().getStockId() : null)
+                .unitPrice(receipt.getStock() != null ? receipt.getStock().getOutPrice() : BigDecimal.valueOf(0))
+                .modelName(receipt.getStock() != null ? receipt.getStock().getModelName() : null)
+                .productName(receipt.getStock() != null ? receipt.getStock().getProductName() : null)
                 .quantity(receipt.getQuantity())
                 .totalPrice(receipt.getTotalPrice())
                 .description(receipt.getDescription())
-                .customerId(receipt.getCustomer().getCustomerId())
-                .customerName(receipt.getCustomer().getCustomerName())
-                .unitPrice(receipt.getStock().getOutPrice())
-                .modelName(receipt.getStock().getModelName())
-                .productName(receipt.getStock().getProductName())
+                .customerId(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerId() : null)
+                .customerName(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerName() : null)
                 .build();
     }
 
