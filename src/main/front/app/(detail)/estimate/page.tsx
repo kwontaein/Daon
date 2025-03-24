@@ -26,6 +26,7 @@ export default async function EstimateDetailPage({searchParams}:EstimateRegister
             companyList={companyList}
             task={task}
             estimate={estimate}
-            mode={mode}/>
+            mode={mode}
+            key={JSON.stringify(estimate+mode)}/>
     )
 }
