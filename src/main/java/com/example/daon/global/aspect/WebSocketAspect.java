@@ -45,7 +45,9 @@ public class WebSocketAspect {
         }
 
         System.out.println(message);
-        messagingTemplate.convertAndSend("/topic/transaction_alert", message);
+        if (message.getId() != null) {
+            messagingTemplate.convertAndSend("/topic/transaction_alert", message);
+        }
     }
 
     // List 타입 파라미터를 처리하여 각 DTO의 [paramName + "Id"] 필드 값을 추출
