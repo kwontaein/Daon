@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import revalidateHandler from "@/features/revalidateHandler";
 
 
 export default function MainHeader(){
@@ -22,10 +23,6 @@ export default function MainHeader(){
             dispatch(stompDisconnect())
         }
     },[])
-
-    useEffect(()=>{
-        console.log(stomp.Message)
-    },[stomp])
     
     return (
         <section className="header-container">
