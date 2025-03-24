@@ -12,8 +12,8 @@ import EstimateForm from './estimate-form';
 import { ResponseEstimate } from '@/model/types/task/estimate/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
-import estimateRegisterAction from '@/features/task/estimate/action/estimateRegisterAction';
 import dayjs from 'dayjs';
+import estimateRegisterAction from '@/features/task/estimate/action/estimateRegisterAction';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -37,6 +37,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
 
     const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
+
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
