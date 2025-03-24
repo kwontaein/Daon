@@ -17,7 +17,6 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS'})
     const formRef = useRef<HTMLFormElement|null>(null);
 
-    
     const checkCustomerName = () => !!state.customerId
 
     const changeHandler = (
@@ -49,23 +48,11 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         }) 
     }
 
-    //결과 다른창에 전달 => revalidate Task 
-    const postResult = async (value: number) => {
-        const message ={
-            status: value
-        }
-        if (window.opener) {
-          window.opener.postMessage(message, "*");
-        }
-    };
-
     useEffect(()=>{
         if(!state.result) return
         if(state.result===200){
-            postResult(state.result).then(()=>{
                 window.alert('업무를 등록했습니다.')
                 window.close()
-            })
         }else{
             window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
         }

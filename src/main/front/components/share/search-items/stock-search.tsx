@@ -14,7 +14,6 @@ export default function StockSearchItems({stocks, page, pageLength} : {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
-    console.log(stocks)
     const selectValue = (stock: ResponseStock) => {
         const message ={
             ...stock,
