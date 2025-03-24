@@ -16,11 +16,12 @@ export default async function EstimateDetailPage({searchParams}:EstimateRegister
     const mode = (await searchParams).mode || 'detail'
 
 
-    let estimate:ResponseEstimate = await getEstimateApi(estimateId);
+    const estimate:ResponseEstimate = await getEstimateApi(estimateId);
     const companyList:ResponseCompany[] = await getCompany()
     const taskList:ResponseTask[] =await getTask()
 
     const task = taskList.find(({taskId})=>taskId ===targetId)
+    
     
     return (
         <RegisterEstimate
