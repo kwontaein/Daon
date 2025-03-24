@@ -18,7 +18,7 @@ public enum ReceiptCategory {
     MAINTENANCE_FEE("관리비"),    // 관리비
     OPERATING_PROFIT("경상손익"),   // 경상손익
     SALES_ALTERNATIVE("매출대체"),  // 매출대체
-    EX("그 외"),  // 매출대체
+    EX("그 외"),
     RETURN_OUT("반품출고"),         // 반품출고
     RETURN_IN("반품입고");  // 반품입고
 
