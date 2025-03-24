@@ -10,11 +10,11 @@ import { ReceiptCategoryMap } from '@/model/constants/sales/receipt/receipt_cons
 
 
 interface ReceiptItemProps{
-    receiptList:RequestReceipt[]
+    pageByReceipt:RequestReceipt[]
     basicIndex: number;
 }
 
-export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptItemProps){
+export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptItemProps){
 
 
     const {selectList, isSelected} = useSelector((state:RootState) => state.receiptSelector);
@@ -30,7 +30,7 @@ export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptIte
     }
     return (
         <>
-            {receiptList.map((receipt: RequestReceipt, index: number) => (
+            {pageByReceipt.map((receipt: RequestReceipt, index: number) => (
                 <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''}`}>
                     <tr>
                         <td rowSpan={2}>
@@ -52,7 +52,7 @@ export default function ReceiptSearchResult({receiptList, basicIndex}:ReceiptIte
                         </td>
                     </tr>
                     <tr>
-                        <td className="left-align">{receipt.productName}</td>
+                        <td className="left-align">{receipt.productName}<b className='division_line'>|</b> {receipt.modelName}</td>
                         <td>{receipt.quantity && Number(receipt.quantity).toLocaleString('ko-KR')}</td>
                         <td className="right-align">{receipt.unitPrice.toLocaleString('ko-KR')}</td>
                         <td className="right-align">{receipt.totalPrice.toLocaleString('ko-KR')}</td>
