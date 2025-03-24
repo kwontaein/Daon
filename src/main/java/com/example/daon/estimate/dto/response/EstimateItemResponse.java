@@ -21,4 +21,5 @@ public class EstimateItemResponse {
     private String modelName;
     private EstimateResponse estimate;
     private UUID stockId;
+    private boolean hand;
 }
