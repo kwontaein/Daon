@@ -44,8 +44,7 @@ public class WebSocketAspect {
             }
         }
 
-        System.out.println(message);
-        if (message.getId() != null) {
+        if (!message.getId().toString().equals("null")) {
             messagingTemplate.convertAndSend("/topic/transaction_alert", message);
         }
     }
