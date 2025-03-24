@@ -41,12 +41,13 @@ function* startStomp(): any {
     //put : dispatch의 기능을 수행함
     while (isRunning) {
         //race -> 먼저 끝나는 것부터 처리
-        const {message, timeout} = yield race({
+        const {Message, timeout} = yield race({
             timeout: delay(60 * 60 * 1000), 
-            message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
+            Message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
         });
+        console.log(Message)
         if (timeout) isRunning = false;
-        yield put(receivedStompMsg(message));
+        yield put(receivedStompMsg(Message));
         // const receiveData = yield put(receivedStompMsg(receiveMessage));
     }
 
@@ -71,7 +72,7 @@ function createStompConnection() {
 
         // Stomp 에러 처리
         stompClient.onStompError = (frame: Frame) => {
-            console.error('Broker reported error: ' + frame.headers['message']);
+            console.error('Broker reported error: ' + frame.headers['Message']);
             console.error('Additional details: ' + frame.body);
             rej(frame);
         };
