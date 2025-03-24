@@ -12,7 +12,7 @@ export async function getEstimateApi(estimateId:string){
         },
         body: JSON.stringify({estimateId}),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+        cache:'no-cache'
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -5,25 +5,27 @@ import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegisterAction';
 import { ResponseTask } from '@/model/types/task/task/type';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
 import { ResponseEstimate } from '@/model/types/task/estimate/type';
+import { useConfirm } from '@/hooks/share/useConfirm';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
+import { apiUrl } from '@/model/constants/apiUrl';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
+import estimateRegisterAction, { initialEstimate } from '@/features/task/estimate/action/estimateRegisterAction';
 
-export default function RegisterEstimate({companyList, task, mode,estimate} : {
+export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     task: ResponseTask,
+    estimate: ResponseEstimate |undefined,
     mode: string
-    estimate?: ResponseEstimate,
 }) {
     const initialState = initialEstimate({task, companyList, mode, estimate})
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
 
-    console.log(state)
+    console.log(state, estimate)
     const [company, setCompany] = useState<ResponseCompany>(companyList[0])
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
@@ -46,14 +48,6 @@ export default function RegisterEstimate({companyList, task, mode,estimate} : {
     useEffect(()=>{
         if(state.formErrors){
             window.alert(state.formErrors.message)
-        }
-        if(state.status){
-            if(state.status === 200){
-                window.alert('견적서를 등록했습니다.')
-                window.close();
-            }else{
-                window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
-            }
         }
     },[state])
 
@@ -82,10 +76,7 @@ export default function RegisterEstimate({companyList, task, mode,estimate} : {
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
-                <h4>
-                    {state.mode ==='write' && '견적서 작성하기'}
-                    {state.mode ==='edit' && '견적서 수정하기'}
-                </h4>
+                <h4>견적서 작성하기</h4>
             </header>
             <form action={action} ref={formRef}>
             <table className='register-form-table'>
@@ -99,7 +90,7 @@ export default function RegisterEstimate({companyList, task, mode,estimate} : {
                     <tr>
                         <td className='table-label'>사업자선택</td>
                         <td>
-                            <select className='bg-memo' name='companyId' value={company.companyId} onChange={(e)=>companyHandler(e)} aria-readonly={state.mode==='detail'}>
+                            <select className='bg-memo' name='companyId' value={company.companyId} onChange={(e)=>companyHandler(e)}>
                                 {companyList.map((company)=>(
                                     <option key={company.companyId} value={company.companyId}>{company.companyName}</option>
                                 ))}
@@ -136,7 +127,7 @@ export default function RegisterEstimate({companyList, task, mode,estimate} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={state} submit={submitEstimateHandler} mode={state.mode}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
             </form>
         </section>
     )
