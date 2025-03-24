@@ -89,7 +89,11 @@ public class ReceiptsService {
         }
 
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-        StockEntity stock = stockRepository.findById(request.getStockId()).orElse(null);
+        StockEntity stock = null;
+
+        if (request.getStockId() != null) {
+            stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
+        }
 
         if (request.getReceiptId() != null) {
             ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
