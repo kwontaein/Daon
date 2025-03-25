@@ -2,23 +2,16 @@
 
 import './total-buttons.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
-import { useDispatch } from 'react-redux';
-import { clearReceiptIds, toggleSelect } from '@/store/slice/receipt-select';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { useEffect } from 'react';
 
 
 
-export default function ReceiptButtons(){
-    const dispatch = useDispatch()
-    const {isSelected, selectList} = useSelector((state:RootState)=>state.receiptSelector)
+export default function ReceiptButtons({isSelected, selectList, toggleIsSelected} : {
+    isSelected: boolean,
+    selectList: string[],
+    toggleIsSelected: () => void
+}) {
 
-    useEffect(()=>{
-        if(!isSelected){
-            dispatch(clearReceiptIds())
-        }
-    },[isSelected])
+
     const registerReceipt =()=>{
         //pc
         if(window.innerWidth>620){
@@ -33,7 +26,7 @@ export default function ReceiptButtons(){
             <button  onClick={registerReceipt}>
                 전표등록
             </button>
-             <button onClick={dispatch.bind(null,toggleSelect())}>
+             <button onClick={toggleIsSelected}>
                 {isSelected ? '선택취소':'전표선택'}
             </button>
             {selectList.length>0 &&
