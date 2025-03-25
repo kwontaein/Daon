@@ -1,6 +1,6 @@
-import { ReceiptCategory, RequestReceipt } from "@/model/types/receipt/type";
+import { ReceiptCategory, ResponseReceipt } from "@/model/types/receipt/type";
 
-export const ReceiptDummy:RequestReceipt[] = [
+export const ReceiptDummy:ResponseReceipt[] = [
     {
         receiptId: "1",
         timeStamp: new Date('2025-01-23'),
