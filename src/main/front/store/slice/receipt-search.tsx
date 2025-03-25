@@ -18,13 +18,11 @@ const receiptSearch = createSlice({
     reducers:{
         updateSearchDate :(state, action: PayloadAction<string>)=>{
             state.date = action.payload;
-        },
-        updateDateId :(state) =>{
             state.date_id = uuidv4();
-        }
+        },
     }
 })
 
-export const {updateSearchDate,updateDateId} =receiptSearch.actions;
+export const {updateSearchDate} =receiptSearch.actions;
 
 export default receiptSearch.reducer;

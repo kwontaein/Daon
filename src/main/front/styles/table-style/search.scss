@@ -18,9 +18,7 @@
         input{
             width: 100%;
             max-width: 418px;
-            @media (max-width:620px){
-                max-width: 226px;
-            }
+            border-color: var.$input-border-color !important;
         }
         select{
             width: auto;
@@ -91,11 +89,11 @@
         display: flex;
         gap:5px;
         align-items: center;
-    }
-    .date-input{
-        max-width: 200px !important;
-        @media(max-width:620px){
-            width: 105px !important;
+        .custom-date-container{
+            max-width: 200px;
+            @media(max-width:620px){
+                font-size: 0.65rem;
+            }
         }
     }
 

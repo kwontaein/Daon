@@ -118,7 +118,7 @@ public class EstimateService {
                     }
                     return itemRequest.toEntity(estimate, stock);
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());  
 
         // 4. 기존 아이템과 새로운 아이템 비교 및 처리
         syncItems(estimate, newItems);
