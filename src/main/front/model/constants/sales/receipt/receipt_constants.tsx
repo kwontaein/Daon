@@ -1,3 +1,4 @@
+import { ReceiptCategory } from "@/model/types/receipt/type";
 
 
   export const ReceiptCategoryMap = {
@@ -13,6 +14,15 @@
     RETURN_OUT: "반품출고",
     RETURN_IN: "반품입고"
 };
+export const receiptCategoryArr =
+    Object.entries(ReceiptCategory).map(([key,value])=>{
+        return {
+        ['categoryKey']: key,
+        ['categoryValue'] :value
+        }
+    })
+  
+  
 export const DisabledStatus = {
     disabled:{//전표입력 (기본값)
         receiptId:false,

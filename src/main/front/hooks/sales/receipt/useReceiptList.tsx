@@ -1,13 +1,13 @@
 import { Dispatch, MouseEvent, SetStateAction, useCallback, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { RequestReceipt } from "@/model/types/receipt/type";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import { saveReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
-import { useConfirm } from "../share/useConfirm";
+import { useConfirm } from "../../share/useConfirm";
+import { ResponseReceipt } from "@/model/types/receipt/type";
 
-const initReceipt: RequestReceipt = {
+const initReceipt: ResponseReceipt = {
     receiptId: uuidv4(),
     timeStamp: new Date(),
     category: "disabled",
@@ -24,10 +24,10 @@ const initReceipt: RequestReceipt = {
 type ClientMousePosition = { x: number; y: number };
 
 export default function useReceiptList() {
-    const [receiptList, setReceiptList] = useState<RequestReceipt[]>([initReceipt]);
+    const [receiptList, setReceiptList] = useState<ResponseReceipt[]>([initReceipt]);
 
     /** 공통 업데이트 함수 */
-    const updateReceiptList = (receiptId: string, updateData: Partial<RequestReceipt>) => {
+    const updateReceiptList = (receiptId: string, updateData: Partial<ResponseReceipt>) => {
         setReceiptList((prev) =>
             prev.map((receipt) =>
                 receipt.receiptId === receiptId ? { ...receipt, ...updateData } : receipt
@@ -36,7 +36,7 @@ export default function useReceiptList() {
     };
 
     /** 입력값 업데이트 (숫자 필드 예외처리) */
-    const receiptHandler = useCallback((receiptToUpdate: Partial<RequestReceipt>, receiptId: string) => {
+    const receiptHandler = useCallback((receiptToUpdate: Partial<ResponseReceipt>, receiptId: string) => {
         const [key, value] = Object.entries(receiptToUpdate)[0];
         // 숫자형식에 다른 키 입력 시 Return
         if (typeof value ==='number' && isNaN(value)) return;

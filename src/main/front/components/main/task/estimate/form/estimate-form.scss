@@ -49,7 +49,7 @@ body{
     input{
         box-sizing: border-box;
         width: 100%;
-        border:1px solid #c2c2c2;
+        border:1px solid var.$input-border-color;
         background-color: inherit;
       }
       input[type="checkbox"]{
