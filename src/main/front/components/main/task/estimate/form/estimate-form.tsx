@@ -30,11 +30,13 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
 
     return(
         <section className='estimate-container'>
+            {(mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
+            }
             <table className='estimate-form'>
                 <colgroup>
                     <col style={{width:'1%'}}/>

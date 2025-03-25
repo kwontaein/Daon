@@ -7,7 +7,7 @@ import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main/sales/receipt/options';
 import dayjs from 'dayjs';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
-import useReceiptList from '@/hooks/receipt/useReceiptList';
+import useReceiptList from '@/hooks/sales/receipt/useReceiptList';
 import { ClientMousePosition } from '@/model/types/share/type';
 import { ReceiptCategory } from '@/model/types/receipt/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
