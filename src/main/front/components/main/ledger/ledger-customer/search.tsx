@@ -2,6 +2,7 @@
 import '@/styles/table-style/search.scss';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { useActionState } from 'react';
+import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 
 export default function LedgerCustomerSearch({affiliations}:{affiliations:Affiliation[]}){
     // const [state, action] = useActionState(()=>{},{startDate: new Date(),})
@@ -56,7 +57,11 @@ export default function LedgerCustomerSearch({affiliations}:{affiliations:Affili
                     </tr>
                     <tr>
                         <td className='table-label'>출력일자</td>
-                        <td className='dates-container'><input className='date-input' type='date'/> ~ <input className='date-input' type='date'/></td>
+                        <td>
+                            <span className='dates-container'>
+                                <CustomDateInput defaultValue={new Date()} name='searchSDate'/> ~ <CustomDateInput defaultValue={new Date()} name='searchEDate'/>
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>

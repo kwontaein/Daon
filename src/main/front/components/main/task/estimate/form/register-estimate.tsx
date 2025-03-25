@@ -38,6 +38,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
 
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
+        if(mode==='detail') return
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
         setCompany(company)
     }

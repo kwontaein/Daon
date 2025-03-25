@@ -4,8 +4,7 @@ import { ResponseStock } from "@/model/types/stock/stock/types";
 import { useEffect, useRef, useState } from "react";
 
 export default function useSearchStock(checkStockName : (id? : string) => boolean, changeHandler : (
-    stockInfo : Pick < ResponseStock,
-    'stockId'| 'productName'| 'modelName'| 'outPrice' >,
+    stockInfo : Partial<Pick<ResponseStock,'stockId'| 'productName'| 'modelName'| 'outPrice'>>,
     uuid?: string
 ) => void) {
     const [target, setTarget] = useState('') 
