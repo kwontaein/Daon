@@ -1,36 +1,41 @@
 'use client'
 import './search-result.scss'
 import dayjs from "dayjs";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useDispatch } from "react-redux";
-import { addReceiptId, removeReceiptId } from "@/store/slice/receipt-select";
-import { RequestReceipt } from '@/model/types/receipt/type';
+import { ResponseReceipt } from '@/model/types/receipt/type';
 import { ReceiptCategoryMap } from '@/model/constants/sales/receipt/receipt_constants';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
+import { useEffect, useMemo, useReducer, useState } from 'react';
+import ReceiptButtons from '../total-buttons';
+import ReceiptTableContainer from '../table/table-header';
 
 
 interface ReceiptItemProps{
-    pageByReceipt:RequestReceipt[]
+    pageByReceipt:ResponseReceipt[]
     basicIndex: number;
 }
 
 export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptItemProps){
 
+    const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
+    const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
+    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds)
+    const selectList = useMemo(()=>Object.keys(checkedState), [checkedState])
 
-    const {selectList, isSelected} = useSelector((state:RootState) => state.receiptSelector);
-    const dispatch = useDispatch()
-
-    
-    const receiptSelectHandler = (uuid:string)=>{
-        if(selectList.includes(uuid)){
-            dispatch(removeReceiptId(uuid));
-        }else{
-            dispatch(addReceiptId(uuid))
+    useEffect(()=>{
+        if(!isSelected){
+            resetChecked()
         }
-    }
+    },[isSelected])
+
+  
     return (
         <>
-            {pageByReceipt.map((receipt: RequestReceipt, index: number) => (
+            <ReceiptButtons
+                isSelected={isSelected}
+                toggleIsSelected={toggleIsSelected}
+                selectList={selectList}/>            
+           <ReceiptTableContainer>
+           {pageByReceipt.map((receipt: ResponseReceipt, index: number) => (
                 <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''}`}>
                     <tr>
                         <td rowSpan={2}>
@@ -38,7 +43,11 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                         </td>
                         <td rowSpan={2}>
                             <div className="date-container">
-                                {isSelected && <input type="checkbox" onChange={receiptSelectHandler.bind(null, receipt.receiptId)} checked={selectList.includes(receipt.receiptId)}/>}
+                                {isSelected && 
+                                    <input type="checkbox" 
+                                           onChange={update_checked.bind(null, receipt.receiptId)}
+                                           checked={checkedState[receipt.receiptId]||false}/>
+                                }
                                 <div>{dayjs(receipt.timeStamp).format('YY.M.DD')}</div>
                             </div>
                         </td>
@@ -59,6 +68,17 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                     </tr>
                 </tbody>
             ))}
+            {
+                pageByReceipt.length===0 && 
+                <tbody>
+                    <tr>
+                        <td colSpan={9}>
+                            <p>조회된 전표가 존재하지 않습니다.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+           </ReceiptTableContainer>
         </>
     )
     

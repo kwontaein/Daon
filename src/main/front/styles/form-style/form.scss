@@ -28,7 +28,7 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    border:1px solid #c2c2c2;
+    border:1px solid var.$input-border-color;
   }
   select{
     border:none;
@@ -39,7 +39,7 @@
     width: 100%;
     height: 100%;
     resize: none;
-    border:1px solid #c2c2c2;
+    border:1px solid var.$input-border-color;
   }
   td{
     border: 1px solid var.$default-border-color;
