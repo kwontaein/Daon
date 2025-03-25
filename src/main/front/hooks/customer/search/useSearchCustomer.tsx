@@ -3,11 +3,10 @@ import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { useEffect, useRef, useState } from "react";
 
-export default function useSearchCustomer(checkCustomerName : (id? : string) => boolean, changeHandler : (
-    customerInfo : Pick < ResponseCustomer,
-    'customerName' | 'customerId' >,
-    uuid?: string
-) => void) {
+export default function useSearchCustomer(
+    checkCustomerName : (id? : string) => boolean,
+    changeHandler : (customerInfo : Partial<Pick<ResponseCustomer, 'customerName' | 'customerId'>>,uuid?: string) => void
+) {
     const [target, setTarget] = useState('') 
     
     //검색을 위한 이벤트등록
