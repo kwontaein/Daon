@@ -1,10 +1,11 @@
 import { ReceiptCondition } from "@/model/types/receipt/type"
 import { getReceiptSearchListApi } from "../api/receiptApi"
+import dayjs from "dayjs"
 
 export const initialReceiptSearch ={
     category:'EX',
-    searchSDate:new Date(Date.now()),
-    searchEDate:new Date(Date.now()),
+    searchSDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
+    searchEDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
     customerId: '',
     stockId: '',
     customerName: '',
@@ -20,7 +21,8 @@ export default async function receiptSearchAction(prevState, formState){
         stockId: formState.get('stockId') ||null,
     }
     const action = formState.get('action')
-    
+
+    console.log(searchCondition)
     if(action==='submit'){
         const searchReceipt = await getReceiptSearchListApi(searchCondition)
         return {

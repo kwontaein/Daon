@@ -1,6 +1,6 @@
 'use client'
 import '@/styles/table-style/category.scss'
-import useOfficial from '@/hooks/receipt/official/useOfficial';
+import useOfficial from '@/hooks/sales/official/useOfficial';
 import type { Official } from '@/model/types/receipt/type';
 
 
