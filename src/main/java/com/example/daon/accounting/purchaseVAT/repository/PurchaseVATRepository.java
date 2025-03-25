@@ -1,0 +1,10 @@
+package com.example.daon.accounting.purchaseVAT.repository;
+
+import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import java.util.UUID;
+
+public interface PurchaseVATRepository extends JpaRepository<PurchaseVATEntity, UUID>, JpaSpecificationExecutor<PurchaseVATEntity> {
+}
