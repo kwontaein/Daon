@@ -1,3 +1,4 @@
+import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import '@/styles/table-style/search.scss';
 
 export default function EstimateSearch(){
@@ -48,10 +49,9 @@ export default function EstimateSearch(){
                     <tr>
                         <td className="table-label">출력일자</td>
                         <td>
-                            <div className="flex-row dates-container">
-                                <input className='date-input' type="date" /> ~ <input className='date-input' type="date" />
-                               
-                            </div>
+                            <span className='dates-container'>
+                                <CustomDateInput defaultValue={new Date()} name='searchSDate'/> ~ <CustomDateInput defaultValue={new Date()} name='searchEDate'/>
+                            </span>
                         </td>
                         
                     </tr>

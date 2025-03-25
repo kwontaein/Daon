@@ -1,5 +1,5 @@
 
-export type RequestReceipt={
+export type ResponseReceipt={
   receiptId: string; // 전표 아이디
   estimateId?:string; // 견적서 아이디
   timeStamp:Date; // 전표 등록일
@@ -18,9 +18,10 @@ export type RequestReceipt={
 
 
 export enum ReceiptCategory {
+  EX='전체',
   SALES="매출",              // 매출
-  SALES_DISCOUNT="매출할인",     // 매출할인
   PURCHASE="매입",           // 매입
+  SALES_DISCOUNT="매출할인",     // 매출할인
   PURCHASE_DISCOUNT="매입할인", // 매입할인
   DEPOSIT="입금",            // 입금 (수금)
   WITHDRAWAL="출금",         // 출금 (지급)
@@ -29,17 +30,25 @@ export enum ReceiptCategory {
   SALES_ALTERNATIVE="매출대체",  // 매출대체
   RETURN_OUT="반품출고",         // 반품출고
   RETURN_IN="반품입고",  // 반품입고
-  EX='전체',
 }
+
+export const ReceiptCategoryMap =
+  Object.entries(ReceiptCategory).map(([key,value])=>{
+    return {
+      ['receiptCategoryKey']: key,
+      ['receiptCategoryValue'] :value
+    }
+  })
+ 
+  
 
 
 export type ReceiptCondition = {
   category?:ReceiptCategory
   searchSDate? :Date;  //검색 날짜 시작일
   searchEDate?:Date,  //검색 날짜 종료일
-  ids?:string[], //여러개 한번에 생성 시 보내는 아이디
-  customerName?:string; //고객명
-  productName?:string; //품명
+  customerId?:string; //고객명
+  stockId?:string; //품명
 }
 
 export type Official ={

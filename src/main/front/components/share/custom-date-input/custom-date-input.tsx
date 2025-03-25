@@ -81,7 +81,7 @@ export default function CustomDateInput({ defaultValue, name, className , dateRe
     const renderDate = useMemo(()=>{
             return(        
             <label className={`custom-date-container ${className}`}>
-                <div className="date-container">
+                <div className="custom-date-wrapper">
                     <label>
                         <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus} />
                         년
