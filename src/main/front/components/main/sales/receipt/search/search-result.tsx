@@ -12,10 +12,9 @@ import ReceiptTableContainer from '../table/table-header';
 interface ReceiptItemProps{
     pageByReceipt:ResponseReceipt[]
     basicIndex: number;
-    loading:boolean;
 }
 
-export default function ReceiptSearchResult({pageByReceipt, basicIndex, loading}:ReceiptItemProps){
+export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptItemProps){
 
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
     const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
@@ -27,7 +26,8 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex, loading}
             resetChecked()
         }
     },[isSelected])
-    
+
+  
     return (
         <>
             <ReceiptButtons
@@ -69,11 +69,11 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex, loading}
                 </tbody>
             ))}
             {
-                !loading && pageByReceipt.length===0 && 
+                pageByReceipt.length===0 && 
                 <tbody>
                     <tr>
                         <td colSpan={9}>
-                            <p>등록된 회사가 존재하지 않습니다.</p>
+                            <p>조회된 전표가 존재하지 않습니다.</p>
                         </td>
                     </tr>
                 </tbody>

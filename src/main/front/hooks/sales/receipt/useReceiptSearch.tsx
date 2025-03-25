@@ -1,13 +1,10 @@
-import receiptSearchAction, { initialReceiptSearch } from "@/features/sales/receipt/action/receiptSearchAction";
-import useSearchCustomer from "@/hooks/customer/search/useSearchCustomer";
-import useSearchStock from "@/hooks/stock/search/useSearchStock";
-import { ResponseCustomer } from "@/model/types/customer/customer/type";
+'use client'
+import { initialReceiptSearch } from "@/features/sales/receipt/action/receiptSearchAction";
 import { ResponseReceipt } from "@/model/types/receipt/type";
-import { ResponseStock } from "@/model/types/stock/stock/types";
 import { updateSearchDate } from "@/store/slice/receipt-search";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useActionState, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useReceiptSearch(initialReceipts,page,action){
@@ -25,23 +22,21 @@ export default function useReceiptSearch(initialReceipts,page,action){
 
     //오늘일자보기
     const todayReceipt = ()=>{
-        dispatch(updateSearchDate(today))
-        setReceiptList(initialReceipts)
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-
-        router.push(`${pathname}?${params.toString()}`); 
         if (formRef.current) {
             const formData = new FormData(formRef.current);
             Object.entries(initialReceiptSearch).forEach(([key,value])=>{
                 formData.set(key, value.toString())
             })
             formData.set('action','submit')
-
             startTransition(() => {
                 action(formData)
             })
         }
+
+        dispatch(updateSearchDate(today))
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.delete("page"); 
+        router.push(`${pathname}?${params.toString()}`); 
     }
     //일일종합검색
     const dailySummary =()=>{
