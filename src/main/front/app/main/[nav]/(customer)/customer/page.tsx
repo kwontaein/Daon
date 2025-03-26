@@ -1,6 +1,6 @@
-import CustomerSearch from "@/components/main/customer/search";
+import CustomerSearch from "@/components/main/customer/search/search";
 import { Affiliation } from "@/model/types/customer/affiliation/type";
-import { CustomerSearchCondition, RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
+import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
 

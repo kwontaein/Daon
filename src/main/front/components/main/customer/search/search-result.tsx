@@ -9,7 +9,7 @@ import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 
-import CustomerOptions from './options';
+import CustomerOptions from '../options';
 import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
 
 
@@ -33,7 +33,7 @@ const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:Resp
                 <col style={{ width: '11%' }}/>
                 <col style={{ width: '9%' }}/>
                 <col style={{ width: '11%' }}/>
-                <col style={{ width: '3%', minWidth: '32px' }} />
+                <col style={{ width: '3%', minWidth: '40px' }} />
         </colgroup>
         <thead>
             <tr>

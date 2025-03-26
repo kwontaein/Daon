@@ -13,7 +13,8 @@ import { ResponseEstimate } from '@/model/types/task/estimate/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
-import estimateRegisterAction from '@/features/task/estimate/action/estimateRegisterAction';
+import { useConfirm } from '@/hooks/share/useConfirm';
+import estimateRegisterAction from '@/features/sales/task-estimate/action/estimateRegisterAction';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -49,11 +50,20 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
             window.alert('거래처를 선택해주세요')
             return
         }
-        const formData = new FormData(formRef.current);
-        formData.set('action','submit')
-        startTransition(()=>{
-            action(formData)
-        }) 
+
+        const submit = ()=>{
+            const formData = new FormData(formRef.current);
+            formData.set('action','submit')
+            startTransition(()=>{
+                action(formData)
+            }) 
+        }
+        if(state.mode==='edit' && state.items.length===0){
+            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit,()=>{})
+        }else{
+            submit()
+        }
+       
     }
 
     useEffect(()=>{

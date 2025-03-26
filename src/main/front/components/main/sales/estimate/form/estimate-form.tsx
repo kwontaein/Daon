@@ -3,8 +3,8 @@
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import './estimate-form.scss';
 import { ResponseEstimate } from "@/model/types/task/estimate/type"
-import useEstimate from '@/hooks/task/estimate/useEstimate';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
 
 
 export default function EstimateForm({estimateState, submit, mode}:{estimateState?:ResponseEstimate, submit:()=>void, mode:string}){
@@ -40,11 +40,11 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
             <table className='estimate-form'>
                 <colgroup>
                     <col style={{width:'1%'}}/>
-                    <col style={{width:'25%'}}/>
+                    <col style={{width:'20%'}}/>
                     <col style={{width:'20%'}}/>
                     <col style={{width:'6%'}}/>
                     <col style={{width:'12%'}}/>
-                    <col style={{width:'12%'}}/>
+                    <col style={{width:'17%'}}/>
                     <col style={{width:'10%'}}/>
                 </colgroup>
                 <thead>
@@ -84,6 +84,7 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
                             <td>
                                 <input
                                     name='modelName'
+                                    className='center-align'
                                     value={estimate.modelName??''}
                                     readOnly={!estimate.hand || mode==='detail'}
                                     onChange={(e) =>
