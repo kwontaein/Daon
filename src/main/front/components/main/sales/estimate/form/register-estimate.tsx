@@ -18,17 +18,17 @@ import estimateRegisterAction from '@/features/sales/estimate/action/estimateReg
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
-    task: ResponseTask,
     mode: string
+    task?: ResponseTask,
     estimate?: ResponseEstimate |undefined,
 }) {
     const initialState = useMemo(()=>{
         return{
-            taskId: task.taskId,
+            taskId: task?.taskId,
             ...estimate,
-            estimateDate: dayjs(estimate? estimate.estimateDate : task.createdAt).format('YYYY-MM-DD'),
-            customerId: task.customer.customerId,
-            customerName: task.customer.customerName,
+            estimateDate: dayjs(estimate? estimate.estimateDate : task?.createdAt).format('YYYY-MM-DD'),
+            customerId: estimate? estimate.customerId : task.customer.customerId,
+            customerName: estimate? estimate.customerName : task.customer.customerName,
             mode: estimate ? mode : 'write',
         }
     },[task, estimate,mode]) 
@@ -148,8 +148,8 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' defaultValue={task.assignedUser.name} readOnly/>
-                            <input type='hidden' name='userId' value={task.assignedUser.userId} readOnly/>
+                            <input type='text' name='assignedUser' defaultValue={estimate? estimate.userName : task.assignedUser.name} readOnly/>
+                            <input type='hidden' name='userId' value={estimate ? estimate.userId : task.assignedUser.userId} readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>

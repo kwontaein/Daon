@@ -14,13 +14,7 @@ import { ReceiptCategory } from "@/model/types/sales/receipt/type";
     RETURN_OUT: "반품출고",
     RETURN_IN: "반품입고"
 };
-export const receiptCategoryArr =
-    Object.entries(ReceiptCategory).map(([key,value])=>{
-        return {
-        ['categoryKey']: key,
-        ['categoryValue'] :value
-        }
-    })
+
   
   
 export const DisabledStatus = {

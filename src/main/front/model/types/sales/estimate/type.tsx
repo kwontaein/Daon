@@ -26,7 +26,8 @@ interface User{
     company: ResponseCompany;
     customerId: string;       // UUID -> string
     customerName:string,
-    user: User;
+    userId:string,
+    userName:string,
     receipted?:boolean
     estimateDate: string;     // 견적서 날짜
     totalAmount: number;      //종합
@@ -58,9 +59,11 @@ interface User{
   
 
   export type EstimateCondition = {
+    condition:EstimateCategory
     companyId?:string;
     searchSDate? :Date;  //검색 날짜 시작일
     searchEDate?:Date,  //검색 날짜 종료일
     customerId?:string; //고객명
     stockId?:string; //품명
+    task:boolean
   }

@@ -1,4 +1,4 @@
-import {RequestEstimate} from "@/model/types/sales/estimate/type";
+import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
 
 export async function getEstimateApi(estimateId: string) {
     const controller = new AbortController();
@@ -84,19 +84,53 @@ export async function updateEstimate(estimate: RequestEstimate) {
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export async function searchEstimateApi(searchCondition:EstimateSearchCondition) {
+export async function searchAllEstimateApi(task:boolean) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
-    console.log(searchCondition)
-    return fetch("http://localhost:8080/api/updateEstimate", {
+    
+    const condition:EstimateCondition={
+        condition: EstimateCategory.ALL,
+        searchSDate: null,
+        searchEDate: null,
+        customerId: null,
+        stockId: null,
+        task,
+    }    
+    return fetch("http://localhost:8080/api/getEstimates", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(estimate),
+        body: JSON.stringify(condition),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
+    }).finally(() => clearTimeout(timeoutId));
+} 
+
+export async function searchEstimateConditionApi(searchCondition:EstimateCondition) {
+    const controller = new AbortController();
+    const signal = controller.signal;//작업 취소 컨트롤
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+    console.log(searchCondition)
+    return fetch("http://localhost:8080/api/getEstimates", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(searchCondition),
+        signal,
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
