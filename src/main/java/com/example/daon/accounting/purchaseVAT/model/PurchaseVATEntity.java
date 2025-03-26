@@ -1,4 +1,4 @@
-package com.example.daon.accounting.model;
+package com.example.daon.accounting.purchaseVAT.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,20 +10,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity(name = "procurement_settlement")
+@Entity(name = "purchase_vat")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProcurementSettlementEntity {
+public class PurchaseVATEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "procurement_settlement_id", columnDefinition = "BINARY(16)")
-    private UUID procurementSettlementId;
+    @Column(nullable = false, unique = true, name = "purchase_vat_id", columnDefinition = "BINARY(16)")
+    private UUID purchaseVATId;
 
     // 분류선택
     @Column(name = "category_selection")
@@ -37,29 +38,25 @@ public class ProcurementSettlementEntity {
     @Column(name = "category_name")
     private String companyName;
 
-    // 모델명
-    @Column(name = "model_name")
-    private String modelName;
+    // 사업자번호
+    @Column(name = "business_number")
+    private String businessNumber;
 
-    // 매입처
-    @Column(name = "vendor")
-    private String vendor;
+    // 금액
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-    // 수량
-    @Column(name = "quantity")
-    private int quantity;
+    // 부가세
+    @Column(name = "vat")
+    private BigDecimal vat;
 
-    // 인수
-    @Column(name = "acceptance")
-    private int acceptance;
+    // 합계
+    @Column(name = "total")
+    private BigDecimal total;
 
-    // 설치
-    @Column(name = "installation")
-    private String installation;
-
-    // 결재
-    @Column(name = "payment")
-    private String payment;
+    // 비고
+    @Column(name = "note")
+    private String note;
 
     // 메모
     @Column(name = "memo")
