@@ -33,7 +33,10 @@ public class WebSocketAspect {
             // 파라미터 이름에서 "Request" 또는 "Requests"를 제거하여 대상 이름을 구함
             String paramName = parameterNames[i].replace("Requests", "").replace("Request", "");
             Object paramValue = args[i];
-
+            String methodName = signature.getName();
+            if (methodName.contains("get")) {
+                return;
+            }
             // 메시지의 목적지를 해당 파라미터 이름으로 설정
             message.setDestination(paramName);
 
@@ -94,6 +97,7 @@ public class WebSocketAspect {
                     if (key.equals(targetFieldName)) {
                         message.setId(value);
                     }
+
                     // paramName이 "estimate"인 경우 추가적으로 taskId 처리
                     if (isEstimate && key.equals("taskId")) {
                         Message taskMsg = new Message();
