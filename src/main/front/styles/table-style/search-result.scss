@@ -1,14 +1,9 @@
 @use '@/styles/_variables.scss' as var;
 
 .search-result-table{
-    font-size: 1.2rem;
     margin-top: 0.5rem;
     width: 100%;
-    margin-top: 1rem;
-    @media (max-width:620px){
-        font-size: 0.7rem;
-    }
-
+    
     thead{
         background-color: #8091A7;
         background-image: url('../../assets/bg_img.gif');

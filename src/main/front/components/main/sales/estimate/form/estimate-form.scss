@@ -11,13 +11,10 @@ body{
 }
 .estimate-form{
     margin-top: 3px;
-    font-size: 0.9rem;
     width: 100%;
     table-layout: auto;
     border-collapse: collapse;
-    @media(max-width:'620px'){
-        font-size: 0.8rem;
-    }
+
     thead{
         background-color: #8091A7;
         background-image: url('../../../../../assets/bg_img.gif');
@@ -66,9 +63,7 @@ body{
     zoom: 120%;
 }
 
-.icon{
-    cursor: pointer;
-}
+
 .right-align{
     text-align: right !important;
 }

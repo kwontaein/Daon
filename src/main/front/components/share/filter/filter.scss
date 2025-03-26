@@ -14,13 +14,9 @@
     border: 1px solid black;
     border-radius: 3px;
     background-color: var.$default-white-color;
-    font-size: 1.2rem;
-
     margin-top: 5px;
     &:hover{
         filter: brightness(95%);
     }
-    @media (max-width:620px){
-        font-size: 0.8rem;
-    }
+
 }
