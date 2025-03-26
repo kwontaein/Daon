@@ -3,7 +3,7 @@ import {useState, useRef} from "react";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { deleteOfficialApi, saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/officialApi";
-import { Official } from "@/model/types/receipt/type";
+import { Official } from "@/model/types/sales/receipt/type";
 
 export default function useOfficial(InitialOfficial:Official[]){
     const [officialState, setOfficialState] = useState<Official[]>(InitialOfficial)

@@ -4,7 +4,7 @@ import getTask from "@/features/sales/task/api/taskApi";
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
-import { ResponseTask } from "@/model/types/task/task/type";
+import { ResponseTask } from "@/model/types/sales/task/type";
 
 export default async function TaskPage({searchParams}:PageByProps){
     const page = (await searchParams).page || 1;

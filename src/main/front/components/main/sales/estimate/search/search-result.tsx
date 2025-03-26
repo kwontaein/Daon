@@ -1,6 +1,6 @@
 import '@/styles/table-style/search-result.scss';
 
-export default function EstimateSearchResults(){
+export default function EstimateSearchResult({pageByEstimateItems}){
     return(
         <table className="search-result-table">
               <colgroup>
@@ -21,6 +21,13 @@ export default function EstimateSearchResults(){
                     <td>관리</td>
                 </tr>
             </thead>
+            <tbody>
+                {pageByEstimateItems.length===0 &&
+                    <tr>
+                        <td colSpan={6}>조회된 견적서가 존재하지 않습니다.</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     )
 }

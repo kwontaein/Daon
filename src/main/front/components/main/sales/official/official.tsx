@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/table-style/category.scss'
 import useOfficial from '@/hooks/sales/official/useOfficial';
-import type { Official } from '@/model/types/receipt/type';
+import type { Official } from '@/model/types/sales/receipt/type';
 
 
 export default function OfficialCate({officials}: { officials: Official[] }) {
