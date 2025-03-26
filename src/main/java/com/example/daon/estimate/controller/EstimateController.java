@@ -21,7 +21,8 @@ public class EstimateController {
     //견적서관리-----------------------------------
     @PostMapping("api/getEstimates")
     public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest estimateRequest) {
-        return estimateService.getEstimates(estimateRequest.getSearchSDate(), estimateRequest.getSearchEDate(), estimateRequest.getCustomerName(), estimateRequest.getProductName());
+        System.out.println(estimateRequest);
+        return estimateService.getEstimates(estimateRequest);
     }
 
     @PostMapping("api/getEstimate")
@@ -46,4 +47,8 @@ public class EstimateController {
         estimateService.saveEstimate(estimateRequest);
     }
 
+    @PostMapping("api/deleteEstimate")
+    public void deleteEstimate(@RequestBody EstimateRequest estimateRequest) {
+        estimateService.deleteEstimate(estimateRequest.getEstimateId());
+    }
 }

@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,10 +45,15 @@ public class EstimateService {
     private final GlobalService globalService;
 
     //견적서 조회
-    public List<EstimateResponse> getEstimates(LocalDate searchSDate, LocalDate searchEDate, String customerName, String productName) {
+    public List<EstimateResponse> getEstimates(EstimateRequest estimateRequest) {
+
         List<EstimateEntity> estimateEntities;
         // 견적서 조회 조건: 전표로 전환되지 않은 견적서
-        if (searchSDate == null && searchEDate == null && customerName == null && productName == null) {
+        if (estimateRequest.getSearchSDate() == null
+                && estimateRequest.getSearchEDate() == null
+                && estimateRequest.getCustomerName() == null
+                && estimateRequest.getProductName() == null
+                && !estimateRequest.isTask()) {
             estimateEntities = estimateRepository.findByReceipted(false).orElse(null);
         }
 
@@ -58,33 +62,44 @@ public class EstimateService {
             List<Predicate> predicates = new ArrayList<>();
 
             // 기간 조건
-            if (searchSDate != null && searchEDate != null) {
+            if (estimateRequest.getSearchSDate() != null && estimateRequest.getSearchEDate() != null) {
                 predicates.add(criteriaBuilder.between(
                         root.get("timeStamp"),
-                        searchSDate.atStartOfDay(),
-                        searchEDate.atTime(23, 59, 59)
+                        estimateRequest.getSearchSDate().atStartOfDay(),
+                        estimateRequest.getSearchEDate().atTime(23, 59, 59)
                 ));
             }
 
             // 거래처 조건
-            if (customerName != null) {
-                customerRepository.findByCustomerName(customerName)
+            if (estimateRequest.getCustomerName() != null) {
+                customerRepository.findByCustomerName(estimateRequest.getCustomerName())
                         .ifPresentOrElse(
                                 customer -> predicates.add(criteriaBuilder.equal(root.get("customerId"), customer.getCustomerId())),
                                 () -> {
-                                    throw new EntityNotFoundException("Customer not found: " + customerName);
+                                    throw new EntityNotFoundException("Customer not found: " + estimateRequest.getCustomerName());
                                 }
                         );
             }
 
             // 품목 조건
-            if (productName != null) {
+            if (estimateRequest.getProductName() != null) {
                 // 서브 테이블인 estimateItem 과 조인
                 Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
                 // estimateItem 테이블에서 itemName 이 일치하는지 확인
-                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("productName"), productName));
+                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("productName"), estimateRequest.getProductName()));
             }
 
+            //estimateItem 항목에 hand 가 true 인 항목이 포함된 경우
+            if (estimateRequest.isCondition()) {
+                Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
+                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("hand"), true));
+            }
+
+
+            //업무관리 견적서인경우
+            if (estimateRequest.isTask()) {
+                predicates.add(criteriaBuilder.isNotNull(root.get("task")));
+            }
 
             // 동적 조건 조합
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -107,10 +122,12 @@ public class EstimateService {
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
 
-        TaskEntity task = null;
+        TaskEntity task;
         if (request.getTaskId() != null) {
             task = taskRepository.findById(request.getTaskId())
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
+        } else {
+            task = estimate.getTask();
         }
 
         // 3. 기본 필드 업데이트 (예: 고객, 회사, 사용자, 업무 등)
@@ -137,6 +154,12 @@ public class EstimateService {
                     return itemRequest.toEntity2(estimate, stock);
                 })
                 .collect(Collectors.toList());
+
+        if (newItems.isEmpty()) {
+            deleteEstimate(request.getEstimateId());
+            return;
+        }
+
         // 기존 아이템 복사본 생성
         List<EstimateItem> existingItems = new ArrayList<>(estimate.getItems());
 
@@ -237,6 +260,23 @@ public class EstimateService {
     public EstimateResponse getEstimate(UUID estimateId) {
         EstimateEntity estimate = estimateRepository.findById(estimateId).orElse(null);
         return globalService.convertToEstimateResponse(estimate);
+    }
+
+
+    @Transactional
+    public void deleteEstimate(UUID estimateId) {
+        EstimateEntity estimate = estimateRepository.findById(estimateId)
+                .orElseThrow(() -> new RuntimeException("Estimate not found"));
+
+        // 양방향 연관관계가 설정되어 있는 경우, 양쪽의 참조를 해제합니다.
+        if (estimate.getTask() != null) {
+            TaskEntity task = estimate.getTask();
+            task.setEstimate(null);   // TaskEntity의 참조 해제
+            estimate.setTask(null);     // EstimateEntity의 참조 해제
+        }
+
+        // 이후에 EstimateEntity를 삭제합니다.
+        estimateRepository.delete(estimate);
     }
 
 }
