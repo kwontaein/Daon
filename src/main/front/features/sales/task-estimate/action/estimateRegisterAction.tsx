@@ -55,7 +55,6 @@ export default async function estimateRegisterAction(prevState, formState){
         errors.push(['message', '품목을 하나이상 넣어주세요.'])
     }
 
-    console.log(prevState.mode)
     if(action ==='submit'){
         let status;
         if(errors.length>0){

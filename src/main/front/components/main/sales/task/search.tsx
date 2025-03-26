@@ -3,14 +3,14 @@ import '@/styles/table-style/search.scss'
 
 import {apiUrl} from '@/model/constants/apiUrl';
 import {useActionState, useEffect, useMemo, useRef, useState} from 'react';
-import {initialTaskState, taskSearchAction} from '@/features/task/task/action/taskSearchAction';
+import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 import {ResponseTask} from '@/model/types/task/task/type';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import Pagination from '@/components/share/pagination';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
-import { deleteTask } from '@/features/task/task/api/taskApi';
+import { deleteTask } from '@/features/sales/task/api/taskApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 
