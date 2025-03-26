@@ -132,4 +132,8 @@ public class ReceiptsService {
         receiptRepository.deleteAllById(ids);
     }
 
+
+    public void getReceiptTotal(LocalDate searchDate) {
+        //해당 기간동안의 금액 총 합산
+    }
 }

@@ -39,4 +39,18 @@ public class EstimateItemRequest {
                 .stock(stock)
                 .build();
     }
+
+    public EstimateItem toEntity2(EstimateEntity entity, StockEntity stock) {
+        return EstimateItem
+                .builder()
+                .itemId(itemId)
+                .estimate(entity)
+                .productName(productName)
+                .modelName(modelName)
+                .quantity(quantity)
+                .unitPrice(unitPrice)
+                .hand(hand)
+                .stock(stock)
+                .build();
+    }
 }

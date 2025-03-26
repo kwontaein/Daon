@@ -69,7 +69,7 @@ public class EstimateEntity {
     /**
      * 전체 필드 업데이트
      */
-    public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user, List<EstimateItem> newItems) {
+    public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user) {
         if (customer != null) {
             this.customer = customer;
         }
@@ -78,11 +78,6 @@ public class EstimateEntity {
         }
         if (user != null) {
             this.user = user;
-        }
-
-        // 항목 리스트 동기화
-        if (newItems != null) {
-            syncItems(newItems);
         }
         // 금액 재계산
         recalculateTotalAmount();

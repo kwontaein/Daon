@@ -32,7 +32,7 @@ public class EstimateController {
     //수정
     @PostMapping("api/updateEstimate")
     public void updateEstimate(@RequestBody EstimateRequest estimateRequest) {
-        estimateService.updateTest(estimateRequest);
+        estimateService.updateEstimate(estimateRequest);
     }
 
     //전표전환
