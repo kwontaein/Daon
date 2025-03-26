@@ -33,6 +33,8 @@ public class EstimateRequest {
     private String customerName;
     private String productName;
     private boolean receipted;
+    private boolean task;
+    private boolean condition;
 
     public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, TaskEntity task, List<EstimateItem> items) {
         return EstimateEntity
@@ -47,4 +49,6 @@ public class EstimateRequest {
                 .task(task)
                 .build();
     }
+
+
 }
