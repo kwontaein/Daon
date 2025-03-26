@@ -19,10 +19,10 @@ export default async function TaskEstimatePage({searchParams}: PageByProps) {
     const page = (await searchParams).page || 1;
 
     const companyList:ResponseCompany[] = await getCompany()
-    const initialEstimateItems = await searchAllEstimateApi(false)
+    const initialEstimate = await searchAllEstimateApi(true)
 
     return<EstimateSearch
-            initialEstimateItems={initialEstimateItems}
+            initialEstimate={initialEstimate}
             companyList={companyList}
             page={page}
             isTask={true}/>

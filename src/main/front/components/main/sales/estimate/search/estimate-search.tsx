@@ -12,23 +12,23 @@ import { ResponseStock } from '@/model/types/stock/stock/types';
 
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { EstimateCategory, ResponseEstimateItem } from '@/model/types/sales/estimate/type';
+import { EstimateCategory, ResponseEstimate, ResponseEstimateItem } from '@/model/types/sales/estimate/type';
 import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/estimate/action/estimateSearchAction';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
 
 
 
-export default function EstimateSearch({initialEstimateItems, companyList, page, isTask} : {
-    initialEstimateItems: ResponseEstimateItem[],
+export default function EstimateSearch({initialEstimate, companyList, page, isTask} : {
+    initialEstimate: ResponseEstimate[],
     companyList: ResponseCompany[],
     page: number,
     isTask:boolean
 }) {
     const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(companyList,isTask));
-    const [estimateItems,setEstimateItems] = useState<ResponseEstimateItem[]>(initialEstimateItems)
+    const [estimateItems,setEstimateItems] = useState<ResponseEstimate[]>(initialEstimate)
 
-    const pageByEstimateItems = useMemo(()=>estimateItems.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimateItems])
+    const pageByEstimate = useMemo(()=>estimateItems.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimateItems])
     const formRef = useRef(null)
  
 
@@ -126,7 +126,7 @@ export default function EstimateSearch({initialEstimateItems, companyList, page,
                                 <button type='button' onClick={submitHandler}>
                                     검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button' onClick={()=>setEstimateItems(initialEstimateItems)}>
+                                <button type='button' onClick={()=>setEstimateItems(initialEstimate)}>
                                     전 체 보 기
                                 </button>
                             </td>
@@ -158,8 +158,8 @@ export default function EstimateSearch({initialEstimateItems, companyList, page,
                     </tbody>
                 </table>
             </form>
-            <EstimateSearchResult pageByEstimateItems={pageByEstimateItems}/>
-            {!isPending &&
+            <EstimateSearchResult pageByEstimate={pageByEstimate}/>
+            {(!isPending && pageByEstimate.length>0) &&
                 <Pagination
                     totalItems={estimateItems.length}
                     itemCountPerPage={10}
