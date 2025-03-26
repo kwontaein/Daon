@@ -7,7 +7,7 @@ import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
-import { ResponseTask } from '@/model/types/task/task/type';
+import { ResponseTask } from '@/model/types/sales/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function AdminSearch({affiliations, initialTask, page}:{affiliations:Affiliation[], initialTask:ResponseTask[], page:number}){

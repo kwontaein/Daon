@@ -2,7 +2,7 @@
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import './estimate-form.scss';
-import { ResponseEstimate } from "@/model/types/task/estimate/type"
+import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
 

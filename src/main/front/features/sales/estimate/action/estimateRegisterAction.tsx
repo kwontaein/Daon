@@ -2,7 +2,7 @@
 
 //보내야 할 것 customerId companyId, items, userId
 
-import { RequestEstimate, ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
+import { RequestEstimate, ResponseEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
 import { saveEstimate, updateEstimate } from "../api/estimateApi"
 
 function isInvalidText(text) {

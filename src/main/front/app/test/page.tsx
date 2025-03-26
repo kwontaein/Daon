@@ -2,7 +2,13 @@
 import '@/styles/_global.scss';
 import axios from "axios";
 import {getReceiptListApi} from "@/features/sales/receipt/api/receiptApi";
+<<<<<<< HEAD
 import {ReceiptCategory} from "@/model/types/receipt/type";
+=======
+import {ReceiptCategory} from "@/model/types/sales/receipt/type";
+import {getEstimateApi} from "@/features/task/estimate/api/estimateApi";
+
+>>>>>>> b23654e (chore: estimate search page)
 
 export default async function TestPage() {
 
