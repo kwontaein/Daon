@@ -61,7 +61,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    return fetch("http://localhost:8080/api/saveEstimate", {
+    return fetch("http://localhost:8080/api/updateEstimate", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

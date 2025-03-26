@@ -56,6 +56,13 @@ export default function OfficialCate({officials}: { officials: Official[] }) {
                         </td>
                     </tr>
                 ))}
+                {(mode !== 'add' && officialState.length===0) &&
+                    <tr>
+                        <td colSpan={3}>
+                            <p>등록된 관리비가 없습니다.</p>
+                        </td>
+                    </tr>
+                }
                 {mode === 'add' &&
                     <tr>
                         <td>{officialState.length + 1}</td>
@@ -63,7 +70,7 @@ export default function OfficialCate({officials}: { officials: Official[] }) {
                             <input type="text"
                                    ref={addInputRef}
                                    className="category-input"
-                                   placeholder="생성할 소속명을 입력해주세요"/>
+                                   placeholder="생성할 관리비명을 입력해주세요"/>
                         </td>
                         <td>
                             <button onClick={setMode.bind(null, null)}>삭제</button>
