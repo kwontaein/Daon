@@ -26,12 +26,12 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     isTask:boolean
 }) {
     const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(companyList,isTask));
-    const [estimateItems,setEstimateItems] = useState<ResponseEstimate[]>(initialEstimate)
+    const [estimate,setEstimate] = useState<ResponseEstimate[]>(initialEstimate)
 
-    const pageByEstimate = useMemo(()=>estimateItems.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimateItems])
+    const pageByEstimate = useMemo(()=>estimate.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate])
     const formRef = useRef(null)
  
-
+    console.log(initialEstimate)
     
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
@@ -43,7 +43,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
 
     useEffect(()=>{
         if(state.searchEstimate){
-            setEstimateItems(state.searchEstimate)
+            setEstimate(state.searchEstimate)
         }
     },[state])
 
@@ -126,7 +126,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                                 <button type='button' onClick={submitHandler}>
                                     검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button' onClick={()=>setEstimateItems(initialEstimate)}>
+                                <button type='button' onClick={()=>setEstimate(initialEstimate)}>
                                     전 체 보 기
                                 </button>
                             </td>
@@ -161,7 +161,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
             <EstimateSearchResult pageByEstimate={pageByEstimate}/>
             {(!isPending && pageByEstimate.length>0) &&
                 <Pagination
-                    totalItems={estimateItems.length}
+                    totalItems={estimate.length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={page}
