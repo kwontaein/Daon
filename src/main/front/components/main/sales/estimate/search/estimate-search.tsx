@@ -1,7 +1,7 @@
 'use client';
 
 import '@/styles/table-style/search.scss';
-import React, { startTransition, useActionState, useEffect, useMemo, useCallback } from 'react';
+import React, { startTransition, useActionState, useEffect, useMemo, useCallback, useRef, useState } from 'react';
 
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
@@ -16,16 +16,19 @@ import { receiptCategoryArr } from '@/model/constants/sales/receipt/receipt_cons
 
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import ReceiptSearchResult from './search-result';
+import { ResponseEstimate, ResponseEstimateItem } from '@/model/types/task/estimate/type';
 
 
-const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
 
-export default function ReceiptSearch({ initialReceipts, page }: { initialReceipts: ResponseReceipt[], page: number }) {
+export default function TaskEstimateSearch({ initialEstimateItems, page }: { initialEstimateItems: ResponseEstimateItem[], page: number }) {
     const [state, action, isPending] = useActionState(receiptSearchAction, initialReceiptSearch);
+    const [estimateItems,setEstimateItems] = useState<ResponseEstimateItem[]>(initialEstimateItems)
 
-    const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
+    const pageByEstimateItems = useMemo(()=>estimateItems.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimateItems])
+    const formRef = useRef(null)
+ 
 
+    
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
         formData.set('action', 'submit');
@@ -36,7 +39,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
 
     useEffect(()=>{
         if(state.searchReceipt){
-            setReceiptList(state.searchReceipt)
+            // setReceiptList(state.searchReceipt)
         }
     },[state])
 
@@ -83,15 +86,27 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                 <table className="search-table">
                     <colgroup>
                         <col style={{ width: '8%' }} />
-                        <col style={{ width: '91%' }} />
-                        <col style={{ width: '1%' }} />
+                        <col style={{ width: '72%' }} />
+                        <col style={{ width: '10%' }} />
                     </colgroup>
                     <thead>
-                        <tr>
-                            <td colSpan={3} className="table-title center">
-                                검색 옵션
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colSpan={3} className="table-title">
+                            견적서 구분 &nbsp;: &nbsp;
+                            <label>
+                                <select
+                                    className="title-selector"
+                                    size={1}
+                                    name='category'
+                                    defaultValue={state.searchCondition ?? 'none'}
+                                    key={state.postSearchInfo?? 'state.postSearchInfo'}>
+                                    <option value='all'>전체</option>
+                                    <option value="normal">일반</option>
+                                    <option value="hand">수기</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -104,14 +119,11 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                                 </label>
                             </td>
                             <td rowSpan={4} className="table-buttons">
-                                <button type='button' onClick={submitHandler}>
-                                    전 표 검 색
+                                <button type='button'>
+                                    검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button' onClick={dailySummary}>
-                                    일일종합검색
-                                </button>
-                                <button type='button' onClick={todayReceipt}>
-                                    오늘일자보기
+                                <button type='button'>
+                                    전 체 보 기
                                 </button>
                             </td>
                         </tr>
@@ -142,10 +154,9 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                     </tbody>
                 </table>
             </form>
-            <MemoizedReceiptSearchResult pageByReceipt={pageByReceipt} basicIndex={(page - 1) * 10}/>
             {!isPending &&
                 <Pagination
-                    totalItems={receiptList.length}
+                    totalItems={estimateItems.length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={page}
