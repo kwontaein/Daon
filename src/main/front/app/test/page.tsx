@@ -3,6 +3,7 @@ import '@/styles/_global.scss';
 import axios from "axios";
 import {getReceiptListApi} from "@/features/sales/receipt/api/receiptApi";
 import {ReceiptCategory} from "@/model/types/receipt/type";
+import {getEstimateApi} from "@/features/task/estimate/api/estimateApi";
 
 
 export default async function TestPage() {
@@ -328,7 +329,7 @@ export default async function TestPage() {
             searchSDate: null,
             searchEDate: null,
             customerId: null,
-            stockId: null
+            stockId: null,
         };
         try {
             const response = await axios.post(
@@ -336,6 +337,28 @@ export default async function TestPage() {
                 , receipts
             );
             console.log('등록 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function getEstimates() {
+        // 전송할 데이터 (예시)
+        const receipts = {
+            category: ReceiptCategory.EX,
+            searchSDate: null,
+            searchEDate: null,
+            customerName: null,
+            productName: null,
+            task: false,
+            condition: false,
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/getEstimates' // 실제 API 주소로 변경
+                , receipts
+            );
+            console.log('조회 성공:', response.data);
         } catch (error) {
             console.error('등록 실패:', error);
         }
@@ -392,7 +415,10 @@ export default async function TestPage() {
                 <button onClick={updateStockCate}>회사목록 수정</button>
             </div>
             <div>
-                <button onClick={getReceipts}>견적서조회</button>
+                <button onClick={getReceipts}>전표조회</button>
+            </div>
+            <div>
+                <button onClick={getEstimates}>견적서조회</button>
             </div>
         </div>
     );
