@@ -19,12 +19,14 @@ public class EstimateController {
     private final EstimateService estimateService;
 
     //견적서관리-----------------------------------
+    //견적서 목록 조회
     @PostMapping("api/getEstimates")
     public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest estimateRequest) {
         System.out.println(estimateRequest);
         return estimateService.getEstimates(estimateRequest);
     }
 
+    //단일조회
     @PostMapping("api/getEstimate")
     public EstimateResponse getEstimate(@RequestBody EstimateRequest estimateRequest) {
         return estimateService.getEstimate(estimateRequest.getEstimateId());
@@ -42,11 +44,13 @@ public class EstimateController {
         estimateService.estimatesPaid(estimateRequest);
     }
 
+    //견적서저장
     @PostMapping("api/saveEstimate")
     public void saveEstimate(@RequestBody EstimateRequest estimateRequest) {
         estimateService.saveEstimate(estimateRequest);
     }
 
+    //삭제
     @PostMapping("api/deleteEstimate")
     public void deleteEstimate(@RequestBody EstimateRequest estimateRequest) {
         estimateService.deleteEstimate(estimateRequest.getEstimateId());
