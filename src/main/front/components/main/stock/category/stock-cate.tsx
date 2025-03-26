@@ -1,6 +1,6 @@
 'use client'
 import type { StockCate } from '@/model/types/stock/cate/type';
-import '@/styles/table-style';
+import '@/styles/table-style/category.scss';
 import useStockCate from "@/hooks/stock/cate/useStockCate";
 
 
@@ -53,6 +53,13 @@ export default function StockCate({InitStockCate}: { InitStockCate: StockCate[] 
                         </td>
                     </tr>
                 ))}
+                {(mode !== 'add' && cateState.length===0) &&
+                    <tr>
+                        <td colSpan={3}>
+                            <p>등록된 품목이 없습니다.</p>
+                        </td>
+                    </tr>
+                }
                 {mode === 'add' &&
                     <tr>
                         <td>{cateState.length + 1}</td>
