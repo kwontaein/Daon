@@ -10,12 +10,12 @@ import {
 } from 'react';
 
 import '@/styles/table-style/search.scss';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
 import {apiUrl} from '@/model/constants/apiUrl';
 import {Affiliation} from '@/model/types/customer/affiliation/type';
 
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
 import {changeFormData} from '@/features/share/changeFormData';
 import CustomerSearchResult from './search-result';
@@ -164,10 +164,7 @@ export default function CustomerSearch(
                     </tr>
                     <tr>
                         <td
-                            className='table-label'
-                            style={{
-                                paddingInline: '0.4em'
-                            }}>
+                            className='table-label'>
                             <select
                                 className='classification-label'
                                 name="searchInputTarget"
