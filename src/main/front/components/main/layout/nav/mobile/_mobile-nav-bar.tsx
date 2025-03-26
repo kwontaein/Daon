@@ -11,8 +11,12 @@ import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
 import { useWindowSize } from "@/hooks/share/useWindowSize";
 import MobileAsideBar from "@/components/main/layout/aside/mobile/_mobile-aside";
+import { AsideOptions } from "@/model/constants/asideOptions";
 
 export default function MobileNavBar(){
+    const navigation_route = Object.entries(AsideOptions)
+
+
     /* route information */
     const searchParams = useSearchParams();
     const nav = useParams().nav as string;
@@ -47,33 +51,11 @@ export default function MobileNavBar(){
             <nav className={`nav-mobile-container ${searchParams.get('toggle') ? `slide` : !isMount && 'opacity'}`}>
             <section className='nav-mobile-wrapper'>
                 <ul className='nav-mobile-ul'>
-                        <li className={nav === 'sales' ? 'hover' : ''}> 
-                            <Link href={'/main/sales/receipt?toggle=true'}>판매회계</Link>
+                    {navigation_route.map(([currentNav, {asideTitle,asideItems}])=>(
+                        <li className={nav === currentNav ? 'hover' : ''} key={currentNav}>
+                            <Link href={`/main/${currentNav}/${asideItems[0].link}?toggle=true`}>{asideTitle}</Link>
                         </li>
-                        <li className={nav === 'customer' ? 'hover' : ''}>
-                            <Link href={'/main/customer/customer?toggle=true'}>고객관리</Link>
-                        </li>
-                        <li className={nav === 'stock' ? 'hover' : ''}>
-                            <Link href={'/main/stock/stock?toggle=true'}>품목/재고</Link>
-                        </li>
-                        <li className={nav === 'ledger' ? 'hover' : ''}>
-                            <Link href={'/main/ledger/ledger-customer?toggle=true'}>원장출력</Link>
-                        </li>
-                        <li className={nav === 'staff' ? 'hover' : ''}>
-                            <Link href={'/main/staff/company?toggle=true'}>회사/사원관리</Link>
-                        </li>
-                        <li className={nav === 'task' ? 'hover' : ''}>
-                            <Link href={'/main/task/task?toggle=true'}>업무관리</Link>
-                        </li>
-                        <li className={nav === 'accounting' ? 'hover' : ''}>
-                            <Link href={'/main/accounting/pvat?toggle=true'}>회계 및 거래관리</Link>
-                        </li>
-                        <li className={nav === 'board' ? 'hover' : ''}>
-                            <Link href={'/main/board/board?toggle=true'}>사내게시판</Link>
-                        </li>
-                        <li className={nav === 'schedule' ? 'hover' : ''}>
-                            <Link href={'/main/schedule/schedule?toggle=true'}>내일정관리</Link>
-                        </li>
+                    ))}
                 </ul>
                 <button className={'mobile-logout-button'}>
                     <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
