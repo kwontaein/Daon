@@ -31,9 +31,14 @@ public class TaskService {
     private final GlobalService globalService;
 
     //관리자데이터조회
-    public List<TaskResponse> getTask() {
+    public List<TaskResponse> getTasks() {
         List<TaskEntity> taskEntities = taskRepository.findAll();
         return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
+    }
+
+    public TaskResponse getTask(UUID taskId) {
+        TaskEntity taskEntity = taskRepository.findById(taskId).orElse(null);
+        return globalService.convertToTaskResponse(taskEntity);
     }
 
     //업무검색 - 거래처 구분 담당자 거래처분류
