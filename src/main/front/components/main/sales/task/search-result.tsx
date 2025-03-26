@@ -38,7 +38,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     }
 
     const estimateHandler = (taskId:string,estimateId:string)=>{
-            if(size.width>620){
+            if(window.innerWidth>620){
                 const params = new URLSearchParams
                 params.set('taskId',taskId)
                 params.set("mode", estimateId ? "detail" :"write")
