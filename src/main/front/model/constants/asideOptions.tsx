@@ -4,7 +4,10 @@ export const AsideOptions = {
         asideTitle: '판매회계',
         asideItems: [
             {name: '전표입력', link: 'receipt'},
-            {name: '견적서관리', link: 'task-estimate'},
+            {name: '업무관리', link: 'task'},
+            {name: '관리자데이터조회', link: 'admin'},
+            {name: '견적서관리[전표]', link: 'estimate'},
+            {name: '견적서관리[업무]', link: 'task-estimate'},
             {name: '미수/미지급현황', link: 'remain'},
             {name: '관리비관리', link: 'official'}]
     },
@@ -41,20 +44,12 @@ export const AsideOptions = {
             {name: '부서관리', link: 'dept'}
         ]
     },
-    task: {
-        asideTitle: '업무관리',
-        asideItems: [
-            {name: '업무관리', link: 'task'},
-            {name: '관리자데이터조회', link: 'admin'},
-            {name: '견적서관리', link: 'estimate'},
-            {name: '세금계산서', link: 'bills'},
-            ]
-    },
     accounting: {
         asideTitle: '회계 및 거래관리',
         asideItems: [
             {name: '매입부가세', link: 'pvat'},
             {name: '매출부가세', link: 'svat'},
+            {name: '세금계산서', link: 'bills'},
             {name: '조달및수익계약정산', link: 'pset'},
             {name: '카드결제내역', link: 'card'},
             {name: '지출증빙', link: 'proof'}
