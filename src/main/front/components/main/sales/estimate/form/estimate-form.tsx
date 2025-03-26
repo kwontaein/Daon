@@ -7,7 +7,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
 
 
-export default function EstimateForm({estimateState, submit, mode}:{estimateState?:ResponseEstimate, submit:()=>void, mode:string}){
+export default function EstimateForm({estimateState, submit, mode} : {
+    estimateState?: ResponseEstimate,
+    submit: () => void,
+    mode: string,
+}) {
     const {
         items,
         itemIds,
