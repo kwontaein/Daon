@@ -151,6 +151,7 @@ public class GlobalService {
                 .estimateDate(estimate.getEstimateDate())
                 .userId(estimate.getTask() != null ? estimate.getTask().getAssignedUser().getUserId() : null)
                 .userName(estimate.getTask() != null ? estimate.getTask().getAssignedUser().getName() : null)
+                .taskId(estimate.getTask() != null ? estimate.getTask().getTaskId() : null)
                 .customerId(estimate.getCustomer().getCustomerId())
                 .customerName(estimate.getCustomer().getCustomerName())
                 .items(estimate.getItems().stream().map(this::convertToEstimateItemResponse).collect(Collectors.toList()))
