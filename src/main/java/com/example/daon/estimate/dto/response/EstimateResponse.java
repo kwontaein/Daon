@@ -29,4 +29,5 @@ public class EstimateResponse {
     private String userId;
     private String userName;
     private String customerName;
+    private String assignedUser;
 }
