@@ -57,6 +57,13 @@ export default function Affiliation({affiliations}: { affiliations: Affiliation[
                         </td>
                     </tr>
                 ))}
+                {(mode !== 'add' && affiliationState.length===0) &&
+                    <tr>
+                        <td colSpan={3}>
+                            <p>등록된 소속이 없습니다.</p>
+                        </td>
+                    </tr>
+                }
                 {mode === 'add' &&
                     <tr>
                         <td>{affiliationState.length + 1}</td>

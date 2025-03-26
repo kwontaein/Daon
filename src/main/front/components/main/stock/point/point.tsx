@@ -37,7 +37,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                         <td className="left-align">
                             {mode === 'edit' ?
                                 <input type="text"
-                                       className="stock-point-input"
+                                       className="category-input"
                                        placeholder="품목명을 입력해주세요"
                                        required={true}
                                        value={point.stockPointName}
@@ -53,13 +53,20 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                         </td>
                     </tr>
                 ))}
+                {(mode !== 'add' && pointState.length===0) &&
+                    <tr>
+                        <td colSpan={3}>
+                            <p>등록된 구매적립금설정이 없습니다.</p>
+                        </td>
+                    </tr>
+                }
                 {mode === 'add' &&
                     <tr>
                         <td>{pointState.length + 1}</td>
                         <td className="left-align">
                             <input type="text"
                                    ref={addInputRef}
-                                   className="stock-point-input"
+                                   className="category-input"
                                    placeholder="생성할 품목명을 입력해주세요"/>
                         </td>
                         <td>
