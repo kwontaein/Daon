@@ -1,4 +1,4 @@
-package com.example.daon.accounting.model;
+package com.example.daon.accounting.salesVAT.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,17 +14,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity(name = "purchase_vat")
+@Entity(name = "sales_vat")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseVATEntity {
+public class SalesVATEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "purchase_vat_id", columnDefinition = "BINARY(16)")
-    private UUID purchaseVATId;
+    @Column(nullable = false, unique = true, name = "sales_vat_id", columnDefinition = "BINARY(16)")
+    private UUID salesVATId;
 
     // 분류선택
     @Column(name = "category_selection")
@@ -42,6 +42,10 @@ public class PurchaseVATEntity {
     @Column(name = "business_number")
     private String businessNumber;
 
+    // 결제내역
+    @Column(name = "payment_details")
+    private String paymentDetails;
+
     // 금액
     @Column(name = "amount")
     private BigDecimal amount;
@@ -54,12 +58,11 @@ public class PurchaseVATEntity {
     @Column(name = "total")
     private BigDecimal total;
 
-    // 비고
-    @Column(name = "note")
-    private String note;
-
     // 메모
     @Column(name = "memo")
     private String memo;
 
+    //입금전환여부
+    @Column(name = "paid")
+    private boolean paid;
 }
