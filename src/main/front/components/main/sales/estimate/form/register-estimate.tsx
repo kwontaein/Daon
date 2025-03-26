@@ -156,7 +156,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} /> 
             </form>
         </section>
     )
