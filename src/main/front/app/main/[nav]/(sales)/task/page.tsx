@@ -1,5 +1,5 @@
-import TaskSearch from "@/components/main/task/task/search";
-import getTask from "@/features/task/task/api/taskApi";
+import TaskSearch from "@/components/main/sales/task/search";
+import getTask from "@/features/sales/task/api/taskApi";
 
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
