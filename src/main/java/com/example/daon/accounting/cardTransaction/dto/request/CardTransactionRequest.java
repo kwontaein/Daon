@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardTransactionRequest {
+
+    private UUID cardTransactionId;
 
     // 분류선택
     private String categorySelection;
@@ -41,7 +44,7 @@ public class CardTransactionRequest {
     private String cardCompany;
 
 
-    private CardTransactionEntity toCardTransactionEntity() {
+    public CardTransactionEntity toCardTransactionEntity() {
         return CardTransactionEntity
                 .builder()
                 .categorySelection(categorySelection)
