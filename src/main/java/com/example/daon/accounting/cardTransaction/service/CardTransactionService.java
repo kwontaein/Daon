@@ -41,7 +41,7 @@ public class CardTransactionService {
     }
 
     public void paidCardTransaction(CardTransactionRequest cardTransactionRequest) {
-        cardTransactionRepository.findById(cardTransactionRequest.getCardTransactionId()).orElse(null);
-        
+        CardTransactionEntity cardTransaction = cardTransactionRepository.findById(cardTransactionRequest.getCardTransactionId()).orElse(null);
+        cardTransaction.setPaid(true);
     }
 }
