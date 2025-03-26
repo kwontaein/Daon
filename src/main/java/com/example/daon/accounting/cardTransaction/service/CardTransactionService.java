@@ -1,5 +1,6 @@
 package com.example.daon.accounting.cardTransaction.service;
 
+import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -7,23 +8,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CardTransactionService {
     //카드결제내역
-    public void saveCardTransaction() {
+    public void saveCardTransaction(CardTransactionRequest cardTransactionRequest) {
 
     }
 
-    public void updateCardTransaction() {
+    public void updateCardTransaction(CardTransactionRequest cardTransactionRequest) {
 
     }
 
-    public void deleteCardTransaction() {
+    public void deleteCardTransaction(CardTransactionRequest cardTransactionRequest) {
 
     }
 
-    public void getCardTransaction() {
+    public void getCardTransaction(CardTransactionRequest cardTransactionRequest) {
 
     }
 
-    public void paidCardTransaction() {
+    public void paidCardTransaction(CardTransactionRequest cardTransactionRequest) {
 
     }
 }

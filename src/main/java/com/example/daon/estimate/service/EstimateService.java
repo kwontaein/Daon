@@ -97,18 +97,35 @@ public class EstimateService {
     }
 
     @Transactional
-    public void updateTest(EstimateRequest request) {
-        // 1. 기존 EstimateEntity 가져오기
+    public void updateEstimate(EstimateRequest request) {
+        // 1. 기존 EstimateEntity 조회
         EstimateEntity estimate = estimateRepository.findById(request.getEstimateId())
-                .orElseThrow(() -> new EntityNotFoundException("Estimate not found with id: " + request.getEstimateId()));
+                .orElseThrow(() -> new RuntimeException("해당 견적이 존재하지 않습니다."));
 
-        // 2. 관련 엔티티 가져오기
+        // 2. 관련 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
 
+        TaskEntity task = null;
+        if (request.getTaskId() != null) {
+            task = taskRepository.findById(request.getTaskId())
+                    .orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
+        }
 
-        // 3. 새로운 아이템 리스트 변환
+        // 3. 기본 필드 업데이트 (예: 고객, 회사, 사용자, 업무 등)
+        estimate.updateFields(customer, company, user);
+
+        // 양방향 연관관계 설정 (task가 있을 경우)
+        if (task != null) {
+            estimate.setTask(task);
+            task.setEstimate(estimate);
+        } else {
+            estimate.setTask(null);
+        }
+
+        // 4. 자식 엔티티(EstimateItem) 동기화
+        // 새로운 아이템 리스트 생성
         List<EstimateItem> newItems = request.getItems().stream()
                 .map(itemRequest -> {
                     StockEntity stock = null;
@@ -116,53 +133,56 @@ public class EstimateService {
                         stock = stockRepository.findById(itemRequest.getStockId())
                                 .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
                     }
-                    return itemRequest.toEntity(estimate, stock);
+                    // 기존 아이템이 존재할 경우 업데이트용 객체 생성, 없으면 신규 객체 생성
+                    return itemRequest.toEntity2(estimate, stock);
                 })
-                .collect(Collectors.toList());  
+                .collect(Collectors.toList());
+        // 기존 아이템 복사본 생성
+        List<EstimateItem> existingItems = new ArrayList<>(estimate.getItems());
 
-        // 4. 기존 아이템과 새로운 아이템 비교 및 처리
-        syncItems(estimate, newItems);
+        //새로 생긴 아이템 리스트
+        newItems = newItems.stream()
+                .map(item -> {
+                    // 만약 existingItems에 존재하지 않는다면
+                    if (!existingItems.contains(item)) {
+                        // 아이디를 수정하는 로직 (예: 기존 id 앞에 "new_" 접두어 추가)
+                        item.setItemId(null);
+                    }
+                    return item;
+                })
+                .collect(Collectors.toList());
 
-        // 5. 필드 업데이트
-        estimate.updateFields(customer, company, user, newItems);
+        // 4-1. 기존 아이템 중, newItems에 포함되지 않은 항목 삭제
+        for (EstimateItem existingItem : existingItems) {
+            boolean exists = newItems.stream()
+                    .anyMatch(newItem -> newItem.getItemId() != null
+                            && newItem.getItemId().equals(existingItem.getItemId()));
+            if (!exists) {
+                estimate.getItems().remove(existingItem);
+                estimateItemRepository.delete(existingItem);
+            }
+        }
 
-        // 6. 저장
-        estimateRepository.save(estimate);
-    }
-
-    // 기존 아이템과 새로운 아이템을 동기화
-    private void syncItems(EstimateEntity estimate, List<EstimateItem> newItems) {
-        List<EstimateItem> existingItems = estimate.getItems();
-
-        // 1. 삭제할 아이템 찾기
-        List<EstimateItem> itemsToDelete = existingItems.stream()
-                .filter(existingItem -> newItems.stream()
-                        .noneMatch(newItem -> newItem.getItemId() != null
-                                && newItem.getItemId().equals(existingItem.getItemId())))
-                .toList();
-
-        // 2. 삭제 처리
-        itemsToDelete.forEach(item -> {
-            estimate.getItems().remove(item); // 관계에서 제거
-            estimateItemRepository.delete(item); // DB 에서 삭제
-        });
-
-        // 3. 추가 또는 업데이트 처리
+        // 4-2. 신규 아이템 추가 및 기존 아이템 업데이트
         for (EstimateItem newItem : newItems) {
-            Optional<EstimateItem> existingItemOptional = existingItems.stream()
-                    .filter(existingItem -> existingItem.getItemId() != null
-                            && existingItem.getItemId().equals(newItem.getItemId()))
-                    .findFirst();
-
-            if (existingItemOptional.isPresent()) {
-                // 기존 아이템 업데이트
-                EstimateItem existingItem = existingItemOptional.get();
-                existingItem.updateFields(newItem); // 필드 업데이트
+            if (newItem.getItemId() != null) {
+                // 기존 아이템이 있으면 업데이트
+                Optional<EstimateItem> optionalExistingItem = estimate.getItems().stream()
+                        .filter(existingItem -> existingItem.getItemId() != null
+                                && existingItem.getItemId().equals(newItem.getItemId()))
+                        .findFirst();
+                if (optionalExistingItem.isPresent()) {
+                    EstimateItem existingItem = optionalExistingItem.get();
+                    existingItem.updateFields(newItem);
+                }
             } else {
-                // 새로운 아이템 추가
+                // 신규 아이템 추가
+                newItem.setEstimate(estimate);
                 estimate.getItems().add(newItem);
             }
         }
+        // 5. 최종 업데이트된 견적 저장
+        estimateRepository.save(estimate);
     }
 
 
@@ -218,6 +238,7 @@ public class EstimateService {
         EstimateEntity estimate = estimateRepository.findById(estimateId).orElse(null);
         return globalService.convertToEstimateResponse(estimate);
     }
+
 }
 
 

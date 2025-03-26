@@ -43,4 +43,8 @@ public class ReceiptsController {
         receiptsService.deleteReceipts(receiptRequest.getIds());
     }
 
+    @PostMapping("api/getReceiptTotal")
+    public void getReceiptTotal(@RequestBody ReceiptRequest receiptRequest) {
+        receiptsService.getReceiptTotal(receiptRequest.getSearchSDate());
+    }
 }
