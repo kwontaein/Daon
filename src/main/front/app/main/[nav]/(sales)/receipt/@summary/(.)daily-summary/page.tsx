@@ -11,7 +11,7 @@ export default function DailySummaryPage(){
         <section className="modal-background" style={{zIndex:'1002'}}>
             <div className="daily-summary-container">
                 <div className="daily-summary-header">
-                     <h2>일일종합검색</h2>
+                     <h3>일일종합검색</h3>
                 </div>
                 <div className="daily-summary-wrapper">
                     <Calendar/>

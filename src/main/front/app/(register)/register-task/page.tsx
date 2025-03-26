@@ -1,4 +1,4 @@
-import TaskForm from "@/components/main/task/task/form/task-form";
+import TaskForm from "@/components/main/sales/task/form/task-form";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 export default async function RegisterTask(){
