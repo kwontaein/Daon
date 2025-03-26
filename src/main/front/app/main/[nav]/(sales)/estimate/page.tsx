@@ -9,7 +9,6 @@ import { searchAllEstimateApi } from '@/features/sales/estimate/api/estimateApi'
 
 export default async function TaskEstimatePage({searchParams}: PageByProps) {
     const page = (await searchParams).page || 1;
-
     const initialEstimate = await searchAllEstimateApi(false)
     const companyList:ResponseCompany[] = await getCompany()
 

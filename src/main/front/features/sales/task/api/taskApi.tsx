@@ -23,12 +23,40 @@ export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
 
 
 
-export default async function getTask(){
+export async function getTask(taskId:string){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
+    if(!taskId.trim()) return {}
     return fetch("http://localhost:8080/api/getTask", {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({taskId}),
+        signal,
+        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {
+            if(error.name=== 'AbortError'){
+                console.log('Fetch 요청이 시간초과되었습니다.')
+            }
+            console.error('Error:', error)
+    }).finally(() => clearTimeout(timeoutId));
+} 
+
+export async function getTasks(){
+    const controller = new AbortController();
+    const signal = controller.signal;//작업 취소 컨트롤
+    const timeoutId = setTimeout(()=> controller.abort(), 10000)
+
+    return fetch("http://localhost:8080/api/getTasks", {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -48,6 +76,7 @@ export default async function getTask(){
             console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 } 
+
 
 export const saveTask = async (task:SaveTask)=>{
     try {

@@ -1,5 +1,5 @@
 import TaskSearch from "@/components/main/sales/task/search";
-import getTask from "@/features/sales/task/api/taskApi";
+import {getTasks} from "@/features/sales/task/api/taskApi";
 
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
@@ -10,7 +10,7 @@ export default async function TaskPage({searchParams}:PageByProps){
     const page = (await searchParams).page || 1;
 
  
-    const initialTask:ResponseTask[] =await getTask()
+    const initialTask:ResponseTask[] =await getTasks()
 
 
     const affiliations:Affiliation[] = await fetch("http://localhost:8080/api/getAffiliation",{
