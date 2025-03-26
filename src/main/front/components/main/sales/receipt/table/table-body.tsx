@@ -5,13 +5,13 @@ import './table-body.scss';
 
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main/sales/receipt/options';
-import dayjs from 'dayjs';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/sales/receipt/useReceiptList';
 import { ClientMousePosition } from '@/model/types/share/type';
 import { ReceiptCategory } from '@/model/types/receipt/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
+import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 
 
 export default function ReceiptTableBody(){
@@ -59,10 +59,12 @@ export default function ReceiptTableBody(){
                                             deleteFn={()=>{deleteReceipt(target)}} />}
                             {index+1}
                         </td>
-                        <td rowSpan={2}>
-                            <input type="date" 
-                                   value={dayjs(receipt.timeStamp).format("YYYY-MM-DD")} 
-                                   onChange={(e)=>receiptHandler({timeStamp:new Date(e.target.value)}, receipt.receiptId)}/>
+                        <td rowSpan={2} className='register-date'>
+                            <CustomDateInput
+                                defaultValue={receipt.timeStamp}
+                                name='timeStamp'
+                                changeEvent={(value)=>receiptHandler({timeStamp:new Date(value)}, receipt.receiptId)}
+                            />
                         </td>
                         <td rowSpan={2}>
                             <select value={receipt.category} 

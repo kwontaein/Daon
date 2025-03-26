@@ -19,15 +19,13 @@
     justify-content: space-between;
     z-index:1001;
 
-    font-size: 13px;
+    @media (max-width:620px){
+        height: 40px;
+    }
+    font-size: 14px;
     span{
         color: inherit;
         min-width: 0; 
-    }
-
-    @media (max-width : 620px){
-        height: 40px;
-        font-size: 0.8rem;
     }
 }
 .header-content{

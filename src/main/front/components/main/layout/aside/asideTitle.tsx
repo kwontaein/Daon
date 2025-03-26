@@ -15,7 +15,7 @@ export default function AsideTitle(){
     return(
         <>
             {asideTitle &&
-                <h3 className={'header-title'}>
+                <h3 className='header-title'>
                     <Image src={asideArrow} alt='>'width={15}></Image>
                     {asideTitle}
                 </h3>

@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
 import { apiUrl } from '@/model/constants/apiUrl'
-import { taskTypeMap } from '@/model/constants/task/taskTypeMap'
+import { taskTypeMap } from '@/model/constants/sales/task/taskTypeMap'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} : {
     pageByTasks: ResponseTask[],

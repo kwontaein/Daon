@@ -9,7 +9,7 @@ import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseTask } from '@/model/types/task/task/type';
 
-import taskRegisterAction from '@/features/task/task/action/taskRegisterAction';
+import taskRegisterAction from '@/features/sales/task/action/taskRegisterAction';
 import ErrorBox from '@/components/share/error-box/error-box';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
