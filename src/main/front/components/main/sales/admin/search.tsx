@@ -6,7 +6,7 @@ import { Affiliation } from '@/model/types/customer/affiliation/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import { initialTaskState, taskSearchAction } from '@/features/task/task/action/taskSearchAction';
+import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
 import { ResponseTask } from '@/model/types/task/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 

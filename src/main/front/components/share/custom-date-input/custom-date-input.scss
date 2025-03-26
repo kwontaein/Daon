@@ -54,7 +54,5 @@ input::-webkit-inner-spin-button {
     flex-direction: row !important;
     align-items: center;
     justify-content: left !important;
-    label{
-        margin-right: 3px;
-    }
+    gap:3px;
 }

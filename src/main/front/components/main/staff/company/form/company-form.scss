@@ -21,10 +21,7 @@
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
-  @media (max-width: 620px) {
-      font-size: 0.7rem
-  }
+
   input{
     box-sizing: border-box;
     width: 100%;
@@ -73,20 +70,12 @@
                 height: 100%;
                 display: flex;
                 gap: 0.4em;
-                font-size: inherit;
-
-                @media (max-width:620px) {
-                    font-size: 1em;
-                }
             }
             @media (max-width:767px) {
                 gap: 0.4em;
                 label{
                     gap: 0.1em;
                 }
-            }
-            @media (max-width:620px) {
-                font-size: 1.2em;
             }
         }
     }
