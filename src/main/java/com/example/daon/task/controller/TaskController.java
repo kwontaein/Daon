@@ -20,10 +20,17 @@ public class TaskController {
     private final TaskService taskService;
 
     //관리자데이터조회
-    @GetMapping("api/getTask")
-    public List<TaskResponse> getTask() {
-        List<TaskResponse> taskResponses = taskService.getTask();
+    @GetMapping("api/getTasks")
+    public List<TaskResponse> getTasks() {
+        List<TaskResponse> taskResponses = taskService.getTasks();
         return taskResponses;
+    }
+
+    //관리자데이터조회
+    @PostMapping("api/getTask")
+    public TaskResponse getTask(@RequestBody TaskRequest taskRequest) {
+        TaskResponse taskResponse = taskService.getTask(taskRequest.getTaskId());
+        return taskResponse;
     }
 
     //관리자데이터조회
