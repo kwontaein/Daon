@@ -90,9 +90,12 @@ public class EstimateService {
             }
 
             //estimateItem 항목에 hand 가 true 인 항목이 포함된 경우
-            if (estimateRequest.isCondition()) {
+            if (estimateRequest.getCondition() == EstimateRequest.Condition.HAND) {
                 Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
                 predicates.add(criteriaBuilder.equal(estimateItemJoin.get("hand"), true));
+            } else if (estimateRequest.getCondition() == EstimateRequest.Condition.NORMAL) {
+                Join<Object, Object> estimateItemJoin = root.join("items", JoinType.INNER);
+                predicates.add(criteriaBuilder.equal(estimateItemJoin.get("hand"), false));
             }
 
 
