@@ -1,4 +1,4 @@
-import { ReceiptCategory } from "@/model/types/receipt/type";
+import { ReceiptCategory } from "@/model/types/sales/receipt/type";
 
 
   export const ReceiptCategoryMap = {

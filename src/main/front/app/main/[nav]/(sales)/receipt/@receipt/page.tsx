@@ -4,7 +4,7 @@ import '@/styles/_global.scss';
 
 import { PageByProps } from "@/model/types/share/type";
 import { getReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
-import { ReceiptCategory } from "@/model/types/receipt/type";
+import { ReceiptCategory } from "@/model/types/sales/receipt/type";
 
 const allSearchConditions={
     category:ReceiptCategory.EX,

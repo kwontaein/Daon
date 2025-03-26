@@ -3,7 +3,7 @@ import './search-result.scss'
 
 import React from 'react'
 
-import { ResponseTask } from '@/model/types/task/task/type'
+import { ResponseTask } from '@/model/types/sales/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState'
