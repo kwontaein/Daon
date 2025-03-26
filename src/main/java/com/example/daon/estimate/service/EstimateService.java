@@ -22,7 +22,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -231,8 +230,8 @@ public class EstimateService {
         // 1. 필요한 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
-        UserDetails userDetails = globalService.extractFromSecurityContext();
-        UserEntity user = userRepository.findById(userDetails.getUsername()).orElse(null);
+        //UserDetails userDetails = globalService.extractFromSecurityContext();
+        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
         TaskEntity task = null;
         if (request.getTaskId() != null) {
             task = taskRepository.findById(request.getTaskId()).orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
