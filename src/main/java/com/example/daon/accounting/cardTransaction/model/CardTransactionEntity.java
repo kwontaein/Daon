@@ -1,5 +1,6 @@
 package com.example.daon.accounting.cardTransaction.model;
 
+import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -65,4 +66,8 @@ public class CardTransactionEntity {
     //입금전환여부
     @Column(name = "paid")
     private boolean paid;
+
+    public void updateFields(CardTransactionRequest cardTransactionRequest) {
+
+    }
 }

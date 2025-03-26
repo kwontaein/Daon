@@ -6,13 +6,17 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.task.model.TaskEntity;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Data
 public class EstimateRequest {
@@ -34,7 +38,7 @@ public class EstimateRequest {
     private String productName;
     private boolean receipted;
     private boolean task;
-    private boolean condition;
+    private Condition condition;
 
     public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, TaskEntity task, List<EstimateItem> items) {
         return EstimateEntity
@@ -50,5 +54,26 @@ public class EstimateRequest {
                 .build();
     }
 
+
+    @Getter
+    @RequiredArgsConstructor
+    public enum Condition {
+
+        ALL("전체"),
+        NORMAL("기본"),
+        HAND("수기");
+
+        private final String cate;
+
+        //user_role 유효성 검사
+        @JsonCreator
+        public static Condition positionParsing(String inputValue) {
+
+            return Stream.of(Condition.values())
+                    .filter(condition -> condition.toString().equals(inputValue))
+                    .findFirst()
+                    .orElse(NORMAL);
+        }
+    }
 
 }
