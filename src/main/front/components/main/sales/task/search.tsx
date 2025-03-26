@@ -4,7 +4,7 @@ import '@/styles/table-style/search.scss'
 import {apiUrl} from '@/model/constants/apiUrl';
 import {useActionState, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
-import {ResponseTask} from '@/model/types/task/task/type';
+import {ResponseTask} from '@/model/types/sales/task/type';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';

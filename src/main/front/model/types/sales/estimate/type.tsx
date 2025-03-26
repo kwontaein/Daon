@@ -9,6 +9,12 @@ export type EstimateRegisterProps ={
 }
 
 
+export enum EstimateCategory {
+  ALL='전체',
+  NORMAL="일반",            
+  HAND="수기",           
+}
+
 interface User{
   userId:string,
   name:string,
@@ -50,3 +56,11 @@ interface User{
     modelName:string;
   }
   
+
+  export type EstimateCondition = {
+    companyId?:string;
+    searchSDate? :Date;  //검색 날짜 시작일
+    searchEDate?:Date,  //검색 날짜 종료일
+    customerId?:string; //고객명
+    stockId?:string; //품명
+  }

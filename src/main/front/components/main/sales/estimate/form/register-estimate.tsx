@@ -5,16 +5,16 @@ import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import { ResponseTask } from '@/model/types/task/task/type';
+import { ResponseTask } from '@/model/types/sales/task/type';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
-import { ResponseEstimate } from '@/model/types/task/estimate/type';
+import { ResponseEstimate } from '@/model/types/sales/estimate/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
 import { useConfirm } from '@/hooks/share/useConfirm';
-import estimateRegisterAction from '@/features/sales/task-estimate/action/estimateRegisterAction';
+import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],

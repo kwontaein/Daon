@@ -1,5 +1,5 @@
 'use server'
-import { SaveTask, TaskSearchCondition } from "@/model/types/task/task/type";
+import { SaveTask, TaskSearchCondition } from "@/model/types/sales/task/type";
 
 import { revalidateTag } from "next/cache";
 
