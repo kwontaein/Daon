@@ -53,6 +53,13 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
                         </td>
                     </tr>
                 ))}
+                {(mode !== 'add' && deptState.length===0) &&
+                    <tr>
+                        <td colSpan={3}>
+                            <p>등록된 부서가 없습니다.</p>
+                        </td>
+                    </tr>
+                }
                 {mode === 'add' &&
                     <tr>
                         <td>{deptState.length + 1}</td>
