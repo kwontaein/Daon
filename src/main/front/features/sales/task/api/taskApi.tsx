@@ -106,3 +106,19 @@ export const deleteTask = async (taskIds:string[])=>{
     }
 }
 
+
+
+
+export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
+    try {
+        const response = await fetch("http://localhost:8080/api/taskComplete", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

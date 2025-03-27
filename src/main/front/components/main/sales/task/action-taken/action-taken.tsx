@@ -5,19 +5,19 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 import Image from "next/image";
 import { useConfirm } from "@/hooks/share/useConfirm";
-import { postActionTakenConversion, postActionTakenProcessing } from "@/features/sales/task/api/taskApi";
+import {  postTaskComplete } from "@/features/sales/task/api/taskApi";
 
 
 const actionTakenAction = async(prevState, formData)=>{
-    formData.get('actionTaken')
+    const actionTaken =formData.get('actionTaken')
     const action = formData.get('action')
     const taskId = formData.get('taskId')
 
 
-    if(action==='processing'){
-        const status = await postActionTakenProcessing(taskId)
-    }else if(action ==='conversion'){
-        const status = await postActionTakenConversion(taskId)
+    if(action==='submit'){
+        console.log(taskId, actionTaken)
+        const status = await postTaskComplete(taskId,actionTaken)
+        return {status}
     }
 }
 
@@ -32,13 +32,18 @@ export default function ActionTaken({children, taskId}:{
 
     useEffect(()=>{
         if(state.status){
-            state.status===200
+            if(state.status===200){
+                window.alert('업무처리가 완료되었습니다.')
+                window.close()
+            }else{
+                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
         }
     },[state])
-    const submitHandler = useCallback((actionState:string) => {
+    const submitHandler = useCallback(() => {
         const submit = ()=>{
             const formData = new FormData(formRef.current);
-            formData.set('action', actionState);
+            formData.set('action', 'submit');
             startTransition(() => {
                 action(formData);
             });
@@ -60,10 +65,9 @@ export default function ActionTaken({children, taskId}:{
                     {children}
                 </tbody>
             </table>
-            <input type="hidden" value={taskId??''} readOnly />
+            <input type="hidden" name='taskId' value={taskId??''} readOnly />
             <div className="button-container">
-                <button type="button" onClick={submitHandler.bind(null,'conversion')}>입고전환</button>
-                <button type='button' onClick={submitHandler.bind(null,'processing')}>처리확인</button>
+                <button type='button' onClick={submitHandler}>처리확인</button>
                 <button onClick={()=>window.close()}>취소</button>
             </div>
         </form>

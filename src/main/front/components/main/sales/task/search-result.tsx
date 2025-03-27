@@ -84,25 +84,30 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
         <table className='task-search-result-table'>
             <colgroup>
                 <col style={{ width: '1%' }}/>
-                <col style={{ width: `${size.width>820 ? '10%' :'5%'}`, minWidth:'55px'}}/>
-                <col style={{ width: `${size.width>820 ? '10%' :'5%'}`, minWidth:'55px'}}/>
-                <col style={{ width: `${size.width>820 ? '5%' :'30%'}`, minWidth :`${size.width>820 ? '55px' :'none'}`}}/>
-                <col style={{ width: `${size.width>820 ? '20%' :'10%'}`}}/>
-                <col style={{ width: '5%', minWidth :`${size.width>820 ? '50px' :'none'}`}}/>
-                <col style={{ width: '5%', minWidth :`${size.width>820 ? '50px' :'none'}`}}/>
+                <col style={{ width: `${size.width>900 ? '5%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${size.width>900 ? '5%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${size.width>900 ? '5%' :'30%'}`, minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
+                <col style={{ width: `${size.width>900 ? '20%' :'10%'}`}}/>
+                <col style={{ width: '5%', minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
+                <col style={{ width: '5%', minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
+                {size.width>900 &&<col style={{width:'10%', minWidth: '55px'}}/>}
+                {size.width>900 &&<col style={{width:'10%', minWidth: '55px'}}/>}
+                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
             </colgroup>
             <thead>
               <tr>
-                <td rowSpan={size.width>820? 1:2}><input type='checkbox' 
+                <td rowSpan={size.width>900? 1:2}><input type='checkbox' 
                             onChange={toggleAllChecked} 
                             checked={isAllChecked}/></td>
-                <td rowSpan={size.width>820? 1:2}>구분</td>
+                <td rowSpan={size.width>900? 1:2}>구분</td>
                 <td>접수</td>
-                {size.width>820 &&<td>조치</td>}
+                {size.width>900 &&<td>조치</td>}
                 <td>거래처</td>
                 <td>의뢰자</td>
                 <td>담당</td>
-                {size.width>820 &&
+                {size.width>900 &&
                 <>
                     <td>연락처</td>
                     <td>모델</td>
@@ -110,9 +115,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                     <td>비고</td>
                 </>
                 }
-                <td rowSpan={size.width>820? 1:2}>견적서</td>
+                <td rowSpan={size.width>900? 1:2}>견적서</td>
               </tr>
-              {size.width<=820 &&
+              {size.width<=900 &&
                 <tr>
                     <td>조치</td>
                     <td>내용</td>
@@ -125,11 +130,11 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                         pageByTasks.map((task)=>(
                             <tbody key={task.taskId} className={task.estimateId ? '' : 'no-estimate'}>
                                 <tr>
-                                    <td rowSpan={size.width>820? 1:2}>
+                                    <td rowSpan={size.width>900? 1:2}>
                                         <input type='checkbox' 
                                             checked={checkedState[task.taskId]||false} 
                                             onChange={()=>update_checked(task.taskId)}/></td>
-                                    <td rowSpan={size.width>820? 1:2}>
+                                    <td rowSpan={size.width>900? 1:2}>
                                         <div className='row-flex'>
                                             <p>{taskTypeMap[task.taskType]}</p>
                                             <p>[{task.assignedUser.name}]</p>
@@ -138,10 +143,10 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     <td style={{color:dateColor(task.createdAt)}}>
                                         {dayjs(task.createdAt).format('MM.DD HH:mm')}
                                     </td>
-                                    {size.width>820 &&
+                                    {size.width>900 &&
                                     <td>
-                                         {task.isCompleted ?
-                                            <></>
+                                         {task.completeAt ?
+                                            <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
                                             :
                                             <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                     </td>}
@@ -159,7 +164,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             ))}
                                         </select>
                                     </td>
-                                    {size.width>820 &&
+                                    {size.width>900 &&
                                         <>
                                             <td>{task.requesterContact}</td>
                                             <td>{task.model}</td>
@@ -167,17 +172,17 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             <td>{task.remarks}</td>
                                     </>
                                     }
-                                    <td rowSpan={size.width>820? 1:2}>
+                                    <td rowSpan={size.width>900? 1:2}>
                                         <button onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
                                             {task.estimateId ? '인쇄':'작성'}
                                         </button>
                                     </td>
                                 </tr>   
-                                {size.width<=820 &&
+                                {size.width<=900 &&
                                     <tr>
                                         <td>
-                                        {task.isCompleted ?
-                                            <></>
+                                        {task.completeAt ?
+                                            <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
                                             :
                                             <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                         </td>
