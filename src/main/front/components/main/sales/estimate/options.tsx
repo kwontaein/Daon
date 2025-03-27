@@ -11,7 +11,9 @@ export default function EstimateOptions({estimateId, taskId}:{estimateId:string,
                 const params = new URLSearchParams
                 params.set("mode", "detail")
                 params.set("target",estimateId)
-                params.set('taskId',taskId)
+                if(taskId){
+                    params.set('taskId',taskId)
+                }
                 const url = `${apiUrl}/estimate?${params.toString()}`;
                 const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
                 window.open(url, "PopupWindow", popupOptions);

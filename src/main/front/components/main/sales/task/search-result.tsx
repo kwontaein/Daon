@@ -19,8 +19,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     taskCheckedHook: ReturnCheckBoxHook
 }) => {
 
-    const taskIds = pageByTasks.map(({taskId})=> taskId)
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
     const size = useWindowSize()   
 
     //TODO: add mobile version
