@@ -5,7 +5,6 @@ import './estimate-form.scss';
 import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
-import { useRedirect } from '@/hooks/share/useRedirect';
 
 
 export default function EstimateForm({estimateState, submit, mode, taskId} : {
@@ -29,10 +28,9 @@ export default function EstimateForm({estimateState, submit, mode, taskId} : {
     const pathname = usePathname()
 
     const changeMode = (mode)=>{
-    //     const params = new URLSearchParams(searchParams.toString()); 
-    //     params.set("mode", mode); 
-    //   router.push(`${pathname}?${params.toString()}`); 
-        useRedirect('set', [{mode}])
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.set("mode", mode); 
+        router.push(`${pathname}?${params.toString()}`); 
     }
 
     return(

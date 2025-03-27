@@ -49,7 +49,6 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         router.push(`${pathname}?${params.toString()}`);
     };
 
-    console.log(state)
 
 
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
@@ -170,8 +169,8 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' defaultValue={estimate? estimate.userName : task.assignedUser.name} readOnly/>
-                            <input type='hidden' name='userId' value={estimate ? estimate.userId : task.assignedUser.userId} readOnly/>
+                            <input type='text' name='assignedUser' defaultValue={task? task.assignedUser.name: estimate.userName} readOnly/>
+                            <input type='hidden' name='userId' value={task ? task.assignedUser.userId : estimate.userId} readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>

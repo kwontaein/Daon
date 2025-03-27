@@ -50,8 +50,9 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     }
 
     const deleteTaskHandler = ()=>{
+        const checkedTaskIds = Object.keys(useCheckState.checkedState)
+        if(checkedTaskIds.length===0) return
         const onDelete =async()=>{
-            const checkedTaskIds = Object.keys(useCheckState.checkedState)
             console.log(checkedTaskIds)
             await deleteTask(checkedTaskIds).then((status)=>{
                 if(status===200) window.alert('삭제가 완료되었습니다.')
