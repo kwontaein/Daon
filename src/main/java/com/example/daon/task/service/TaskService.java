@@ -125,6 +125,7 @@ public class TaskService {
     public void taskComplete(TaskRequest taskRequest) {
         TaskEntity task = taskRepository.findById(taskRequest.getTaskId()).orElse(null);
         task.setIsCompleted(true);
+        task.setActionTaken(taskRequest.getActionTaken());
         taskRepository.save(task);
     }
 

@@ -65,10 +65,6 @@ public class EstimateEntity {
     @JoinColumn(name = "task_id")
     private TaskEntity task;
 
-    @Column(name = "action_taken")
-    private String actionTaken;
-
-
     // === 필드 업데이트 메서드 ===
 
     /**
