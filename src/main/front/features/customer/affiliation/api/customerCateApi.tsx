@@ -4,8 +4,22 @@ import {Affiliation} from "@/model/types/customer/affiliation/type";
 import {revalidateTag} from "next/cache";
 
 
+export const getAffiliation = async()=>{
+    return await fetch("http://localhost:8080/api/getAffiliation",{
+        next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {console.error('Error:', error)})
+
+}
+
 export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
-    return fetch("http://localhost:8080/api/updateAffiliation", {
+    return await fetch("http://localhost:8080/api/updateAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -28,7 +42,7 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 }
 
 export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
-    return fetch("http://localhost:8080/api/saveAffiliation", {
+    return await fetch("http://localhost:8080/api/saveAffiliation", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

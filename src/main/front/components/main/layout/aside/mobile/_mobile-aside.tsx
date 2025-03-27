@@ -10,10 +10,10 @@ export default function MobileAsideBar({nav}){
     return(
         <section className={'aside-mobile-wrapper'}>
             <div className={'aside-mobile-title'}>
-                <b>ㆍ</b> {AsideOptions[nav|| 'schedule'].asideTitle}
+                <b>ㆍ</b> {AsideOptions[nav?? 'schedule'].asideTitle}
             </div>
             <ul className={'aside-mobile-ul'}>
-            {AsideOptions[nav || 'schedule'].asideItems.map((item)=>(
+            {AsideOptions[nav ?? 'schedule'].asideItems.map((item)=>(
                 <li key={item.link}>
                 <Link href={`/main/${nav}/${item.link}?toggle=true`}>{item.name}</Link>
                 <FontAwesomeIcon icon={faArrowRight} className='aside-arrow'/>

@@ -41,7 +41,7 @@ export default function MainAside(){
         {nav &&  
             <aside className="aside-container">
                 <div className="aside-header">
-                    {AsideOptions[nav|| 'schedule'].asideTitle}
+                    {AsideOptions[nav ?? 'schedule'].asideTitle}
                 </div>
                 {AsideOptions[nav].asideItems.map((item)=>(
                     <li key={item.link}>
