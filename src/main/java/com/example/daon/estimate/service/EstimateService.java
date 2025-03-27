@@ -13,6 +13,9 @@ import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.estimate.repository.EstimateItemRepository;
 import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.service.GlobalService;
+import com.example.daon.receipts.model.ReceiptCategory;
+import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
 import com.example.daon.task.model.TaskEntity;
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +46,9 @@ public class EstimateService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
+    private final ReceiptRepository receiptRepository;
+
+
     private final GlobalService globalService;
 
     //견적서 조회
@@ -220,11 +227,13 @@ public class EstimateService {
         EstimateEntity estimate = estimateRepository.findById(request.getEstimateId()).orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
         //원래의 반대로 저장
         estimate.setReceipted(!estimate.isReceipted());
-
-        //전표 생성 추가
-
-
         estimateRepository.save(estimate);
+        ReceiptCategory category = ReceiptCategory.SALES;
+        //전표 생성 추가
+        for (EstimateItem item : estimate.getItems()) {
+            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), category, estimate.getCustomer(), item.getStock(), item.getQuantity(), item.getUnitPrice(), "", "");
+            receiptRepository.save(entity);
+        }
     }
 
     @Transactional
