@@ -117,6 +117,13 @@ public class TaskService {
     //업무삭제
     public void deleteTask(TaskRequest taskRequest) {
         for (UUID taskId : taskRequest.taskIds) {
+            TaskEntity task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("존재하지 않는 업무입니다."));
+            if (task.getEstimate() != null) {
+                EstimateEntity estimate = task.getEstimate();
+                estimate.setTask(null);     // EstimateEntity의 참조 해제
+                task.setEstimate(null);   // TaskEntity의 참조 해제
+                estimateRepository.deleteById(estimate.getEstimateId());
+            }
             taskRepository.deleteById(taskId);
         }
     }
