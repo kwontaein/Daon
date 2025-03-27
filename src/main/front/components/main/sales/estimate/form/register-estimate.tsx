@@ -20,12 +20,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     mode: string
-    task: ResponseTask,
-    estimate?: ResponseEstimate |undefined,
+    task?: ResponseTask,
+    estimate?: ResponseEstimate,
 }) {
+    //task 전달받으면 업무에서 견적서를 작성하는 경우임, estimate 우선체크
     const initialState = useMemo(()=>{
         return{
-            taskId: task?.taskId,
+            taskId: estimate ? estimate.taskResponse?.taskId : task?.taskId,
             ...estimate,
             estimateDate: dayjs(estimate? estimate.estimateDate : task?.createdAt).format('YYYY-MM-DD'),
             customerId: estimate? estimate.customerId : task.customer.customerId,
@@ -169,7 +170,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                                 name='customerName'
                                 defaultValue={state.customerName}
                                 key={state.customerName}
-                                readOnly={!!task ? true : mode==='detail'}
+                                readOnly={task ? true : mode==='detail'}
                                 onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>                            
                             <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId} readOnly/>
                         </td>

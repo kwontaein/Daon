@@ -38,12 +38,13 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     const estimateHandler = (taskId:string,estimateId:string)=>{
             if(window.innerWidth>620){
                 const params = new URLSearchParams
-                params.set('taskId',taskId)
+                const path = estimateId ? 'estimate': 'register-estimate'
                 params.set("mode", estimateId ? "detail" :"write")
                 if(estimateId){
                     params.set("target",estimateId)
+                }else{
+                    params.set('taskId',taskId)
                 }
-                const path = estimateId ? 'estimate': 'register-estimate'
                 const url = `${apiUrl}/${path}?${params.toString()}`;
                 const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
                 
