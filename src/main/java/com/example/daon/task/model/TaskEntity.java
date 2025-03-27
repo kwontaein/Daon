@@ -44,9 +44,6 @@ public class TaskEntity {
     @Column(name = "model", nullable = false)
     private String model; // 모델
 
-    @Column(name = "is_completed", nullable = false)
-    private Boolean isCompleted; // 처리 여부
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity assignedUser; // 담당 기사 (유저)
@@ -79,11 +76,11 @@ public class TaskEntity {
         this.requesterContact = request.getRequesterContact();
         this.requesterContact2 = request.getRequesterContact2();
         this.model = request.getModel();
-        this.isCompleted = request.getIsCompleted();
         this.details = request.getDetails();
         this.remarks = request.getRemarks();
         this.assignedUser = user;
         this.estimate = estimate;
         this.updatedAt = LocalDateTime.now();
+        this.actionTaken = request.getActionTaken();
     }
 }
