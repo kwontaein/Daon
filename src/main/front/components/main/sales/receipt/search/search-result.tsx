@@ -1,7 +1,7 @@
 'use client'
 import './search-result.scss'
 import dayjs from "dayjs";
-import { ResponseReceipt } from '@/model/types/receipt/type';
+import { ResponseReceipt } from '@/model/types/sales/receipt/type';
 import { ReceiptCategoryMap } from '@/model/constants/sales/receipt/receipt_constants';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { useEffect, useMemo, useReducer, useState } from 'react';

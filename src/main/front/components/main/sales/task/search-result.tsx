@@ -3,7 +3,7 @@ import './search-result.scss'
 
 import React from 'react'
 
-import { ResponseTask } from '@/model/types/task/task/type'
+import { ResponseTask } from '@/model/types/sales/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState'
@@ -19,8 +19,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     taskCheckedHook: ReturnCheckBoxHook
 }) => {
 
-    const taskIds = pageByTasks.map(({taskId})=> taskId)
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
     const size = useWindowSize()   
 
     //TODO: add mobile version
@@ -38,7 +37,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     }
 
     const estimateHandler = (taskId:string,estimateId:string)=>{
-            if(size.width>620){
+            if(window.innerWidth>620){
                 const params = new URLSearchParams
                 params.set('taskId',taskId)
                 params.set("mode", estimateId ? "detail" :"write")

@@ -5,7 +5,7 @@ import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import { saveReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
 import { useConfirm } from "../../share/useConfirm";
-import { ResponseReceipt } from "@/model/types/receipt/type";
+import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 
 const initReceipt: ResponseReceipt = {
     receiptId: uuidv4(),
