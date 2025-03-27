@@ -29,8 +29,6 @@ public class TaskResponse {
 
     public String model; // 모델
 
-    public Boolean isCompleted; // 처리 여부
-
     public AssignedUser assignedUser; // 담당 기사 (유저)
 
     public String details; // 내용
@@ -40,6 +38,8 @@ public class TaskResponse {
     public LocalDateTime createdAt; // 생성일
 
     public LocalDateTime updatedAt; // 수정일
+
+    public LocalDateTime completeAt; // 조치일
 
     //--------------------------------------
 

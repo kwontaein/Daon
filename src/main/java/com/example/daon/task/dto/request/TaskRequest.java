@@ -38,6 +38,8 @@ public class TaskRequest {
 
     public LocalDateTime updatedAt; // 수정일
 
+    public LocalDateTime completeAt; // 조치일
+
     private UUID estimateId;
     //--------------------------------------
 
@@ -57,12 +59,12 @@ public class TaskRequest {
                 .requesterContact(requesterContact)
                 .requesterContact2(requesterContact2)
                 .model(model)
-                .isCompleted(false)
                 .assignedUser(user)
                 .details(details)
                 .remarks(remarks)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
+                .completeAt(completeAt)
                 .estimate(estimate)
                 .build();
     }

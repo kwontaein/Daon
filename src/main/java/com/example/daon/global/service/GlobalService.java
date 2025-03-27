@@ -233,16 +233,16 @@ public class GlobalService {
                 .requesterContact(task.getRequesterContact())
                 .requesterContact2(task.getRequesterContact2())
                 .model(task.getModel())
-                .isCompleted(false)
                 .assignedUser(convertToAssignedUserResponse(task.getAssignedUser()))
                 .details(task.getDetails())
                 .remarks(task.getRemarks())
                 .createdAt(task.getCreatedAt())
                 .updatedAt(task.getUpdatedAt())
+                .completeAt(task.getCompleteAt())
                 .estimateId(task.getEstimate() != null ? task.getEstimate().getEstimateId() : null)
                 .build();
     }
-    
+
 
     public LedgerResponse convertToLedgerResponse(ReceiptEntity receipt) {
         return LedgerResponse
