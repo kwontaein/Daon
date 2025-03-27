@@ -39,6 +39,7 @@ public class EstimateRequest {
     private boolean receipted;
     private boolean task;
     private Condition condition;
+    private String actionTaken;
 
     public EstimateEntity toEntity(CustomerEntity customer, CompanyEntity company, UserEntity user, TaskEntity task, List<EstimateItem> items) {
         return EstimateEntity
