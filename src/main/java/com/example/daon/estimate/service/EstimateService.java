@@ -228,7 +228,6 @@ public class EstimateService {
         EstimateEntity estimate = estimateRepository.findById(request.getEstimateId()).orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
         //원래의 반대로 저장
         estimate.setReceipted(!estimate.isReceipted());
-        estimate.setActionTaken(request.getActionTaken());
         estimateRepository.save(estimate);
 
         ReceiptCategory category = getCategory(estimate.getTask().getTaskType());
