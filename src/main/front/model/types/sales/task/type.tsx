@@ -27,6 +27,7 @@ export interface ResponseTask {
     createdAt: string; // 생성일 (ISO 문자열)
     updatedAt: string; // 수정일 (ISO 문자열)
     estimateId?:string;
+    actionTaken?:string;
   }
   export interface TaskSearchCondition {
     customer:string,
