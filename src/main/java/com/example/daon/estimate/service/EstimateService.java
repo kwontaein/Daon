@@ -98,11 +98,13 @@ public class EstimateService {
                 predicates.add(criteriaBuilder.equal(estimateItemJoin.get("hand"), false));
             }
 
-
             //업무관리 견적서인경우
             if (estimateRequest.isTask()) {
                 predicates.add(criteriaBuilder.isNotNull(root.get("task")));
+            } else {
+                predicates.add(criteriaBuilder.isNull(root.get("task")));
             }
+
 
             // 동적 조건 조합
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
