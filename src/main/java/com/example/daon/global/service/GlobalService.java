@@ -152,6 +152,7 @@ public class GlobalService {
                 .userId(estimate.getTask() != null ? estimate.getTask().getAssignedUser().getUserId() : null)
                 .userName(estimate.getTask() != null ? estimate.getTask().getAssignedUser().getName() : null)
                 .taskId(estimate.getTask() != null ? estimate.getTask().getTaskId() : null)
+                .taskResponse(estimate.getTask() != null ? convertToTaskResponse(estimate.getTask()) : null)
                 .customerId(estimate.getCustomer().getCustomerId())
                 .customerName(estimate.getCustomer().getCustomerName())
                 .items(estimate.getItems().stream().map(this::convertToEstimateItemResponse).collect(Collectors.toList()))
@@ -241,6 +242,7 @@ public class GlobalService {
                 .estimateId(task.getEstimate() != null ? task.getEstimate().getEstimateId() : null)
                 .build();
     }
+    
 
     public LedgerResponse convertToLedgerResponse(ReceiptEntity receipt) {
         return LedgerResponse
