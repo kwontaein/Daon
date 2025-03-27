@@ -5,13 +5,14 @@ import './estimate-form.scss';
 import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
+import { ResponseTask } from '@/model/types/sales/task/type';
 
 
-export default function EstimateForm({estimateState, submit, mode, taskId} : {
+export default function EstimateForm({estimateState, submit, mode, task} : {
     estimateState?: ResponseEstimate,
     submit: () => void,
     mode: string,
-    taskId:string|undefined,
+    task:ResponseTask|undefined,
 }) {
     const {
         items,
@@ -38,7 +39,7 @@ export default function EstimateForm({estimateState, submit, mode, taskId} : {
             {(mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
-                {taskId && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
+                {!(!!task) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
             }

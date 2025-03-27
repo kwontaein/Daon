@@ -6,7 +6,7 @@ export const AsideOptions = {
             {name: '전표입력', link: 'receipt'},
             {name: '업무관리', link: 'task'},
             {name: '관리자데이터조회', link: 'admin'},
-            {name: '견적서관리 [전표]', link: 'estimate'},
+            {name: '견적서관리', link: 'estimate'},
             {name: '견적서관리 [업무]', link: 'task-estimate'},
             {name: '미수/미지급현황', link: 'remain'},
             {name: '관리비관리', link: 'official'}]

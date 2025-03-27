@@ -1,7 +1,7 @@
 'use client'
 import './search-result.scss'
 
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { ResponseTask } from '@/model/types/sales/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
@@ -18,10 +18,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     employees: ResponseEmployee[],
     taskCheckedHook: ReturnCheckBoxHook
 }) => {
-
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
     const size = useWindowSize()   
-
+    const nowDate = useMemo(()=>new Date(Date.now()),[])
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
         if(size.width>620){
@@ -51,6 +50,22 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                 window.open(url, "PopupWindow", popupOptions);
             }
     }
+
+    const dateColor = useCallback((date)=>{
+        const date1 = dayjs(date);
+        const date2 = dayjs(nowDate);
+        const diffDay = date2.diff(date1, 'day')
+        if(diffDay<1){
+            return 'black'
+        }else if(diffDay<2){
+            return 'green'
+        }else if(diffDay<3){
+            return 'blue'
+        }else{
+            return 'red'
+        }
+    },[])
+
     return(
         size.width ? 
         <table className='task-search-result-table'>
@@ -95,7 +110,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
             </thead>
                     {pageByTasks.length>0 ?
                         pageByTasks.map((task)=>(
-                            <tbody key={task.taskId}>
+                            <tbody key={task.taskId} className={task.estimateId ? '' : 'no-estimate'}>
                                 <tr>
                                     <td rowSpan={size.width>820? 1:2}>
                                         <input type='checkbox' 
@@ -107,7 +122,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             <p>[{task.assignedUser.name}]</p>
                                         </div>
                                     </td>
-                                    <td>{dayjs(task.createdAt).format('MM.DD HH:mm')}</td>
+                                    <td style={{color:dateColor(task.createdAt)}}>
+                                        {dayjs(task.createdAt).format('MM.DD HH:mm')}
+                                    </td>
                                     {size.width>820 &&
                                     <td>
                                         <button style={{paddingInline:'4px'}}>
