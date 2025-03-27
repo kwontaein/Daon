@@ -42,7 +42,7 @@ export default function OfficialCate({officials}: { officials: Official[] }) {
                                        required={true}
                                        value={official.officialName}
                                        onChange={(e) =>
-                                        setOfficialState(officialState.map((item: Official, i: number) =>
+                                        setOfficialState((prev)=>prev.map((item: Official, i: number) =>
                                                i === index ? {
                                                    ...item,
                                                    officialName: e.target.value
