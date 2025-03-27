@@ -51,6 +51,18 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                 window.open(url, "PopupWindow", popupOptions);
             }
     }
+    const taskActionTakenHandler = (taskId:string)=>{
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set('taskId',taskId)
+            
+            const url = `${apiUrl}/register-action-taken?${params.toString()}`;
+            const popupOptions = "width=600,height=400,scrollbars=yes,resizable=yes"; 
+            
+            window.open(url, "actionTaken", popupOptions);
+        }
+    }
+    
 
     const dateColor = useCallback((date)=>{
         const date1 = dayjs(date);
@@ -128,9 +140,10 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     </td>
                                     {size.width>820 &&
                                     <td>
-                                        <button style={{paddingInline:'4px'}}>
-                                            {task.isCompleted ? '':'처리중'}
-                                        </button>
+                                         {task.isCompleted ?
+                                            <></>
+                                            :
+                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                     </td>}
                                     <td>
                                         <a onClick={()=>viewCustomerHandler(task.customer.customerId)}>
@@ -155,7 +168,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     </>
                                     }
                                     <td rowSpan={size.width>820? 1:2}>
-                                        <button style={{paddingInline:'4px'}} onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
+                                        <button onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
                                             {task.estimateId ? '인쇄':'작성'}
                                         </button>
                                     </td>
@@ -163,9 +176,10 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                 {size.width<=820 &&
                                     <tr>
                                         <td>
-                                            <button style={{paddingInline:'2px'}}>
-                                                {task.isCompleted ? '':'처리중'}
-                                            </button>
+                                        {task.isCompleted ?
+                                            <></>
+                                            :
+                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                         </td>
                                         <td>{task.details}</td>
                                         <td>{task.model}</td>
