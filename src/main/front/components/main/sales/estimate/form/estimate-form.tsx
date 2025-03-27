@@ -36,7 +36,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
 
     return(
         <section className='estimate-container'>
-            {(mode ==='write' || mode==='edit') &&
+            {!(!!task?.completeAt)&& (mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
                 {!(!!task || estimateState.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
@@ -149,21 +149,22 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                     }
                 </tbody>
             </table>
-            <div className='estimate-button-container justify-center'>
+            <div className={`estimate-button-container ${(!!task?.completeAt) ?'justify-right' :'justify-center'}`}>
                     {mode==='detail' &&
                         <>
                             <button>견적서인쇄</button>
                             <button onClick={()=>changeMode('edit')}>견적서수정</button>
                         </>
                     }
-                    {(mode=== 'write' || mode ==='edit') &&
+                    {!(!!task?.completeAt) && (mode=== 'write' || mode ==='edit') &&
                          <button type='button' onClick={submit}>
                             {mode ==='write' ? '견적서작성' : '수정완료'}
                         </button>
                     }
-                    <button type='button' onClick={()=>{
-                        mode==='edit' ? changeMode('detail') : window.close()
-                    }}>취 소</button>
+                    <button type='button'
+                             onClick={()=>{
+                                mode==='edit' ? changeMode('detail') : window.close()}}>
+                        {!(!!task?.completeAt) ?'취 소' : '닫기'}</button>
             </div>
         </section>
     )
