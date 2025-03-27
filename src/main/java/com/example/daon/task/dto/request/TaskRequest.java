@@ -45,6 +45,8 @@ public class TaskRequest {
 
     public UUID[] taskIds;
 
+    private String actionTaken;
+
     public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt, EstimateEntity estimate) {
         return TaskEntity
                 .builder()
