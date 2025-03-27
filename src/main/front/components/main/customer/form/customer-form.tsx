@@ -112,7 +112,7 @@ export default function CustomerForm({affiliation, employees, customer} : {
                 <select className="label-selector" size={1} name="etc" key={state.etc ?? 'etc'} defaultValue={state.etc}>
                     <option value='none'>선택</option>
                     {employees.map((employee)=>(
-                      <option value={employee.userId}>{employee.name}</option>
+                      <option value={employee.userId} key={employee.userId}>{employee.name}</option>
                     ))}
                 </select>
                 {state.formErrors?.etc &&  

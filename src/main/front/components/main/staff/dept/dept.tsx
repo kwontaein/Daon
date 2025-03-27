@@ -42,8 +42,8 @@ export default function Dept({InitDept}: { InitDept: Dept[] }) {
                                        required={true}
                                        value={dept.deptName}
                                        onChange={(e) =>
-                                           setDeptState(deptState.map((item: Dept, i: number) =>
-                                               i === index ? {...item, DeptName: e.target.value} : item))}/>
+                                           setDeptState((prev)=>prev.map((item: Dept, i: number) =>
+                                               i === index ? {...item, deptName: e.target.value} : item))}/>
                                 :
                                 <>{dept.deptName}</>
                             }
