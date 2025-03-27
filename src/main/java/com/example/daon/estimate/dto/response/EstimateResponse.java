@@ -2,6 +2,7 @@ package com.example.daon.estimate.dto.response;
 
 import com.example.daon.company.dto.response.CompanyResponse;
 import com.example.daon.customer.dto.response.CustomerResponse;
+import com.example.daon.task.dto.response.TaskResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,4 +32,5 @@ public class EstimateResponse {
     private String userName;
     private String customerName;
     private String assignedUser;
+    private TaskResponse taskResponse;
 }
