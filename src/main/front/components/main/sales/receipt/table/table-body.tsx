@@ -8,7 +8,7 @@ import ReceiptOptions from '@/components/main/sales/receipt/options';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/sales/receipt/useReceiptList';
 import { ClientMousePosition } from '@/model/types/share/type';
-import { ReceiptCategory } from '@/model/types/receipt/type';
+import { ReceiptCategory } from '@/model/types/sales/receipt/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';

@@ -1,5 +1,5 @@
 'use server'
-import {ReceiptCondition, ResponseReceipt} from "@/model/types/receipt/type";
+import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
 
 export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const controller = new AbortController();
