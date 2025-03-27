@@ -50,7 +50,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                         }
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>
-                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} taskId={estimate.taskId??''}/>}
+                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId}/>}
                         </td>
                     </tr>
                 ))}

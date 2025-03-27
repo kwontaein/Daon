@@ -11,18 +11,14 @@ import { getEstimateApi } from "@/features/sales/estimate/api/estimateApi";
 import RegisterEstimate from "@/components/main/sales/estimate/form/register-estimate";
 
 export default async function EstimateDetailPage({searchParams}:EstimateRegisterProps){
-    const taskId = (await searchParams).taskId
     const estimateId = (await searchParams).target ||''
     const mode = (await searchParams).mode || 'detail'
 
     let estimate:ResponseEstimate = await getEstimateApi(estimateId);
     const companyList:ResponseCompany[] = await getCompany()
-    const task:ResponseTask =await getTaskApi(taskId)
-
     return (
         <RegisterEstimate
             companyList={companyList}
-            task={task}
             estimate={estimate}
             mode={mode}
             key={JSON.stringify(estimate+mode)}/>
