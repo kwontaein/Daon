@@ -95,7 +95,6 @@ export const saveTask = async (task:SaveTask)=>{
 }
 
 export const deleteTask = async (taskIds:string[])=>{
-    console.log(taskIds)
     try {
         const response = await fetch("http://localhost:8080/api/deleteTask", {
             method: "POST",
