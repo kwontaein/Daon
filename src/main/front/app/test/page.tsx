@@ -1,14 +1,7 @@
 "use client";  // 최상단에 추가
 import '@/styles/_global.scss';
 import axios from "axios";
-import {getReceiptListApi} from "@/features/sales/receipt/api/receiptApi";
-<<<<<<< HEAD
-import {ReceiptCategory} from "@/model/types/receipt/type";
-=======
 import {ReceiptCategory} from "@/model/types/sales/receipt/type";
-import {getEstimateApi} from "@/features/task/estimate/api/estimateApi";
-
->>>>>>> b23654e (chore: estimate search page)
 
 export default async function TestPage() {
 
@@ -371,11 +364,27 @@ export default async function TestPage() {
     async function getEstimate() {
         // 전송할 데이터 (예시)
         const receipts = {
-            estimateId: 'd64bcb51-8af3-4e88-aca3-609cb166e448',
+            estimateId: 'bca47abc-c853-4897-9a2f-22c2a24e672d',
         };
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/getEstimate' // 실제 API 주소로 변경
+                , receipts
+            );
+            console.log('조회 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+    async function toReceipt() {
+        // 전송할 데이터 (예시)
+        const receipts = {
+            estimateId: 'bca47abc-c853-4897-9a2f-22c2a24e672d',
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/estimatesPaid' // 실제 API 주소로 변경
                 , receipts
             );
             console.log('조회 성공:', response.data);
@@ -437,11 +446,16 @@ export default async function TestPage() {
             <div>
                 <button onClick={getReceipts}>전표조회</button>
             </div>
+            <hr/>
             <div>
                 <button onClick={getEstimates}>견적서조회</button>
             </div>
             <div>
                 <button onClick={getEstimate}>견적서조회1</button>
+            </div>
+            <hr/>
+            <div>
+                <button onClick={toReceipt}>전표화</button>
             </div>
         </div>
     );
