@@ -41,8 +41,8 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
 
     return(
         <>
-        <header className="register-header">
-            <Image src={asideArrow} alt=">" width={15}/>
+            <header className="register-header">
+                <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
                     {mode === 'detail' && '회사정보 상세보기'}
                     {mode === 'edit' && '회사정보 수정하기'}

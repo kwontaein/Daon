@@ -61,6 +61,10 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     
     const submitEstimateHandler = ()=>{
         if(isPending) return
+        if(task?.completeAt){
+            window.alert('처리가 완료된 업무의 견적서는 수정 및 삭제가 불가능합니다.')
+            return
+        }
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
