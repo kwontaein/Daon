@@ -6,6 +6,11 @@
 
     tr{
         height: 25px;
+        background-color: transparent !important;
+    }
+         
+    .no-estimate{
+        background-color:var.$default-white-color;
     }
     tbody{
         &:hover{
@@ -16,6 +21,8 @@
     
     td{
         text-align: center;
+        background-color: transparent !important;
+
         select{
             border-color: transparent;
             background-color: transparent !important;
@@ -54,4 +61,3 @@
 }
 
 
-     

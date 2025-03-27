@@ -1,7 +1,7 @@
 import { ResponseCustomer } from "../../customer/customer/type";
 import { ResponseEmployee } from "../../staff/employee/type";
 
-export enum TaskType {
+export enum TaskEnumType {
     AS = "A/S", // A/S
     INCOMING = "입고", // 입고
     DELIVERY = "납품", // 납품
@@ -14,7 +14,7 @@ export enum TaskType {
 
 export interface ResponseTask {
     taskId: string; // 업무 아이디
-    taskType: TaskType; // 구분 (ENUM 사용)
+    taskType: TaskEnumType; // 구분 (ENUM 사용)
     customer: ResponseCustomer; // 거래처
     requesterName: string; // 의뢰자명
     requesterContact: string; // 의뢰자 연락처
@@ -30,7 +30,7 @@ export interface ResponseTask {
   }
   export interface TaskSearchCondition {
     customer:string,
-    taskType: TaskType|'none'|null, //구분
+    taskType: TaskEnumType|'none'|null, //구분
     affiliation:string|null, //거래처구분
     assignedUser:string|null, //담당자
 } 
