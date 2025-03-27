@@ -12,7 +12,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
     estimateState?: ResponseEstimate,
     submit: () => void,
     mode: string,
-    task:ResponseTask|undefined,
+    task?:ResponseTask,
 }) {
     const {
         items,
@@ -39,7 +39,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
             {(mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
-                {!(!!task) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
+                {!(!!task || estimateState.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
             }
