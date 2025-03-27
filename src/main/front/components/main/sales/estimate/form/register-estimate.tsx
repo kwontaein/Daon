@@ -15,11 +15,12 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     mode: string
-    task?: ResponseTask,
+    task: ResponseTask,
     estimate?: ResponseEstimate |undefined,
 }) {
     const initialState = useMemo(()=>{
@@ -34,9 +35,22 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     },[task, estimate,mode]) 
 
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
-
     const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    const changeDetailHandler = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("mode", "detail");
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`);
+    };
+
+    console.log(state)
+
 
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         if(mode==='detail') return
@@ -46,6 +60,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     const formRef = useRef(null)
     
     const submitEstimateHandler = ()=>{
+        if(isPending) return
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -72,8 +87,15 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }
         if(state.status){
             if(state.status === 200){
-                window.alert('견적서를 등록했습니다.')
-                window.close();
+                if(state.mode==='edit'){
+                    setTimeout(()=>{
+                        window.alert('견적서를 수정했습니다.')
+                        changeDetailHandler();
+                    },100)
+                }else{
+                    window.alert('견적서를 등록했습니다.')
+                    window.close();
+                }
             }else{
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
@@ -156,7 +178,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} /> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} taskId={task?.taskId}/> 
             </form>
         </section>
     )

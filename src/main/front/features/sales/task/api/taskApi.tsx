@@ -23,13 +23,14 @@ export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
 
 
 
-export async function getTask(taskId:string){
+export async function getTaskApi(taskId:string){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     if(!taskId.trim()) return {}
     return fetch("http://localhost:8080/api/getTask", {
+        method:'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -51,7 +52,7 @@ export async function getTask(taskId:string){
     }).finally(() => clearTimeout(timeoutId));
 } 
 
-export async function getTasks(){
+export async function getTasksApi(){
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -94,6 +95,7 @@ export const saveTask = async (task:SaveTask)=>{
 }
 
 export const deleteTask = async (taskIds:string[])=>{
+    console.log(taskIds)
     try {
         const response = await fetch("http://localhost:8080/api/deleteTask", {
             method: "POST",
@@ -101,9 +103,6 @@ export const deleteTask = async (taskIds:string[])=>{
             body: JSON.stringify({taskIds}),
         });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        if(response.status===200){
-            revalidateTag('task')
-        }
         return response.status;
     } catch (error) {
         console.error('Error:', error);

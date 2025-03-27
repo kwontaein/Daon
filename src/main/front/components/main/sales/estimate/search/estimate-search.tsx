@@ -31,7 +31,6 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     const pageByEstimate = useMemo(()=>estimate.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate])
     const formRef = useRef(null)
  
-    console.log(initialEstimate)
     
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
