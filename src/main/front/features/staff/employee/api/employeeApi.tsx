@@ -2,6 +2,32 @@
 
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
+
+
+export const getEmployeeApi = async()=>{
+    return await fetch("http://localhost:8080/api/getEmployees", {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // cache:'no-store',
+        next: {revalidate: 3600, tags: ['employee']} //1시간마다 재검증
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
+    })
+
+    
+}
+
 export const userIdDuplicationChecked = async(userId:string):Promise<boolean|null>=>{
     return fetch("http://localhost:8080/api/duplicationCheck", {
         method: "POST",

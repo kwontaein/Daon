@@ -34,7 +34,7 @@ export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:Re
             </thead>
             <tbody>
                 {pageByEstimate.map((estimate)=>(
-                    <tr key={estimate.estimateId}>
+                    <tr key={estimate.estimateId} ref={(el)=>{itemsRef.current[estimate.estimateId] = el}}  className={target === estimate.estimateId ?'is-click' :''}>
                         <td>{dayjs(estimate.estimateDate).format('YY.M.DD')}</td>
                         <td>{estimate.company.companyName}</td>
                         <td>{estimate.customerName}</td>
@@ -42,7 +42,7 @@ export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:Re
                         <td>{estimate.userName}</td>
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>
-                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId}/>}
+                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} taskId={estimate.taskId??''}/>}
                         </td>
                     </tr>
                 ))}
