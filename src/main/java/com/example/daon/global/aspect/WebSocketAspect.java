@@ -76,8 +76,9 @@ public class WebSocketAspect {
 
     // 단일 DTO 파라미터를 처리하여 toString() 결과를 파싱함으로써 [paramName + "Id"]와 추가 조건에 따른 값을 추출
     private void processSingleParam(String paramName, Object paramValue, Message message) {
-        String targetFieldName = paramName + "Id";
         boolean isEstimate = "estimate".equals(paramName);
+        String targetSingularFieldName = paramName + "Id";
+        String targetPluralFieldName = paramName + "Ids";
 
         String dtoString = paramValue.toString();
         int startIndex = dtoString.indexOf("(");
@@ -85,6 +86,7 @@ public class WebSocketAspect {
 
         if (startIndex != -1 && endIndex != -1) {
             String fieldsPart = dtoString.substring(startIndex + 1, endIndex);
+            // 주의: 값에 쉼표가 포함된 경우를 고려하면 보다 정교한 파싱이 필요할 수 있음
             String[] fieldParts = fieldsPart.split(",");
 
             for (String field : fieldParts) {
@@ -93,12 +95,29 @@ public class WebSocketAspect {
                     String key = keyValue[0].trim();
                     String value = keyValue[1].trim();
 
-                    // 대상 필드와 일치하는 경우 메시지에 id 설정
-                    if (key.equals(targetFieldName)) {
+                    // 복수형 필드 (UUID 배열) 처리
+                    if (key.equals(targetPluralFieldName)) {
+                        // 예시: value가 "[uuid1, uuid2, uuid3]" 형태일 것으로 가정
+                        String arrayString = value;
+                        if (arrayString.startsWith("[") && arrayString.endsWith("]")) {
+                            arrayString = arrayString.substring(1, arrayString.length() - 1);
+                        }
+                        String[] uuidValues = arrayString.split(",");
+                        List<String> uuidList = new ArrayList<>();
+                        for (String uuid : uuidValues) {
+                            String trimmed = uuid.trim();
+                            if (!trimmed.isEmpty()) {
+                                uuidList.add(trimmed);
+                            }
+                        }
+                        message.setId(uuidList.toString());
+                    }
+                    // 단일 값 필드 처리
+                    else if (key.equals(targetSingularFieldName)) {
                         message.setId(value);
                     }
 
-                    // paramName이 "estimate"인 경우 추가적으로 taskId 처리
+                    // paramName이 "estimate"인 경우 추가 taskId 처리
                     if (isEstimate && key.equals("taskId")) {
                         Message taskMsg = new Message();
                         taskMsg.setDestination("task");
@@ -109,5 +128,6 @@ public class WebSocketAspect {
             }
         }
     }
+
 
 }
