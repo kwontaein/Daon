@@ -2,9 +2,9 @@
 import '@/styles/table-style/search.scss'
 
 import {apiUrl} from '@/model/constants/apiUrl';
-import {useActionState, useEffect, useMemo, useRef, useState} from 'react';
+import {useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
-import {ResponseTask} from '@/model/types/task/task/type';
+import {ResponseTask} from '@/model/types/sales/task/type';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
@@ -26,14 +26,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const taskIds = pageByTasks.map(({taskId})=> taskId)
     const useCheckState = useCheckBoxState(taskIds)
     const inputRef = useRef(null) //검색 input
-    
-    const [loading, setLoading] = useState(true)
-
-
-    useEffect(() => {
-        setLoading(isPending)
-    }, [isPending])
-
 
     //router control
     const router = useRouter();
@@ -57,15 +49,17 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         router.push(`${pathname}?${params.toString()}`);
     }
 
-    const deleteTaskHandler =()=>{
+    const deleteTaskHandler = ()=>{
         const onDelete =async()=>{
             const checkedTaskIds = Object.keys(useCheckState.checkedState)
+            console.log(checkedTaskIds)
             await deleteTask(checkedTaskIds).then((status)=>{
                 if(status===200) window.alert('삭제가 완료되었습니다.')
             })
         }
         useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete, ()=>{})
     }
+
 
     return (
         <>
@@ -146,7 +140,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                 pageByTasks={pageByTasks}
                 employees={employees}
                 taskCheckedHook={useCheckState}/>            
-            {(!loading && initialTask.length>20) &&
+            {(!isPending && initialTask.length>20) &&
                 <Pagination
                     totalItems={initialTask.length}
                     itemCountPerPage={20} 

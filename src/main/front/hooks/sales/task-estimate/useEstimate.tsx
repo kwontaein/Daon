@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useMemo, useState } from "react"
 import {v4 as uuidv4} from "uuid";
-import { ResponseEstimate, ResponseEstimateItem } from "@/model/types/task/estimate/type"
+import { ResponseEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import useSearchStock from "@/hooks/stock/search/useSearchStock";
 

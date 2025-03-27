@@ -1,6 +1,6 @@
 'use client'
 import { initialReceiptSearch } from "@/features/sales/receipt/action/receiptSearchAction";
-import { ResponseReceipt } from "@/model/types/receipt/type";
+import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { updateSearchDate } from "@/store/slice/receipt-search";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

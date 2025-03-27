@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { ResponseTask } from '@/model/types/task/task/type';
+import { ResponseTask } from '@/model/types/sales/task/type';
 
 import taskRegisterAction from '@/features/sales/task/action/taskRegisterAction';
 import ErrorBox from '@/components/share/error-box/error-box';

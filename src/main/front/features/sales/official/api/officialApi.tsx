@@ -1,6 +1,6 @@
 'use server';
 
-import { Official } from "@/model/types/receipt/type";
+import { Official } from "@/model/types/sales/receipt/type";
 import { revalidateTag } from "next/cache";
 
 

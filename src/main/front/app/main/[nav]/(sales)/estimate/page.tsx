@@ -1,20 +1,20 @@
 import '@/styles/_global.scss';
 
 import { PageByProps } from "@/model/types/share/type";
-import { ReceiptCategory } from "@/model/types/receipt/type";
-import TaskEstimateSearch from "@/components/main/sales/estimate/search/estimate-search";
+import EstimateSearch from "@/components/main/sales/estimate/search/estimate-search";
+import { ResponseCompany } from '@/model/types/staff/company/type';
+import getCompany from '@/features/staff/company/api/company-api';
+import { searchAllEstimateApi } from '@/features/sales/estimate/api/estimateApi';
 
-const allSearchConditions={
-    category:ReceiptCategory.EX,
-    searchSDate: null,
-    searchEDate: null,
-    customerId: null,
-    stockId: null
-}
 
 export default async function TaskEstimatePage({searchParams}: PageByProps) {
     const page = (await searchParams).page || 1;
-    // const initialReceipt = await getReceiptListApi(allSearchConditions)
+    const initialEstimate = await searchAllEstimateApi(false)
+    const companyList:ResponseCompany[] = await getCompany()
 
-    return <TaskEstimateSearch initialEstimateItems={[]} page={page}/>
+    return <EstimateSearch
+                initialEstimate={initialEstimate}
+                companyList={companyList}
+                page={page}
+                isTask={false}/>
 }

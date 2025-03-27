@@ -5,38 +5,52 @@ import Image from 'next/image';
 import asideArrow from '@/assets/aside-arrow.gif';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import { ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import { ResponseTask } from '@/model/types/task/task/type';
+import { ResponseTask } from '@/model/types/sales/task/type';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import EstimateForm from './estimate-form';
-import { ResponseEstimate } from '@/model/types/task/estimate/type';
+import { ResponseEstimate } from '@/model/types/sales/estimate/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
 import { useConfirm } from '@/hooks/share/useConfirm';
-import estimateRegisterAction from '@/features/sales/task-estimate/action/estimateRegisterAction';
+import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
-    task: ResponseTask,
     mode: string
+    task: ResponseTask,
     estimate?: ResponseEstimate |undefined,
 }) {
     const initialState = useMemo(()=>{
         return{
-            taskId: task.taskId,
+            taskId: task?.taskId,
             ...estimate,
-            estimateDate: dayjs(estimate? estimate.estimateDate : task.createdAt).format('YYYY-MM-DD'),
-            customerId: task.customer.customerId,
-            customerName: task.customer.customerName,
+            estimateDate: dayjs(estimate? estimate.estimateDate : task?.createdAt).format('YYYY-MM-DD'),
+            customerId: estimate? estimate.customerId : task.customer.customerId,
+            customerName: estimate? estimate.customerName : task.customer.customerName,
             mode: estimate ? mode : 'write',
         }
     },[task, estimate,mode]) 
 
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
-
     const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    const changeDetailHandler = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("mode", "detail");
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`);
+    };
+
+    console.log(state)
+
 
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         if(mode==='detail') return
@@ -46,6 +60,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     const formRef = useRef(null)
     
     const submitEstimateHandler = ()=>{
+        if(isPending) return
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -72,8 +87,15 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         }
         if(state.status){
             if(state.status === 200){
-                window.alert('견적서를 등록했습니다.')
-                window.close();
+                if(state.mode==='edit'){
+                    setTimeout(()=>{
+                        window.alert('견적서를 수정했습니다.')
+                        changeDetailHandler();
+                    },100)
+                }else{
+                    window.alert('견적서를 등록했습니다.')
+                    window.close();
+                }
             }else{
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
@@ -148,15 +170,15 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' defaultValue={task.assignedUser.name} readOnly/>
-                            <input type='hidden' name='userId' value={task.assignedUser.userId} readOnly/>
+                            <input type='text' name='assignedUser' defaultValue={estimate? estimate.userName : task.assignedUser.name} readOnly/>
+                            <input type='hidden' name='userId' value={estimate ? estimate.userId : task.assignedUser.userId} readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} taskId={task?.taskId}/> 
             </form>
         </section>
     )

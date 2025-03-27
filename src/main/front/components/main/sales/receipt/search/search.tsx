@@ -9,10 +9,9 @@ import useReceiptSearch from '@/hooks/sales/receipt/useReceiptSearch';
 
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseStock } from '@/model/types/stock/stock/types';
-import { ResponseReceipt } from '@/model/types/receipt/type';
+import { ReceiptCategory, ResponseReceipt } from '@/model/types/sales/receipt/type';
 
 import receiptSearchAction, { initialReceiptSearch } from '@/features/sales/receipt/action/receiptSearchAction';
-import { receiptCategoryArr } from '@/model/constants/sales/receipt/receipt_constants';
 
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
@@ -68,13 +67,13 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
     const searchStockHandler = useSearchStock(checkStockId, changeStockHandler);
 
-    const memoizedReceiptCategoryArr = useMemo(() => {
-        return receiptCategoryArr.map(({ categoryKey, categoryValue }) => (
-            <option key={categoryKey} value={categoryKey}>
-                {categoryValue}
+    const memoizedReceiptCategory = useMemo(() => {
+        return Object.entries(ReceiptCategory).map(([key,value]) => (
+            <option key={key} value={key}>
+                {value}
             </option>
         ));
-    }, [receiptCategoryArr]);
+    }, [ReceiptCategory]);
 
 
     return (
@@ -99,7 +98,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                             <td>
                                 <label>
                                     <select name="category" size={1} defaultValue={state.category} key={state.category}>
-                                        {memoizedReceiptCategoryArr}
+                                        {memoizedReceiptCategory}
                                     </select>
                                 </label>
                             </td>
