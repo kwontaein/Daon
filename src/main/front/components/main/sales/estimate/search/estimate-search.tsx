@@ -157,7 +157,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                     </tbody>
                 </table>
             </form>
-            <EstimateSearchResult pageByEstimate={pageByEstimate}/>
+            <EstimateSearchResult pageByEstimate={pageByEstimate} isTask={isTask}/>
             {(!isPending && pageByEstimate.length>0) &&
                 <Pagination
                     totalItems={estimate.length}

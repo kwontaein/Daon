@@ -13,12 +13,7 @@ export default async function TaskPage({searchParams}:PageByProps){
 
  
     const initialTask:ResponseTask[] =await getTasksApi()
-
-
     const affiliations:Affiliation[] = await getAffiliation()
-
-  
-
     const employees: ResponseEmployee[] = await getEmployeeApi()
 
     

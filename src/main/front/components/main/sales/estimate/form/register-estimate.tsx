@@ -126,7 +126,11 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
-                <h4>견적서 작성하기</h4>
+                <h4>
+                    {state.mode ==='detail' && '견적서 상세보기'}
+                    {state.mode ==='edit' && '견적서 수정하기'}
+                    {state.mode ==='write' && '견적서 작성하기'}
+                </h4>
             </header>
             <form action={action} ref={formRef}>
             <table className='register-form-table'>
@@ -160,7 +164,13 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
                         <td>
-                            <input type='text' name='customerName' defaultValue={state.customerName} key={state.customerName} readOnly={state.mode!=='edit'} onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>
+                            <input
+                                type='text'
+                                name='customerName'
+                                defaultValue={state.customerName}
+                                key={state.customerName}
+                                readOnly={!!task ? true : mode==='detail'}
+                                onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>                            
                             <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId} readOnly/>
                         </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
@@ -177,7 +187,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} taskId={task?.taskId}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} task={task}/> 
             </form>
         </section>
     )
