@@ -1,4 +1,4 @@
-import { ReceiptCondition } from "@/model/types/receipt/type"
+import { ReceiptCondition } from "@/model/types/sales/receipt/type"
 import { getReceiptSearchListApi } from "../api/receiptApi"
 import dayjs from "dayjs"
 

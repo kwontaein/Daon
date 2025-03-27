@@ -5,29 +5,32 @@ import React, { startTransition, useActionState, useEffect, useMemo, useCallback
 
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
-import useReceiptSearch from '@/hooks/sales/receipt/useReceiptSearch';
 
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseStock } from '@/model/types/stock/stock/types';
-import { ResponseReceipt } from '@/model/types/receipt/type';
 
-import receiptSearchAction, { initialReceiptSearch } from '@/features/sales/receipt/action/receiptSearchAction';
-import { receiptCategoryArr } from '@/model/constants/sales/receipt/receipt_constants';
 
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { ResponseEstimate, ResponseEstimateItem } from '@/model/types/task/estimate/type';
+import { EstimateCategory, ResponseEstimate, ResponseEstimateItem } from '@/model/types/sales/estimate/type';
+import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/estimate/action/estimateSearchAction';
+import { ResponseCompany } from '@/model/types/staff/company/type';
+import EstimateSearchResult from './search-result';
 
 
 
-export default function TaskEstimateSearch({ initialEstimateItems, page }: { initialEstimateItems: ResponseEstimateItem[], page: number }) {
-    const [state, action, isPending] = useActionState(receiptSearchAction, initialReceiptSearch);
-    const [estimateItems,setEstimateItems] = useState<ResponseEstimateItem[]>(initialEstimateItems)
+export default function EstimateSearch({initialEstimate, companyList, page, isTask} : {
+    initialEstimate: ResponseEstimate[],
+    companyList: ResponseCompany[],
+    page: number,
+    isTask:boolean
+}) {
+    const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(companyList,isTask));
+    const [estimate,setEstimate] = useState<ResponseEstimate[]>(initialEstimate)
 
-    const pageByEstimateItems = useMemo(()=>estimateItems.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimateItems])
+    const pageByEstimate = useMemo(()=>estimate.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate])
     const formRef = useRef(null)
  
-
     
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
@@ -38,8 +41,8 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
     }, [action]);
 
     useEffect(()=>{
-        if(state.searchReceipt){
-            // setReceiptList(state.searchReceipt)
+        if(state.searchEstimate){
+            setEstimate(state.searchEstimate)
         }
     },[state])
 
@@ -71,13 +74,13 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
     const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
     const searchStockHandler = useSearchStock(checkStockId, changeStockHandler);
 
-    const memoizedReceiptCategoryArr = useMemo(() => {
-        return receiptCategoryArr.map(({ categoryKey, categoryValue }) => (
-            <option key={categoryKey} value={categoryKey}>
-                {categoryValue}
+    const memoizedEstimateCategory = useMemo(() => {
+        return Object.entries(EstimateCategory).map(([key,value]) => (
+            <option key={key} value={key}>
+                {value}
             </option>
         ));
-    }, [receiptCategoryArr]);
+    }, [EstimateCategory]);
 
 
     return (
@@ -86,8 +89,8 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
                 <table className="search-table">
                     <colgroup>
                         <col style={{ width: '8%' }} />
-                        <col style={{ width: '72%' }} />
-                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '91%' }} />
+                        <col style={{ width: '1%' }} />
                     </colgroup>
                     <thead>
                     <tr>
@@ -98,11 +101,9 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
                                     className="title-selector"
                                     size={1}
                                     name='category'
-                                    defaultValue={state.searchCondition ?? 'none'}
-                                    key={state.postSearchInfo?? 'state.postSearchInfo'}>
-                                    <option value='all'>전체</option>
-                                    <option value="normal">일반</option>
-                                    <option value="hand">수기</option>
+                                    defaultValue={state.condition}
+                                    key={state.condition}>
+                                    {memoizedEstimateCategory}
                                 </select>
                             </label>
                         </td>
@@ -113,16 +114,18 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
                             <td className="table-label">전표종류</td>
                             <td>
                                 <label>
-                                    <select name="category" size={1} defaultValue={state.category} key={state.category}>
-                                        {memoizedReceiptCategoryArr}
-                                    </select>
+                                <select name='companyId' defaultValue={state.companyId} key={state.companyId}>
+                                    {companyList.map((company)=>(
+                                        <option key={company.companyId} value={company.companyId}>{company.companyName}</option>
+                                    ))}
+                                </select>
                                 </label>
                             </td>
                             <td rowSpan={4} className="table-buttons">
-                                <button type='button'>
+                                <button type='button' onClick={submitHandler}>
                                     검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button'>
+                                <button type='button' onClick={()=>setEstimate(initialEstimate)}>
                                     전 체 보 기
                                 </button>
                             </td>
@@ -154,9 +157,10 @@ export default function TaskEstimateSearch({ initialEstimateItems, page }: { ini
                     </tbody>
                 </table>
             </form>
-            {!isPending &&
+            <EstimateSearchResult pageByEstimate={pageByEstimate}/>
+            {(!isPending && pageByEstimate.length>0) &&
                 <Pagination
-                    totalItems={estimateItems.length}
+                    totalItems={estimate.length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={page}

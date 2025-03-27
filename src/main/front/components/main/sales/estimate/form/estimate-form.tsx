@@ -2,12 +2,18 @@
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import './estimate-form.scss';
-import { ResponseEstimate } from "@/model/types/task/estimate/type"
+import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
+import { useRedirect } from '@/hooks/share/useRedirect';
 
 
-export default function EstimateForm({estimateState, submit, mode}:{estimateState?:ResponseEstimate, submit:()=>void, mode:string}){
+export default function EstimateForm({estimateState, submit, mode, taskId} : {
+    estimateState?: ResponseEstimate,
+    submit: () => void,
+    mode: string,
+    taskId:string|undefined,
+}) {
     const {
         items,
         itemIds,
@@ -23,9 +29,10 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
     const pathname = usePathname()
 
     const changeMode = (mode)=>{
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.set("mode", mode); 
-      router.push(`${pathname}?${params.toString()}`); 
+    //     const params = new URLSearchParams(searchParams.toString()); 
+    //     params.set("mode", mode); 
+    //   router.push(`${pathname}?${params.toString()}`); 
+        useRedirect('set', [{mode}])
     }
 
     return(
@@ -33,7 +40,7 @@ export default function EstimateForm({estimateState, submit, mode}:{estimateStat
             {(mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
-                <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>
+                {taskId && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
             }

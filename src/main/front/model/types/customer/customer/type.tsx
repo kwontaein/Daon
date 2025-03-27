@@ -1,4 +1,4 @@
-import { ResponseEstimate } from "../../task/estimate/type";
+import { ResponseEstimate } from "../../sales/estimate/type";
 import { Affiliation } from "../affiliation/type";
 
 export interface RequestCustomer {
