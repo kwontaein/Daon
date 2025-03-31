@@ -1,8 +1,6 @@
 'use server'
 import { SaveTask, TaskSearchCondition } from "@/model/types/sales/task/type";
 
-import { revalidateTag } from "next/cache";
-
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     try {
         const response = await fetch("http://localhost:8080/api/getTaskByOption", {
@@ -95,7 +93,6 @@ export const saveTask = async (task:SaveTask)=>{
 }
 
 export const deleteTask = async (taskIds:string[])=>{
-    console.log(taskIds)
     try {
         const response = await fetch("http://localhost:8080/api/deleteTask", {
             method: "POST",
@@ -109,3 +106,19 @@ export const deleteTask = async (taskIds:string[])=>{
     }
 }
 
+
+
+
+export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
+    try {
+        const response = await fetch("http://localhost:8080/api/taskComplete", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

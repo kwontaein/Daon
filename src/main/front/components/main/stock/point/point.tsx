@@ -42,7 +42,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                                        required={true}
                                        value={point.stockPointName}
                                        onChange={(e) =>
-                                           setPointState(pointState.map((item: StockPoint, i: number) =>
+                                           setPointState((prev)=>prev.map((item: StockPoint, i: number) =>
                                                i === index ? {...item, stockPointName: e.target.value} : item))}/>
                                 :
                                 <>{point.stockPointName}</>

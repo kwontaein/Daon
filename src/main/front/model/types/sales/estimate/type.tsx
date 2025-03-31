@@ -1,4 +1,5 @@
 import { ResponseCompany } from "../../staff/company/type"
+import { ResponseTask } from "../task/type"
 
 export type EstimateRegisterProps ={
     searchParams: Promise<{
@@ -21,7 +22,7 @@ interface User{
 }
 
   export interface ResponseEstimate {
-    taskId?:string
+    taskResponse? : ResponseTask;
     estimateId: string;       // UUID -> string
     company: ResponseCompany;
     customerId: string;       // UUID -> string
