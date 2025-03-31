@@ -43,10 +43,10 @@ export default function Affiliation({affiliations}: { affiliations: Affiliation[
                                        required={true}
                                        value={affiliation.affiliationName}
                                        onChange={(e) =>
-                                           setAffiliationState(affiliationState.map((item: Affiliation, i: number) =>
+                                           setAffiliationState((prev)=>prev.map((item: Affiliation, i: number) =>
                                                i === index ? {
                                                    ...item,
-                                                   AffiliationName: e.target.value
+                                                   affiliationName: e.target.value
                                                } : item))}/>
                                 :
                                 <>{affiliation.affiliationName}</>

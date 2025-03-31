@@ -5,14 +5,14 @@ import './estimate-form.scss';
 import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
-import { useRedirect } from '@/hooks/share/useRedirect';
+import { ResponseTask } from '@/model/types/sales/task/type';
 
 
-export default function EstimateForm({estimateState, submit, mode, taskId} : {
+export default function EstimateForm({estimateState, submit, mode, task} : {
     estimateState?: ResponseEstimate,
     submit: () => void,
     mode: string,
-    taskId:string|undefined,
+    task?:ResponseTask,
 }) {
     const {
         items,
@@ -29,18 +29,17 @@ export default function EstimateForm({estimateState, submit, mode, taskId} : {
     const pathname = usePathname()
 
     const changeMode = (mode)=>{
-    //     const params = new URLSearchParams(searchParams.toString()); 
-    //     params.set("mode", mode); 
-    //   router.push(`${pathname}?${params.toString()}`); 
-        useRedirect('set', [{mode}])
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.set("mode", mode); 
+        router.push(`${pathname}?${params.toString()}`); 
     }
 
     return(
         <section className='estimate-container'>
-            {(mode ==='write' || mode==='edit') &&
+            {!(!!task?.completeAt)&& (mode ==='write' || mode==='edit') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
-                {taskId && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
+                {!(!!task || estimateState.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
             }
@@ -150,21 +149,22 @@ export default function EstimateForm({estimateState, submit, mode, taskId} : {
                     }
                 </tbody>
             </table>
-            <div className='estimate-button-container justify-center'>
+            <div className={`estimate-button-container ${(!!task?.completeAt) ?'justify-right' :'justify-center'}`}>
                     {mode==='detail' &&
                         <>
                             <button>견적서인쇄</button>
                             <button onClick={()=>changeMode('edit')}>견적서수정</button>
                         </>
                     }
-                    {(mode=== 'write' || mode ==='edit') &&
+                    {!(!!task?.completeAt) && (mode=== 'write' || mode ==='edit') &&
                          <button type='button' onClick={submit}>
                             {mode ==='write' ? '견적서작성' : '수정완료'}
                         </button>
                     }
-                    <button type='button' onClick={()=>{
-                        mode==='edit' ? changeMode('detail') : window.close()
-                    }}>취 소</button>
+                    <button type='button'
+                             onClick={()=>{
+                                mode==='edit' ? changeMode('detail') : window.close()}}>
+                        {!(!!task?.completeAt) ?'취 소' : '닫기'}</button>
             </div>
         </section>
     )

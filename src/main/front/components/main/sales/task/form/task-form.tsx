@@ -1,13 +1,13 @@
 'use client'
 import '@/styles/form-style/form.scss';
 
-import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import asideArrow from '@/assets/aside-arrow.gif';
 import Image from 'next/image';
 
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
-import { ResponseTask } from '@/model/types/sales/task/type';
+import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type';
 
 import taskRegisterAction from '@/features/sales/task/action/taskRegisterAction';
 import ErrorBox from '@/components/share/error-box/error-box';
@@ -58,6 +58,22 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
         }
     },[state])
 
+    const memoizedTaskType = useMemo(()=>{
+        return(
+            <div>
+                {Object.entries(TaskEnumType).map(([key,value])=>(
+                    <label key={key}>
+                        <input
+                        type='radio'
+                        name='taskType'
+                        value={key}
+                        defaultChecked={state.taskType === key}
+                        />{value}
+                    </label>
+                ))}
+            </div>
+        )
+    },[])
     return(
         <>
         {!task &&
@@ -72,56 +88,7 @@ export default function TaskForm({employees, task}:{employees:ResponseEmployee[]
                     <tr>
                         <td className='table-label'>구분</td>
                         <td className='table-radio-container' colSpan={3}>
-                            <div>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='AS'
-                                defaultChecked={state.taskType ==='AS'}
-                                />A/S</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='INCOMING'
-                                defaultChecked={state.taskType ==='INCOMING'}
-                               />입고</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='DELIVERY'
-                                defaultChecked={state.taskType ==='DELIVERY'}
-                                />납품</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='INVENTORY'
-                                defaultChecked={state.taskType ==='INVENTORY'}
-                                />재고</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='OTHER'
-                                defaultChecked={state.taskType ==='OTHER'}
-                                />기타</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='RENTAL'
-                                defaultChecked={state.taskType ==='RENTAL'}
-                                />임대</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='MAINTENANCE'
-                                defaultChecked={state.taskType ==='MAINTENANCE'}
-                                />유지보수</label>
-                            <label><input
-                                type='radio'
-                                name='taskType'
-                                value='ATTENDANCE'
-                                defaultChecked={state.taskType ==='ATTENDANCE'}
-                                />근태</label>
-                        </div>
+                            {memoizedTaskType}
                         </td>
                     </tr>
                     <tr>
