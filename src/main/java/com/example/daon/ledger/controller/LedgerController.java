@@ -1,6 +1,7 @@
 package com.example.daon.ledger.controller;
 
 import com.example.daon.ledger.dto.request.LedgerRequest;
+import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.ledger.service.LedgerService;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.stock.model.StockEntity;
@@ -58,5 +59,12 @@ public class LedgerController {
     @PostMapping("api/getExtraLedger")
     public List<ReceiptEntity> getExtraLedger(@RequestBody LedgerRequest ledgerRequest) {
         return ledgerService.getExtraLedger(ledgerRequest);
+    }
+
+    //기타
+    @PostMapping("api/getNoPaid")
+    public List<NoPaidResponse> getNoPaid(@RequestBody LedgerRequest ledgerRequest) {
+        ledgerService.getCategorySumByCustomer(ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate());
+        return ledgerService.getNoPaid(ledgerRequest);
     }
 }

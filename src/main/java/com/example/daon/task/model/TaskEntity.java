@@ -70,6 +70,7 @@ public class TaskEntity {
     @Column(name = "action_taken")
     private String actionTaken;
 
+
     public void updateFromRequest(TaskRequest request, UserEntity user, EstimateEntity estimate) {
         this.taskType = request.getTaskType();
         this.requesterName = request.getRequesterName();

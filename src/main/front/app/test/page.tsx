@@ -380,12 +380,30 @@ export default async function TestPage() {
     async function toReceipt() {
         // 전송할 데이터 (예시)
         const receipts = {
-            estimateId: 'bca47abc-c853-4897-9a2f-22c2a24e672d',
+            estimateId: '6130cbfe-3c2d-4b8f-9ae8-994ce27f8e7c',
         };
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/estimatesPaid' // 실제 API 주소로 변경
                 , receipts
+            );
+            console.log('조회 성공:', response.data);
+        } catch (error) {
+            console.error('등록 실패:', error);
+        }
+    }
+
+
+    async function getNoPaid() {
+        // 전송할 데이터 (예시)
+        const LedgerRequest = {
+            searchSDate: '2025-03-01T00:00:00',
+            searchEDate: '2025-04-01T00:00:00',
+        };
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/getNoPaid' // 실제 API 주소로 변경
+                , LedgerRequest
             );
             console.log('조회 성공:', response.data);
         } catch (error) {
@@ -456,6 +474,9 @@ export default async function TestPage() {
             <hr/>
             <div>
                 <button onClick={toReceipt}>전표화</button>
+            </div>
+            <div>
+                <button onClick={getNoPaid}>미수미지급</button>
             </div>
         </div>
     );

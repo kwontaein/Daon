@@ -29,5 +29,5 @@ public class NoPaidResponse {
     //매입할인액
     private BigDecimal purchaseDiscount;
     //잔액
-    private BigDecimal currentBalance;
+    //private BigDecimal currentBalance;
 }

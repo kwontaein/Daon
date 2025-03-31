@@ -17,6 +17,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +106,13 @@ public class ReceiptsService {
 
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock);
+
+        if (request.getQuantity() != null) {
+            BigDecimal quantity = BigDecimal.valueOf(request.getQuantity());
+            BigDecimal tp = quantity.multiply(stock.getOutPrice());
+            receipt.setTotalPrice(tp);
+        }
+
         //그리고 저장
         ReceiptEntity receiptEntity = receiptRepository.save(receipt);
         request.setReceiptId(receiptEntity.getReceiptId());
@@ -133,6 +141,7 @@ public class ReceiptsService {
     }
 
 
+    //일일정산
     public void getReceiptTotal(LocalDate searchDate) {
         //해당 기간동안의 금액 총 합산
     }
