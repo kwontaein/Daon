@@ -4,14 +4,14 @@ import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerCate;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 public class LedgerRequest {
-    private LocalDate searchSDate;  //검색 날짜 시작일
-    private LocalDate searchEDate;  //검색 날짜 종료일
+    private LocalDateTime searchSDate;  //검색 날짜 시작일
+    private LocalDateTime searchEDate;  //검색 날짜 종료일
     private CustomerCate customerCate;//구분
     private AffiliationEntity affiliation;//소속
     private UUID customerId; //거래처아이디
