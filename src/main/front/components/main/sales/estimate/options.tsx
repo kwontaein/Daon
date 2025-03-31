@@ -2,7 +2,7 @@
 import '@/styles/options/options.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
 
-export default function EstimateOptions({estimateId, taskId}:{estimateId:string, taskId:string}){
+export default function EstimateOptions({estimateId}:{estimateId:string}){
 
         //TODO: add mobile version
         const viewEstimateHandler = (estimateId:string)=>{
@@ -11,9 +11,6 @@ export default function EstimateOptions({estimateId, taskId}:{estimateId:string,
                 const params = new URLSearchParams
                 params.set("mode", "detail")
                 params.set("target",estimateId)
-                if(taskId){
-                    params.set('taskId',taskId)
-                }
                 const url = `${apiUrl}/estimate?${params.toString()}`;
                 const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
                 window.open(url, "PopupWindow", popupOptions);

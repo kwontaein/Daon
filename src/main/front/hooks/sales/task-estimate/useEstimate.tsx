@@ -64,7 +64,6 @@ export default function useEstimate(estimate:ResponseEstimate){
 
     const searchStockHandler = useSearchStock(checkStockName, changeStockHandler)
 
-
     return{
         items,
         itemIds,
