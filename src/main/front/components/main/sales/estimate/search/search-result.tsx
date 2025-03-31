@@ -9,7 +9,10 @@ import dayjs from 'dayjs';
 import React from 'react';
 import EstimateOptions from '../options';
 
-export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:ResponseEstimate[]}){
+export default function EstimateSearchResult({pageByEstimate, isTask} : {
+    pageByEstimate: ResponseEstimate[],
+    isTask: boolean
+}) {
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     return(
@@ -20,7 +23,8 @@ export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:Re
                 <col style={{ width: '55%' }} />
                 <col style={{ width: '10%', minWidth:'100px'}} />
                 <col style={{ width: '5%', minWidth:'60px'}} />
-                <col style={{ width: '10%' }} />
+                {isTask && <col style={{ width: '5%', minWidth:'80px'}}/>}
+                <col style={{ width: '1%', minWidth:'40px' }} />
             </colgroup>
             <thead>
                 <tr>
@@ -29,6 +33,7 @@ export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:Re
                     <td>거래처명 </td>
                     <td>합계금액</td>
                     <td>담당자</td>
+                    {isTask && <td>상태</td>}
                     <td>관리</td>
                 </tr>
             </thead>
@@ -37,12 +42,15 @@ export default function EstimateSearchResult({pageByEstimate}:{pageByEstimate:Re
                     <tr key={estimate.estimateId} ref={(el)=>{itemsRef.current[estimate.estimateId] = el}}  className={target === estimate.estimateId ?'is-click' :''}>
                         <td>{dayjs(estimate.estimateDate).format('YY.M.DD')}</td>
                         <td>{estimate.company.companyName}</td>
-                        <td>{estimate.customerName}</td>
+                        <td className='left-align'>{estimate.customerName}</td>
                         <td className='right-align'>{estimate.totalAmount.toLocaleString('ko-KR')}</td>
                         <td>{estimate.userName}</td>
+                        {isTask &&
+                        <td><button>전표전환</button></td> 
+                        }
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>
-                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} taskId={estimate.taskId??''}/>}
+                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId}/>}
                         </td>
                     </tr>
                 ))}

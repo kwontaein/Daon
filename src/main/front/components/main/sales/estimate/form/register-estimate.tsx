@@ -20,12 +20,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
     mode: string
-    task: ResponseTask,
-    estimate?: ResponseEstimate |undefined,
+    task?: ResponseTask,
+    estimate?: ResponseEstimate,
 }) {
+    //task 전달받으면 업무에서 견적서를 작성하는 경우임, estimate 우선체크
     const initialState = useMemo(()=>{
         return{
-            taskId: task?.taskId,
+            taskId: estimate ? estimate.taskResponse?.taskId : task?.taskId,
             ...estimate,
             estimateDate: dayjs(estimate? estimate.estimateDate : task?.createdAt).format('YYYY-MM-DD'),
             customerId: estimate? estimate.customerId : task.customer.customerId,
@@ -49,7 +50,6 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         router.push(`${pathname}?${params.toString()}`);
     };
 
-    console.log(state)
 
 
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
@@ -61,6 +61,10 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     
     const submitEstimateHandler = ()=>{
         if(isPending) return
+        if(task?.completeAt){
+            window.alert('처리가 완료된 업무의 견적서는 수정 및 삭제가 불가능합니다.')
+            return
+        }
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -127,7 +131,11 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
-                <h4>견적서 작성하기</h4>
+                <h4>
+                    {state.mode ==='detail' && '견적서 상세보기'}
+                    {state.mode ==='edit' && '견적서 수정하기'}
+                    {state.mode ==='write' && '견적서 작성하기'}
+                </h4>
             </header>
             <form action={action} ref={formRef}>
             <table className='register-form-table'>
@@ -161,7 +169,13 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
                         <td>
-                            <input type='text' name='customerName' defaultValue={state.customerName} key={state.customerName} readOnly={state.mode!=='edit'} onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>
+                            <input
+                                type='text'
+                                name='customerName'
+                                defaultValue={state.customerName}
+                                key={state.customerName}
+                                readOnly={task ? true : mode==='detail'}
+                                onKeyDown={(e)=> state.mode==='edit' && searchCustomerHandler(e)}/>                            
                             <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId} readOnly/>
                         </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
@@ -170,15 +184,15 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' defaultValue={estimate? estimate.userName : task.assignedUser.name} readOnly/>
-                            <input type='hidden' name='userId' value={estimate ? estimate.userId : task.assignedUser.userId} readOnly/>
+                            <input type='text' name='assignedUser' defaultValue={task? task.assignedUser.name: estimate.userName} readOnly/>
+                            <input type='hidden' name='userId' value={task ? task.assignedUser.userId : estimate.userId} readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} taskId={task?.taskId}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} task={task}/> 
             </form>
         </section>
     )
