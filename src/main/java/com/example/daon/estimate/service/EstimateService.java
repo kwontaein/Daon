@@ -19,7 +19,6 @@ import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
 import com.example.daon.task.model.TaskEntity;
-import com.example.daon.task.model.TaskType;
 import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Join;
@@ -230,41 +229,11 @@ public class EstimateService {
         estimate.setReceipted(!estimate.isReceipted());
         estimateRepository.save(estimate);
 
-        ReceiptCategory category = getCategory(estimate.getTask().getTaskType());
-
         //전표 생성 추가
         for (EstimateItem item : estimate.getItems()) {
-            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), category, estimate.getCustomer(), item.getStock(), item.getQuantity(), item.getUnitPrice(), "", "");
+            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), item.getQuantity(), item.getUnitPrice(), "", "");
             receiptRepository.save(entity);
         }
-    }
-
-    private ReceiptCategory getCategory(TaskType taskType) {
-        switch (taskType) {
-            case AS, MAINTENANCE -> {
-                return ReceiptCategory.SALES;
-            }
-            case INCOMING -> {
-                return ReceiptCategory.SALES;
-            }
-            case DELIVERY -> {
-                return ReceiptCategory.SALES;
-            }
-            case INVENTORY -> {
-                return ReceiptCategory.SALES;
-            }
-            case OTHER -> {
-                return ReceiptCategory.SALES;
-            }
-            case RENTAL -> {
-                return ReceiptCategory.SALES;
-            }
-            case ATTENDANCE -> {
-                return ReceiptCategory.SALES;
-            }
-
-        }
-        return null;
     }
 
     @Transactional
