@@ -4,7 +4,6 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
-import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -42,7 +41,7 @@ public class LedgerService {
 
         //기간조건
         if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
-            predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate().atStartOfDay(), ledgerRequest.getSearchEDate().atTime(23, 59, 59)));
+            predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
         }
 
         // 거래처 조건
@@ -77,6 +76,7 @@ public class LedgerService {
         }
     }
 
+    //원장조회
     public List<ReceiptEntity> getLedgers(LedgerRequest ledgerRequest) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
@@ -91,6 +91,7 @@ public class LedgerService {
         });
     }
 
+    // 카테고리에 따른 분류
     private void addCategoryPredicates(LedgerRequest ledgerRequest, CriteriaBuilder criteriaBuilder, Root<ReceiptEntity> root, List<Predicate> predicates) {
         if (ledgerRequest.isDeposit())
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.DEPOSIT));
@@ -117,11 +118,13 @@ public class LedgerService {
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.WITHDRAWAL));
     }
 
+    //품목별원장
     public List<ReceiptEntity> getStockLedger(LedgerRequest ledgerRequest) {
         return null;
     }
 
 
+    //매출장
     public List<ReceiptEntity> getSaleReceipt(LedgerRequest ledgerRequest) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
@@ -134,6 +137,7 @@ public class LedgerService {
         });
     }
 
+    //매입장
     public List<ReceiptEntity> getPurchaseReceipt(LedgerRequest ledgerRequest) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
@@ -146,6 +150,7 @@ public class LedgerService {
         });
     }
 
+    //관리비원장
     public List<ReceiptEntity> getFeeReceipt(LedgerRequest ledgerRequest) {
         return receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
@@ -157,18 +162,19 @@ public class LedgerService {
         });
     }
 
+    //재고조사서
     public List<StockEntity> getStockSurvey(LedgerRequest ledgerRequest) {
         return stockRepository.findAll();
     }
 
 
-    //넌 일단 보류
+    //넌 일단 보류 - 기타원장
     public List<ReceiptEntity> getExtraLedger(LedgerRequest ledgerRequest) {
         return null;
     }
 
 
-    //
+    //미수미지급
     public List<NoPaidResponse> getNoPaid(LedgerRequest ledgerRequest) {
         // 1) JPA Repository의 findAll 메서드를 이용하여 동적 쿼리를 구성
         List<ReceiptEntity> receipts = receiptRepository.findAll((root, query, criteriaBuilder) -> {
@@ -180,7 +186,7 @@ public class LedgerService {
 
             // 기간 포함 검색 (startDate ~ endDate 조건 추가)
             if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
+                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
             }
 
             // 전표 선택 옵션 추가
@@ -206,7 +212,7 @@ public class LedgerService {
 
         // 1) CriteriaBuilder, CriteriaQuery, Root 준비
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<LedgerResponse> cq = cb.createQuery(LedgerResponse.class);
+        CriteriaQuery<NoPaidResponse> cq = cb.createQuery(NoPaidResponse.class);
         Root<ReceiptEntity> root = cq.from(ReceiptEntity.class);
 
         // 2) 동적 조건(where) Spec과 결합
@@ -252,7 +258,7 @@ public class LedgerService {
         );
 
         // 4) multiselect로 '거래처이름' + '카테고리별 합산'
-        //    ReceiptAggregateDTO라는 별도 DTO에 매핑
+        //    별도 DTO에 매핑
         cq.multiselect(
                 root.get("customer").get("customerName"), // or customerCode, etc
                 category1Sum,

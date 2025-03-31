@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class LedgerResponse {
 
     private Integer quantity; // 사용 품목 수량
 
-    private int totalPrice; // 품목 총 가격
+    private BigDecimal totalPrice; // 품목 총 가격
 
     private String description; // 전표 설명 (적요)
 }
