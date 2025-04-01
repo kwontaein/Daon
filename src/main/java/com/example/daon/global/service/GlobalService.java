@@ -193,6 +193,8 @@ public class GlobalService {
                 .quantity(receipt.getQuantity())
                 .totalPrice(receipt.getTotalPrice())
                 .description(receipt.getDescription())
+                .officialId(receipt.getOfficialId() != null ? receipt.getOfficialId().getOfficialId() : null)
+                .officialName(receipt.getOfficialId() != null ? receipt.getOfficialId().getOfficialName() : null)
                 .customerId(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerId() : null)
                 .customerName(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerName() : null)
                 .estimateId(receipt.getEstimate() != null ? receipt.getEstimate().getEstimateId() : null)

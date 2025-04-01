@@ -37,9 +37,6 @@ public class StockService {
                 if (stockCate != null) {
                     predicates.add(criteriaBuilder.equal(root.get("category"), stockCate));
                 }
-            } else {//분류가 없다면 관리비를 제외한 모든 것 검색
-                StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
-                predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
