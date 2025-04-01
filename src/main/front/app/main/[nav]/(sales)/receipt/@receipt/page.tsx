@@ -20,7 +20,7 @@ export default async function ReceiptPage({searchParams}: PageByProps) {
 
     return (
         <div className="flex-row">
-            <section className="full-screen">
+            <section className="full-screen" key={initialReceipt}>
                 <ReceiptSearch initialReceipts={initialReceipt} page={page}/>
             </section>
         </div>
