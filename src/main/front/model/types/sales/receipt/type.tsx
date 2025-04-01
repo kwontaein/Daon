@@ -3,12 +3,14 @@ export type ResponseReceipt={
   receiptId: string; // 전표 아이디
   estimateId?:string; // 견적서 아이디
   timeStamp:Date; // 전표 등록일
-  category:ReceiptCategory | 'disabled'; // 전표 분류 =ENUM 사용
+  category:ReceiptCategoryEnum | 'disabled'; // 전표 분류 =ENUM 사용
   customerId?:string; // 고객 아이디
   customerName?:string;
   stockId?:string; // 품목 아이디
   productName?:string; //품목 이름
   modelName?:string;
+  officialId?:string;
+  officialName?:string;
   quantity?:number; // 사용 품목 수량
   unitPrice?:number;
   totalPrice?:number; // 품목 총 가격
@@ -17,7 +19,7 @@ export type ResponseReceipt={
 }
 
 
-export enum ReceiptCategory {
+export enum ReceiptCategoryEnum {
   EX='전체',
   SALES="매출",              // 매출
   PURCHASE="매입",           // 매입
@@ -37,14 +39,10 @@ export enum ReceiptCategory {
 
 
 export type ReceiptCondition = {
-  category?:ReceiptCategory
+  category?:ReceiptCategoryEnum
   searchSDate? :Date;  //검색 날짜 시작일
   searchEDate?:Date,  //검색 날짜 종료일
   customerId?:string; //고객명
   stockId?:string; //품명
 }
 
-export type Official ={
-  officialName:string;
-  officialId: string;
-}
