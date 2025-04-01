@@ -1,4 +1,4 @@
-export type ResponseOfficial ={
-    officialName:string;
+export type ResponseOfficial = {
     officialId: string;
-  }
+    officialName: string;
+}
