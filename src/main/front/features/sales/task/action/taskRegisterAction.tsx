@@ -1,6 +1,6 @@
 'use server'
 import {v4 as uuidv4} from "uuid";
-import { saveTask } from "../api/taskApi";
+import { saveTask, updateTask } from "../api/taskApi";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export default async function taskRegisterAction(prevState, formData){
@@ -15,10 +15,11 @@ export default async function taskRegisterAction(prevState, formData){
         details: formData.get('details'), //내용
         remarks: formData.get('remarks'), //비고
         customerId:formData.get('customerId') ?? prevState.customerId,
+        actionTaken: formData.get('ActionTaken'),
         action:formData.get('action')
     }
   
-    
+    const mode = prevState.mode;
     if(TaskData.action ==='submit'){
         if(TaskData.assignedUser==='none'){
             return {
@@ -34,7 +35,13 @@ export default async function taskRegisterAction(prevState, formData){
         delete postData.action
         delete postData.customerId
 
-        const status = await saveTask(postData)
+        let status;
+        if(mode ==='write'){
+            status = await saveTask(postData)
+        }else if(mode ==='edit'){
+            status = await updateTask(postData)
+        }
+        
         return{
             ...prevState,
             ...TaskData,

@@ -92,6 +92,22 @@ export const saveTask = async (task:SaveTask)=>{
     }
 }
 
+export const updateTask = async (task:SaveTask)=>{
+    try {
+        const response = await fetch("http://localhost:8080/api/updateTask", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(task),
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
 export const deleteTask = async (taskIds:string[])=>{
     try {
         const response = await fetch("http://localhost:8080/api/deleteTask", {

@@ -7,6 +7,7 @@ import {ResponseEmployee} from "@/model/types/staff/employee/type";
 import EmployeeDetailView from "@/components/main/staff/employee/detail-view";
 import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import {Dept} from "@/model/types/staff/dept/type";
+import { getEmployeeDetailApi } from "@/features/staff/employee/api/employeeApi";
 
 
 export default async function EmployeeDetailPage({searchParams}: DetailPageProps) {
@@ -22,27 +23,8 @@ export default async function EmployeeDetailPage({searchParams}: DetailPageProps
         .then((response) => response.json())
         .catch((error) => console.error('Error:', error));
 
-    const employee: ResponseEmployee = await fetch("http://localhost:8080/api/getEmployeeDetail", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({userId}),
-        next: {revalidate: 1800, tags: [`${userId}`]} //30분마다 재검증
-    }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
-    }).catch((error) => {
-        if (error.name === 'AbortError') {
-            console.log('Fetch 요청이 시간초과되었습니다.')
-        }
-        console.error('Error:', error)
-    })
-
+    const employee: ResponseEmployee = await getEmployeeDetailApi(userId)
+    
     return (
         <>
             <header className="register-header">
