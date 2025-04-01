@@ -1,5 +1,5 @@
 import LedgerCustomerSearch from "@/components/main/ledger/ledger-customer/search";
-import FilterButton from "@/components/share/filter/filter";
+import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
 import {Affiliation} from "@/model/types/customer/affiliation/type";
 
 export default async function LedgerCustomerPage(){
@@ -15,12 +15,11 @@ export default async function LedgerCustomerPage(){
         return JSON.parse(text);
     }).catch((error) => {console.error('Error:', error)})
 
+    const stockCates = await getStockCateApi()
+
     return(
         <section>
-            <LedgerCustomerSearch affiliations={affiliations}/>
-            <FilterButton>
-                <div>Filter</div>
-            </FilterButton>
+            <LedgerCustomerSearch affiliations={affiliations} stockCates={stockCates}/>
         </section>
     )
 }

@@ -30,10 +30,11 @@ export interface ResponseTask {
     actionTaken?:string;
   }
   export interface TaskSearchCondition {
-    customer:string,
+    customerName:string,
     taskType: TaskEnumType|'none'|null, //구분
     affiliation:string|null, //거래처구분
     assignedUser:string|null, //담당자
 } 
+
 
 export type SaveTask = Omit<ResponseTask,'taskId'|'updatedAt'|'createdAt'|'completeAt'>

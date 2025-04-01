@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Aspect
@@ -28,6 +29,13 @@ public class WebSocketAspect {
         Object[] args = joinPoint.getArgs();
 
         Message message = new Message();
+        
+        if (parameterNames == null) {
+            System.out.println("Parameter names are null");
+            return;
+        } else {
+            System.out.println("Parameter names: " + Arrays.toString(parameterNames));
+        }
 
         for (int i = 0; i < parameterNames.length; i++) {
             // 파라미터 이름에서 "Request" 또는 "Requests"를 제거하여 대상 이름을 구함
