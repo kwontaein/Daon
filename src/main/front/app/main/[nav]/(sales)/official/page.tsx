@@ -1,7 +1,8 @@
 import OfficialCate from "@/components/main/sales/official/official";
+import { getOfficialApi } from "@/features/sales/official/api/officialApi";
 
-export default function OfficialPage(){
+export default async function OfficialPage(){
 
-
-    return <OfficialCate officials={[]}/>
+    const official =await getOfficialApi();
+    return <OfficialCate officials={official}/>
 }
