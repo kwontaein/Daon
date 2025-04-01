@@ -39,7 +39,7 @@ public class ReceiptsController {
 
     @PostMapping("api/deleteReceipt")
     public void deleteReceipt(@RequestBody ReceiptRequest receiptRequest) {
-        receiptsService.deleteReceipts(receiptRequest.getIds());
+        receiptsService.deleteReceipts(receiptRequest.getReceiptIds());
     }
 
     @PostMapping("api/getReceiptTotal")
