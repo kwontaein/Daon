@@ -1,10 +1,10 @@
 'use client'
 import '@/styles/table-style/category.scss'
 import useOfficial from '@/hooks/sales/official/useOfficial';
-import type { Official } from '@/model/types/sales/receipt/type';
+import { ResponseOfficial } from '@/model/types/sales/official/type';
 
 
-export default function OfficialCate({officials}: { officials: Official[] }) {
+export default function OfficialCate({officials}: { officials: ResponseOfficial[] }) {
     const { 
             addInputRef, 
             officialState,
@@ -31,7 +31,7 @@ export default function OfficialCate({officials}: { officials: Official[] }) {
                 </tr>
                 </thead>
                 <tbody>
-                {officialState.map((official: Official, index) => (
+                {officialState.map((official: ResponseOfficial, index) => (
                     <tr key={official.officialId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
@@ -42,7 +42,7 @@ export default function OfficialCate({officials}: { officials: Official[] }) {
                                        required={true}
                                        value={official.officialName}
                                        onChange={(e) =>
-                                        setOfficialState((prev)=>prev.map((item: Official, i: number) =>
+                                        setOfficialState((prev)=>prev.map((item: ResponseOfficial, i: number) =>
                                                i === index ? {
                                                    ...item,
                                                    officialName: e.target.value
