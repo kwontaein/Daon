@@ -1,7 +1,7 @@
 "use client";  // 최상단에 추가
 import '@/styles/_global.scss';
 import axios from "axios";
-import {ReceiptCategory} from "@/model/types/sales/receipt/type";
+import {ReceiptCategoryEnum} from "@/model/types/sales/receipt/type";
 
 export default async function TestPage() {
 
@@ -99,7 +99,7 @@ export default async function TestPage() {
             stockUseEa: true,  // 재고 관리 여부
             keyWord: '샘플,테스트',  // 키워드
             remain: true,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
-            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+            ReceiptCategoryEnum: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
         };
 
         try {
@@ -128,7 +128,7 @@ export default async function TestPage() {
             stockUseEa: true,  // 재고 관리 여부
             keyWord: '샘플,테스트',  // 키워드
             remain: true,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
-            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+            ReceiptCategoryEnum: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
         };
 
         try {
@@ -157,7 +157,7 @@ export default async function TestPage() {
             stockUseEa: true,  // 재고 관리 여부
             keyWord: '샘플,테스트',  // 키워드
             remain: false,  // 재고 있는 품목만 검색할 때 사용 (검색 조건에 따라 달라짐)
-            receiptCategory: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
+            ReceiptCategoryEnum: 'DEPOSIT',  // "관리비"에 해당하는 enum 또는 문자열
         };
 
         try {
@@ -322,7 +322,7 @@ export default async function TestPage() {
     async function getReceipts() {
         // 전송할 데이터 (예시)
         const receipts = {
-            category: ReceiptCategory.EX,
+            category: ReceiptCategoryEnum.EX,
             searchSDate: null,
             searchEDate: null,
             customerId: null,
@@ -342,7 +342,7 @@ export default async function TestPage() {
     async function getEstimates() {
         // 전송할 데이터 (예시)
         const receipts = {
-            category: ReceiptCategory.EX,
+            category: ReceiptCategoryEnum.EX,
             searchSDate: null,
             searchEDate: null,
             customerName: null,
