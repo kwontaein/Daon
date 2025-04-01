@@ -13,7 +13,7 @@ export default function LedgerStockSearch(){
     const formRef = useRef(null)
         //거래처 검색관련
 
-    const checkCustomerId = useCallback(() => !!state.customerIds, [state.customerIds]);
+    const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -28,11 +28,11 @@ export default function LedgerStockSearch(){
             });
         }
     }, [action]);
-    const changeCustomerHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName">) => {
+    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName">) => {
         changeHandler(stockInfo);
     }, [changeHandler]);
 
-    const searchCustomerHandler = useSearchStock(checkCustomerId, changeCustomerHandler);
+    const searchStockHandler = useSearchStock(checkStockId, changeStockHandler);
 
     const submitHandler =() => {
         if(!state.stockId){
@@ -40,7 +40,7 @@ export default function LedgerStockSearch(){
             return
         }
         const formData = new FormData(formRef.current);
-        formData.set('action', 'submit');
+        formData.set('action', 'stock');
         startTransition(() => {
             action(formData);
         });
@@ -72,14 +72,14 @@ export default function LedgerStockSearch(){
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>거래처명</td>
+                        <td className='table-label'>품목명</td>
                         <td>
                             <input type='text' 
-                                   name='customerName' 
-                                   defaultValue={state.customerName} 
-                                   key={state.customerName}
-                                   onKeyDown={searchCustomerHandler}/>
-                            <input type='hidden' name='customerIds' value={JSON.stringify(state.customerIds)} readOnly/>
+                                   name='productName' 
+                                   defaultValue={state.productName} 
+                                   key={state.productName}
+                                   onKeyDown={searchStockHandler}/>
+                            <input type='hidden' name='stockId' value={JSON.stringify(state.stockId)} readOnly/>
                         </td>              
                     </tr>
                     <tr>
