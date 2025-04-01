@@ -1,7 +1,9 @@
 'use client'
 
+import { useConfirm } from '@/hooks/share/useConfirm';
 import './total-buttons.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
+import { deleteReceiptApi } from '@/features/sales/receipt/api/receiptApi';
 
 
 
@@ -21,6 +23,18 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
         }
     }
 
+    const deleteReceipt = ()=>{
+        const submit = async()=>{
+            const status =await deleteReceiptApi(selectList)
+            if(status===200){
+                window.alert('삭제가 완료되었습니다.')
+            }else{
+                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
+        }
+        useConfirm('선택한 전표를 삭제하시겠습니까?',submit,()=>{})
+    }
+
     return(
         <section className='total-buttons-container'>
             <button  onClick={registerReceipt}>
@@ -34,7 +48,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
                     <button>
                         전표수정
                     </button>
-                    <button>
+                    <button onClick={deleteReceipt}>
                         전표삭제
                     </button>
                     <button>

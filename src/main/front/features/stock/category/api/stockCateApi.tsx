@@ -1,8 +1,31 @@
 'use server';
 
 import { StockCate } from "@/model/types/stock/cate/type";
-import { revalidatePath, revalidateTag } from "next/cache";
 
+
+
+export const getStockCateApi = async () => {
+    return fetch("http://localhost:8080/api/getStockCateList", {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        next: {tags: ['stocksCate']} 
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        if(response.status===500){
+            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
+        }
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        return text ? JSON.parse(text) : [];
+    }).catch((error) => {
+        console.error('Error:', error)
+    })
+}
 
 export const updateStockCateApi = async (cates: StockCate[]) => {
     return fetch("http://localhost:8080/api/updateStockCate", {
@@ -19,8 +42,6 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stocksCate");
-        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -42,8 +63,6 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stocksCate");
-        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -66,8 +85,6 @@ export const deleteStockCateApi =async (stock: StockCate) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stocksCate")
-        // revalidatePath("/main/stock/stock-cate");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)

@@ -1,6 +1,15 @@
 import { ResponseEstimate } from "../../sales/estimate/type";
 import { Affiliation } from "../affiliation/type";
 
+export enum CustomerCateEnum {
+    SALE = '판매처', 
+    PURCHASE = '구매처',
+    CONSUMER = '소비자',
+    SUBCONTRACTOR = '하청업체',
+    ETC = '기타'
+}
+
+
 export interface RequestCustomer {
     customerId: string; // UUID는 문자열로 처리
     customerName: string;

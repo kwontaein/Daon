@@ -32,14 +32,7 @@ export enum ReceiptCategory {
   RETURN_IN="반품입고",  // 반품입고
 }
 
-export const ReceiptCategoryMap =
-  Object.entries(ReceiptCategory).map(([key,value])=>{
-    return {
-      ['receiptCategoryKey']: key,
-      ['receiptCategoryValue'] :value
-    }
-  })
- 
+
   
 
 

@@ -1,7 +1,6 @@
 'use client'
 import '@/styles/form-style/form.scss'
-import {CustomerCategoryMap} from "@/model/constants/customer/customer-data";
-import {ResponseCustomer} from "@/model/types/customer/customer/type";
+import {CustomerCateEnum, ResponseCustomer} from "@/model/types/customer/customer/type";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 export default function CustomerDetail({customer}: { customer: ResponseCustomer }) {
@@ -29,7 +28,7 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
                 <tr>
                     <td className='table-label'>거래처 구분</td>
                     <td>
-                        {CustomerCategoryMap[customer.category]}
+                        {CustomerCateEnum[customer.category]}
                     </td>
                     <td className='table-label'>소속</td>
                     <td>
