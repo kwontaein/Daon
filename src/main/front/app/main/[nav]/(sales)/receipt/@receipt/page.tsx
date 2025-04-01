@@ -4,10 +4,10 @@ import '@/styles/_global.scss';
 
 import { PageByProps } from "@/model/types/share/type";
 import { getReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
-import { ReceiptCategory } from "@/model/types/sales/receipt/type";
+import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
 
 const allSearchConditions={
-    category:ReceiptCategory.EX,
+    category:ReceiptCategoryEnum.EX,
     searchSDate: null,
     searchEDate: null,
     customerId: null,

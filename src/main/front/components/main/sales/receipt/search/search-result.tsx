@@ -1,8 +1,7 @@
 'use client'
 import './search-result.scss'
 import dayjs from "dayjs";
-import { ResponseReceipt } from '@/model/types/sales/receipt/type';
-import { ReceiptCategoryMap } from '@/model/constants/sales/receipt/receipt_constants';
+import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import ReceiptButtons from '../total-buttons';
@@ -52,7 +51,7 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                             </div>
                         </td>
                         <td rowSpan={2}>
-                            {ReceiptCategoryMap[receipt.category]}
+                            {ReceiptCategoryEnum[receipt.category]}
                         </td>
                         <td className="left-align">{receipt.customerName}</td>
                         <td className="left-align">{receipt.memo}</td>
@@ -61,7 +60,7 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                         </td>
                     </tr>
                     <tr>
-                        <td className="left-align">{receipt.productName}<b className='division_line'>|</b> {receipt.modelName}</td>
+                        <td className="left-align">{receipt.officialName}{receipt.productName}{receipt.modelName && <b className='division_line'>|</b>} {receipt.modelName}</td>
                         <td>{receipt.quantity && Number(receipt.quantity).toLocaleString('ko-KR')}</td>
                         <td className="right-align">{receipt.unitPrice.toLocaleString('ko-KR')}</td>
                         <td className="right-align">{receipt.totalPrice.toLocaleString('ko-KR')}</td>

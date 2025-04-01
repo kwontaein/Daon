@@ -1,22 +1,4 @@
-import { ReceiptCategory } from "@/model/types/sales/receipt/type";
 
-
-  export const ReceiptCategoryMap = {
-    SALES: "매출",
-    SALES_DISCOUNT: "매출할인",
-    PURCHASE: "매입",
-    PURCHASE_DISCOUNT: "매입할인",
-    DEPOSIT: "입금",
-    WITHDRAWAL: "출금",
-    MAINTENANCE_FEE: "관리비",
-    OPERATING_PROFIT: "경상손익",
-    SALES_ALTERNATIVE: "매출대체",
-    RETURN_OUT: "반품출고",
-    RETURN_IN: "반품입고"
-};
-
-  
-  
 export const DisabledStatus = {
     disabled:{//전표입력 (기본값)
         receiptId:false,
@@ -32,6 +14,7 @@ export const DisabledStatus = {
         modelName:false,
         quantity: false,
         description: false,
+        officialName:true,
     },
     SALES:{//매출
         receiptId:false,
@@ -47,6 +30,7 @@ export const DisabledStatus = {
         modelName:false,
         quantity: false,
         description: false,
+        officialName:true,
     },
     PURCHASE: {//매입
         receiptId:false,
@@ -59,6 +43,7 @@ export const DisabledStatus = {
         productName: false,
         quantity: false,
         description: false,
+        officialName:true,
     },
     DEPOSIT:{//입금
         receiptId:false,
@@ -73,6 +58,7 @@ export const DisabledStatus = {
         modelName:true,
         quantity: true,
         description: false,
+        officialName:true,
     },
     WITHDRAWAL:{//출금
         receiptId:false,
@@ -88,6 +74,7 @@ export const DisabledStatus = {
         modelName:true,
         quantity: true,
         description: false,
+        officialName:true,
     },
     SALES_DISCOUNT:{//매출할인
         receiptId:false,
@@ -103,6 +90,7 @@ export const DisabledStatus = {
         modelName:true,
         quantity: true,
         description: false,
+        officialName:true,
     },
     PURCHASE_DISCOUNT:{//매입할인
         receiptId:false,
@@ -118,6 +106,7 @@ export const DisabledStatus = {
         modelName:true,
         quantity: true,
         description: false,
+        officialName:true,
     },
     SALES_ALTERNATIVE:{//매출대체
         receiptId:false,
@@ -133,6 +122,7 @@ export const DisabledStatus = {
         modelName:false,
         quantity: false,
         description: false,
+        officialName:true,
     },
     MAINTENANCE_FEE:{//관리비
         receiptId:false,
@@ -143,11 +133,12 @@ export const DisabledStatus = {
         memo: true,
         unitPrice: true,
         totalPrice: false,
-        stockId:false,
-        productName: false,
-        modelName:false,
+        stockId:true,
+        productName: true,
+        modelName:true,
         quantity: true,
         description: false,
+        officialName:false,
     },
     RETURN_OUT:{//반품출고
         receiptId:false,
@@ -163,6 +154,7 @@ export const DisabledStatus = {
         modelName:false,
         quantity: false,
         description: false,
+        officialName:true,
     },
     RETURN_IN:{//반품입고
         receiptId:false,
@@ -178,5 +170,6 @@ export const DisabledStatus = {
         modelName:false,
         quantity: false,
         description: false,
+        officialName:true,
     }, 
 }
