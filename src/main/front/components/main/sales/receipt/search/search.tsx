@@ -9,7 +9,7 @@ import useReceiptSearch from '@/hooks/sales/receipt/useReceiptSearch';
 
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { ResponseStock } from '@/model/types/stock/stock/types';
-import { ReceiptCategory, ResponseReceipt } from '@/model/types/sales/receipt/type';
+import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 
 import receiptSearchAction, { initialReceiptSearch } from '@/features/sales/receipt/action/receiptSearchAction';
 
@@ -67,13 +67,13 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
     const searchStockHandler = useSearchStock(checkStockId, changeStockHandler);
 
-    const memoizedReceiptCategory = useMemo(() => {
-        return Object.entries(ReceiptCategory).map(([key,value]) => (
+    const memoizedReceiptCategoryEnum = useMemo(() => {
+        return Object.entries(ReceiptCategoryEnum).map(([key,value]) => (
             <option key={key} value={key}>
                 {value}
             </option>
         ));
-    }, [ReceiptCategory]);
+    }, [ReceiptCategoryEnum]);
 
 
     return (
@@ -98,7 +98,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                             <td>
                                 <label>
                                     <select name="category" size={1} defaultValue={state.category} key={state.category}>
-                                        {memoizedReceiptCategory}
+                                        {memoizedReceiptCategoryEnum}
                                     </select>
                                 </label>
                             </td>

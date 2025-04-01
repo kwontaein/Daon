@@ -4,10 +4,12 @@ export type LedgerSearchCondition ={
     searchSDate: Date;  //검색 날짜 시작일
     searchEDate: Date;  //검색 날짜 종료일
     customerCate?: CustomerCateEnum;//구분
-    affiliation?:string;//소속
+    affiliationId?:string;//소속
     customerId?: string; //거래처아이디
     stockId?: string;//품명
     customerIds?:string[];
+    officialId?:string//관리비분류
+
     //-----------------
     sales?: boolean;//매출
     purchase?: boolean;// 매입

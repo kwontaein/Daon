@@ -99,7 +99,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
                         <td className='table-label'>소속</td>
                         <td>
                             <label>
-                                <select size={1} name='affiliation' defaultValue={state.affiliation} key={state.affiliation}>                      
+                                <select size={1} name='affiliationId' defaultValue={state.affiliationId} key={state.affiliationId}>                      
                                         <option value='none'>선택안함</option>
                                         {affiliations.map((affiliation)=>(
                                             <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
