@@ -47,7 +47,7 @@ function* startStomp(): any {
             Message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
         });
         revalidateHandler(Message.destination)
-
+        console.log(Message)
         if (timeout) isRunning = false;
         yield put(receivedStompMsg(Message));
     }
