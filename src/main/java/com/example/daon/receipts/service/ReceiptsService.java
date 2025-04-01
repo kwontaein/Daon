@@ -84,7 +84,10 @@ public class ReceiptsService {
             entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
         }
 
-        CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+        CustomerEntity customer = null;
+        if (request.getCustomerId() != null) {
+            customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+        }
 
         StockEntity stock = null;
         OfficialEntity official = null;
