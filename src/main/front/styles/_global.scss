@@ -10,7 +10,7 @@
 }
 html{
   font-family: Tahoma, "굴림", sans-serif;
-  font-size: 14px;
+  font-size: 12.5px;
   background-color: var.$bg-color;
   width: 100%;
   height: 100%;
@@ -19,14 +19,14 @@ body{
   width: 100%;
   height: 100%;
 }
-@media (max-width:1023px) {
-  html {
-    font-size: 13px;
-  }
-}
 @media (max-width:760px) {
   html {
     font-size: 12px;
+  }
+}
+@media (max-width:700px) {
+  html {
+    font-size: 11px;
   }
 }
 
@@ -40,6 +40,11 @@ body{
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+  }
+}
+@media (max-width: 570px) {
+  html {
+    zoom: 95%;
   }
 }
 @media (max-width: 520px) {

@@ -8,9 +8,10 @@ function isInvalidText(text) {
 export const initialLedgertState = {
     searchSDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
     searchEDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
-    affiliation:'none',//소속
+    affiliationId:'none',//소속
     customerCate:'none', //구분
     stockCate:'none',
+    officailId :'none', //관리비분류
     customerName: '',
     customerId:'',
     productName:'',
@@ -35,11 +36,12 @@ export async function ledgerSearchAction(prevState, formData){
         searchSDate: formData.get('searchSDate'),
         searchEDate: formData.get('searchEDate'),
         customerCate: formData.get('customerCate'),
-        affiliation: formData.get('affiliation'),
+        affiliationId: formData.get('affiliationId'),
         customerId: formData.get('customerId'),
         customerIds: formData.get('customerIds') && JSON.parse(formData.get('customerIds')),
         stockId: formData.get('stockId'),
-        
+        officialId: formData.get('officialId'),
+
         sales:receiptCates.includes('sales'),//매출
         purchase: receiptCates.includes('purchase'),//매입
         deposit: receiptCates.includes('deposit'),//입금
