@@ -21,7 +21,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     page: number,
     employees: ResponseEmployee[]
 }) {
-    const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask});
+    const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task: initialTask, initialTask:initialTask});
     const pageByTasks = useMemo(() => state.task.slice((page - 1) * 20, ((page - 1) * 20) + 20), [state.task, page])
     const taskIds = pageByTasks.map(({taskId})=> taskId)
     const useCheckState = useCheckBoxState(taskIds)
@@ -36,7 +36,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         //pc
         if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
-            const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
     }
@@ -131,7 +131,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                         </tr>
                         <tr>
                             <td className='table-label'>거래처명</td>
-                            <td><input type='text' name='customer' ref={inputRef}/></td>
+                            <td><input type='text' name='customerName' ref={inputRef}/></td>
                         </tr>
                         </tbody>
                     </table>
