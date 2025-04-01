@@ -1,5 +1,6 @@
 'use client'
-import './employee-table.scss';
+import '@/styles/table-style/search-result.scss';
+import '@/styles/table-style/search.scss';
 
 import React, { useEffect, useRef, useState } from "react"
 import { usePathname , useRouter, useSearchParams } from "next/navigation";
@@ -71,13 +72,13 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
 
     return(
         <>
-            <section className="employee-search-container">
+            <section className="filter-container">
                 <h4>사원명</h4>
                 <input type='text' ref={inputRef}/>
                 <button onClick={searchHandler}>조회</button>
                 <button onClick={allViewHandler}>전체검색</button>
             </section>
-            <table className="employee-table">
+            <table className="search-result-table">
                 <colgroup>
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
@@ -131,7 +132,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                 />
             }
             {!loading &&
-            <div className='employee-button-container'>
+            <div className='table-buttons' style={{justifyContent:'right'}}>
                 <button onClick={signNewemployeeHandler}>신규등록</button>
             </div>
             }

@@ -6,7 +6,6 @@ import React, { useCallback, useMemo } from 'react'
 import { ResponseTask } from '@/model/types/sales/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
-import useCheckBoxState from '@/hooks/share/useCheckboxState'
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
@@ -50,6 +49,17 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                 
                 window.open(url, "PopupWindow", popupOptions);
             }
+    }
+    const taskDetailHandler = (taskId:string)=>{
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set('target',taskId)
+            params.set('mode','detail')
+            const url = `${apiUrl}/task?${params.toString()}`;
+            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
+            
+            window.open(url, "PopupWindow", popupOptions);
+        }
     }
     const taskActionTakenHandler = (taskId:string)=>{
         if(window.innerWidth>620){
@@ -168,7 +178,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                         <>
                                             <td>{task.requesterContact}</td>
                                             <td>{task.model}</td>
-                                            <td>{task.details}</td>
+                                            <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details ||'-'}</a></td>
                                             <td>{task.remarks}</td>
                                     </>
                                     }
@@ -186,7 +196,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             :
                                             <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                         </td>
-                                        <td>{task.details}</td>
+                                        <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details||'-'}</a></td>
                                         <td>{task.model}</td>
                                         <td>
                                            {task.requesterContact}

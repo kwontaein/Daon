@@ -12,7 +12,7 @@ export default async function RegisterActionTaken({searchParams} : {
     const task:ResponseTask = await getTaskApi(taskId)
     return(
         <ActionTaken taskId={taskId}>
-            <ActionTakenContent details={task?.details} actionTaken={task?.actionTaken}/>
+            <ActionTakenContent details={task?.details} actionTaken={task?.actionTaken} mode='write'/>
         </ActionTaken>
     )
 }

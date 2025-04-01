@@ -3,6 +3,7 @@ import { CustomerSearch, CustomerSearchCondition } from "@/model/types/customer/
 import { searchCustomersApi} from "../api/searchCustomerApi";
 
 
+
 export const initialCustomerState = {
     postSearchInfo:{
         category:'none',

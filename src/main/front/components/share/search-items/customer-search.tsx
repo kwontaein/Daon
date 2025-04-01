@@ -2,11 +2,10 @@
 import '@/styles/table-style/search-result.scss';
 import '@/styles/form-style/form.scss';
 import '@/styles/_global.scss'
-import { ResponseCustomer } from '@/model/types/customer/customer/type';
+import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import asideArrow from '@/assets/aside-arrow.gif';
 
 import Pagination from '../pagination';
-import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 export default function CustomerSearchItems({customers, page, pageLength} : {
@@ -86,7 +85,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
                             className={idx === index ? 'is-click' :''}
                             style={{cursor:'pointer'}}> 
                             <td className='left-align'>{customer.customerName}</td>
-                            <td>{CustomerCategoryMap[customer.category]}</td>
+                            <td>{CustomerCateEnum[customer.category]}</td>
                             <td>{customer.phoneNumber}</td>
                             <td>{customer.fax}</td>
                             <td>{customer.etc}</td>
