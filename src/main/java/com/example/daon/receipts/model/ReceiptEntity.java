@@ -42,7 +42,7 @@ public class ReceiptEntity {
     private ReceiptCategory category; // 전표 분류 (ENUM 사용)
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer; // 고객 아이디
 
     @JoinColumn(name = "stock_id")
