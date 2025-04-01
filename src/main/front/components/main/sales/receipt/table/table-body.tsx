@@ -44,6 +44,7 @@ export default function ReceiptTableBody(){
 
     const memoizedReceiptCategoryEnum = useMemo(() => {
         return Object.entries(ReceiptCategoryEnum).map(([key,value]) => (
+            (value!=='경상손익' && value!=='전체')&&
             <option key={key} value={key}>
                 {value}
             </option>
@@ -81,6 +82,7 @@ export default function ReceiptTableBody(){
                         <td rowSpan={2}>
                             <select value={receipt.category} 
                                     onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategoryEnum)},receipt.receiptId)} required>
+                                 <option value="disabled" disabled>전표입력</option>
                                 {memoizedReceiptCategoryEnum}
                             </select>
                         </td>

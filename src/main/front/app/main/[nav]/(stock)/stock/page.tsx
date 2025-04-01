@@ -1,4 +1,5 @@
 import StockSearch from "@/components/main/stock/stock/search";
+import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
 import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
@@ -13,15 +14,7 @@ export default async function StockPage({searchParams}:StockPageProps){
     const page = (await searchParams).page || 1;
 
     //getStockCate
-    const InitStockCate = await fetch("http://localhost:8080/api/getStockCateList",
-        {
-            cache:'force-cache',
-            next: { tags: ['stocksCate']} 
-        }
-    )
-    .then((response)=> response.json())
-    .catch((error) => console.error('Error:', error));
-
+    const InitStockCate = await getStockCateApi()
     //getStocks
     const initialStocks:ResponseStock[] = await getStockListApi(allStockRequestBody)
 
