@@ -1,6 +1,8 @@
 package com.example.daon.ledger.service;
 
+import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
@@ -29,6 +31,7 @@ public class LedgerService {
     private final ReceiptRepository receiptRepository;
     private final StockRepository stockRepository;
     private final CustomerRepository customerRepository;
+    private final AffiliationRepository affiliationRepository;
     private final GlobalService globalService;
 
     @PersistenceContext
@@ -52,9 +55,10 @@ public class LedgerService {
             }
 
             // 고객 소속(affiliation) 조건
-            if (ledgerRequest.getAffiliation() != null) {
+            if (ledgerRequest.getAffiliationId() != null) {
+                AffiliationEntity affiliation = affiliationRepository.findById(ledgerRequest.getAffiliationId()).orElse(null);
                 // 예: customerCateId 필드가 있을 경우
-                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerCateId"), ledgerRequest.getAffiliation()));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerAffiliation"), affiliation));
             }
 
             // 단일 거래처 ID로 필터
