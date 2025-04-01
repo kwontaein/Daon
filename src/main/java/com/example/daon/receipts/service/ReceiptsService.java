@@ -107,7 +107,7 @@ public class ReceiptsService {
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock);
 
-        if (request.getQuantity() != null) {
+        if (request.getQuantity() != null && stock != null) {
             BigDecimal quantity = BigDecimal.valueOf(request.getQuantity());
             BigDecimal tp = quantity.multiply(stock.getOutPrice());
             receipt.setTotalPrice(tp);
