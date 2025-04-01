@@ -1,11 +1,11 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { useConfirm } from "@/hooks/share/useConfirm";
-import { deleteOfficialApi, saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/officialApi";
-import { ResponseOfficial } from "@/model/types/sales/official/type";
+import {useConfirm} from "@/hooks/share/useConfirm";
+import {deleteOfficialApi, saveOfficialApi, updateOfficialApi} from "@/features/sales/official/api/officialApi";
+import {ResponseOfficial} from "@/model/types/sales/official/type";
 
-export default function useOfficial(InitialOfficial:ResponseOfficial[]){
+export default function useOfficial(InitialOfficial: ResponseOfficial[]) {
     const [officialState, setOfficialState] = useState<ResponseOfficial[]>(InitialOfficial)
     const [mode, setMode] = useState(null)
     const addInputRef = useRef<HTMLInputElement>(null)
@@ -19,16 +19,16 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
         const postOfficial = officialState.filter(({officialName}, index) =>
             InitialOfficial[index].officialName !== officialName)
         const postAble = postOfficial.every(({officialName}) => officialName !== '')
-        if (postOfficial.length>0 && postAble) {
+        if (postOfficial.length > 0 && postAble) {
             updateOfficialApi(postOfficial).then((status) => {
-                if(status === 200){
+                if (status === 200) {
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
                 }
             })
-        } else if(postOfficial.length>0 && !postAble){
+        } else if (postOfficial.length > 0 && !postAble) {
             window.alert('소속명을 입력하세요.')
-        }else{
+        } else {
             setMode(null)
         }
     }
@@ -40,29 +40,30 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
         }
         const postAble = addInputRef.current.value !== ''
         if (postAble) {
-            saveOfficialApi(officialState)
+            saveOfficialApi({officialName: addInputRef.current.value})
                 .then((status) => {
-                    if(status === 200){
+                    if (status === 200) {
                         window.alert('저장이 완료되었습니다.')
                         setMode(null)
-                }
+                    }
                 })
-        }else {
+        } else {
             window.alert('소속명을 입력하세요.')
         }
     }
 
-    const deleteHandler=(official:ResponseOfficial)=>{
-        const deleteRequest = ()=>{
-            deleteOfficialApi(official).then((status)=>{
-                if(status === 200){
+    const deleteHandler = (official: ResponseOfficial) => {
+        const deleteRequest = () => {
+            deleteOfficialApi(official).then((status) => {
+                if (status === 200) {
                     window.alert('삭제가 완료되었습니다.')
                     setMode(null)
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
+        useConfirm('정말로 삭제하시겠습니까?', deleteRequest, () => {
+        })
     }
 
-    return  { addInputRef, officialState, mode, setMode, setOfficialState,addHandler,deleteHandler,editHandler}
+    return {addInputRef, officialState, mode, setMode, setOfficialState, addHandler, deleteHandler, editHandler}
 }

@@ -71,7 +71,7 @@ public class EstimateService {
             // 기간 조건
             if (estimateRequest.getSearchSDate() != null && estimateRequest.getSearchEDate() != null) {
                 predicates.add(criteriaBuilder.between(
-                        root.get("timeStamp"),
+                        root.get("estimateDate"),
                         estimateRequest.getSearchSDate().atStartOfDay(),
                         estimateRequest.getSearchEDate().atTime(23, 59, 59)
                 ));
@@ -231,7 +231,7 @@ public class EstimateService {
 
         //전표 생성 추가
         for (EstimateItem item : estimate.getItems()) {
-            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), item.getQuantity(), item.getUnitPrice(), "", "");
+            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", "");
             receiptRepository.save(entity);
         }
     }

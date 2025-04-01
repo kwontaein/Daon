@@ -1,6 +1,7 @@
 package com.example.daon.ledger.dto.request;
 
 import com.example.daon.customer.model.CustomerCate;
+import com.example.daon.stock.model.StockCate;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ public class LedgerRequest {
     private UUID customerId; //거래처아이디
     private List<UUID> customerIds; //거래처아이디(복수거래처)
     private UUID stockId;//품명
-    private String MtName;//관리비분류
+    private String OfficialId;//관리비분류
+    private StockCate stockCate;
     //-----------------
     private boolean sales;//매출
     private boolean purchase;// 매입

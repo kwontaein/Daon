@@ -30,6 +30,10 @@ public class ReceiptResponse {
 
     private UUID stockId; // 품목 번호
 
+    private UUID officialId; // 품목 번호
+
+    private String officialName; // 품목 번호
+
     private Integer quantity; // 사용 품목 수량
 
     private BigDecimal totalPrice; // 품목 총 가격

@@ -2,6 +2,7 @@ package com.example.daon.receipts.model;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.official.model.OfficialEntity;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.stock.model.StockEntity;
 import jakarta.persistence.*;
@@ -47,6 +48,10 @@ public class ReceiptEntity {
     @JoinColumn(name = "stock_id")
     @ManyToOne
     private StockEntity stock; // 품목 아이디
+
+    @JoinColumn(name = "official_id")
+    @ManyToOne
+    private OfficialEntity officialId; // 관리비 아이디
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity; // 사용 품목 수량

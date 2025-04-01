@@ -1,11 +1,12 @@
 package com.example.daon.receipts.service;
 
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.customer.repository.CustomerBillRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.service.GlobalService;
+import com.example.daon.official.model.OfficialEntity;
+import com.example.daon.official.repository.OfficialRepository;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
@@ -31,7 +32,7 @@ public class ReceiptsService {
     private final EstimateRepository estimateRepository;
     private final ReceiptRepository receiptRepository;
     private final CustomerRepository customerRepository;
-    private final CustomerBillRepository customerBillRepository;
+    private final OfficialRepository officialRepository;
     private final StockRepository stockRepository;
     private final GlobalService globalService;
 
@@ -73,12 +74,6 @@ public class ReceiptsService {
                 .collect(Collectors.toList());
     }
 
-    //관리비 목록 불러오기
-    public List<StockEntity> getMCList() {
-        return null;
-    }
-
-
     /**
      * 전표 저장 및 수정 공통 로직
      */
@@ -90,10 +85,13 @@ public class ReceiptsService {
         }
 
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-        StockEntity stock = null;
 
+        StockEntity stock = null;
+        OfficialEntity official = null;
         if (request.getStockId() != null) {
             stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
+        } else if (request.getOfficialId() != null) {
+            official = officialRepository.findById(request.getOfficialId()).orElse(null);
         }
 
         if (request.getReceiptId() != null) {
@@ -104,8 +102,9 @@ public class ReceiptsService {
             }
         }
 
+
         //엔티티화
-        ReceiptEntity receipt = request.toEntity(entity, customer, stock);
+        ReceiptEntity receipt = request.toEntity(entity, customer, stock, official);
 
         if (request.getQuantity() != null && stock != null) {
             BigDecimal quantity = BigDecimal.valueOf(request.getQuantity());
@@ -143,6 +142,6 @@ public class ReceiptsService {
 
     //일일정산
     public void getReceiptTotal(LocalDate searchDate) {
-        //해당 기간동안의 금액 총 합산
+        //해당 기간동안의 금액 총 합산 + 그 이전까지의 총 금액 합산
     }
 }
