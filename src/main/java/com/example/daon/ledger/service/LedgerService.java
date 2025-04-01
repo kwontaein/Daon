@@ -54,7 +54,7 @@ public class LedgerService {
             // 고객 소속(affiliation) 조건
             if (ledgerRequest.getAffiliation() != null) {
                 // 예: customerCateId 필드가 있을 경우
-                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerCateId"), ledgerRequest.getAffiliation()));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerAffiliation"), ledgerRequest.getAffiliation()));
             }
 
             // 단일 거래처 ID로 필터
