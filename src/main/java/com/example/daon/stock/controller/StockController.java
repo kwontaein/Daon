@@ -25,11 +25,7 @@ public class StockController {
 
     @PostMapping("api/getStockList")
     public List<StockResponse> getStockList(@RequestBody StockRequest stockRequest) {
-        if (stockRequest.getReceiptCategory().equals("MAINTENANCE_FEE")) {
-            return stockService.getMCList(stockRequest);
-        } else {
-            return stockService.getStockList(stockRequest);
-        }
+        return stockService.getStockList(stockRequest);
     }
 
     //생성

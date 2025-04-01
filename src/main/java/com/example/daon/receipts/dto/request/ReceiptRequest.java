@@ -2,6 +2,7 @@ package com.example.daon.receipts.dto.request;
 
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
+import com.example.daon.official.model.OfficialEntity;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.stock.model.StockEntity;
@@ -31,6 +32,8 @@ public class ReceiptRequest {
     private UUID customerId; // 고객 아이디
 
     private UUID stockId; // 품목 번호
+    
+    private UUID officialId; // 관리비 번호
 
     private Integer quantity; // 사용 품목 수량
 
@@ -49,7 +52,7 @@ public class ReceiptRequest {
     private String customerName; //고객명
     private String productName; //품명
 
-    public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer, StockEntity stock) {
+    public ReceiptEntity toEntity(EstimateEntity entity, CustomerEntity customer, StockEntity stock, OfficialEntity official) {
         return ReceiptEntity
                 .builder()
                 .receiptId(receiptId)
@@ -57,6 +60,7 @@ public class ReceiptRequest {
                 .timeStamp(timeStamp)
                 .category(category)
                 .stock(stock)
+                .officialId(official)
                 .quantity(quantity)
                 .totalPrice(totalPrice)
                 .description(description)
