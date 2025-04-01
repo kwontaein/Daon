@@ -195,6 +195,7 @@ public class GlobalService {
                 .description(receipt.getDescription())
                 .customerId(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerId() : null)
                 .customerName(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerName() : null)
+                .estimateId(receipt.getEstimate() != null ? receipt.getEstimate().getEstimateId() : null)
                 .build();
     }
 
