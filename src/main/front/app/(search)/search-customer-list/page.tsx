@@ -1,10 +1,11 @@
+import CustomerListSearch from "@/components/share/search-items/customer-list-search";
 import CustomerSearchItems from "@/components/share/search-items/customer-search";
 import { searchCustomersApi } from "@/features/customer/customer/api/searchCustomerApi";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { SearchNameProps } from "@/model/types/share/type";
 import { revalidateTag } from "next/cache";
 
-export default async function SearchCustomerItemsPage({searchParams} : SearchNameProps) {
+export default async function SearchCustomerListPage({searchParams} : SearchNameProps) {
     const page = (await searchParams).page ||1;
     const customerName = (await searchParams).searchName;
 
@@ -16,7 +17,6 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
         ceo:null,
     }
     const searchResult:ResponseCustomer[] = await searchCustomersApi(postSearchInfo)
-    const pageByCustomers = searchResult.slice((page-1)*20, ((page-1)*20)+20)
 
     if (typeof window !== "undefined") {
         window.addEventListener("beforeunload", () => {
@@ -25,6 +25,6 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
       }
       
     return(
-        <CustomerSearchItems customers={pageByCustomers} page={page} pageLength={searchResult.length}/>
+        <CustomerListSearch initialcustomers={searchResult} page={page}/>
     )
 }
