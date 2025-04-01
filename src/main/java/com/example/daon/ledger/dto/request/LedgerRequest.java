@@ -1,6 +1,5 @@
 package com.example.daon.ledger.dto.request;
 
-import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerCate;
 import lombok.Data;
 
@@ -13,7 +12,7 @@ public class LedgerRequest {
     private LocalDateTime searchSDate;  //검색 날짜 시작일
     private LocalDateTime searchEDate;  //검색 날짜 종료일
     private CustomerCate customerCate;//구분
-    private AffiliationEntity affiliation;//소속
+    private UUID affiliationId;//소속
     private UUID customerId; //거래처아이디
     private List<UUID> customerIds; //거래처아이디(복수거래처)
     private UUID stockId;//품명
