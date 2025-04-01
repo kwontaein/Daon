@@ -1,15 +1,9 @@
 import StockCate from "@/components/main/stock/category/stock-cate";
+import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
 
 
 export default async function CustomerCatePage() {
-    const InitStockCate = await fetch("http://localhost:8080/api/getStockCateList",
-        {
-            cache:'force-cache',
-            next: { tags: ['stocksCate']} 
-        }
-    )
-    .then((response)=> response.json())
-    .catch((error) => console.error('Error:', error));
+    const InitStockCate = await getStockCateApi()
 
     return (
         <section key={JSON.stringify(InitStockCate)}>

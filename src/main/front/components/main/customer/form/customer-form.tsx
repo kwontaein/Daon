@@ -11,7 +11,7 @@ import asideArrow from '@/assets/aside-arrow.gif';
 
 import { submitBusinessInfo } from '@/features/customer/customer/actions/customer-action';
 import ErrorBox from '@/components/share/error-box/error-box';
-import { ResponseCustomer } from '@/model/types/customer/customer/type';
+import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 
@@ -48,11 +48,9 @@ export default function CustomerForm({affiliation, employees, customer} : {
                 <select className="label-selector" 
                         size={1} name="category" defaultValue={state.category ??'category'} key={state.category}>
                     <option value='none'>선택</option>
-                    <option value="SALE">판매처</option>
-                    <option value="PURCHASE">구매처</option>
-                    <option value="CONSUMER">소비자</option>
-                    <option value="SUBCONTRACTOR">하청업체</option>
-                    <option value="ETC">기타</option>
+                    {Object.entries(CustomerCateEnum).map(([key,value])=>(
+                        <option value={key} key={key}>{value}</option>
+                    ))}
                 </select>
                 {state.formErrors?.category &&  
                   <ErrorBox key={state.formErrors.errorKey}>

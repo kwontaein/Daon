@@ -13,8 +13,9 @@ export const initialTaskState = {
 }
 
 export async function taskSearchAction(prevState, formData){
+
     const searchData:TaskSearchCondition = {
-        customer: formData.get('customer'),
+        customerName: formData.get('customerName'),
         taskType: formData.get('taskType'), //구분
         affiliation: formData.get('affiliation'), //거래처구분
         assignedUser: formData.get('assignedUser'), //담당자
@@ -30,10 +31,12 @@ export async function taskSearchAction(prevState, formData){
     }
     const searchKey = uuidv4()
 
-    const{taskType, customer, assignedUser, affiliation} = searchData
-    if(!taskType && !customer && !assignedUser && !affiliation){
-        return {...prevState,...searchData, searchKey}
+    const{taskType, customerName, assignedUser, affiliation} = searchData
+    if(!taskType && !customerName && !assignedUser && !affiliation){
+        
+        return {...prevState,...searchData,  task:prevState.initialTask ,searchKey}
     }
+    console.log(searchData)
     const task = await fetchSearchTask(searchData)
     return {...prevState,...searchData, task, searchKey}
 }

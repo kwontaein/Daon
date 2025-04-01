@@ -5,12 +5,11 @@ import React from 'react';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ResponseCustomer } from '@/model/types/customer/customer/type';
+import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 
 import CustomerOptions from '../options';
-import { CustomerCategoryMap } from '@/model/constants/customer/customer-data';
 
 
 
@@ -56,7 +55,7 @@ const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:Resp
                                onChange={update_checked.bind(null,customer.customerId)}/>
                     </td>
                     <td>{customer.affiliation.affiliationName}</td>
-                    <td>{CustomerCategoryMap[customer.category]}</td>
+                    <td>{CustomerCateEnum[customer.category]}</td>
                     <td className='left-align'>{customer.customerName}</td>
                     <td>{customer.phoneNumber}</td>
                     <td>{customer.fax}</td>

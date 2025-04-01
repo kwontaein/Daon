@@ -16,7 +16,7 @@ import {apiUrl} from '@/model/constants/apiUrl';
 import {Affiliation} from '@/model/types/customer/affiliation/type';
 
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
-import {ResponseCustomer} from '@/model/types/customer/customer/type';
+import {CustomerCateEnum, ResponseCustomer} from '@/model/types/customer/customer/type';
 import {changeFormData} from '@/features/share/changeFormData';
 import CustomerSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
@@ -87,11 +87,9 @@ export default function CustomerSearch(
                                     defaultValue={state.postSearchInfo.category ?? 'none'}
                                     key={state.postSearchInfo.category}>
                                     <option value='none'>선택안함</option>
-                                    <option value="SALE">판매처</option>
-                                    <option value="PURCHASE">구매처</option>
-                                    <option value="CONSUMER">소비자</option>
-                                    <option value="SUBCONTRACTOR">하청업체</option>
-                                    <option value="ETC">기타</option>
+                                    {Object.entries(CustomerCateEnum).map(([key,value])=>(
+                                        <option value={key} key={key}>{value}</option>
+                                    ))}
                                 </select>
                             </label>
                         </td>
