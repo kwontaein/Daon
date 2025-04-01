@@ -22,7 +22,6 @@ export default async function receiptSearchAction(prevState, formState){
     }
     const action = formState.get('action')
 
-    console.log(searchCondition)
     if(action==='submit'){
         const searchReceipt = await getReceiptSearchListApi(searchCondition)
         return {
