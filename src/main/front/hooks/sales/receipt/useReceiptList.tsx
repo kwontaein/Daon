@@ -125,7 +125,7 @@ export default function useReceiptList() {
     };
 
     const saveReceiptList = ()=>{
-        if(receiptList.some(({customerId})=> !(!!customerId))){
+        if(receiptList.some(({customerId,category})=> DisabledStatus[category].customerName ? false :!(!!customerId))){
             window.alert('항목의 모든 거래처를 입력해주세요.')
             return
         }else if(receiptList.some(({stockId, category})=> DisabledStatus[category].productName ? false : !(!!stockId))){
