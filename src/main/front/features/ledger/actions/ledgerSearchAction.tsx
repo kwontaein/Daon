@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { LedgerSearchCondition } from "@/model/types/ledger/type";
-import { getLedgerCustomerApi } from "../api/ledgerApi";
+import { getLedgerCustomerApi, getLedgerStockApi, getPurchaseReceiptApi, getSaleReceiptApi } from "../api/ledgerApi";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -69,6 +69,12 @@ export async function ledgerSearchAction(prevState, formData){
         let searchResult;
         if(action.includes('customer')){
             searchResult = await getLedgerCustomerApi(postData)
+        }else if(action ==='stock'){
+            searchResult = await getLedgerStockApi(postData)
+        }else if(action==='sales'){
+            searchResult = await getSaleReceiptApi(postData)
+        }else if(action==='purchase'){
+            searchResult = await getPurchaseReceiptApi(postData)
         }
     
   
