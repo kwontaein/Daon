@@ -45,7 +45,7 @@ public class ReceiptRequest {
 
     private LocalDate searchSDate;  //검색 날짜 시작일
     private LocalDate searchEDate;  //검색 날짜 종료일
-    private List<UUID> ids; //여러개 한번에 생성 시 보내는 아이디
+    private List<UUID> receiptIds; //여러개 한번에 생성 시 보내는 아이디
     private String customerName; //고객명
     private String productName; //품명
 

@@ -28,7 +28,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
 }
 
 
-export async function deleteReceiptApi(ids: string[]) {
+export async function deleteReceiptApi(receiptIds: string[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -38,7 +38,7 @@ export async function deleteReceiptApi(ids: string[]) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ids}),
+        body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
         if (!response.ok) {
@@ -53,8 +53,6 @@ export async function deleteReceiptApi(ids: string[]) {
         console.error('Error:', error);
     }).finally(() => clearTimeout(timeoutId));
 }
-
-
 
 
 export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
@@ -84,7 +82,6 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
         console.error('Error:', error);
     }).finally(() => clearTimeout(timeoutId));
 }
-
 
 
 export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition) {
