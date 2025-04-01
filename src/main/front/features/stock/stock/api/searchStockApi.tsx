@@ -11,7 +11,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...searchCondition, receiptCategory: 'DEPOSIT' }),
+        body: JSON.stringify(searchCondition),
         signal,
         next: {
             revalidate: 300, 
@@ -43,7 +43,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...searchCondition, receiptCategory: 'DEPOSIT' }),
+        body: JSON.stringify(searchCondition),
         signal,
         next: {
             revalidate: 3600, 

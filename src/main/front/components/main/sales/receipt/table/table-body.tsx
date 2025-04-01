@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import './table-body.scss';
 
@@ -8,10 +8,11 @@ import ReceiptOptions from '@/components/main/sales/receipt/options';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/sales/receipt/useReceiptList';
 import { ClientMousePosition } from '@/model/types/share/type';
-import { ReceiptCategory } from '@/model/types/sales/receipt/type';
+import { ReceiptCategoryEnum } from '@/model/types/sales/receipt/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
+import useSearchOfficial from '@/hooks/sales/official/useSearchOfficial';
 
 
 export default function ReceiptTableBody(){
@@ -30,13 +31,24 @@ export default function ReceiptTableBody(){
             setCustomerInfo,
             checkStockId,
             setStockInfo,
+            checkOfficialId,
+            setOfficialInfo,
             saveReceiptList
         } = useReceiptList()
 
 
     const searchCustomerHandler = useSearchCustomer(checkCustomerId,setCustomerInfo)
     const searchStockHandler = useSearchStock(checkStockId,setStockInfo)
+    const searchOfficialHandler = useSearchOfficial(checkOfficialId, setOfficialInfo)
 
+
+    const memoizedReceiptCategoryEnum = useMemo(() => {
+        return Object.entries(ReceiptCategoryEnum).map(([key,value]) => (
+            <option key={key} value={key}>
+                {value}
+            </option>
+        ));
+    }, [ReceiptCategoryEnum]);
 
     return(
         <>
@@ -68,18 +80,8 @@ export default function ReceiptTableBody(){
                         </td>
                         <td rowSpan={2}>
                             <select value={receipt.category} 
-                                    onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategory)},receipt.receiptId)} required>
-                                <option value="disabled" disabled>전표입력</option>
-                                <option value="SALES">매출</option>
-                                <option value="PURCHASE">매입</option>
-                                <option value="DEPOSIT">입금</option>
-                                <option value="WITHDRAWAL">출금</option>
-                                <option value="SALES_DISCOUNT">매출할인</option>
-                                <option value="PURCHASE_DISCOUNT">매입할인</option>
-                                <option value="MAINTENANCE_FEE">관리비</option>
-                                <option value="RETURN_OUT">반품출고</option>
-                                <option value="RETURN_IN">반품입고</option>
-                                <option value="SALES_ALTERNATIVE">매출대체</option>
+                                    onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategoryEnum)},receipt.receiptId)} required>
+                                {memoizedReceiptCategoryEnum}
                             </select>
                         </td>
                         <td><input type="text"
@@ -106,12 +108,20 @@ export default function ReceiptTableBody(){
                     </tr>
                     <tr>
                         <td><input type="text" 
-                                placeholder='품 명'
-                                className={DisabledStatus[receipt.category].productName ? 'disabled' : ''}
-                                value={(receipt.productName || '') + (receipt.modelName && ` ${receipt.modelName}`)}
-                                readOnly={DisabledStatus[receipt.category].productName}
-                                onChange={(e)=>!(!!receipt.stockId) && receiptHandler({productName:e.target.value}, receipt.receiptId)}
-                                onKeyDown={(e)=>searchStockHandler(e, receipt.receiptId)}/></td>
+                                placeholder={ReceiptCategoryEnum[receipt.category] ==='관리비' ? '관리비명':'품명'}
+                                className={ReceiptCategoryEnum[receipt.category] ==='관리비' ? '' : (DisabledStatus[receipt.category].productName ? 'disabled' : '')}
+                                value={ReceiptCategoryEnum[receipt.category] ==='관리비' ? receipt.officialName :(receipt.productName || '') + (receipt.modelName && ` ${receipt.modelName}`)}
+                                readOnly={ReceiptCategoryEnum[receipt.category] ==='관리비' ? false : DisabledStatus[receipt.category].productName}
+                                onChange={(e)=>{
+                                    ReceiptCategoryEnum[receipt.category] ==='관리비' ?
+                                      !(!!receipt.officialId) && receiptHandler({officialName:e.target.value}, receipt.receiptId) :
+                                      !(!!receipt.stockId) && receiptHandler({productName:e.target.value}, receipt.receiptId)}
+                                }
+                                onKeyDown={(e)=>{
+                                    ReceiptCategoryEnum[receipt.category] ==='관리비' ?
+                                    searchOfficialHandler(e, receipt.receiptId) :
+                                    searchStockHandler(e, receipt.receiptId)}
+                                }/></td>
                         <td><input type="text"
                                 className={DisabledStatus[receipt.category].quantity ? 'disabled' : 'number-input'}
                                 placeholder='수 량'

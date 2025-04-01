@@ -3,10 +3,10 @@ import {useState, useRef} from "react";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { deleteOfficialApi, saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/officialApi";
-import { Official } from "@/model/types/sales/receipt/type";
+import { ResponseOfficial } from "@/model/types/sales/official/type";
 
-export default function useOfficial(InitialOfficial:Official[]){
-    const [officialState, setOfficialState] = useState<Official[]>(InitialOfficial)
+export default function useOfficial(InitialOfficial:ResponseOfficial[]){
+    const [officialState, setOfficialState] = useState<ResponseOfficial[]>(InitialOfficial)
     const [mode, setMode] = useState(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -52,7 +52,7 @@ export default function useOfficial(InitialOfficial:Official[]){
         }
     }
 
-    const deleteHandler=(official:Official)=>{
+    const deleteHandler=(official:ResponseOfficial)=>{
         const deleteRequest = ()=>{
             deleteOfficialApi(official).then((status)=>{
                 if(status === 200){
