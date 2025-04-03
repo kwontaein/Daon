@@ -58,7 +58,7 @@ export default function LedgerStockSearch(){
                 <thead>
                     <tr>
                         <td colSpan={2} className="table-title">
-                            거래처 구분 
+                            검색옵션
                         </td>
                     </tr>
                 </thead>
