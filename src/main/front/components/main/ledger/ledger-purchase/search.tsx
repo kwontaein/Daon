@@ -46,10 +46,6 @@ export default function LedgerPurchaseSearch({stockCates}:{stockCates:StockCate[
     const searchStockHandler = useSearchStock(checkStockId, changeStockHandler);
 
     const submitHandler =() => {
-        if(!state.customerId){
-            window.alert('거래처를 선택해주세요')
-            return
-        }
         const formData = new FormData(formRef.current);
         formData.set('action', 'purchase');
         startTransition(() => {

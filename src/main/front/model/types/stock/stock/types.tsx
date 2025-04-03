@@ -22,6 +22,20 @@ export interface ResponseStock {
     inPrice: number;
     outPrice: number;
     modelName?: string;
+    category?: StockCate;
+    taxation?: TaxationCate;
+    note?: string;
+    stockUseEa: boolean;//재고관리여부
+    compatibleModel?: string;
+  }
+  
+export interface RequestStock {
+    stockId: string;
+    productName: string;
+    quantity?: number;
+    inPrice?: number;
+    outPrice: number;
+    modelName: string;
     category?: string;
     taxation?: TaxationCate;
     note?: string;
