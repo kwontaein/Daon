@@ -15,25 +15,11 @@ export default function StockForm({stockCate, mode, stock} : {
     mode: 'write' | 'edit' | 'detail',
     stock?: ResponseStock
 }) {
-    const [state, action, isPending] = useActionState(StockFormAction,{mode: stock? mode: 'write', stockUseEa:true})
+    const [state, action, isPending] = useActionState(StockFormAction,{...stock,mode: stock? mode: 'write', stockUseEa:true})
     const formRef = useRef(null)
     const changeModeHandler = useChangeMode()
-    const [priceState, setPriceState] = useState({
-        inPrice:'',
-        outPrice:''
-    })
-
-    const changePriceHandler = useCallback((value:number, isInPrice:boolean)=>{
-        console.log(value)
-        if(isNaN(value)) return
-        setPriceState((prev)=>{
-            return {
-                ...prev,
-                ...(isInPrice ? {inPrice:String(value)} :{outPrice:String(value)})
-            }
-        })
-    },[])
     const submitHandler =() => {
+        if(isPending) return
         const formData = new FormData(formRef.current);
         formData.set('action', 'customer');
         startTransition(() => {
@@ -42,10 +28,19 @@ export default function StockForm({stockCate, mode, stock} : {
     }
     
     useEffect(()=>{
-        setPriceState({
-            inPrice:state.inPrice??'',
-            outPrice:state.outPrice??''
-        })
+        if(state.status){
+            if(state.status===200){
+                if(state.mode==='write'){
+                    window.alert('물품을 등록했습니다.')
+                    window.close()
+                }else{
+                    window.alert('물품을 수정했습니다.')
+                    changeModeHandler('detail')
+                } 
+            }else{
+                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
+        }
     },[state])
 
 
