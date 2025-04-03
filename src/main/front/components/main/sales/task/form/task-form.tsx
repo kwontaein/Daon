@@ -13,7 +13,7 @@ import taskRegisterAction from '@/features/sales/task/action/taskRegisterAction'
 import ErrorBox from '@/components/share/error-box/error-box';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import ActionTakenContent from '../action-taken/content';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useChangeMode from '@/hooks/share/useChangeMode';
 
 export default function TaskForm({employees, task, mode}:{employees:ResponseEmployee[],task?:ResponseTask, mode:'write'|'detail'|'edit'}){
     const initialTask = {
@@ -24,18 +24,8 @@ export default function TaskForm({employees, task, mode}:{employees:ResponseEmpl
     }
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS',...initialTask ,mode:mode})
     const formRef = useRef<HTMLFormElement|null>(null);
+    const changeModeHandler = useChangeMode()
 
-
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    const changeModeHandler = (mode) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("mode", mode);
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`);
-    };
 
 
     const checkCustomerName = () => !!state.customerId

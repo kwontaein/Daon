@@ -15,7 +15,7 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useChangeMode from '@/hooks/share/useChangeMode';
 
 export default function RegisterEstimate({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
@@ -38,17 +38,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
     const initialCompany = estimate ? companyList.find(({companyId})=>companyId === estimate.company.companyId): companyList[0] 
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
-
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    const changeDetailHandler = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("mode", "detail");
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`);
-    };
+    const changeModeHandler = useChangeMode()
 
 
 
@@ -94,7 +84,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                 if(state.mode==='edit'){
                     setTimeout(()=>{
                         window.alert('견적서를 수정했습니다.')
-                        changeDetailHandler();
+                        changeModeHandler('detail');
                     },100)
                 }else{
                     window.alert('견적서를 등록했습니다.')
