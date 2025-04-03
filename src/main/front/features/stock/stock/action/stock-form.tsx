@@ -61,12 +61,14 @@ export default async function stockFormAction(prevState,formData){
     })) as Omit<ResponseStock,'stockId'>
 
     if(action==='submit'){
+        console.log(postData)
         let status;
         if(prevState.mode==='write'){
             status = await saveStockApi(postData);
         }else{
             status = await updateStockApi({...postData, stockId:prevState.stockId})
         }
+        console.log(status)
         return{
             ...prevState,
             ...formState,
