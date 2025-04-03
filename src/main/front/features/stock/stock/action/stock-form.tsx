@@ -4,7 +4,7 @@ import { saveStockApi, updateStockApi } from "../api/stockFormApi";
 import { text } from "@fortawesome/fontawesome-svg-core";
 
 
-function isInvalidText(text) {
+function isInvalidText(text:string) {
     return !text || text.trim() === '';
   }
 export default async function stockFormAction(prevState,formData){
@@ -50,12 +50,12 @@ export default async function stockFormAction(prevState,formData){
 
     const action = formData.get('action')
 
-    const postData = Object.fromEntries(Object.entries(formData).map(([key,value])=>{
+    const postData = Object.fromEntries(Object.entries(formState).map(([key,value])=>{
+        if(value==='none' || isInvalidText(value+'')|| value===null){
+            return [key, null]
+        }
         if(key.includes('Price')|| key==='quantity'){
             return [key, (value as string).replace(/,/g, "")]
-        }
-        if(value==='none' || isInvalidText(text)){
-            return [key, null]
         }
         else return [key,value]
     })) as Omit<ResponseStock,'stockId'>
@@ -68,7 +68,6 @@ export default async function stockFormAction(prevState,formData){
         }else{
             status = await updateStockApi({...postData, stockId:prevState.stockId})
         }
-        console.log(status)
         return{
             ...prevState,
             ...formState,
