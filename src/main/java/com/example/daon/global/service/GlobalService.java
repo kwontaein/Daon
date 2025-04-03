@@ -214,7 +214,7 @@ public class GlobalService {
                 .taxation(stock.getTaxation())
                 .note(stock.getNote())
                 .stockUseEa(stock.isStockUseEa())
-                .keyWord(stock.getKeyWord())
+                .compatibleModel(stock.getCompatibleModel())
                 .build();
     }
 
