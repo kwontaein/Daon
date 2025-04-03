@@ -5,7 +5,7 @@ import '@/styles/form-style/form.scss';
 import { StockCate } from "@/model/types/stock/cate/type";
 import { ResponseStock, TaxationCate } from "@/model/types/stock/stock/types";
 import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from "react";
-import StockFormAction from "@/features/stock/stock/action/stock-form";
+import stockFormAction from "@/features/stock/stock/action/stock-form";
 import useChangeMode from "@/hooks/share/useChangeMode";
 import CustomNumberInput from "@/components/share/custom-number-input/page";
 import ErrorBox from "@/components/share/error-box/error-box";
@@ -15,7 +15,7 @@ export default function StockForm({stockCate, mode, stock} : {
     mode: 'write' | 'edit' | 'detail',
     stock?: ResponseStock
 }) {
-    const [state, action, isPending] = useActionState(StockFormAction,{...stock,mode: stock? mode: 'write', stockUseEa:true})
+    const [state, action, isPending] = useActionState(stockFormAction,{...stock,mode: stock? mode: 'write', stockUseEa:true})
     const formRef = useRef(null)
     const changeModeHandler = useChangeMode()
 
@@ -120,7 +120,7 @@ export default function StockForm({stockCate, mode, stock} : {
                         <tr>
                             <td className="table-label">입고가</td>
                             <td>
-                                <CustomNumberInput name='inPirce' defaultValue={state.inPirce} key={state.inPirce}/>
+                                <CustomNumberInput name='inPrice' defaultValue={state.inPrice} key={state.inPrice}/>
                             </td>                            
                             <td className="table-label">출고가</td>
                             <td>
