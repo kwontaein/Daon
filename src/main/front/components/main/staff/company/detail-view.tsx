@@ -1,20 +1,10 @@
 "use client";
 import './form/company-form.scss'
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ResponseCompany } from "@/model/types/staff/company/type";
+import useChangeMode from '@/hooks/share/useChangeMode';
 
 export default function CompanyDetail({company}:{company:ResponseCompany}){
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-  
-  
-    const editModeHandler = () => {
-      const params = new URLSearchParams(searchParams.toString()); 
-        params.set("mode", "edit"); 
-    // 기존 pathname 유지
-      router.push(`${pathname}?${params.toString()}`); 
-    };
+    const changeModeHandler = useChangeMode()
 
     return(
         <section className="company-form-container">
@@ -90,7 +80,7 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
             </table>
             <div className="button-container">
                 <button onClick={()=>window.print()}>인쇄</button>
-                <button onClick={editModeHandler}>수정</button>
+                <button onClick={()=>changeModeHandler('edit')}>수정</button>
                 <button>삭제</button>
                 <button onClick={()=>window.close()}>창닫기</button>
             </div>
