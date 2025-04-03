@@ -5,7 +5,7 @@ export async function saveStockApi(stock: Omit<ResponseStock,'stockId'>) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getStockList", {
+    return await fetch("http://localhost:8080/api/saveStock", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
