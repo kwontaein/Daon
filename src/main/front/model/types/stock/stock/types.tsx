@@ -22,17 +22,16 @@ export interface ResponseStock {
     inPrice: number;
     outPrice: number;
     modelName?: string;
-    category?: StockCate;
+    category?: string;
     taxation?: TaxationCate;
     note?: string;
-    stockUseEa: boolean;
-    keyWord?: string;
+    stockUseEa: boolean;//재고관리여부
+    compatibleModel?: string;
   }
   
-  enum TaxationCate {
-    EXEMPTION = "비과세",
+ export enum TaxationCate {
     TAXATION = "과세",
-    ZEROTAX = "영세",
-    MC = "관리비",
+    EXEMPTION = "면세",
     ETC = "예비",
+    ZEROTAX = "영세",
   }
