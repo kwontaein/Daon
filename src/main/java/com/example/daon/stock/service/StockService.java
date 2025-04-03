@@ -67,26 +67,6 @@ public class StockService {
         return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
     }
 
-    //관리비 목록 불러오기
-    public List<StockResponse> getMCList(StockRequest stockRequest) {
-        List<StockEntity> stockEntities = stockRepository.findAll((root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            // 분류가 관리비인 것만 검색
-            StockCate stockCate = stockCateRepository.findByStockCateName("관리비").orElse(null);
-            predicates.add(criteriaBuilder.notEqual(root.get("category"), stockCate));
-
-            // 이름 (name) 검색
-            if (stockRequest.getProductName() != null && !stockRequest.getProductName().trim().isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("productName"), stockRequest.getProductName()));
-            }
-
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        });
-
-        return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
-    }
-
 
     // 생성
     @Transactional
@@ -95,6 +75,7 @@ public class StockService {
         StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
 
+        System.out.println("실행 stock 저장 : " + stockRequest);
         // 새로 생성
         StockEntity stock = stockRepository.save(stockRequest.toEntity(stockCate));
         stockRequest.setStockId(stock.getStockId());
