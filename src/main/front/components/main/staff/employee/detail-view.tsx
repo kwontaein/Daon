@@ -6,14 +6,13 @@ import { useState } from "react";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { EmployeeClassMap, UserGrade } from "@/model/constants/employee/employee-info-map";
 import dayjs from "dayjs";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useChangeMode from "@/hooks/share/useChangeMode";
 
 export default function EmployeeDetailView({employee}:{employee:ResponseEmployee}){
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const changeModeHandler = useChangeMode()
+
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]; // 사용자가 선택한 파일 가져오기
@@ -25,13 +24,7 @@ export default function EmployeeDetailView({employee}:{employee:ResponseEmployee
     };
 
       
-    const editModeHandler = () => {
-        const params = new URLSearchParams(searchParams.toString()); 
-          params.set("mode", "edit"); 
-      // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
-      };
-    
+
     return(
         <section className="register-form-container">
             <table className="register-form-table">
@@ -143,7 +136,7 @@ export default function EmployeeDetailView({employee}:{employee:ResponseEmployee
             </tbody>
         </table>
         <div className="button-container">
-        <button onClick={editModeHandler}>수정</button>
+        <button onClick={()=>changeModeHandler('edit')}>수정</button>
         <button onClick={()=>window.close()}>창닫기</button>
       </div>
     </section>
