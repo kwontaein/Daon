@@ -1,13 +1,13 @@
 import {v4 as uuidv4} from "uuid";
 import { ResponseStock } from "@/model/types/stock/stock/types";
-import { saveStockApi } from "../api/stockFormApi";
+import { saveStockApi, updateStockApi } from "../api/stockFormApi";
 import { text } from "@fortawesome/fontawesome-svg-core";
 
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
   }
-export default async function StockFormAction(prevState,formData){
+export default async function stockFormAction(prevState,formData){
     const formState:Omit<ResponseStock,'stockId'>= {
         productName: formData.get('productName'),
         quantity: formData.get('quantity'),
@@ -61,13 +61,19 @@ export default async function StockFormAction(prevState,formData){
     })) as Omit<ResponseStock,'stockId'>
 
     if(action==='submit'){
-        const status = await saveStockApi(postData);
+        let status;
+        if(prevState.mode==='write'){
+            status = await saveStockApi(postData);
+        }else{
+            status = await updateStockApi({...postData, stockId:prevState.stockId})
+        }
         return{
             ...prevState,
             ...formState,
             status
         }
     }
+    delete prevState.status;
 
     return{
         ...prevState,
