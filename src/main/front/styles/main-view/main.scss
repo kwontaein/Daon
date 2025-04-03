@@ -1,19 +1,22 @@
 .main-view-container{
     width:calc(100% - 15rem);
     height: fit-content;
+    position :relative;
+    margin-inline: 1rem;
+    font-size: 1rem;
 
     @media (max-width: 620px){
         width: 100%;
     }
-
-    margin-inline: 1rem;
-    font-size: 1rem;
+    @media (min-width:620px){
+        margin-left: 14rem;
+    }
 }
 
 .main-layout-wrapper{
     width: 100%;
     display: flex;
-
+    position :relative;
     flex-direction: row;
     padding-block: 1.5rem;
     padding-top: 70px;
