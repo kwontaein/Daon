@@ -32,7 +32,7 @@ public class StockEntity {
     @Column(nullable = false, name = "quantity")
     private int quantity; // 재고 갯수
 
-    @Column(nullable = false, name = "in_price")
+    @Column(name = "in_price")
     private BigDecimal inPrice; // 품목 입고 가격
 
     @Column(nullable = false, name = "out_price")
