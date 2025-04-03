@@ -57,9 +57,9 @@ public class StockEntity {
     @Column(name = "stock_use_ea")
     private boolean stockUseEa;
 
-    //키워드
-    @Column(name = "key_word")
-    private String keyWord;
+    //호환기종
+    @Column(name = "compatible_model")
+    private String compatibleModel;
 
     public void updateFromRequest(StockRequest request, StockCate category) {
 
@@ -72,6 +72,6 @@ public class StockEntity {
         this.taxation = request.getTaxation();
         this.note = request.getNote();
         this.stockUseEa = request.isStockUseEa();
-        this.keyWord = request.getKeyWord();
+        this.compatibleModel = request.getCompatibleModel();
     }
 }
