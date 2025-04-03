@@ -18,6 +18,7 @@ import StockOptions from './options';
 const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock[]})=>{
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
 
+    console.log(pageByStocks)
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
     const stockIdList = pageByStocks.map(({stockId})=> stockId)
@@ -33,7 +34,7 @@ const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock
                         <col style={{ width: '25%' }} />
                         <col style={{ width: '11%' }} />
                         <col style={{ width: '11%' }} />
-                        <col style={{ width: '3%', minWidth: '32px' }} />
+                        <col style={{ width: '3%', minWidth: '34px'}} />
                 </colgroup>
                 <thead>
                     <tr>
