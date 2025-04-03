@@ -32,7 +32,7 @@ public class StockRequest {
 
     private boolean stockUseEa;  //재고관리여부
 
-    private String keyWord;  //키워드
+    private String compatibleModel;  //키워드
 
     private boolean condition; //조건부 검색 여부
 
@@ -55,7 +55,7 @@ public class StockRequest {
                 .taxation(taxation)
                 .note(note)
                 .stockUseEa(stockUseEa)
-                .keyWord(keyWord)
+                .compatibleModel(compatibleModel)
                 .build();
     }
 }

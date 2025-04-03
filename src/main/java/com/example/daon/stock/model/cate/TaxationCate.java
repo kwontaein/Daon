@@ -13,7 +13,6 @@ public enum TaxationCate {
     EXEMPTION("비과세"),
     TAXATION("과세"),
     ZEROTAX("영세"),
-    MC("관리비"),
     ETC("예비");
 
     private final String cate;
