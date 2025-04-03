@@ -36,7 +36,7 @@ public class StockResponse {
 
     private boolean stockUseEa;  //재고관리여부
 
-    private String keyWord;  //키워드
+    private String compatibleModel;  //키워드
 
     private StockCateResponse stockCate;
 }
