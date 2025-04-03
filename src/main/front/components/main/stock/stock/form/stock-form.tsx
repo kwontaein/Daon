@@ -18,10 +18,11 @@ export default function StockForm({stockCate, mode, stock} : {
     const [state, action, isPending] = useActionState(StockFormAction,{...stock,mode: stock? mode: 'write', stockUseEa:true})
     const formRef = useRef(null)
     const changeModeHandler = useChangeMode()
+
     const submitHandler =() => {
         if(isPending) return
         const formData = new FormData(formRef.current);
-        formData.set('action', 'customer');
+        formData.set('action', 'submit');
         startTransition(() => {
             action(formData);
         });
@@ -32,7 +33,7 @@ export default function StockForm({stockCate, mode, stock} : {
             if(state.status===200){
                 if(state.mode==='write'){
                     window.alert('물품을 등록했습니다.')
-                    window.close()
+                    // window.close()
                 }else{
                     window.alert('물품을 수정했습니다.')
                     changeModeHandler('detail')
