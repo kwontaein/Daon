@@ -6,23 +6,26 @@ export default async function remainSearchAction(prevState,formData){
         customerCate: formData.get('customerCate'),
         customerName: formData.get('customerName'),
         customerId:formData.get('customerId'),
-        searchSDate: formData.get('searchSDate'),
-        searchEDate: formData.get('searchEDate'),
+        searchSDate: new Date(formData.get('searchSDate')),
+        searchEDate: new Date(formData.get('searchEDate')),
         condition:formData.get('condition'),
     }
 
     const action = formData.get('action')
+    
     if(action==='submit'){
         const saerchResult = await getNoPaidApi(formState)
         return{
             ...prevState,
             ...formState,
-            saerchResult
+            saerchResult,
+            sortCondition: formData.get('sortCondition')
         }
     }
 
     return {
         ...prevState,
-        ...formState
+        ...formState,
+        sortCondition: formData.get('sortCondition')
     }
 }

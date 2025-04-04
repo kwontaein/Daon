@@ -2,7 +2,7 @@ import { RequestRemain } from "@/model/types/sales/remain/type";
 
 export const getNoPaidApi = async(searchCondition:RequestRemain)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/getNopaid", {
+        const response = await fetch("http://localhost:8080/api/getNoPaid", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),

@@ -18,7 +18,6 @@ import StockOptions from './options';
 const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock[]})=>{
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
 
-    console.log(pageByStocks)
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
     const stockIdList = pageByStocks.map(({stockId})=> stockId)
