@@ -60,3 +60,9 @@ interface User{
     stockId?:string; //품명
     task:boolean
   }
+
+  export interface EstimateRegisterProps{
+    searchParams:Promise<{
+      taskId?:string,
+    }>
+  }

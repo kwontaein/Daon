@@ -3,14 +3,13 @@ import './search-result.scss'
 
 import React, { useCallback, useMemo } from 'react'
 
-import { ResponseTask } from '@/model/types/sales/task/type'
+import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type'
 import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useWindowSize } from '@/hooks/share/useWindowSize'
 import { apiUrl } from '@/model/constants/apiUrl'
-import { taskTypeMap } from '@/model/constants/sales/task/taskTypeMap'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} : {
     pageByTasks: ResponseTask[],
@@ -61,6 +60,8 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
             window.open(url, "PopupWindow", popupOptions);
         }
     }
+
+    //업무처리 상태 Handler
     const taskActionTakenHandler = (taskId:string)=>{
         if(window.innerWidth>620){
             const params = new URLSearchParams
@@ -146,7 +147,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             onChange={()=>update_checked(task.taskId)}/></td>
                                     <td rowSpan={size.width>900? 1:2}>
                                         <div className='row-flex'>
-                                            <p>{taskTypeMap[task.taskType]}</p>
+                                            <p>{TaskEnumType[task.taskType]}</p>
                                             <p>[{task.assignedUser.name}]</p>
                                         </div>
                                     </td>

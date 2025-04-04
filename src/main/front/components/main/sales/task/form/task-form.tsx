@@ -15,7 +15,11 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import ActionTakenContent from '../action-taken/content';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
-export default function TaskForm({employees, task, mode}:{employees:ResponseEmployee[],task?:ResponseTask, mode:'write'|'detail'|'edit'}){
+export default function TaskForm({employees, task, mode} : {
+    employees: ResponseEmployee[],
+    task?: ResponseTask,
+    mode: 'write' | 'detail' | 'edit'
+}) {
     const initialTask = {
         ...task,
         customer: task.customer.customerName,
