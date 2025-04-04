@@ -110,7 +110,6 @@ export default function RemainSearch(){
                     <td className='table-label'>거래처명</td>
                         <td>
                             <input type='text' 
-                                   className='short-input'
                                    name='customerName' 
                                    defaultValue={state.customerName??''} 
                                    key={state.customerName}
