@@ -66,6 +66,5 @@ public class LedgerController {
     @PostMapping("api/getNoPaid")
     public List<NoPaidResponse> getNoPaid(@RequestBody NoPaidRequest noPaidRequest) {
         return ledgerService.getCategorySumByCustomer(noPaidRequest);
-
     }
 }
