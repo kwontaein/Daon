@@ -23,6 +23,7 @@ public class EstimateResponse {
     private UUID companyId;
     private UUID taskId;
     private boolean receipted;
+    private LocalDateTime receiptDate;
     private LocalDateTime estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemResponse> items;

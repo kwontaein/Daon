@@ -6,6 +6,7 @@ import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
+import com.example.daon.ledger.dto.request.NoPaidRequest;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -212,9 +212,6 @@ public class LedgerService {
         return stockRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            if (ledgerRequest.getAffiliationId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("category"), ledgerRequest.getStockCate()));
-            }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -227,32 +224,6 @@ public class LedgerService {
     }
 
 
-    //미수미지급
-    public List<NoPaidResponse> getNoPaid(LedgerRequest ledgerRequest) {
-        // 1) JPA Repository의 findAll 메서드를 이용하여 동적 쿼리를 구성
-        List<ReceiptEntity> receipts = receiptRepository.findAll((root, query, criteriaBuilder) -> {
-            // 조건문 사용을 위한 객체
-            List<Predicate> predicates = new ArrayList<>();
-
-            // ledgerRequest에 따른 조건을 predicates에 추가(날짜, 거래처, 금액 범위 등)
-            addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
-
-            // 기간 포함 검색 (startDate ~ endDate 조건 추가)
-            if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
-            }
-
-            // 전표 선택 옵션 추가
-            addCategoryPredicates(ledgerRequest, criteriaBuilder, root, predicates);
-
-            // 조합된 조건(Predicate 배열)을 반환하여 동적 쿼리 생성
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        });
-
-        // 3) 변환된 결과를 반환
-        return receipts.stream().map(globalService::convertToNoPaidResponse).collect(Collectors.toList());
-    }
-
     public static Specification<ReceiptEntity> betweenTimeStamp(LocalDateTime start, LocalDateTime end) {
         return (root, query, cb) -> cb.between(root.get("timeStamp"), start, end);
     }
@@ -261,9 +232,10 @@ public class LedgerService {
      * 특정 기간 사이의 전표 중,
      * 거래처별로 카테고리1~6 totalPrice 합계를 구하여 반환.
      * 전기이월? -> 그 이전까지의 값 계산...?
+     *
+     * @return
      */
-    public void getCategorySumByCustomer(LocalDateTime start, LocalDateTime end) {
-//++--+-+
+    public List<NoPaidResponse> getCategorySumByCustomer(NoPaidRequest noPaidRequest) {
         // 1) CriteriaBuilder, CriteriaQuery, Root 준비
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<NoPaidResponse> cq = cb.createQuery(NoPaidResponse.class);
@@ -271,57 +243,86 @@ public class LedgerService {
 
         // 2) 동적 조건(where) Spec과 결합
         //    스펙은 Predicate를 리턴하므로, 이것을 쿼리에 적용
-        Specification<ReceiptEntity> spec = betweenTimeStamp(start, end);
+        Specification<ReceiptEntity> spec = betweenTimeStamp(noPaidRequest.getSearchSDate(), noPaidRequest.getSearchEDate());
+
+        // 고객 이름 조건 추가
+        if (noPaidRequest.getCustomerId() != null) {
+            spec = spec.and((root1, query, cb1) ->
+                    cb1.equal(root1.get("customer").get("customerId"), noPaidRequest.getCustomerId())
+            );
+        }
+
         Predicate specPredicate = spec.toPredicate(root, cq, cb);
 
+
         // 3) 카테고리별 CASE WHEN sum(...) Expression들 정의
+
+        //매출
         Expression<Integer> sales = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.SALES), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //출금
         Expression<Integer> deposit = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.DEPOSIT), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //매입
         Expression<Integer> purchase = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.PURCHASE), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //입금
         Expression<Integer> withdrawal = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.WITHDRAWAL), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //매출할인
         Expression<Integer> salesDC = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.SALES_DISCOUNT), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //매입할인
         Expression<Integer> purchaseDC = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.PURCHASE_DISCOUNT), root.get("totalPrice"))
                         .otherwise(0)
         );
+        //관리비
         Expression<Integer> official = cb.sum(
                 cb.<Integer>selectCase()
                         .when(cb.equal(root.get("category"), ReceiptCategory.MAINTENANCE_FEE), root.get("totalPrice"))
                         .otherwise(0)
         );
 
+
+        //+전기이월 +매출액 -수금액 -매입액 +지급액 -매출할인액 +매입할인액 잔액
+        Expression<Integer> currentBalance = cb.sum(sales, deposit);            // 매출 + 출금
+        currentBalance = cb.diff(currentBalance, purchase);                              // (매출 + 출금) - 매입
+        currentBalance = cb.diff(currentBalance, withdrawal);                            // (매출 + 출금 - 매입) - 입금
+        currentBalance = cb.sum(currentBalance, salesDC);                                // (매출 + 출금 - 매입 - 입금) + 매출할인
+        currentBalance = cb.diff(currentBalance, purchaseDC);                            // (매출 + 출금 - 매입 - 입금 + 매출할인) - 매입할인
+        currentBalance = cb.sum(currentBalance, official);                               // (매출 + 출금 - 매입 - 입금 + 매출할인 - 매입할인) + 관리비
+        currentBalance = cb.sum(currentBalance, root.get("customer").get("remainCost"));   // (매출 + 출금 - 매입 - 입금 + 매출할인 - 매입할인) + 관리비 + 전기이월
+
         // 4) multiselect로 '거래처이름' + '카테고리별 합산'
         //    별도 DTO에 매핑
         cq.multiselect(
                 root.get("customer").get("customerName"), // or customerCode, etc
+                root.get("customer").get("remainCost"), //전기이월
                 sales,
                 deposit,
                 purchase,
                 withdrawal,
                 salesDC,
                 purchaseDC,
-                official
+                official,
+                currentBalance
         );
 
         // 5) where, groupBy, orderBy 등 설정
@@ -331,7 +332,7 @@ public class LedgerService {
 
         // 6) 최종 쿼리 실행
         System.out.println(em.createQuery(cq).getResultList());
-        //return em.createQuery(cq).getResultList();
+        return em.createQuery(cq).getResultList();
     }
 
 }
