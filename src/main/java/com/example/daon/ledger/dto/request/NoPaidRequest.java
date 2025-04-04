@@ -1,5 +1,6 @@
 package com.example.daon.ledger.dto.request;
 
+import com.example.daon.customer.model.CustomerCate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.*;
 
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
 @Builder
 public class NoPaidRequest {
     private UUID customerId;
+
+    private CustomerCate customerCate;
 
     //상호명
     private String customerName;
