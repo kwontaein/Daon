@@ -28,10 +28,10 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
 
     return(
         <section className='estimate-container'>
-            {!(!!task?.completeAt)&& (mode ==='write' || mode==='edit') &&
+            {!(!!task?.completeAt)&& (mode !=='detail') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
-                {!(!!task || estimateState.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
+                {!(!!task || estimateState?.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
                 <button type='button' onClick={()=>removeEstimateItemHandler(checkedState, resetChecked)}>체 크 삭 제</button>
             </div>
             }
@@ -73,7 +73,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                                 <input
                                     name='productName'
                                     value={estimate.productName}
-                                    onChange={(e) => !(!!estimate.stockId) &&
+                                    onChange={(e) => (!(!!estimate.stockId) ||estimate.hand) &&
                                         estimateItemHandler({ productName: e.target.value }, estimate.itemId)}
                                     onKeyDown={(e) =>
                                         !estimate.hand && searchStockHandler(e, estimate.itemId)}
