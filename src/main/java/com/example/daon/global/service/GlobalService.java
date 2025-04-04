@@ -146,7 +146,7 @@ public class GlobalService {
                 .estimateId(estimate.getEstimateId())
                 .company(convertToCompanyResponse(estimate.getCompany()))
                 .assignedUser(estimate.getUser().getName())
-                .receipted(estimate.isReceipted())
+                .receiptDate(estimate.getReceiptDate())
                 .totalAmount(estimate.getTotalAmount())
                 .estimateDate(estimate.getEstimateDate())
                 .userId(estimate.getTask() != null ? estimate.getTask().getAssignedUser().getUserId() : null)
@@ -258,4 +258,5 @@ public class GlobalService {
                 .builder()
                 .build();
     }
+
 }

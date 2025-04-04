@@ -17,17 +17,19 @@ public class NoPaidResponse {
     //전기이월
     private BigDecimal previousBalance;
     //매출액
-    private BigDecimal salesAmount;
+    private BigDecimal sales;
     //수금액
-    private BigDecimal collectionAmount;
+    private BigDecimal deposit;
     //매입액
-    private BigDecimal purchaseAmount;
+    private BigDecimal purchase;
     //지급액
-    private BigDecimal paymentAmount;
+    private BigDecimal withdrawal;
     //매출할인액
-    private BigDecimal salesDiscount;
+    private BigDecimal salesDC;
     //매입할인액
-    private BigDecimal purchaseDiscount;
+    private BigDecimal purchaseDC;
+    //관리비
+    private BigDecimal official;
     //잔액
-    //private BigDecimal currentBalance;
+    private BigDecimal currentBalance;
 }
