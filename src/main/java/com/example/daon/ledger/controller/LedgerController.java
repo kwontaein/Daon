@@ -1,6 +1,7 @@
 package com.example.daon.ledger.controller;
 
 import com.example.daon.ledger.dto.request.LedgerRequest;
+import com.example.daon.ledger.dto.request.NoPaidRequest;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.ledger.service.LedgerService;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -61,10 +62,10 @@ public class LedgerController {
         return ledgerService.getExtraLedger(ledgerRequest);
     }
 
-    //기타
+    //미수미지급
     @PostMapping("api/getNoPaid")
-    public List<NoPaidResponse> getNoPaid(@RequestBody LedgerRequest ledgerRequest) {
-        ledgerService.getCategorySumByCustomer(ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate());
-        return ledgerService.getNoPaid(ledgerRequest);
+    public List<NoPaidResponse> getNoPaid(@RequestBody NoPaidRequest noPaidRequest) {
+        return ledgerService.getCategorySumByCustomer(noPaidRequest);
+
     }
 }
