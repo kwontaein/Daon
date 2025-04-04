@@ -16,7 +16,7 @@ export default function RemainSearch(){
         sortCondition:'customer',
         condition:'ALL',
     }
-    const [state,action,isPending] = useActionState(remainSearchAction,{searchSDate:new Date(Date.now()), searchEDate:new Date(Date.now())})
+    const [state,action,isPending] = useActionState(remainSearchAction,initailRemainSearch)
     const formRef = useRef(null)
     const [remainList, setRemainList] = useState<ResponseRemain[]>([])
 
@@ -43,7 +43,7 @@ export default function RemainSearch(){
     
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
-        formData.set('action', 'customer');
+        formData.set('action', 'submit');
         startTransition(() => {
             action(formData);
         });
@@ -59,6 +59,7 @@ export default function RemainSearch(){
                     return a[state.sortCondition] - b[state.sortCondition] 
                 }
             })   
+            console.log(sortedResult)
             setRemainList(prev => ({ ...prev,... sortedResult }));
         }
     },[state])
@@ -148,7 +149,7 @@ export default function RemainSearch(){
                             <div>
                             {Object.entries(RemianSearchCondition).map(([key,value])=>(
                                 <label key={key}>
-                                    <input type='radio' value={key} name='condtion' defaultChecked={state.condition ===key}/>{value}
+                                    <input type='radio' value={key} name='condition' defaultChecked={state.condition ===key}/>{value}
                                 </label>
                             ))}
                             </div>

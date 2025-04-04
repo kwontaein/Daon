@@ -24,7 +24,7 @@ export interface ResponseRemain {
     customerCate:CustomerCateEnum
     customerName: string;/** 상호명 */
     customerId:string;
-    searchSDate: string; 
-    searchEDate: string;
+    searchSDate: Date; 
+    searchEDate: Date;
     condition: RemianSearchCondition;    /** 포함조건 */
   }
