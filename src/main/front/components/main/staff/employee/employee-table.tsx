@@ -13,8 +13,7 @@ import { useItemSelection } from "@/hooks/share/useItemSelection";
 import Pagination from "@/components/share/pagination";
 import EmployeeOptions from "./employee-options";
 
-import {  EmployeeClassMap } from "@/model/constants/employee/employee-info-map";
-import { ResponseEmployee } from "@/model/types/staff/employee/type";
+import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employee/type";
 import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 
@@ -104,7 +103,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                         <tr key={employee.userId} ref={(el)=> {itemsRef.current[employee.userId] = el}} className={target === employee.userId ?'is-click' :''}>
                             <td>{employee.name}</td>
                             <td>{employee.dept.deptName}</td>
-                            <td>{EmployeeClassMap[employee.userClass]}</td>
+                            <td>{EmployeeClassEnum[employee.userClass]}</td>
                             <td>{employee.engName}</td>
                             <td>{employee.tel}</td>
                             {size.width>720 &&<td>{employee.phone}</td>}

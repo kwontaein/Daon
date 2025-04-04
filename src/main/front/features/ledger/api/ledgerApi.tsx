@@ -3,7 +3,6 @@ import { LedgerSearchCondition } from "@/model/types/ledger/type";
 
 //거래처별원장
 export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition){
-    console.log(searchCondition)
     try {
         const response = await fetch("http://localhost:8080/api/getLedgers", {
             method: "POST",

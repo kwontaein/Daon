@@ -26,7 +26,7 @@ export async function getTaskApi(taskId:string){
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    if(!taskId.trim()) return {}
+    if(!taskId.trim()) return null
     return fetch("http://localhost:8080/api/getTask", {
         method:'POST',
         headers: {
