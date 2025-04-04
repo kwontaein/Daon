@@ -1,14 +1,13 @@
 import {v4 as uuidv4} from "uuid";
-import { ResponseStock } from "@/model/types/stock/stock/types";
+import { RequestStock } from "@/model/types/stock/stock/types";
 import { saveStockApi, updateStockApi } from "../api/stockFormApi";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
 
 function isInvalidText(text:string) {
     return !text || text.trim() === '';
   }
 export default async function stockFormAction(prevState,formData){
-    const formState:Omit<ResponseStock,'stockId'>= {
+    const formState:Omit<RequestStock,'stockId'>= {
         productName: formData.get('productName'),
         quantity: formData.get('quantity'),
         inPrice: formData.get('inPrice'),
@@ -58,7 +57,7 @@ export default async function stockFormAction(prevState,formData){
             return [key, (value as string).replace(/,/g, "")]
         }
         else return [key,value]
-    })) as Omit<ResponseStock,'stockId'>
+    })) as Omit<RequestStock,'stockId'>
 
     if(action==='submit'){
         console.log(postData)

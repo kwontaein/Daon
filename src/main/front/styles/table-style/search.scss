@@ -15,7 +15,7 @@
         input{
             font-size: inherit;
             width: 100%;
-            max-width: 418px;
+            max-width: 280px;
             border-color: var.$input-border-color !important;
         }
         select{
@@ -79,7 +79,10 @@
         gap:5px;
         align-items: center;
         .custom-date-container{
-            max-width: 200px;
+            max-width: 130px;
+            @media(max-width:620px){
+                font-size: 0.95rem;
+            }
         }
     }
 
@@ -120,6 +123,10 @@
             display: block !important;
             justify-self: space-between;
             margin: auto;
+            @media(max-width:620px){
+                width: 5.5rem;
+                font-size: 0.9rem;
+            }
         }
     }
 }
@@ -128,9 +135,7 @@ input{
     padding: 2px;
 }
 
-.short-input{
-    max-width: 300px !important;
-}
+
 select{
     border-color: transparent;
     background-color: transparent !important;
