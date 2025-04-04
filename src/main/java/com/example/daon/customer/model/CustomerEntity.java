@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -130,6 +131,12 @@ public class CustomerEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+
+    //전기이월
+    @Column(name = "remain_cost")
+    private BigDecimal remainCost;
+
 
     @OneToOne
     private CustomerBillEntity customerBills;

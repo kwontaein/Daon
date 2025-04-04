@@ -2,6 +2,7 @@ package com.example.daon.receipts.controller;
 
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
+import com.example.daon.receipts.model.DailyTotalEntity;
 import com.example.daon.receipts.service.ReceiptsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +44,7 @@ public class ReceiptsController {
     }
 
     @PostMapping("api/getReceiptTotal")
-    public void getReceiptTotal(@RequestBody ReceiptRequest receiptRequest) {
-        receiptsService.getReceiptTotal(receiptRequest.getSearchSDate());
+    public DailyTotalEntity getReceiptTotal(@RequestBody ReceiptRequest receiptRequest) {
+        return receiptsService.getReceiptTotal(receiptRequest.getSearchSDate());
     }
 }

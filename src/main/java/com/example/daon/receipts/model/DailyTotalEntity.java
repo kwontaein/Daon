@@ -12,38 +12,49 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "date_total")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "receipt_date_total")
-public class ReceiptDateTotal {
+@NoArgsConstructor
+public class DailyTotalEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "total_id", columnDefinition = "BINARY(16)")
-    private UUID totalId; // 전표 아이디
+    @Column(nullable = false, unique = true, name = "date_total_id", columnDefinition = "BINARY(16)")
+    private UUID dateTotalId;
 
-    @Column(name = "reg_date")
-    private LocalDate regDate;
+    //전일잔고
+    @Column(name = "before_total")
+    private BigDecimal beforeTotal;
 
+    //날짜
+    @Column(name = "date")
+    private LocalDate date;
+
+    //매입
     @Column(name = "purchase")
     private BigDecimal purchase;
 
+    //매출
     @Column(name = "sales")
     private BigDecimal sales;
 
+    //입금
+    @Column(name = "withdrawal")
+    private BigDecimal withdrawal;
+
+    //출금
     @Column(name = "deposit")
     private BigDecimal deposit;
 
-    @Column(name = "WITHDRAWAL")
-    private BigDecimal WITHDRAWAL;
+    //경비
+    @Column(name = "official")
+    private BigDecimal official;
 
-    @Column(name = "fee")
-    private BigDecimal fee;
-
-    @Column(name = "totalAmount")
-    private BigDecimal totalAmount;
+    //현잔고
+    @Column(name = "remain_total")
+    private BigDecimal remainTotal;
 
 }
