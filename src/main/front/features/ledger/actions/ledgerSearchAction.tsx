@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { LedgerSearchCondition } from "@/model/types/ledger/type";
-import { getLedgerCustomerApi, getLedgerStockApi, getPurchaseReceiptApi, getSaleReceiptApi } from "../api/ledgerApi";
+import { getExtraLedgerApi, getFeeReceiptAoi, getLedgerCustomerApi, getLedgerStockApi, getPurchaseReceiptApi, getSaleReceiptApi, getStockSurveyApi } from "../api/ledgerApi";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -77,6 +77,12 @@ export async function ledgerSearchAction(prevState, formData){
             searchResult = await getSaleReceiptApi(postData)
         }else if(action==='purchase'){
             searchResult = await getPurchaseReceiptApi(postData)
+        }else if(action==='official'){
+            searchResult = await getFeeReceiptAoi(postData)
+        }else if(action==='stock-count'){
+            searchResult = await getStockSurveyApi(postData)
+        }else if(action ==='etc'){
+            searchResult = await getExtraLedgerApi(postData)
         }
     
   
