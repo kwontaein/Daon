@@ -11,7 +11,7 @@ export default async function TaskPage({searchParams}:DetailPageProps){
     const task = await getTaskApi(taskId)
     const employee = await getEmployeeApi()
 
-    if(mode !=='detail' && mode!=='edit'){
+    if((mode !=='detail' && mode!=='edit') || !task){
         return notFound()
     }
 

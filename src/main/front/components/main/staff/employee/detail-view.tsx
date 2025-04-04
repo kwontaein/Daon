@@ -3,8 +3,7 @@ import Image from "next/image";
 import '@/styles/form-style/form.scss'
 
 import { useState } from "react";
-import { ResponseEmployee } from "@/model/types/staff/employee/type";
-import { EmployeeClassMap, UserGrade } from "@/model/constants/employee/employee-info-map";
+import { EmployeeClassEnum, ResponseEmployee, UserRoleEnum } from "@/model/types/staff/employee/type";
 import dayjs from "dayjs";
 import useChangeMode from "@/hooks/share/useChangeMode";
 
@@ -45,11 +44,11 @@ export default function EmployeeDetailView({employee}:{employee:ResponseEmployee
                 <tr>
                     <td colSpan={2} className="table-label">관리등급</td>
                     <td colSpan={2}>
-                        {UserGrade[employee.userRole]}
+                        {UserRoleEnum[employee.userRole]}
                     </td>
                     <td colSpan={2} className="table-label">직위</td>
                     <td colSpan={2}>
-                       {EmployeeClassMap[employee.userClass]}
+                       {EmployeeClassEnum[employee.userClass]}
                     </td>                         
                     <td colSpan={2} className="table-label">부서</td>
                     <td colSpan={2}>
