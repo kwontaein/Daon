@@ -21,8 +21,14 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
     };
 
     const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(e.target.value);
-        if(changeEvent) changeEvent(e.target.value)
+        if(e.target.value){
+            setDate(e.target.value);
+            if(changeEvent) changeEvent(e.target.value)
+        }else{
+            setDate('0000-00-00')
+            if(changeEvent) changeEvent('0000-00-00')
+        }
+       
     };
     
 
@@ -85,7 +91,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
         <label className={`custom-date-container ${className}`}>
             <div className="custom-date-wrapper">
                 <label>
-                    <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus} />
+                    <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus}/>
                     년
                 </label>
                 <label>

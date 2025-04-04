@@ -64,7 +64,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
             <table className='search-table'>
                 <colgroup>
                     <col style={{ width: '5%'}} />
-                    <col style={{ width: '10%'}} />
+                    <col style={{ width: '1%'}} />
                     <col style={{ width: '5%'}} />
                     <col style={{ width: '80%'}} />
                 </colgroup>
@@ -112,7 +112,6 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
                         <td className='table-label'>거래처명</td>
                         <td>
                             <input type='text' 
-                                   className='short-input'
                                    name='customerName' 
                                    defaultValue={state.customerName} 
                                    key={state.customerName}
@@ -137,7 +136,6 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
                         <td className='table-label'>물품명</td>
                         <td>
                             <input type='text' 
-                                   className='short-input'
                                    name='productName' 
                                    defaultValue={state.productName} 
                                    key={state.productName} 
