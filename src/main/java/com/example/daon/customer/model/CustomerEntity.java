@@ -132,11 +132,9 @@ public class CustomerEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-
     //전기이월
     @Column(name = "remain_cost")
     private BigDecimal remainCost;
-
 
     @OneToOne
     private CustomerBillEntity customerBills;

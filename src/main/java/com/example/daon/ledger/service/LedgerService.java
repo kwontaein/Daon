@@ -254,6 +254,7 @@ public class LedgerService {
      * @return
      */
     public List<NoPaidResponse> getCategorySumByCustomer(NoPaidRequest noPaidRequest) {
+        System.out.println(noPaidRequest);
         // 1) CriteriaBuilder, CriteriaQuery, Root 준비
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<NoPaidResponse> cq = cb.createQuery(NoPaidResponse.class);
@@ -269,11 +270,12 @@ public class LedgerService {
                     cb1.equal(root1.get("customer").get("customerId"), noPaidRequest.getCustomerId())
             );
         }
-        if (noPaidRequest.getCustomerCate() != null) {
+
+        /*if (noPaidRequest.getCustomerCate() != null) {
             spec = spec.and((root1, query, cb1) ->
                     cb1.equal(root1.get("customer").get("category"), noPaidRequest.getCustomerCate())
             );
-        }
+        }*/
 
         Predicate specPredicate = spec.toPredicate(root, cq, cb);
 
@@ -350,8 +352,8 @@ public class LedgerService {
 
         // 5) where, groupBy, orderBy 등 설정
         cq.where(specPredicate);
-        cq.groupBy(root.get("customer").get("customerName"));
-        cq.orderBy(cb.asc(root.get("customer").get("customerName"))); // 필요 시
+        cq.groupBy(root.get("customer").get("customerName"), root.get("customer").get("remainCost"));
+        cq.orderBy(cb.asc(currentBalance)); // 필요 시
 
         // 6) 최종 쿼리 실행
         System.out.println(em.createQuery(cq).getResultList());
