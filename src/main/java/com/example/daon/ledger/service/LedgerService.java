@@ -220,7 +220,25 @@ public class LedgerService {
 
     //넌 일단 보류 - 기타원장
     public List<ReceiptEntity> getExtraLedger(LedgerRequest ledgerRequest) {
-        return null;
+        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchSDate()));
+
+            if (ledgerRequest.getCustomerId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
+            }
+
+            if (ledgerRequest.getStockId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
+            }
+
+            addCategoryPredicates(ledgerRequest, criteriaBuilder, root, predicates);
+
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
     }
 
 
@@ -249,6 +267,11 @@ public class LedgerService {
         if (noPaidRequest.getCustomerId() != null) {
             spec = spec.and((root1, query, cb1) ->
                     cb1.equal(root1.get("customer").get("customerId"), noPaidRequest.getCustomerId())
+            );
+        }
+        if (noPaidRequest.getCustomerCate() != null) {
+            spec = spec.and((root1, query, cb1) ->
+                    cb1.equal(root1.get("customer").get("category"), noPaidRequest.getCustomerCate())
             );
         }
 
