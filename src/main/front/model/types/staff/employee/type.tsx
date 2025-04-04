@@ -1,5 +1,6 @@
 import { Dept } from "../dept/type";
 
+
 // 인터페이스 정의
 export interface ResponseEmployee {
   userId: string;
@@ -17,29 +18,29 @@ export interface ResponseEmployee {
   phone: string;
   email: string;
   memo: string;
-  userClass: ClassType; //직급
-  userRole: RoleType;   //권한등급
+  userClass: EmployeeClassEnum; //직급
+  userRole: UserRoleEnum;   //권한등급
   dept: Dept;   //부서
 }
 
 
 
 // 직급
-export enum ClassType {
-    CEO = "CEO",
-    DIRECTOR = "DIRECTOR",
-    MANAGER = "MANAGER",
-    STAFF = "STAFF",
-    ASSISTANT_MANAGER = "ASSISTANT_MANAGER",
-    PROFESSIONAL = "PROFESSIONAL",
-    TEAM_LEADER = "TEAM_LEADER",
-    DEPUTY_GENERAL_MANAGER = "DEPUTY_GENERAL_MANAGER",
+export enum EmployeeClassEnum {
+    CEO = "대표",
+    DIRECTOR = "이사",
+    MANAGER = "과장",
+    STAFF = "사원",
+    ASSISTANT_MANAGER = "대리",
+    PROFESSIONAL = "주임",
+    TEAM_LEADER = "팀장",
+    DEPUTY_GENERAL_MANAGER = "차장",
   }
-  
+
   // 권한
-  export enum RoleType {
-    USER = "USER",
-    ADMIN = "ADMIN",
-    MANAGER = "MANAGER",
+  export enum UserRoleEnum {
+    USER = "일반사용자",
+    ADMIN = "관리자",
+    MANAGER = "매니저",
   }
   
