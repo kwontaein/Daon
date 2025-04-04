@@ -46,7 +46,13 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                         <td className='right-align'>{estimate.totalAmount.toLocaleString('ko-KR')}</td>
                         <td>{estimate.userName}</td>
                         {isTask &&
-                        <td><button>전표전환</button></td> 
+                        <td>
+                            {estimate.receipted ? 
+                                <></>
+                                :
+                                <button>전표전환</button>
+                            }
+                        </td> 
                         }
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>

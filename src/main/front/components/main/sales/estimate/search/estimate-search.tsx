@@ -16,6 +16,7 @@ import { EstimateCategory, ResponseEstimate, ResponseEstimateItem } from '@/mode
 import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/estimate/action/estimateSearchAction';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
+import { apiUrl } from '@/model/constants/apiUrl';
 
 
 
@@ -31,7 +32,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     const pageByEstimate = useMemo(()=>estimate.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate])
     const formRef = useRef(null)
  
-    
+    //검색조건 submit
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
         formData.set('action', 'submit');
@@ -45,6 +46,19 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
             setEstimate(state.searchEstimate)
         }
     },[state])
+
+
+    const estimateHandler = ()=>{
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set("mode","write")
+
+            const url = `${apiUrl}/register-estimate?${params.toString()}`;
+            const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
+            
+            window.open(url, "PopupWindow", popupOptions);
+        }
+    }
 
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
@@ -82,7 +96,6 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         ));
     }, [EstimateCategory]);
 
-
     return (
         <div className="search-container">
             <form action={action} ref={formRef}>
@@ -111,7 +124,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                     </thead>
                     <tbody>
                         <tr>
-                            <td className="table-label">전표종류</td>
+                            <td className="table-label">사업자</td>
                             <td>
                                 <label>
                                 <select name='companyId' defaultValue={state.companyId} key={state.companyId}>
@@ -128,6 +141,9 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                                 <button type='button' onClick={()=>setEstimate(initialEstimate)}>
                                     전 체 보 기
                                 </button>
+                                {!isTask &&
+                                    <button type='button' onClick={estimateHandler}>견적서작성</button>
+                                }
                             </td>
                         </tr>
                         <tr>

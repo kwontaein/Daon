@@ -2,7 +2,7 @@
 
 //보내야 할 것 customerId companyId, items, userId
 
-import { RequestEstimate, ResponseEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
+import { RequestEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
 import { saveEstimate, updateEstimate } from "../api/estimateApi"
 
 function isInvalidText(text) {
@@ -53,6 +53,9 @@ export default async function estimateRegisterAction(prevState, formState){
 
     if(items.length===0 && prevState.mode==='write'){
         errors.push(['message', '품목을 하나이상 넣어주세요.'])
+    }
+    if(!estimateData.customerId){
+        errors.push(['message', '업체를 선택해주세요.'])
     }
 
     if(action ==='submit'){
