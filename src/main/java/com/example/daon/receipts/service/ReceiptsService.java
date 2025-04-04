@@ -9,8 +9,10 @@ import com.example.daon.official.model.OfficialEntity;
 import com.example.daon.official.repository.OfficialRepository;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
+import com.example.daon.receipts.model.DailyTotalEntity;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.receipts.repository.DailyTotalRepository;
 import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +37,7 @@ public class ReceiptsService {
     private final CustomerRepository customerRepository;
     private final OfficialRepository officialRepository;
     private final StockRepository stockRepository;
+    private final DailyTotalRepository dailyTotalRepository;
     private final GlobalService globalService;
 
 
@@ -91,6 +95,7 @@ public class ReceiptsService {
 
         StockEntity stock = null;
         OfficialEntity official = null;
+
         if (request.getStockId() != null) {
             stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
         } else if (request.getOfficialId() != null) {
@@ -100,11 +105,14 @@ public class ReceiptsService {
         if (request.getReceiptId() != null) {
             ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
             if (receiptEntity != null) {
+                //이전에 더했던 값 빼기
+                updateDailyTotal(receiptEntity.getTotalPrice().negate(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
+                //새로운 값 더하기
+                updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
                 receiptEntity.updateFromRequest(request, customer, stock);
                 return;
             }
         }
-
 
         //엔티티화
         ReceiptEntity receipt = request.toEntity(entity, customer, stock, official);
@@ -117,6 +125,8 @@ public class ReceiptsService {
 
         //그리고 저장
         ReceiptEntity receiptEntity = receiptRepository.save(receipt);
+        //새로운 값 더하기
+        updateDailyTotal(receiptEntity.getTotalPrice(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
         request.setReceiptId(receiptEntity.getReceiptId());
     }
 
@@ -142,9 +152,42 @@ public class ReceiptsService {
         receiptRepository.deleteAllById(ids);
     }
 
-
     //일일정산
-    public void getReceiptTotal(LocalDate searchDate) {
-        //해당 기간동안의 금액 총 합산 + 그 이전까지의 총 금액 합산
+    public DailyTotalEntity getReceiptTotal(LocalDate searchDate) {
+        if (searchDate == null) {
+            searchDate = LocalDate.now();
+        }
+        DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(searchDate).orElse(null);
+        return dailyTotalEntity;
+    }
+
+    //일일정산 업데이트
+    public void updateDailyTotal(BigDecimal count, ReceiptCategory category, LocalDateTime date) {
+        //+전일잔고 -매입액 +매출액 -수금액 +지급액 -관리비 = 잔액
+        DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
+        switch (category) {
+            case SALES, SALES_DISCOUNT -> dailyTotalEntity.setSales(dailyTotalEntity.getSales().add(count));
+            case PURCHASE, PURCHASE_DISCOUNT -> dailyTotalEntity.setPurchase(dailyTotalEntity.getPurchase().add(count));
+            case DEPOSIT -> dailyTotalEntity.setDeposit(dailyTotalEntity.getDeposit().add(count));
+            case WITHDRAWAL -> dailyTotalEntity.setWithdrawal(dailyTotalEntity.getWithdrawal().add(count));
+            case MAINTENANCE_FEE, OPERATING_PROFIT ->
+                    dailyTotalEntity.setOfficial(dailyTotalEntity.getOfficial().add(count));
+        }
+
+        BigDecimal sales = dailyTotalEntity.getBeforeTotal();
+        BigDecimal purchase = dailyTotalEntity.getBeforeTotal();
+        BigDecimal deposit = dailyTotalEntity.getBeforeTotal();
+        BigDecimal withdrawal = dailyTotalEntity.getBeforeTotal();
+        BigDecimal official = dailyTotalEntity.getBeforeTotal();
+        BigDecimal total = dailyTotalEntity.getRemainTotal()
+                .add(sales)
+                .add(purchase)
+                .add(deposit)
+                .add(withdrawal)
+                .add(official);
+
+        dailyTotalEntity.setRemainTotal(total);
+
+        dailyTotalRepository.save(dailyTotalEntity);
     }
 }
