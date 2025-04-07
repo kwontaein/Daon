@@ -207,3 +207,14 @@ select{
    }
     
 }
+
+.right-buttons-container{
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content:right;
+    button{
+        padding-inline: 5px;
+    }
+}

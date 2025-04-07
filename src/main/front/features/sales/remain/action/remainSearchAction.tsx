@@ -14,11 +14,11 @@ export default async function remainSearchAction(prevState,formData){
     const action = formData.get('action')
     
     if(action==='submit'){
-        const saerchResult = await getNoPaidApi(formState)
+        const searchResult = await getNoPaidApi(formState)
         return{
             ...prevState,
             ...formState,
-            saerchResult,
+            searchResult,
             sortCondition: formData.get('sortCondition')
         }
     }
