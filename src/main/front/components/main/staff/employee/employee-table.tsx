@@ -85,7 +85,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                     <col style={{ width: '15%' }} />
                     {size.width>720 && <col style={{ width: '15%' }} />}
                     <col style={{ width: '15%' }} />
-                    <col style={{ width: '1%' }} />
+                    <col style={{ width: '1%' , minWidth:'35px'}} />
                 </colgroup>
                 <thead>
                     <tr>
@@ -131,7 +131,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                 />
             }
             {!loading &&
-            <div className='table-buttons' style={{justifyContent:'right'}}>
+            <div className='right-buttons-container'>
                 <button onClick={signNewemployeeHandler}>신규등록</button>
             </div>
             }

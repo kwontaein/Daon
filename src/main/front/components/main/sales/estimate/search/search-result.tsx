@@ -48,7 +48,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                         {isTask &&
                         <td>
                             {estimate.receipted ? 
-                                <></>
+                                <>{estimate.receiptDate}</>
                                 :
                                 <button>전표전환</button>
                             }
@@ -61,8 +61,10 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                     </tr>
                 ))}
                 {pageByEstimate.length===0 &&
-                    <tr>
-                        <td colSpan={6}>조회된 견적서가 존재하지 않습니다.</td>
+                    <tr className='none-hover'>
+                        <td colSpan={6}>
+                            조회된 견적서가 존재하지 않습니다.
+                        </td>
                     </tr>
                 }
             </tbody>

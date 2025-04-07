@@ -22,9 +22,9 @@ export default function TaskForm({employees, task, mode} : {
 }) {
     const initialTask = {
         ...task,
-        customer: task.customer.customerName,
-        customerId: task.customer.customerId,
-        assignedUser: task.assignedUser.userId
+        customer: task?.customer?.customerName,
+        customerId: task?.customer?.customerId,
+        assignedUser: task?.assignedUser?.userId
     }
     const [state, action, isPending] = useActionState(taskRegisterAction,{taskType:'AS',...initialTask ,mode:mode})
     const formRef = useRef<HTMLFormElement|null>(null);
@@ -52,6 +52,7 @@ export default function TaskForm({employees, task, mode} : {
 
     const submitTaskHandler = ()=>{
         if(isPending) return
+        
         if(!state.customerId){
             window.alert('거래처를 선택해주세요')
             return
@@ -173,7 +174,7 @@ export default function TaskForm({employees, task, mode} : {
             </table>
             <div className='button-container'>
                 <button type='button' onClick={()=>{
-                    mode==='detail' ? changeModeHandler('edit'): submitTaskHandler
+                    mode==='detail' ? changeModeHandler('edit'): submitTaskHandler()
                 }}>{mode ==='detail'? '수정': '저장'}</button>
                 <button type='button' onClick={()=>{
                     mode==='edit' ? changeModeHandler('detail'): window.close()
