@@ -25,6 +25,9 @@ public class CardTransactionRequest {
     // 업체명
     private String companyName;
 
+    // 고객아이디
+    private UUID customerId;
+
     // 결제내역
     private String paymentDetails;
 
