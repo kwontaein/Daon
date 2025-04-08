@@ -1,9 +1,8 @@
 package com.example.daon.accounting.procurement.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
+import com.example.daon.customer.model.CustomerEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProcurementSettlementEntity {
+public class ProcurementEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -36,6 +35,11 @@ public class ProcurementSettlementEntity {
     // 업체명
     @Column(name = "category_name")
     private String companyName;
+
+    //고객 -업체명
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private CustomerEntity customerId;
 
     // 모델명
     @Column(name = "model_name")
@@ -65,4 +69,16 @@ public class ProcurementSettlementEntity {
     @Column(name = "memo")
     private String memo;
 
+    public void updateFromRequest(ProcurementRequest procurementRequest) {
+        this.categorySelection = procurementRequest.getCategorySelection();
+        this.date = procurementRequest.getDate();
+        this.companyName = procurementRequest.getCompanyName();
+        this.modelName = procurementRequest.getModelName();
+        this.vendor = procurementRequest.getVendor();
+        this.quantity = procurementRequest.getQuantity();
+        this.acceptance = procurementRequest.getAcceptance();
+        this.installation = procurementRequest.getInstallation();
+        this.payment = procurementRequest.getPayment();
+        this.memo = procurementRequest.getMemo();
+    }
 }
