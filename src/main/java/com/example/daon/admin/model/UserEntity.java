@@ -162,7 +162,9 @@ public class UserEntity implements UserDetails {
 
     public void updateFromRequest(UserRequest userRequest, DeptEntity dept, PasswordEncoder passwordEncoder) {
         this.userId = userRequest.getUserId();
-        this.password = passwordEncoder.encode(userRequest.getPassword());
+        if (userRequest.getPassword() != null) {
+            this.password = passwordEncoder.encode(userRequest.getPassword());
+        }
         this.married = userRequest.isMarried();
         this.joinDate = userRequest.getJoinDate();
         this.birthday = userRequest.getBirthday();
