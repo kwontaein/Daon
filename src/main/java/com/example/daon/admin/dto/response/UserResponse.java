@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse { //아이디
-    private String id;
+    private String userId;
 
     //비밀번호
     private String password;
