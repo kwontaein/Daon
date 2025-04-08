@@ -29,7 +29,7 @@ export enum FormCategory{
     ESTIMATE ="견적서",//전체
     SALES="매출부가세",              // 매출
     CARD="카드지출",     // 매출할인
-    EXPENSE="지출증빙";  // 반품입고
+    EXPENSE="지출증빙"  // 반품입고
 }
 
 export type ResponseLedger ={
