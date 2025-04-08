@@ -70,11 +70,15 @@ public class SalesVATEntity {
     @Column(name = "paid")
     private boolean paid;
 
+    //전표아이디
+    @Column(name = "receipt_id")
+    private UUID receiptId;
 
-    public void updateFromRequest(SalesVATRequest salesVATRequest) {
+    public void updateFromRequest(SalesVATRequest salesVATRequest, CustomerEntity customer) {
         this.categorySelection = salesVATRequest.getCategorySelection();
         this.date = salesVATRequest.getDate();
         this.companyName = salesVATRequest.getCompanyName();
+        this.customerId = customer;
         this.businessNumber = salesVATRequest.getBusinessNumber();
         this.paymentDetails = salesVATRequest.getPaymentDetails();
         this.amount = salesVATRequest.getAmount();
