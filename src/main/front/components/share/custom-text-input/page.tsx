@@ -1,15 +1,16 @@
 'use client'
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import './custom-text-input.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-function CustomTextInput({name, type, placeholder}:{
+function CustomTextInput({name, type, placeholder, defaultValue, onChange}:{
     name:string,
     type:string,
     placeholder:string,
+    defaultValue?:string
+    onChange?:(string)=>void
 }){
     const [showPassword, setShowPassword] =useReducer((prev)=>!prev,false)
-
     return(
         <div className="input-wrapper">
             <input
@@ -18,6 +19,11 @@ function CustomTextInput({name, type, placeholder}:{
                 type={type==='password'? (showPassword ? 'text':type):type}
                 required
                 placeholder={placeholder}
+                onChange={(e)=> {
+                    onChange && onChange(e.target.value)
+                }}
+                defaultValue={defaultValue}
+                autoComplete={type==='password' ? "current-password" :''}
             />
             <label htmlFor={name}>{placeholder}</label>
             {type==='password' &&
