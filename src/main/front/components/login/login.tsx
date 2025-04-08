@@ -1,17 +1,27 @@
 'use client'
 import './login.scss'
 import CustomTextInput from '../share/custom-text-input/page';
-import { useEffect, useRef, useState } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import RememberChecked from './rememberChecked';
+import loginAction from '@/features/login/actions/loginAction';
 
 function Login() {
-  const formRef = useRef(null);
   const [currentId, setCurrentId] = useState<string|undefined>(undefined);
-  
-  useEffect(() => {
-    const savedId = localStorage.getItem('savedId');
-    setCurrentId(savedId ?? '');
-  }, []);
+  const [state, action, isPending] = useActionState(loginAction,{})
+
+  useEffect(()=>{
+    const savedId = localStorage.getItem('savedId')??''
+    setCurrentId(savedId)
+  },[])
+
+  useEffect(()=>{
+    if(state.userId!==undefined){
+      setCurrentId(state.userId)
+    }
+    if(state.formErrors){
+      window.alert(state.formErrors.message)
+    }
+  },[state])
 
 
   return (
@@ -19,14 +29,14 @@ function Login() {
       {currentId === undefined ?
         'loading...'
         :
-        <form ref={formRef}>
+        <form action={action}>
           <h1>로그인</h1>
-          <CustomTextInput name='id' type='text' placeholder='아이디' defaultValue={currentId} onChange={setCurrentId}/>
-          <CustomTextInput name='password' type='password' placeholder='패스워드' />
+          <CustomTextInput name='userId' type='text' placeholder='아이디' defaultValue={currentId} onChange={setCurrentId}/>
+          <CustomTextInput name='password' type='password' placeholder='패스워드' defaultValue={state.password}/>
           <span>
-            <RememberChecked currentId={currentId} /> 아이디 기억
+            <RememberChecked currentId={currentId}/> 아이디 기억
           </span>
-          <button type='button' className='login-button'>로그인</button>
+          <button className='login-button'>로그인</button>
         </form>
       }
         
