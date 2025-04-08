@@ -158,6 +158,19 @@ public class ReceiptsService {
             searchDate = LocalDate.now();
         }
         DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(searchDate).orElse(null);
+
+        if (dailyTotalEntity == null) {
+            return new DailyTotalEntity(
+                    UUID.randomUUID(),
+                    BigDecimal.ZERO,
+                    searchDate,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO);
+        }
         return dailyTotalEntity;
     }
 
@@ -165,6 +178,7 @@ public class ReceiptsService {
     public void updateDailyTotal(BigDecimal count, ReceiptCategory category, LocalDateTime date) {
         //+전일잔고 -매입액 +매출액 -수금액 +지급액 -관리비 = 잔액
         DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
+
         switch (category) {
             case SALES, SALES_DISCOUNT -> dailyTotalEntity.setSales(dailyTotalEntity.getSales().add(count));
             case PURCHASE, PURCHASE_DISCOUNT -> dailyTotalEntity.setPurchase(dailyTotalEntity.getPurchase().add(count));
