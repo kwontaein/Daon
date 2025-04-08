@@ -1,6 +1,7 @@
 package com.example.daon.accounting.expenseProof.dto.request;
 
 import com.example.daon.accounting.expenseProof.model.ExpenseProofEntity;
+import com.example.daon.customer.model.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,8 @@ public class ExpenseProofRequest {
 
     // 업체명
     private String companyName;
-
+    // 고객아이디
+    private UUID customerId;
     // 사업자번호
     private String businessNumber;
 
@@ -47,11 +49,12 @@ public class ExpenseProofRequest {
     private String cardCompany;
 
 
-    public ExpenseProofEntity toExpenseProofEntity() {
+    public ExpenseProofEntity toExpenseProofEntity(CustomerEntity customer) {
         return ExpenseProofEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
+                .customerId(customer)
                 .companyName(companyName)
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)

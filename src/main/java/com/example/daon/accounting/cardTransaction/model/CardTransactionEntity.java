@@ -70,6 +70,10 @@ public class CardTransactionEntity {
     @Column(name = "paid")
     private boolean paid;
 
+    //전표아이디
+    @Column(name = "receipt_id")
+    private UUID receiptId;
+
     public void updateFields(CardTransactionRequest cardTransactionRequest, CustomerEntity customer) {
         this.categorySelection = cardTransactionRequest.getCategorySelection();
         this.date = cardTransactionRequest.getDate();

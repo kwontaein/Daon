@@ -1,6 +1,7 @@
 package com.example.daon.accounting.cardTransaction.dto.request;
 
 import com.example.daon.accounting.cardTransaction.model.CardTransactionEntity;
+import com.example.daon.customer.model.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,11 +48,12 @@ public class CardTransactionRequest {
     private String cardCompany;
 
 
-    public CardTransactionEntity toCardTransactionEntity() {
+    public CardTransactionEntity toCardTransactionEntity(CustomerEntity customer) {
         return CardTransactionEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
+                .customerId(customer)
                 .companyName(companyName)
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)
