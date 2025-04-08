@@ -144,7 +144,7 @@ export default function TaskForm({employees, task, mode}: {
                             {mode !== 'detail' ?
                                 <>
                                     <select name='assignedUser' defaultValue={state.assignedUser}
-                                            key={state.assignedUser}>
+                                            key={state.assignedUser+'assignedUser'}>
                                         <option value='none'>미지정</option>
                                         {employees.map(({userId, name}) =>
                                             <option key={userId} value={userId}>{name}</option>

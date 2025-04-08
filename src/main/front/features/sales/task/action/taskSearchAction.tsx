@@ -29,14 +29,12 @@ export async function taskSearchAction(prevState, formData){
     if(searchData.assignedUser==='none'){
         searchData.assignedUser = null;
     }
-    const searchKey = uuidv4()
 
     const{taskType, customerName, assignedUser, affiliation} = searchData
     if(!taskType && !customerName && !assignedUser && !affiliation){
         
-        return {...prevState,...searchData,  task:prevState.initialTask ,searchKey}
+        return {...prevState,...searchData,  task:prevState.initialTask}
     }
-    console.log(searchData)
     const task = await fetchSearchTask(searchData)
-    return {...prevState,...searchData, task, searchKey}
+    return {...prevState,...searchData, task}
 }
