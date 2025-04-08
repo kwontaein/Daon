@@ -179,6 +179,10 @@ public class ReceiptsService {
         //+전일잔고 -매입액 +매출액 -수금액 +지급액 -관리비 = 잔액
         DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
 
+        if (dailyTotalEntity == null) {
+            dailyTotalEntity = new DailyTotalEntity();
+        }
+
         switch (category) {
             case SALES, SALES_DISCOUNT -> dailyTotalEntity.setSales(dailyTotalEntity.getSales().add(count));
             case PURCHASE, PURCHASE_DISCOUNT -> dailyTotalEntity.setPurchase(dailyTotalEntity.getPurchase().add(count));
@@ -193,7 +197,8 @@ public class ReceiptsService {
         BigDecimal deposit = dailyTotalEntity.getBeforeTotal();
         BigDecimal withdrawal = dailyTotalEntity.getBeforeTotal();
         BigDecimal official = dailyTotalEntity.getBeforeTotal();
-        BigDecimal total = dailyTotalEntity.getRemainTotal()
+        //현잔액 = 전일잔액 + 나머지
+        BigDecimal total = dailyTotalEntity.getBeforeTotal()
                 .add(sales)
                 .add(purchase)
                 .add(deposit)
