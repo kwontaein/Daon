@@ -59,7 +59,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         }
         useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete, ()=>{})
     }
-
+    console.log(employees)
 
     return (
         <>
@@ -82,13 +82,13 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                         <tr>
                             <td className='table-label'>구분/담당자</td>
                             <td className='td-gap'>
-                                <select name='taskType' key={state.searchKey} defaultValue={state.taskType}>
+                                <select name='taskType' key={state.taskType+'taskType'} defaultValue={state.taskType}>
                                     <option value='none'>구분</option>
                                     {Object.entries(TaskEnumType).map(([key, value])=>(
                                         <option key={key} value={key}>{value}</option>
                                     ))}
                                 </select>
-                                <select name='assignedUser' key={state.searchKey + 2} defaultValue={state.assignedUser}>
+                                <select name='assignedUser' key={state.assignedUser+'assignedUser'} defaultValue={state.assignedUser}>
                                     <option value='none'>담당자구분</option>
                                     {employees.map((employee)=>(
                                         <option key={employee.userId} value={employee.userId}>{employee.name}</option>
@@ -110,7 +110,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                             <td className='table-label'>거래처분류</td>
                             <td>
                                 <label>
-                                    <select name='affiliation' key={state.affiliation}
+                                    <select name='affiliation' key={state.affiliation+'affiliaction'}
                                             defaultValue={state.affiliation}>
                                         <option value='none'>선택안함</option>
                                         {affiliations.map((affiliation) => (
