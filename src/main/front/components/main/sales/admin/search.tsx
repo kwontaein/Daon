@@ -7,7 +7,7 @@ import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
-import { ResponseTask } from '@/model/types/sales/task/type';
+import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function AdminSearch({affiliations, initialTask, page}:{affiliations:Affiliation[], initialTask:ResponseTask[], page:number}){
@@ -66,14 +66,9 @@ export default function AdminSearch({affiliations, initialTask, page}:{affiliati
                         <td className='td-gap'>
                             <select name='taskType' key={state.searchKey} defaultValue={state.taskType}>
                                 <option value='none'>구분</option>
-                                <option value='AS'>A/S</option>
-                                <option value='INCOMING'>입고</option>
-                                <option value='DELIVERY'>납품</option>
-                                <option value='INVENTORY'>재고</option>
-                                <option value='OTHER'>기타</option>
-                                <option value='RENTAL'>임대</option>
-                                <option value='MAINTENANCE'>유지보수</option>
-                                <option value='ATTENDANCE'>근태</option>
+                                ({Object.entries(TaskEnumType).map(([key, value])=>(
+                                        <option key={key} value={key}>{value}</option>
+                                    ))})
                             </select>         
                             <select name='assignedUser' key={state.searchKey+2} defaultValue={state.assignedUser}>
                                 <option value='none'>담당자구분</option>
