@@ -92,7 +92,6 @@ export default function LedgerPurchaseSearch({stockCates}:{stockCates:StockCate[
                         <td className='table-label'>거래처명</td>
                         <td>
                             <input type='text' 
-                                   className='short-input'
                                    name='customerName' 
                                    defaultValue={state.customerName} 
                                    key={state.customerName}
@@ -104,7 +103,6 @@ export default function LedgerPurchaseSearch({stockCates}:{stockCates:StockCate[
                         <td className='table-label'>물품명</td>
                         <td>
                             <input type='text' 
-                                   className='short-input'
                                    name='productName' 
                                    defaultValue={state.productName} 
                                    key={state.productName} 
