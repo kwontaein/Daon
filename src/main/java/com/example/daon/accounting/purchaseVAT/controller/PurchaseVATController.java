@@ -1,29 +1,36 @@
 package com.example.daon.accounting.purchaseVAT.controller;
 
+import com.example.daon.accounting.purchaseVAT.dto.request.PurchaseVATRequest;
+import com.example.daon.accounting.purchaseVAT.service.PurchaseVATService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class PurchaseVATController {
+    private final PurchaseVATService purchaseVATService;
+
     //매입부가세
-    public void savePurchaseVAT() {
-
+    @PostMapping("api/savePurchaseVAT")
+    public void savePurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
+        purchaseVATService.savePurchaseVAT(purchaseVATRequest);
     }
 
-    public void updatePurchaseVAT() {
-
+    @PostMapping("api/updatePurchaseVAT")
+    public void updatePurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
+        purchaseVATService.updatePurchaseVAT(purchaseVATRequest);
     }
 
-    public void deletePurchaseVAT() {
-
+    @PostMapping("api/deletePurchaseVAT")
+    public void deletePurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
+        purchaseVATService.deletePurchaseVAT(purchaseVATRequest);
     }
 
-    public void getPurchaseVAT() {
-
+    @PostMapping("api/getPurchaseVAT")
+    public void getPurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
+        purchaseVATService.getPurchaseVAT(purchaseVATRequest);
     }
 
-    public void paidPurchaseVAT() {
-
-    }
 }

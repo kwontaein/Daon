@@ -1,9 +1,8 @@
 package com.example.daon.accounting.purchaseVAT.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.daon.accounting.purchaseVAT.dto.request.PurchaseVATRequest;
+import com.example.daon.customer.model.CustomerEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +37,11 @@ public class PurchaseVATEntity {
     @Column(name = "category_name")
     private String companyName;
 
+    //고객
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private CustomerEntity customerId;
+
     // 사업자번호
     @Column(name = "business_number")
     private String businessNumber;
@@ -62,4 +66,15 @@ public class PurchaseVATEntity {
     @Column(name = "memo")
     private String memo;
 
+    public void updateFromRequest(PurchaseVATRequest purchaseVATRequest) {
+        this.categorySelection = purchaseVATRequest.getCategorySelection();
+        this.date = purchaseVATRequest.getDate();
+        this.companyName = purchaseVATRequest.getCompanyName();
+        this.businessNumber = purchaseVATRequest.getBusinessNumber();
+        this.amount = purchaseVATRequest.getAmount();
+        this.vat = purchaseVATRequest.getVat();
+        this.total = purchaseVATRequest.getTotal();
+        this.note = purchaseVATRequest.getNote();
+        this.memo = purchaseVATRequest.getMemo();
+    }
 }

@@ -2,6 +2,7 @@ package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.RoleType;
@@ -102,14 +103,15 @@ public class AdminService {
         userRepository.save(userRequest.toEntity(passwordEncoder, dept));
     }
 
-    public List<UserEntity> GetEmployees() {
-        return userRepository.findAll();
+    public List<UserResponse> GetEmployees() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return null;
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
-        user.updateFromRequest(userRequest, dept);
+        user.updateFromRequest(userRequest, dept, passwordEncoder);
         userRepository.save(user);
     }
 
