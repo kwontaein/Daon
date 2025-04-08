@@ -2,13 +2,13 @@ package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
-import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
@@ -38,6 +38,7 @@ public class AdminService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
+    private final GlobalService globalService;
 
     //test
     public void test() {
@@ -103,9 +104,9 @@ public class AdminService {
         userRepository.save(userRequest.toEntity(passwordEncoder, dept));
     }
 
-    public List<UserResponse> GetEmployees() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        return null;
+    public List<UserEntity> GetEmployees() {
+
+        return userRepository.findAll();
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
