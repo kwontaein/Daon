@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SalesVATRequest {
+    private UUID salesVATId;
 
     // 분류선택
     private String categorySelection;
@@ -22,8 +24,14 @@ public class SalesVATRequest {
     // 업체명
     private String companyName;
 
+    //고객
+    private UUID customerId;
+
     // 사업자번호
     private String businessNumber;
+
+    //결제내역
+    private String paymentDetails;
 
     // 금액
     private BigDecimal amount;
@@ -37,7 +45,7 @@ public class SalesVATRequest {
     // 메모
     private String memo;
 
-    private SalesVATEntity toSalesVATEntity() {
+    public SalesVATEntity toSalesVATEntity() {
         return SalesVATEntity
                 .builder()
                 .categorySelection(categorySelection)
