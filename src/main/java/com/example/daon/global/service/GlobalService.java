@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 public class GlobalService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * SecurityContext 에서 유저 정보 추출하는 메소드
@@ -66,31 +68,6 @@ public class GlobalService {
         }
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다"));
         return userEntity;
-    }
-
-
-    public com.example.daon.admin.dto.response.UserResponse convertToUserResponse(UserEntity user) {
-        return com.example.daon.admin.dto.response.UserResponse
-                .builder()
-                .id(user.getUserId())
-                .password(user.getPassword())
-                .married(user.isMarried())
-                .joinDate(user.getJoinDate())
-                .birthday(user.getBirthday())
-                .name(user.getName())
-                .engName(user.getEngName())
-                .chName(user.getChName())
-                .zipcode(user.getZipcode())
-                .address(user.getAddress())
-                .addressDetail(user.getAddressDetail())
-                .tel(user.getTel())
-                .phone(user.getPhone())
-                .email(user.getEmail())
-                .memo(user.getMemo())
-                .userClass(user.getUserClass())
-                .userRole(user.getUserRole())
-                .dept(user.getDept())
-                .build();
     }
 
     //응답 변환
