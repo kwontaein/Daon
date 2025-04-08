@@ -2,6 +2,7 @@ package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.RoleType;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 //회사, 사원관리
 @Service
@@ -104,9 +106,9 @@ public class AdminService {
         userRepository.save(userRequest.toEntity(passwordEncoder, dept));
     }
 
-    public List<UserEntity> GetEmployees() {
-
-        return userRepository.findAll();
+    public List<UserResponse> GetEmployees() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return userEntities.stream().map(globalService::convertToUserResponse).collect(Collectors.toList());
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
