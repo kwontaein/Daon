@@ -21,7 +21,7 @@ function CustomTextInput({name, type, placeholder, defaultValue, onChange}:{
                 onChange={(e)=> {
                     onChange && onChange(e.target.value)
                 }}
-                defaultValue={defaultValue}
+                defaultValue={defaultValue??''}
                 autoComplete={type==='password' ? "current-password" :''}
             />
             <label htmlFor={name}>{placeholder}</label>
