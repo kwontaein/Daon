@@ -17,7 +17,6 @@ function CustomTextInput({name, type, placeholder, defaultValue, onChange}:{
                 id={name}
                 name={name}
                 type={type==='password'? (showPassword ? 'text':type):type}
-                required
                 placeholder={placeholder}
                 onChange={(e)=> {
                     onChange && onChange(e.target.value)
