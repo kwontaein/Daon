@@ -1,9 +1,8 @@
 package com.example.daon.accounting.expenseProof.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
+import com.example.daon.customer.model.CustomerEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +37,11 @@ public class ExpenseProofEntity {
     @Column(name = "category_name")
     private String companyName;
 
+    //고객 -업체명
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private CustomerEntity customerId;
+
     // 카드사
     @Column(name = "card_company")
     private String cardCompany;
@@ -65,4 +69,16 @@ public class ExpenseProofEntity {
     //입금전환여부
     @Column(name = "paid")
     private boolean paid;
+
+    public void updateFromRequest(ExpenseProofRequest expenseProofRequest) {
+        this.categorySelection = expenseProofRequest.getCategorySelection();
+        this.date = expenseProofRequest.getDate();
+        this.companyName = expenseProofRequest.getCompanyName();
+        this.cardCompany = expenseProofRequest.getCardCompany();
+        this.paymentDetails = expenseProofRequest.getPaymentDetails();
+        this.amount = expenseProofRequest.getAmount();
+        this.vat = expenseProofRequest.getVat();
+        this.total = expenseProofRequest.getTotal();
+        this.memo = expenseProofRequest.getMemo();
+    }
 }

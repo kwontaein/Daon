@@ -13,6 +13,7 @@ import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.estimate.repository.EstimateItemRepository;
 import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.service.GlobalService;
+import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
@@ -231,7 +232,7 @@ public class EstimateService {
 
         //전표 생성 추가
         for (EstimateItem item : estimate.getItems()) {
-            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", "");
+            ReceiptEntity entity = new ReceiptEntity(null, estimate, LocalDateTime.now(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", "", FromCategory.ESTIMATE);
             receiptRepository.save(entity);
         }
     }

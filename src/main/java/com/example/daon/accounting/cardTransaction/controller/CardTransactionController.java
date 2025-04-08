@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CardTransactionController {
     private final CardTransactionService cardTransactionService;
 
-    //카드결제내역
+    //카드결제내역 -> 전표전환
     @PostMapping("api/saveCardTransaction")
     public void saveCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
         cardTransactionService.saveCardTransaction(cardTransactionRequest);
