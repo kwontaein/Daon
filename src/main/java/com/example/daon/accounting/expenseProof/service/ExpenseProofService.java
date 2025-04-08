@@ -3,10 +3,17 @@ package com.example.daon.accounting.expenseProof.service;
 import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
 import com.example.daon.accounting.expenseProof.model.ExpenseProofEntity;
 import com.example.daon.accounting.expenseProof.repository.ExpenseProofRepository;
+import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.receipts.model.FromCategory;
+import com.example.daon.receipts.model.ReceiptCategory;
+import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.receipts.repository.ReceiptRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +21,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpenseProofService {
 
+
     private final ExpenseProofRepository expenseProofRepository;
+    private final CustomerRepository customerRepository;
+    private final ReceiptRepository receiptRepository;
 
     //지출증빙
     public void saveExpenseProof(ExpenseProofRequest expenseProofRequest) {
-        expenseProofRepository.save(expenseProofRequest.toExpenseProofEntity());
+        CustomerEntity customer = customerRepository.findById(expenseProofRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        expenseProofRepository.save(expenseProofRequest.toExpenseProofEntity(customer));
     }
 
     public void updateExpenseProof(ExpenseProofRequest expenseProofRequest) {
         ExpenseProofEntity expenseProofEntity = expenseProofRepository.findById(expenseProofRequest.getExpenseProofId()).orElseThrow(() -> new RuntimeException("존재하지 않는 항목입니다."));
-        expenseProofEntity.updateFromRequest(expenseProofRequest);
+        CustomerEntity customer = customerRepository.findById(expenseProofRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        expenseProofEntity.updateFromRequest(expenseProofRequest, customer);
         expenseProofRepository.save(expenseProofEntity);
     }
 
@@ -44,6 +56,27 @@ public class ExpenseProofService {
     public void paidExpenseProof(ExpenseProofRequest expenseProofRequest) {
         ExpenseProofEntity expenseProofEntity = expenseProofRepository.findById(expenseProofRequest.getExpenseProofId()).orElseThrow(() -> new RuntimeException("존재하지 않는 항목입니다."));
         expenseProofEntity.setPaid(!expenseProofEntity.isPaid());
+
+        if (expenseProofEntity.isPaid()) {
+            ReceiptEntity receipt = receiptRepository.save(new ReceiptEntity(
+                    null,
+                    null,
+                    LocalDateTime.now(),
+                    ReceiptCategory.SALES,
+                    expenseProofEntity.getCustomerId(),
+                    null,
+                    null,
+                    1,
+                    expenseProofEntity.getTotal(),
+                    expenseProofEntity.getPaymentDetails(),
+                    expenseProofEntity.getMemo(),
+                    FromCategory.SALES));
+            expenseProofEntity.setReceiptId(receipt.getReceiptId());
+        } else {
+            receiptRepository.deleteById(expenseProofEntity.getReceiptId());
+            expenseProofEntity.setReceiptId(null);
+        }
+
         expenseProofRepository.save(expenseProofEntity);
     }
 }

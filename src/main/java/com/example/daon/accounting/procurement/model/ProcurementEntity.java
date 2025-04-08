@@ -69,7 +69,7 @@ public class ProcurementEntity {
     @Column(name = "memo")
     private String memo;
 
-    public void updateFromRequest(ProcurementRequest procurementRequest) {
+    public void updateFromRequest(ProcurementRequest procurementRequest, CustomerEntity customer) {
         this.categorySelection = procurementRequest.getCategorySelection();
         this.date = procurementRequest.getDate();
         this.companyName = procurementRequest.getCompanyName();

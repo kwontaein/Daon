@@ -70,10 +70,15 @@ public class ExpenseProofEntity {
     @Column(name = "paid")
     private boolean paid;
 
-    public void updateFromRequest(ExpenseProofRequest expenseProofRequest) {
+    //전표아이디
+    @Column(name = "receipt_id")
+    private UUID receiptId;
+
+    public void updateFromRequest(ExpenseProofRequest expenseProofRequest, CustomerEntity customer) {
         this.categorySelection = expenseProofRequest.getCategorySelection();
         this.date = expenseProofRequest.getDate();
         this.companyName = expenseProofRequest.getCompanyName();
+        this.customerId = customer;
         this.cardCompany = expenseProofRequest.getCardCompany();
         this.paymentDetails = expenseProofRequest.getPaymentDetails();
         this.amount = expenseProofRequest.getAmount();
