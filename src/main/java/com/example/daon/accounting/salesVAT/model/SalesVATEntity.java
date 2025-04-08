@@ -1,9 +1,8 @@
 package com.example.daon.accounting.salesVAT.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
+import com.example.daon.customer.model.CustomerEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +37,11 @@ public class SalesVATEntity {
     @Column(name = "category_name")
     private String companyName;
 
+    //고객 -업체명
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private CustomerEntity customerId;
+
     // 사업자번호
     @Column(name = "business_number")
     private String businessNumber;
@@ -65,4 +69,17 @@ public class SalesVATEntity {
     //입금전환여부
     @Column(name = "paid")
     private boolean paid;
+
+
+    public void updateFromRequest(SalesVATRequest salesVATRequest) {
+        this.categorySelection = salesVATRequest.getCategorySelection();
+        this.date = salesVATRequest.getDate();
+        this.companyName = salesVATRequest.getCompanyName();
+        this.businessNumber = salesVATRequest.getBusinessNumber();
+        this.paymentDetails = salesVATRequest.getPaymentDetails();
+        this.amount = salesVATRequest.getAmount();
+        this.vat = salesVATRequest.getVat();
+        this.total = salesVATRequest.getTotal();
+        this.memo = salesVATRequest.getMemo();
+    }
 }
