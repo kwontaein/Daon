@@ -57,6 +57,11 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
         });
     }
     
+    useEffect(()=>{
+        if(state.searchResult){
+            console.log(state.searchResult)
+        }
+    },[state])
 
     return(
         <section className='search-container'>
