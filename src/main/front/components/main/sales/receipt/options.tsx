@@ -1,4 +1,4 @@
-import '@/styles//options/options.scss';
+import './options.scss';
 
 type OptionProps = {
     position:{x:number, y:number},
