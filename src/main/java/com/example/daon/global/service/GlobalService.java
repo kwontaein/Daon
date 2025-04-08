@@ -70,6 +70,31 @@ public class GlobalService {
         return userEntity;
     }
 
+
+    public com.example.daon.admin.dto.response.UserResponse convertToUserResponse(UserEntity user) {
+        return com.example.daon.admin.dto.response.UserResponse
+                .builder()
+                .id(user.getUserId())
+                .password(null)
+                .married(user.isMarried())
+                .joinDate(user.getJoinDate())
+                .birthday(user.getBirthday())
+                .name(user.getName())
+                .engName(user.getEngName())
+                .chName(user.getChName())
+                .zipcode(user.getZipcode())
+                .address(user.getAddress())
+                .addressDetail(user.getAddressDetail())
+                .tel(user.getTel())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .memo(user.getMemo())
+                .userClass(user.getUserClass())
+                .userRole(user.getUserRole())
+                .dept(user.getDept())
+                .build();
+    }
+
     //응답 변환
     public CompanyResponse convertToCompanyResponse(CompanyEntity companyEntity) {
         return CompanyResponse
