@@ -1,11 +1,17 @@
 package com.example.daon.admin.dto.response;
 
-import com.example.daon.admin.model.UserEntity;
+import com.example.daon.admin.model.ClassType;
+import com.example.daon.admin.model.DeptEntity;
+import com.example.daon.admin.model.RoleType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse { //아이디
@@ -18,10 +24,10 @@ public class UserResponse { //아이디
     private boolean married;
 
     //가입일
-    private boolean joinDate;
+    private Timestamp joinDate;
 
     //생일
-    private boolean birthday;
+    private Timestamp birthday;
 
     //이름
     private String name;
@@ -54,11 +60,13 @@ public class UserResponse { //아이디
     private String memo;
 
     //직위 -> enum
-    private String userClass;
+    private ClassType userClass;
 
     //관리자권한 -> enum
-    private String userRole;
+    private RoleType userRole;
 
     //부서 -> enum
     private String position;
+
+    private DeptEntity dept;
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class DailyJobRunner {
                 dailyTotalRepository.findDailyTotalEntityByDate(LocalDate.now().minusDays(1)).orElseThrow(() -> new RuntimeException("기록이 남지 않았습니다."));
 
         dailyTotalRepository.save(new DailyTotalEntity(
-                UUID.randomUUID()
+                null
                 , dailyTotalEntity.getBeforeTotal()
                 , LocalDate.now()
                 , BigDecimal.ZERO

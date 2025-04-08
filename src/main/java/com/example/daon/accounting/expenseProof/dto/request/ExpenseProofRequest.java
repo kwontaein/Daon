@@ -7,11 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExpenseProofRequest {
+
+    private UUID expenseProofId;
 
     // 분류선택
     private String categorySelection;
@@ -44,7 +47,7 @@ public class ExpenseProofRequest {
     private String cardCompany;
 
 
-    private ExpenseProofEntity toExpenseProofEntity() {
+    public ExpenseProofEntity toExpenseProofEntity() {
         return ExpenseProofEntity
                 .builder()
                 .categorySelection(categorySelection)
