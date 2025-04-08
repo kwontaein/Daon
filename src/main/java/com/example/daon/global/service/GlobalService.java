@@ -74,7 +74,7 @@ public class GlobalService {
     public com.example.daon.admin.dto.response.UserResponse convertToUserResponse(UserEntity user) {
         return com.example.daon.admin.dto.response.UserResponse
                 .builder()
-                .id(user.getUserId())
+                .userId(user.getUserId())
                 .password(null)
                 .married(user.isMarried())
                 .joinDate(user.getJoinDate())
