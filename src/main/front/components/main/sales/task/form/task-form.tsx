@@ -51,7 +51,7 @@ export default function TaskForm({employees, task, mode}: {
 
 
     const submitTaskHandler = ()=>{
-        if(isPending) returㅜ 
+        if(isPending) return
         if(!state.customerId){
 
             window.alert('거래처를 선택해주세요')
