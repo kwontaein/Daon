@@ -2,7 +2,6 @@ package com.example.daon.admin.controller;
 
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
-import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
@@ -43,7 +42,7 @@ public class AdminController {
     }
 
     @GetMapping("api/getEmployees")
-    public List<UserResponse> GetEmployees() {
+    public List<UserEntity> GetEmployees() {
         return adminService.GetEmployees();
     }
 
