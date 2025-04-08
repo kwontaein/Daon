@@ -1,4 +1,5 @@
 import { loginApi } from "../api/loginApi";
+import {v4 as uuidv4} from "uuid";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -17,6 +18,7 @@ export default async function loginAction(prevState, formData){
     }else if(isInvalidText(formState.password)){
         errors.push(['message', '비밀번호를 입력해주세요.'])
     }
+    const submitKey = uuidv4()
 
 
     if(errors.length>0){
@@ -24,11 +26,14 @@ export default async function loginAction(prevState, formData){
         return {
             ...formState,
             formErrors,
+            submitKey
         }
     }
     
-    const status = await loginApi(formState)
-    console.log(status)
+    await loginApi(formState)
 
-    return formState
+    return {
+        formState,
+        submitKey
+    }
 }
