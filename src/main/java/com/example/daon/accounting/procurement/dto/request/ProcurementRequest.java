@@ -1,6 +1,7 @@
 package com.example.daon.accounting.procurement.dto.request;
 
 import com.example.daon.accounting.procurement.model.ProcurementEntity;
+import com.example.daon.customer.model.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class ProcurementRequest {
 
     // 날짜
     private LocalDate date;
+
+    // 고객아이디
+    private UUID customerId;
 
     // 업체명
     private String companyName;
@@ -68,12 +72,13 @@ public class ProcurementRequest {
     private String cardCompany;
 
 
-    public ProcurementEntity toProcurementEntity() {
+    public ProcurementEntity toProcurementEntity(CustomerEntity customer) {
         return ProcurementEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
                 .companyName(companyName)
+                .customerId(customer)
                 .modelName(modelName)
                 .vendor(vendor)
                 .quantity(quantity)

@@ -271,6 +271,7 @@ public class LedgerService {
             );
         }
 
+        //TODO 고객 분류를 선택하지 않으면 아무것도 나오지 않는 오류 발생
         /*if (noPaidRequest.getCustomerCate() != null) {
             spec = spec.and((root1, query, cb1) ->
                     cb1.equal(root1.get("customer").get("category"), noPaidRequest.getCustomerCate())

@@ -3,6 +3,8 @@ package com.example.daon.accounting.procurement.service;
 import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
 import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.repository.ProcurementRepository;
+import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.customer.repository.CustomerRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,15 +17,18 @@ import java.util.List;
 public class ProcurementService {
 
     private final ProcurementRepository procurementRepository;
+    private final CustomerRepository customerRepository;
 
     //조달 및 수의 계산정산
     public void saveProcurement(ProcurementRequest procurementRequest) {
-        procurementRepository.save(procurementRequest.toProcurementEntity());
+        CustomerEntity customer = customerRepository.findById(procurementRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        procurementRepository.save(procurementRequest.toProcurementEntity(customer));
     }
 
     public void updateProcurement(ProcurementRequest procurementRequest) {
         ProcurementEntity procurement = procurementRepository.findById(procurementRequest.getProcurementSettlementId()).orElseThrow(() -> new RuntimeException("존재하지 않는 항목입니다."));
-        procurement.updateFromRequest(procurementRequest);
+        CustomerEntity customer = customerRepository.findById(procurementRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        procurement.updateFromRequest(procurementRequest, customer);
         procurementRepository.save(procurement);
     }
 

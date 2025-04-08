@@ -1,6 +1,7 @@
 package com.example.daon.accounting.purchaseVAT.dto.request;
 
 import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
+import com.example.daon.customer.model.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class PurchaseVATRequest {
     // 업체명
     private String companyName;
 
+    private UUID customerId;
+
     // 사업자번호
     private String businessNumber;
 
@@ -43,12 +46,13 @@ public class PurchaseVATRequest {
     // 메모
     private String memo;
 
-    public PurchaseVATEntity toPurchaseVATEntity() {
+    public PurchaseVATEntity toPurchaseVATEntity(CustomerEntity customer) {
         return PurchaseVATEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
                 .companyName(companyName)
+                .customerId(customer)
                 .businessNumber(businessNumber)
                 .amount(amount)
                 .vat(vat)
