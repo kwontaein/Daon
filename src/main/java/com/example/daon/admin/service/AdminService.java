@@ -8,6 +8,7 @@ import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
@@ -37,6 +38,7 @@ public class AdminService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
+    private final GlobalService globalService;
 
     //test
     public void test() {
@@ -103,13 +105,14 @@ public class AdminService {
     }
 
     public List<UserEntity> GetEmployees() {
+
         return userRepository.findAll();
     }
 
     public void UpdateEmployee(UserRequest userRequest) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
-        user.updateFromRequest(userRequest, dept);
+        user.updateFromRequest(userRequest, dept, passwordEncoder);
         userRepository.save(user);
     }
 

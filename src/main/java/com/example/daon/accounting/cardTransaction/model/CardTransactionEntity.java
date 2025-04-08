@@ -1,10 +1,8 @@
 package com.example.daon.accounting.cardTransaction.model;
 
 import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.daon.customer.model.CustomerEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,6 +37,11 @@ public class CardTransactionEntity {
     @Column(name = "category_name")
     private String companyName;
 
+    //고객 -업체명
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private CustomerEntity customerId;
+
     // 카드사
     @Column(name = "card_company")
     private String cardCompany;
@@ -67,7 +70,16 @@ public class CardTransactionEntity {
     @Column(name = "paid")
     private boolean paid;
 
-    public void updateFields(CardTransactionRequest cardTransactionRequest) {
-
+    public void updateFields(CardTransactionRequest cardTransactionRequest, CustomerEntity customer) {
+        this.categorySelection = cardTransactionRequest.getCategorySelection();
+        this.date = cardTransactionRequest.getDate();
+        this.companyName = cardTransactionRequest.getCompanyName();
+        this.customerId = customer;
+        this.cardCompany = cardTransactionRequest.getCardCompany();
+        this.paymentDetails = cardTransactionRequest.getPaymentDetails();
+        this.amount = cardTransactionRequest.getAmount();
+        this.vat = cardTransactionRequest.getVat();
+        this.total = cardTransactionRequest.getTotal();
+        this.memo = cardTransactionRequest.getMemo();
     }
 }

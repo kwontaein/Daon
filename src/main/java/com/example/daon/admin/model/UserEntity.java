@@ -2,13 +2,11 @@ package com.example.daon.admin.model;
 
 import com.example.daon.admin.dto.request.UserRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -162,8 +160,9 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-
-    public void updateFromRequest(UserRequest userRequest, DeptEntity dept) {
+    public void updateFromRequest(UserRequest userRequest, DeptEntity dept, PasswordEncoder passwordEncoder) {
+        this.userId = userRequest.getUserId();
+        this.password = passwordEncoder.encode(userRequest.getPassword());
         this.married = userRequest.isMarried();
         this.joinDate = userRequest.getJoinDate();
         this.birthday = userRequest.getBirthday();
