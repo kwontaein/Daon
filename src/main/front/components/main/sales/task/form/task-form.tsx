@@ -22,9 +22,9 @@ export default function TaskForm({employees, task, mode}: {
 }) {
     const initialTask = {
         ...task,
-        customer: task.customer.customerName,
-        customerId: task.customer.customerId,
-        assignedUser: task.assignedUser.userId
+        customer: task?.customer?.customerName,
+        customerId: task?.customer?.customerId,
+        assignedUser: task?.assignedUser?.userId
     }
     const [state, action, isPending] = useActionState(taskRegisterAction, {taskType: 'AS', ...initialTask, mode: mode})
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -49,9 +49,11 @@ export default function TaskForm({employees, task, mode}: {
 
     const searchCustomerHandler = useSearchCustomer(checkCustomerName, changeHandler)
 
-    const submitTaskHandler = () => {
-        if (isPending) return
-        if (!state.customerId) {
+
+    const submitTaskHandler = ()=>{
+        if(isPending) returㅜ 
+        if(!state.customerId){
+
             window.alert('거래처를 선택해주세요')
             return
         }
@@ -172,18 +174,18 @@ export default function TaskForm({employees, task, mode}: {
                     {mode !== 'write' &&
                         <ActionTakenContent details={state.details} actionTaken={state.actionTaken} mode={mode}/>
                     }
-                    </tbody>
-                </table>
-                <div className='button-container'>
-                    <button type='button' onClick={() => {
-                        mode === 'detail' ? changeModeHandler('edit') : submitTaskHandler()
-                    }}>{mode === 'detail' ? '수정' : '저장'}</button>
-                    <button type='button' onClick={() => {
-                        mode === 'edit' ? changeModeHandler('detail') : window.close()
-                    }}>취소
-                    </button>
-                </div>
-            </form>
+                </tbody>
+            </table>
+            <div className='button-container'>
+                <button type='button' onClick={()=>{
+                    mode==='detail' ? changeModeHandler('edit'): submitTaskHandler()
+                }}>{mode ==='detail'? '수정': '저장'}</button>
+                <button type='button' onClick={()=>{
+                    mode==='edit' ? changeModeHandler('detail'): window.close()
+                }}>취소</button>
+            </div>
+        </form>
+
         </>
     )
 }

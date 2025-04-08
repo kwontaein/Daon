@@ -36,6 +36,7 @@ export default async function taskRegisterAction(prevState, formData){
         delete postData.customerId
 
         let status;
+        console.log(mode)
         if(mode ==='write'){
             status = await saveTask(postData)
         }else if(mode ==='edit'){

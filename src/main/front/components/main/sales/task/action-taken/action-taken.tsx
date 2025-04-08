@@ -15,7 +15,6 @@ const actionTakenAction = async(prevState, formData)=>{
 
 
     if(action==='submit'){
-        console.log(taskId, actionTaken)
         const status = await postTaskComplete(taskId,actionTaken)
         return {status}
     }
