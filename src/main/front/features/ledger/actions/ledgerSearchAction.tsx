@@ -6,8 +6,8 @@ function isInvalidText(text) {
     return !text || text.trim() === '';
   }
 export const initialLedgertState = {
-    searchSDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
-    searchEDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
+    searchSDate: dayjs().subtract(2, 'month').date(1).format('YYYY-MM-DD'),
+    searchEDate:dayjs(new Date(Date.now())).endOf('month').format('YYYY-MM-DD'),
     affiliationId:'none',//소속
     customerCate:'none', //구분
     stockCate:'none',
@@ -91,7 +91,7 @@ export async function ledgerSearchAction(prevState, formData){
             ...searchData,
             productName,
             customerName,
-            ledgerCustomer:searchResult,
+            searchResult:searchResult,
 
         }
     }
