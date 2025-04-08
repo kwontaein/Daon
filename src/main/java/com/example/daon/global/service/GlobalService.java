@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 public class GlobalService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * SecurityContext 에서 유저 정보 추출하는 메소드
@@ -169,14 +171,6 @@ public class GlobalService {
                 .unitPrice(estimateItem.getStock() != null ? estimateItem.getStock().getOutPrice() : estimateItem.getUnitPrice())
                 .hand(estimateItem.isHand())
                 .quantity(estimateItem.getQuantity())
-                .build();
-    }
-
-    public com.example.daon.estimate.dto.response.UserResponse convertToUserResponse(UserEntity user) {
-        return com.example.daon.estimate.dto.response.UserResponse
-                .builder()
-                .userId(user.getUserId())
-                .name(user.getName())
                 .build();
     }
 
