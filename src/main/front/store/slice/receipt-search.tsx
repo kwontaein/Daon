@@ -9,7 +9,7 @@ export interface ReceiptSearchDate{
 
 const initialState:ReceiptSearchDate={
     date: dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
-    date_id : uuidv4()
+    date_id : ''
 }
 
 const receiptSearch = createSlice({
@@ -18,11 +18,13 @@ const receiptSearch = createSlice({
     reducers:{
         updateSearchDate :(state, action: PayloadAction<string>)=>{
             state.date = action.payload;
+        },
+        updateSearchDateId:(state)=>{
             state.date_id = uuidv4();
         },
     }
 })
 
-export const {updateSearchDate} =receiptSearch.actions;
+export const {updateSearchDate,updateSearchDateId} =receiptSearch.actions;
 
 export default receiptSearch.reducer;
