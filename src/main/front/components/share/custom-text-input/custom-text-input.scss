@@ -1,0 +1,49 @@
+
+.input-wrapper {
+    position: relative;
+    margin: 10px 0;
+    width: 100%;
+    // border: 1px solid #ccc;
+    border-radius: 4px;
+    outline:  1px solid #ccc;
+    input {
+      width: calc(100% - 20px);
+      height: 40px;
+      font-size: 14px;
+      padding: 5px;
+      border: none;
+      outline: none;
+
+  
+      &::placeholder{
+        color: white;
+      }
+      
+      &:focus + label,
+      &:not(:placeholder-shown) + label,
+      &:valid + label {
+        top: -7px;
+        left: 5px;
+        font-size: 11px;
+        color: #007bff;
+        background-color: white;
+      }
+    }
+  
+    label {
+      position: absolute;
+      left: 12px;
+      top: 13px;
+      font-size: 12px;
+      color: #aaa;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+  }
+
+  .eyes{
+    position: absolute;
+    top: 13px;
+    right: 5px;
+    cursor: pointer;
+  }

@@ -21,8 +21,9 @@ interface User{
     customerName:string,
     userId:string,
     userName:string,
-    receipted?:boolean
-    estimateDate: string;     // 견적서 날짜
+    receipted?:boolean,
+    receiptDate:Date,
+    estimateDate: Date;     // 견적서 날짜
     totalAmount: number;      //종합
     items: ResponseEstimateItem[];
   }

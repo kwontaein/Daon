@@ -208,7 +208,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                         )):
                         (pageByTasks.length===0 && 
                             <tbody>
-                                <tr className={'none-hover'}>
+                                <tr className='none-hover'>
                                     <td colSpan={12}>
                                         <p>조회된 결과가 없습니다.</p>
                                     </td>
