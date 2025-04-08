@@ -87,7 +87,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                     </colgroup>
                     <thead>
                         <tr>
-                            <td colSpan={3} className="table-title center">
+                            <td colSpan={3} className="table-title">
                                 검색 옵션
                             </td>
                         </tr>
