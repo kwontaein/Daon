@@ -32,8 +32,8 @@ public class AdminController {
 
     //로그인
     @PostMapping("api/signIn")
-    public void SignIn(@RequestBody UserRequest userRequest) {
-        adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
+    public ResponseEntity<String> SignIn(@RequestBody UserRequest userRequest) {
+        return adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
     }
 
     //사원정보 crud
