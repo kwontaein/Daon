@@ -65,6 +65,9 @@ public class ReceiptEntity {
     @Column(name = "memo", columnDefinition = "TEXT")
     private String memo; //  (비고)
 
+    @Column(name = "come_from")
+    private FromCategory comeFrom;
+
     public void updateFromRequest(ReceiptRequest request, CustomerEntity customer, StockEntity stock) {
         this.category = request.getCategory();
         this.customer = customer;

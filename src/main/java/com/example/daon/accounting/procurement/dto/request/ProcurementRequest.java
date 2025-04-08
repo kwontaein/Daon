@@ -1,17 +1,20 @@
 package com.example.daon.accounting.procurement.dto.request;
 
-import com.example.daon.accounting.procurement.model.ProcurementSettlementEntity;
+import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcurementRequest {
+
+    private UUID procurementSettlementId;
 
     // 분류선택
     private String categorySelection;
@@ -65,8 +68,8 @@ public class ProcurementRequest {
     private String cardCompany;
 
 
-    private ProcurementSettlementEntity toProcurementSettlementEntity() {
-        return ProcurementSettlementEntity
+    public ProcurementEntity toProcurementEntity() {
+        return ProcurementEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)

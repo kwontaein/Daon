@@ -1,30 +1,42 @@
 package com.example.daon.accounting.salesVAT.controller;
 
+import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
+import com.example.daon.accounting.salesVAT.service.SalesVATService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class SalesVATController {
 
-    //매출부가세
-    public void saveSalesVAT() {
+    private final SalesVATService salesVATService;
+
+    //매출부가세 -> 전표전환
+    @PostMapping("api/saveSalesVAT")
+    public void saveSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.saveSalesVAT(salesVATRequest);
+    }
+
+    @PostMapping("api/updateSalesVAT")
+    public void updateSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.updateSalesVAT(salesVATRequest);
 
     }
 
-    public void updateSalesVAT() {
-
+    @PostMapping("api/deleteSalesVAT")
+    public void deleteSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.deleteSalesVAT(salesVATRequest);
     }
 
-    public void deleteSalesVAT() {
-
+    @PostMapping("api/getSalesVAT")
+    public void getSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.getSalesVAT(salesVATRequest);
     }
 
-    public void getSalesVAT() {
-
-    }
-
-    public void paidSalesVAT() {
-
+    @PostMapping("api/paidSalesVAT")
+    public void paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.paidSalesVAT(salesVATRequest);
     }
 }
