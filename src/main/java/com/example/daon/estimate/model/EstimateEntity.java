@@ -40,7 +40,7 @@ public class EstimateEntity {
     private LocalDateTime estimateDate;
 
     //전표화 날짜
-    @Column(name = "receipt_date", nullable = false)
+    @Column(name = "receipt_date")
     private LocalDateTime receiptDate;
 
     //전표화 여부
