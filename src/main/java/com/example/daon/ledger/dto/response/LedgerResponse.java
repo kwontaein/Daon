@@ -27,6 +27,8 @@ public class LedgerResponse {
 
     private String productName; // 품목 명
 
+    private String modelName; // 모델 명
+
     private BigDecimal outPrice; // 품목 가격
 
     private Integer quantity; // 사용 품목 수량
