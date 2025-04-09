@@ -1,0 +1,115 @@
+@use '@/styles/_variables.scss' as var;
+
+.ledger-search-result-table{
+    margin-top: 0.5rem;
+    width: 100%;
+    
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        
+        tr{
+            background-color: transparent;
+        }
+        td{
+            background-color: transparent;
+            color: white !important;
+        }
+      }
+    tbody{
+        tr{
+            border-bottom: 1px solid var.$default-border-color;
+            height: 30px;
+            
+            &:hover{
+                background-color: rgb(197,202,254);
+            }
+        }
+    }
+    
+    td{
+        text-align: center;
+        select{
+            border-color: transparent;
+            background-color: transparent !important;
+            font-size: 1.1em;
+            color: black;
+            &:focus{
+                border: 1px solid #bbb;
+                border-radius: 2px;
+            }
+            @media (max-width: 620px){
+                font-size: 1em;
+            }
+        }
+        button{
+            padding: 2px 5px;
+        }
+    }
+
+
+    .row-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+.mobile-view-label{
+    display: flex;
+    width: fit-content;
+    margin-top: -30px;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+.is-click{
+    background-color: rgb(197,202,254);
+}
+
+.icon{
+    cursor: pointer;
+}
+.left-align{
+    text-align: left !important;
+}
+.right-align{
+    text-align: right !important;
+}
+
+.none-hover{
+    &:hover{
+        background-color: transparent !important;
+    }
+}
+
+.ledger-mobile{
+    tbody{
+        tr{
+            height: 25px;
+            background-color: inherit !important;
+            border: unset !important;
+            td{
+                text-align: center;
+            }
+        }
+        border-bottom: 1px solid var.$default-border-color;
+        &:hover{
+            background-color: rgb(197,202,254);
+        }
+    }
+}
+
+.ledger-title{
+    font-size: 2rem;
+    text-decoration: underline;
+    margin-block: 1rem;
+    text-align: center;
+}
+.ledger-date-container{
+    text-align: right;
+    font-size: 0.95rem;
+}

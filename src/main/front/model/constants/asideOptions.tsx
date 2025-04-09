@@ -64,7 +64,7 @@ export const AsideOptions = {
         asideItems: [
             {name: '내 일정', link: 'schedule'},
         ]
-    }
+    },
 }
 
 export const AsideKeyOfValues= Object.values(AsideOptions).reduce((acc, category) => {

@@ -8,8 +8,8 @@ import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
-import { useWindowSize } from '@/hooks/share/useWindowSize'
 import { apiUrl } from '@/model/constants/apiUrl'
+import { useScreenMode } from '@/hooks/share/useScreenMode'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} : {
     pageByTasks: ResponseTask[],
@@ -17,11 +17,12 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     taskCheckedHook: ReturnCheckBoxHook
 }) => {
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
-    const size = useWindowSize()   
+    const mode = useScreenMode({tabletSize:900,mobileSize:620});   
     const nowDate = useMemo(()=>new Date(Date.now()),[])
+
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
-        if(size.width>620){
+        if(window.innerWidth>620){
             const params = new URLSearchParams({
                 mode: "detail",
                 target: customerId,
@@ -91,34 +92,34 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
     },[])
 
     return(
-        size.width ? 
+        mode ? 
         <table className='task-search-result-table'>
             <colgroup>
                 <col style={{ width: '1%' }}/>
-                <col style={{ width: `${size.width>900 ? '5%' :'5%'}`, minWidth:'55px'}}/>
-                <col style={{ width: `${size.width>900 ? '5%' :'5%'}`, minWidth:'55px'}}/>
-                <col style={{ width: `${size.width>900 ? '5%' :'30%'}`, minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
-                <col style={{ width: `${size.width>900 ? '20%' :'10%'}`}}/>
-                <col style={{ width: '5%', minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
-                <col style={{ width: '5%', minWidth :`${size.width>900 ? '55px' :'none'}`}}/>
-                {size.width>900 &&<col style={{width:'10%', minWidth: '55px'}}/>}
-                {size.width>900 &&<col style={{width:'10%', minWidth: '55px'}}/>}
-                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
-                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
-                {size.width>900 &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                <col style={{ width: `${mode==='pc' ? '5%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${mode==='pc' ? '5%' :'5%'}`, minWidth:'55px'}}/>
+                <col style={{ width: `${mode==='pc' ? '5%' :'30%'}`, minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
+                <col style={{ width: `${mode==='pc' ? '20%' :'10%'}`}}/>
+                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
+                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
+                {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
             </colgroup>
             <thead>
               <tr>
-                <td rowSpan={size.width>900? 1:2}><input type='checkbox' 
+                <td rowSpan={mode==='pc'? 1:2}><input type='checkbox' 
                             onChange={toggleAllChecked} 
                             checked={isAllChecked}/></td>
-                <td rowSpan={size.width>900? 1:2}>구분</td>
+                <td rowSpan={mode==='pc'? 1:2}>구분</td>
                 <td>접수</td>
-                {size.width>900 &&<td>조치</td>}
+                {mode==='pc' &&<td>조치</td>}
                 <td>거래처</td>
                 <td>의뢰자</td>
                 <td>담당</td>
-                {size.width>900 &&
+                {mode==='pc' &&
                 <>
                     <td>연락처</td>
                     <td>모델</td>
@@ -126,9 +127,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                     <td>비고</td>
                 </>
                 }
-                <td rowSpan={size.width>900? 1:2}>견적서</td>
+                <td rowSpan={mode==='pc'? 1:2}>견적서</td>
               </tr>
-              {size.width<=900 &&
+              {mode!=='pc' &&
                 <tr>
                     <td>조치</td>
                     <td>내용</td>
@@ -141,11 +142,11 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                         pageByTasks.map((task)=>(
                             <tbody key={task.taskId} className={task.estimateId ? '' : 'no-estimate'}>
                                 <tr>
-                                    <td rowSpan={size.width>900? 1:2}>
+                                    <td rowSpan={mode==='pc'? 1:2}>
                                         <input type='checkbox' 
                                             checked={checkedState[task.taskId]||false} 
                                             onChange={()=>update_checked(task.taskId)}/></td>
-                                    <td rowSpan={size.width>900? 1:2}>
+                                    <td rowSpan={mode==='pc'? 1:2}>
                                         <div className='row-flex'>
                                             <p>{TaskEnumType[task.taskType]}</p>
                                             <p>[{task.assignedUser.name}]</p>
@@ -154,7 +155,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     <td style={{color:dateColor(task.createdAt)}}>
                                         {dayjs(task.createdAt).format('MM.DD HH:mm')}
                                     </td>
-                                    {size.width>900 &&
+                                    {mode==='pc' &&
                                     <td>
                                          {task.completeAt ?
                                             <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
@@ -175,7 +176,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             ))}
                                         </select>
                                     </td>
-                                    {size.width>900 &&
+                                    {mode==='pc' &&
                                         <>
                                             <td>{task.requesterContact}</td>
                                             <td>{task.model}</td>
@@ -183,13 +184,13 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                             <td>{task.remarks}</td>
                                     </>
                                     }
-                                    <td rowSpan={size.width>900? 1:2}>
+                                    <td rowSpan={mode==='pc'? 1:2}>
                                         <button onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
                                             {task.estimateId ? '인쇄':'작성'}
                                         </button>
                                     </td>
                                 </tr>   
-                                {size.width<=900 &&
+                                {mode!=='pc' &&
                                     <tr>
                                         <td>
                                         {task.completeAt ?
