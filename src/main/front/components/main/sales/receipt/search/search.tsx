@@ -16,6 +16,8 @@ import receiptSearchAction, { initialReceiptSearch } from '@/features/sales/rece
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import ReceiptSearchResult from './search-result';
+import { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 
 
 const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
@@ -24,6 +26,25 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     const [state, action, isPending] = useActionState(receiptSearchAction, initialReceiptSearch);
 
     const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
+    const {date, date_id} = useSelector((state:RootState)=> state.receiptSearch)
+
+    //일일종합검색
+    useEffect(()=>{
+        if(date_id && !isPending){
+            const formData = new FormData(formRef.current);
+            formData.set('searchSDate', date)
+            formData.set('searchEDate', date)
+            formData.set('customerId', initialReceiptSearch.customerId);
+            formData.set('customerName', initialReceiptSearch.customerName);
+            formData.set('stockId', initialReceiptSearch.stockId);
+            formData.set('productName', initialReceiptSearch.productName);
+            formData.set('action', 'submit');
+
+            startTransition(() => {
+                action(formData);
+            });
+        }
+    },[date_id])
 
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
