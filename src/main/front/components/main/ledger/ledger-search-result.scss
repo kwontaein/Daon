@@ -96,9 +96,9 @@
                 text-align: center;
             }
         }
-        border-bottom: 1px solid var.$default-border-color !important;
+        border-bottom: 1px solid var.$default-border-color;
         &:hover{
-            background-color: rgb(197,202,254) !important;
+            background-color: rgb(197,202,254);
         }
     }
 }

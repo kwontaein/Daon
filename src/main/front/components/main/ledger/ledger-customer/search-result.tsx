@@ -84,7 +84,7 @@ type SubTotal = {
         <td className="left-align">
           {ledger?.productName}
           <br />
-          {ledger?.modelName}
+          {ledger?.modelName ??(['매출','매입'].includes(category) && '-')}
         </td>
         <td>{ledger.quantity}</td>
         <td className="right-align">{ledger.outPrice}</td>
@@ -171,7 +171,7 @@ type SubTotal = {
   //총계
   function renderMobileTotalRow(idx: number, total: Total, balance: number) {
     return (
-      <tbody key={`total-${idx}`} className='none-hover'>
+      <tbody key={`total-${idx}`} className='none-hover' style={{borderBottom:'none'}}>
         <tr>
           <td rowSpan={2}/>
           <td rowSpan={2}>총계</td>
@@ -331,7 +331,7 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
                     <td></td>
                     <td>{dayjs(searchSDate).format('YY.MM.DD')}</td>
                     <td></td>
-                    <td className="left-align" style={{fontSize:'0.9rem'}}>{`<전 기 이 월>`}</td>
+                    <td className="left-align" style={{fontSize:'0.95rem'}}>{`<전 기 이 월>`}</td>
                     <td></td>
                     <td></td>
                     <td></td>
