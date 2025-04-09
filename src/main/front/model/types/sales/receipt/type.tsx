@@ -46,3 +46,13 @@ export type ReceiptCondition = {
   stockId?:string; //품명
 }
 
+export type ResponseReceiptTotal ={
+  beforeTotal:number,
+  date:Date,
+  purchase:number,
+  sales:number,
+  withdrawal:number,
+  deposit:number
+  official:number
+  remainTotal:number
+}
