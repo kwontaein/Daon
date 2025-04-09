@@ -20,8 +20,7 @@
       }
       
       &:focus + label,
-      &:not(:placeholder-shown) + label,
-      &:valid + label {
+      &:not(:placeholder-shown) + label{
         top: -7px;
         left: 5px;
         font-size: 11px;

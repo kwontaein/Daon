@@ -1,39 +1,44 @@
 import useDebounce from "@/hooks/share/useDebounce";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+function RememberChecked({ currentId }: { currentId: string }) {
+  const [isChecked, setIsChecked] = useState(()=>false);
+  const debouncing = useDebounce();
 
-function RememberChecked({currentId}){
-    const [remember, setRemember] = useState(false);
-    const timeOutRef = useRef(null)
-    const debouncing = useDebounce()  
+  // mount 시 localStorage 확인
+  useEffect(() => {
+    const savedId = localStorage.getItem('savedId');
+    setIsChecked(!!savedId);
+  },[]);
+
+  // currentId 변경 시 remember가 true일 경우에만 저장
+  useEffect(() => {
+    if (isChecked) {
+      debouncing(() => {
+        localStorage.setItem('savedId', currentId);
+      }, 1000);
+    }
+  }, [currentId, isChecked]);
+
+  const rememberUserId = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsChecked(checked);
     
-    useEffect(() => {
-      const savedId = localStorage.getItem('savedId');
-      setRemember(!!savedId);
-    }, []);
-    
-    useEffect(()=>{
-      if(remember){
-        debouncing(()=>{
-          localStorage.setItem('savedId', currentId);
-          console.log('저장실행')
-        },1000)
-
-      }
-    },[currentId])
-  
-    const rememberUserId = (e:ChangeEvent<HTMLInputElement>) => {
-      if (remember) {
-          localStorage.removeItem('savedId');
-          setRemember(false)
-        } else {
-            localStorage.setItem('savedId', currentId);
-            setRemember(true)
-      }
-      // 로그인 로직 실행
-    };  
+    if (!checked) {
+      localStorage.removeItem('savedId');
+    } else {
+      localStorage.setItem('savedId', currentId);
+    }
+  };
 
 
-    return <input type='checkbox' checked={remember} onChange={rememberUserId}/> 
-
+  return (
+    <input
+      type="checkbox"
+      checked={isChecked}
+      onChange={rememberUserId}
+      name="remember"
+    />
+  );
 }
+
 export default RememberChecked
