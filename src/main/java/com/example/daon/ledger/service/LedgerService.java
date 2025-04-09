@@ -7,6 +7,7 @@ import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.dto.request.NoPaidRequest;
+import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -81,8 +83,8 @@ public class LedgerService {
     }
 
     //원장조회
-    public List<ReceiptEntity> getLedgers(LedgerRequest ledgerRequest) {
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<LedgerResponse> getLedgers(LedgerRequest ledgerRequest) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
@@ -93,6 +95,8 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     // 카테고리에 따른 분류
@@ -131,9 +135,9 @@ public class LedgerService {
     }
 
     //품목별원장
-    public List<ReceiptEntity> getStockLedger(LedgerRequest ledgerRequest) {
+    public List<LedgerResponse> getStockLedger(LedgerRequest ledgerRequest) {
         //날짜 계정 거래처	적요	단가	판매	반품	매입	반출	재고	금액
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
@@ -147,13 +151,14 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
 
     //매출장
-    public List<ReceiptEntity> getSaleReceipt(LedgerRequest ledgerRequest) {
+    public List<LedgerResponse> getSaleReceipt(LedgerRequest ledgerRequest) {
         //날짜 계정 거래처	품명	규격	적요	수량	단가	합계금액
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
@@ -170,12 +175,13 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     //매입장
-    public List<ReceiptEntity> getPurchaseReceipt(LedgerRequest ledgerRequest) {
+    public List<LedgerResponse> getPurchaseReceipt(LedgerRequest ledgerRequest) {
         //날짜 계정 거래처 품명 규격 적요 수량 단가 합계금액
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
@@ -192,12 +198,13 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     //관리비원장
-    public List<ReceiptEntity> getFeeReceipt(LedgerRequest ledgerRequest) {
+    public List<LedgerResponse> getFeeReceipt(LedgerRequest ledgerRequest) {
         //날짜 계정 품명 적요 합계
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.MAINTENANCE_FEE));
@@ -205,6 +212,7 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     //재고조사서
@@ -215,12 +223,13 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
     }
 
 
     //넌 일단 보류 - 기타원장
-    public List<ReceiptEntity> getExtraLedger(LedgerRequest ledgerRequest) {
-        return receiptRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<LedgerResponse> getExtraLedger(LedgerRequest ledgerRequest) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
@@ -239,6 +248,8 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
 
