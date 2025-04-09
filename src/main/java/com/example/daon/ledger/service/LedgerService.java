@@ -78,7 +78,8 @@ public class LedgerService {
 
         // 품목 조건
         if (ledgerRequest.getStockId() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("itemNumber"), ledgerRequest.getStockId()));
+            StockEntity stock = stockRepository.findById(ledgerRequest.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
+            predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
         }
     }
 
