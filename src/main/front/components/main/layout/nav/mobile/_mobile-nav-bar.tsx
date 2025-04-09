@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
-import { useWindowSize } from "@/hooks/share/useWindowSize";
 import MobileAsideBar from "@/components/main/layout/aside/mobile/_mobile-aside";
 import { AsideOptions } from "@/model/constants/asideOptions";
+import { useScreenMode } from "@/hooks/share/useScreenMode";
 
 export default function MobileNavBar(){
     const navigation_route = Object.entries(AsideOptions)
@@ -21,12 +21,12 @@ export default function MobileNavBar(){
     const searchParams = useSearchParams();
     const nav = useParams().nav as string;
     /* mount component condition*/
-    const size = useWindowSize()
+    const mode = useScreenMode({tabletSize:900,mobileSize:620})
     const [isMount, setIsMount] = useState<boolean>(false);
     const [mobile, setMobile] = useState<boolean>(false);
     
     useEffect(()=>{
-        if(size.width<=620){
+        if(mode==='mobile'){
             setTimeout(()=>{
                 setIsMount(true);
             },200)
@@ -35,7 +35,7 @@ export default function MobileNavBar(){
             setIsMount(false);
             setMobile(false);
         }
-    },[size.width])
+    },[mode])
 
     useEffect(()=>{
         if(searchParams.get('toggle')){

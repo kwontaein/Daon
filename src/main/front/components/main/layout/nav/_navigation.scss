@@ -3,7 +3,6 @@
 .nav-container{
     width: 100%;
     background-color: #ececec;
-    display: flex;
     color: var.$default-white-color;
     padding: 0.5rem;
     box-sizing: border-box;
@@ -19,7 +18,9 @@
 
 
 .nav-container__ul{
+    width: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     li{
         white-space: nowrap;
@@ -28,6 +29,7 @@
         align-items: center;
         flex-shrink: 1;
         min-width: 0;
+        margin-block: 1px;
         b{
             color: black;
             margin-inline: 0.4rem;
