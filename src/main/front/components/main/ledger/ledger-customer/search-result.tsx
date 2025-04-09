@@ -49,13 +49,13 @@ type SubTotal = {
     switch (category) {
       case '매출':
       case '출금':
-        newSub.sales += totalPrice;
-        newTotal.sales += totalPrice;
+        newSub.purchase += totalPrice;
+        newTotal.purchase += totalPrice;
         break;
       case '매입':
       case '입금':
-        newSub.purchase += totalPrice;
-        newTotal.purchase += totalPrice;
+        newSub.sales += totalPrice;
+        newTotal.sales += totalPrice;
         break;
       case '매출할인':
         newSub.purchase_discount += totalPrice;

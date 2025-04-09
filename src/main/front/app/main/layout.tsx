@@ -21,7 +21,7 @@ export default async function MainLayout({navigation,aside,children}: {
         {navigation}
         <section className='main-layout-wrapper'>
           {aside}
-          <section className={'main-view-container'}>
+          <section className='main-view-container'>
             <AsideTitle/> 
             {children}
           </section>
