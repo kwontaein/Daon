@@ -67,7 +67,6 @@ export async function ledgerSearchAction(prevState, formData){
             return [key,value]
         })) as LedgerSearchCondition
         
-
         let searchResult;
         if(action.includes('customer')){
             searchResult = await getLedgerCustomerApi(postData)
