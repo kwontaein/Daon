@@ -175,7 +175,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                     totalItems={receiptList.length}
                     itemCountPerPage={10}
                     pageCount={4}
-                    currentPage={page}
+                    currentPage={Number(page)}
                 />}
         </div>
     );

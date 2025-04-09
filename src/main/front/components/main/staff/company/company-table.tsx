@@ -8,19 +8,19 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useItemSelection } from "@/hooks/share/useItemSelection";
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 
 import CompanyOptions from "./company-options";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import { apiUrl } from '@/model/constants/apiUrl';
 import Pagination from '@/components/share/pagination';
+import { useScreenMode } from '@/hooks/share/useScreenMode';
 
 export default function CompanyTable({initialCompany, page}:{initialCompany:ResponseCompany[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const [company,setCompany] = useState<ResponseCompany[]>(initialCompany)
     const [pageByCompany, setPageByCompany] = useState<ResponseCompany[]>([])
     const [loading, setLoading] = useState<boolean>(true)
-    const size=useWindowSize();
+    const mode = useScreenMode({tabletSize:700,mobileSize:620})
 
     //search input variables 
     const inputRef = useRef<HTMLInputElement|null>(null)
@@ -57,7 +57,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
 
        //TODO: add mobile version
     const signNewCompanyHandler = ()=>{
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/register-company`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
@@ -78,7 +78,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                         <td>상호</td>
                         <td>사업자등록번호</td>
                         <td>전화</td>
-                        {size.width>700 && <td>FAX</td>}
+                        {mode==='pc' && <td>FAX</td>}
                         <td>대표자명</td>
                         <td>관리</td>
                     </tr>   
@@ -89,7 +89,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                             <td>{company.companyName}[{company.printName}]</td>
                             <td>{company.businessNum}</td>
                             <td>{company.tel}</td>
-                            {size.width>700 &&<td>{company.fax}</td>}
+                            {mode==='pc' &&<td>{company.fax}</td>}
                             <td>{company.ceo}</td>
                             <td className='icon' onClick={()=> target === company.companyId ? setTarget(null) :setTarget(company.companyId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === company.companyId &&{color:'orange'}}/>
