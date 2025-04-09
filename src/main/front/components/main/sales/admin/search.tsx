@@ -3,12 +3,12 @@ import '@/styles/table-style/search.scss'
 
 import { Affiliation } from '@/model/types/customer/affiliation/type'
 
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
 import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useScreenMode } from '@/hooks/share/useScreenMode';
 
 export default function AdminSearch({affiliations, initialTask, page}:{affiliations:Affiliation[], initialTask:ResponseTask[], page:number}){
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
@@ -26,12 +26,9 @@ export default function AdminSearch({affiliations, initialTask, page}:{affiliati
     const pathname = usePathname();
 
 
-
-    const size = useWindowSize()
-
     const registerTask =()=>{
         //pc
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);

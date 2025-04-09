@@ -14,8 +14,8 @@ import Pagination from "@/components/share/pagination";
 import EmployeeOptions from "./employee-options";
 
 import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employee/type";
-import { useWindowSize } from '@/hooks/share/useWindowSize';
 import { apiUrl } from '@/model/constants/apiUrl';
+import { useScreenMode } from '@/hooks/share/useScreenMode';
 
 
 export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
@@ -34,8 +34,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     const router = useRouter()
 
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
-    const size = useWindowSize()
-
+    const mode = useScreenMode({tabletSize:720,mobileSize:620})
 
     const searchHandler = () =>{
         setEmployee(()=>{
@@ -62,7 +61,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     //TODO: add mobile version
     const signNewemployeeHandler = ()=>{
            
-        if(size.width>620){
+        if(window.innerWidth>620){
             const url = `${apiUrl}/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
@@ -83,7 +82,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '5%' }} />
                     <col style={{ width: '15%' }} />
-                    {size.width>720 && <col style={{ width: '15%' }} />}
+                    {mode==='pc' && <col style={{ width: '15%' }} />}
                     <col style={{ width: '15%' }} />
                     <col style={{ width: '1%' , minWidth:'35px'}} />
                 </colgroup>
@@ -94,7 +93,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                         <td>직위</td>
                         <td>영문성명</td>
                         <td>연락처</td>
-                        {size.width>720 && <td>핸드폰</td>}
+                        {mode==='pc' && <td>핸드폰</td>}
                         <td>관리</td>
                     </tr>
                 </thead>
@@ -106,7 +105,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                             <td>{EmployeeClassEnum[employee.userClass]}</td>
                             <td>{employee.engName}</td>
                             <td>{employee.tel}</td>
-                            {size.width>720 &&<td>{employee.phone}</td>}
+                            {mode==='pc' &&<td>{employee.phone}</td>}
                             <td className='icon' onClick={()=> target === employee.userId ? setTarget(null) :setTarget(employee.userId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === employee.userId &&{color:'orange'}}/>
                                 {target === employee.userId && <EmployeeOptions employeeId={employee.userId}/>}
