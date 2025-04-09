@@ -1,7 +1,5 @@
 import { CustomerCateEnum, ResponseCustomer } from "../customer/customer/type";
-import { ResponseEstimate } from "../sales/estimate/type";
 import { ReceiptCategoryEnum } from "../sales/receipt/type";
-import { ResponseStock } from "../stock/stock/types";
 
 export type LedgerSearchCondition ={
     searchSDate: Date;  //검색 날짜 시작일
@@ -32,17 +30,17 @@ export enum FormCategory{
     EXPENSE="지출증빙"  // 반품입고
 }
 
-export type ResponseLedger ={
-    category?:ReceiptCategoryEnum
-    comeFrom?: FormCategory
-    customer?:ResponseCustomer
-    description?:string
-    estimate?:ResponseEstimate
-    memo?:string
-    officialId?:string,
-    quantity?:number,
-    receiptId?:string,
-    stock?:ResponseStock
+
+export type ResponseLedger={
+    receiptId:string
     timeStamp:Date
-    totalPrice:number
+    category?:ReceiptCategoryEnum
+    customer?:ResponseCustomer
+    productName?:string
+    modelName?:string
+    outPrice?:number
+    quantity?:number
+    totalPrice?:number
+    memo?:string
+    description?:string
 }

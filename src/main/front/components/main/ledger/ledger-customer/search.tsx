@@ -6,7 +6,7 @@ import { Affiliation } from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { StockCate } from '@/model/types/stock/cate/type';
-import { startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { ResponseStock } from '@/model/types/stock/stock/types';
@@ -21,6 +21,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
     const ledgerTitle = useMemo(()=>state.customerName,[state.searchResult])
+
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -181,7 +182,10 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
             </table>
             </form>
         </section>
-        <LedgerCustomerSearchResult ledgerTitle={ledgerTitle} searchSDate={state.searchSDate} searchResult={searchResult}/>
+
+        {searchResult.length>0 &&
+            <LedgerCustomerSearchResult ledgerTitle={ledgerTitle} searchSDate={state.searchSDate} searchResult={searchResult}/>   
+        }
         </>
     )
 }

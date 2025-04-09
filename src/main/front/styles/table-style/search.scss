@@ -50,7 +50,9 @@
 
     .table-radio-container{
         div{
+            width: 100%;
             display: flex;
+            flex-wrap: wrap;  
             flex-direction: row;
             align-items: center;
             gap: 6px;
@@ -89,6 +91,7 @@
 
     .table-buttons,
     .grid-table-buttons {
+        gap:2px;
         button {
             margin: 2px;
             display: block;

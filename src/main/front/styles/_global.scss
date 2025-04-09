@@ -24,11 +24,11 @@ body{
     font-size: 12px;
   }
 }
-@media (max-width:700px) {
-  html {
-    font-size: 11px;
-  }
-}
+// @media (max-width:700px) {
+//   html {
+//     font-size: 11px;
+//   }
+// }
 
 
 @media (max-width: 620px) {
@@ -124,7 +124,7 @@ option[value="disabled"][disabled] {
 
 
 .modal-background{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
