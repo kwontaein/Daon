@@ -16,7 +16,8 @@
     width: 100%;
     display: flex;
     position :relative;
-    flex-direction: row;
+    flex-direction: row;    
+    padding-block: 1.5rem;
     padding-top: 70px;
 
     @media (max-width:692px){
