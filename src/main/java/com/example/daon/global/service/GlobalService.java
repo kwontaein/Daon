@@ -269,6 +269,15 @@ public class GlobalService {
     public LedgerResponse convertToLedgerResponse(ReceiptEntity receipt) {
         return LedgerResponse
                 .builder()
+                .receiptId(receipt.getReceiptId())
+                .timeStamp(receipt.getTimeStamp())
+                .category(receipt.getCategory())
+                .productName(receipt.getStock().getProductName())
+                .outPrice(receipt.getStock().getOutPrice())
+                .quantity(receipt.getQuantity())
+                .totalPrice(receipt.getTotalPrice())
+                .memo(receipt.getMemo())
+                .description(receipt.getDescription())
                 .build();
     }
 
