@@ -19,7 +19,6 @@ export default function DailySummaryPage(){
     const {date} = useSelector((state:RootState)=> state.receiptSearch)
     const [receiptTotal, setReceiptTotal] =useState<ResponseReceiptTotal>()
 
-    console.log(date)
     const dispatch = useDispatch()
 
     const searchSummary = useCallback(()=>{

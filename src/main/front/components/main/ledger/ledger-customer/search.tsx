@@ -181,7 +181,9 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
             </table>
             </form>
         </section>
-        <LedgerCustomerSearchResult ledgerTitle={ledgerTitle} searchSDate={state.searchSDate} searchResult={searchResult}/>
+        {searchResult.length>0 &&
+            <LedgerCustomerSearchResult ledgerTitle={ledgerTitle} searchSDate={state.searchSDate} searchResult={searchResult}/>   
+        }
         </>
     )
 }
