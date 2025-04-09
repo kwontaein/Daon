@@ -90,7 +90,7 @@ public class LedgerService {
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
 
             // 전표 선택 옵션 추가
-            addCategoryPredicates(ledgerRequest, criteriaBuilder, root, predicates);
+            addCategoryPredicates(ledgerRequest, root, predicates);
 
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -100,39 +100,23 @@ public class LedgerService {
     }
 
     // 카테고리에 따른 분류
-    private void addCategoryPredicates(LedgerRequest ledgerRequest, CriteriaBuilder criteriaBuilder, Root<ReceiptEntity> root, List<Predicate> predicates) {
-        if (ledgerRequest.isDeposit())
-            //입금
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.DEPOSIT));
+    private void addCategoryPredicates(LedgerRequest ledgerRequest, Root<ReceiptEntity> root, List<Predicate> predicates) {
+        List<ReceiptCategory> selectedCategories = new ArrayList<>();
 
-        if (ledgerRequest.isSales())
-            //매출
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.SALES));
+        if (ledgerRequest.isDeposit()) selectedCategories.add(ReceiptCategory.DEPOSIT);
+        if (ledgerRequest.isSales()) selectedCategories.add(ReceiptCategory.SALES);
+        if (ledgerRequest.isSalesDiscount()) selectedCategories.add(ReceiptCategory.SALES_DISCOUNT);
+        if (ledgerRequest.isPurchase()) selectedCategories.add(ReceiptCategory.PURCHASE);
+        if (ledgerRequest.isPurchaseDiscount()) selectedCategories.add(ReceiptCategory.PURCHASE_DISCOUNT);
+        if (ledgerRequest.isReturnIn()) selectedCategories.add(ReceiptCategory.RETURN_IN);
+        if (ledgerRequest.isReturnOut()) selectedCategories.add(ReceiptCategory.RETURN_OUT);
+        if (ledgerRequest.isWithdrawal()) selectedCategories.add(ReceiptCategory.WITHDRAWAL);
 
-        if (ledgerRequest.isSalesDiscount())
-            //매출할인
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.SALES_DISCOUNT));
-
-        if (ledgerRequest.isPurchase())
-            //매입
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE));
-
-        if (ledgerRequest.isPurchaseDiscount())
-            //매입할인
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE_DISCOUNT));
-
-        if (ledgerRequest.isReturnIn())
-            //반품입고
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.RETURN_IN));
-
-        if (ledgerRequest.isReturnOut())
-            //반품출고
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.RETURN_OUT));
-
-        if (ledgerRequest.isWithdrawal())
-            //출금
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.WITHDRAWAL));
+        if (!selectedCategories.isEmpty()) {
+            predicates.add(root.get("category").in(selectedCategories));
+        }
     }
+
 
     //품목별원장
     public List<LedgerResponse> getStockLedger(LedgerRequest ledgerRequest) {
@@ -147,7 +131,7 @@ public class LedgerService {
                 predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
             }
 
-            addCategoryPredicates(ledgerRequest, criteriaBuilder, root, predicates);
+            addCategoryPredicates(ledgerRequest, root, predicates);
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -243,12 +227,12 @@ public class LedgerService {
                 predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
             }
 
-            addCategoryPredicates(ledgerRequest, criteriaBuilder, root, predicates);
+            addCategoryPredicates(ledgerRequest, root, predicates);
 
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        
+
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
