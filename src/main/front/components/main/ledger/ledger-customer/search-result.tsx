@@ -72,20 +72,20 @@ type SubTotal = {
   }
   
   //ledger
-  function renderLedgerRow(ledger: ResponseLedger, idx: number, balance: number, isSameDate: boolean) {
+  function renderLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean) {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
-      <tr key={idx} style={isSameDate ? { border: 'none' } : undefined}>
+      <tr key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
         <td><input type="checkbox" /></td>
         <td>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
         <td>{category}</td>
         <td className="left-align">
-          {ledger.stock?.productName}
+          {ledger?.productName}
           <br />
-          {ledger.stock?.modelName}
+          {ledger?.modelName}
         </td>
         <td>{ledger.quantity}</td>
-        <td className="right-align"></td>
+        <td className="right-align">{ledger.outPrice}</td>
         <td className="right-align">{(['매출', '출금'].includes(category) ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
         <td className="right-align">{(['매입', '입금'].includes(category) ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
         <td className="right-align">{(category === '매출할인' ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
@@ -144,7 +144,7 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
           const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, isSameDate ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
           const elements = [...prev.elements];
       
-          elements.push(renderLedgerRow(ledger, idx, balance, isSameDate));
+          elements.push(renderLedgerRow(ledger, balance, isSameDate));
       
           let ledgerCount = prev.ledgerCount + 1;
           const isLast = idx === searchResult.length - 1;

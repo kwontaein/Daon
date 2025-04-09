@@ -18,6 +18,7 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import ReceiptSearchResult from './search-result';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 
 const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
@@ -27,6 +28,9 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
 
     const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
     const {date, date_id} = useSelector((state:RootState)=> state.receiptSearch)
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     //일일종합검색
     useEffect(()=>{
@@ -57,6 +61,9 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     useEffect(()=>{
         if(state.searchReceipt){
             setReceiptList(state.searchReceipt)
+            const params = new URLSearchParams(searchParams.toString());
+            params.delete("page");
+            router.push(`${pathname}?${params.toString()}`);
         }
     },[state])
 
