@@ -25,6 +25,8 @@ public class LedgerResponse {
 
     private CustomerEntity customer; // 고객 아이디
 
+    private String customerName; // 고객 아이디
+
     private String productName; // 품목 명
 
     private String modelName; // 모델 명
