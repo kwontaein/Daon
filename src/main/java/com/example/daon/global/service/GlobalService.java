@@ -272,6 +272,7 @@ public class GlobalService {
                 .receiptId(receipt.getReceiptId())
                 .timeStamp(receipt.getTimeStamp())
                 .category(receipt.getCategory())
+                .customerName(receipt.getCustomer() != null ? receipt.getCustomer().getCustomerName() : null)
                 .productName(receipt.getStock() != null ? receipt.getStock().getProductName() : null)
                 .modelName(receipt.getStock() != null ? receipt.getStock().getModelName() : null)
                 .outPrice(receipt.getStock() != null ? receipt.getStock().getOutPrice() : null)
