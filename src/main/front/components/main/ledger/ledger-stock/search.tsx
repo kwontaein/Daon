@@ -3,13 +3,16 @@
 import '@/styles/table-style/search.scss';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import { ResponseStock } from '@/model/types/stock/stock/types';
+import { ResponseLedger } from '@/model/types/ledger/type';
+import LedgerStockSearchResult from './search-result';
 
 export default function LedgerStockSearch(){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
+    const [searchResult, setSearchResult]=useState<ResponseLedger[]>([])
     const formRef = useRef(null)
         //거래처 검색관련
 
@@ -45,7 +48,11 @@ export default function LedgerStockSearch(){
             action(formData);
         });
     }
-    
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchResult(state.searchResult)
+        }
+    },[state])
 
     return(
         <section className='search-container'>
@@ -79,7 +86,7 @@ export default function LedgerStockSearch(){
                                    defaultValue={state.productName} 
                                    key={state.productName}
                                    onKeyDown={searchStockHandler}/>
-                            <input type='hidden' name='stockId' value={JSON.stringify(state.stockId)} readOnly/>
+                            <input type='hidden' name='stockId' value={state.stockId} readOnly/>
                         </td>              
                     </tr>
                     <tr>
@@ -106,10 +113,12 @@ export default function LedgerStockSearch(){
                            </div>
                         </td>
                     </tr>
-                        
                 </tbody>
             </table>
             </form>
+            {searchResult.length>0 &&
+                <LedgerStockSearchResult searchResult={searchResult}/>
+            }
         </section>
     )
 }
