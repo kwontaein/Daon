@@ -42,6 +42,7 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
 
 //품목별원장
 export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
+    console.log(searchCondition)
     try {
         const response = await fetch("http://localhost:8080/api/getStockLedger", {
             method: "POST",
