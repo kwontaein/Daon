@@ -32,14 +32,14 @@ const initialTotal: Total = {
 };
 
 
-export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,searchSDate}:{ledgerTitle:string,searchResult:ResponseLedger[],searchSDate:Date}){
+export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{ledgerTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
   const screen = useScreenMode({tabletSize:800, mobileSize:620})
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
 
   const mode =( screen!=='pc' ? screen: (mobileView ? 'tabelt': screen) )
   const resultReducer = useMemo(()=>
   
-    searchResult.reduce<Accumulator>((prev, ledger, idx) => {
+    searchInfo.searchResult.reduce<Accumulator>((prev, ledger, idx) => {
       const category = ReceiptCategoryEnum[ledger.category];
       const isSameDate = prev.date === ledger.timeStamp;
       const balance =
@@ -53,8 +53,8 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
       elements.push( mode==='pc' ?renderLedgerRow(ledger, balance, isSameDate) : renderMobileLedgerRow(ledger, balance, isSameDate));
   
       let ledgerCount = prev.ledgerCount + 1;
-      const isLast = idx === searchResult.length - 1;
-      const isNewDate = ledger.timeStamp !== searchResult[idx + 1]?.timeStamp; 
+      const isLast = idx === searchInfo.searchResult.length - 1;
+      const isNewDate = ledger.timeStamp !== searchInfo.searchResult[idx + 1]?.timeStamp; 
   
       //다음 ledger이랑 날짜가 다르거나 없으면 당일소계를 추가
       if ((ledgerCount > 1 && isNewDate) || isLast) {
@@ -76,12 +76,12 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
       };
     }, {
       elements: [],
-      date: searchSDate,
+      date: searchInfo.searchSDate,
       balance: 0,
       subTotalOfTheDay: initialSubTotal,
       total: initialTotal,
       ledgerCount: 0
-    })  ,[mode, searchResult])
+    })  ,[mode, searchInfo.searchResult])
     
 
     return(
@@ -91,7 +91,7 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
             <input type='checkbox' checked={mobileView} onChange={setMobileView}/> 모바일 원장
         </label>
         }
-        <h3 className='ledger-title'>{ledgerTitle+' 원장'}</h3>
+        <h3 className='ledger-title'>{searchInfo.ledgerTitle+' 원장'}</h3>
         <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
         <table className={`ledger-search-result-table ${ mode!=='pc' && ' ledger-mobile'}`} style={{marginTop:'0'}}>
             <colgroup>
@@ -153,7 +153,7 @@ export default function LedgerCustomerSearchResult({ledgerTitle, searchResult,se
             <tbody>
                 <tr style={{height:'20px'}}>
                     <td></td>
-                    <td>{dayjs(searchSDate).format('YY.MM.DD')}</td>
+                    <td>{dayjs(searchInfo.searchSDate).format('YY.MM.DD')}</td>
                     <td></td>
                     <td className="left-align" style={{fontSize:'0.95rem'}}>{`<전 기 이 월>`}</td>
                     <td></td>
