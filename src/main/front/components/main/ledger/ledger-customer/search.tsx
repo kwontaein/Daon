@@ -17,10 +17,13 @@ import LedgerCustomerSearchResult from './search-result';
 export default function LedgerCustomerSearch({affiliations, stockCates}:{affiliations:Affiliation[], stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
     const formRef = useRef(null)
-    const [searchResult, setSearchResult]=useState<ResponseLedger[]>([])
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+        searchSDate:null,
+    })
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
-    const ledgerTitle = useMemo(()=>state.customerName,[state.searchResult])
 
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
@@ -62,7 +65,11 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
     
     useEffect(()=>{
         if(state.searchResult){
-            setSearchResult(state.searchResult)
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:state.customerName,
+                searchSDate: state.searchSDate
+            })        
         }
     },[state])
 
@@ -183,8 +190,8 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
             </form>
         </section>
 
-        {searchResult.length>0 &&
-            <LedgerCustomerSearchResult ledgerTitle={ledgerTitle} searchSDate={state.searchSDate} searchResult={searchResult}/>   
+        {searchInfo.searchResult.length>0 &&
+            <LedgerCustomerSearchResult searchInfo={searchInfo}/>   
         }
         </>
     )
