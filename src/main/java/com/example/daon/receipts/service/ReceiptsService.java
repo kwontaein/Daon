@@ -98,7 +98,9 @@ public class ReceiptsService {
 
         if (request.getStockId() != null) {
             stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
-        } else if (request.getOfficialId() != null) {
+        }
+        
+        if (request.getOfficialId() != null) {
             official = officialRepository.findById(request.getOfficialId()).orElse(null);
         }
 
