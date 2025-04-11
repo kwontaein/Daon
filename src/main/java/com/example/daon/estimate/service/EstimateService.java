@@ -63,6 +63,11 @@ public class EstimateService {
                 && estimateRequest.getProductName() == null
                 && !estimateRequest.isTask()) {
             estimateEntities = estimateRepository.findByReceipted(false).orElse(null);
+
+            return estimateEntities
+                    .stream()
+                    .map(globalService::convertToEstimateResponse)
+                    .collect(Collectors.toList());
         }
 
         // 동적 검색 조건 적용
