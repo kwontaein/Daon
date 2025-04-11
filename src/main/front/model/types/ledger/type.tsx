@@ -35,7 +35,7 @@ export type ResponseLedger={
     receiptId:string
     timeStamp:Date
     category?:ReceiptCategoryEnum
-    customer?:ResponseCustomer
+    customerName?:string
     productName?:string
     modelName?:string
     outPrice?:number
