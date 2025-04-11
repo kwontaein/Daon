@@ -52,6 +52,7 @@ export async function ledgerSearchAction(prevState, formData){
         returnIn: receiptCates.includes('returnIn') //반품입고
     }
     const productName = formData.get('productName')
+    const modelName = formData.get('modelName')
     const customerName = formData.get('customerName')
     const action = formData.get('action')
 
@@ -89,16 +90,18 @@ export async function ledgerSearchAction(prevState, formData){
             ...prevState,
             ...searchData,
             productName,
+            modelName,
             customerName,
             searchResult:searchResult,
 
         }
     }
-
+    delete prevState.searchResult;
     return{
         ...prevState,
         ...searchData,
         productName,
+        modelName,
         customerName
     }
 }

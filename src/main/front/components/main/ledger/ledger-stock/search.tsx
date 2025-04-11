@@ -12,10 +12,15 @@ import LedgerStockSearchResult from './search-result';
 
 export default function LedgerStockSearch(){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
-    const [searchResult, setSearchResult]=useState<ResponseLedger[]>([])
-    const formRef = useRef(null)
-        //거래처 검색관련
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+        searchSDate:null,
+    })
 
+    const formRef = useRef(null)
+        
+    //거래처 검색관련
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
@@ -31,7 +36,7 @@ export default function LedgerStockSearch(){
             });
         }
     }, [action]);
-    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName">) => {
+    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName"|"modelName">) => {
         changeHandler(stockInfo);
     }, [changeHandler]);
 
@@ -50,7 +55,11 @@ export default function LedgerStockSearch(){
     }
     useEffect(()=>{
         if(state.searchResult){
-            setSearchResult(state.searchResult)
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`${state.productName}(${state.modelName??'-'})`,
+                searchSDate: state.searchSDate
+            })
         }
     },[state])
 
@@ -87,6 +96,7 @@ export default function LedgerStockSearch(){
                                    key={state.productName}
                                    onKeyDown={searchStockHandler}/>
                             <input type='hidden' name='stockId' value={state.stockId} readOnly/>
+                            <input type='hidden' name='modelName' value={state.modelName} readOnly/>
                         </td>              
                     </tr>
                     <tr>
@@ -116,8 +126,8 @@ export default function LedgerStockSearch(){
                 </tbody>
             </table>
             </form>
-            {searchResult.length>0 &&
-                <LedgerStockSearchResult searchResult={searchResult}/>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerStockSearchResult searchInfo={searchInfo}/>
             }
         </section>
     )
