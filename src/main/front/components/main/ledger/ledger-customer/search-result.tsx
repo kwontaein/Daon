@@ -32,7 +32,7 @@ const initialTotal: Total = {
 };
 
 
-export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{ledgerTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
+export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
   const screen = useScreenMode({tabletSize:800, mobileSize:620})
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
 
@@ -91,7 +91,7 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{led
             <input type='checkbox' checked={mobileView} onChange={setMobileView}/> 모바일 원장
         </label>
         }
-        <h3 className='ledger-title'>{searchInfo.ledgerTitle+' 원장'}</h3>
+        <h3 className='ledger-title'>{searchInfo.searchTitle+' 원장'}</h3>
         <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
         <table className={`ledger-search-result-table ${ mode!=='pc' && ' ledger-mobile'}`} style={{marginTop:'0'}}>
             <colgroup>
