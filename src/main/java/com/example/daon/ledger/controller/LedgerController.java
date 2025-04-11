@@ -26,6 +26,11 @@ public class LedgerController {
         return ledgerService.getLedgers(ledgerRequest);
     }
 
+    @PostMapping("api/getMultipleLedgers")
+    public List<LedgerResponse> getMultipleLedgers(@RequestBody LedgerRequest ledgerRequest) {
+        return ledgerService.getMultipleLedgers(ledgerRequest);
+    }
+
     //품목별
     @PostMapping("api/getStockLedger")
     public List<LedgerResponse> getStockLedger(@RequestBody LedgerRequest ledgerRequest) {
