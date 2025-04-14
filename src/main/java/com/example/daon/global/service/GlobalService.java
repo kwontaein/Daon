@@ -276,6 +276,8 @@ public class GlobalService {
                 .productName(receipt.getStock() != null ? receipt.getStock().getProductName() : null)
                 .modelName(receipt.getStock() != null ? receipt.getStock().getModelName() : null)
                 .outPrice(receipt.getStock() != null ? receipt.getStock().getOutPrice() : null)
+                .officialName(receipt.getOfficialId() != null ? receipt.getOfficialId().getOfficialName() : null)
+                .officialId(receipt.getOfficialId() != null ? receipt.getOfficialId().getOfficialId() : null)
                 .quantity(receipt.getQuantity())
                 .totalPrice(receipt.getTotalPrice())
                 .memo(receipt.getMemo())

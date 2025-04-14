@@ -100,6 +100,28 @@ public class LedgerService {
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
+    //복수거래처
+    public List<LedgerResponse> getMultipleLedgers(LedgerRequest ledgerRequest) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+            addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
+
+            if (ledgerRequest.getCustomerIds() != null && !ledgerRequest.getCustomerIds().isEmpty()) {
+                predicates.add(root.get("customer").get("customerId").in(ledgerRequest.getCustomerIds()));
+            }
+
+            // 전표 선택 옵션 추가
+            addCategoryPredicates(ledgerRequest, root, predicates);
+
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+
+        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+    }
+
+
     // 카테고리에 따른 분류
     private void addCategoryPredicates(LedgerRequest ledgerRequest, Root<ReceiptEntity> root, List<Predicate> predicates) {
         List<ReceiptCategory> selectedCategories = new ArrayList<>();
@@ -128,8 +150,7 @@ public class LedgerService {
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
             //해당 품목의 전표 검색
             if (ledgerRequest.getStockId() != null) {
-                StockEntity stock = stockRepository.findById(ledgerRequest.getStockId()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
+                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
             }
 
             addCategoryPredicates(ledgerRequest, root, predicates);
@@ -149,13 +170,11 @@ public class LedgerService {
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.SALES));
             if (ledgerRequest.getStockId() != null) {
-                StockEntity stock = stockRepository.findById(ledgerRequest.getStockId()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
+                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
             }
             if (ledgerRequest.getCustomerId() != null) {
                 // 단일 거래처 ID로 필터
-                CustomerEntity customer = customerRepository.findById(ledgerRequest.getCustomerId()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("customer"), customer));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -172,13 +191,11 @@ public class LedgerService {
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE));
             if (ledgerRequest.getStockId() != null) {
-                StockEntity stock = stockRepository.findById(ledgerRequest.getStockId()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
+                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
             }
             if (ledgerRequest.getCustomerId() != null) {
                 // 단일 거래처 ID로 필터
-                CustomerEntity customer = customerRepository.findById(ledgerRequest.getCustomerId()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("customer"), customer));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -356,5 +373,6 @@ public class LedgerService {
         System.out.println(em.createQuery(cq).getResultList());
         return em.createQuery(cq).getResultList();
     }
+
 
 }

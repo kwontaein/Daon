@@ -33,10 +33,7 @@ public class StockService {
 
             // 분류 (category) 검색
             if (stockRequest.getCategory() != null) {
-                StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory()).orElse(null);
-                if (stockCate != null) {
-                    predicates.add(criteriaBuilder.equal(root.get("category"), stockCate));
-                }
+                predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), stockRequest.getCategory()));
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
@@ -74,8 +71,6 @@ public class StockService {
         // 1) 카테고리 조회
         StockCate stockCate = stockCateRepository.findById(stockRequest.getCategory())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 카테고리입니다."));
-
-        System.out.println("실행 stock 저장 : " + stockRequest);
         // 새로 생성
         StockEntity stock = stockRepository.save(stockRequest.toEntity(stockCate));
         stockRequest.setStockId(stock.getStockId());
