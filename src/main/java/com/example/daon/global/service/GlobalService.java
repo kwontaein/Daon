@@ -16,6 +16,7 @@ import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
+import com.example.daon.ledger.dto.response.StockLedgerResponse;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.stock.dto.response.StockResponse;
@@ -284,6 +285,18 @@ public class GlobalService {
                 .description(receipt.getDescription())
                 .build();
     }
+
+    public StockLedgerResponse convertToStockLedgerResponse(StockEntity stock) {
+        return StockLedgerResponse
+                .builder()
+                .productName(stock.getProductName())
+                .modelName(stock.getModelName())
+                .quantity(stock.getQuantity())
+                .inPrice(stock.getInPrice())
+                .outPrice(stock.getOutPrice())
+                .build();
+    }
+
 
     public NoPaidResponse convertToNoPaidResponse(ReceiptEntity receipt) {
         return NoPaidResponse
