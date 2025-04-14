@@ -12,7 +12,7 @@ export type LedgerSearchCondition ={
     stockId?: string;//품명
     customerIds?:string[];
     officialId?:string//관리비분류
-
+    stockCateId?:string;
     //-----------------
     sales?: boolean;//매출
     purchase?: boolean;// 매입
@@ -61,4 +61,10 @@ export interface ResponseLedgerStock{
     note:string
     stockUseEa:boolean
     taxation:TaxationCate
+}
+
+export interface ResponseStockCountResult{
+    stockLedgerResponses : ResponseLedgerStock[]
+    totalAmount:number
+    totalQuantity:number
 }
