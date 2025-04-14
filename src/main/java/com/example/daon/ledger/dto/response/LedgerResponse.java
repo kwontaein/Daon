@@ -40,4 +40,8 @@ public class LedgerResponse {
     private String memo; //메모
 
     private String description; //적요
+
+    private String officialName; //관리비이름
+
+    private UUID officialId; //관리비아이디
 }
