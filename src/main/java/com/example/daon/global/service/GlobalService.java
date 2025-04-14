@@ -294,6 +294,7 @@ public class GlobalService {
                 .quantity(stock.getQuantity())
                 .inPrice(stock.getInPrice())
                 .outPrice(stock.getOutPrice())
+                .stockCateId(stock.getCategory().getStockCateId())
                 .build();
     }
 
