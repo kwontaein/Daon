@@ -6,11 +6,12 @@ import { Affiliation } from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { StockCate } from '@/model/types/stock/cate/type';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
+import LedgerSalesSearchResult from './saerch-result';
 
 export default function LedgerSaleReceiptSearch({affiliations, stockCates}:{affiliations:Affiliation[], stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
@@ -19,6 +20,21 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}:{affi
 
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
+
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+    })    
+    
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`${state.searchSDate} ~ ${state.searchEDate} 매출장`,
+            })
+        }
+    },[state])
+
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -52,7 +68,7 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}:{affi
             action(formData);
         });
     }
-    
+
 
     return(
         <section className='search-container'>
@@ -150,10 +166,12 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}:{affi
                            </div>
                         </td>
                     </tr>
-                        
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerSalesSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }
