@@ -2,14 +2,27 @@
 'use client';
 import '@/styles/table-style/search.scss';
 
-import { startTransition, useActionState, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { StockCate } from '@/model/types/stock/cate/type';
 
 export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
     const formRef = useRef(null)
-        //거래처 검색관련
+
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+    })    
+    
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`재고조사서`,
+            })
+        }
+    },[state])
 
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
