@@ -5,6 +5,7 @@ import '@/styles/table-style/search.scss';
 import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { StockCate } from '@/model/types/stock/cate/type';
+import LedgerStockCountSearchResult from './search-result';
 
 export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
@@ -17,6 +18,7 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
     
     useEffect(()=>{
         if(state.searchResult){
+            console.log(state.searchResult)
             setSearchInfo({
                 searchResult:state.searchResult,
                 searchTitle:`재고조사서`,
@@ -70,10 +72,12 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
                            </div>
                         </td>
                     </tr>
-                        
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>2 &&
+                <LedgerStockCountSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }
