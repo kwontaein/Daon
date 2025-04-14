@@ -45,11 +45,7 @@ public class CustomerService {
             }
 
             if (cateId != null) {
-                AffiliationEntity affiliationEntity = affiliationRepository.findById(cateId).orElse(null);
-                // 거래처 소속
-                if (affiliationEntity != null) {
-                    predicates.add(criteriaBuilder.equal(root.get("customerCateId"), affiliationEntity));
-                }
+                predicates.add(criteriaBuilder.equal(root.get("customerCateId").get("customerAffiliationId"), cateId));
             }
 
             // 고객명 부분 검색 (customerName 이 비어있지 않을 경우)
