@@ -41,6 +41,7 @@ export async function ledgerSearchAction(prevState, formData){
         customerIds: formData.get('customerIds') && JSON.parse(formData.get('customerIds')),
         stockId: formData.get('stockId'),
         officialId: formData.get('officialId'),
+        stockCateId: formData.get('stockCateId'),
 
         sales:receiptCates.includes('sales'),//매출
         purchase: receiptCates.includes('purchase'),//매입

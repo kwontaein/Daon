@@ -12,7 +12,7 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
     const formRef = useRef(null)
 
     const [searchInfo, setSearchInfo] = useState({
-        searchResult:[],
+        searchResult:null,
         searchTitle:null,
     })    
     
@@ -75,7 +75,7 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
                 </tbody>
             </table>
             </form>
-            {searchInfo.searchResult.length>2 &&
+            {searchInfo.searchResult && searchInfo.searchResult.stockLedgerResponses.length>2 &&
                 <LedgerStockCountSearchResult searchInfo={searchInfo}/>
             }
         </section>
