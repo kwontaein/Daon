@@ -9,6 +9,7 @@ import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.dto.request.NoPaidRequest;
 import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
+import com.example.daon.ledger.dto.response.StockLedgerResponses;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.ReceiptRepository;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -218,14 +220,35 @@ public class LedgerService {
     }
 
     //재고조사서
-    public List<StockEntity> getStockSurvey(LedgerRequest ledgerRequest) {
-        return stockRepository.findAll((root, query, criteriaBuilder) -> {
+    public StockLedgerResponses getStockSurvey(LedgerRequest ledgerRequest) {
+        List<StockEntity> stockEntities = stockRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
+        // 전체 수량 합산
+        int totalQuantity = stockEntities.stream()
+                .mapToInt(StockEntity::getQuantity)
+                .sum();
+
+        // 전체 금액 합산 (수량 * 단가)
+        BigDecimal totalAmount = stockEntities.stream()
+                .map(stock -> stock.getOutPrice().multiply(BigDecimal.valueOf(stock.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        StockLedgerResponses stockLedgerResponses = new StockLedgerResponses();
+        
+        stockLedgerResponses.setStockLedgerResponses(
+                stockEntities.stream()
+                        .map(globalService::convertToStockLedgerResponse)
+                        .collect(Collectors.toList()));
+
+        stockLedgerResponses.setTotalQuantity(totalQuantity);
+        stockLedgerResponses.setTotalAmount(totalAmount);
+
+        return stockLedgerResponses;
     }
 
 
