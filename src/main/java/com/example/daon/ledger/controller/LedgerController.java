@@ -4,8 +4,8 @@ import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.dto.request.NoPaidRequest;
 import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
+import com.example.daon.ledger.dto.response.StockLedgerResponses;
 import com.example.daon.ledger.service.LedgerService;
-import com.example.daon.stock.model.StockEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +57,7 @@ public class LedgerController {
 
     //재고조사서
     @PostMapping("api/getStockSurvey")
-    public List<StockEntity> getStockSurvey(@RequestBody LedgerRequest ledgerRequest) {
+    public StockLedgerResponses getStockSurvey(@RequestBody LedgerRequest ledgerRequest) {
         return ledgerService.getStockSurvey(ledgerRequest);
     }
 
