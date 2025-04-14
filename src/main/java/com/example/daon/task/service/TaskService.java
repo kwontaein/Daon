@@ -50,8 +50,7 @@ public class TaskService {
             // 거래처 조건
             if (taskRequest.getCustomer() != null) {
                 //거래처 얻기
-                CustomerEntity customer = customerRepository.findById(taskRequest.getCustomer()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("customer"), customer));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), taskRequest.getCustomer()));
             }
 
             //구분
@@ -62,8 +61,7 @@ public class TaskService {
             //담당자
             if (taskRequest.getAssignedUser() != null) {
                 //거래처 얻기
-                UserEntity assignedUser = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("assignedUser"), assignedUser));
+                predicates.add(criteriaBuilder.equal(root.get("assignedUser").get("userId"), taskRequest.getAssignedUser()));
             }
             //거래처분류
 
