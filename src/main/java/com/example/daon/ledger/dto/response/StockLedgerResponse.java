@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +23,6 @@ public class StockLedgerResponse {
     private BigDecimal outPrice;
     //재고
     private int quantity;
+    //모델명
+    private UUID stockCateId;
 }
