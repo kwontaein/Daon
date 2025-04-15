@@ -6,11 +6,12 @@ import { Affiliation } from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { StockCate } from '@/model/types/stock/cate/type';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
+import LedgerEtcSearchResult from './saerch-result';
 
 export default function LedgerEtcSearch({affiliations, stockCates}:{affiliations:Affiliation[], stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
@@ -19,6 +20,20 @@ export default function LedgerEtcSearch({affiliations, stockCates}:{affiliations
 
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
+            
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+    })
+    useEffect(()=>{
+        if(state.searchResult){
+            console.log(state.searchResult)
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`기타원장`,
+            })
+        }
+    },[state])
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -168,6 +183,9 @@ export default function LedgerEtcSearch({affiliations, stockCates}:{affiliations
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerEtcSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }

@@ -1,5 +1,7 @@
 import { CustomerCateEnum, ResponseCustomer } from "../customer/customer/type";
 import { ReceiptCategoryEnum } from "../sales/receipt/type";
+import { StockCate } from "../stock/cate/type";
+import { TaxationCate } from "../stock/stock/types";
 
 export type LedgerSearchCondition ={
     searchSDate: Date;  //검색 날짜 시작일
@@ -10,7 +12,7 @@ export type LedgerSearchCondition ={
     stockId?: string;//품명
     customerIds?:string[];
     officialId?:string//관리비분류
-
+    stockCateId?:string;
     //-----------------
     sales?: boolean;//매출
     purchase?: boolean;// 매입
@@ -31,16 +33,38 @@ export enum FormCategory{
 }
 
 
-export type ResponseLedger={
+export interface ResponseLedger{
     receiptId:string
     timeStamp:Date
     category?:ReceiptCategoryEnum
-    customer?:ResponseCustomer
+    customerName?:string
     productName?:string
     modelName?:string
+    officialId: string
+    officialName: string
     outPrice?:number
     quantity?:number
     totalPrice?:number
     memo?:string
     description?:string
+}
+
+export interface ResponseLedgerStock{
+    category: StockCate
+    compatibleModel:string
+    stockId:string
+    inPrice:number
+    outPrice:number
+    quantity:number
+    modelName:string
+    productName:string
+    note:string
+    stockUseEa:boolean
+    taxation:TaxationCate
+}
+
+export interface ResponseStockCountResult{
+    stockLedgerResponses : ResponseLedgerStock[]
+    totalAmount:number
+    totalQuantity:number
 }
