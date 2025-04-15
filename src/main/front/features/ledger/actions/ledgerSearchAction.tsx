@@ -32,7 +32,7 @@ export const initialLedgertState = {
 export async function ledgerSearchAction(prevState, formData){
     const receiptCates = formData.getAll('receiptCate')
 
-    const searchData :LedgerSearchCondition= {
+    const formState :LedgerSearchCondition= {
         searchSDate: formData.get('searchSDate'),
         searchEDate: formData.get('searchEDate'),
         customerCate: formData.get('customerCate'),
@@ -41,6 +41,7 @@ export async function ledgerSearchAction(prevState, formData){
         customerIds: formData.get('customerIds') && JSON.parse(formData.get('customerIds')),
         stockId: formData.get('stockId'),
         officialId: formData.get('officialId'),
+        stockCateId: formData.get('stockCateId'),
 
         sales:receiptCates.includes('sales'),//매출
         purchase: receiptCates.includes('purchase'),//매입
@@ -52,12 +53,12 @@ export async function ledgerSearchAction(prevState, formData){
         returnIn: receiptCates.includes('returnIn') //반품입고
     }
     const productName = formData.get('productName')
+    const modelName = formData.get('modelName')
     const customerName = formData.get('customerName')
     const action = formData.get('action')
-
  
     if(action){
-        const postData= Object.fromEntries(Object.entries(searchData).map(([key,value])=>{
+        const postData= Object.fromEntries(Object.entries(formState).map(([key,value])=>{
             if(value==='none' || (typeof value ==='string' && isInvalidText(value))){
                 return [key, null]
             }
@@ -87,18 +88,20 @@ export async function ledgerSearchAction(prevState, formData){
   
         return{
             ...prevState,
-            ...searchData,
+            ...formState,
             productName,
+            modelName,
             customerName,
             searchResult:searchResult,
 
         }
     }
-
+    delete prevState.searchResult;
     return{
         ...prevState,
-        ...searchData,
+        ...formState,
         productName,
+        modelName,
         customerName
     }
 }

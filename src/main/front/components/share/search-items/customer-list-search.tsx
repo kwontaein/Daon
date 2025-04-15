@@ -17,7 +17,7 @@ export default function CustomerListSearch({initialcustomers, page} : {
     page: number,
 }) {
     const [customers, setCustomers] = useState(initialcustomers)
-    const customerIds = useMemo(()=>customers.map(({customerId})=>customerId),[initialcustomers])
+    const customerIds = useMemo(()=>customers.map(({customerId})=>customerId),[customers])
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIds)
     const inputRef = useRef<HTMLInputElement|null>(null)
     const pageByCustomers = useMemo(()=> customers.slice((page-1)*20, ((page-1)*20)+20) ,[customers,page])
@@ -50,7 +50,8 @@ export default function CustomerListSearch({initialcustomers, page} : {
           window.close()
         }
     };
-      
+
+  
 
     return(
         <section style={{padding:'5px'}}>
@@ -74,7 +75,11 @@ export default function CustomerListSearch({initialcustomers, page} : {
                 </colgroup>
                 <thead>
                     <tr>
-                        <td><input type='checkbox' checked={isAllChecked} onChange={toggleAllChecked}/></td>
+                        <td>
+                            <input
+                                type='checkbox'
+                                checked={isAllChecked}
+                                onChange={toggleAllChecked}/></td>
                         <td>상호명</td>
                         <td>전화</td>
                         <td>FAX</td>
@@ -82,7 +87,7 @@ export default function CustomerListSearch({initialcustomers, page} : {
                     </tr>
                 </thead>
                 <tbody>
-                    {pageByCustomers.map((customer,index) => (
+                    {pageByCustomers.map((customer) => (
                         <tr
                             key={customer.customerId}
                             className={checkedState[customer.customerId] ? 'is-click' :''}
