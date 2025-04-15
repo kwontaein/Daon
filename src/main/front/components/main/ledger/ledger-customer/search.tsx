@@ -11,7 +11,6 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
-import { ResponseLedger } from '@/model/types/ledger/type';
 import LedgerCustomerSearchResult from './search-result';
 
 export default function LedgerCustomerSearch({affiliations, stockCates}:{affiliations:Affiliation[], stockCates:StockCate[]}){
