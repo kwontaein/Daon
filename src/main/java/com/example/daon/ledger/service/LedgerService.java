@@ -162,15 +162,13 @@ public class LedgerService {
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
-
-    //매출장
-    public List<LedgerResponse> getSaleReceipt(LedgerRequest ledgerRequest) {
+    public List<LedgerResponse> getSaleOrPurchaseReceipt(LedgerRequest ledgerRequest, ReceiptCategory receiptCategory) {
         //날짜 계정 거래처	품명	규격	적요	수량	단가	합계금액
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.SALES));
+            predicates.add(criteriaBuilder.equal(root.get("category"), receiptCategory));
             if (ledgerRequest.getStockId() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
             }
@@ -184,26 +182,6 @@ public class LedgerService {
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
-    //매입장
-    public List<LedgerResponse> getPurchaseReceipt(LedgerRequest ledgerRequest) {
-        //날짜 계정 거래처 품명 규격 적요 수량 단가 합계금액
-        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
-            //조건문 사용을 위한 객체
-            List<Predicate> predicates = new ArrayList<>();
-            addAllPredicate(ledgerRequest, criteriaBuilder, root, predicates);
-            predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.PURCHASE));
-            if (ledgerRequest.getStockId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), ledgerRequest.getStockId()));
-            }
-            if (ledgerRequest.getCustomerId() != null) {
-                // 단일 거래처 ID로 필터
-                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
-            }
-            // 동적 조건을 조합하여 반환
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        });
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
-    }
 
     //관리비원장
     public List<LedgerResponse> getFeeReceipt(LedgerRequest ledgerRequest) {
@@ -224,6 +202,13 @@ public class LedgerService {
         List<StockEntity> stockEntities = stockRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
+
+            if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
+                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
+            }
+
+            predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
+
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -239,7 +224,7 @@ public class LedgerService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         StockLedgerResponses stockLedgerResponses = new StockLedgerResponses();
-        
+
         stockLedgerResponses.setStockLedgerResponses(
                 stockEntities.stream()
                         .map(globalService::convertToStockLedgerResponse)
