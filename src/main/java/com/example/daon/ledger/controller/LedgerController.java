@@ -6,6 +6,7 @@ import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.ledger.dto.response.StockLedgerResponses;
 import com.example.daon.ledger.service.LedgerService;
+import com.example.daon.receipts.model.ReceiptCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,13 +41,13 @@ public class LedgerController {
     //매출장
     @PostMapping("api/getSaleReceipt")
     public List<LedgerResponse> getSaleReceipt(@RequestBody LedgerRequest ledgerRequest) {
-        return ledgerService.getSaleReceipt(ledgerRequest);
+        return ledgerService.getSaleOrPurchaseReceipt(ledgerRequest, ReceiptCategory.SALES);
     }
 
     //매입장
     @PostMapping("api/getPurchaseReceipt")
     public List<LedgerResponse> getPurchaseReceipt(@RequestBody LedgerRequest ledgerRequest) {
-        return ledgerService.getPurchaseReceipt(ledgerRequest);
+        return ledgerService.getSaleOrPurchaseReceipt(ledgerRequest, ReceiptCategory.PURCHASE);
     }
 
     //관리비원장
