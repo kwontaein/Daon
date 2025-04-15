@@ -19,6 +19,7 @@ public class LedgerRequest {
     private UUID stockId;//품명
     private String OfficialId;//관리비분류
     private StockCate stockCate;
+    private UUID stockCateId;
     //-----------------
     private boolean sales;//매출
     private boolean purchase;// 매입
