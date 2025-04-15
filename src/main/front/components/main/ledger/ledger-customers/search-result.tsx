@@ -32,7 +32,7 @@ const initialTotal: Total = {
 };
 
 
-export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
+export default function LedgerCustomersSearchResult({searchInfo}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
   const screen = useScreenMode({tabletSize:800, mobileSize:620})
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
 
@@ -97,9 +97,9 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
             <colgroup>
                 {mode==='pc'?
                   <>
-                  <col style={{width: "1%"}}/>    
                   <col style={{width: "7%"}}/>    
-                  <col style={{width: "6%",minWidth:'35px'}}/>    
+                  <col style={{width: "6%",minWidth:'35px'}}/>
+                  <col style={{width: "15%"}}/>       
                   <col style={{width: "10%", minWidth:'80px'}} />   
                   <col style={{width: "5%", minWidth:'35px'}}/>    
                   <col style={{width: "7%"}}/>    
@@ -108,28 +108,27 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
                   <col style={{width: "6%", minWidth:'60px'}}/>    
                   <col style={{width: "6%", minWidth:'60px'}}/>    
                   <col style={{width: "8%", minWidth:'60px'}}/>    
-                  <col style={{width: "5%",minWidth:'50px'}}/>    
-                  <col style={{width: "25%"}}/>   
+                  <col style={{width: "10%"}}/>   
                 </>
                 :
                 <>
-                  <col style={{width: "1%"}}/>    
                   <col style={{width: "7%"}}/>    
-                  <col style={{width: "6%",minWidth:'36px'}}/>    
+                  <col style={{width: "6%",minWidth:'36px'}}/> 
+                  <col style={{width: "15%"}}/>          
                   <col style={{width: "10%", minWidth:'85px'}} />   
                   <col style={{width: "5%"}}/>    
                   <col style={{width: "7%", minWidth:'80px'}}/>    
                   <col style={{width: "7%", minWidth:'80px'}}/>    
                   <col style={{width: "7%", minWidth:'60px'}}/>    
-                  <col style={{width: "25%"}}/>   
+                  <col style={{width: "10%"}}/>   
                 </>  
               }
             </colgroup>
             <thead>
                 <tr>
-                    <td rowSpan={mode==='pc'? 1 :2}><input type="checkbox"/></td>
                     <td rowSpan={mode==='pc'? 1 :2}>날짜</td>
                     <td rowSpan={mode==='pc'? 1 :2}>계정</td>
+                    <td rowSpan={mode==='pc'? 1 :2}>상호</td>
                     <td rowSpan={mode==='pc'? 1 :2}>품목</td>
                     <td>수량</td>
                     {mode==='pc' &&<td>단가</td>}
@@ -137,22 +136,19 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
                     <td>구매/입금</td>
                     {mode==='pc' &&<td>매출할인</td>}
                     {mode==='pc' &&<td>매입할인</td>}
-                    {mode==='pc' &&<td>잔액</td>}
-                    <td>결제일</td>
-                    <td rowSpan={mode==='pc'? 1 :2}>메모</td>
+                    <td rowSpan={mode==='pc'? 1 :2}>잔액</td>
+                    <td rowSpan={mode==='pc'? 1 :2}>비고</td>
                 </tr>
                 {mode!=='pc' &&
                   <tr>
                     <td>단가</td>
                     <td>매입할인</td>
                     <td>매출할인</td>
-                    <td>잔액</td>
                   </tr>
                 }
             </thead>
             <tbody>
                 <tr style={{height:'20px'}}>
-                    <td></td>
                     <td>{dayjs(searchInfo.searchSDate).format('YY.MM.DD')}</td>
                     <td></td>
                     <td className="left-align" style={{fontSize:'0.95rem'}}>{`<전 기 이 월>`}</td>
@@ -163,7 +159,6 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
                     {mode==='pc' && <td></td>}
                     {mode==='pc' && <td></td>}
                     <td className="right-align">0</td>
-                    {mode==='pc' && <td></td>}
                     <td></td>
                 </tr>
                 {mode ==='pc' && resultReducer.elements}

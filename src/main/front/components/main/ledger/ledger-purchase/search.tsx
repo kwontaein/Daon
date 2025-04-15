@@ -2,21 +2,33 @@
 'use client';
 import '@/styles/table-style/search.scss';
 
-import { Affiliation } from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
+import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import { StockCate } from '@/model/types/stock/cate/type';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
+import LedgerPurchaseSearchResult from './saerch-result';
 
 export default function LedgerPurchaseSearch({stockCates}:{stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
     const formRef = useRef(null)
         
-
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+    })
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`${state.searchSDate} ~ ${state.searchEDate} 매입장`,
+            })
+        }
+    },[state])
+    
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 
@@ -123,6 +135,9 @@ export default function LedgerPurchaseSearch({stockCates}:{stockCates:StockCate[
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerPurchaseSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }

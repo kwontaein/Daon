@@ -113,3 +113,15 @@
     text-align: right;
     font-size: 0.95rem;
 }
+
+
+.ledger-grid-table-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    table{
+        tr{
+            height: 25px !important; 
+        }
+    }
+}
