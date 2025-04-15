@@ -3,16 +3,24 @@
 import '@/styles/table-style/search.scss';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import { ResponseStock } from '@/model/types/stock/stock/types';
+import { ResponseLedger } from '@/model/types/ledger/type';
+import LedgerStockSearchResult from './search-result';
 
 export default function LedgerStockSearch(){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
-    const formRef = useRef(null)
-        //거래처 검색관련
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+        searchSDate:null,
+    })
 
+    const formRef = useRef(null)
+        
+    //거래처 검색관련
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
@@ -28,7 +36,7 @@ export default function LedgerStockSearch(){
             });
         }
     }, [action]);
-    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName">) => {
+    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName"|"modelName">) => {
         changeHandler(stockInfo);
     }, [changeHandler]);
 
@@ -45,7 +53,15 @@ export default function LedgerStockSearch(){
             action(formData);
         });
     }
-    
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`${state.productName}(${state.modelName??'-'})`,
+                searchSDate: state.searchSDate
+            })
+        }
+    },[state])
 
     return(
         <section className='search-container'>
@@ -79,7 +95,8 @@ export default function LedgerStockSearch(){
                                    defaultValue={state.productName} 
                                    key={state.productName}
                                    onKeyDown={searchStockHandler}/>
-                            <input type='hidden' name='stockId' value={JSON.stringify(state.stockId)} readOnly/>
+                            <input type='hidden' name='stockId' value={state.stockId} readOnly/>
+                            <input type='hidden' name='modelName' value={state.modelName} readOnly/>
                         </td>              
                     </tr>
                     <tr>
@@ -106,10 +123,12 @@ export default function LedgerStockSearch(){
                            </div>
                         </td>
                     </tr>
-                        
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerStockSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }

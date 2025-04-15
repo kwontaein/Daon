@@ -3,15 +3,28 @@
 import '@/styles/table-style/search.scss';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { startTransition, useActionState, useCallback, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
-import { ResponseStock } from '@/model/types/stock/stock/types';
 import { ResponseOfficial } from '@/model/types/sales/official/type';
+import LedgerOfficialSearchResult from './search-result';
 
 export default function LedgerOfficialSearch({officials}:{officials:ResponseOfficial[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
     const formRef = useRef(null)
 
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:[],
+        searchTitle:null,
+    })
+    useEffect(()=>{
+        if(state.searchResult){
+            console.log(state.searchResult)
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`${state.searchSDate} ~ ${state.searchEDate} 관리비원장`,
+            })
+        }
+    },[state])
 
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
@@ -21,6 +34,7 @@ export default function LedgerOfficialSearch({officials}:{officials:ResponseOffi
         });
     }
     
+
 
     return(
         <section className='search-container'>
@@ -71,6 +85,9 @@ export default function LedgerOfficialSearch({officials}:{officials:ResponseOffi
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult.length>0 &&
+                <LedgerOfficialSearchResult searchInfo={searchInfo} officials={officials}/>
+            }
         </section>
     )
 }

@@ -2,14 +2,29 @@
 'use client';
 import '@/styles/table-style/search.scss';
 
-import { startTransition, useActionState, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import { StockCate } from '@/model/types/stock/cate/type';
+import LedgerStockCountSearchResult from './search-result';
 
 export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
     const formRef = useRef(null)
-        //거래처 검색관련
+
+    const [searchInfo, setSearchInfo] = useState({
+        searchResult:null,
+        searchTitle:null,
+    })    
+    
+    useEffect(()=>{
+        if(state.searchResult){
+            console.log(state.searchResult)
+            setSearchInfo({
+                searchResult:state.searchResult,
+                searchTitle:`재고조사서`,
+            })
+        }
+    },[state])
 
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
@@ -57,10 +72,12 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
                            </div>
                         </td>
                     </tr>
-                        
                 </tbody>
             </table>
             </form>
+            {searchInfo.searchResult && searchInfo.searchResult.stockLedgerResponses.length>2 &&
+                <LedgerStockCountSearchResult searchInfo={searchInfo}/>
+            }
         </section>
     )
 }
