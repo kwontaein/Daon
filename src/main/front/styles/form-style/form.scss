@@ -165,3 +165,7 @@
 .bg-memo{
   background-color: var.$memo-color !important;
 }
+
+.placeholder-small::placeholder {
+  font-size: 0.8rem;
+}
