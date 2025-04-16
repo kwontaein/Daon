@@ -1,11 +1,14 @@
 package com.example.daon.accounting.procurement.controller;
 
 import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
+import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.service.ProcurementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +34,8 @@ public class ProcurementController {
     }
 
     @PostMapping("api/getProcurement")
-    public void getProcurement(@RequestBody ProcurementRequest procurementRequest) {
-        procurementService.getProcurement(procurementRequest);
-
+    public List<ProcurementEntity> getProcurement(@RequestBody ProcurementRequest procurementRequest) {
+        return procurementService.getProcurement(procurementRequest);
     }
-    
+
 }
