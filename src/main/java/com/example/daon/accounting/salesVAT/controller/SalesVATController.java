@@ -34,12 +34,12 @@ public class SalesVATController {
     }
 
     @PostMapping("api/getSalesVAT")
-    public void getSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
-        salesVATService.getSalesVAT(salesVATRequest);
+    public List<SalesVATEntity> getSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        return salesVATService.getSalesVAT(salesVATRequest);
     }
 
     @PostMapping("api/paidSalesVAT")
-    public List<SalesVATEntity> paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
-        return salesVATService.paidSalesVAT(salesVATRequest);
+    public void paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.paidSalesVAT(salesVATRequest);
     }
 }
