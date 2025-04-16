@@ -1,11 +1,14 @@
 package com.example.daon.accounting.salesVAT.controller;
 
 import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
+import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.accounting.salesVAT.service.SalesVATService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class SalesVATController {
     }
 
     @PostMapping("api/paidSalesVAT")
-    public void paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
-        salesVATService.paidSalesVAT(salesVATRequest);
+    public List<SalesVATEntity> paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
+        return salesVATService.paidSalesVAT(salesVATRequest);
     }
 }

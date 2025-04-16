@@ -63,6 +63,7 @@ public class ExpenseProofRequest {
                 .vat(vat)
                 .total(total)
                 .memo(memo)
+                .paid(false)
                 .paidDate(null)
                 .build();
     }

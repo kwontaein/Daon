@@ -1,5 +1,6 @@
 package com.example.daon.accounting.expenseProof.service;
 
+import com.example.daon.accounting.categorySelection.service.CategorySelectionService;
 import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
 import com.example.daon.accounting.expenseProof.model.ExpenseProofEntity;
 import com.example.daon.accounting.expenseProof.repository.ExpenseProofRepository;
@@ -26,10 +27,12 @@ public class ExpenseProofService {
     private final ExpenseProofRepository expenseProofRepository;
     private final CustomerRepository customerRepository;
     private final ReceiptRepository receiptRepository;
+    private final CategorySelectionService categorySelectionService;
 
     //지출증빙
     public void saveExpenseProof(ExpenseProofRequest expenseProofRequest) {
         CustomerEntity customer = customerRepository.findById(expenseProofRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        categorySelectionService.findAndSave(expenseProofRequest.getCategorySelection());
         expenseProofRepository.save(expenseProofRequest.toExpenseProofEntity(customer));
     }
 
@@ -44,8 +47,8 @@ public class ExpenseProofService {
         expenseProofRepository.deleteById(expenseProofRequest.getExpenseProofId());
     }
 
-    public void getExpenseProof(ExpenseProofRequest expenseProofRequest) {
-        List<ExpenseProofEntity> expenseProofEntities = expenseProofRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<ExpenseProofEntity> getExpenseProof(ExpenseProofRequest expenseProofRequest) {
+        return expenseProofRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 거래처 분류

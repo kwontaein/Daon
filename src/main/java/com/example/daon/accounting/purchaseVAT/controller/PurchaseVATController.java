@@ -1,11 +1,14 @@
 package com.example.daon.accounting.purchaseVAT.controller;
 
 import com.example.daon.accounting.purchaseVAT.dto.request.PurchaseVATRequest;
+import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
 import com.example.daon.accounting.purchaseVAT.service.PurchaseVATService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,8 +32,8 @@ public class PurchaseVATController {
     }
 
     @PostMapping("api/getPurchaseVAT")
-    public void getPurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
-        purchaseVATService.getPurchaseVAT(purchaseVATRequest);
+    public List<PurchaseVATEntity> getPurchaseVAT(@RequestBody PurchaseVATRequest purchaseVATRequest) {
+        return purchaseVATService.getPurchaseVAT(purchaseVATRequest);
     }
 
 }
