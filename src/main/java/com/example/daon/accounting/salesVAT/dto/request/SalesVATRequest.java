@@ -61,6 +61,7 @@ public class SalesVATRequest {
                 .vat(vat)
                 .total(total)
                 .memo(memo)
+                .paid(false)
                 .paidDate(null)
                 .build();
     }
