@@ -13,6 +13,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class CardTransactionService {
 
     public void paidCardTransaction(CardTransactionRequest cardTransactionRequest) {
         CardTransactionEntity cardTransaction = cardTransactionRepository.findById(cardTransactionRequest.getCardTransactionId()).orElse(null);
-        cardTransaction.setPaid(true);
+        cardTransaction.setPaid(!cardTransaction.isPaid());
 
         if (cardTransaction.isPaid()) {
             ReceiptEntity receipt = receiptRepository.save(new ReceiptEntity(
@@ -69,9 +70,11 @@ public class CardTransactionService {
                     cardTransaction.getMemo(),
                     FromCategory.SALES));
             cardTransaction.setReceiptId(receipt.getReceiptId());
+            cardTransaction.setPaidDate(LocalDate.now());
         } else {
             receiptRepository.deleteById(cardTransaction.getReceiptId());
             cardTransaction.setReceiptId(null);
+            cardTransaction.setPaidDate(null);
         }
 
         cardTransactionRepository.save(cardTransaction);

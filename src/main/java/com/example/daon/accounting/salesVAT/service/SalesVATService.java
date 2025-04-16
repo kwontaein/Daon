@@ -13,6 +13,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +72,11 @@ public class SalesVATService {
                     salesVATEntity.getMemo(),
                     FromCategory.SALES));
             salesVATEntity.setReceiptId(receipt.getReceiptId());
+            salesVATEntity.setPaidDate(LocalDate.now());
         } else {
             receiptRepository.deleteById(salesVATEntity.getReceiptId());
             salesVATEntity.setReceiptId(null);
+            salesVATEntity.setPaidDate(null);
         }
         salesVATRepository.save(salesVATEntity);
     }
