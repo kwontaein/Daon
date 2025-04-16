@@ -7,7 +7,7 @@ import useSearchStock from "@/hooks/stock/search/useSearchStock";
 
 export default function useEstimate(estimate:ResponseEstimate){
     const [items, setItems] = useState<Omit<ResponseEstimateItem,'estimateId'>[]>(estimate ? [...estimate.items] :[])
-    const itemIds = useMemo(()=> items.map(({itemId})=> itemId), [items.length])
+    const itemIds = useMemo(()=> items.map(({itemId})=> itemId), [items])
 
     const addEstimateItemHandler =(hand:boolean)=>{
         setItems([...items,{
