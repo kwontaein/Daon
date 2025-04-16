@@ -23,6 +23,9 @@ public class CardTransactionRequest {
     // 날짜
     private LocalDate date;
 
+    //입금일
+    private LocalDate paidDate;
+
     // 업체명
     private String companyName;
 
@@ -61,7 +64,7 @@ public class CardTransactionRequest {
                 .vat(vat)
                 .total(total)
                 .memo(memo)
-                .paid(false)
+                .paidDate(null)
                 .build();
     }
 

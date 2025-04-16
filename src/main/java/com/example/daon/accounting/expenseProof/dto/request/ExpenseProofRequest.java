@@ -22,7 +22,8 @@ public class ExpenseProofRequest {
 
     // 날짜
     private LocalDate date;
-
+    //입금일
+    private LocalDate paidDate;
     // 업체명
     private String companyName;
     // 고객아이디
@@ -62,7 +63,7 @@ public class ExpenseProofRequest {
                 .vat(vat)
                 .total(total)
                 .memo(memo)
-                .paid(false)
+                .paidDate(null)
                 .build();
     }
 
