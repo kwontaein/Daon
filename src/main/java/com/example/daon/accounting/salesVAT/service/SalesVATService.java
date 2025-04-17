@@ -1,5 +1,6 @@
 package com.example.daon.accounting.salesVAT.service;
 
+import com.example.daon.accounting.categorySelection.service.CategorySelectionService;
 import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.accounting.salesVAT.repository.SalesVATRepository;
@@ -13,6 +14,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,12 @@ public class SalesVATService {
     private final SalesVATRepository salesVATRepository;
     private final CustomerRepository customerRepository;
     private final ReceiptRepository receiptRepository;
+    private final CategorySelectionService categorySelectionService;
 
     //매출부가세
     public void saveSalesVAT(SalesVATRequest salesVATRequest) {
         CustomerEntity customer = customerRepository.findById(salesVATRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
+        categorySelectionService.findAndSave(salesVATRequest.getCategorySelection());
         salesVATRepository.save(salesVATRequest.toSalesVATEntity(customer));
     }
 
@@ -42,8 +46,8 @@ public class SalesVATService {
         salesVATRepository.deleteById(salesVATRequest.getSalesVATId());
     }
 
-    public void getSalesVAT(SalesVATRequest salesVATRequest) {
-        List<SalesVATEntity> salesVATEntities = salesVATRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<SalesVATEntity> getSalesVAT(SalesVATRequest salesVATRequest) {
+        return salesVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 거래처 분류
@@ -71,9 +75,11 @@ public class SalesVATService {
                     salesVATEntity.getMemo(),
                     FromCategory.SALES));
             salesVATEntity.setReceiptId(receipt.getReceiptId());
+            salesVATEntity.setPaidDate(LocalDate.now());
         } else {
             receiptRepository.deleteById(salesVATEntity.getReceiptId());
             salesVATEntity.setReceiptId(null);
+            salesVATEntity.setPaidDate(null);
         }
         salesVATRepository.save(salesVATEntity);
     }

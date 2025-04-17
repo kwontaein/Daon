@@ -1,11 +1,14 @@
 package com.example.daon.accounting.cardTransaction.controller;
 
 import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRequest;
+import com.example.daon.accounting.cardTransaction.model.CardTransactionEntity;
 import com.example.daon.accounting.cardTransaction.service.CardTransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +32,8 @@ public class CardTransactionController {
     }
 
     @PostMapping("api/getCardTransaction")
-    public void getCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
-        cardTransactionService.getCardTransaction(cardTransactionRequest);
+    public List<CardTransactionEntity> getCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
+        return cardTransactionService.getCardTransaction(cardTransactionRequest);
     }
 
     @PostMapping("api/cardTransactionPaid")

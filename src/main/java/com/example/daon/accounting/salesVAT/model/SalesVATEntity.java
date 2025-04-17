@@ -33,6 +33,10 @@ public class SalesVATEntity {
     @Column(name = "date")
     private LocalDate date;
 
+    //입금일
+    @Column(name = "paid_date")
+    private LocalDate paidDate;
+
     // 업체명
     @Column(name = "category_name")
     private String companyName;
