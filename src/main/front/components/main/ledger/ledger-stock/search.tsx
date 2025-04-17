@@ -7,7 +7,6 @@ import { startTransition, useActionState, useCallback, useEffect, useRef, useSta
 import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import { ResponseStock } from '@/model/types/stock/stock/types';
-import { ResponseLedger } from '@/model/types/ledger/type';
 import LedgerStockSearchResult from './search-result';
 
 export default function LedgerStockSearch(){
@@ -20,7 +19,7 @@ export default function LedgerStockSearch(){
 
     const formRef = useRef(null)
         
-    //거래처 검색관련
+    //물품 검색관련
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
