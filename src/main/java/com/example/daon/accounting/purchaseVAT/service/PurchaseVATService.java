@@ -1,5 +1,6 @@
 package com.example.daon.accounting.purchaseVAT.service;
 
+import com.example.daon.accounting.categorySelection.service.CategorySelectionService;
 import com.example.daon.accounting.purchaseVAT.dto.request.PurchaseVATRequest;
 import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
 import com.example.daon.accounting.purchaseVAT.repository.PurchaseVATRepository;
@@ -17,10 +18,12 @@ import java.util.List;
 public class PurchaseVATService {
     private final PurchaseVATRepository purchaseVATRepository;
     private final CustomerRepository customerRepository;
+    private final CategorySelectionService categorySelectionService;
 
     //매입부가세
     public void savePurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
         CustomerEntity customer = customerRepository.findById(purchaseVATRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
+        categorySelectionService.findAndSave(purchaseVATRequest.getCategorySelection());
         purchaseVATRepository.save(purchaseVATRequest.toPurchaseVATEntity(customer));
     }
 
@@ -35,8 +38,8 @@ public class PurchaseVATService {
         purchaseVATRepository.deleteById(purchaseVATRequest.getPurchaseVATId());
     }
 
-    public void getPurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
-        List<PurchaseVATEntity> purchaseVATEntities = purchaseVATRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<PurchaseVATEntity> getPurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
+        return purchaseVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 거래처 분류
