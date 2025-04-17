@@ -24,7 +24,7 @@ public class PurchaseVATRequest {
     private LocalDate date;
 
     // 업체명
-    private String companyName;
+
 
     private UUID customerId;
 
