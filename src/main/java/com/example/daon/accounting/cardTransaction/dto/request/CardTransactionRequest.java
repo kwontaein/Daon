@@ -27,7 +27,7 @@ public class CardTransactionRequest {
     private LocalDate paidDate;
 
     // 업체명
-    private String companyName;
+
 
     // 고객아이디
     private UUID customerId;
@@ -57,7 +57,7 @@ public class CardTransactionRequest {
                 .categorySelection(categorySelection)
                 .date(date)
                 .customerId(customer)
-                
+
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)
                 .amount(amount)
