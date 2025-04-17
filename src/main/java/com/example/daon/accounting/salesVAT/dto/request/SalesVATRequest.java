@@ -22,6 +22,9 @@ public class SalesVATRequest {
     // 날짜
     private LocalDate date;
 
+    //입금전환일
+    private LocalDate paidDate;
+
     // 업체명
     private String companyName;
 
@@ -59,6 +62,7 @@ public class SalesVATRequest {
                 .total(total)
                 .memo(memo)
                 .paid(false)
+                .paidDate(null)
                 .build();
     }
 

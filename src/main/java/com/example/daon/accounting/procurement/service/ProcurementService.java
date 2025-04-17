@@ -1,5 +1,6 @@
 package com.example.daon.accounting.procurement.service;
 
+import com.example.daon.accounting.categorySelection.service.CategorySelectionService;
 import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
 import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.repository.ProcurementRepository;
@@ -18,10 +19,12 @@ public class ProcurementService {
 
     private final ProcurementRepository procurementRepository;
     private final CustomerRepository customerRepository;
+    private final CategorySelectionService categorySelectionService;
 
     //조달 및 수의 계산정산
     public void saveProcurement(ProcurementRequest procurementRequest) {
         CustomerEntity customer = customerRepository.findById(procurementRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
+        categorySelectionService.findAndSave(procurementRequest.getCategorySelection());
         procurementRepository.save(procurementRequest.toProcurementEntity(customer));
     }
 
@@ -36,8 +39,8 @@ public class ProcurementService {
         procurementRepository.deleteById(procurementRequest.getProcurementSettlementId());
     }
 
-    public void getProcurement(ProcurementRequest procurementRequest) {
-        List<ProcurementEntity> procurements = procurementRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<ProcurementEntity> getProcurement(ProcurementRequest procurementRequest) {
+        return procurementRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             // 거래처 분류
