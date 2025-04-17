@@ -27,7 +27,7 @@ public class ProcurementRequest {
     private UUID customerId;
 
     // 업체명
-    private String companyName;
+
 
     // 사업자번호
     private String businessNumber;
