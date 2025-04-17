@@ -91,7 +91,9 @@ export default function CustomerListSearch({initialcustomers, page} : {
                         <tr
                             key={customer.customerId}
                             className={checkedState[customer.customerId] ? 'is-click' :''}
-                            style={{cursor:'pointer'}}> 
+                            style={{cursor:'pointer'}}
+                            onClick={()=>update_checked( customer.customerId)}
+                            > 
                             <td><input type='checkbox' checked={checkedState[customer.customerId]||false} onChange={()=>update_checked( customer.customerId)}/></td>
                             <td className='left-align'>{customer.customerName}</td>
                             <td>{customer.phoneNumber}</td>
