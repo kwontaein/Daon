@@ -51,7 +51,7 @@ public class PurchaseVATRequest {
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
-                .companyName(companyName)
+
                 .customerId(customer)
                 .businessNumber(businessNumber)
                 .amount(amount)

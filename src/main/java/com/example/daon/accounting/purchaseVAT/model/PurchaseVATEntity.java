@@ -32,9 +32,7 @@ public class PurchaseVATEntity {
     // 날짜
     @Column(name = "date")
     private LocalDate date;
-    // 업체명
-    @Column(name = "category_name")
-    private String companyName;
+
 
     //고객
     @ManyToOne
@@ -68,7 +66,6 @@ public class PurchaseVATEntity {
     public void updateFromRequest(PurchaseVATRequest purchaseVATRequest, CustomerEntity customer) {
         this.categorySelection = purchaseVATRequest.getCategorySelection();
         this.date = purchaseVATRequest.getDate();
-        this.companyName = purchaseVATRequest.getCompanyName();
         this.businessNumber = purchaseVATRequest.getBusinessNumber();
         this.amount = purchaseVATRequest.getAmount();
         this.vat = purchaseVATRequest.getVat();
