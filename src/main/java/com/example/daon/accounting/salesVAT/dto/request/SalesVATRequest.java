@@ -26,7 +26,7 @@ public class SalesVATRequest {
     private LocalDate paidDate;
 
     // 업체명
-    private String companyName;
+
 
     //고객
     private UUID customerId;

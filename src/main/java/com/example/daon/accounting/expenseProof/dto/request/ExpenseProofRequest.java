@@ -25,7 +25,7 @@ public class ExpenseProofRequest {
     //입금일
     private LocalDate paidDate;
     // 업체명
-    private String companyName;
+
     // 고객아이디
     private UUID customerId;
     // 사업자번호
