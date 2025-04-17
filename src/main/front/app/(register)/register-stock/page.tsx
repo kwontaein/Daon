@@ -5,6 +5,6 @@ export default async function RegisterStockPage(){
     const InitStockCate = await getStockCateApi()
 
     return(
-       <StockForm stockCate={InitStockCate}/>
+       <StockForm mode='write' stockCate={InitStockCate}/>
     )
 }

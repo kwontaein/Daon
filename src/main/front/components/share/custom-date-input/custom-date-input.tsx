@@ -3,18 +3,18 @@ import dayjs from 'dayjs';
 import './custom-date-input.scss';
 import { RefObject, useMemo, useRef, useState } from 'react';
 
-export default function CustomDateInput({ defaultValue, name, changeEvent, className , dateRef}: {
+export default function CustomDateInput({ defaultValue, name, changeEvent, className }: {
     defaultValue: Date,
     name: string,
     changeEvent?:(value:string)=>void,
     className?: string,
-    dateRef?: RefObject<HTMLInputElement>
 }) {
     const initialDate = useMemo(() => dayjs(defaultValue).format('YYYY-MM-DD'), [defaultValue]);
     const [date, setDate] = useState<string>(initialDate);
-
     const monthInputRef = useRef<HTMLInputElement>(null);
     const dayInputRef = useRef<HTMLInputElement>(null);
+    const dateRef = useRef<HTMLInputElement>(null);
+
 
     const updateDate = (year: string, month: string, day: string) => {
         setDate(`${year}-${month}-${day}`);
@@ -28,7 +28,6 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
             setDate('0000-00-00')
             if(changeEvent) changeEvent('0000-00-00')
         }
-       
     };
     
 
@@ -89,9 +88,17 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
            
     return(        
         <label className={`custom-date-container ${className}`}>
-            <div className="custom-date-wrapper">
+            <input
+                ref={dateRef}
+                className="absolute-date"
+                type="date"
+                name={name}
+                value={date}
+                onChange={dateHandler}
+            />
+            <div className={`custom-date-wrapper`}>
                 <label>
-                    <input className="custom-year" type="number" value={date.split('-')[0]} maxLength={4} onChange={yearHandler} onFocus={handleFocus}/>
+                    <input className="custom-year" type="number" value={date.split('-')[0]} onChange={yearHandler} onFocus={handleFocus}/>
                     년
                 </label>
                 <label>
@@ -103,7 +110,19 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                     일
                 </label>
             </div>
-            <input ref={dateRef} className="custom-date" type="date" name={name} value={date} onChange={dateHandler} key={date} />
+            <input
+                className="custom-date"
+                type="date"
+                onClick={(e)=>{
+                    e.preventDefault()
+                    if (dateRef.current?.showPicker) {
+                        dateRef.current.showPicker();
+                    } else {
+                        dateRef.current?.focus();
+                        dateRef.current?.click();
+                    }
+                }}
+            />
         </label>
     )
 }
