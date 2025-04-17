@@ -41,16 +41,17 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
   
     searchInfo.searchResult.reduce<Accumulator>((prev, ledger, idx) => {
       const category = ReceiptCategoryEnum[ledger.category];
-      const isSameDate = prev.date === ledger.timeStamp;
+      const isSamePrevDate =  dayjs(prev.date).format('YYYY-MM-DD') === dayjs(ledger.timeStamp).format('YYYY-MM-DD');
+      const isSameNextDate =  searchInfo.searchResult.length-1>idx && dayjs(ledger.timeStamp).format('YYYY-MM-DD') === dayjs(searchInfo.searchResult[idx+1].timeStamp).format('YYYY-MM-DD')
       const balance =
-        ['매출', '매입할인','출금',' 반품출고'].includes(category)
+        ['매출', '매입할인','출금','반품출고'].includes(category)
           ? prev.balance + ledger.totalPrice
           : prev.balance - ledger.totalPrice;
   
-      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, isSameDate ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
+      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, (isSamePrevDate || isSameNextDate) ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
       const elements = [...prev.elements];
   
-      elements.push( mode==='pc' ?renderLedgerRow(ledger, balance, isSameDate) : renderMobileLedgerRow(ledger, balance, isSameDate));
+      elements.push( mode==='pc' ?renderLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)) : renderMobileLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)));
   
       let ledgerCount = prev.ledgerCount + 1;
       const isLast = idx === searchInfo.searchResult.length - 1;
