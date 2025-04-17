@@ -56,7 +56,7 @@ public class ExpenseProofRequest {
                 .categorySelection(categorySelection)
                 .date(date)
                 .customerId(customer)
-                .companyName(companyName)
+
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)
                 .amount(amount)
