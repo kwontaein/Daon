@@ -2,10 +2,9 @@ import { UnionAccountingType, VAT } from "@/model/types/accounting/type"
 import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi } from "../api/accountingApi";
 
 export default async function accountingFormAction(prevState, formData){
+
     const formState:UnionAccountingType ={
-        categorySelection: formData.getAll('categorySelection')[0] === 'none'
-            ? formData.getAll('categorySelection')[1]
-            : formData.getAll('categorySelection')[0],
+        categorySelection: formData.get('categorySelection'),
         date: formData.get('date'),
         customerId: formData.get('customerId'),
         businessNumber: formData.get('businessNumber'),
@@ -21,13 +20,21 @@ export default async function accountingFormAction(prevState, formData){
         vendor: formData.get('vendor'),   // 매입처
         quantity: formData.get('quantity'),    // 수량
         acceptance: formData.get('acceptance'),    // 인수
-        installation: formData.get('installation'),    // 설치
+        installation: formData.get('installation'), // 설치
         payment: formData.get('payment'),   // 결재
     }
 
     const action = formData.get('action')
     let status;
-    const postData = Object.fromEntries(Object.entries(formState).filter(([key,value])=> value!=='none' && value!==null))
+    const postData = Object.fromEntries(Object.entries({...formState})
+    .filter(([key,value])=> value!=='none' && value!==null)
+    .map(([key,value])=>{
+        if(['amount', 'vat', 'total', 'quantity'].includes(key) && value) {
+            return [key, (value as string).replaceAll(',','').replace('원','')]
+        }
+        return [key,value]
+    }))
+    console.log(postData)
     if(action === 'pvat'){
         status = await savePurchaseVatApi(postData)
     }else if(action === 'svat'){
@@ -45,7 +52,8 @@ export default async function accountingFormAction(prevState, formData){
 
     return {
         ...prevState,
-        ...postData,
+        ...formState,
         customerName:formData.get('customerName'),
+        status,
     }
 }

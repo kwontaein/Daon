@@ -35,6 +35,7 @@ export async function savePurchaseVatApi(saveData:UnionAccountingType){
 }
 //매출부가세
 export async function saveSalesVATApi(saveData:UnionAccountingType){
+    console.log(saveData)
     try{
         const response = await fetch("http://localhost:8080/api/saveSalesVAT", {
             method:"POST",
