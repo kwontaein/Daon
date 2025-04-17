@@ -37,9 +37,6 @@ public class ExpenseProofEntity {
     @Column(name = "paid_date")
     private LocalDate paidDate;
 
-    // 업체명
-    @Column(name = "category_name")
-    private String companyName;
 
     //고객 -업체명
     @ManyToOne
@@ -81,7 +78,6 @@ public class ExpenseProofEntity {
     public void updateFromRequest(ExpenseProofRequest expenseProofRequest, CustomerEntity customer) {
         this.categorySelection = expenseProofRequest.getCategorySelection();
         this.date = expenseProofRequest.getDate();
-        this.companyName = expenseProofRequest.getCompanyName();
         this.customerId = customer;
         this.cardCompany = expenseProofRequest.getCardCompany();
         this.paymentDetails = expenseProofRequest.getPaymentDetails();

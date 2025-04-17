@@ -32,9 +32,6 @@ public class ProcurementEntity {
     @Column(name = "date")
     private LocalDate date;
 
-    // 업체명
-    @Column(name = "category_name")
-    private String companyName;
 
     //고객 -업체명
     @ManyToOne
@@ -72,7 +69,6 @@ public class ProcurementEntity {
     public void updateFromRequest(ProcurementRequest procurementRequest, CustomerEntity customer) {
         this.categorySelection = procurementRequest.getCategorySelection();
         this.date = procurementRequest.getDate();
-        this.companyName = procurementRequest.getCompanyName();
         this.modelName = procurementRequest.getModelName();
         this.vendor = procurementRequest.getVendor();
         this.quantity = procurementRequest.getQuantity();
