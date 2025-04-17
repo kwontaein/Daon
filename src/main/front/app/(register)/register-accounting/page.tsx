@@ -11,8 +11,9 @@ export default async function RegisterAccountingPage({searchParams}:{
     const division = (await searchParams).division
     const categorySelections = await getCategorySelectionApi()
 
-    if(!['bills','card','proof','pset','pvat','svat'].includes(division)){
+    console.log(division)
+    if(!AccountingDivision[division]){
         notFound()
     }
-    return <AccountingForm mode="write" division={division as AccountingDivision} categorySelections={categorySelections}/>
+    return <AccountingForm mode="write" division={division as keyof typeof AccountingDivision} categorySelections={categorySelections}/>
 }
