@@ -9,7 +9,7 @@ import { startTransition, useActionState, useRef } from 'react';
 export default function AccountingSearch({companyList, division}:{companyList:ResponseCompany[], division:string}){
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(accountingSearchAction,{})
-
+    
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
         formData.set('action', division);
@@ -24,7 +24,7 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
             const params = new URLSearchParams
             params.set("division", division)
             const url = `${apiUrl}/register-accounting?${params.toString()}`;
-            const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
+            const popupOptions = "width=800,height=500,scrollbars=yes,resizable=yes"; 
             window.open(url, "register", popupOptions);
         }
     }

@@ -1,10 +1,12 @@
-import { VAT } from "@/model/types/accounting/type"
+import { UnionAccountingType, VAT } from "@/model/types/accounting/type"
+import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi } from "../api/accountingApi";
 
-export default function accountingFormAction(prevState, formData){
-    const formState:VAT ={
-        categorySelection: formData.get('categorySelection'),
+export default async function accountingFormAction(prevState, formData){
+    const formState:UnionAccountingType ={
+        categorySelection: formData.getAll('categorySelection')[0] === 'none'
+            ? formData.getAll('categorySelection')[1]
+            : formData.getAll('categorySelection')[0],
         date: formData.get('date'),
-        companyName: formData.get('companyName'),
         customerId: formData.get('customerId'),
         businessNumber: formData.get('businessNumber'),
         amount: formData.get('amount'),
@@ -12,27 +14,38 @@ export default function accountingFormAction(prevState, formData){
         total: formData.get('total'),
         note: formData.get('note'),
         memo: formData.get('memo'),
+        paidDate: formData.get('paidDate'),
+        cardCompany: formData.get('cardCompany'),
+        paymentDetails:formData.get('paymentDetails'),
+        modelName: formData.get('modelName'),   // 모델명
+        vendor: formData.get('vendor'),   // 매입처
+        quantity: formData.get('quantity'),    // 수량
+        acceptance: formData.get('acceptance'),    // 인수
+        installation: formData.get('installation'),    // 설치
+        payment: formData.get('payment'),   // 결재
     }
 
     const action = formData.get('action')
+    let status;
+    const postData = Object.fromEntries(Object.entries(formState).filter(([key,value])=> value!=='none' && value!==null))
     if(action === 'pvat'){
-
+        status = await savePurchaseVatApi(postData)
     }else if(action === 'svat'){
-
+        status = await saveSalesVATApi(postData)
     }else if(action === 'pset'){
-
-    }else if(action === 'svat'){
-
+        status = await saveProcurementApi(postData)
     }else if(action === 'bills'){
-
+        // status = await saveCardTransactionApi(postData)
     }else if(action === 'card'){
-
+        status = await saveCardTransactionApi(postData)
     }else if(action === 'proof'){
-
+        status = await saveExpenseProofApi(postData)
     }
+    delete prevState.status;
 
     return {
         ...prevState,
-        ...formState,
+        ...postData,
+        customerName:formData.get('customerName'),
     }
 }
