@@ -37,9 +37,6 @@ public class CardTransactionEntity {
     @Column(name = "paid_date")
     private LocalDate paidDate;
 
-    // 업체명
-    @Column(name = "category_name")
-    private String companyName;
 
     //고객 -업체명
     @ManyToOne
@@ -81,7 +78,6 @@ public class CardTransactionEntity {
     public void updateFields(CardTransactionRequest cardTransactionRequest, CustomerEntity customer) {
         this.categorySelection = cardTransactionRequest.getCategorySelection();
         this.date = cardTransactionRequest.getDate();
-        this.companyName = cardTransactionRequest.getCompanyName();
         this.customerId = customer;
         this.cardCompany = cardTransactionRequest.getCardCompany();
         this.paymentDetails = cardTransactionRequest.getPaymentDetails();

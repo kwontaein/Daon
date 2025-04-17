@@ -37,9 +37,6 @@ public class SalesVATEntity {
     @Column(name = "paid_date")
     private LocalDate paidDate;
 
-    // 업체명
-    @Column(name = "category_name")
-    private String companyName;
 
     //고객 -업체명
     @ManyToOne
@@ -81,7 +78,6 @@ public class SalesVATEntity {
     public void updateFromRequest(SalesVATRequest salesVATRequest, CustomerEntity customer) {
         this.categorySelection = salesVATRequest.getCategorySelection();
         this.date = salesVATRequest.getDate();
-        this.companyName = salesVATRequest.getCompanyName();
         this.customerId = customer;
         this.businessNumber = salesVATRequest.getBusinessNumber();
         this.paymentDetails = salesVATRequest.getPaymentDetails();

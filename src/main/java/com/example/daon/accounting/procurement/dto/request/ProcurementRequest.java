@@ -77,7 +77,7 @@ public class ProcurementRequest {
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
-                .companyName(companyName)
+
                 .customerId(customer)
                 .modelName(modelName)
                 .vendor(vendor)
