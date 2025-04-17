@@ -94,7 +94,7 @@ public class LedgerService {
 
             // 전표 선택 옵션 추가
             addCategoryPredicates(ledgerRequest, root, predicates);
-
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -115,7 +115,7 @@ public class LedgerService {
 
             // 전표 선택 옵션 추가
             addCategoryPredicates(ledgerRequest, root, predicates);
-
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -157,6 +157,7 @@ public class LedgerService {
 
             addCategoryPredicates(ledgerRequest, root, predicates);
             // 동적 조건을 조합하여 반환
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
@@ -176,6 +177,7 @@ public class LedgerService {
                 // 단일 거래처 ID로 필터
                 predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
             }
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -190,9 +192,10 @@ public class LedgerService {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("category"), ReceiptCategory.MAINTENANCE_FEE));
-
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+
         });
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
@@ -203,12 +206,7 @@ public class LedgerService {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
-            if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
-            }
-
             predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
-
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -254,7 +252,7 @@ public class LedgerService {
             }
 
             addCategoryPredicates(ledgerRequest, root, predicates);
-
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
