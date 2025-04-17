@@ -26,6 +26,7 @@ export default function CustomNumberInput({name, defaultValue,onChange} : {
             inputMode="numeric"
             pattern="\d*" // 숫자만 입력 가능
             onInput={numberInputHandler}    
+            style={{textAlign:'right'}}
         />
     )
 }
