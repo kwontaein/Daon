@@ -115,7 +115,7 @@ public class GlobalService {
                 printName(companyEntity.getPrintName()).
                 ceo(companyEntity.getCeo()).
                 ceoCert(companyEntity.getCeoCert()).
-                businessNum(companyEntity.getBusinessNum()).
+                businessNumber(companyEntity.getBusinessNumber()).
                 tel(companyEntity.getTel()).
                 tel2(companyEntity.getTel2()).
                 fax(companyEntity.getFax()).
@@ -144,7 +144,7 @@ public class GlobalService {
                 .customerId(customer.getCustomerId())
                 .ceo(customer.getCeo())
                 .ceoNum(customer.getCeoNum())
-                .businessNum(customer.getBusinessNum())
+                .businessNumber(customer.getBusinessNumber())
                 .businessType(customer.getBusinessType())
                 .contents(customer.getContents())
                 .customerRp(customer.getCustomerRp())
