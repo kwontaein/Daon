@@ -44,7 +44,7 @@ export default function CustomerDetail({customer}: { customer: ResponseCustomer 
                 </tr>
                 <tr>
                     <td className='table-label'>사업자등록번호</td>
-                    <td>{customer.companyNum}</td>
+                    <td>{customer.businessNumber}</td>
                     <td className='table-label'>업태</td>
                     <td>{customer.businessType}</td>
                 </tr>

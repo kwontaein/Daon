@@ -98,7 +98,7 @@ export default function CustomerForm({affiliation, employees, customer} : {
             </tr>
             <tr>
               <td className='table-label'>사업자등록번호</td>
-              <td><input type='text' name="companyNum"  defaultValue={state.companyNum ?? ''}/></td>
+              <td><input type='text' name="businessNum"  defaultValue={state.businessNum ?? ''}/></td>
               <td className='table-label'>업태</td>
               <td><input type='text' name="businessType"  defaultValue={state.businessType ?? ''}/></td>
             </tr>
