@@ -53,7 +53,7 @@ public class CustomerRequest {
                 .user(user)
                 .ceo(ceo)
                 .ceoNum(ceoNum)
-                .companyNum(customerName)
+                .companyNum(companyNum)
                 .businessType(businessType)
                 .contents(contents)
                 .customerRp(customerRp)
