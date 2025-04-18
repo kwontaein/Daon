@@ -1,7 +1,7 @@
 package com.example.daon.accounting.cardTransaction.controller;
 
 import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRequest;
-import com.example.daon.accounting.cardTransaction.model.CardTransactionEntity;
+import com.example.daon.accounting.cardTransaction.dto.response.CardTransactionResponse;
 import com.example.daon.accounting.cardTransaction.service.CardTransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class CardTransactionController {
     }
 
     @PostMapping("api/getCardTransaction")
-    public List<CardTransactionEntity> getCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
+    public List<CardTransactionResponse> getCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
         return cardTransactionService.getCardTransaction(cardTransactionRequest);
     }
 
