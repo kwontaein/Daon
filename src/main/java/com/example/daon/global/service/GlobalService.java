@@ -1,6 +1,16 @@
 package com.example.daon.global.service;
 
 
+import com.example.daon.accounting.cardTransaction.dto.response.CardTransactionResponse;
+import com.example.daon.accounting.cardTransaction.model.CardTransactionEntity;
+import com.example.daon.accounting.expenseProof.dto.response.ExpenseProofResponse;
+import com.example.daon.accounting.expenseProof.model.ExpenseProofEntity;
+import com.example.daon.accounting.procurement.dto.response.ProcurementResponse;
+import com.example.daon.accounting.procurement.model.ProcurementEntity;
+import com.example.daon.accounting.purchaseVAT.dto.response.PurchaseVATResponse;
+import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
+import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
+import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.company.dto.response.CompanyResponse;
@@ -299,10 +309,100 @@ public class GlobalService {
     }
 
 
+    public CardTransactionResponse convertToCardTransactionResponse(CardTransactionEntity cardTransaction) {
+        return CardTransactionResponse
+                .builder()
+                .cardTransactionId(cardTransaction.getCardTransactionId())
+                .categorySelection(cardTransaction.getCategorySelection())
+                .date(cardTransaction.getDate())
+                .paidDate(cardTransaction.getPaidDate())
+                .customerName(cardTransaction.getCustomerId().getCustomerName())
+                .customerId(cardTransaction.getCustomerId().getCustomerId())
+                .paymentDetails(cardTransaction.getPaymentDetails())
+                .amount(cardTransaction.getAmount())
+                .vat(cardTransaction.getVat())
+                .total(cardTransaction.getTotal())
+                .memo(cardTransaction.getMemo())
+                .cardCompany(cardTransaction.getCardCompany())
+                .build();
+    }
+
+    public ExpenseProofResponse convertToExpenseProofResponse(ExpenseProofEntity expenseProof) {
+        return ExpenseProofResponse
+                .builder()
+                .expenseProofId(expenseProof.getExpenseProofId())
+                .categorySelection(expenseProof.getCategorySelection())
+                .date(expenseProof.getDate())
+                .paidDate(expenseProof.getPaidDate())
+                .customerName(expenseProof.getCustomerId().getCustomerName())
+                .customerId(expenseProof.getCustomerId().getCustomerId())
+                .paymentDetails(expenseProof.getPaymentDetails())
+                .amount(expenseProof.getAmount())
+                .vat(expenseProof.getVat())
+                .total(expenseProof.getTotal())
+                .memo(expenseProof.getMemo())
+                .cardCompany(expenseProof.getCardCompany())
+                .build();
+    }
+
+    public ProcurementResponse convertToProcurementResponse(ProcurementEntity procurement) {
+        return ProcurementResponse
+                .builder()
+                .procurementSettlementId(procurement.getProcurementSettlementId())
+                .categorySelection(procurement.getCategorySelection())
+                .date(procurement.getDate())
+                .customerId(procurement.getCustomerId().getCustomerId())
+                .customerName(procurement.getCustomerId().getCustomerName())
+                .memo(procurement.getMemo())
+                .modelName(procurement.getModelName())
+                .vendor(procurement.getVendor())
+                .quantity(procurement.getQuantity())
+                .acceptance(procurement.getAcceptance())
+                .installation(procurement.getInstallation())
+                .payment(procurement.getPayment())
+                .build();
+    }
+
+    public PurchaseVATResponse convertToPurchaseVATResponse(PurchaseVATEntity purchaseVAT) {
+        return PurchaseVATResponse
+                .builder()
+                .purchaseVATId(purchaseVAT.getPurchaseVATId())
+                .categorySelection(purchaseVAT.getCategorySelection())
+                .date(purchaseVAT.getDate())
+                .customerName(purchaseVAT.getCustomerId().getCustomerName())
+                .customerId(purchaseVAT.getCustomerId().getCustomerId())
+                .businessNumber(purchaseVAT.getBusinessNumber())
+                .amount(purchaseVAT.getAmount())
+                .vat(purchaseVAT.getVat())
+                .total(purchaseVAT.getTotal())
+                .note(purchaseVAT.getNote())
+                .memo(purchaseVAT.getMemo())
+                .build();
+    }
+
+    public SalesVATResponse convertToSalesVATResponse(SalesVATEntity salesVAT) {
+        return SalesVATResponse
+                .builder()
+                .salesVATId(salesVAT.getSalesVATId())
+                .categorySelection(salesVAT.getCategorySelection())
+                .date(salesVAT.getDate())
+                .paidDate(salesVAT.getPaidDate())
+                .customerName(salesVAT.getCustomerId().getCustomerName())
+                .customerId(salesVAT.getCustomerId().getCustomerId())
+                .businessNumber(salesVAT.getBusinessNumber())
+                .paymentDetails(salesVAT.getPaymentDetails())
+                .amount(salesVAT.getAmount())
+                .vat(salesVAT.getVat())
+                .total(salesVAT.getTotal())
+                .memo(salesVAT.getMemo())
+                .build();
+    }
+
     public NoPaidResponse convertToNoPaidResponse(ReceiptEntity receipt) {
         return NoPaidResponse
                 .builder()
                 .build();
     }
+
 
 }

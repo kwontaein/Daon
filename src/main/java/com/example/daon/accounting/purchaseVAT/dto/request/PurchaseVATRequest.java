@@ -45,6 +45,10 @@ public class PurchaseVATRequest {
 
     // 메모
     private String memo;
+    //검색용
+    private LocalDate searchSDate;
+    private LocalDate searchEDate;
+    private String customerName;
 
     public PurchaseVATEntity toPurchaseVATEntity(CustomerEntity customer) {
         return PurchaseVATEntity

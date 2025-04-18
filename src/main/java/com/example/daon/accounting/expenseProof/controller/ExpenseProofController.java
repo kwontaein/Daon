@@ -1,7 +1,7 @@
 package com.example.daon.accounting.expenseProof.controller;
 
 import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
-import com.example.daon.accounting.expenseProof.model.ExpenseProofEntity;
+import com.example.daon.accounting.expenseProof.dto.response.ExpenseProofResponse;
 import com.example.daon.accounting.expenseProof.service.ExpenseProofService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class ExpenseProofController {
     }
 
     @PostMapping("api/getExpenseProof")
-    public List<ExpenseProofEntity> getExpenseProof(@RequestBody ExpenseProofRequest expenseProofRequest) {
+    public List<ExpenseProofResponse> getExpenseProof(@RequestBody ExpenseProofRequest expenseProofRequest) {
         return expenseProofService.getExpenseProof(expenseProofRequest);
     }
 
