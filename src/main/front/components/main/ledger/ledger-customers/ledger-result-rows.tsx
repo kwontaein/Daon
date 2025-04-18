@@ -74,24 +74,22 @@ export type Total = SubTotal & {
  export function renderMobileLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean) {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
-      <tbody key={ledger.receiptId}>
-        <tr style={isSameDate ? { border: 'none' } : undefined}>
+      <tbody key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
+        <tr>
           <td rowSpan={2}>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
           <td rowSpan={2}>{category}</td>
-          <td rowSpan={2} className="left-align">{ledger.customerName}</td>
-          <td rowSpan={2} className="left-align">
-            {ledger?.productName}
-            <br/>
-            {ledger?.modelName}
-          </td>
+          <td rowSpan={ledger?.productName ? 1 :2}className="left-align">{ledger.customerName}</td>
           <td>{ledger.quantity.toLocaleString('ko-KR')}</td>
           <td className="right-align">{(['매출', '출금', '반품출고'].includes(category) ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
           <td className="right-align">{(['매입', '입금', '반품입고'].includes(category) ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
           <td rowSpan={2} className="right-align">{balance.toLocaleString('ko-KR')}</td>
-
           <td rowSpan={2}>{ledger.memo}</td>
         </tr>
         <tr style={{borderTop:'none'}}>
+          {ledger?.productName &&<td className="left-align" style={{color:'blue'}}>
+            {(ledger?.productName ??'') + (ledger?.modelName ??(['매출','매입'].includes(category)) ? ` [${ledger.modelName}]` : '')}
+          </td>
+          }
           <td>{ledger.outPrice && ledger.outPrice.toLocaleString('ko-KR')}</td>
           <td className="right-align">{(category === '매입할인' ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
           <td className="right-align">{(category === '매출할인' ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>
@@ -107,7 +105,6 @@ export type Total = SubTotal & {
           <tr style={{ borderTop: 'none' }}>
             <td rowSpan={2}/><td rowSpan={2}/>
             <td className="left-align" rowSpan={2}><b>[당일소계]</b></td>
-            <td rowSpan={2}></td>
             <td rowSpan={2}></td>
             <td className="right-align"><b>{sub.purchase.toLocaleString('ko-KR')}</b></td>
             <td className="right-align"><b>{sub.sales.toLocaleString('ko-KR')}</b></td>
@@ -126,7 +123,7 @@ export type Total = SubTotal & {
  export function renderSubTotalRow(idx: number, sub: SubTotal) {
     return (
       <tr key={`subTotal-${idx}`} style={{ borderTop: 'none' }}>
-        <td></td><td></td><td></td>
+        <td></td><td></td>
         <td className="left-align"><b>[당일소계]</b></td>
         <td></td><td></td>
         <td className="right-align"><b>{sub.purchase.toLocaleString('ko-KR')}</b></td>
@@ -145,7 +142,6 @@ export type Total = SubTotal & {
       <tbody key={`total-${idx}`} className='none-hover' style={{borderBottom:'none'}}>
         <tr>
           <td rowSpan={2} style={{ verticalAlign: 'bottom' }}>총계</td>
-          <td rowSpan={2}/>
           <td rowSpan={2}/>
           <td rowSpan={2}/>
           <td rowSpan={2} style={{ verticalAlign: 'bottom' }}><b>{total.quntity.toLocaleString('ko-KR')}</b></td>

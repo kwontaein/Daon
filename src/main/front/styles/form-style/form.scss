@@ -28,6 +28,7 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
+    padding-inline: 2px;
     border:1px solid var.$input-border-color;
   }
   select{
@@ -164,4 +165,21 @@
 
 .bg-memo{
   background-color: var.$memo-color !important;
+}
+
+.focus-bg-memo{
+  input{
+    &:focus{
+      background-color: var.$memo-color !important;
+    }
+  }
+  textarea{
+    &:focus{
+      background-color: var.$memo-color !important;
+    }
+  }
+}
+
+.placeholder-small::placeholder {
+  font-size: 0.8rem;
 }
