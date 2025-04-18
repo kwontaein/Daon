@@ -5,17 +5,16 @@ import { useEffect, useRef, useState } from "react";
 
 export default function useSearchCustomer(
     checkCustomerName : (id? : string) => boolean,
-    changeHandler : (customerInfo : Partial<Pick<ResponseCustomer, 'customerName' | 'customerId'>>,uuid?: string) => void
+    changeHandler : (customerInfo : Partial<Pick<ResponseCustomer, 'customerName' | 'customerId'| 'companyNum'>>,uuid?: string) => void
 ) {
     const [target, setTarget] = useState('') 
-    
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
             if (event.data) {
-                const { customerName, customerId } = event.data;
+                const { customerName, customerId ,companyNum} = event.data;
                 if(customerName && customerId){
-                    changeHandler({customerName, customerId} , target)
+                    changeHandler({customerName, customerId, companyNum} , target)
                 }
             }
         };
@@ -33,7 +32,7 @@ export default function useSearchCustomer(
         if(checkCustomerName(id) && (e.key ==='Backspace' || e.key==='Delete' || e.key==='Process')){
             e.preventDefault();
             const deleteCustomer = ()=>{
-                changeHandler({customerName:'', customerId:''}, id)
+                changeHandler({customerName:'', customerId:'', companyNum:''}, id)
             }
             useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer,()=>{})
         }
