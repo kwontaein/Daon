@@ -31,14 +31,14 @@ export default function AccountingForm({mode,division,categorySelections}:{
     const checkCustomerName = () => !!state.customerId
 
     const changeHandler = (
-        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'companyNum'>,
+        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'businessNumber'>,
     ) => {
         if (formRef.current) {
             console.log(customerInfo)
             const formData = new FormData(formRef.current);
             formData.set('customerName', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
-            formData.set('companyNum', customerInfo.companyNum || '')
+            formData.set('businessNumber', customerInfo.businessNumber || '')
             startTransition(() => {
                 action(formData)
             })
@@ -153,9 +153,9 @@ export default function AccountingForm({mode,division,categorySelections}:{
                                 defaultValue={state.modelName}/>                        
                             :    
                             <input
-                                name='companyNum'
-                                defaultValue={state.companyNum}
-                                key={state.companyNum+'companyNum'}/>                       
+                                name='businessNum'
+                                defaultValue={state.businessNum}
+                                key={state.businessNum+'businessNum'}/>                       
                         }
                     </td>
                 </tr>
