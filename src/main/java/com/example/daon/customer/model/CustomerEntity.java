@@ -50,8 +50,8 @@ public class CustomerEntity {
     private String ceoNum;
 
     //사업자등록번호
-    @Column(name = "company_num")
-    private String companyNum;
+    @Column(name = "business_num")
+    private String businessNum;
 
     //업태
     @Column(name = "business_type")
@@ -151,7 +151,7 @@ public class CustomerEntity {
         //대표자 주민등록번호
         this.ceoNum = request.getCeoNum();
         //사업자등록번호
-        this.companyNum = request.getCompanyNum();
+        this.businessNum = request.getBusinessNum();
         //업태
         this.businessType = request.getBusinessType();
         //종목

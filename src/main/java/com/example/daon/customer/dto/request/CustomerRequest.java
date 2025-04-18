@@ -29,7 +29,7 @@ public class CustomerRequest {
     private String ceo;
     private String ceoNum;
     private String searchTarget;
-    private String companyNum;
+    private String businessNum;
     private String businessType;
     private String contents;
     private String customerRp;
@@ -53,7 +53,7 @@ public class CustomerRequest {
                 .user(user)
                 .ceo(ceo)
                 .ceoNum(ceoNum)
-                .companyNum(customerName)
+                .businessNum(businessNum)
                 .businessType(businessType)
                 .contents(contents)
                 .customerRp(customerRp)
