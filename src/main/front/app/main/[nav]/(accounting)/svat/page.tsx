@@ -1,17 +1,17 @@
 import AccountingSearch from "@/components/main/accounting/search";
-import SVATSaerchResult from "@/components/main/accounting/svat/search-result";
 import { getSalesVATApi } from "@/features/accounting/api/accountingSearchApi";
 import getCompany from "@/features/staff/company/api/company-api";
+import { PageByProps } from "@/model/types/share/type";
 
-export default async function SvatPage(){
-    
+export default async function SvatPage({searchParams}:PageByProps){
+    const page = (await searchParams).page ||1;
+
     const companyList = await getCompany()
-    const salesVatList = await getSalesVATApi()
-    console.log(salesVatList)
+    const initialSalesVatList = await getSalesVATApi()
+
     return(
         <>
-            <AccountingSearch companyList={companyList} division='svat'/>
-            <SVATSaerchResult salesVatList={salesVatList}/>
+            <AccountingSearch companyList={companyList} division='svat' initalListState={initialSalesVatList} page={page}/>
         </>
     )
 }

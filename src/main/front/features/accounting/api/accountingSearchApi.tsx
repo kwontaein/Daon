@@ -1,19 +1,25 @@
 import { PurchaseVAT, SalesVAT } from "@/model/types/accounting/type";
 
-const initalSearchCondition = {
-    searchSDate:null,
-    searchEDate:null,
-    customerName:null,
+type searchCondition = {
+    searchSDate?:Date,
+    searchEDate?:Date,
+    customerName?:string,
+    purchaseVATId?:string,
+    salesVATId?:string,
+    cardTransactionId?:string
+    expenseProofId?:string
+    procurementSettlementId?:string
 }
 //매입부가세
-export async function getPurchaseVatApi(purchaseVATId?:string){
+export async function getPurchaseVatApi(searchCondition?:searchCondition){
     try{
         const response = await fetch("http://localhost:8080/api/getPurchaseVAT", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({purchaseVATId}),
+            body:JSON.stringify({...searchCondition??{}}),
+            ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,14 +32,15 @@ export async function getPurchaseVatApi(purchaseVATId?:string){
 }
 
 //매출부가세
-export async function getSalesVATApi(salesVATId?:string){
+export async function getSalesVATApi(searchCondition?:searchCondition){
     try{
         const response = await fetch("http://localhost:8080/api/getSalesVAT", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({salesVATId}),
+            body:JSON.stringify(searchCondition??{}),
+            ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -46,14 +53,15 @@ export async function getSalesVATApi(salesVATId?:string){
 }
 
 //카드증빙
-export async function getCardTransactionfApi(cardTransactionId?:string){
+export async function getCardTransactionfApi(searchCondition?:searchCondition){
     try{
         const response = await fetch("http://localhost:8080/api/getCardTransaction", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({...initalSearchCondition,cardTransactionId}),
+            body:JSON.stringify(searchCondition??{}),
+            ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -66,14 +74,15 @@ export async function getCardTransactionfApi(cardTransactionId?:string){
 }
 
 //지출증빙
-export async function getExpenseProofApi(expenseProofId?:string){
+export async function getExpenseProofApi(searchCondition?:searchCondition){
     try{
         const response = await fetch("http://localhost:8080/api/getExpenseProof", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({expenseProofId}),
+            body:JSON.stringify(searchCondition??{}),
+            ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -86,14 +95,15 @@ export async function getExpenseProofApi(expenseProofId?:string){
 }
 
 //조달 및 수의 계산정산
-export async function getProcurementApi(procurementSettlementId?:string){
+export async function getProcurementApi(searchCondition?:searchCondition){
     try{
         const response = await fetch("http://localhost:8080/api/getProcurement", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({procurementSettlementId}),
+            body:JSON.stringify(searchCondition??{}),
+            ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
