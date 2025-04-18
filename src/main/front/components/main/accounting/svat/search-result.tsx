@@ -10,12 +10,12 @@ import AccountingOptions from '../options';
 import dayjs from 'dayjs';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 
-export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]}){
+export default function SVATSaerchResult({salesVATList}:{salesVATList:SalesVAT[]}){
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
-    const mode = useScreenMode({tabletSize:846, mobileSize:620})
+    const mode = useScreenMode({tabletSize:876, mobileSize:620})
 
-    console.log(salesVatList)
+    console.log(salesVATList)
     return(
         <>
         {mode &&
@@ -25,7 +25,7 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
                 <col style={{width:'5%',minWidth:`${mode==='pc' ? 'unset': '65px'}`}}/>
                 <col style={{width:'5%', minWidth:`${mode==='pc' ? '63px': (mode==='tabelt' ? '100px':'110px')}`}}/>
                 <col style={{width:'25%', minWidth:`${mode==='pc' ? '110px': '63px'}`}}/>
-                <col style={{width:'10%',minWidth:`${mode==='pc' ? '80px': '63px'}`}}/>
+                <col style={{width:'10%',minWidth:`${mode==='pc' ? '105px': '63px'}`}}/>
                 <col style={{width:'20%', minWidth:'63px'}}/>
                 {mode==='pc' &&<col style={{width:'5%', minWidth:'63px'}}/>}
                 {mode==='pc' &&<col style={{width:'5%', minWidth:'63px'}}/>}
@@ -35,10 +35,10 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
             <thead>
                 <tr>
                     <td rowSpan={mode==='pc'? 1:2}>분류</td>
-                    <td>일자</td>
-                    {mode==='pc' && <td>입금일자</td>}
+                    <td>날짜</td>
+                    {mode==='pc' && <td>입금날짜</td>}
                     <td>상호명</td>
-                    {mode==='pc' && <td>사업자번호</td>}
+                    {mode==='pc' && <td>사업자등록번호</td>}
                     <td rowSpan={mode==='pc'? 1:2}>결제내역</td>
                     <td>금액</td>
                     {mode==='pc' && <td>부가세</td>}
@@ -47,15 +47,15 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
                 </tr>
                 {mode!=='pc' &&
                     <tr>
-                        <td>입금일자</td>
-                        <td>사업자번호</td>
+                        <td>입금날짜</td>
+                        <td>사업자등록번호</td>
                         <td>부가세</td>
                     </tr>
                 }
             </thead>
             {mode==='pc' ?
             <tbody>
-                {salesVatList.map((salesVat)=>(
+                {salesVATList.map((salesVat)=>(
                         <tr key={salesVat.salesVATId} ref={(el)=> {itemsRef.current[salesVat.salesVATId] = el}} className={target === salesVat.salesVATId ?'is-click' :''}>
                         <td>{salesVat.categorySelection}</td>
                         <td style={{color:`${salesVat.paidDate ? 'red':'blue'}`}}>{dayjs(salesVat.date).format('YY.MM.DD')}</td>
@@ -74,12 +74,12 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
                 ))}
             </tbody>
             :
-            salesVatList.map((salesVat)=>(
+            salesVATList.map((salesVat)=>(
                 <tbody key={salesVat.salesVATId} ref={(el)=> {itemsRef.current[salesVat.salesVATId] = el}} className={target === salesVat.salesVATId ? 'is-click' :''}>
                      <tr>
                         <td rowSpan={2}>{salesVat.categorySelection}</td>
                         <td style={{color:`${salesVat.paidDate ? 'red':'blue'}`}}>{dayjs(salesVat.date).format('YY.MM.DD')}</td>
-                        <td className='left-align'>{salesVat.customerName}</td>
+                        <td>{salesVat.customerName}</td>
                         <td rowSpan={2}>{salesVat.paymentDetails}</td>
                         <td className='right-align'>{salesVat.amount.toLocaleString('ko-KR')}</td>
                         <td rowSpan={2} className='right-align'>{salesVat.total.toLocaleString('ko-KR')}</td>

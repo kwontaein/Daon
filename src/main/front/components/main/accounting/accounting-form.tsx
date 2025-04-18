@@ -73,7 +73,7 @@ export default function AccountingForm({mode,division,categorySelections,account
     useEffect(()=>{
         if(state.status){
             if(state.status ===200){
-                window.alert('신규'+ AccountingDivision[division]+'등록이 완료되었습니다.')
+                window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
                 window.close()
             }
         }
@@ -166,7 +166,7 @@ export default function AccountingForm({mode,division,categorySelections,account
                             :    
                             <input
                                 name='businessNumber'
-                                defaultValue={state.businessNum}
+                                defaultValue={state.businessNumber}
                                 key={state.businessNumber+'businessNumber'}
                                 readOnly={mode==='detail'}/>                       
                         }
