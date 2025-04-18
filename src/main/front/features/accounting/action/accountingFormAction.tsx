@@ -1,5 +1,5 @@
 import { UnionAccountingType, VAT } from "@/model/types/accounting/type"
-import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi } from "../api/accountingApi";
+import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi } from "../api/accountingFormApi";
 
 export default async function accountingFormAction(prevState, formData){
 
@@ -7,7 +7,8 @@ export default async function accountingFormAction(prevState, formData){
         categorySelection: formData.get('categorySelection'),
         date: formData.get('date'),
         customerId: formData.get('customerId'),
-        businessNumber: formData.get('businessNumber'),
+        //TODO: companyNum = businessNum 이름통합필요
+        businessNumber: formData.get('companyNum'),
         amount: formData.get('amount'),
         vat: formData.get('vat'),
         total: formData.get('total'),
@@ -54,6 +55,7 @@ export default async function accountingFormAction(prevState, formData){
         ...prevState,
         ...formState,
         customerName:formData.get('customerName'),
+        companyNum:formData.get('companyNum'),
         status,
     }
 }

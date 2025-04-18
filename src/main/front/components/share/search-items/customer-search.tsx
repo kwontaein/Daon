@@ -14,11 +14,12 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
-    
+    console.log(customers)
     const selectValue = (value: ResponseCustomer) => {
         const message ={
             customerId:value.customerId,
-            customerName:value.customerName
+            customerName:value.customerName,
+            companyNum:value.companyNum,
         }
         if (window.opener) {
           window.opener.postMessage(message, "*");

@@ -31,12 +31,14 @@ export default function AccountingForm({mode,division,categorySelections}:{
     const checkCustomerName = () => !!state.customerId
 
     const changeHandler = (
-        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' >,
+        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'companyNum'>,
     ) => {
         if (formRef.current) {
+            console.log(customerInfo)
             const formData = new FormData(formRef.current);
             formData.set('customerName', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
+            formData.set('companyNum', customerInfo.companyNum || '')
             startTransition(() => {
                 action(formData)
             })
@@ -101,7 +103,7 @@ export default function AccountingForm({mode,division,categorySelections}:{
                         <select name={category!=='none'?'categorySelection' :''} defaultValue={category} key={state.categorySelection+'categorySelection'} onChange={(e)=>setCategory(e.target.value)}>
                             <option value={'none'}>신규분류입력</option>
                             {categorySelections.filter(({categorySelection})=> categorySelection).map(({categorySelection},idx)=>(
-                                <option key={categorySelection+idx} value={categorySelection+'a'}>{categorySelection}</option>
+                                <option key={categorySelection+idx} value={categorySelection}>{categorySelection}</option>
                             ))}
                         </select>
                     </td>
@@ -151,8 +153,9 @@ export default function AccountingForm({mode,division,categorySelections}:{
                                 defaultValue={state.modelName}/>                        
                             :    
                             <input
-                                name='businessNumber'
-                                defaultValue={state.businessNumber}/>                       
+                                name='companyNum'
+                                defaultValue={state.companyNum}
+                                key={state.companyNum+'companyNum'}/>                       
                         }
                     </td>
                 </tr>
