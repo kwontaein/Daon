@@ -55,7 +55,7 @@ public class PurchaseVATService {
                     predicates.add(criteriaBuilder.between(root.get("date"), purchaseVATRequest.getSearchSDate(), purchaseVATRequest.getSearchEDate()));
                 }
 
-                if (purchaseVATRequest.getCustomerId() != null) {
+                if (purchaseVATRequest.getCustomerName() != null) {
                     predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + purchaseVATRequest.getCustomerName() + "%"));
                 }
             }

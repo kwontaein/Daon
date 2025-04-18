@@ -56,7 +56,7 @@ public class ProcurementService {
                     predicates.add(criteriaBuilder.between(root.get("date"), procurementRequest.getSearchSDate(), procurementRequest.getSearchEDate()));
                 }
 
-                if (procurementRequest.getCustomerId() != null) {
+                if (procurementRequest.getCustomerName() != null) {
                     predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + procurementRequest.getCustomerName() + "%"));
                 }
             }

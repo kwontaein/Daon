@@ -64,7 +64,7 @@ public class ExpenseProofService {
                     predicates.add(criteriaBuilder.between(root.get("date"), expenseProofRequest.getSearchSDate(), expenseProofRequest.getSearchEDate()));
                 }
 
-                if (expenseProofRequest.getCustomerId() != null) {
+                if (expenseProofRequest.getCustomerName() != null) {
                     predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + expenseProofRequest.getCustomerName() + "%"));
                 }
             }
