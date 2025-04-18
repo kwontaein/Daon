@@ -53,12 +53,16 @@ public class CardTransactionService {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
-            if (cardTransactionRequest.getSearchSDate() != null && cardTransactionRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), cardTransactionRequest.getSearchSDate(), cardTransactionRequest.getSearchEDate()));
-            }
+            if (cardTransactionRequest.getCardTransactionId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("cardTransactionId"), cardTransactionRequest.getCardTransactionId()));
+            } else {
+                if (cardTransactionRequest.getSearchSDate() != null && cardTransactionRequest.getSearchEDate() != null) {
+                    predicates.add(criteriaBuilder.between(root.get("date"), cardTransactionRequest.getSearchSDate(), cardTransactionRequest.getSearchEDate()));
+                }
 
-            if (cardTransactionRequest.getCustomerId() != null) {
-                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + cardTransactionRequest.getCustomerName() + "%"));
+                if (cardTransactionRequest.getCustomerId() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + cardTransactionRequest.getCustomerName() + "%"));
+                }
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

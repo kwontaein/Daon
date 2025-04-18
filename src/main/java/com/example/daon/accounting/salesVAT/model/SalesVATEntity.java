@@ -43,10 +43,6 @@ public class SalesVATEntity {
     @JoinColumn(name = "customer")
     private CustomerEntity customerId;
 
-    // 사업자번호
-    @Column(name = "business_number")
-    private String businessNumber;
-
     // 결제내역
     @Column(name = "payment_details")
     private String paymentDetails;
@@ -79,7 +75,6 @@ public class SalesVATEntity {
         this.categorySelection = salesVATRequest.getCategorySelection();
         this.date = salesVATRequest.getDate();
         this.customerId = customer;
-        this.businessNumber = salesVATRequest.getBusinessNumber();
         this.paymentDetails = salesVATRequest.getPaymentDetails();
         this.amount = salesVATRequest.getAmount();
         this.vat = salesVATRequest.getVat();

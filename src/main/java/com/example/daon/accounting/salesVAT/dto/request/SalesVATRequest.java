@@ -48,7 +48,7 @@ public class SalesVATRequest {
 
     // 메모
     private String memo;
-    
+
     //검색용
     private LocalDate searchSDate;
     private LocalDate searchEDate;
@@ -59,9 +59,7 @@ public class SalesVATRequest {
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
-
                 .customerId(customer)
-                .businessNumber(businessNumber)
                 .amount(amount)
                 .vat(vat)
                 .total(total)

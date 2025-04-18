@@ -54,12 +54,18 @@ public class SalesVATService {
         List<SalesVATEntity> salesVATEntities = salesVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            if (salesVATRequest.getSearchSDate() != null && salesVATRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), salesVATRequest.getSearchSDate(), salesVATRequest.getSearchEDate()));
-            }
 
-            if (salesVATRequest.getCustomerId() != null) {
-                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + salesVATRequest.getCustomerName() + "%"));
+            if (salesVATRequest.getSalesVATId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("cardTransactionId"), salesVATRequest.getSalesVATId()));
+            } else {
+
+                if (salesVATRequest.getSearchSDate() != null && salesVATRequest.getSearchEDate() != null) {
+                    predicates.add(criteriaBuilder.between(root.get("date"), salesVATRequest.getSearchSDate(), salesVATRequest.getSearchEDate()));
+                }
+
+                if (salesVATRequest.getCustomerId() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + salesVATRequest.getCustomerName() + "%"));
+                }
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
