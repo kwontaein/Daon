@@ -19,7 +19,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
         const message ={
             customerId:value.customerId,
             customerName:value.customerName,
-            companyNum:value.companyNum,
+            businessNumber:value.businessNumber,
         }
         if (window.opener) {
           window.opener.postMessage(message, "*");
