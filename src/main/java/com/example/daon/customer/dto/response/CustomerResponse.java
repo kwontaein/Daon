@@ -27,7 +27,7 @@ public class CustomerResponse {
     private String ceo;
     private String ceoNum;
     private String searchTarget;
-    private String companyNum;
+    private String businessNum;
     private String businessType;
     private String contents;
     private String customerRp;
