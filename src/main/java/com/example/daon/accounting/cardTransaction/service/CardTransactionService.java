@@ -60,7 +60,7 @@ public class CardTransactionService {
                     predicates.add(criteriaBuilder.between(root.get("date"), cardTransactionRequest.getSearchSDate(), cardTransactionRequest.getSearchEDate()));
                 }
 
-                if (cardTransactionRequest.getCustomerId() != null) {
+                if (cardTransactionRequest.getCustomerName() != null) {
                     predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + cardTransactionRequest.getCustomerName() + "%"));
                 }
             }
