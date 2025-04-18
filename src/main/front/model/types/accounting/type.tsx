@@ -11,7 +11,6 @@ export interface VAT {
     date: string; // ISO 날짜 문자열 형식 (예: "2025-04-16")    // 날짜
     customerId: string; // UUID
     customerName:string;
-    businessNumber?: string;    // 사업자번호
     amount?: number;    // 금액
     vat?: number;    // 부가세
     total?: number;    // 합계
@@ -25,10 +24,12 @@ export interface VAT {
 //매입부가세
 export type PurchaseVAT= Omit<VAT,'paidDate'|'cardCompany'|'paymentDetails'>& {
     purchaseVATId: string;
+    businessNumber?: string;    // 사업자번호
 } 
 //매출부가세
 export type SalesVAT= Omit<VAT,'cardCompany'> & {
     salesVATId: string;
+    businessNumber?: string;    // 사업자번호
 }
 
 //카드증빙
@@ -45,11 +46,11 @@ export type ExpenseProof= VAT & {
 
 //조달및수의
 export type ProcurementSettlement= {
+    procurementSettlementId: string; // UUID
     categorySelection: string;    // 분류선택
     date: string; // ISO 날짜 문자열 형식 (예: "2025-04-16")    // 날짜
     customerId: string; // UUID
     customerName:string;
-    procurementSettlementId: string; // UUID
     modelName: string;    // 모델명
     vendor: string;    // 매입처
     quantity: number;    // 수량

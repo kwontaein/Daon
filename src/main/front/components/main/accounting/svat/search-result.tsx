@@ -14,8 +14,12 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const mode = useScreenMode({tabletSize:846, mobileSize:620})
+
+    console.log(salesVatList)
     return(
-        <table className={`search-result-table  ${mode!=='pc' ? 'mobile':''}`}>
+        <>
+        {mode &&
+            <table className={`search-result-table  ${mode!=='pc' ? 'mobile':''}`}>
             <colgroup>
                 <col style={{width:'5%', minWidth:'60px'}}/>
                 <col style={{width:'5%',minWidth:`${mode==='pc' ? 'unset': '65px'}`}}/>
@@ -91,6 +95,8 @@ export default function SVATSaerchResult({salesVatList}:{salesVatList:SalesVAT[]
                     </tr>
                 </tbody>
             ))}
-        </table>
+        </table>    
+        }
+        </>
     )
 }

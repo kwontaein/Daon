@@ -140,8 +140,7 @@ export default function AccountingForm({mode,division,categorySelections,account
                        readOnly={category!=='none' || mode==='detail'}
                    />
                </td>
-           </tr>
-               
+           </tr>  
                 <tr>
                     <td className='table-label'>업체명</td>
                     <td>
@@ -166,9 +165,9 @@ export default function AccountingForm({mode,division,categorySelections,account
                                 readOnly={mode==='detail'}/>                        
                             :    
                             <input
-                                name='businessNum'
+                                name='businessNumber'
                                 defaultValue={state.businessNum}
-                                key={state.businessNum+'businessNum'}
+                                key={state.businessNumber+'businessNumber'}
                                 readOnly={mode==='detail'}/>                       
                         }
                     </td>
