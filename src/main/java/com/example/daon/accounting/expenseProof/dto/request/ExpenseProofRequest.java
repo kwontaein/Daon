@@ -22,14 +22,12 @@ public class ExpenseProofRequest {
 
     // 날짜
     private LocalDate date;
+
     //입금일
     private LocalDate paidDate;
-    // 업체명
 
     // 고객아이디
     private UUID customerId;
-    // 사업자번호
-    private String businessNumber;
 
     // 결제내역
     private String paymentDetails;
@@ -49,6 +47,10 @@ public class ExpenseProofRequest {
     // 카드사
     private String cardCompany;
 
+    //검색용
+    private LocalDate searchSDate;
+    private LocalDate searchEDate;
+    private String customerName;
 
     public ExpenseProofEntity toExpenseProofEntity(CustomerEntity customer) {
         return ExpenseProofEntity
@@ -56,7 +58,6 @@ public class ExpenseProofRequest {
                 .categorySelection(categorySelection)
                 .date(date)
                 .customerId(customer)
-
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)
                 .amount(amount)

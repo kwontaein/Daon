@@ -2,10 +2,12 @@ package com.example.daon.accounting.salesVAT.service;
 
 import com.example.daon.accounting.categorySelection.service.CategorySelectionService;
 import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
+import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.accounting.salesVAT.repository.SalesVATRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class SalesVATService {
     private final CustomerRepository customerRepository;
     private final ReceiptRepository receiptRepository;
     private final CategorySelectionService categorySelectionService;
+    private final GlobalService globalService;
 
     //매출부가세
     public void saveSalesVAT(SalesVATRequest salesVATRequest) {
@@ -46,14 +50,21 @@ public class SalesVATService {
         salesVATRepository.deleteById(salesVATRequest.getSalesVATId());
     }
 
-    public List<SalesVATEntity> getSalesVAT(SalesVATRequest salesVATRequest) {
-        return salesVATRepository.findAll((root, query, criteriaBuilder) -> {
+    public List<SalesVATResponse> getSalesVAT(SalesVATRequest salesVATRequest) {
+        List<SalesVATEntity> salesVATEntities = salesVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            // 거래처 분류
+            if (salesVATRequest.getSearchSDate() != null && salesVATRequest.getSearchEDate() != null) {
+                predicates.add(criteriaBuilder.between(root.get("date"), salesVATRequest.getSearchSDate(), salesVATRequest.getSearchEDate()));
+            }
+
+            if (salesVATRequest.getCustomerId() != null) {
+                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + salesVATRequest.getCustomerName() + "%"));
+            }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        return salesVATEntities.stream().map(globalService::convertToSalesVATResponse).collect(Collectors.toList());
     }
 
     public void paidSalesVAT(SalesVATRequest salesVATRequest) {

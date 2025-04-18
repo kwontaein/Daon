@@ -1,6 +1,7 @@
 package com.example.daon.accounting.procurement.controller;
 
 import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
+import com.example.daon.accounting.procurement.dto.response.ProcurementResponse;
 import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.service.ProcurementService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class ProcurementController {
     }
 
     @PostMapping("api/getProcurement")
-    public List<ProcurementEntity> getProcurement(@RequestBody ProcurementRequest procurementRequest) {
+    public List<ProcurementResponse> getProcurement(@RequestBody ProcurementRequest procurementRequest) {
         return procurementService.getProcurement(procurementRequest);
     }
 

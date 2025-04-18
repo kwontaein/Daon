@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -25,27 +24,6 @@ public class ProcurementRequest {
 
     // 고객아이디
     private UUID customerId;
-
-    // 업체명
-
-
-    // 사업자번호
-    private String businessNumber;
-
-    // 결제내역
-    private String paymentDetails;
-
-    // 금액
-    private BigDecimal amount;
-
-    // 부가세
-    private BigDecimal vat;
-
-    // 합계
-    private BigDecimal total;
-
-    // 비고
-    private String note;
 
     // 메모
     private String memo;
@@ -68,16 +46,16 @@ public class ProcurementRequest {
     // 결재
     private String payment;
 
-    // 카드사
-    private String cardCompany;
-
+    //검색용
+    private LocalDate searchSDate;
+    private LocalDate searchEDate;
+    private String customerName;
 
     public ProcurementEntity toProcurementEntity(CustomerEntity customer) {
         return ProcurementEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
-
                 .customerId(customer)
                 .modelName(modelName)
                 .vendor(vendor)
