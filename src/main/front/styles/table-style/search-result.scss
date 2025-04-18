@@ -30,6 +30,7 @@
     
     td{
         text-align: center;
+        padding-inline: 2px;
         select{
             border-color: transparent;
             background-color: transparent !important;
@@ -45,7 +46,7 @@
         }
         button{
             padding: 1px 5px;
-            font-size: 0.95rem;
+            font-size: 0.9rem !important;
         }
     }
 
@@ -93,5 +94,22 @@
     }
     button{
         padding-inline: 5px;
+    }
+}
+
+.mobile{
+    tbody{
+        tr{
+            height: 25px;
+            background-color: inherit !important;
+            border: unset !important;
+            td{
+                text-align: center;
+            }
+        }
+        border-bottom: 1px solid var.$default-border-color;
+        &:hover{
+            background-color: rgb(197,202,254);
+        }
     }
 }
