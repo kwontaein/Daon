@@ -27,7 +27,7 @@ public class CompanyResponse {
     private String ceoCert;
 
     //사업자등록번호
-    private String businessNum;
+    private String businessNumber;
 
     //전화번호1
     private String tel;

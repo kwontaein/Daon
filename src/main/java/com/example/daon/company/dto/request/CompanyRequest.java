@@ -26,7 +26,7 @@ public class CompanyRequest {
     private String ceoCert;
 
     //사업자등록번호
-    private String businessNum;
+    private String businessNumber;
 
     //전화번호1
     private String tel;
@@ -88,7 +88,7 @@ public class CompanyRequest {
                         ceoCert(ceoCert).
 
                 //사업자등록번호
-                        businessNum(businessNum).
+                        businessNumber(businessNumber).
 
                 //전화번호1
                         tel(tel).
