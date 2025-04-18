@@ -44,7 +44,7 @@ public class CompanyEntity {
 
     //사업자등록번호
     @Column(name = "business_num")
-    private String businessNum;
+    private String businessNumber;
 
     //전화번호1
     @Column(name = "tel")
@@ -117,7 +117,7 @@ public class CompanyEntity {
         this.ceoCert = request.getCeoCert();
 
         //사업자등록번호
-        this.businessNum = request.getBusinessNum();
+        this.businessNumber = request.getBusinessNumber();
 
         //전화번호1
         this.tel = request.getTel();
