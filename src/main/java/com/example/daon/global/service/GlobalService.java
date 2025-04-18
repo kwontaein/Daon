@@ -134,7 +134,7 @@ public class GlobalService {
                 .customerId(customer.getCustomerId())
                 .ceo(customer.getCeo())
                 .ceoNum(customer.getCeoNum())
-                .companyNum(customer.getCustomerName())
+                .businessNum(customer.getBusinessNum())
                 .businessType(customer.getBusinessType())
                 .contents(customer.getContents())
                 .customerRp(customer.getCustomerRp())
