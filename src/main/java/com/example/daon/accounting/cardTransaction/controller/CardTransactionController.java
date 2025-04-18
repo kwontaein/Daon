@@ -36,6 +36,7 @@ public class CardTransactionController {
         return cardTransactionService.getCardTransaction(cardTransactionRequest);
     }
 
+
     @PostMapping("api/cardTransactionPaid")
     public void cardTransactionPaid(@RequestBody CardTransactionRequest cardTransactionRequest) {
         cardTransactionService.paidCardTransaction(cardTransactionRequest);
