@@ -46,12 +46,18 @@ public class PurchaseVATService {
         List<PurchaseVATEntity> purchaseVATEntities = purchaseVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            if (purchaseVATRequest.getSearchSDate() != null && purchaseVATRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), purchaseVATRequest.getSearchSDate(), purchaseVATRequest.getSearchEDate()));
-            }
 
-            if (purchaseVATRequest.getCustomerId() != null) {
-                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + purchaseVATRequest.getCustomerName() + "%"));
+            if (purchaseVATRequest.getPurchaseVATId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("purchaseVATId"), purchaseVATRequest.getPurchaseVATId()));
+            } else {
+
+                if (purchaseVATRequest.getSearchSDate() != null && purchaseVATRequest.getSearchEDate() != null) {
+                    predicates.add(criteriaBuilder.between(root.get("date"), purchaseVATRequest.getSearchSDate(), purchaseVATRequest.getSearchEDate()));
+                }
+
+                if (purchaseVATRequest.getCustomerId() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + purchaseVATRequest.getCustomerName() + "%"));
+                }
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

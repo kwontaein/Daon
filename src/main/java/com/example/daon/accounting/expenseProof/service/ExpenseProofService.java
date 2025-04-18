@@ -55,12 +55,18 @@ public class ExpenseProofService {
         List<ExpenseProofEntity> expenseProofEntities = expenseProofRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            if (expenseProofRequest.getSearchSDate() != null && expenseProofRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), expenseProofRequest.getSearchSDate(), expenseProofRequest.getSearchEDate()));
-            }
 
-            if (expenseProofRequest.getCustomerId() != null) {
-                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + expenseProofRequest.getCustomerName() + "%"));
+            if (expenseProofRequest.getExpenseProofId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("expenseProofId"), expenseProofRequest.getExpenseProofId()));
+            } else {
+
+                if (expenseProofRequest.getSearchSDate() != null && expenseProofRequest.getSearchEDate() != null) {
+                    predicates.add(criteriaBuilder.between(root.get("date"), expenseProofRequest.getSearchSDate(), expenseProofRequest.getSearchEDate()));
+                }
+
+                if (expenseProofRequest.getCustomerId() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + expenseProofRequest.getCustomerName() + "%"));
+                }
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
