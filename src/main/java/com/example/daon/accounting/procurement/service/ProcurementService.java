@@ -47,12 +47,18 @@ public class ProcurementService {
         List<ProcurementEntity> procurementEntities = procurementRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            if (procurementRequest.getSearchSDate() != null && procurementRequest.getSearchEDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("date"), procurementRequest.getSearchSDate(), procurementRequest.getSearchEDate()));
-            }
 
-            if (procurementRequest.getCustomerId() != null) {
-                predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + procurementRequest.getCustomerName() + "%"));
+            if (procurementRequest.getProcurementSettlementId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("procurementSettlementId"), procurementRequest.getProcurementSettlementId()));
+            } else {
+
+                if (procurementRequest.getSearchSDate() != null && procurementRequest.getSearchEDate() != null) {
+                    predicates.add(criteriaBuilder.between(root.get("date"), procurementRequest.getSearchSDate(), procurementRequest.getSearchEDate()));
+                }
+
+                if (procurementRequest.getCustomerId() != null) {
+                    predicates.add(criteriaBuilder.like(root.get("customerId").get("customerName"), "%" + procurementRequest.getCustomerName() + "%"));
+                }
             }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
