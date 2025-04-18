@@ -22,7 +22,6 @@ public class EstimateController {
     //견적서 목록 조회
     @PostMapping("api/getEstimates")
     public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest estimateRequest) {
-        System.out.println(estimateRequest);
         return estimateService.getEstimates(estimateRequest);
     }
 

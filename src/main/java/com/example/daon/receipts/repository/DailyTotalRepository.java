@@ -11,4 +11,7 @@ import java.util.UUID;
 
 public interface DailyTotalRepository extends JpaRepository<DailyTotalEntity, UUID>, JpaSpecificationExecutor<DailyTotalEntity> {
     Optional<DailyTotalEntity> findDailyTotalEntityByDate(@Param("date") LocalDate date);
+
+    Optional<DailyTotalEntity> findTopByDateBeforeOrderByDateDesc(@Param("date") LocalDate date);
+
 }
