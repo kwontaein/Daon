@@ -26,9 +26,6 @@ public class CardTransactionRequest {
     //입금일
     private LocalDate paidDate;
 
-    // 업체명
-
-
     // 고객아이디
     private UUID customerId;
 
@@ -51,13 +48,18 @@ public class CardTransactionRequest {
     private String cardCompany;
 
 
+    //검색용
+    private LocalDate searchSDate;
+    private LocalDate searchEDate;
+    private String customerName;
+
+
     public CardTransactionEntity toCardTransactionEntity(CustomerEntity customer) {
         return CardTransactionEntity
                 .builder()
                 .categorySelection(categorySelection)
                 .date(date)
                 .customerId(customer)
-
                 .cardCompany(cardCompany)
                 .paymentDetails(paymentDetails)
                 .amount(amount)
