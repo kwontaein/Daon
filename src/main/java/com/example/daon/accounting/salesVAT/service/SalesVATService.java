@@ -56,7 +56,7 @@ public class SalesVATService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (salesVATRequest.getSalesVATId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("cardTransactionId"), salesVATRequest.getSalesVATId()));
+                predicates.add(criteriaBuilder.equal(root.get("salesVATId"), salesVATRequest.getSalesVATId()));
             } else {
 
                 if (salesVATRequest.getSearchSDate() != null && salesVATRequest.getSearchEDate() != null) {
