@@ -1,25 +1,14 @@
 import { PurchaseVAT, SalesVAT } from "@/model/types/accounting/type";
 
 //매입부가세
-export async function getPurchaseVatApi(){
-    // const tempData:PurchaseVAT = {
-    //     purchaseVATId:null,
-    //     categorySelection:null,
-    //     date:null,
-    //     customerId:null,
-    //     businessNumber:null,
-    //     amount:null,
-    //     vat:null,
-    //     total:null,
-    //     memo:null,
-    // }
+export async function getPurchaseVatApi(purchaseVATId?:string){
     try{
         const response = await fetch("http://localhost:8080/api/getPurchaseVAT", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({}),
+            body:JSON.stringify({purchaseVATId}),
             next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,14 +21,14 @@ export async function getPurchaseVatApi(){
 }
 
 //매출부가세
-export async function getSalesVATApi(){
+export async function getSalesVATApi(salesVATId?:string){
     try{
         const response = await fetch("http://localhost:8080/api/getSalesVAT", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({}),
+            body:JSON.stringify({salesVATId}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -50,16 +39,17 @@ export async function getSalesVATApi(){
         console.error('Error:', error);
     }
 }
-//조달 및 수의 계산정산
-export async function getProcurementApi(){
+
+//카드증빙
+export async function getCardTransactionfApi(cardTransactionId?:string){
     try{
-        const response = await fetch("http://localhost:8080/api/getProcurement", {
+        const response = await fetch("http://localhost:8080/api/getCardTransaction", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({}),
-            next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
+            body:JSON.stringify({cardTransactionId}),
+            next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -69,15 +59,16 @@ export async function getProcurementApi(){
         console.error('Error:', error);
     }
 }
+
 //지출증빙
-export async function getExpenseProofApi(){
+export async function getExpenseProofApi(expenseProofId?:string){
     try{
         const response = await fetch("http://localhost:8080/api/getExpenseProof", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({}),
+            body:JSON.stringify({expenseProofId}),
             next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -88,16 +79,17 @@ export async function getExpenseProofApi(){
         console.error('Error:', error);
     }
 }
-//지출증빙
-export async function getCardTransactionfApi(){
+
+//조달 및 수의 계산정산
+export async function getProcurementApi(procurementSettlementId?:string){
     try{
-        const response = await fetch("http://localhost:8080/api/getCardTransaction", {
+        const response = await fetch("http://localhost:8080/api/getProcurement", {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({}),
-            next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
+            body:JSON.stringify({procurementSettlementId}),
+            next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
