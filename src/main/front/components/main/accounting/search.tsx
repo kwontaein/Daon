@@ -1,6 +1,7 @@
 'use client'
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import accountingSearchAction from '@/features/accounting/action/accountingSearchAction';
+import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import '@/styles/table-style/search.scss';
@@ -9,7 +10,7 @@ import { startTransition, useActionState, useRef } from 'react';
 export default function AccountingSearch({companyList, division}:{companyList:ResponseCompany[], division:string}){
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(accountingSearchAction,{})
-    
+    const mode = useScreenMode({tabletSize:690, mobileSize:620})
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
         formData.set('action', division);
@@ -61,8 +62,9 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
                     <tr>
                         <td className='table-label'>출력일자</td>
                         <td>
-                            <span className='dates-container'>
-                                <CustomDateInput defaultValue={state.searchSDate} name='searchSDate'/> ~ <CustomDateInput defaultValue={state.searchEDate} name='searchEDate'/>
+                            <span className='dates-container' style={{display:`${mode==='tabelt' ? 'block':'flex'}`}}>
+                                <CustomDateInput defaultValue={state.searchSDate} name='searchSDate' className={mode==='tabelt' ? 'none-max-width': ''}/> {mode!=='tabelt' && '~'} 
+                                <CustomDateInput defaultValue={state.searchEDate} name='searchEDate' className={mode==='tabelt' ? 'none-max-width': ''}/>
                             </span>
                         </td>
                         <td rowSpan={2}>

@@ -3,11 +3,12 @@ import dayjs from 'dayjs';
 import './custom-date-input.scss';
 import { RefObject, useMemo, useRef, useState } from 'react';
 
-export default function CustomDateInput({ defaultValue, name, changeEvent, className }: {
+export default function CustomDateInput({ defaultValue, name, changeEvent, className ,readOnly}: {
     defaultValue: Date,
     name: string,
     changeEvent?:(value:string)=>void,
     className?: string,
+    readOnly?:boolean
 }) {
     const initialDate = useMemo(() => dayjs(defaultValue).format('YYYY-MM-DD'), [defaultValue]);
     const [date, setDate] = useState<string>(initialDate);
@@ -95,18 +96,19 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                 name={name}
                 value={date}
                 onChange={dateHandler}
+                readOnly={readOnly}
             />
             <div className={`custom-date-wrapper`}>
                 <label>
-                    <input className="custom-year" type="number" value={date.split('-')[0]} onChange={yearHandler} onFocus={handleFocus}/>
+                    <input className="custom-year" type="number" value={date.split('-')[0]} onChange={yearHandler} onFocus={handleFocus} readOnly={readOnly}/>
                     년
                 </label>
                 <label>
-                    <input ref={monthInputRef} className="custom-month" type="number" value={date.split('-')[1]} onChange={monthHandler} onFocus={handleFocus}/>
+                    <input ref={monthInputRef} className="custom-month" type="number" value={date.split('-')[1]} onChange={monthHandler} onFocus={handleFocus} readOnly={readOnly}/>
                     월
                 </label>
                 <label>
-                    <input ref={dayInputRef} className="custom-day" type="number" value={date.split('-')[2]} onChange={dayHandler} onFocus={handleFocus}/>
+                    <input ref={dayInputRef} className="custom-day" type="number" value={date.split('-')[2]} onChange={dayHandler} onFocus={handleFocus} readOnly={readOnly}/>
                     일
                 </label>
             </div>
@@ -122,6 +124,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                         dateRef.current?.click();
                     }
                 }}
+                readOnly={readOnly}
             />
         </label>
     )
