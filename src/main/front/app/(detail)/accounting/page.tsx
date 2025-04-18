@@ -23,19 +23,19 @@ export default async function AccountingPage({searchParams}:{
     let accountingData;
     switch(AccountingDivision[division]){
         case "매입부가세" :
-            accountingData = await getPurchaseVatApi(id)
+            accountingData = await getPurchaseVatApi({purchaseVATId:id})
             break;
         case "매출부가세" :
-            accountingData = await getSalesVATApi(id)
+            accountingData = await getSalesVATApi({salesVATId:id})
             break;
         case "카드증빙" :
-            accountingData = await getCardTransactionfApi(id)
+            accountingData = await getCardTransactionfApi({cardTransactionId:id})
             break;
         case "지출증빙" :
-            accountingData = await getExpenseProofApi(id)
+            accountingData = await getExpenseProofApi({expenseProofId:id})
             break;
         case "조달및수의" :
-            accountingData = await getProcurementApi(id)
+            accountingData = await getProcurementApi({procurementSettlementId:id})
             break;
     }
     

@@ -3,14 +3,22 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import accountingSearchAction from '@/features/accounting/action/accountingSearchAction';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { apiUrl } from '@/model/constants/apiUrl';
+import { PurchaseVAT, SalesVAT, UnionAccountingType } from '@/model/types/accounting/type';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import '@/styles/table-style/search.scss';
-import { startTransition, useActionState, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
+import SVATSaerchResult from './svat/search-result';
+import PVATSaerchResult from './pvat/search-result';
+import Pagination from '@/components/share/pagination';
 
-export default function AccountingSearch({companyList, division}:{companyList:ResponseCompany[], division:string}){
+export default function AccountingSearch({companyList, division, initalListState, page}:{companyList:ResponseCompany[], division:string, initalListState:UnionAccountingType[], page:number}){
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(accountingSearchAction,{})
     const mode = useScreenMode({tabletSize:690, mobileSize:620})
+    const [searchResult, setSearchResult] =useState(initalListState)
+    const pageBySearchResult = useMemo(()=>searchResult.slice((page - 1) * 20, ((page - 1) * 20) + 20),[searchResult,page])
+
+
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
         formData.set('action', division);
@@ -31,7 +39,14 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
     }
 
     
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchResult(state.searchResult)
+        }
+    },[state])
+
     return(
+        <>
         <section className='search-container'>
             <form action={action} ref={formRef}>
             <table className='search-table'>
@@ -84,6 +99,22 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
             </table>
             </form>
         </section>
+        {division ==='svat' &&
+            <SVATSaerchResult salesVATList={pageBySearchResult as SalesVAT[]}/>
+        }
+        {division ==='pvat' &&
+            <PVATSaerchResult purchaseVATList={pageBySearchResult as PurchaseVAT[]}/>
+        }
+
+
+        {!isPending &&
+            <Pagination
+                totalItems={searchResult.length}
+                itemCountPerPage={20} 
+                pageCount={5} 
+                currentPage={Number(page)}/>
+        }
+        </>
 
     )
 }
