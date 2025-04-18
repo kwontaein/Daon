@@ -1,5 +1,5 @@
 import AccountingForm from "@/components/main/accounting/accounting-form";
-import { getCategorySelectionApi } from "@/features/accounting/api/accountingApi";
+import { getCategorySelectionApi } from "@/features/accounting/api/accountingFormApi";
 import { AccountingDivision } from "@/model/types/accounting/type";
 import { notFound } from "next/navigation";
 

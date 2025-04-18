@@ -26,7 +26,7 @@ export interface VAT {
       purchaseVATId: string;
   } 
   //매출부가세
-  export type SalesVAT= Omit<VAT,'cardCompany'|'paymentDetails'> & {
+  export type SalesVAT= Omit<VAT,'cardCompany'> & {
       salesVATId: string;
   }
   
