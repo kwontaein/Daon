@@ -49,7 +49,6 @@ export const AsideOptions = {
         asideItems: [
             {name: '매입부가세', link: 'pvat'},
             {name: '매출부가세', link: 'svat'},
-            {name: '세금계산서', link: 'bills'},
             {name: '조달및수익계약정산', link: 'pset'},
             {name: '카드결제내역', link: 'card'},
             {name: '지출증빙', link: 'proof'}

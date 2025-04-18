@@ -5,7 +5,7 @@ export interface ResponseCompany {
     printName: string;        // 인쇄명
     ceo: string;              // CEO 이름
     ceoCert: string;          // CEO 주민번호
-    businessNum: string;      // 사업자등록번호
+    businessNumber: string;      // 사업자등록번호
     tel: string;              // 전화번호1
     tel2: string;             // 전화번호2
     fax: string;              // FAX 번호

@@ -7,8 +7,8 @@ export default async function accountingFormAction(prevState, formData){
         categorySelection: formData.get('categorySelection'),
         date: formData.get('date'),
         customerId: formData.get('customerId'),
-        //TODO: companyNum = businessNum 이름통합필요
-        businessNumber: formData.get('companyNum'),
+        businessNumber: formData.get('businessNumber'),
+        customerName:formData.get('customerName'),
         amount: formData.get('amount'),
         vat: formData.get('vat'),
         total: formData.get('total'),
@@ -54,8 +54,6 @@ export default async function accountingFormAction(prevState, formData){
     return {
         ...prevState,
         ...formState,
-        customerName:formData.get('customerName'),
-        companyNum:formData.get('companyNum'),
         status,
     }
 }

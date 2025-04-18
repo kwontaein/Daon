@@ -48,7 +48,7 @@ export interface ResponseCustomer {
     billName?: string;
     ceo?: string;
     ceoNum?: string;
-    companyNum?: string; //사업자등록번호
+    businessNumber?: string; //사업자등록번호
     businessType?: string;
     contents?: string;
     customerRp?: string;
