@@ -13,7 +13,7 @@ export async function submitCompanyInfo(prevState, formData) {
         printName: formData.get('printName'),
         ceo: formData.get('ceo'),
         ceoCert: formData.get('ceoCert'), //ceo 주민등록번호
-        businessNum: formData.get('businessNum'),
+        businessNumber: formData.get('businessNumber'),
         tel: formData.get('tel'),
         tel2: formData.get('tel2'),
         fax: formData.get('fax'),
@@ -38,8 +38,8 @@ export async function submitCompanyInfo(prevState, formData) {
     if(isInvalidText(companyData.printName)){
         errors.push(['printName', '인쇄명을 입력해주세요.'])
     }
-    if(isInvalidText(companyData.businessNum)){
-        errors.push(['businessNum', '사업자등록번호를 입력해주세요.'])
+    if(isInvalidText(companyData.businessNumber)){
+        errors.push(['businessNumber', '사업자등록번호를 입력해주세요.'])
     }
     if(isInvalidText(companyData.ceo)){
         errors.push(['ceo', '대표자명을 입력해주세요.'])

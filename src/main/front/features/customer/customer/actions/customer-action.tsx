@@ -14,7 +14,7 @@ export async function submitBusinessInfo(prevState, formData) {
       billName: formData.get('billName'),
       ceo: formData.get('ceo'),
       ceoNum: formData.get('ceoNum'),
-      companyNum: formData.get('companyNum'),
+      businessNumber: formData.get('businessNumber'),
       businessType: formData.get('businessType'),
       contents: formData.get('contents'),
       etc: formData.get('etc'),
