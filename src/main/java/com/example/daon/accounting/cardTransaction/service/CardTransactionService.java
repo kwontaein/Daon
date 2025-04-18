@@ -35,7 +35,8 @@ public class CardTransactionService {
     public void saveCardTransaction(CardTransactionRequest cardTransactionRequest) {
         CustomerEntity customer = customerRepository.findById(cardTransactionRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
         categorySelectionService.findAndSave(cardTransactionRequest.getCategorySelection());
-        cardTransactionRepository.save(cardTransactionRequest.toCardTransactionEntity(customer));
+        CardTransactionEntity cardTransaction = cardTransactionRepository.save(cardTransactionRequest.toCardTransactionEntity(customer));
+        cardTransactionRequest.setCardTransactionId(cardTransaction.getCardTransactionId());
     }
 
     public void updateCardTransaction(CardTransactionRequest cardTransactionRequest) {

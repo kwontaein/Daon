@@ -28,7 +28,8 @@ public class PurchaseVATService {
     public void savePurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
         CustomerEntity customer = customerRepository.findById(purchaseVATRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
         categorySelectionService.findAndSave(purchaseVATRequest.getCategorySelection());
-        purchaseVATRepository.save(purchaseVATRequest.toPurchaseVATEntity(customer));
+        PurchaseVATEntity purchaseVATEntity = purchaseVATRepository.save(purchaseVATRequest.toPurchaseVATEntity(customer));
+        purchaseVATRequest.setPurchaseVATId(purchaseVATEntity.getPurchaseVATId());
     }
 
     public void updatePurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
