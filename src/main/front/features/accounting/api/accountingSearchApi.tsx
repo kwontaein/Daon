@@ -1,5 +1,10 @@
 import { PurchaseVAT, SalesVAT } from "@/model/types/accounting/type";
 
+const initalSearchCondition = {
+    searchSDate:null,
+    searchEDate:null,
+    customerName:null,
+}
 //매입부가세
 export async function getPurchaseVatApi(purchaseVATId?:string){
     try{
@@ -48,7 +53,7 @@ export async function getCardTransactionfApi(cardTransactionId?:string){
             headers : {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({cardTransactionId}),
+            body:JSON.stringify({...initalSearchCondition,cardTransactionId}),
             next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

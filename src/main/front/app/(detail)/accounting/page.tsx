@@ -12,11 +12,15 @@ export default async function AccountingPage({searchParams}:{
     }>
 }){
     const division = (await searchParams).division
-    const mode = (await searchParams).mode ||'detail'
+    const mode = (await searchParams).mode ||'edit'
     const id = (await searchParams).target||''
     const categorySelections = await getCategorySelectionApi()
-    let accountingData;
+    // division이 매핑되지 않거나, 잘못된 mode url 전달 및 데이터가 없으면 notFound()
+    if(!AccountingDivision[division] || !['detail', 'edit'].includes(mode)|| !id){
+        notFound()
+    }
 
+    let accountingData;
     switch(AccountingDivision[division]){
         case "매입부가세" :
             accountingData = await getPurchaseVatApi(id)
@@ -35,9 +39,6 @@ export default async function AccountingPage({searchParams}:{
             break;
     }
     
-    // division이 매핑되지 않거나, 잘못된 mode url 전달 및 데이터가 없으면 notFound()
-    if(!AccountingDivision[division] || !['detail', 'edit'].includes(mode)||accountingData.length===0){
-        notFound()
-    }
+
     return <AccountingForm mode={mode} division={division as keyof typeof AccountingDivision} categorySelections={categorySelections} accountingData={accountingData.at(-1)}/>
 }
