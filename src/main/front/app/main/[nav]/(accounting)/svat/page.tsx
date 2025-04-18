@@ -1,4 +1,5 @@
 import AccountingSearch from "@/components/main/accounting/search";
+import SVATSaerchResult from "@/components/main/accounting/svat/search-result";
 import { getSalesVATApi } from "@/features/accounting/api/accountingSearchApi";
 import getCompany from "@/features/staff/company/api/company-api";
 
@@ -8,6 +9,9 @@ export default async function SvatPage(){
     const salesVatList = await getSalesVATApi()
     console.log(salesVatList)
     return(
-        <AccountingSearch companyList={companyList} division='svat'/>
+        <>
+            <AccountingSearch companyList={companyList} division='svat'/>
+            <SVATSaerchResult salesVatList={salesVatList}/>
+        </>
     )
 }
