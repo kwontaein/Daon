@@ -37,7 +37,8 @@ public class ExpenseProofService {
     public void saveExpenseProof(ExpenseProofRequest expenseProofRequest) {
         CustomerEntity customer = customerRepository.findById(expenseProofRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
         categorySelectionService.findAndSave(expenseProofRequest.getCategorySelection());
-        expenseProofRepository.save(expenseProofRequest.toExpenseProofEntity(customer));
+        ExpenseProofEntity expenseProofEntity = expenseProofRepository.save(expenseProofRequest.toExpenseProofEntity(customer));
+        expenseProofEntity.setExpenseProofId(expenseProofEntity.getExpenseProofId());
     }
 
     public void updateExpenseProof(ExpenseProofRequest expenseProofRequest) {

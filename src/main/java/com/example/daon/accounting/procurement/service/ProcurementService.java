@@ -29,7 +29,8 @@ public class ProcurementService {
     public void saveProcurement(ProcurementRequest procurementRequest) {
         CustomerEntity customer = customerRepository.findById(procurementRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("잘못된 고객 아이디입니다."));
         categorySelectionService.findAndSave(procurementRequest.getCategorySelection());
-        procurementRepository.save(procurementRequest.toProcurementEntity(customer));
+        ProcurementEntity procurement = procurementRepository.save(procurementRequest.toProcurementEntity(customer));
+        procurementRequest.setProcurementSettlementId(procurement.getProcurementSettlementId());
     }
 
     public void updateProcurement(ProcurementRequest procurementRequest) {
