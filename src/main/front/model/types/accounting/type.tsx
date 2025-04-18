@@ -10,7 +10,7 @@ export interface VAT {
     categorySelection: string;    // 분류선택
     date: string; // ISO 날짜 문자열 형식 (예: "2025-04-16")    // 날짜
     customerId: string; // UUID
-    businessNumber?: string;    // 사업자번호
+    customerName:string;
     amount?: number;    // 금액
     vat?: number;    // 부가세
     total?: number;    // 합계
@@ -21,38 +21,44 @@ export interface VAT {
     paidDate?:Date;
 }
 
-  //매입부가세
-  export type PurchaseVAT= Omit<VAT,'paidDate'|'cardCompany'|'paymentDetails'>& {
-      purchaseVATId: string;
-  } 
-  //매출부가세
-  export type SalesVAT= Omit<VAT,'cardCompany'> & {
-      salesVATId: string;
-  }
-  
-  //카드증빙
-  export type CardTransaction= VAT & {
-      cardTransactionId: string;         // UUID
-  }
-  
+//매입부가세
+export type PurchaseVAT= Omit<VAT,'paidDate'|'cardCompany'|'paymentDetails'>& {
+    purchaseVATId: string;
+    businessNumber?: string;    // 사업자번호
+} 
+//매출부가세
+export type SalesVAT= Omit<VAT,'cardCompany'> & {
+    salesVATId: string;
+    businessNumber?: string;    // 사업자번호
+}
 
-  //지출증빙
-  export type ExpenseProof= VAT & {
-      expenseProofId: string; // UUID
-  }
+//카드증빙
+export type CardTransaction= VAT & {
+    cardTransactionId: string;         // UUID
+}
 
 
-  //조달및수의
-  export type ProcurementSettlement= Omit<VAT,'paidDate'> & {
-      procurementSettlementId: string; // UUID
-      modelName: string;    // 모델명
-      vendor: string;    // 매입처
-      quantity: number;    // 수량
-      acceptance: number;    // 인수
-      installation: string;    // 설치
-      payment: string;    // 결재
-  }
-  
+//지출증빙
+export type ExpenseProof= VAT & {
+    expenseProofId: string; // UUID
+}
+
+
+//조달및수의
+export type ProcurementSettlement= {
+    procurementSettlementId: string; // UUID
+    categorySelection: string;    // 분류선택
+    date: string; // ISO 날짜 문자열 형식 (예: "2025-04-16")    // 날짜
+    customerId: string; // UUID
+    customerName:string;
+    modelName: string;    // 모델명
+    vendor: string;    // 매입처
+    quantity: number;    // 수량
+    acceptance: number;    // 인수
+    installation: string;    // 설치
+    payment: string;    // 결재
+}
+
 type PartialUnion<T> = T extends any ? Partial<T> : never;
 
 export type UnionAccountingType = PartialUnion<PurchaseVAT | SalesVAT | CardTransaction | ExpenseProof | ProcurementSettlement>

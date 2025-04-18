@@ -1,7 +1,8 @@
-export default function CustomNumberInput({name, defaultValue,onChange} : {
+export default function CustomNumberInput({name, defaultValue,onChange,readOnly} : {
     name: string,
     defaultValue: string
     onChange?:(text:number)=>void
+    readOnly?:boolean
 }) {
 
     const numberInputHandler = (e)=>{
@@ -27,6 +28,7 @@ export default function CustomNumberInput({name, defaultValue,onChange} : {
             pattern="\d*" // 숫자만 입력 가능
             onInput={numberInputHandler}    
             style={{textAlign:'right'}}
+            readOnly={readOnly}
         />
     )
 }

@@ -6,20 +6,21 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import accountingFormAction from '@/features/accounting/action/accountingFormAction';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { AccountingDivision } from '@/model/types/accounting/type';
+import { AccountingDivision, UnionAccountingType } from '@/model/types/accounting/type';
 import CustomNumberInput from '@/components/share/custom-number-input/page';
 import { ResponseCustomer } from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 
 
-export default function AccountingForm({mode,division,categorySelections}:{
+export default function AccountingForm({mode,division,categorySelections,accountingData}:{
     mode:'write'|'detail'|'edit',
     division: keyof typeof AccountingDivision,
-    categorySelections:{categorySelection:string}[]
+    categorySelections:{categorySelection:string}[],
+    accountingData?:UnionAccountingType,
 }){
     const formRef = useRef<HTMLFormElement | null>(null);
-    const [state, action, isPending] = useActionState(accountingFormAction,{})
+    const [state, action, isPending] = useActionState(accountingFormAction,{...accountingData})
     const [category, setCategory] = useState(state.categorySelection??'none')
     const [total, setTotal] = useState<{amount:number,vat:number}>({
         amount:state.amount??0,
@@ -31,14 +32,14 @@ export default function AccountingForm({mode,division,categorySelections}:{
     const checkCustomerName = () => !!state.customerId
 
     const changeHandler = (
-        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'companyNum'>,
+        customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'businessNumber'>,
     ) => {
         if (formRef.current) {
             console.log(customerInfo)
             const formData = new FormData(formRef.current);
             formData.set('customerName', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
-            formData.set('companyNum', customerInfo.companyNum || '')
+            formData.set('businessNumber', customerInfo.businessNumber || '')
             startTransition(() => {
                 action(formData)
             })
@@ -72,7 +73,7 @@ export default function AccountingForm({mode,division,categorySelections}:{
     useEffect(()=>{
         if(state.status){
             if(state.status ===200){
-                window.alert('신규'+ AccountingDivision[division]+'등록이 완료되었습니다.')
+                window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
                 window.close()
             }
         }
@@ -100,7 +101,16 @@ export default function AccountingForm({mode,division,categorySelections}:{
                 <tr>
                     <td className='table-label'>분류선택</td>
                     <td>
-                        <select name={category!=='none'?'categorySelection' :''} defaultValue={category} key={state.categorySelection+'categorySelection'} onChange={(e)=>setCategory(e.target.value)}>
+                        <select 
+                            name={category!=='none'?'categorySelection' :''} 
+                            defaultValue={category} key={state.categorySelection+'categorySelection'}
+                             onChange={(e)=>{
+                                if(mode==='detail'){
+                                    e.preventDefault()
+                                    return
+                                }
+                                setCategory(e.target.value)
+                            }}>
                             <option value={'none'}>신규분류입력</option>
                             {categorySelections.filter(({categorySelection})=> categorySelection).map(({categorySelection},idx)=>(
                                 <option key={categorySelection+idx} value={categorySelection}>{categorySelection}</option>
@@ -113,7 +123,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                             <CustomDateInput 
                                 defaultValue={state.date} 
                                 name='date' 
-                                key={state.date+'date'}/>
+                                key={state.date+'date'}
+                                readOnly={mode==='detail'}/>
                         </div>
                     </td>
                 </tr>
@@ -126,11 +137,10 @@ export default function AccountingForm({mode,division,categorySelections}:{
                        placeholder='※ 원하시는 분류가 없을시에는 텍스트박스에 입력해 주세요.'
                        name={category==='none' ? 'categorySelection':''}
                        defaultValue={category==='none' ? state.categorySelection:''}
-                       readOnly={category!=='none'}
+                       readOnly={category!=='none' || mode==='detail'}
                    />
                </td>
-           </tr>
-               
+           </tr>  
                 <tr>
                     <td className='table-label'>업체명</td>
                     <td>
@@ -139,23 +149,26 @@ export default function AccountingForm({mode,division,categorySelections}:{
                             defaultValue={state.customerName}
                             onKeyDown={searchCustomerHandler}
                             key={state.customerName+'customerName'}
-                            />                       
+                            readOnly={mode==='detail'}/>                       
                         <input
                             type='hidden'
                             name='customerId'
-                            defaultValue={state.customerId}/>
+                            defaultValue={state.customerId}
+                            readOnly={mode==='detail'}/>
                     </td>
                     <td className='table-label'>{division==='pset' ? "모델명" :"사업자등록번호"}</td>
                     <td>
                         {division==='pset' ?
                             <input
                                 name='modelName'
-                                defaultValue={state.modelName}/>                        
+                                defaultValue={state.modelName}
+                                readOnly={mode==='detail'}/>                        
                             :    
                             <input
-                                name='companyNum'
-                                defaultValue={state.companyNum}
-                                key={state.companyNum+'companyNum'}/>                       
+                                name='businessNumber'
+                                defaultValue={state.businessNumber}
+                                key={state.businessNumber+'businessNumber'}
+                                readOnly={mode==='detail'}/>                       
                         }
                     </td>
                 </tr>
@@ -168,26 +181,30 @@ export default function AccountingForm({mode,division,categorySelections}:{
                     <td><CustomNumberInput 
                             name='quantity'
                             key={state.quantity+'quantity'} 
-                            defaultValue={state.quantity}/>
+                            defaultValue={state.quantity}
+                            readOnly={mode==='detail'}/>
                     </td>
                 </tr>
                 <tr>
                     <td className='table-label'>인수</td>
                     <td><input
                         name='acceptance'
-                        defaultValue={state.acceptance}/>
+                        defaultValue={state.acceptance}
+                        readOnly={mode==='detail'}/>
                     </td>
                     <td className='table-label'>설치</td>
                     <td><input
                         name='installation'
-                        defaultValue={state.installation}/>
+                        defaultValue={state.installation}
+                        readOnly={mode==='detail'}/>
                     </td>
                 </tr>
                 <tr>
                     <td className='table-label'>결재</td>
                     <td colSpan={3}><input
                         name='payment'
-                        defaultValue={state.payment}/>
+                        defaultValue={state.payment}
+                        readOnly={mode==='detail'}/>
                     </td>                
                 </tr>
                 </>
@@ -205,7 +222,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                                     ...prev,
                                     amount
                                 }
-                            })}/>
+                            })}
+                            readOnly={mode==='detail'}/>
                     </td>
                     <td rowSpan={2} className='table-label'>합계</td>
                     <td rowSpan={2}><input name='total' style={{textAlign:'right'}} value={(total.amount+total.vat).toLocaleString('ko-KR')+'원'} readOnly/></td>
@@ -222,7 +240,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                                         ...prev,
                                         vat
                                     }
-                                })}/>
+                                })}
+                                readOnly={mode==='detail'}/>
                     </td>
                 </tr>
                 {['proof', 'card'].includes(division) &&
@@ -230,7 +249,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                   <td className='table-label'>카드사</td>
                   <td colSpan={3}><input
                       name='cardCompany'
-                      defaultValue={state.cardCompany}/></td>                
+                      defaultValue={state.cardCompany}
+                      readOnly={mode==='detail'}/></td>                
                 </tr>  
                 }
                 {division!=='pvat' &&
@@ -238,7 +258,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                     <td className='table-label'>결제내역</td>
                     <td colSpan={3}><input
                         name='paymentDetails'
-                        defaultValue={state.paymentDetails}/></td>                
+                        defaultValue={state.paymentDetails}
+                        readOnly={mode==='detail'}/></td>                
                 </tr>
                 }
                 <tr>
@@ -246,7 +267,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                     <td colSpan={3}>
                         <textarea 
                             name='note'
-                            defaultValue={state.note}/>
+                            defaultValue={state.note}
+                            readOnly={mode==='detail'}/>
                     </td>
                 </tr>
                </>
@@ -256,7 +278,8 @@ export default function AccountingForm({mode,division,categorySelections}:{
                     <td colSpan={3}>
                         <textarea 
                             name='memo'
-                            defaultValue={state.memo}/>
+                            defaultValue={state.memo}
+                            readOnly={mode==='detail'}/>
                     </td>
                 </tr>
             </tbody>
