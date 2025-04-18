@@ -1,6 +1,7 @@
 'use client'
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import accountingSearchAction from '@/features/accounting/action/accountingSearchAction';
+import { apiUrl } from '@/model/constants/apiUrl';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import '@/styles/table-style/search.scss';
 import { startTransition, useActionState, useRef } from 'react';
@@ -8,7 +9,7 @@ import { startTransition, useActionState, useRef } from 'react';
 export default function AccountingSearch({companyList, division}:{companyList:ResponseCompany[], division:string}){
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(accountingSearchAction,{})
-
+    
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
         formData.set('action', division);
@@ -16,6 +17,18 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
             action(formData);
         });
     }
+
+    const registerAccountingHandler = ()=>{
+           
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set("division", division)
+            const url = `${apiUrl}/register-accounting?${params.toString()}`;
+            const popupOptions = "width=800,height=500,scrollbars=yes,resizable=yes"; 
+            window.open(url, "register", popupOptions);
+        }
+    }
+
     
     return(
         <section className='search-container'>
@@ -54,10 +67,10 @@ export default function AccountingSearch({companyList, division}:{companyList:Re
                         </td>
                         <td rowSpan={2}>
                             <div className='grid-table-buttons'>
-                                <button type='submit' disabled={isPending} onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button>전 체 보 기</button>
-                                <button>엑 셀 변 환</button>
-                                <button>신 규 등 록</button>
+                                <button type='button' disabled={isPending} onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button type='button'>전 체 보 기</button>
+                                <button type='button'>엑 셀 변 환</button>
+                                <button type='button' onClick={registerAccountingHandler}>신 규 등 록</button>
                             </div>
                         </td>
                     </tr>

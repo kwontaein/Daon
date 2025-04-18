@@ -1,6 +1,7 @@
-export default function CustomNumberInput({name, defaultValue} : {
+export default function CustomNumberInput({name, defaultValue,onChange} : {
     name: string,
     defaultValue: string
+    onChange?:(text:number)=>void
 }) {
 
     const numberInputHandler = (e)=>{
@@ -11,7 +12,9 @@ export default function CustomNumberInput({name, defaultValue} : {
             target.value = Number(rawValue.replace(/\D/g, "")).toLocaleString(); // 숫자가 아닌 것 제거
             return;
         }
-    
+        if(onChange){
+            onChange(Number(rawValue))
+        }
         target.value = Number(rawValue).toLocaleString(); // 천 단위 콤마 추가   
     }
     
@@ -22,6 +25,8 @@ export default function CustomNumberInput({name, defaultValue} : {
             defaultValue={defaultValue}
             inputMode="numeric"
             pattern="\d*" // 숫자만 입력 가능
-            onInput={numberInputHandler}/>
+            onInput={numberInputHandler}    
+            style={{textAlign:'right'}}
+        />
     )
 }
