@@ -2,8 +2,11 @@
 
 import {useEffect, useRef, useState} from "react";
 
- //dropDown Items를 관리하는 hooks
- //view 는 현재 보고있는 컴포넌트 및 페이지, 페이지가 달라지면 아이템 셀렉터 해제
+
+ /** dropDown Items를 관리하는 hooks//
+  * (1)addEvent: itemRef를 참조하여 외부 node 클릭 시 target해제//
+  * (2)view: 현재 보고있는 컴포넌트 및 페이지가 달라지면 아이템 셀렉터 해제
+ */
  export function useItemSelection<T>(addEvent: boolean, view?: string) {
     const [target, setTarget] = useState<T | null>(null);
     const itemsRef = useRef<Record<string, HTMLElement | null>>({}); //key:string, value : HTMLElement
