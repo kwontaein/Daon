@@ -81,7 +81,9 @@
         gap:5px;
         align-items: center;
         .custom-date-container{
-            max-width: 130px;
+            &:not(.none-max-width) {
+                max-width: 130px;
+            }
             @media(max-width:620px){
                 font-size: 0.95rem;
             }
