@@ -39,10 +39,6 @@ public class PurchaseVATEntity {
     @JoinColumn(name = "customer")
     private CustomerEntity customerId;
 
-    // 사업자번호
-    @Column(name = "business_number")
-    private String businessNumber;
-
     // 금액
     @Column(name = "amount")
     private BigDecimal amount;
@@ -66,7 +62,6 @@ public class PurchaseVATEntity {
     public void updateFromRequest(PurchaseVATRequest purchaseVATRequest, CustomerEntity customer) {
         this.categorySelection = purchaseVATRequest.getCategorySelection();
         this.date = purchaseVATRequest.getDate();
-        this.businessNumber = purchaseVATRequest.getBusinessNumber();
         this.amount = purchaseVATRequest.getAmount();
         this.vat = purchaseVATRequest.getVat();
         this.total = purchaseVATRequest.getTotal();

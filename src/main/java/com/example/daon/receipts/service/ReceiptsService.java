@@ -99,7 +99,7 @@ public class ReceiptsService {
         if (request.getStockId() != null) {
             stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
         }
-        
+
         if (request.getOfficialId() != null) {
             official = officialRepository.findById(request.getOfficialId()).orElse(null);
         }
@@ -162,16 +162,17 @@ public class ReceiptsService {
         DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(searchDate).orElse(null);
 
         if (dailyTotalEntity == null) {
-            return new DailyTotalEntity(
-                    UUID.randomUUID(),
-                    BigDecimal.ZERO,
-                    searchDate,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
+            DailyTotalEntity resentDailyTotalEntity = dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(searchDate).orElseThrow(null);
+            dailyTotalEntity = new DailyTotalEntity(
+                    null,
+                    resentDailyTotalEntity.getRemainTotal(),
+                    LocalDate.now(),
                     BigDecimal.ZERO,
                     BigDecimal.ZERO,
-                    BigDecimal.ZERO);
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    resentDailyTotalEntity.getRemainTotal());
         }
         return dailyTotalEntity;
     }
@@ -182,7 +183,17 @@ public class ReceiptsService {
         DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
 
         if (dailyTotalEntity == null) {
-            dailyTotalEntity = new DailyTotalEntity();
+            DailyTotalEntity resentDailyTotalEntity = dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(date.toLocalDate()).orElseThrow(null);
+            dailyTotalEntity = new DailyTotalEntity(
+                    null,
+                    resentDailyTotalEntity.getRemainTotal(),
+                    LocalDate.now(),
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    resentDailyTotalEntity.getRemainTotal());
         }
 
         switch (category) {
