@@ -1,5 +1,5 @@
 'use client'
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import {Affiliation} from "@/model/types/customer/affiliation/type";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
@@ -11,6 +11,10 @@ export default function useAffiliation(InitAffiliation:Affiliation[]){
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
+    useEffect(()=>{
+        if(mode!==null) return
+        setAffiliationState(InitAffiliation)
+    },[InitAffiliation])
 
     const editHandler = () => {
         if (!mode) {

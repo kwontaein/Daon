@@ -8,33 +8,23 @@ export const initialTaskState = {
     taskType: 'none', //구분
     affiliation: 'none', //거래처구분
     assignedUser: 'none', //담당자
-    task:[],
-    searchKey:uuidv4(),
 }
 
 export async function taskSearchAction(prevState, formData){
 
-    const searchData:TaskSearchCondition = {
+    const formState = {
         customerName: formData.get('customerName'),
         taskType: formData.get('taskType'), //구분
         affiliation: formData.get('affiliation'), //거래처구분
         assignedUser: formData.get('assignedUser'), //담당자
     }
-    if(searchData.taskType==='none'){
-        searchData.taskType = null;
-    }
-    if(searchData.affiliation==='none'){
-        searchData.affiliation =null;
-    }
-    if(searchData.assignedUser==='none'){
-        searchData.assignedUser = null;
+    const postData:TaskSearchCondition = Object.fromEntries(Object.entries(formState).filter(([key,value])=> value!=='none'))
+
+    const action = formData.get('action')
+    if(action ==='submit'){
+        const searchResult = await fetchSearchTask(postData)
+        return {...prevState,...formState, searchResult}
     }
 
-    const{taskType, customerName, assignedUser, affiliation} = searchData
-    if(!taskType && !customerName && !assignedUser && !affiliation){
-        
-        return {...prevState,...searchData,  task:prevState.initialTask}
-    }
-    const task = await fetchSearchTask(searchData)
-    return {...prevState,...searchData, task}
+    return {...prevState,...formState}
 }

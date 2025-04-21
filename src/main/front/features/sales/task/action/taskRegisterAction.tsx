@@ -53,6 +53,8 @@ export default async function taskRegisterAction(prevState, formData){
     return{
         ...prevState,
         ...TaskData,
+        address1:formData.get('address1'),
+        zipCode:formData.get('zipCode')
     }
 }
 

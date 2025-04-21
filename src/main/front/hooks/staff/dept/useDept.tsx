@@ -1,5 +1,5 @@
 'use client'
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 
 import { createDeptApi, deleteDeptApi, updateDeptApi } from "../../../features/staff/dept/api/deptApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
@@ -11,6 +11,10 @@ export default function useDept(InitDept:Dept[]){
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
+    useEffect(()=>{
+        if(mode!==null) return
+        setDeptState(InitDept)
+    },[InitDept])
 
     const editHandler = () => {
         if (!mode) {
