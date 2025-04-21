@@ -24,12 +24,6 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @PostMapping("api/test")
-    public ResponseEntity test() {
-        adminService.test();
-        return ResponseEntity.ok("성공");
-    }
-
     //로그인
     @PostMapping("api/signIn")
     public ResponseEntity<String> SignIn(@RequestBody UserRequest userRequest) {
@@ -74,8 +68,8 @@ public class AdminController {
     }
 
     @PostMapping("api/updateDept")
-    public void UpdateDept(@RequestBody DeptRequest deptRequest) {
-        adminService.UpdateDept(deptRequest);
+    public void UpdateDept(@RequestBody List<DeptRequest> deptRequests) {
+        adminService.UpdateDept(deptRequests);
     }
 
     @PostMapping("api/deleteDept")
