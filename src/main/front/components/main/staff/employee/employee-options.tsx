@@ -31,7 +31,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
                     }
                 })
             }
-            useConfirm('정말로 삭제하시겠습니까?',onDelete,()=>{})
+            useConfirm('정말로 삭제하시겠습니까?',onDelete)
         }
 
     return(
