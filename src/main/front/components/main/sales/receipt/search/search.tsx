@@ -61,6 +61,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     useEffect(()=>{
         if(state.searchReceipt){
             setReceiptList(state.searchReceipt)
+            if(Number(page)===1) return
             const params = new URLSearchParams(searchParams.toString());
             params.delete("page");
             router.push(`${pathname}?${params.toString()}`);

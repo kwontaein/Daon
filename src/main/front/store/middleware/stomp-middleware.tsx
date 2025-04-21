@@ -46,6 +46,7 @@ function* startStomp(): any {
             timeout: delay(60 * 60 * 1000 * 24), 
             Message: take(channel), //액션을 기다린 후 dispatch 가 완료되면 실행
         });
+        TODO:// 검색 상태가 아닐 때 실시간 갱신 revalidatePath추가 => take를 통해 검색상태 가져오기
         revalidateHandler(Message.destination)
         console.log(Message)
         if (timeout) isRunning = false;
