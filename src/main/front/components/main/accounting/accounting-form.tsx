@@ -54,9 +54,10 @@ export default function AccountingForm({mode,division,categorySelections,account
         e?.preventDefault();
         const formData = new FormData(formRef.current);
         formData.set('action', division);
+        formData.set('mode',mode);
         const customerId = formData.get('customerId')
         const categorySelection = formData.get('categorySelection')
-        console.log(categorySelection)
+        
         if(!customerId) {
             window.alert('업체명을 입력해주세요')
             return
@@ -73,7 +74,12 @@ export default function AccountingForm({mode,division,categorySelections,account
     useEffect(()=>{
         if(state.status){
             if(state.status ===200){
-                window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
+                if(mode==='write'){
+                    window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
+                }
+                if(mode==='edit'){
+                    window.alert(AccountingDivision[division]+'의 수정이 완료되었습니다.')
+                }
                 window.close()
             }
         }
@@ -291,7 +297,7 @@ export default function AccountingForm({mode,division,categorySelections,account
         </form>
         <div className='button-container'>
             <button onClick={submitHandler}>저장</button>
-            <button>취소</button>
+            <button onClick={()=>window.close()}>취소</button>
         </div>
         </>
     )

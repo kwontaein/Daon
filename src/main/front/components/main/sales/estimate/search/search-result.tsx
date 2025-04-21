@@ -8,6 +8,7 @@ import '@/styles/table-style/search-result.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 import EstimateOptions from '../options';
+import { apiUrl } from '@/model/constants/apiUrl';
 
 export default function EstimateSearchResult({pageByEstimate, isTask} : {
     pageByEstimate: ResponseEstimate[],
@@ -15,6 +16,18 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
 }) {
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
+
+      //TODO: add mobile version
+    const viewTransEstimateHandler = (estimateId:string)=>{
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set("target",estimateId)
+            const url = `${apiUrl}/trans-estimate?${params.toString()}`;
+            const popupOptions = "width=800,height=400,scrollbars=yes,resizable=yes"; 
+            window.open(url, "PopupWindow", popupOptions);
+        }
+    }
+
     return(
         <table className="search-result-table">
               <colgroup>
@@ -50,13 +63,13 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                             {estimate.receipted ? 
                                 <>{estimate.receiptDate}</>
                                 :
-                                <button>전표전환</button>
+                                <button onClick={viewTransEstimateHandler.bind(null,estimate.estimateId)}>전표전환</button>
                             }
                         </td> 
                         }
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>
-                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId}/>}
+                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} receipted={estimate.receipted}/>}
                         </td>
                     </tr>
                 ))}
