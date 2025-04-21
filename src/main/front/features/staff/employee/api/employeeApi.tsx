@@ -9,7 +9,7 @@ export const getEmployeeApi = async()=>{
         headers: {
             'Content-Type': 'application/json',
         },
-        next: {revalidate: 3600, tags: ['employee']} //1시간마다 재검증
+        next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,7 +33,6 @@ export const getEmployeeDetailApi = async(userId:string)=>{
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({userId}),
-        next: {revalidate: 1800, tags: [`${userId}`]} //30분마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,6 +92,24 @@ export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & 
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(userInfo),
+        cache:'no-store'
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return response.status
+    }).catch((error) => {
+        console.error('Error:', error)
+    })
+}
+export const deleteEmployeeApi = async(userId:string)=>{
+    return fetch("http://localhost:8080/api/deleteEmployee", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userId}),
         cache:'no-store'
     }).then(async (response) => {
         if (!response.ok) {

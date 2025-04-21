@@ -3,7 +3,7 @@ import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 
-import {useActionState, useEffect, useMemo, useRef, useState} from "react";
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 
 import {ResponseEmployee} from "@/model/types/staff/employee/type";
@@ -17,6 +17,8 @@ import dayjs from "dayjs";
 export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?: ResponseEmployee }) {
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
+    const formRef = useRef(null)
+
     const initialState = useMemo(() =>
             employee ? {
                     ...employee,
@@ -47,7 +49,8 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
     };
 
     useEffect(() => {
-        if (state.post_success) {
+        if(!state.status) return
+        if (state.status===200) {
             if (state.isUpdate) {
                 window.alert('사원정보 변경이 완료되었습니다.')
                 router.push(`employee?mode=detail&target=${employee.userId}`)
@@ -56,16 +59,22 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                 window.close();
             }
             setIsDuplicateChecked(false)
+        }else{
+            window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
         }
     }, [state])
 
     const duplicationCheckHandler = async (e) => {
         if (state.duplicationChecked) return;
+        
         const changeDuplicationState = () => {
             setIsDuplicateChecked(true);
         }
-        if (idRef.current.value) {
-            const isDuplicate = await userIdDuplicationChecked(idRef.current.value)
+        const formData = new FormData(formRef.current);
+        const idText=formData.get('userId').toString()
+
+        if (idText) {
+            const isDuplicate = await userIdDuplicationChecked(idText)
             if (!isDuplicate) {
                 useConfirm(`사용이 가능한 아이디입니다. 정말로 해당 아이디를 사용하시겠습니까?`, changeDuplicationState, () => {
                 })
@@ -79,6 +88,15 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
         }
     }
 
+    
+    const submitHandler = useCallback(() => {
+        const formData = new FormData(formRef.current);
+        formData.set('action', 'submit')
+        startTransition(() => {
+            action(formData);
+        });
+    }, [action]);
+
     return (
         <section className="register-form-container">
             {!employee &&
@@ -87,7 +105,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     <h4>직원등록</h4>
                 </header>
             }
-            <form action={action}>
+            <form action={action} ref={formRef}>
                 <table className="register-form-table" key={state.formKey}>
                     <colgroup>
                         <col style={{width: '5%'}}/>
@@ -201,8 +219,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                         <td colSpan={2} className="table-label">아이디</td>
                         <td colSpan={8}>
                             <>
-                                <input ref={idRef}
-                                       type="text"
+                                <input type="text"
                                        name="userId"
                                        className={employee ? '' : 'id-input'}
                                        defaultValue={state.userId}
@@ -302,16 +319,11 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     </tbody>
                 </table>
                 <div className='button-container'>
-                    <button type={'submit'}
+                    <button type='button'
                             disabled={isPending}
-                            onClick={(e) => {
-                                if (idRef.current && idRef.current.value && !isDuplicateChecked) {
-                                    e.preventDefault()
-                                    window.alert('아이디 중복체크를 해주세요')
-                                }
-                            }}>저장
+                            onClick={submitHandler}>저장
                     </button>
-                    <button type={'button'}
+                    <button type='button'
                             onClick={() => employee ? router.push(`employee?mode=detail&target=${employee.userId}`) : window.close()}>취소
                     </button>
                 </div>
