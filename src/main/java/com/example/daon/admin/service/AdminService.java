@@ -3,9 +3,7 @@ package com.example.daon.admin.service;
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.dto.response.UserResponse;
-import com.example.daon.admin.model.ClassType;
 import com.example.daon.admin.model.DeptEntity;
-import com.example.daon.admin.model.RoleType;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.UserRepository;
@@ -25,9 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 //회사, 사원관리
@@ -41,34 +37,6 @@ public class AdminService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
     private final GlobalService globalService;
-
-    //test
-    public void test() {
-        Timestamp joinDate = new Timestamp(System.currentTimeMillis());
-        Timestamp birthDay = new Timestamp(System.currentTimeMillis());
-
-        UserRequest userRequest = new UserRequest
-                ("권태인",
-                        passwordEncoder.encode("guswlsxodls"),
-                        false, joinDate,
-                        birthDay,
-                        "권태인",
-                        "kta",
-                        "權泰人",
-                        "12061",
-                        "경기도 남양주시 진접읍 금곡리",
-                        "예당마을 신안인스빌 2308-801",
-                        "0315157759",
-                        "01025023964",
-                        "kosq3964@naver.com",
-                        "",
-                        ClassType.STAFF,
-                        RoleType.ADMIN,
-                        UUID.fromString("9fd4ad75-f40c-11ef-a0e0-d8bbc19e908c"));
-
-
-        CreateEmployee(userRequest);
-    }
 
     /**
      * 로그인
@@ -135,10 +103,12 @@ public class AdminService {
         deptRequest.setDeptId(dept.getDeptId());
     }
 
-    public void UpdateDept(DeptRequest deptRequest) {
-        DeptEntity dept = deptRepository.findById(deptRequest.getDeptId()).orElse(null);
-        dept.updateFromRequest(deptRequest);
-        deptRepository.save(dept);
+    public void UpdateDept(List<DeptRequest> deptRequests) {
+        for (DeptRequest deptRequest : deptRequests) {
+            DeptEntity dept = deptRepository.findById(deptRequest.getDeptId()).orElse(null);
+            dept.updateFromRequest(deptRequest);
+            deptRepository.save(dept);
+        }
     }
 
     public void DeleteDept(DeptRequest deptRequest) {
