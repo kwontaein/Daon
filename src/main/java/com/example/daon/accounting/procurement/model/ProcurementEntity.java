@@ -49,10 +49,10 @@ public class ProcurementEntity {
     // 수량
     @Column(name = "quantity")
     private int quantity;
-
+    
     // 인수
     @Column(name = "acceptance")
-    private int acceptance;
+    private LocalDate acceptance;
 
     // 설치
     @Column(name = "installation")
