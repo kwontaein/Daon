@@ -35,7 +35,6 @@ export default async function accountingFormAction(prevState, formData){
         }
         return [key,value]
     }))
-    console.log(postData)
     if(action === 'pvat'){
         status = await savePurchaseVatApi(postData)
     }else if(action === 'svat'){

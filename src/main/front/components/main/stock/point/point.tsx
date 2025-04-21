@@ -17,6 +17,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
 
     return (
         <>
+            <p style={{color:'red', fontSize:'13px', marginBottom:'5px'}}>※ 입력하신 적립율을 품목소비가에 적용하게 됩니다.</p>
             <table className="category-table">
                 <colgroup>
                     <col style={{width: '10%'}}/>

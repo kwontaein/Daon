@@ -80,7 +80,7 @@ export default function PVATSaerchResult({purchaseVATList}:{purchaseVATList:Purc
                         <td rowSpan={2}>{purchaseVAT.note}</td>
                         <td rowSpan={2} className='icon' onClick={()=> target === purchaseVAT.purchaseVATId ? setTarget(null) :setTarget(purchaseVAT.purchaseVATId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === purchaseVAT.purchaseVATId &&{color:'orange'}}/>
-                            {target === purchaseVAT.purchaseVATId && <AccountingOptions id={purchaseVAT.purchaseVATId} division='svat'/>}
+                            {target === purchaseVAT.purchaseVATId && <AccountingOptions id={purchaseVAT.purchaseVATId} division='pvat'/>}
                         </td>
                     </tr>
                     <tr>

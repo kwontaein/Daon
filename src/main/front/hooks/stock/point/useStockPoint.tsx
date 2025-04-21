@@ -1,5 +1,5 @@
 'use client'
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 
 import { createPointApi, deletePointApi, updatePointApi } from "../../../features/stock/point/api/pointApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
@@ -10,7 +10,11 @@ export default function useStockPoint(InitStockPoint:StockPoint[]){
     const [pointState, setPointState] = useState<StockPoint[]>(InitStockPoint)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
-
+   
+    useEffect(()=>{
+        if(mode!==null) return
+        setPointState(InitStockPoint)
+    },[InitStockPoint])
 
     const editHandler = () => {
         if (!mode) {
