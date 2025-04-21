@@ -13,9 +13,6 @@ export default async function DeptPage({searchParams}:PageByProps){
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    return (
-        <section key={JSON.stringify(initDept)}>
-            <Dept InitDept={initDept}/>
-        </section>
-    )
+    return <Dept InitDept={initDept}/>
+ 
 }

@@ -5,9 +5,6 @@ import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
 export default async function CustomerCatePage() {
     const InitStockCate = await getStockCateApi()
 
-    return (
-        <section key={JSON.stringify(InitStockCate)}>
-            <StockCate InitStockCate={InitStockCate}/>
-        </section>
-    )
+    return <StockCate InitStockCate={InitStockCate}/>
+    
 }

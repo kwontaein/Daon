@@ -11,6 +11,4 @@ export default async function PvatPage({searchParams}:PageByProps){
     const initalPurchaseVATList = await getPurchaseVatApi()
 
     return  <AccountingSearch companyList={companyList} division='pvat' initalListState={initalPurchaseVATList} page={page}/>
-        
-    
 }

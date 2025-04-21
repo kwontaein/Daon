@@ -61,7 +61,7 @@ export default function AccountingForm({mode,division,categorySelections,account
             window.alert('업체명을 입력해주세요')
             return
         }
-        if(categorySelection==='none' || !categorySelection){
+        if((categorySelection==='none' || !categorySelection) && division!=='pset'){
             window.alert('분류명을 선택하거나 신규 분류명을 입력해주세요.')
             return
         }
@@ -187,10 +187,14 @@ export default function AccountingForm({mode,division,categorySelections,account
                 </tr>
                 <tr>
                     <td className='table-label'>인수</td>
-                    <td><input
-                        name='acceptance'
-                        defaultValue={state.acceptance}
-                        readOnly={mode==='detail'}/>
+                    <td>
+                        <div>
+                            <CustomDateInput 
+                                defaultValue={state.acceptance} 
+                                name='acceptance' 
+                                key={state.acceptance+'acceptance'}
+                                readOnly={mode==='detail'}/>
+                        </div>
                     </td>
                     <td className='table-label'>설치</td>
                     <td><input

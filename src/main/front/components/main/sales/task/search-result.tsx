@@ -4,21 +4,21 @@ import './search-result.scss'
 import React, { useCallback, useMemo } from 'react'
 
 import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type'
-import  { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
+import  useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 
-const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} : {
+const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
     employees: ResponseEmployee[],
-    taskCheckedHook: ReturnCheckBoxHook
 }) => {
-    const {checkedState,isAllChecked, update_checked, toggleAllChecked} = taskCheckedHook
     const mode = useScreenMode({tabletSize:900,mobileSize:620});   
     const nowDate = useMemo(()=>new Date(Date.now()),[])
+    const taskIds = pageByTasks.map(({taskId})=>taskId)
+    const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
 
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
@@ -100,9 +100,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                 <col style={{ width: `${mode==='pc' ? '5%' :'5%'}`, minWidth:'55px'}}/>
                 <col style={{ width: `${mode==='pc' ? '5%' :'30%'}`, minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
                 <col style={{ width: `${mode==='pc' ? '20%' :'10%'}`}}/>
+                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'95px'}`}}/>
                 <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
-                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
-                {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'10%', minWidth: '95px'}}/>}
                 {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
                 {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
                 {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
@@ -118,7 +118,10 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                 {mode==='pc' &&<td>조치</td>}
                 <td>거래처</td>
                 <td>의뢰자</td>
-                <td>담당</td>
+                <td>
+                    담당
+                    <input type='hidden' name='checkedState' value={JSON.stringify(checkedState)} readOnly/>
+                </td>
                 {mode==='pc' &&
                 <>
                     <td>연락처</td>
@@ -178,7 +181,11 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                     </td>
                                     {mode==='pc' &&
                                         <>
-                                            <td>{task.requesterContact}</td>
+                                            <td>
+                                                {task.requesterContact}
+                                                {task.requesterContact2 && <br/>}
+                                                {task.requesterContact2}
+                                            </td>
                                             <td>{task.model}</td>
                                             <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details ||'-'}</a></td>
                                             <td>{task.remarks}</td>
@@ -201,7 +208,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees, taskCheckedHook} :
                                         <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details||'-'}</a></td>
                                         <td>{task.model}</td>
                                         <td>
-                                           {task.requesterContact}
+                                            {task.requesterContact}
+                                            {task.requesterContact2 && <br/>}
+                                            {task.requesterContact2}
                                         </td>
                                     </tr>
                                 }
