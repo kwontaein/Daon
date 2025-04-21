@@ -76,8 +76,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
         if (idText) {
             const isDuplicate = await userIdDuplicationChecked(idText)
             if (!isDuplicate) {
-                useConfirm(`사용이 가능한 아이디입니다. 정말로 해당 아이디를 사용하시겠습니까?`, changeDuplicationState, () => {
-                })
+                useConfirm(`사용이 가능한 아이디입니다. 정말로 해당 아이디를 사용하시겠습니까?`, changeDuplicationState)
             } else if (isDuplicate === undefined) {
                 window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
             } else {

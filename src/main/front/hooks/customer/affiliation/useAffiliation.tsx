@@ -66,7 +66,7 @@ export default function useAffiliation(InitAffiliation:Affiliation[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
+        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, affiliationState, mode, setMode, setAffiliationState,addHandler,deleteHandler,editHandler}

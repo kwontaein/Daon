@@ -47,7 +47,7 @@ export default function ActionTaken({children, taskId}:{
                 action(formData);
             });
         }
-        useConfirm('조치가 완료된 후에는 견적서를 작성/수정 하실 수 없습니다. 실행하시겠습니까?', submit, ()=>{})
+        useConfirm('조치가 완료된 후에는 견적서를 작성/수정 하실 수 없습니다. 실행하시겠습니까?', submit)
     }, [action]);
 
     return(

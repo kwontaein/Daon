@@ -13,6 +13,7 @@ import { deleteTask } from '@/features/sales/task/api/taskApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import revalidateHandler from '@/features/revalidateHandler';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
@@ -23,14 +24,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
 }) {
     const [state, action, isPending] = useActionState(taskSearchAction, initialTaskState);
     const [searchResult, setSearchResult] = useState()
-    const pageByTasks = useMemo(() => (searchResult??initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask , searchResult, page])
-
+    const pageByTasks = useMemo(() => (searchResult??initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask , searchResult, page])    
     const formRef = useRef(null)
-    //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
 
+    //router control
+    const deletePage = useDeletePage()
     const registerTask = () => {
         //pc
         if (window.innerWidth > 620) {
@@ -61,16 +59,14 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                 if(status===200) window.alert('삭제가 완료되었습니다.')
             })
         }
-        useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete, ()=>{})
+        useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete)
     }
 
 
     //검색 시 페이지 제거
     const redirectPage = () => {
         if(page===1) return
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
+        deletePage()
     }
 
     useEffect(()=>{

@@ -12,7 +12,7 @@ import { ResponseStock } from '@/model/types/stock/stock/types';
 
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { EstimateCategory, ResponseEstimate, ResponseEstimateItem } from '@/model/types/sales/estimate/type';
+import { EstimateCategory, ResponseEstimate } from '@/model/types/sales/estimate/type';
 import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/estimate/action/estimateSearchAction';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
@@ -27,9 +27,9 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     isTask:boolean
 }) {
     const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(companyList,isTask));
-    const [estimate,setEstimate] = useState<ResponseEstimate[]>(initialEstimate)
+    const [estimate,setEstimate] = useState<ResponseEstimate[]>()
 
-    const pageByEstimate = useMemo(()=>estimate.slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate])
+    const pageByEstimate = useMemo(()=>(estimate??initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate,initialEstimate])
     const formRef = useRef(null)
  
     //검색조건 submit
@@ -47,6 +47,12 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         }
     },[state])
 
+    //검색중일 때 갱신되면 해당검색조건으로 재호출
+    useEffect(()=>{
+        if(estimate){
+            submitHandler()
+        }
+    },[initialEstimate])
 
     const estimateHandler = ()=>{
         if(window.innerWidth>620){
@@ -96,6 +102,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         ));
     }, [EstimateCategory]);
 
+    
     return (
         <div className="search-container">
             <form action={action} ref={formRef}>
@@ -176,7 +183,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
             <EstimateSearchResult pageByEstimate={pageByEstimate} isTask={isTask}/>
             {(!isPending && pageByEstimate.length>0) &&
                 <Pagination
-                    totalItems={estimate.length}
+                    totalItems={(estimate??initialEstimate).length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={page}

@@ -17,7 +17,7 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
 
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
     const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
-    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds)
+    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds,true)
     const selectList = useMemo(()=>Object.keys(checkedState), [checkedState])
 
     useEffect(()=>{
@@ -26,7 +26,6 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
         }
     },[isSelected])
 
-  
     return (
         <>
             <ReceiptButtons
