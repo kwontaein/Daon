@@ -64,7 +64,7 @@ export default function PsetSaerchResult({procurements}:{procurements:Procuremen
                         <td className='left-align'>{pset.customerName}</td>
                         <td>{pset.modelName}</td>
                         <td className='right-align'>{pset.vendor}</td>
-                        <td>{pset.acceptance}</td>
+                        <td>{dayjs(pset.acceptance).format('YY.MM.DD')}</td>
                         <td className='right-align'>{pset.quantity.toLocaleString('ko-KR')}</td>
                         <td>{pset.installation}</td>
                         <td>{pset.payment}</td>
@@ -93,7 +93,7 @@ export default function PsetSaerchResult({procurements}:{procurements:Procuremen
                     </tr>
                     <tr>
                         <td>{pset.modelName}</td>
-                        <td>{pset.acceptance}</td>
+                        <td>{dayjs(pset.date).format('YY.MM.DD')}</td>
                         <td>{pset.installation}</td>
                         <td>{pset.memo}</td>
                     </tr>
