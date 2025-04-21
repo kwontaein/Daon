@@ -32,7 +32,7 @@ export default function AccountingOptions({id, division,paidDate}:{id:string, di
                     }
                 })
             }
-            useConfirm('정말로 삭제하시겠습니까?',onDelete,()=>{})
+            useConfirm('정말로 삭제하시겠습니까?',onDelete)
         }
     return(
         <menu className='options-container'>

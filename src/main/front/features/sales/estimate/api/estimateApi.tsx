@@ -68,7 +68,6 @@ export async function updateEstimate(estimate: RequestEstimate) {
         },
         body: JSON.stringify(estimate),
         signal,
-        next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -81,7 +80,28 @@ export async function updateEstimate(estimate: RequestEstimate) {
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 } 
+export async function deleteEstimate(estimateId) {
 
+    return fetch("http://localhost:8080/api/deleteEstimate", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(estimateId),
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.status
+    }).catch((error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
+    })
+} 
+
+/**업무 견적서 또는 일반 견적서를 찾는 api task:true = 업무견적서 */
 export async function searchAllEstimateApi(task:boolean) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
@@ -116,6 +136,7 @@ export async function searchAllEstimateApi(task:boolean) {
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 } 
+
 
 export async function searchEstimateConditionApi(searchCondition:EstimateCondition) {
     const controller = new AbortController();

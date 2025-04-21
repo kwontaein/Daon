@@ -30,7 +30,7 @@ export default function CompanyOptions({companyId}:{companyId:string}){
                     }
                 })
             }
-            useConfirm('해당 회사를 정말로 삭제하시겠습니까?', onDelete,()=>{})
+            useConfirm('해당 회사를 정말로 삭제하시겠습니까?', onDelete)
         }
     return(
         <menu className='options-container'>

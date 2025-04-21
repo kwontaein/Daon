@@ -8,13 +8,14 @@ import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
 import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useScreenMode } from '@/hooks/share/useScreenMode';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 export default function AdminSearch({affiliations, initialTask, page}:{affiliations:Affiliation[], initialTask:ResponseTask[], page:number}){
     const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
     const pageByTasks = useMemo(()=>state.task.slice((page-1)*20, ((page-1)*20)+20),[state.task, page])
     const inputRef = useRef(null)
-
+    const deletePage = useDeletePage()
+    
     const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
@@ -34,11 +35,7 @@ export default function AdminSearch({affiliations, initialTask, page}:{affiliati
             window.open(url, "PopupWindow", popupOptions);
         }
     }
-    const redirectPage =()=>{
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
-    }
+
 
     return(
         <>
@@ -74,7 +71,7 @@ export default function AdminSearch({affiliations, initialTask, page}:{affiliati
                         </td>
                         <td rowSpan={3}>
                             <div  className='grid-table-buttons'>
-                                <button type='submit' disabled={isPending} onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button type='submit' disabled={isPending} onClick={deletePage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button>엑 셀 변 환</button>
                                 <button onClick={registerTask}>업 무 등 록</button>
                                 <button>체 크 삭 제</button>

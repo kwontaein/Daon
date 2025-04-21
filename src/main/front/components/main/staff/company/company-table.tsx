@@ -14,6 +14,7 @@ import { ResponseCompany } from "@/model/types/staff/company/type";
 import { apiUrl } from '@/model/constants/apiUrl';
 import Pagination from '@/components/share/pagination';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 export default function CompanyTable({initialCompany, page}:{initialCompany:ResponseCompany[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
@@ -21,14 +22,10 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
     const pageByCompany = useMemo(()=> (company??initialCompany).slice((page-1)*20, ((page-1)*20)+20),[initialCompany, company,page])
     const [loading, setLoading] = useState<boolean>(true)
     const mode = useScreenMode({tabletSize:700,mobileSize:620})
-
+    const deletePage = useDeletePage()
     //search input variables 
     const inputRef = useRef<HTMLInputElement|null>(null)
     
-    //router variables
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
 
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
@@ -37,17 +34,11 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
         setCompany(()=>{
             return initialCompany.filter(({ceo})=>ceo.includes(inputRef.current.value))
         })
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+        deletePage()
     }
     const allViewHandler =()=>{
         setCompany(null)
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+        deletePage()
     }
     useEffect(()=>{
         setLoading(false)

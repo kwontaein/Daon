@@ -32,7 +32,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
         }
-        useConfirm('선택한 전표를 삭제하시겠습니까?',submit,()=>{})
+        useConfirm('선택한 전표를 삭제하시겠습니까?',submit)
     }
 
     return(

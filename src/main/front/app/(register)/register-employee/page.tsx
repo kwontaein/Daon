@@ -10,7 +10,7 @@ export default async function RegisterStaff(){
     )
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
-    console.log(dept)
+
     return(
         <EmployeeForm dept={dept}/>
     )

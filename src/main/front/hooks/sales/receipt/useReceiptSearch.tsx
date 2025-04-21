@@ -4,7 +4,7 @@ import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { updateSearchDate } from "@/store/slice/receipt-search";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useMemo, useRef, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useReceiptSearch(initialReceipts,page,action){
@@ -17,7 +17,6 @@ export default function useReceiptSearch(initialReceipts,page,action){
 
     const [receiptList, setReceiptList] = useState<ResponseReceipt[]>()    
     const pageByReceipt = useMemo(()=> (receiptList??initialReceipts).slice((page - 1) * 10, ((page - 1) * 10) + 10),[initialReceipts,receiptList, page])
-
 
 
     //오늘일자보기
@@ -34,9 +33,7 @@ export default function useReceiptSearch(initialReceipts,page,action){
         }
 
         dispatch(updateSearchDate(today))
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        router.push(`${pathname}?${params.toString()}`); 
+
     }
     //일일종합검색
     const dailySummary =()=>{

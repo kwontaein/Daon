@@ -35,7 +35,6 @@ export default function AccountingForm({mode,division,categorySelections,account
         customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'businessNumber'>,
     ) => {
         if (formRef.current) {
-            console.log(customerInfo)
             const formData = new FormData(formRef.current);
             formData.set('customerName', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
