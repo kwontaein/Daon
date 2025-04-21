@@ -3,23 +3,23 @@ import '@/styles/table-style/search-result.scss';
 import '@/styles/table-style/search.scss';
 
 import React, { useEffect, useMemo, useRef, useState } from "react"
-import { usePathname , useRouter, useSearchParams } from "next/navigation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { useItemSelection } from "@/hooks/share/useItemSelection";
-
 import Pagination from "@/components/share/pagination";
 import EmployeeOptions from "./employee-options";
 
 import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employee/type";
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 
 export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
+    const deletePage = useDeletePage()
 
     const [employee,setEmployee] = useState<ResponseEmployee[]>()
     const pageByEmployee = useMemo(()=>(employee??initialEmployee).slice((page-1)*20, ((page-1)*20)+20), [initialEmployee,employee, page])
@@ -27,12 +27,6 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
 
     //search input variables 
     const inputRef = useRef<HTMLInputElement|null>(null)
-    
-    //router variables
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
-
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const mode = useScreenMode({tabletSize:720,mobileSize:620})
 
@@ -40,17 +34,12 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
         setEmployee(()=>{
             return initialEmployee.filter(({name})=>name.includes(inputRef.current.value))
         })
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+        deletePage()
     }
+
     const allViewHandler =()=>{
         setEmployee(null)
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+
     }
 
     useEffect(()=>{

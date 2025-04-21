@@ -9,7 +9,7 @@ export interface ReturnCheckBoxHook {
     isAllChecked: boolean,
 }
 
-export default function useCheckBoxState(items:string[]):ReturnCheckBoxHook{
+export default function useCheckBoxState(items:string[],pageReset:boolean =false):ReturnCheckBoxHook{
     const [checkedState, dispatchCheckedState] = useReducer(checkboxReducer, initialCheckState)
 
     const isAllChecked = useMemo(() => {
@@ -21,7 +21,11 @@ export default function useCheckBoxState(items:string[]):ReturnCheckBoxHook{
         dispatchCheckedState({ type: "UPDATE_CHECKED_ITEMS", payload: id });
     }, []);
 
-
+    useEffect(()=>{
+        if(!pageReset) return
+        resetChecked()
+    },[items])
+    
     const toggleAllChecked = useCallback(() =>{
         let updatedStore ={};
         if(isAllChecked){

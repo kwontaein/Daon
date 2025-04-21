@@ -145,7 +145,7 @@ export default function useReceiptList() {
                 }
             })
         }
-        useConfirm('모든 전표입력을 실행하시겠습니까?',postReceiptList,()=>{})
+        useConfirm('모든 전표입력을 실행하시겠습니까?',postReceiptList)
     }
     return {
         receiptList,

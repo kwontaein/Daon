@@ -25,24 +25,30 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
 }) {
     //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(()=>{
-        if(task) return {
-            taskId:task.taskId,
-            estimateDate: dayjs(task.createdAt).format('YYYY-MM-DD'),
-            customerId:task.customer.customerId,
-            customerName:task.customer.customerName,
-            mode: 'write', //견적서가 존재하지 않으면 write mode임
-            assignedUser: task.assignedUser.name
-        } 
-        return{
-            taskId: estimate.taskResponse?.taskId,
-            ...estimate,
-            estimateDate: dayjs(estimate.estimateDate).format('YYYY-MM-DD'),
-            customerId: estimate.customerId,
-            customerName: estimate.customerName,
-            mode,
-            userId: estimate.userId,
-            assignedUser: estimate.userName 
+        if(task){
+            return {
+                taskId:task.taskId,
+                estimateDate: dayjs(task.createdAt).format('YYYY-MM-DD'),
+                customerId:task.customer.customerId,
+                customerName:task.customer.customerName,
+                mode: 'write', //견적서가 존재하지 않으면 write mode임
+                assignedUser: task.assignedUser.name
+            }
+        } else if(estimate){
+            return{
+                taskId: estimate?.taskResponse?.taskId,
+                ...estimate,
+                estimateDate: dayjs(estimate.estimateDate).format('YYYY-MM-DD'),
+                customerId: estimate.customerId,
+                customerName: estimate.customerName,
+                mode,
+                userId: estimate.userId,
+                assignedUser: estimate.userName 
+            }
+        }else{
+            return{}
         }
+       
     },[task, estimate, mode]) 
 
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
@@ -78,7 +84,7 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
             }) 
         }
         if(state.mode==='edit' && state.items.length===0){
-            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit,()=>{})
+            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit)
         }else{
             submit()
         }
