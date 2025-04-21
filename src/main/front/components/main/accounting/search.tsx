@@ -3,7 +3,7 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import accountingSearchAction from '@/features/accounting/action/accountingSearchAction';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { apiUrl } from '@/model/constants/apiUrl';
-import { AccountingDivision, ProcurementSettlement, PurchaseVAT, SalesVAT, UnionAccountingType } from '@/model/types/accounting/type';
+import { AccountingDivision, ExpenseProof, ProcurementSettlement, PurchaseVAT, SalesVAT, UnionAccountingType } from '@/model/types/accounting/type';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import '@/styles/table-style/search.scss';
 import { startTransition, useActionState, useEffect, useMemo, useRef, useState } from 'react';
@@ -12,6 +12,7 @@ import PVATSaerchResult from './pvat/search-result';
 import Pagination from '@/components/share/pagination';
 import { getCardTransactionfApi, getExpenseProofApi, getProcurementApi, getPurchaseVatApi, getSalesVATApi } from '@/features/accounting/api/accountingSearchApi';
 import PsetSaerchResult from './pset/search-result';
+import ProofSaerchResult from './proof/search-result';
 
 export default function AccountingSearch({companyList, division, initalListState, page}:{companyList:ResponseCompany[], division:string, initalListState:UnionAccountingType[], page:number}){
     const formRef = useRef(null)
@@ -129,6 +130,9 @@ export default function AccountingSearch({companyList, division, initalListState
         }
         {division ==='pset' &&
             <PsetSaerchResult procurements={pageBySearchResult as ProcurementSettlement[]}/>
+        }
+        {division ==='proof' &&
+            <ProofSaerchResult expenseProofs={pageBySearchResult as ExpenseProof[]}/>
         }
 
 
