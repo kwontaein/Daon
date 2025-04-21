@@ -28,6 +28,7 @@ public class EstimateRequest {
     private String estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
+    private LocalDateTime receiptDate;
 
     //----------------------
 
@@ -48,7 +49,7 @@ public class EstimateRequest {
                 .user(user)
                 .receipted(false)
                 .totalAmount(totalAmount)
-                .estimateDate(LocalDateTime.now())
+                .estimateDate(receiptDate)
                 .items(items)
                 .task(task)
                 .build();
