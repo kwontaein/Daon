@@ -1,7 +1,7 @@
 import PVATSaerchResult from "@/components/main/accounting/pvat/search-result";
 import AccountingSearch from "@/components/main/accounting/search";
 import { getPurchaseVatApi } from "@/features/accounting/api/accountingSearchApi";
-import getCompany from "@/features/staff/company/api/company-api";
+import {getCompany} from "@/features/staff/company/api/company-api";
 import { PageByProps } from "@/model/types/share/type";
 
 export default async function PvatPage({searchParams}:PageByProps){

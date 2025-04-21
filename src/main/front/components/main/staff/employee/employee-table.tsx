@@ -2,7 +2,7 @@
 import '@/styles/table-style/search-result.scss';
 import '@/styles/table-style/search.scss';
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { usePathname , useRouter, useSearchParams } from "next/navigation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,8 +21,8 @@ import { useScreenMode } from '@/hooks/share/useScreenMode';
 export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
 
-    const [employee,setEmployee] = useState<ResponseEmployee[]>(initialEmployee)
-    const [pageByEmployee,setPageByEmployee] = useState<ResponseEmployee[]>([])
+    const [employee,setEmployee] = useState<ResponseEmployee[]>()
+    const pageByEmployee = useMemo(()=>(employee??initialEmployee).slice((page-1)*20, ((page-1)*20)+20), [initialEmployee,employee, page])
     const [loading, setLoading] = useState<boolean>(true)
 
     //search input variables 
@@ -46,7 +46,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
         router.push(`${pathname}?${params.toString()}`); 
     }
     const allViewHandler =()=>{
-        setEmployee(initialEmployee)
+        setEmployee(null)
         const params = new URLSearchParams(searchParams.toString()); 
         params.delete("page"); 
         // 기존 pathname 유지
@@ -54,7 +54,6 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     }
 
     useEffect(()=>{
-        setPageByEmployee(employee.slice((page-1)*20, ((page-1)*20)+20))
         setLoading(false)
     },[employee, page])
 
@@ -121,9 +120,9 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                     }
                 </tbody>
             </table>
-            {(!loading && employee.length>20) &&
+            {(!loading && (employee??initialEmployee).length>20) &&
                 <Pagination
-                    totalItems={employee.length}
+                    totalItems={(employee??initialEmployee).length}
                     itemCountPerPage={20} 
                     pageCount={5} 
                     currentPage={Number(page)}
