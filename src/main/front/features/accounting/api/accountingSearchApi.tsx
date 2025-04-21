@@ -52,7 +52,6 @@ export async function getSalesVATApi(searchCondition?:searchCondition){
     }
 }
 
-
 //카드증빙
 export async function getCardTransactionfApi(searchCondition?:searchCondition){
     try{
@@ -63,7 +62,7 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
             },
             body:JSON.stringify(searchCondition??{}),
             ...(searchCondition ? {cache:'no-store'} :{}),
-            next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
+            next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -73,7 +72,6 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
         console.error('Error:', error);
     }
 }
-
 
 //지출증빙
 export async function getExpenseProofApi(searchCondition?:searchCondition){

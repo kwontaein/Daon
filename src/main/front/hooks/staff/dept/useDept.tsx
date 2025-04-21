@@ -29,6 +29,8 @@ export default function useDept(InitDept:Dept[]){
                 if(status === 200){
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
+                }else{
+                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
                 }
             })
         } else if(postDept.length>0 && !postAble){

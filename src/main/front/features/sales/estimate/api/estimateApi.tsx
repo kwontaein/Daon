@@ -121,7 +121,6 @@ export async function searchEstimateConditionApi(searchCondition:EstimateConditi
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
-    console.log(searchCondition)
     return fetch("http://localhost:8080/api/getEstimates", {
         method: "POST",
         headers: {
@@ -142,4 +141,26 @@ export async function searchEstimateConditionApi(searchCondition:EstimateConditi
         }
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
+} 
+export async function transEstimateToReceiptApi(estimateId:string) {
+
+    return fetch("http://localhost:8080/api/estimatesPaid", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(estimateId),
+    }).then(async (response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) return [];
+        return JSON.parse(text);
+    }).catch((error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
+    })
 } 

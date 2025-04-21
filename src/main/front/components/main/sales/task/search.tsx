@@ -84,73 +84,70 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         <>
             <form action={action} ref={formRef}>
             <section className='search-container'>
-                    <table className='search-table'>
-                        <colgroup>
-                            <col style={{width: '5%'}}/>
-                            <col style={{width: '70%'}}/>
-                            <col style={{width: '1%'}}/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <td colSpan={3} className="table-title">
-                                검색옵션
-                            </td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td className='table-label'>구분/담당자</td>
-                            <td className='td-gap'>
-                                <select name='taskType' key={state.taskType+'taskType'} defaultValue={state.taskType}>
-                                    <option value='none'>구분</option>
-                                    {Object.entries(TaskEnumType).map(([key, value])=>(
-                                        <option key={key} value={key}>{value}</option>
+                <table className='search-table'>
+                    <colgroup>
+                        <col style={{width: '5%'}}/>
+                        <col style={{width: '70%'}}/>
+                        <col style={{width: '1%'}}/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <td colSpan={3} className="table-title">
+                            검색옵션
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td className='table-label'>구분/담당자</td>
+                        <td className='td-gap'>
+                            <select name='taskType' key={state.taskType+'taskType'} defaultValue={state.taskType}>
+                                <option value='none'>구분</option>
+                                {Object.entries(TaskEnumType).map(([key, value])=>(
+                                    <option key={key} value={key}>{value}</option>
+                                ))}
+                            </select>
+                            <select name='assignedUser' key={state.assignedUser+'assignedUser'} defaultValue={state.assignedUser}>
+                                <option value='none'>담당자구분</option>
+                                {employees.map((employee)=>(
+                                    <option key={employee.userId} value={employee.userId}>{employee.name}</option>
+                                ))}
+                            </select>
+                        </td>
+                        <td rowSpan={3}>
+                            <div className='grid-table-buttons'>
+                                <button type='button' disabled={isPending}
+                                        onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                </button>
+                                <button>엑 셀 변 환</button>
+                                <button type='button' onClick={registerTask}>업 무 등 록</button>
+                                <button type='button' onClick={deleteTaskHandler}>체 크 삭 제</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='table-label'>거래처분류</td>
+                        <td>
+                            <label>
+                                <select name='affiliation' key={state.affiliation+'affiliaction'}
+                                        defaultValue={state.affiliation}>
+                                    <option value='none'>선택안함</option>
+                                    {affiliations.map((affiliation) => (
+                                        <option key={affiliation.affiliationId}
+                                                value={affiliation.affiliationId}>
+                                            {affiliation.affiliationName}
+                                        </option>
                                     ))}
                                 </select>
-                                <select name='assignedUser' key={state.assignedUser+'assignedUser'} defaultValue={state.assignedUser}>
-                                    <option value='none'>담당자구분</option>
-                                    {employees.map((employee)=>(
-                                        <option key={employee.userId} value={employee.userId}>{employee.name}</option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td rowSpan={3}>
-                                <div className='grid-table-buttons'>
-                                    <button type='button' disabled={isPending}
-                                            onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
-                                    </button>
-                                    <button>엑 셀 변 환</button>
-                                    <button type='button' onClick={registerTask}>업 무 등 록</button>
-                                    <button type='button' onClick={deleteTaskHandler}>체 크 삭 제</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='table-label'>거래처분류</td>
-                            <td>
-                                <label>
-                                    <select name='affiliation' key={state.affiliation+'affiliaction'}
-                                            defaultValue={state.affiliation}>
-                                        <option value='none'>선택안함</option>
-                                        {affiliations.map((affiliation) => (
-                                            <option key={affiliation.affiliationId}
-                                                    value={affiliation.affiliationId}>
-                                                {affiliation.affiliationName}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className='table-label'>거래처명</td>
-                            <td><input type='text' name='customerName'/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-            <button onClick={()=>revalidateHandler('task')}>
-                초기화
-            </button>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='table-label'>거래처명</td>
+                        <td><input type='text' name='customerName'/></td>
+                    </tr>
+                    </tbody>
+                </table>
             </section>
             <TaskSearchResult
                 pageByTasks={pageByTasks}
