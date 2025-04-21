@@ -60,7 +60,7 @@ public class ProcurementResponse {
     private int quantity;
 
     // 인수
-    private int acceptance;
+    private LocalDate acceptance;
 
     // 설치
     private String installation;
