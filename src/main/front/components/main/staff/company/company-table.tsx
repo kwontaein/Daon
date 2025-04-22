@@ -2,7 +2,7 @@
 
 import './company-table.scss';
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,44 +14,33 @@ import { ResponseCompany } from "@/model/types/staff/company/type";
 import { apiUrl } from '@/model/constants/apiUrl';
 import Pagination from '@/components/share/pagination';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 export default function CompanyTable({initialCompany, page}:{initialCompany:ResponseCompany[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
-    const [company,setCompany] = useState<ResponseCompany[]>(initialCompany)
-    const [pageByCompany, setPageByCompany] = useState<ResponseCompany[]>([])
+    const [company,setCompany] = useState<ResponseCompany[]>()
+    const pageByCompany = useMemo(()=> (company??initialCompany).slice((page-1)*20, ((page-1)*20)+20),[initialCompany, company,page])
     const [loading, setLoading] = useState<boolean>(true)
     const mode = useScreenMode({tabletSize:700,mobileSize:620})
-
+    const deletePage = useDeletePage()
     //search input variables 
     const inputRef = useRef<HTMLInputElement|null>(null)
     
-    //router variables
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const router = useRouter()
 
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
-
 
 
     const searchHandler = () =>{
         setCompany(()=>{
             return initialCompany.filter(({ceo})=>ceo.includes(inputRef.current.value))
         })
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+        deletePage()
     }
     const allViewHandler =()=>{
-        setCompany(initialCompany)
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("page"); 
-        // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+        setCompany(null)
+        deletePage()
     }
     useEffect(()=>{
-        setPageByCompany(company.slice((page-1)*20, ((page-1)*20)+20))
         setLoading(false)
     },[company, page])
 
@@ -87,7 +76,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                     {pageByCompany.map(company => (
                         <tr key={company.companyId} ref={(el)=> {itemsRef.current[company.companyId] = el}} className={target === company.companyId ?'is-click' :''} >
                             <td>{company.companyName}[{company.printName}]</td>
-                            <td>{company.businessNum}</td>
+                            <td>{company.businessNumber}</td>
                             <td>{company.tel}</td>
                             {mode==='pc' &&<td>{company.fax}</td>}
                             <td>{company.ceo}</td>
@@ -106,18 +95,18 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
                     }
                 </tbody>
             </table>
-            {(!loading && company.length>20) &&
-                <Pagination
-                    totalItems={company.length}
-                    itemCountPerPage={20} 
-                    pageCount={5} 
-                    currentPage={Number(page)}
-                />
-            }
             {!loading &&
-            <div className='company-button-container'>
-                <button onClick={signNewCompanyHandler}>신규등록</button>
-            </div>
+                <>
+                    <Pagination
+                        totalItems={(company??initialCompany).length}
+                        itemCountPerPage={20} 
+                        pageCount={5} 
+                        currentPage={Number(page)}
+                    />
+                    <div className='company-button-container'>
+                        <button onClick={signNewCompanyHandler}>신규등록</button>
+                    </div>
+                </> 
             }
         </section>
     )

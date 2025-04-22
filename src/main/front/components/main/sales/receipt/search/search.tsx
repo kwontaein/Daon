@@ -18,7 +18,7 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import ReceiptSearchResult from './search-result';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 
 const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
@@ -28,10 +28,8 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
 
     const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
     const {date, date_id} = useSelector((state:RootState)=> state.receiptSearch)
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
+    const deletePage = useDeletePage()
+    
     //일일종합검색
     useEffect(()=>{
         if(date_id && !isPending){
@@ -61,11 +59,15 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     useEffect(()=>{
         if(state.searchReceipt){
             setReceiptList(state.searchReceipt)
-            const params = new URLSearchParams(searchParams.toString());
-            params.delete("page");
-            router.push(`${pathname}?${params.toString()}`);
         }
     },[state])
+
+    //검색중일 때 receipt이 갱신되면 해당검색조건으로 재호출
+    useEffect(()=>{
+        if(receiptList){
+            submitHandler()
+        }
+    },[initialReceipts])
 
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
@@ -131,7 +133,10 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                                 </label>
                             </td>
                             <td rowSpan={4} className="table-buttons">
-                                <button type='button' onClick={submitHandler}>
+                                <button type='button' onClick={()=>{
+                                        submitHandler()
+                                        deletePage()
+                                    }}>
                                     전 표 검 색
                                 </button>
                                 <button type='button' onClick={dailySummary}>
@@ -172,7 +177,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
             <MemoizedReceiptSearchResult pageByReceipt={pageByReceipt} basicIndex={(page - 1) * 10}/>
             {!isPending &&
                 <Pagination
-                    totalItems={receiptList.length}
+                    totalItems={(receiptList?? initialReceipts).length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={Number(page)}

@@ -124,8 +124,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                         dateRef.current?.click();
                     }
                 }}
-                readOnly={readOnly}
-            />
+                readOnly={readOnly}/>
         </label>
     )
 }

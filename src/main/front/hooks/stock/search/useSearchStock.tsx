@@ -35,7 +35,7 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
             const deleteStock = ()=>{
                 changeHandler({stockId:'', productName:'', modelName:'', outPrice:0}, id)
             }
-            useConfirm('물품을 다시 선택하시겠습니까?',deleteStock,()=>{})
+            useConfirm('물품을 다시 선택하시겠습니까?',deleteStock)
         }
         setTimeout(()=>{
             const value =e.target.value

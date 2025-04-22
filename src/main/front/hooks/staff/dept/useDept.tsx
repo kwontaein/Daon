@@ -1,5 +1,5 @@
 'use client'
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 
 import { createDeptApi, deleteDeptApi, updateDeptApi } from "../../../features/staff/dept/api/deptApi";
 import { useConfirm } from "@/hooks/share/useConfirm";
@@ -11,6 +11,10 @@ export default function useDept(InitDept:Dept[]){
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
+    useEffect(()=>{
+        if(mode!==null) return
+        setDeptState(InitDept)
+    },[InitDept])
 
     const editHandler = () => {
         if (!mode) {
@@ -25,6 +29,8 @@ export default function useDept(InitDept:Dept[]){
                 if(status === 200){
                     window.alert('수정이 완료되었습니다.')
                     setMode(null)
+                }else{
+                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
                 }
             })
         } else if(postDept.length>0 && !postAble){
@@ -62,7 +68,7 @@ export default function useDept(InitDept:Dept[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
+        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, deptState, mode, setMode, setDeptState,addHandler,deleteHandler,editHandler}

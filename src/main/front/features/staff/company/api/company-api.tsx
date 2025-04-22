@@ -1,4 +1,6 @@
-export default async function getCompany(){
+import { ResponseCompany } from "@/model/types/staff/company/type";
+
+export async function getCompany(){
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
@@ -23,4 +25,37 @@ export default async function getCompany(){
             }
             console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
+}
+
+export async function saveCompany(companyData:Omit<ResponseCompany,'companyId'>){
+    try{
+        const response = await fetch("http://localhost:8080/api/saveCompany", {
+            method:"POST",
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(companyData)
+        })
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+export async function deleteCompany(companyId:string){
+    try{
+        const response = await fetch("http://localhost:8080/api/deleteCompany", {
+            method:"POST",
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({companyId})
+        })
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }

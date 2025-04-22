@@ -10,6 +10,6 @@ export default async function RegisterAffiliation(){
     const employees:ResponseEmployee[] = await getEmployeeApi()
 
     return(
-        <CustomerForm affiliation={affiliation} employees={employees}/>
+        <CustomerForm affiliation={affiliation} employees={employees} mode='write'/>
     )
 }

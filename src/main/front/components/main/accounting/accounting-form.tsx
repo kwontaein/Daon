@@ -35,7 +35,6 @@ export default function AccountingForm({mode,division,categorySelections,account
         customerInfo : Pick <ResponseCustomer,'customerName' | 'customerId' | 'businessNumber'>,
     ) => {
         if (formRef.current) {
-            console.log(customerInfo)
             const formData = new FormData(formRef.current);
             formData.set('customerName', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
@@ -54,14 +53,15 @@ export default function AccountingForm({mode,division,categorySelections,account
         e?.preventDefault();
         const formData = new FormData(formRef.current);
         formData.set('action', division);
+        formData.set('mode',mode);
         const customerId = formData.get('customerId')
         const categorySelection = formData.get('categorySelection')
-        console.log(categorySelection)
+        
         if(!customerId) {
             window.alert('업체명을 입력해주세요')
             return
         }
-        if(categorySelection==='none' || !categorySelection){
+        if((categorySelection==='none' || !categorySelection) && division!=='pset'){
             window.alert('분류명을 선택하거나 신규 분류명을 입력해주세요.')
             return
         }
@@ -73,7 +73,12 @@ export default function AccountingForm({mode,division,categorySelections,account
     useEffect(()=>{
         if(state.status){
             if(state.status ===200){
-                window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
+                if(mode==='write'){
+                    window.alert('신규 '+ AccountingDivision[division]+'의 등록이 완료되었습니다.')
+                }
+                if(mode==='edit'){
+                    window.alert(AccountingDivision[division]+'의 수정이 완료되었습니다.')
+                }
                 window.close()
             }
         }
@@ -187,10 +192,14 @@ export default function AccountingForm({mode,division,categorySelections,account
                 </tr>
                 <tr>
                     <td className='table-label'>인수</td>
-                    <td><input
-                        name='acceptance'
-                        defaultValue={state.acceptance}
-                        readOnly={mode==='detail'}/>
+                    <td>
+                        <div>
+                            <CustomDateInput 
+                                defaultValue={state.acceptance} 
+                                name='acceptance' 
+                                key={state.acceptance+'acceptance'}
+                                readOnly={mode==='detail'}/>
+                        </div>
                     </td>
                     <td className='table-label'>설치</td>
                     <td><input
@@ -287,7 +296,7 @@ export default function AccountingForm({mode,division,categorySelections,account
         </form>
         <div className='button-container'>
             <button onClick={submitHandler}>저장</button>
-            <button>취소</button>
+            <button onClick={()=>window.close()}>취소</button>
         </div>
         </>
     )

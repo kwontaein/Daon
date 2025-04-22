@@ -17,9 +17,7 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
     console.log(customers)
     const selectValue = (value: ResponseCustomer) => {
         const message ={
-            customerId:value.customerId,
-            customerName:value.customerName,
-            businessNumber:value.businessNumber,
+            ...value
         }
         if (window.opener) {
           window.opener.postMessage(message, "*");
