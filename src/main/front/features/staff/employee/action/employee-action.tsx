@@ -1,7 +1,7 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveEmployeeApi, updateEmployeeApi } from "../api/employeeApi";
+import { saveEmployeeApi, updateEmployeeApi, userIdDuplicationChecked } from "../api/employeeApi";
 import { revalidateTag } from "next/cache";
 
 function isInvalidText(text) {
@@ -34,90 +34,81 @@ export async function submitEmployeeInfo(prevState, formData) {
         deptId: formData.get('deptId'),
     };
 
-    
-
+    const action = formData.get('action')
     const errors =[]
-    if(employeeData.userClass==='none'){
-        errors.push(['userClass', '직급을 선택해주세요.'])
-    }
-    if(employeeData.deptId==='none'){
-        errors.push(['dept', '부서를 선택해주세요.'])
-    }
-    if(employeeData.userClass==='none'){
-        errors.push(['userClass', '직급을 입력해주세요.'])
-    }
-    if(isInvalidText(employeeData.name)){
-        errors.push(['name', '이름을 입력해주세요.'])
-    }
-    if(isInvalidText(employeeData.userId)){
-        errors.push(['userId', '아이디를 입력해주세요.'])
-    }
-    if(isInvalidText(employeeData.password)){
-        errors.push(['password', '비밀번호를 입력해주세요.'])
-    }
-    if(!employeeData.joinDate){
-        errors.push(['joinDate', '입사일을 입력해주세요.'])
-    }
-    if(isInvalidText(employeeData.birthday)){
-        errors.push(['birthday','생년월일을 입력해주세요.'])
-    }
+    let status;
 
-    const formKey = uuidv4()
+   if(action ==='submit'){
+        if(employeeData.userClass==='none'){
+            errors.push(['userClass', '직급을 선택해주세요.'])
+        }
+        if(employeeData.deptId==='none'){
+            errors.push(['dept', '부서를 선택해주세요.'])
+        }
+        if(employeeData.userClass==='none'){
+            errors.push(['userClass', '직급을 입력해주세요.'])
+        }
+        if(isInvalidText(employeeData.name)){
+            errors.push(['name', '이름을 입력해주세요.'])
+        }
+        if(isInvalidText(employeeData.userId)){
+            errors.push(['userId', '아이디를 입력해주세요.'])
+        }
+        if(isInvalidText(employeeData.password)){
+            errors.push(['password', '비밀번호를 입력해주세요.'])
+        }
+        if(!employeeData.joinDate){
+            errors.push(['joinDate', '입사일을 입력해주세요.'])
+        }
+        if(isInvalidText(employeeData.birthday)){
+            errors.push(['birthday','생년월일을 입력해주세요.'])
+        }
 
-    if(errors.length>0){
-        const formErrors = Object.fromEntries(errors)
-        const state = {
-            ...prevState,
+        const formKey = uuidv4()
+
+        if(errors.length>0){
+            const formErrors = Object.fromEntries(errors)
+            const state = {
+                ...prevState,
+                ...employeeData,
+                formErrors,
+                formKey,
+                post_success:false,
+            } 
+            return state ;
+        }
+        const {phone1, phone2, phone3, tel1, tel2, tel3} = employeeData
+        const phone =[phone1,phone2,phone3]
+        const tel = [tel1,tel2,tel3]
+        const postData ={
             ...employeeData,
-            formErrors,
-            formKey,
-            post_success:false,
-        } 
-        return state ;
-    }
+            phone: phone.join('-'),
+            tel: tel.join('-'),
+            married: employeeData.married ==='married'
+        }
+        delete postData.phone1
+        delete postData.phone2
+        delete postData.phone3
+        delete postData.tel1
+        delete postData.tel2
+        delete postData.tel3
 
-    const {phone1, phone2, phone3, tel1, tel2, tel3} = employeeData
-    const phone =[phone1,phone2,phone3]
-    const tel = [tel1,tel2,tel3]
-    const postData ={
+
+        // API 요청 
+        if(prevState.isUpdate){
+            status = await updateEmployeeApi(postData)
+        }else{
+            status = await saveEmployeeApi(postData)
+        }
+   }
+
+   delete prevState.status
+   return {
+        ...prevState,
         ...employeeData,
-        phone: phone.join('-'),
-        tel: tel.join('-'),
-        married: employeeData.married ==='married'
+        status,
     }
-    delete postData.phone1
-    delete postData.phone2
-    delete postData.phone3
-    delete postData.tel1
-    delete postData.tel2
-    delete postData.tel3
-
-    let res;
-
-    // API 요청 
-    if(prevState.isUpdate){
-        res = await updateEmployeeApi(postData)
-    }else{
-        res = await saveEmployeeApi(postData)
-    }
-
-    if(res && res === 200){
-        revalidateTag(`${employeeData.userId}`)
-        revalidateTag("employee");
-
-        return{
-            post_success: true,
-            isUpdate:prevState.isUpdate, 
-            ...employeeData,
-            formKey, 
-        }
-    }else{
-        return {
-            ...prevState,
-            ...employeeData,
-            post_success: false,
-            formKey
-        }
-    }
+   
+    
   }
   

@@ -17,30 +17,38 @@ import { useConfirm } from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
-export default function RegisterEstimate({companyList, task, estimate, mode} : {
+export default function EstimateHeader({companyList, task, estimate, mode} : {
     companyList: ResponseCompany[],
-    mode: string
+    mode: 'write'|'detail'|'edit',
     task?: ResponseTask,
     estimate?: ResponseEstimate,
 }) {
-    //task 전달받으면 업무에서 견적서를 작성하는 경우임, estimate 우선체크
+    //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(()=>{
-        if(!task) return {
-            estimateDate: dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
-            customerId:'',
-            customerName:'',
-            mode: estimate ? mode : 'write',
-        } //업무에서 넘어온 견적서가 아닐 시 return
-        return{
-            taskId: estimate ? estimate.taskResponse?.taskId : task.taskId,
-            ...estimate,
-            estimateDate: dayjs(estimate? estimate.estimateDate : task.createdAt).format('YYYY-MM-DD'),
-            customerId: estimate? estimate.customerId : task.customer.customerId,
-            customerName: estimate? estimate.customerName : task.customer.customerName,
-            mode: estimate ? mode : 'write',
-            userId: estimate ? estimate.userId : task.assignedUser.userId,
-            assignedUser: estimate? estimate.userName :task.assignedUser.name,
+        if(task){
+            return {
+                taskId:task.taskId,
+                estimateDate: dayjs(task.createdAt).format('YYYY-MM-DD'),
+                customerId:task.customer.customerId,
+                customerName:task.customer.customerName,
+                mode: 'write', //견적서가 존재하지 않으면 write mode임
+                assignedUser: task.assignedUser.name
+            }
+        } else if(estimate){
+            return{
+                taskId: estimate?.taskResponse?.taskId,
+                ...estimate,
+                estimateDate: dayjs(estimate.estimateDate).format('YYYY-MM-DD'),
+                customerId: estimate.customerId,
+                customerName: estimate.customerName,
+                mode,
+                userId: estimate.userId,
+                assignedUser: estimate.userName 
+            }
+        }else{
+            return{}
         }
+       
     },[task, estimate, mode]) 
 
     const [state,action,isPending] = useActionState(estimateRegisterAction, initialState)
@@ -76,7 +84,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
             }) 
         }
         if(state.mode==='edit' && state.items.length===0){
-            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit,()=>{})
+            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit)
         }else{
             submit()
         }
@@ -130,9 +138,9 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
              <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
-                    {state.mode ==='detail' && '견적서 상세보기'}
-                    {state.mode ==='edit' && '견적서 수정하기'}
-                    {state.mode ==='write' && '견적서 작성하기'}
+                    {mode ==='detail' && '견적서 상세보기'}
+                    {mode ==='edit' && '견적서 수정하기'}
+                    {mode ==='write' && '견적서 작성하기'}
                 </h4>
             </header>
             <form action={action} ref={formRef}>
@@ -159,10 +167,10 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자</td>
                         <td>
-                            <CustomDateInput defaultValue={state.estimateDate} name={'estimateDate'}/>
+                            <CustomDateInput defaultValue={state.estimateDate} name={'estimateDate'} readOnly={mode==='detail'}/>
                         </td>
                         <td className='table-label'>등록번호</td>
-                        <td>{company.businessNum}</td>
+                        <td>{company.businessNumber}</td>
                     </tr>
                     <tr>
                         <td className='table-label'>업&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;체</td>
@@ -173,7 +181,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                                 defaultValue={state.customerName}
                                 key={state.customerName}
                                 readOnly={task ? true : mode==='detail'}
-                                onKeyDown={(e)=> (state.taskId ? state.mode==='edit' :state.mode !=='detail') && searchCustomerHandler(e)}/>                            
+                                onKeyDown={(e)=>searchCustomerHandler(e)}/>                            
                             <input type='hidden' name='customerId' defaultValue={state.customerId} key={state.customerId||'customerId'} readOnly/>
                         </td>
                         <td className='table-label'>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</td>
@@ -190,7 +198,7 @@ export default function RegisterEstimate({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={state.mode} task={task}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task}/> 
             </form>
         </section>
     )

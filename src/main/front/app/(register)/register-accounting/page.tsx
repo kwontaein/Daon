@@ -11,7 +11,6 @@ export default async function RegisterAccountingPage({searchParams}:{
     const division = (await searchParams).division
     const categorySelections = await getCategorySelectionApi()
 
-    console.log(division)
     if(!AccountingDivision[division]){
         notFound()
     }

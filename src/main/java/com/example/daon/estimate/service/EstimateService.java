@@ -101,7 +101,7 @@ public class EstimateService {
             }
 
             if (!estimateRequest.isReceipted()) {
-                predicates.add(criteriaBuilder.equal(root.get("receipted"), 0));
+                predicates.add(criteriaBuilder.equal(root.get("receipted"), false));
             }
 
             // 동적 조건 조합

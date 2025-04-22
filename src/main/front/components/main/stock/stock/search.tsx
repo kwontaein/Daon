@@ -2,10 +2,8 @@
 import '@/styles/table-style/search.scss';
 
 import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
 import {apiUrl} from '@/model/constants/apiUrl';
-
 import {changeFormData} from '@/features/share/changeFormData';
 import {initialStockState, stockSearchAction} from '@/features/stock/stock/action/stock-search';
 
@@ -15,6 +13,7 @@ import {ResponseStock} from '@/model/types/stock/stock/types';
 
 import StockSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 export default function StockSearch({stockCate, initialStocks, page} : {
     stockCate: StockCate[],
@@ -35,16 +34,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
         setLoading(isPending)
     },[isPending])
 
-    //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    const redirectPage = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
-    }
+    const redirectPage = useDeletePage()
 
     //TODO: 모바일버전 구현
     const registerStock = () => {

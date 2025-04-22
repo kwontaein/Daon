@@ -20,6 +20,7 @@ import {CustomerCateEnum, ResponseCustomer} from '@/model/types/customer/custome
 import {changeFormData} from '@/features/share/changeFormData';
 import CustomerSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page} : {
@@ -45,22 +46,14 @@ export default function CustomerSearch(
     }, [isPending])
 
     //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    const redirectPage = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
-    }
+    const deletePage = useDeletePage()
 
     //TODO: 모바일버전 구현
     const registerCustomer = () => {
         //pc
         if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
-            const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            const popupOptions = "width=600,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
     }
@@ -118,7 +111,7 @@ export default function CustomerSearch(
                         </td>
                         <td rowSpan={3}>
                             <div className="grid-table-buttons">
-                                <button type='submit' disabled={isPending} onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button type='submit' disabled={isPending} onClick={deletePage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button
                                     type='submit'
                                     disabled={isPending}
@@ -128,7 +121,7 @@ export default function CustomerSearch(
                                             ...initialCustomerState,
                                         })
                                         action(formData)
-                                        redirectPage()
+                                        deletePage()
                                     })}>전 체 보 기</button>
                                 <button onClick={registerCustomer}>신 규 등 록</button>
                                 <button>엑 셀 변 환</button>

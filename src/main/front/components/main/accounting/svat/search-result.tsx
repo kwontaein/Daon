@@ -15,7 +15,6 @@ export default function SVATSaerchResult({salesVATList}:{salesVATList:SalesVAT[]
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const mode = useScreenMode({tabletSize:876, mobileSize:620})
 
-    console.log(salesVATList)
     return(
         <>
         {mode &&

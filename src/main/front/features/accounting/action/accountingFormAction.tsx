@@ -1,5 +1,23 @@
 import { UnionAccountingType, VAT } from "@/model/types/accounting/type"
-import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi } from "../api/accountingFormApi";
+import { saveCardTransactionApi, saveExpenseProofApi, saveProcurementApi, savePurchaseVatApi, saveSalesVATApi, updateCardTransactionApi, updateExpenseProofApi, updateProcurementApi, updatePurchaseVatApi, updateSalesVATApi } from "../api/accountingFormApi";
+
+
+const apiMap = {
+    write: {
+        pvat: savePurchaseVatApi,
+        svat: saveSalesVATApi,
+        card: saveCardTransactionApi,
+        proof: saveExpenseProofApi,
+        pset: saveProcurementApi,
+    },
+    edit: {
+        pvat: updatePurchaseVatApi,
+        svat: updateSalesVATApi,
+        card: updateCardTransactionApi,
+        proof: updateExpenseProofApi,
+        pset: updateProcurementApi,
+    }
+};
 
 export default async function accountingFormAction(prevState, formData){
 
@@ -25,30 +43,24 @@ export default async function accountingFormAction(prevState, formData){
         payment: formData.get('payment'),   // 결재
     }
 
-    const action = formData.get('action')
     let status;
-    const postData = Object.fromEntries(Object.entries({...formState})
-    .filter(([key,value])=> value!=='none' && value!==null)
-    .map(([key,value])=>{
-        if(['amount', 'vat', 'total', 'quantity'].includes(key) && value) {
-            return [key, (value as string).replaceAll(',','').replace('원','')]
-        }
-        return [key,value]
-    }))
-    console.log(postData)
-    if(action === 'pvat'){
-        status = await savePurchaseVatApi(postData)
-    }else if(action === 'svat'){
-        status = await saveSalesVATApi(postData)
-    }else if(action === 'pset'){
-        status = await saveProcurementApi(postData)
-    }else if(action === 'bills'){
-        // status = await saveCardTransactionApi(postData)
-    }else if(action === 'card'){
-        status = await saveCardTransactionApi(postData)
-    }else if(action === 'proof'){
-        status = await saveExpenseProofApi(postData)
+    const action = formData.get('action')
+    const mode = formData.get('mode')
+    if(action){
+        const postData = Object.fromEntries(Object.entries({...formState})
+        .filter(([key,value])=> value!=='none' && value!==null)
+        .map(([key,value])=>{
+            if(['amount', 'vat', 'total', 'quantity'].includes(key) && value) {
+                return [key, (value as string).replaceAll(',','').replace('원','')]
+            }
+            return [key,value]
+        }))
+    
+        if (mode in apiMap && action in apiMap[mode]) {
+            status = await apiMap[mode][action](postData);
+        } 
     }
+
     delete prevState.status;
 
     return {

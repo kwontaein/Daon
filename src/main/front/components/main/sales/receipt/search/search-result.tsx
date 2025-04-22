@@ -17,8 +17,13 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
 
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
     const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
-    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds)
+    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds,true)
     const selectList = useMemo(()=>Object.keys(checkedState), [checkedState])
+    //체크목록 중 전표화된 견적서 포함되면 삭제불가능
+    const disableDelete = useMemo(
+        () => !!pageByReceipt.find(({estimateId, receiptId}) => estimateId && selectList.includes(receiptId)),
+        [selectList, pageByReceipt]
+    )
 
     useEffect(()=>{
         if(!isSelected){
@@ -26,16 +31,17 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
         }
     },[isSelected])
 
-  
     return (
         <>
             <ReceiptButtons
                 isSelected={isSelected}
                 toggleIsSelected={toggleIsSelected}
-                selectList={selectList}/>            
+                selectList={selectList}
+                disableDelete={disableDelete}
+                />            
            <ReceiptTableContainer>
            {pageByReceipt.map((receipt: ResponseReceipt, index: number) => (
-                <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''}`}>
+                <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''} ${(receipt.estimateId) ? 'estimate-receipt' : ''}`}>
                     <tr>
                         <td rowSpan={2}>
                             {basicIndex + index + 1}

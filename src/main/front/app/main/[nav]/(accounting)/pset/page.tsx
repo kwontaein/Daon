@@ -1,6 +1,6 @@
 import AccountingSearch from "@/components/main/accounting/search";
 import { getProcurementApi } from "@/features/accounting/api/accountingSearchApi";
-import getCompany from "@/features/staff/company/api/company-api";
+import {getCompany} from "@/features/staff/company/api/company-api";
 import { PageByProps } from "@/model/types/share/type";
 
 export default async function PsetPage({searchParams}:PageByProps){
