@@ -25,7 +25,7 @@ public class CustomerRequest {
     private String userId;
 
     //------------
-    private UUID cateId;
+    private UUID affiliationId;
     private String ceo;
     private String ceoNum;
     private String searchTarget;

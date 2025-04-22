@@ -16,6 +16,7 @@ import com.example.daon.receipts.repository.DailyTotalRepository;
 import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -221,5 +222,19 @@ public class ReceiptsService {
         dailyTotalEntity.setRemainTotal(total);
 
         dailyTotalRepository.save(dailyTotalEntity);
+    }
+
+    public List<ReceiptResponse> getReceiptsById(List<UUID> receiptIds) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            CriteriaBuilder.In<UUID> inClause = criteriaBuilder.in(root.get("receiptId"));
+            for (UUID id : receiptIds) {
+                inClause.value(id);
+            }
+            return inClause;
+        });
+        return receiptEntities
+                .stream()
+                .map(globalService::convertToReceiptResponse)
+                .collect(Collectors.toList());
     }
 }

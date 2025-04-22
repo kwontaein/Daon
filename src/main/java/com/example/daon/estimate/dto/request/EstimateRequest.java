@@ -37,6 +37,7 @@ public class EstimateRequest {
     private String companyName;
     private String customerName;
     private String productName;
+    private String note;
     private boolean receipted;
     private boolean task;
     private Condition condition;

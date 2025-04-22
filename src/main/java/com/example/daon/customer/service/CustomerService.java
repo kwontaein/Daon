@@ -85,7 +85,7 @@ public class CustomerService {
 
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
-        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
         CustomerEntity customer = customerRepository.save(request.toEntity(user, affiliationEntity));
         request.setCustomerId(customer.getCustomerId());
     }
@@ -93,7 +93,7 @@ public class CustomerService {
     @Transactional
     public void updateCustomer(CustomerRequest request) {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 고객입니다."));
-        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getCateId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
+        AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
         customer.updateFromRequest(request, affiliationEntity);
         customerRepository.save(customer);
     }

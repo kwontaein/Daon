@@ -28,6 +28,12 @@ public class ReceiptsController {
         return receiptsService.getReceipts(receiptRequest.getCategory(), receiptRequest.getSearchSDate(), receiptRequest.getSearchEDate(), receiptRequest.getCustomerId(), receiptRequest.getStockId());
     }
 
+    @PostMapping("api/getReceiptsById")
+    public List<ReceiptResponse> getReceiptsById(@RequestBody ReceiptRequest receiptRequest) {
+        return receiptsService.getReceiptsById(receiptRequest.getReceiptIds());
+    }
+
+
     @PostMapping("api/updateReceipt")
     public void updateReceipt(@RequestBody ReceiptRequest receiptRequest) {
         receiptsService.updateReceipt(receiptRequest);

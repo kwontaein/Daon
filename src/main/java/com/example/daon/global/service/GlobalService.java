@@ -165,7 +165,8 @@ public class GlobalService {
                 .phoneNumber(customer.getPhoneNumber())
                 .fax(customer.getFax())
                 .user(userResponse)
-                .affiliation(convertToAffiliationResponse(customer.getCustomerAffiliation()))
+                .affiliationId(customer.getCustomerAffiliation().getCustomerAffiliationId())
+                .affiliationName(customer.getCustomerAffiliation().getCustomerAffiliationName())
                 .build();
     }
 

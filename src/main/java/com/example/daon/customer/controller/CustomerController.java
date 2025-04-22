@@ -27,7 +27,7 @@ public class CustomerController {
     public List<CustomerResponse> getCustomers(@RequestBody CustomerRequest customerRequest) {
         return customerService.getCustomers(
                 customerRequest.getCategory()
-                , customerRequest.getCateId()
+                , customerRequest.getAffiliationId()
                 , customerRequest.getCustomerName()
                 , customerRequest.getSearchTarget()
                 , customerRequest.getCeo()
