@@ -9,7 +9,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
     //TODO: add mobile version
     const viewEstimateHandler = (estimateId:string)=>{
         if(receipted){
-            useConfirm('정말로 전표전환을 취소하시겠습니까?', ()=>{transEstimateToReceiptApi(estimateId)})
+            useConfirm('정말로 전표전환을 취소하시겠습니까?', ()=>{transEstimateToReceiptApi({estimateId})})
             return
         }
         if(window.innerWidth>620){

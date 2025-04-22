@@ -9,10 +9,10 @@ import { transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimat
 const transEstimateAction = async (prevState, formData)=>{
     const formState = {
         receiptDate:formData.get('receiptDate'),
-        note:formData.get('note')
+        note:formData.get('note'),
+        estimateId: formData.get('esitmateId')
     }
-    const estimateId = formData.get('esitmateId')
-    const status = await transEstimateToReceiptApi(estimateId) 
+    const status = await transEstimateToReceiptApi(formState) 
 
     return {
         ...formState,
