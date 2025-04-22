@@ -7,10 +7,11 @@ import { deleteReceiptApi } from '@/features/sales/receipt/api/receiptApi';
 
 
 
-export default function ReceiptButtons({isSelected, selectList, toggleIsSelected} : {
+export default function ReceiptButtons({isSelected, selectList, toggleIsSelected,disableDelete} : {
     isSelected: boolean,
     selectList: string[],
     toggleIsSelected: () => void
+    disableDelete:boolean
 }) {
 
 
@@ -24,7 +25,12 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
     }
 
     const deleteReceipt = ()=>{
-        const submit = async()=>{
+        if(disableDelete){
+            window.alert('전표화된 견적서가 포함되어 삭제가 불가능합니다.')
+            return
+        }
+        if(selectList.length===0) return
+            const submit = async()=>{
             const status =await deleteReceiptApi(selectList)
             if(status===200){
                 window.alert('삭제가 완료되었습니다.')
@@ -35,6 +41,19 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
         useConfirm('선택한 전표를 삭제하시겠습니까?',submit)
     }
 
+    const editReceipt =()=>{
+        if(selectList.length===0) return
+
+        //pc
+        if(window.innerWidth>620){
+            const params = new URLSearchParams
+            params.set("receiptIds", JSON.stringify(selectList))
+
+            const url = `${apiUrl}/receipt?${params.toString()}`; // 열고 싶은 링크
+            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            window.open(url, "receipt", popupOptions);
+        }
+    }
     return(
         <section className='total-buttons-container'>
             <button  onClick={registerReceipt}>
@@ -45,7 +64,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             </button>
             {selectList.length>0 &&
                 <>
-                    <button>
+                    <button onClick={editReceipt}>
                         전표수정
                     </button>
                     <button onClick={deleteReceipt}>

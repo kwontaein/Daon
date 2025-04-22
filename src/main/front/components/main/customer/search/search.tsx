@@ -53,7 +53,7 @@ export default function CustomerSearch(
         //pc
         if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
-            const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
+            const popupOptions = "width=600,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }
     }
