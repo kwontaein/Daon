@@ -84,7 +84,10 @@ public class CustomerService {
     }
 
     public void saveCustomer(CustomerRequest request) {
-        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
+        UserEntity user = null;
+        if (request.getUserId() != null) {
+            user = userRepository.findById(request.getUserId()).orElse(null);
+        }
         AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
         CustomerEntity customer = customerRepository.save(request.toEntity(user, affiliationEntity));
         request.setCustomerId(customer.getCustomerId());
