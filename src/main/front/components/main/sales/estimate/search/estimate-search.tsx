@@ -26,7 +26,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     page: number,
     isTask:boolean
 }) {
-    const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(companyList,isTask));
+    const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(isTask));
     const [estimate,setEstimate] = useState<ResponseEstimate[]>()
 
     const pageByEstimate = useMemo(()=>(estimate??initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate,initialEstimate])
@@ -135,6 +135,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                             <td>
                                 <label>
                                 <select name='companyId' defaultValue={state.companyId} key={state.companyId}>
+                                    <option value='none'>사업자선택</option>
                                     {companyList.map((company)=>(
                                         <option key={company.companyId} value={company.companyId}>{company.companyName}</option>
                                     ))}
