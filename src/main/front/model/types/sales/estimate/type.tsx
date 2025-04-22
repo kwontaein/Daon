@@ -59,8 +59,8 @@ interface User{
     searchEDate?:Date,  //검색 날짜 종료일
     customerId?:string; //고객명
     stockId?:string; //품명
-    task:boolean
-    receipted:boolean
+    task?:boolean
+    receipted?:boolean
   }
 
   export interface EstimateRegisterProps{

@@ -4,8 +4,8 @@ import dayjs from "dayjs"
 
 export const initialReceiptSearch ={
     category:'EX',
-    searchSDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
-    searchEDate:dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
+    searchSDate: dayjs().subtract(2, 'month').date(1).format('YYYY-MM-DD'),
+    searchEDate:dayjs(new Date(Date.now())).endOf('month').format('YYYY-MM-DD'),
     customerId: '',
     stockId: '',
     customerName: '',

@@ -4,13 +4,14 @@ import '@/styles/form-style/form.scss'
 import Image from 'next/image'
 import asideArrow from '@/assets/aside-arrow.gif';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
-import { startTransition, useActionState, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useRef } from 'react';
 import { transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimateApi';
+
 const transEstimateAction = async (prevState, formData)=>{
     const formState = {
-        receiptDate:formData.get('receiptDate'),
+        receiptDate:new Date(formData.get('receiptDate')),
         note:formData.get('note'),
-        estimateId: formData.get('esitmateId')
+        estimateId: formData.get('estimateId')
     }
     const status = await transEstimateToReceiptApi(formState) 
 
@@ -32,9 +33,16 @@ export default function TransEstimate({estimateId}:{estimateId:string}){
             action(formData);
         });
     }
-    
 
-
+    useEffect(()=>{
+        if(state.status){
+            if(state.status===200){
+                window.alert('전표전환이 완료되었습니다.')
+            }else{
+                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
+        }
+    },[state])
     return(
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
             <header className="register-header">
