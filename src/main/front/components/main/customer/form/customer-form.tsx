@@ -23,6 +23,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
     mode:'write'|'detail' |'edit'
     customer?: ResponseCustomer,
 }) {
+  console.log(customer)
   const initialState = useMemo(() => customer ??{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const formRef = useRef(null)
@@ -39,8 +40,8 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
   useEffect(()=>{
     if(state.status){
       if(state.status ===200){
-        window.alert('저장이 완료되었습니다.')
-        window.close()
+        mode === 'edit' ? window.alert('수정이 완료되었습니다.'): window.alert('저장이 완료되었습니다.')
+        mode === 'edit' ? changeMode('detail') : window.close()
       }else{
         window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
       } 
@@ -57,12 +58,6 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
             {mode ==='write' && '전표입력'}
           </h4>
       </header>
-      <header className="register-header">
-                <Image src={asideArrow} alt=">" width={15}/>
-                <h4>
-
-                </h4>
-            </header>
       <form action={action} ref={formRef}>
       <table className="register-form-table print-section" key={state.customerId}>
           <colgroup>
@@ -75,34 +70,48 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
             <tr>
               <td className='table-label'>거래처 구분</td>
               <td>
-                <select className="label-selector" 
-                        size={1} name="category" defaultValue={state.category ??'category'} key={state.category} onChange={(e)=> mode==='detail' && e.preventDefault()}>
-                    <option value='none'>선택</option>
-                    {Object.entries(CustomerCateEnum).map(([key,value])=>(
-                        <option value={key} key={key}>{value}</option>
-                    ))}
-                </select>
-                {state.formErrors?.category &&  
-                  <ErrorBox key={state.formErrors.errorKey}>
-                    {state.formErrors.category}
-                  </ErrorBox>
-                 }
+                {mode==='detail' ?
+                  <input value={CustomerCateEnum[state.category]} readOnly/>
+                  :
+                  <>
+                    <select className="label-selector" 
+                        size={1} name="category" defaultValue={state.category ??'category'} key={state.category}>
+                      <option value='none'>선택</option>
+                      {Object.entries(CustomerCateEnum).map(([key,value])=>(
+                          <option value={key} key={key}>{value}</option>
+                      ))}
+                    </select>
+                    {state.formErrors?.category &&  
+                      <ErrorBox key={state.formErrors.errorKey}>
+                        {state.formErrors.category}
+                      </ErrorBox>
+                    }
+                  </>
+                }
+                
               </td>
               <td className='table-label'>소속</td>
               <td>
-                <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId} onChange={(e)=> mode==='detail' && e.preventDefault()}>
-                    <option value='none'>소속선택</option>
-                    {affiliation.map((affiliation)=>(
-                        <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
-                                {affiliation.affiliationName}
-                        </option>
-                    ))}
-                </select>
-                {state.formErrors?.affiliationId &&  
-                  <ErrorBox key={state.formErrors.errorKey}>
-                    {state.formErrors.affiliationId}
-                  </ErrorBox>
-                 }
+                {mode==='detail' ?
+                  <input value={state.affiliationName} readOnly/>
+                  :
+                  <>
+                    <select size={1} name="affiliationId" defaultValue={state.affiliationId?? 'none'} key={state.affiliationId}>
+                      <option value='none'>소속선택</option>
+                      {affiliation.map((affiliation)=>(
+                          <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
+                                  {affiliation.affiliationName}
+                          </option>
+                      ))}
+                    </select>
+                    {state.formErrors?.affiliationId &&  
+                      <ErrorBox key={state.formErrors.errorKey}>
+                        {state.formErrors.affiliationId}
+                      </ErrorBox>
+                    }
+                  </>
+                }
+                
               </td>
             </tr>
             <tr>
@@ -138,17 +147,23 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
               <td><input type='text' name="contents" defaultValue={state.contents} readOnly={mode==='detail'}/></td>
               <td className='table-label'>담당자</td>
               <td>
-                <select className="label-selector" size={1} name="userId" key={state.userId+'userId'} defaultValue={state.userId} onChange={(e)=> mode==='detail' && e.preventDefault()}>
-                    <option value='none'>선택</option>
-                    {employees.map((employee)=>(
-                      <option value={employee.userId} key={employee.userId}>{employee.name}</option>
-                    ))}
-                </select>
-                {state.formErrors?.userId &&  
-                  <ErrorBox key={state.formErrors.errorKey}>
-                    {state.formErrors.userId}
-                  </ErrorBox>
-                 }
+                {mode==='detail' ?
+                  <input value={employees.find(({userId})=> userId===state.userId)?.name??''} readOnly/>
+                  :
+                  <>
+                    <select className="label-selector" size={1} name="userId" key={state.userId+'userId'} defaultValue={state.userId}>
+                        <option value='none'>선택</option>
+                        {employees.map((employee)=>(
+                          <option value={employee.userId} key={employee.userId}>{employee.name}</option>
+                        ))}
+                    </select>
+                    {state.formErrors?.userId &&  
+                      <ErrorBox key={state.formErrors.errorKey}>
+                        {state.formErrors.userId}
+                      </ErrorBox>
+                    }
+                  </>
+                }
               </td>
             </tr>
             <tr>
@@ -194,7 +209,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
             </tr>
             <tr>
                 <td className='table-label'>취급품목</td>
-                <td colSpan={3}><input name="handlingItem" defaultValue={state.handlingItem} readOnly={mode==='detail'}/></td>
+                <td colSpan={3}><textarea name="handlingItem" defaultValue={state.handlingItem} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
                 <td className='table-label'>메모</td>
@@ -205,7 +220,11 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
       <div className='button-container'>
         <button type='button' onClick={()=>{
           mode ==='detail' ? changeMode('edit') : submitHandler()
-        }} disabled={isPending}>저장</button>
+        }} disabled={isPending}>
+          {mode==='detail' && '수정'}
+          {mode==='edit' && '수정완료'}
+          {mode==='write' && '저장'}
+        </button>
         <button type='button' onClick={ ()=> mode==='edit' ? changeMode('detail') : window.close()}>취소</button>
       </div>
     </form>

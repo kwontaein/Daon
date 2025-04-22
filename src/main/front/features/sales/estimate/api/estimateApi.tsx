@@ -122,6 +122,7 @@ export async function searchAllEstimateApi(task:boolean) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(condition),
+        next: {revalidate: 3600, tags: ['estimate']}, //1시간마다 재검증
         signal,
     }).then(async (response) => {
         if (!response.ok) {

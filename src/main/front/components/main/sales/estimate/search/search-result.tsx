@@ -17,7 +17,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
-      //TODO: add mobile version
+    //TODO: add mobile version
     const viewTransEstimateHandler = (estimateId:string)=>{
         if(window.innerWidth>620){
             const params = new URLSearchParams
@@ -27,7 +27,6 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
             window.open(url, "PopupWindow", popupOptions);
         }
     }
-
     return(
         <table className="search-result-table">
               <colgroup>
