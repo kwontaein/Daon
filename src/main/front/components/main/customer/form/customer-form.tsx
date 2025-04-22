@@ -1,6 +1,6 @@
 'use client';
 
-import React, {startTransition, useMemo, useRef} from 'react';
+import React, {startTransition, useEffect, useMemo, useRef} from 'react';
 import { useActionState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -36,6 +36,16 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
     });
   };
 
+  useEffect(()=>{
+    if(state.status){
+      if(state.status ===200){
+        window.alert('저장이 완료되었습니다.')
+        window.close()
+      }else{
+        window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+      } 
+    }
+  },[state])
 
   return (
     <section className='register-form-container'>
@@ -128,15 +138,15 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
               <td><input type='text' name="contents" defaultValue={state.contents} readOnly={mode==='detail'}/></td>
               <td className='table-label'>담당자</td>
               <td>
-                <select className="label-selector" size={1} name="etc" key={state.etc+'etc'} defaultValue={state.etc} onChange={(e)=> mode==='detail' && e.preventDefault()}>
+                <select className="label-selector" size={1} name="userId" key={state.userId+'userId'} defaultValue={state.userId} onChange={(e)=> mode==='detail' && e.preventDefault()}>
                     <option value='none'>선택</option>
                     {employees.map((employee)=>(
                       <option value={employee.userId} key={employee.userId}>{employee.name}</option>
                     ))}
                 </select>
-                {state.formErrors?.etc &&  
+                {state.formErrors?.userId &&  
                   <ErrorBox key={state.formErrors.errorKey}>
-                    {state.formErrors.etc}
+                    {state.formErrors.userId}
                   </ErrorBox>
                  }
               </td>
@@ -184,7 +194,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
             </tr>
             <tr>
                 <td className='table-label'>취급품목</td>
-                <td colSpan={3}><textarea  name="handlingItem" defaultValue={state.handlingItem} readOnly={mode==='detail'}/></td>
+                <td colSpan={3}><input name="handlingItem" defaultValue={state.handlingItem} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
                 <td className='table-label'>메모</td>

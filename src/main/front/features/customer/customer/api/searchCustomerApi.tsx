@@ -1,4 +1,4 @@
-import { CustomerSearchCondition, RequestCustomer, ResponseCustomer } from "@/model/types/customer/customer/type";
+import { CustomerSearchCondition, RequestCustomer } from "@/model/types/customer/customer/type";
 
 export const searchCustomersApi = async (searchCondition:CustomerSearchCondition)=>{
     
