@@ -60,6 +60,7 @@ interface User{
     customerId?:string; //고객명
     stockId?:string; //품명
     task:boolean
+    receipted:boolean
   }
 
   export interface EstimateRegisterProps{
