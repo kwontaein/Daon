@@ -78,7 +78,7 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
 }
 
 //매입장
-export async function getPurchaseReceiptApo(searchCondition:LedgerSearchCondition){
+export async function getPurchaseReceiptApi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch("http://localhost:8080/api/getPurchaseReceipt", {
             method: "POST",
@@ -150,21 +150,4 @@ export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
     }
 }
 
-
-export async function getPurchaseReceiptApi(searchCondition:LedgerSearchCondition){
-    try {
-        const response = await fetch("http://localhost:8080/api/getPurchaseReceipt", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(searchCondition),
-        });
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-        const text = await response.text();
-        return text ? JSON.parse(text) : [];
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
 

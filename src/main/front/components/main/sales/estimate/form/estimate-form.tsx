@@ -11,7 +11,7 @@ import useChangeMode from '@/hooks/share/useChangeMode';
 export default function EstimateForm({estimateState, submit, mode, task} : {
     estimateState?: ResponseEstimate,
     submit: () => void,
-    mode: string,
+    mode: 'write'|'detail'|'edit',
     task?:ResponseTask,
 }) {
     const {
@@ -21,14 +21,15 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
         removeEstimateItemHandler,
         estimateItemHandler,
         searchStockHandler,
-    } = useEstimate(estimateState)
+    } = useEstimate(estimateState,mode)
+
     const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
     const changeModeHandler = useChangeMode()
 
 
     return(
         <section className='estimate-container'>
-            {!(!!task?.completeAt)&& (mode !=='detail') &&
+            {!(!!task?.completeAt) && (mode !=='detail') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
                 {!(!!task || estimateState?.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
@@ -95,7 +96,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                                     value={estimate.quantity.toLocaleString('ko-KR')}
                                     readOnly={mode==='detail'}
                                     onChange={(e) =>
-                                        estimateItemHandler({ quantity: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
+                                        estimateItemHandler({ quantity: Number(e.target.value.replaceAll(',', ''))}, estimate.itemId)}/>
                             </td>
                             <td>
                                 <input
@@ -104,7 +105,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                                     readOnly={!estimate.hand || mode==='detail'}
                                     value={estimate.unitPrice.toLocaleString('ko-KR')}
                                     onChange={(e) =>
-                                        estimateItemHandler({ unitPrice: Number(e.target.value.replaceAll(',', '')) }, estimate.itemId)}/>
+                                        estimateItemHandler({ unitPrice: Number(e.target.value.replaceAll(',', ''))}, estimate.itemId)}/>
                             </td>
                             <td> 
                                 <input

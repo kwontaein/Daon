@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 
 export default function CustomerListSearch({initialcustomers, page} : {
@@ -22,21 +23,13 @@ export default function CustomerListSearch({initialcustomers, page} : {
     const inputRef = useRef<HTMLInputElement|null>(null)
     const pageByCustomers = useMemo(()=> customers.slice((page-1)*20, ((page-1)*20)+20) ,[customers,page])
 
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-
-    const redirectPage = useCallback(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        router.push(`${pathname}?${params.toString()}`);
-    },[])
+    const deletePage = useDeletePage()
 
 
     const searchHandler = () =>{
         const newCustomers = customers.filter(({customerName})=>customerName.includes(inputRef.current.value))
         setCustomers(newCustomers)
-        redirectPage()
+        deletePage()
     }
 
 

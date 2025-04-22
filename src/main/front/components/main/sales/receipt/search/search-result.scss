@@ -45,3 +45,9 @@
     margin-inline:2px;
     color: #009966;
 }
+
+.estimate-receipt{
+    tr{
+        background-color: var.$input-border-color !important;
+    }
+}

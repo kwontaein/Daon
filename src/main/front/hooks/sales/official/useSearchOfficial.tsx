@@ -35,7 +35,7 @@ export default function useSearchOfficial(
             const deleteOfficial = ()=>{
                 changeHandler({officialName:'', officialId:''}, id)
             }
-            useConfirm('관리비를 다시 선택하시겠습니까?',deleteOfficial,()=>{})
+            useConfirm('관리비를 다시 선택하시겠습니까?',deleteOfficial)
         }
         setTimeout(()=>{
             const value =e.target.value

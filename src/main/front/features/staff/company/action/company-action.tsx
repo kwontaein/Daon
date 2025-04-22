@@ -1,6 +1,8 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
+import { saveCompany } from "../api/company-api";
+import { ResponseCompany } from "@/model/types/staff/company/type";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -8,7 +10,7 @@ function isInvalidText(text) {
 
 
 export async function submitCompanyInfo(prevState, formData) {
-    const companyData = {
+    const companyData:Omit<ResponseCompany,'companyId'> = {
         companyName: formData.get('companyName'),
         printName: formData.get('printName'),
         ceo: formData.get('ceo'),
@@ -20,7 +22,6 @@ export async function submitCompanyInfo(prevState, formData) {
         businessStatus: formData.get('businessStatus'),
         businessKind: formData.get('businessKind'),
         zipcode: formData.get('zipcode'),
-        zipcode2: formData.get('zipcode2'),
         address: formData.get('address'),
         addressDetail: formData.get('addressDetail'),
         bank: formData.get('bank'),
@@ -45,17 +46,23 @@ export async function submitCompanyInfo(prevState, formData) {
         errors.push(['ceo', '대표자명을 입력해주세요.'])
     }
 
+    console.log(errors)
     if(errors.length>0){
-      
         const formErrors = Object.fromEntries(errors)
         formErrors.errorKey = uuidv4()
         const state = {
+            ...prevState,
             ...companyData,
             formErrors
         } 
         return state ;
     }
 
-    return {};
+    const status = await saveCompany(companyData)
+    return {
+        ...prevState,
+        ...companyData,
+        status
+    };
   }
   
