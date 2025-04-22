@@ -53,24 +53,7 @@ public class EstimateService {
 
     //견적서 조회
     public List<EstimateResponse> getEstimates(EstimateRequest estimateRequest) {
-
-        List<EstimateEntity> estimateEntities;
-        // 견적서 조회 조건: 전표로 전환되지 않은 견적서
-        if (estimateRequest.getSearchSDate() == null
-                && estimateRequest.getSearchEDate() == null
-                && estimateRequest.getCustomerName() == null
-                && estimateRequest.getProductName() == null
-                && !estimateRequest.isTask()) {
-            estimateEntities = estimateRepository.findByReceipted(false).orElse(null);
-
-            return estimateEntities
-                    .stream()
-                    .map(globalService::convertToEstimateResponse)
-                    .collect(Collectors.toList());
-        }
-
-        // 동적 검색 조건 적용
-        estimateEntities = estimateRepository.findAll((root, query, criteriaBuilder) -> {
+        List<EstimateEntity> estimateEntities = estimateRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             // 기간 조건
@@ -117,6 +100,9 @@ public class EstimateService {
                 predicates.add(criteriaBuilder.isNull(root.get("task")));
             }
 
+            if (!estimateRequest.isReceipted()) {
+                predicates.add(criteriaBuilder.equal(root.get("receipted"), 0));
+            }
 
             // 동적 조건 조합
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -237,7 +223,7 @@ public class EstimateService {
         //전표 생성 추가
         if (!estimate.isReceipted()) {
             for (EstimateItem item : estimate.getItems()) {
-                ReceiptEntity entity = new ReceiptEntity(null, estimate, request.getReceiptDate(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", "", FromCategory.ESTIMATE);
+                ReceiptEntity entity = new ReceiptEntity(null, estimate, request.getReceiptDate(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", request.getNote(), FromCategory.ESTIMATE);
                 receiptRepository.save(entity);
             }
         }
