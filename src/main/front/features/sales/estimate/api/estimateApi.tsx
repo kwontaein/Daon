@@ -163,14 +163,14 @@ export async function searchEstimateConditionApi(searchCondition:EstimateConditi
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 } 
-export async function transEstimateToReceiptApi(estimateId:string) {
+export async function transEstimateToReceiptApi(postData:{estimateId: string, receiptDate?: Date,note?: string}) {
 
     return fetch("http://localhost:8080/api/estimatesPaid", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(estimateId),
+        body: JSON.stringify(postData),
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -10,17 +10,6 @@ export enum CustomerCateEnum {
 }
 
 
-export interface RequestCustomer {
-    customerId: string; // UUID는 문자열로 처리
-    customerName: string;
-    contactInfo: string;
-    category: string;
-    phoneNumber: string;
-    fax: string;
-    userId: string;
-    cateId: string; // UUID는 문자열로 처리
-}
-
 
 export type CategoryType = 'none' |'sale' | 'purchase' | 'consumer' | 'subcontractor' | 'etc';
 export type CustomerSearchTarget = 'all' | 'payment'
@@ -62,12 +51,40 @@ export interface ResponseCustomer {
     phoneNumber?: string;
     fax?: string;
     userId: string; 
-    affiliation: Affiliation; 
+    affiliationId?:string,
+    affiliationName?:string,
     estimates: ResponseEstimate[]; // 견적서 목록 (배열)
     zipCode?: string;
     address1?: string;
     address2?: string;
     etc?: string;
+}
+
+export interface RequestCustomer {
+    customerId: string,
+    customerName: string,
+    affiliationId: string,
+    billName?: string,
+    ceo?: string,
+    ceoNum?: string,
+    businessNumber?: string,
+    businessType?: string,
+    contents?: string,
+    etc: string,
+    customerRp?: string,
+    customerRpCall?: string,
+    bankName?: string,
+    bankNum?:string,
+    bankOwner?: string,
+    handlingItem?: string,
+    memo?: string,
+    category?: string,
+    phoneNumber?: string,
+    fax?: string,
+    userId:string,
+    zipCode?: string,
+    address1?: string,
+    address2?: string,
 }
 
 
