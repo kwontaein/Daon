@@ -22,7 +22,7 @@ import java.util.UUID;
 @Data
 public class ReceiptRequest {
 
-    private UUID receiptId; // 전표 아이디
+    private UUID receiptId; // 전표 아이디'
 
     private UUID estimateId; // 견적서 아이디
 
