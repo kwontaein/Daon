@@ -60,7 +60,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
-    console.log(estimate)
+
     return fetch("http://localhost:8080/api/updateEstimate", {
         method: "POST",
         headers: {
@@ -114,6 +114,7 @@ export async function searchAllEstimateApi(task:boolean) {
         customerId: null,
         stockId: null,
         task,
+        receipted:false
     }    
     return fetch("http://localhost:8080/api/getEstimates", {
         method: "POST",
@@ -142,6 +143,8 @@ export async function searchEstimateConditionApi(searchCondition:EstimateConditi
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
+    searchCondition.receipted = true;
+
     return fetch("http://localhost:8080/api/getEstimates", {
         method: "POST",
         headers: {
