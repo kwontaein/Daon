@@ -23,7 +23,8 @@ public class CustomerResponse {
     private String fax;
     private String userId;
     //------------
-    private UUID cateId;
+    private UUID affiliationId;
+    private String affiliationName;
     private String ceo;
     private String ceoNum;
     private String searchTarget;
