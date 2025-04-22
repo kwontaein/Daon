@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -218,10 +219,11 @@ public class EstimateService {
         EstimateEntity estimate = estimateRepository.findById(request.getEstimateId()).orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
         //원래의 반대로 저장
         estimate.setReceipted(!estimate.isReceipted());
+        estimate.setReceiptDate(LocalDateTime.now());
         estimateRepository.save(estimate);
 
         //전표 생성 추가
-        if (!estimate.isReceipted()) {
+        if (estimate.isReceipted()) {
             for (EstimateItem item : estimate.getItems()) {
                 ReceiptEntity entity = new ReceiptEntity(null, estimate, request.getReceiptDate(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", request.getNote(), FromCategory.ESTIMATE);
                 receiptRepository.save(entity);
