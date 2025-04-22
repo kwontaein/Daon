@@ -54,7 +54,7 @@ const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:Resp
                                checked={checkedState[customer.customerId]|| false} 
                                onChange={update_checked.bind(null,customer.customerId)}/>
                     </td>
-                    <td>{customer.affiliation.affiliationName}</td>
+                    <td>{customer.affiliationName}</td>
                     <td>{CustomerCateEnum[customer.category]}</td>
                     <td className='left-align'>{customer.customerName}</td>
                     <td>{customer.phoneNumber}</td>

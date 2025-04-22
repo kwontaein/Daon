@@ -11,9 +11,6 @@ export default async function AffiliationPage() {
     .then((response)=> response.json())
     .catch((error) => console.error('Error:', error));
 
-    return (
-        <section key={JSON.stringify(affiliations)}>
-            <Affiliation affiliations={affiliations}/>
-        </section>
-    )
+    return <Affiliation affiliations={affiliations}/>
+
 }

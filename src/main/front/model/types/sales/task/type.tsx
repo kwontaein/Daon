@@ -30,10 +30,10 @@ export interface ResponseTask {
     actionTaken?:string;
   }
   export interface TaskSearchCondition {
-    customerName:string,
-    taskType: TaskEnumType|'none'|null, //구분
-    affiliation:string|null, //거래처구분
-    assignedUser:string|null, //담당자
+    customerName?:string,
+    taskType?: TaskEnumType, //구분
+    affiliation?:string, //거래처구분
+    assignedUser?:string, //담당자
 } 
 
 

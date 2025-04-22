@@ -2,7 +2,7 @@
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
 import './company-form.scss'
-import { useActionState, useMemo } from "react";
+import { startTransition, useActionState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import ErrorBox from "@/components/share/error-box/error-box";
 import { ResponseCompany } from "@/model/types/staff/company/type";
@@ -12,9 +12,26 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
 
     const initialState = useMemo(() => company ?? {}, [company]);
     const [state, action, isPending] = useActionState(submitCompanyInfo, initialState);
-
+    const formRef = useRef(null)
     const router = useRouter();
 
+    const submitHandler =() => {
+        const formData = new FormData(formRef.current);
+        formData.set('action', 'submit');
+        startTransition(() => {
+            action(formData);
+        });
+    }
+    
+    useEffect(()=>{
+        if(!state.status) return
+        if(state.status ===200){
+            window.alert('회사를 등록했습니다.')
+        }else{
+            window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요')
+        }
+        window.close()
+    },[state])
 
     return(
         <section className="company-form-container">
@@ -24,7 +41,7 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                     <h4>회사등록</h4>
                 </header>
             }
-            <form action={action}>
+            <form action={action} ref={formRef}>
             <table className="company-form-table"  key={state.companyId}>
                 <colgroup>
                     <col style={{ width: '15%' }} />
@@ -69,10 +86,10 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                     <tr>
                         <td className="table-label">사업자등록번호</td>
                         <td>
-                            <input type="text" name="businessNum" defaultValue={state.businessNum}/>
-                            {state.formErrors?.businessNum &&  
+                            <input type="text" name="businessNumber" defaultValue={state.businessNumber}/>
+                            {state.formErrors?.businessNumber &&  
                             <ErrorBox key={state.formErrors.errorKey}>
-                                {state.formErrors.businessNum}
+                                {state.formErrors.businessNumber}
                             </ErrorBox>
                             }  
                         </td>
@@ -124,7 +141,7 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                 </tbody>
             </table>
             <div className='company-button-container'>
-                <button type={'submit'} disabled={isPending}>저장</button>
+                <button type={'button'} onClick={submitHandler} disabled={isPending}>저장</button>
                 <button type={'button'} onClick={ ()=> company ? router.push(`company?mode=detail&target=${company.companyId}`):window.close()}>취소</button>
             </div>
             </form>

@@ -61,7 +61,7 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest,()=>{})
+        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, officialState, mode, setMode, setOfficialState,addHandler,deleteHandler,editHandler}

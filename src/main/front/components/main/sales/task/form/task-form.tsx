@@ -35,12 +35,15 @@ export default function TaskForm({employees, task, mode}: {
 
     const changeHandler = (
         customerInfo: Pick<ResponseCustomer,
-            'customerName' | 'customerId'>,
+            'customerName' | 'customerId' | 'phoneNumber' | 'address1' |'zipCode'>,
     ) => {
         if (formRef.current) {
             const formData = new FormData(formRef.current);
             formData.set('customer', customerInfo.customerName || '')
             formData.set('customerId', customerInfo.customerId || '')
+            formData.set('requesterContact', customerInfo.phoneNumber || '')
+            formData.set('address1', customerInfo.address1 || '')
+            formData.set('zipCode', customerInfo.zipCode || '')
             startTransition(() => {
                 action(formData)
             })
@@ -135,6 +138,14 @@ export default function TaskForm({employees, task, mode}: {
                         <td className='table-label'>의뢰자 휴대폰</td>
                         <td><input name='requesterContact2' defaultValue={state.requesterContact2}
                                    readOnly={mode === 'detail'}/></td>
+                    </tr>
+                    <tr>
+                        <td className='table-label'>의뢰자 주소</td>
+                        <td colSpan={3}>
+                            우편번호: {state.zipCode}
+                            {state.address1 && <br/>}
+                            {state.address1}
+                        </td>
                     </tr>
                     <tr>
                         <td className='table-label'>모델</td>

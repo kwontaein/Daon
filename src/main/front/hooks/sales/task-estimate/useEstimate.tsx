@@ -1,12 +1,12 @@
 'use client'
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {v4 as uuidv4} from "uuid";
 import { ResponseEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import useSearchStock from "@/hooks/stock/search/useSearchStock";
 
-export default function useEstimate(estimate:ResponseEstimate){
-    const [items, setItems] = useState<Omit<ResponseEstimateItem,'estimateId'>[]>(estimate ? [...estimate.items] :[])
+export default function useEstimate(estimate:ResponseEstimate, mode:'write'|'detail'|'edit'){
+    const [items, setItems] = useState<Omit<ResponseEstimateItem,'estimateId'>[]>(estimate ?[...estimate.items]:[])
     const itemIds = useMemo(()=> items.map(({itemId})=> itemId), [items])
 
     const addEstimateItemHandler =(hand:boolean)=>{
@@ -20,6 +20,9 @@ export default function useEstimate(estimate:ResponseEstimate){
             hand
         }])
     }
+    useEffect(()=>{
+        setItems(estimate ?[...estimate.items]:[])
+    },[mode])
 
     const removeEstimateItemHandler=(checkedState,resetChecked)=>{
         setItems((prev)=>{    

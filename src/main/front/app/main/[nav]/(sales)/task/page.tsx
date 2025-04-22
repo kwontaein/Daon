@@ -18,12 +18,10 @@ export default async function TaskPage({searchParams}:PageByProps){
 
     
     return(
-        <section key={JSON.stringify(initialTask)+page}>
            <TaskSearch
                 affiliations={affiliations}
                 initialTask={initialTask}
                 employees={employees}
                 page={page}/>
-        </section>
     )
 }

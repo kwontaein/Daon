@@ -57,6 +57,7 @@ export type ProcurementSettlement= {
     acceptance: number;    // 인수
     installation: string;    // 설치
     payment: string;    // 결재
+    memo?: string;    // 메모
 }
 
 type PartialUnion<T> = T extends any ? Partial<T> : never;
