@@ -37,11 +37,10 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                 isSelected={isSelected}
                 toggleIsSelected={toggleIsSelected}
                 selectList={selectList}
-                disableDelete={disableDelete}
-                />            
+                disableDelete={disableDelete}/>            
            <ReceiptTableContainer>
            {pageByReceipt.map((receipt: ResponseReceipt, index: number) => (
-                <tbody key={receipt.receiptId} className={`search-result-container ${index % 2 === 0 ? 'odd-item' : ''} ${(receipt.estimateId) ? 'estimate-receipt' : ''}`}>
+                <tbody key={receipt.receiptId} className={`search-result-container ${(receipt.estimateId) ? 'estimate-receipt' : ''}`}>
                     <tr>
                         <td rowSpan={2}>
                             {basicIndex + index + 1}
