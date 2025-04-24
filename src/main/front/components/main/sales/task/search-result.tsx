@@ -4,7 +4,7 @@ import './search-result.scss'
 import React, { useCallback, useMemo } from 'react'
 
 import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type'
-import  useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState'
+import  useCheckBoxState from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
@@ -18,7 +18,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     const mode = useScreenMode({tabletSize:900,mobileSize:620});   
     const nowDate = useMemo(()=>new Date(Date.now()),[])
     const taskIds = pageByTasks.map(({taskId})=>taskId)
-    const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+    const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds,true)
 
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
@@ -34,6 +34,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         }
     }
 
+    //전표등록창을 띄우기 위한 함수
     const estimateHandler = (taskId:string,estimateId:string)=>{
             if(window.innerWidth>620){
                 const params = new URLSearchParams

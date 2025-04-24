@@ -9,10 +9,12 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import { ModeByProps } from "@/model/types/share/type";
 import ReceiptTableBody from '@/components/main/sales/receipt/table/table-body';
 import ReceiptTableContainer from '@/components/main/sales/receipt/table/table-header';
+import { getReceiptByIds } from "@/features/sales/receipt/api/receiptApi";
 
 export default async function ReceiptEditPage({searchParams}:{searchParams:Promise<{receiptIds:string}>}){
     const receiptIds = JSON.parse((await searchParams).receiptIds)
-    console.log(receiptIds)
+    const initialReceiptList = await getReceiptByIds(receiptIds)
+
     return (
             <div className="register-receipt-container">
             <header className="flex-row receipt-header">
@@ -21,7 +23,7 @@ export default async function ReceiptEditPage({searchParams}:{searchParams:Promi
             </header>
             <main>
                 <ReceiptTableContainer isRegister={true}>
-                    <ReceiptTableBody/>
+                    <ReceiptTableBody initialReceiptList={initialReceiptList}/>
                 </ReceiptTableContainer>
             </main>
             </div>

@@ -8,14 +8,14 @@ import ReceiptOptions from '@/components/main/sales/receipt/options';
 import { DisabledStatus } from '@/model/constants/sales/receipt/receipt_constants';
 import useReceiptList from '@/hooks/sales/receipt/useReceiptList';
 import { ClientMousePosition } from '@/model/types/share/type';
-import { ReceiptCategoryEnum } from '@/model/types/sales/receipt/type';
+import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import useSearchOfficial from '@/hooks/sales/official/useSearchOfficial';
 
 
-export default function ReceiptTableBody(){
+export default function ReceiptTableBody({initialReceiptList} : {initialReceiptList:ResponseReceipt[]}){
     const {target,setTarget,itemsRef} = useItemSelection<string>(true) //복사 및 삭제대상 지정
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
     const [isRightClick, setIsRightClick] = useState<boolean>(false)
@@ -34,13 +34,13 @@ export default function ReceiptTableBody(){
             checkOfficialId,
             setOfficialInfo,
             saveReceiptList
-        } = useReceiptList()
+        } = useReceiptList(initialReceiptList)
 
 
     const searchCustomerHandler = useSearchCustomer(checkCustomerId,setCustomerInfo)
     const searchStockHandler = useSearchStock(checkStockId,setStockInfo)
     const searchOfficialHandler = useSearchOfficial(checkOfficialId, setOfficialInfo)
-
+    const isEdit = !!initialReceiptList
 
     const memoizedReceiptCategoryEnum = useMemo(() => {
         return Object.entries(ReceiptCategoryEnum).map(([key,value]) => (
@@ -153,12 +153,19 @@ export default function ReceiptTableBody(){
             <tfoot>
                 <tr>
                     <td colSpan={7} className='new-receipt-button-container'>
-                        <button onClick={newReceipt}>
-                            새전표 추가
-                        </button>
+                        {!isEdit &&
+                            <button onClick={newReceipt}>
+                                새전표 추가
+                            </button>
+                        }
                         <button onClick={saveReceiptList}>
-                            저장하기
+                            {isEdit? '수정완료' : '저장하기'}
                         </button>
+                        {isEdit &&
+                            <button onClick={()=>window.close()}>
+                                취소
+                            </button>
+                        }
                     </td>
                 </tr>
             </tfoot>

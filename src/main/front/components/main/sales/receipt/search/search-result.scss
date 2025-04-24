@@ -25,11 +25,11 @@
     text-align: right !important;
 }
 
-.odd-item{
-    tr{
-        background-color: #EFEFEF !important;;
-    }   
-}
+// .odd-item{
+//     tr{
+//         background-color: #EFEFEF !important;;
+//     }   
+// }
 
 .date-container{   
         display: flex !important; 
@@ -48,6 +48,6 @@
 
 .estimate-receipt{
     tr{
-        background-color: var.$input-border-color !important;
+        background-color: #e9e9e9 !important;
     }
 }
