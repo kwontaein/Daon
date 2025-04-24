@@ -43,7 +43,10 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
 
     const editReceipt =()=>{
         if(selectList.length===0) return
-
+        if(disableDelete){
+            window.alert('전표화된 견적서가 포함되어 수정이 불가능합니다.')
+            return
+        }
         //pc
         if(window.innerWidth>620){
             const params = new URLSearchParams
