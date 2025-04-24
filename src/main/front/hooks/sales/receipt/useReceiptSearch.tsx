@@ -13,7 +13,7 @@ export default function useReceiptSearch(initialReceipts,page,action){
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const router = useRouter();
-
+    
 
     const [receiptList, setReceiptList] = useState<ResponseReceipt[]>()    
     const pageByReceipt = useMemo(()=> (receiptList??initialReceipts).slice((page - 1) * 10, ((page - 1) * 10) + 10),[initialReceipts,receiptList, page])

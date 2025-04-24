@@ -67,7 +67,7 @@ export default function TransEstimate({estimateId}:{estimateId:string}){
             </form>
             <div className='button-container'>
                 <button onClick={submitHandler} disabled={isPending}>전표전환</button>
-                <button>취소</button>
+                <button onClick={window.close}>취소</button>
             </div>
        </section>
     )
