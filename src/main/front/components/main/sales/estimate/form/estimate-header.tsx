@@ -57,7 +57,6 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
     const changeModeHandler = useChangeMode()
 
 
-
     const companyHandler = (e:ChangeEvent<HTMLSelectElement>)=>{
         if(mode==='detail') return
         const company = companyList.find(({companyId})=> companyId ===e.target.value)
@@ -78,13 +77,13 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
 
         const submit = ()=>{
             const formData = new FormData(formRef.current);
-            formData.set('action','submit')
+            formData.set('action', mode)
             startTransition(()=>{
                 action(formData)
             }) 
         }
         if(state.mode==='edit' && state.items.length===0){
-            useConfirm('항목이 존재하지 않으면 견적서가 삭제됩니다. 정말로 수정하시겠습니까?',submit)
+            useConfirm('항목이 존재하지 않으면 견적서는 삭제됩니다. 정말로 수정하시겠습니까?',submit)
         }else{
             submit()
         }
@@ -167,7 +166,7 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
                     <tr>
                         <td className='table-label'>일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자</td>
                         <td>
-                            <CustomDateInput defaultValue={state.estimateDate} name={'estimateDate'} readOnly={mode==='detail'}/>
+                            <CustomDateInput defaultValue={state.estimateDate} name='estimateDate' readOnly={mode==='detail'}/>
                         </td>
                         <td className='table-label'>등록번호</td>
                         <td>{company.businessNumber}</td>
@@ -198,7 +197,7 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate.taskResponse}/> 
             </form>
         </section>
     )

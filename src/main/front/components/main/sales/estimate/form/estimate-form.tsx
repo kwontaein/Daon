@@ -22,14 +22,13 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
         estimateItemHandler,
         searchStockHandler,
     } = useEstimate(estimateState,mode)
-
+    
     const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
     const changeModeHandler = useChangeMode()
 
-
     return(
         <section className='estimate-container'>
-            {!(!!task?.completeAt) && (mode !=='detail') &&
+            {!task?.completeAt && (mode !=='detail') &&
             <div className='estimate-button-container'>
                 <button type='button' onClick={addEstimateItemHandler.bind(null,false)}>항 목 추 가</button>
                 {!(!!task || estimateState?.taskResponse?.taskId) && <button type='button' onClick={addEstimateItemHandler.bind(null,true)}>수기항목추가</button>}
@@ -146,18 +145,18 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                     {mode==='detail' &&
                         <>
                             <button>견적서인쇄</button>
-                            <button onClick={()=>changeModeHandler('edit')}>견적서수정</button>
+                            {!task?.completeAt && <button onClick={()=>changeModeHandler('edit')}>견적서수정</button>}
                         </>
                     }
-                    {!(!!task?.completeAt) && (mode=== 'write' || mode ==='edit') &&
+                    {!task?.completeAt && (mode=== 'write' || mode ==='edit') &&
                          <button type='button' onClick={submit}>
                             {mode ==='write' ? '견적서작성' : '수정완료'}
                         </button>
                     }
                     <button type='button'
                              onClick={()=>{
-                                mode==='edit' ? changeModeHandler('detail') : window.close()}}>
-                        {!(!!task?.completeAt) ?'취 소' : '닫기'}</button>
+                                !task?.completeAt && mode==='edit' ? changeModeHandler('detail') : window.close()}}>
+                        {!task?.completeAt ?'취 소' : '닫기'}</button>
             </div>
         </section>
     )
