@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
-import { saveReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
+import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
 import { useConfirm } from "../../share/useConfirm";
 import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
@@ -12,6 +12,7 @@ const initReceipt: ResponseReceipt = {
     receiptId: uuidv4(),
     timeStamp: new Date(),
     category: "disabled",
+    customerId:'',
     customerName: '',
     memo: '',
     productName: '',
@@ -21,12 +22,12 @@ const initReceipt: ResponseReceipt = {
     totalPrice:0,
     description:'',
     officialName:'',
+    stockId:'',
 };
 
 
-export default function useReceiptList() {
-    const [receiptList, setReceiptList] = useState<ResponseReceipt[]>([initReceipt]);
-
+export default function useReceiptList(initialReceiptList) {
+    const [receiptList, setReceiptList] = useState<ResponseReceipt[]>(initialReceiptList??[initReceipt]);
     /** 공통 업데이트 함수 */
     const updateReceiptList = (receiptId: string, updateData: Partial<ResponseReceipt>) => {
         setReceiptList((prev) =>
@@ -136,14 +137,24 @@ export default function useReceiptList() {
             return
         }
         const postReceiptList = ()=>{
-            saveReceiptListApi(receiptList).then((status)=>{
-                if(status ===200){
-                    window.alert('저장이 완료되었습니다.')
-                    window.close();
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
-                }
-            })
+            if(!!initialReceiptList){
+                updateReceiptListApi(receiptList).then((status)=>{
+                    if(status ===200){
+                        window.alert('수정이 완료되었습니다.')
+                        window.close();
+                    }else{
+                        window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
+                    }
+                })
+            }else{
+                saveReceiptListApi(receiptList).then((status)=>{
+                    if(status ===200){
+                        window.alert('저장이 완료되었습니다.')
+                        window.close();
+                    }else{
+                        window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
+                    }
+                })}
         }
         useConfirm('모든 전표입력을 실행하시겠습니까?',postReceiptList)
     }
