@@ -20,6 +20,7 @@ export default async function EstimateDetailPage({searchParams}:DetailPageProps)
     if(!['write', 'detail','edit'].includes(mode)){
         notFound()
     }
+    
     return (
         <EstimateHeader
             companyList={companyList}
