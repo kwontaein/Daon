@@ -16,7 +16,8 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
 }) {
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
-
+    
+    console.log(pageByEstimate)
     //TODO: add mobile version
     const viewTransEstimateHandler = (estimateId:string)=>{
         if(window.innerWidth>620){
