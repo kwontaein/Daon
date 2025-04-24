@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import receiptSearchSlice from './slice/receipt-search'
 import { initializeStompChannel } from './middleware/stomp-middleware';
 import { all } from "@redux-saga/core/effects"; 
 import StompReducer, { stompConnect } from './slice/stomp-reducer';
@@ -14,7 +13,6 @@ function* rootSaga() {
 
 const rootReducer = combineReducers({
     stomp: StompReducer,
-    receiptSearch: receiptSearchSlice,
 });
 
 const sagaMiddleware = createSagaMiddleware();

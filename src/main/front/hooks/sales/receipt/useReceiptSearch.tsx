@@ -1,10 +1,10 @@
 'use client'
 import { initialReceiptSearch } from "@/features/sales/receipt/action/receiptSearchAction";
 import { ResponseReceipt } from "@/model/types/sales/receipt/type";
-import { updateSearchDate } from "@/store/slice/receipt-search";
+import { useDailySummary } from "@/store/zustand/receipt-search";
 import dayjs from "dayjs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useReceiptSearch(initialReceipts,page,action){
@@ -13,7 +13,7 @@ export default function useReceiptSearch(initialReceipts,page,action){
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const router = useRouter();
-    
+    const {updateSearchDate} = useDailySummary()
 
     const [receiptList, setReceiptList] = useState<ResponseReceipt[]>()    
     const pageByReceipt = useMemo(()=> (receiptList??initialReceipts).slice((page - 1) * 10, ((page - 1) * 10) + 10),[initialReceipts,receiptList, page])
@@ -32,7 +32,7 @@ export default function useReceiptSearch(initialReceipts,page,action){
             })
         }
 
-        dispatch(updateSearchDate(today))
+        updateSearchDate(today)
 
     }
     //일일종합검색
