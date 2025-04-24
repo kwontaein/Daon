@@ -35,7 +35,7 @@ export default function RemainSearch(){
             });
         }
     }, [action]);
-    
+
     const changeCustomerHandler = useCallback((customerInfo: Pick<ResponseCustomer, "customerName" | "customerId">) => {
         changeHandler(customerInfo);
     }, [changeHandler]);
@@ -61,6 +61,7 @@ export default function RemainSearch(){
                     return a[state.sortCondition] - b[state.sortCondition] 
                 }
             })   
+            console.log(sortedResult)
             setRemainList(prev => ({ ...prev,... sortedResult }));
         }
     },[state])
