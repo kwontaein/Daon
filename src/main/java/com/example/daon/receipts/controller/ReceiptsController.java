@@ -35,7 +35,7 @@ public class ReceiptsController {
 
 
     @PostMapping("api/updateReceipt")
-    public void updateReceipt(@RequestBody ReceiptRequest receiptRequest) {
+    public void updateReceipt(@RequestBody List<ReceiptRequest> receiptRequest) {
         receiptsService.updateReceipt(receiptRequest);
     }
 
