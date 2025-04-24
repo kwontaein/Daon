@@ -16,9 +16,8 @@ import receiptSearchAction, { initialReceiptSearch } from '@/features/sales/rece
 import Pagination from '@/components/share/pagination';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import ReceiptSearchResult from './search-result';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import { useDailySummary } from '@/store/zustand/receipt-search';
 
 
 const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
@@ -27,7 +26,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     const [state, action, isPending] = useActionState(receiptSearchAction, initialReceiptSearch);
 
     const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
-    const {date, date_id} = useSelector((state:RootState)=> state.receiptSearch)
+    const {date, date_id} = useDailySummary()
     const deletePage = useDeletePage()
     
     //일일종합검색
