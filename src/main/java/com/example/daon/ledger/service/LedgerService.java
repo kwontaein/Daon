@@ -281,7 +281,10 @@ public class LedgerService {
 
         // 2) 동적 조건(where) Spec과 결합
         //    스펙은 Predicate를 리턴하므로, 이것을 쿼리에 적용
-        Specification<ReceiptEntity> spec = betweenTimeStamp(noPaidRequest.getSearchSDate(), noPaidRequest.getSearchEDate());
+        Specification<ReceiptEntity> spec = (root1, query, cb1) -> cb1.conjunction(); // 항상 true인 조건
+
+        // 날짜 범위 조건 추가
+        spec = spec.and(betweenTimeStamp(noPaidRequest.getSearchSDate(), noPaidRequest.getSearchEDate()));
 
         // 고객 이름 조건 추가
         if (noPaidRequest.getCustomerId() != null) {
@@ -289,7 +292,6 @@ public class LedgerService {
                     cb1.equal(root1.get("customer").get("customerId"), noPaidRequest.getCustomerId())
             );
         }
-
         //TODO 고객 분류를 선택하지 않으면 아무것도 나오지 않는 오류 발생
         /*if (noPaidRequest.getCustomerCate() != null) {
             spec = spec.and((root1, query, cb1) ->
