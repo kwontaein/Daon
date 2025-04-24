@@ -113,6 +113,7 @@ public class ReceiptsService {
                 //새로운 값 더하기
                 updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
                 receiptEntity.updateFromRequest(request, customer, stock);
+                receiptRepository.save(receiptEntity);
                 return;
             }
         }
@@ -137,8 +138,10 @@ public class ReceiptsService {
     /**
      * 전표 저장 및 수정 (단일 객체)
      */
-    public void updateReceipt(ReceiptRequest receiptRequest) {
-        saveOrUpdateReceipt(receiptRequest);
+    public void updateReceipt(List<ReceiptRequest> requests) {
+        for (ReceiptRequest request : requests) {
+            saveOrUpdateReceipt(request);
+        }
     }
 
     /**
