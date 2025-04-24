@@ -40,7 +40,7 @@ public class EstimateController {
     //전표전환
     @PostMapping("api/estimatesPaid")
     public void estimatesPaid(@RequestBody EstimateRequest estimateRequest) {
-        estimateService.estimatesPaid(estimateRequest);
+        estimateService.toggleEstimateReceiptStatus(estimateRequest);
     }
 
     //견적서저장
