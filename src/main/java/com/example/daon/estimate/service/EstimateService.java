@@ -214,21 +214,60 @@ public class EstimateService {
 
 
     //전표전환
-    public void estimatesPaid(EstimateRequest request) {
-        //전달받은 아이디의 엔티티 isReceipted 를 true / false 로 변경
-        EstimateEntity estimate = estimateRepository.findById(request.getEstimateId()).orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
-        //원래의 반대로 저장
-        estimate.setReceipted(!estimate.isReceipted());
-        estimate.setReceiptDate(LocalDateTime.now());
-        estimateRepository.save(estimate);
+    @Transactional
+    public void toggleEstimateReceiptStatus(EstimateRequest request) {
+        EstimateEntity estimate = estimateRepository.findById(request.getEstimateId())
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
 
-        //전표 생성 추가
-        if (estimate.isReceipted()) {
-            for (EstimateItem item : estimate.getItems()) {
-                ReceiptEntity entity = new ReceiptEntity(null, estimate, request.getReceiptDate(), ReceiptCategory.SALES, estimate.getCustomer(), item.getStock(), null, item.getQuantity(), item.getUnitPrice(), "", request.getNote(), FromCategory.ESTIMATE);
-                receiptRepository.save(entity);
-            }
+        boolean newReceiptStatus = !estimate.isReceipted();
+        estimate.setReceipted(newReceiptStatus);
+        estimate.setReceiptDate(LocalDateTime.now());
+
+        if (newReceiptStatus) {
+            createReceiptsFromEstimate(estimate, request);
+        } else {
+            deleteReceiptsLinkedToEstimate(estimate.getEstimateId());
         }
+    }
+
+    //전표생성
+    private void createReceiptsFromEstimate(EstimateEntity estimate, EstimateRequest request) {
+        for (EstimateItem item : estimate.getItems()) {
+            ReceiptEntity receipt = new ReceiptEntity(
+                    null,
+                    estimate,
+                    request.getReceiptDate(),
+                    ReceiptCategory.SALES,
+                    estimate.getCustomer(),
+                    item.getStock(),
+                    null,
+                    item.getQuantity(),
+                    item.getUnitPrice(),
+                    "",
+                    request.getNote(),
+                    FromCategory.ESTIMATE
+            );
+            receiptRepository.save(receipt);
+        }
+    }
+
+    //전표삭제
+    private void deleteReceiptsLinkedToEstimate(UUID estimateId) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+
+            // 품목 조건
+            if (estimateId != null) {
+
+                predicates.add(criteriaBuilder.equal(root.get("estimate").get("estimateId"), estimateId));
+            }
+
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+
+        receiptRepository.deleteAll(receiptEntities);
     }
 
     @Transactional
