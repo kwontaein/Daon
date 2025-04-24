@@ -35,6 +35,7 @@ export default function RemainSearch(){
             });
         }
     }, [action]);
+    
     const changeCustomerHandler = useCallback((customerInfo: Pick<ResponseCustomer, "customerName" | "customerId">) => {
         changeHandler(customerInfo);
     }, [changeHandler]);
@@ -42,6 +43,7 @@ export default function RemainSearch(){
     const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
     
     const submitHandler =() => {
+        if(isPending) return
         const formData = new FormData(formRef.current);
         formData.set('action', 'submit');
         startTransition(() => {
@@ -59,7 +61,6 @@ export default function RemainSearch(){
                     return a[state.sortCondition] - b[state.sortCondition] 
                 }
             })   
-            console.log(sortedResult)
             setRemainList(prev => ({ ...prev,... sortedResult }));
         }
     },[state])
@@ -101,7 +102,7 @@ export default function RemainSearch(){
                             </span>
                         </td>
                         <td rowSpan={4} className='table-buttons'>
-                            <button type='button' onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                            <button type='button' onClick={submitHandler} disabled={isPending}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                             <button type='button'>엑 셀 변 환</button>
                             <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                         </td>

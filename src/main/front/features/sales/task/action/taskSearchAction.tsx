@@ -13,6 +13,8 @@ export const initialTaskState = {
 export async function taskSearchAction(prevState, formData){
 
     const formState = {
+        searchSDate:formData.get('searchSDate'),
+        searchEDate:formData.get('searchSDate'),
         customerName: formData.get('customerName'),
         taskType: formData.get('taskType'), //구분
         affiliation: formData.get('affiliation'), //거래처구분

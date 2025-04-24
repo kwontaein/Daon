@@ -1,106 +1,155 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import { Affiliation } from '@/model/types/customer/affiliation/type'
+import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
+import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 
-import { apiUrl } from '@/model/constants/apiUrl';
-import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
-import { initialTaskState, taskSearchAction } from '@/features/sales/task/action/taskSearchAction';
-import { ResponseTask, TaskEnumType } from '@/model/types/sales/task/type';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
+import { ResponseEmployee } from '@/model/types/staff/employee/type';
+
+import AdminDataSearchSearchResult from './search-result';
+import Pagination from '@/components/share/pagination';
+import { Affiliation } from '@/model/types/customer/affiliation/type';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
+import { useScreenMode } from '@/hooks/share/useScreenMode';
 
-export default function AdminSearch({affiliations, initialTask, page}:{affiliations:Affiliation[], initialTask:ResponseTask[], page:number}){
-    const [state, action, isPending] = useActionState(taskSearchAction, {...initialTaskState, task:initialTask});
-    const pageByTasks = useMemo(()=>state.task.slice((page-1)*20, ((page-1)*20)+20),[state.task, page])
-    const inputRef = useRef(null)
-    const deletePage = useDeletePage()
-    
-    const [loading, setLoading] = useState(true)
 
-    useEffect(()=>{
-        setLoading(isPending)
-    },[isPending])
+export default function AdminDataSearch({affiliations, initialTask, employees, page}: {
+    affiliations: Affiliation[],
+    initialTask: ResponseTask[],
+    page: number,
+    employees: ResponseEmployee[]
+}) {
+    const [state, action, isPending] = useActionState(taskSearchAction, initialTaskState);
+    const [searchResult, setSearchResult] = useState()
+    const pageByTasks = useMemo(() => (searchResult??initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask , searchResult, page])    
+    const formRef = useRef(null)
+    const mode = useScreenMode({ tabletSize: 690, mobileSize: 620 });
+
+
     //router control
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const deletePage = useDeletePage()
 
-
-    const registerTask =()=>{
-        //pc
-        if(window.innerWidth>620){
-            const url = `${apiUrl}/register-task`; // 열고 싶은 링크
-            const popupOptions = "width=700,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
-            window.open(url, "PopupWindow", popupOptions);
-        }
+    const submitHandler =() => {
+        if(isPending) return
+        const formData = new FormData(formRef.current);
+        formData.set('action', 'submit');
+        startTransition(() => {
+            action(formData);
+        });
     }
 
 
-    return(
+    //검색 시 페이지 제거
+    const redirectPage = () => {
+        if(page===1) return
+        deletePage()
+    }
+
+    useEffect(()=>{
+        if(state.searchResult){
+            setSearchResult(state.searchResult)
+            redirectPage()
+        }
+    },[state])
+
+    return (
         <>
-        <section className='search-container'>
-            <form action={action}>
-            <table className='search-table'>
-                <colgroup>
-                    <col style={{ width: '5%' }} />
-                    <col style={{ width: '70%' }} />
-                    <col style={{ width: '1%' }} />
-                </colgroup>
-                <thead>
+            <form action={action} ref={formRef}>
+            <section className='search-container'>
+                <table className='search-table'>
+                    <colgroup>
+                        <col style={{width: '5%'}}/>
+                        <col style={{width: '70%'}}/>
+                        <col style={{width: '1%'}}/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td colSpan={3} className="table-title">
+                            <label>
+                            거래처분류 &nbsp;: &nbsp;
+                                <select className='title-selector' name='affiliation' key={state.affiliation+'affiliaction'}
+                                        defaultValue={state.affiliation}>
+                                    <option value='none'>선택안함</option>
+                                    {affiliations.map((affiliation) => (
+                                        <option key={affiliation.affiliationId}
+                                                value={affiliation.affiliationId}>
+                                            {affiliation.affiliationName}
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <tr>
-                        <td colSpan={3} className="table-title">
-                        검색옵션
+                    <td className="table-label">출력일자</td>
+                        <td>
+                        <span
+                            className="dates-container"
+                            style={{ display: `${mode === 'tabelt' ? 'block' : 'flex'}` }}>
+                            <CustomDateInput
+                            defaultValue={state.searchSDate}
+                            name="searchSDate"
+                            className={mode === 'tabelt' ? 'none-max-width' : ''}
+                            />
+                            {mode !== 'tabelt' && '~'}
+                            <CustomDateInput
+                            defaultValue={state.searchEDate}
+                            name="searchEDate"
+                            className={mode === 'tabelt' ? 'none-max-width' : ''}
+                            />
+                        </span>
                         </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td className='table-label'>구분/담당자</td>
-                        <td className='td-gap'>
-                            <select name='taskType' key={state.searchKey} defaultValue={state.taskType}>
-                                <option value='none'>구분</option>
-                                ({Object.entries(TaskEnumType).map(([key, value])=>(
-                                        <option key={key} value={key}>{value}</option>
-                                    ))})
-                            </select>         
-                            <select name='assignedUser' key={state.searchKey+2} defaultValue={state.assignedUser}>
-                                <option value='none'>담당자구분</option>
-                                <option value='햄부기'>햄부기</option>
-                            </select>
-                        </td>
-                        <td rowSpan={3}>
-                            <div  className='grid-table-buttons'>
-                                <button type='submit' disabled={isPending} onClick={deletePage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button>엑 셀 변 환</button>
-                                <button onClick={registerTask}>업 무 등 록</button>
-                                <button>체 크 삭 제</button>
+                        <td rowSpan={4}>
+                            <div className='grid-table-buttons'>
+                                <button type='button' disabled={isPending}
+                                        onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                </button>
+                                <button onClick={setSearchResult.bind(null,null)}>전 체 보 기</button>
+                                <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                <button type='button'>엑 셀 변 환</button>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>거래처분류</td>
-                        <td>
-                            <label>
-                                <select name='affiliation' key={state.searchKey} defaultValue={state.affiliation}>
-                                        <option value='none'>선택안함</option>
-                                        {affiliations.map((affiliation)=>(
-                                            <option key={affiliation.affiliationId} value={affiliation.affiliationId}>
-                                                    {affiliation.affiliationName}
-                                            </option>
-                                        ))}
-                                </select>
-                            </label>
+                        <td className='table-label'>구분/담당자</td>
+                        <td className='td-gap'>
+                            <select name='taskType' key={state.taskType+'taskType'} defaultValue={state.taskType}>
+                                <option value='none'>구분</option>
+                                {Object.entries(TaskEnumType).map(([key, value])=>(
+                                    <option key={key} value={key}>{value}</option>
+                                ))}
+                            </select>
+                            <select name='assignedUser' key={state.assignedUser+'assignedUser'} defaultValue={state.assignedUser}>
+                                <option value='none'>담당자구분</option>
+                                {employees.map((employee)=>(
+                                    <option key={employee.userId} value={employee.userId}>{employee.name}</option>
+                                ))}
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>
-                        <td><input type='text' name='customer' ref={inputRef}/></td>
+                        <td><input type='text' name='customerName'/></td>
                     </tr>
-                </tbody>
-            </table> 
+                    </tbody>
+                </table>
+            </section>
+            <AdminDataSearchSearchResult
+                pageByTasks={pageByTasks}
+                employees={employees}/>            
             </form>
-        </section>
-    </>
+            {(!isPending && initialTask.length>20) &&
+                <Pagination
+                    totalItems={initialTask.length}
+                    itemCountPerPage={20} 
+                    pageCount={5} 
+                    currentPage={Number(page)}
+                />
+            }
+        </>
     )
 }

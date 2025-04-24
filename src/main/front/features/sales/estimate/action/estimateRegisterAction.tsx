@@ -42,31 +42,31 @@ export default async function estimateRegisterAction(prevState, formState){
         items
     }
     const action = formState.get('action')
+    console.log(estimateData)
+    if(action){
+        const errors=[]
+        items.forEach((item:ResponseEstimateItem)=>{
+            if((!item.hand && isInvalidText(item.stockId))
+            || (item.hand && isInvalidText(item.productName))){
+                errors.push(['message', '품명을 입력해주세요'])
+            }
+        })
     
-    const errors=[]
-    items.forEach((item:ResponseEstimateItem)=>{
-        if((!item.hand && isInvalidText(item.stockId))
-        || (item.hand && isInvalidText(item.productName))){
-            errors.push(['message', '품명을 입력해주세요'])
+        if(items.length===0 && action==='write'){
+            errors.push(['message', '품목을 하나이상 넣어주세요.'])
         }
-    })
-
-    if(items.length===0 && prevState.mode==='write'){
-        errors.push(['message', '품목을 하나이상 넣어주세요.'])
-    }
-    if(!estimateData.customerId){
-        errors.push(['message', '업체를 선택해주세요.'])
-    }
-
-    if(action ==='submit'){
+        if(!estimateData.customerId){
+            errors.push(['message', '업체를 선택해주세요.'])
+        }
+    
         let status;
         if(errors.length>0){
             const formErrors = Object.fromEntries(errors)
             return {...prevState,...estimateData, formErrors}
         }
-        if(prevState.mode ==='write'){
+        if(action ==='write'){
             status = await saveEstimate(estimateData)
-        }else if(prevState.mode ==='edit'){
+        }else if(action ==='edit'){
             status = await updateEstimate(estimateData)
         }
         return {...prevState, ...estimateData, status}

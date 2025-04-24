@@ -4,7 +4,6 @@ import accountingSearchAction from '@/features/accounting/action/accountingSearc
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { apiUrl } from '@/model/constants/apiUrl';
 import {
-  AccountingDivision,
   CardTransaction,
   ExpenseProof,
   ProcurementSettlement,
@@ -137,8 +136,7 @@ export default function AccountingSearch({
                 <td>
                   <span
                     className="dates-container"
-                    style={{ display: `${mode === 'tabelt' ? 'block' : 'flex'}` }}
-                  >
+                    style={{ display: `${mode === 'tabelt' ? 'block' : 'flex'}` }}>
                     <CustomDateInput
                       defaultValue={state.searchSDate}
                       name="searchSDate"
