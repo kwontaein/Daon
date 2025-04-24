@@ -11,7 +11,6 @@ export interface ReturnCheckBoxHook {
 
 export default function useCheckBoxState(items:string[],pageReset:boolean =false):ReturnCheckBoxHook{
     const [checkedState, dispatchCheckedState] = useReducer(checkboxReducer, initialCheckState)
-
     const isAllChecked = useMemo(() => {
         if (items.length === 0) return false;
         return items.every((id) => checkedState[id]);

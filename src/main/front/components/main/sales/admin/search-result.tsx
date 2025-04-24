@@ -1,5 +1,5 @@
 'use client'
-import './search-result.scss'
+import '@/styles/table-style/search-result.scss'
 
 import React, { useCallback, useMemo } from 'react'
 
@@ -11,12 +11,11 @@ import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 
-const TaskSearchResult = React.memo(({pageByTasks, employees} : {
+const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
     employees: ResponseEmployee[],
 }) => {
     const mode = useScreenMode({tabletSize:900,mobileSize:620});   
-    const nowDate = useMemo(()=>new Date(Date.now()),[])
     const taskIds = pageByTasks.map(({taskId})=>taskId)
     const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
 
@@ -34,23 +33,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         }
     }
 
-    //전표등록창을 띄우기 위한 함수
-    const estimateHandler = (taskId:string,estimateId:string)=>{
-            if(window.innerWidth>620){
-                const params = new URLSearchParams
-                const path = estimateId ? 'estimate': 'register-estimate'
-                params.set("mode", estimateId ? "detail" :"write")
-                if(estimateId){
-                    params.set("target",estimateId)
-                }else{
-                    params.set('taskId',taskId)
-                }
-                const url = `${apiUrl}/${path}?${params.toString()}`;
-                const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
-                
-                window.open(url, "PopupWindow", popupOptions);
-            }
-    }
+    
     const taskDetailHandler = (taskId:string)=>{
         if(window.innerWidth>620){
             const params = new URLSearchParams
@@ -77,21 +60,6 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     }
     
 
-    const dateColor = useCallback((date)=>{
-        const date1 = dayjs(date);
-        const date2 = dayjs(nowDate);
-        const diffDay = date2.diff(date1, 'day')
-        if(diffDay<1){
-            return 'black'
-        }else if(diffDay<2){
-            return 'green'
-        }else if(diffDay<3){
-            return 'blue'
-        }else{
-            return 'red'
-        }
-    },[])
-
     return(
         mode ? 
         <table className='task-search-result-table'>
@@ -105,9 +73,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                 <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
                 {mode==='pc' &&<col style={{width:'10%', minWidth: '95px'}}/>}
                 {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
-                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
-                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
-                {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}
+                {mode==='pc' &&<col style={{width:'15%', minWidth: '55px'}}/>}
             </colgroup>
             <thead>
               <tr>
@@ -127,11 +93,9 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                 <>
                     <td>연락처</td>
                     <td>모델</td>
-                    <td>내용</td>
-                    <td>비고</td>
                 </>
                 }
-                <td rowSpan={mode==='pc'? 1:2}>견적서</td>
+                <td rowSpan={mode==='pc'? 1:2}>내용</td>
               </tr>
               {mode!=='pc' &&
                 <tr>
@@ -144,7 +108,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
             </thead>
                     {pageByTasks.length>0 ?
                         pageByTasks.map((task)=>(
-                            <tbody key={task.taskId} className={task.estimateId ? '' : 'no-estimate'}>
+                            <tbody key={task.taskId}>
                                 <tr>
                                     <td rowSpan={mode==='pc'? 1:2}>
                                         <input type='checkbox' 
@@ -156,7 +120,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                             <p>[{task.assignedUser.name}]</p>
                                         </div>
                                     </td>
-                                    <td style={{color:dateColor(task.createdAt)}}>
+                                    <td>
                                         {dayjs(task.createdAt).format('MM.DD HH:mm')}
                                     </td>
                                     {mode==='pc' &&
@@ -188,23 +152,16 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                                 {task.requesterContact2}
                                             </td>
                                             <td>{task.model}</td>
-                                            <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details ||'-'}</a></td>
-                                            <td>{task.remarks}</td>
                                     </>
                                     }
-                                    <td rowSpan={mode==='pc'? 1:2}>
-                                        <button onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
-                                            {task.estimateId ? '인쇄':'작성'}
-                                        </button>
-                                    </td>
+                                    <td rowSpan={mode==='pc'? 1:2} onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details ||'-'}</a></td>
                                 </tr>   
                                 {mode!=='pc' &&
                                     <tr>
                                         <td>
-                                        {task.completeAt ?
+                                        {task.completeAt &&
                                             <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
-                                            :
-                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
+                                        }
                                         </td>
                                         <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details||'-'}</a></td>
                                         <td>{task.model}</td>
@@ -232,4 +189,4 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     )
 })
 
-export default TaskSearchResult;
+export default AdminDataSearchSearchResult;

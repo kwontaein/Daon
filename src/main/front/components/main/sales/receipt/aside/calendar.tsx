@@ -17,14 +17,11 @@ import prevMonth from '@/assets/prevMonth.gif';
 
 
 import { getHolidays } from '@/model/constants/sales/receipt/holidays';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { updateSearchDate } from '@/store/slice/receipt-search';
+import { useDailySummary } from '@/store/zustand/receipt-search';
 
 
 export default function Calendar(){
-    const calendarEvent = useSelector((state:RootState)=> state.receiptSearch); //외부에서도 컨트롤 할 수 있도록 상태관리
-    const dispatch = useDispatch()
+    const {date, date_id, updateSearchDate} = useDailySummary()
     const calendarRef = useRef<FullCalendar | null>(null)
     const [currentDate, setCurrentDate] = useState<string>("");
     const [holidays,setHolidays] = useState<string[]>([]);
@@ -32,12 +29,12 @@ export default function Calendar(){
     useEffect(()=>{
         setTimeout(() => {
             if (!calendarRef.current) return
-            calendarRef.current?.getApi().gotoDate(calendarEvent.date)
+            calendarRef.current?.getApi().gotoDate(date)
             //title 갱신
-            setCurrentDate(dayjs(calendarEvent.date).format('YYYY년 M월'));
+            setCurrentDate(dayjs(date).format('YYYY년 M월'));
         },0);
         
-    },[calendarEvent.date_id])
+    },[date_id])
     
 
     const calendarHandler = (compound:string)=>{
@@ -86,22 +83,22 @@ export default function Calendar(){
             nowIndicator={true}
             dayMaxEventRows={2}
             dateClick={(args)=>{
-                const payload =dayjs(args.date).format('YYYY-MM-DD')
-                dispatch(updateSearchDate(payload))
+                const date =dayjs(args.date).format('YYYY-MM-DD')
+                updateSearchDate(date)
             }}
             dayHeaderContent={(args)=>{
                 const [sun,sta] = [args.date.getDay() === 0, args.date.getDay() === 6]
                 return <b className={sun ? 'sun' : sta ? 'sta' :''}>{args.text}</b>
             }}
             dayCellContent={(args) => {
-                const date = args.date.getDate(); // 날짜만 추출
+                const day = args.date.getDate(); // 날짜만 추출
                 const [sun,sta] = [args.date.getDay() === 0, args.date.getDay() === 6]
                 
                 const formattedDate =dayjs(args.date).format('YYYY-MM-DD')
-                const isSearch = calendarEvent.date === formattedDate
+                const isClick = date === formattedDate
                 const holiday = holidays.includes(formattedDate)
                 
-                return <div className={`calendar-day ${sta ? 'sta' : (sun || holiday)? 'sun' :''} ${isSearch && 'search'}`}>{date}</div>; // 날짜만 표시하고 "일"은 제거
+                return <div className={`calendar-day ${sta ? 'sta' : (sun || holiday)? 'sun' :''} ${isClick && 'is-click'}`}>{day}</div>; // 날짜만 표시하고 "일"은 제거
             }}
         />
         </div>
