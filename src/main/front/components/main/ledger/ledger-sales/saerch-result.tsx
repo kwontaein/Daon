@@ -1,4 +1,3 @@
-import '../ledger-search-result.scss';
 import '@/styles/table-style/search-result.scss';
 
 import dayjs from "dayjs";
@@ -21,9 +20,9 @@ export default function LedgerSalesSearchResult({searchInfo}:{searchInfo:{search
     ,[searchInfo])
     return(
         <>
-        <h3 className='ledger-title'>{searchInfo.searchTitle}</h3>
-        <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
-        <table className='ledger-search-result-table'>
+        <h3 className='search-title'>{searchInfo.searchTitle}</h3>
+        <div className='search-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
+        <table className='search-result-table'>
             <colgroup>
                   <col style={{width: "1%"}}/>    
                   <col style={{width: "5%" , minWidth:'35px'}}/>    
