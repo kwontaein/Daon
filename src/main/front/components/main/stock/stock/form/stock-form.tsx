@@ -15,14 +15,14 @@ export default function StockForm({stockCate, mode, stock} : {
     mode: 'write' | 'edit' | 'detail',
     stock?: ResponseStock
 }) {
-    const [state, action, isPending] = useActionState(stockFormAction,{...stock,mode: stock? mode: 'write', stockUseEa:true})
+    const [state, action, isPending] = useActionState(stockFormAction,{...stock, stockUseEa:true})
     const formRef = useRef(null)
     const changeModeHandler = useChangeMode()
 
     const submitHandler =() => {
         if(isPending) return
         const formData = new FormData(formRef.current);
-        formData.set('action', 'submit');
+        formData.set('action', mode);
         startTransition(() => {
             action(formData);
         });
@@ -31,7 +31,7 @@ export default function StockForm({stockCate, mode, stock} : {
     useEffect(()=>{
         if(state.status){
             if(state.status===200){
-                if(state.mode==='write'){
+                if(mode==='write'){
                     window.alert('물품을 등록했습니다.')
                     // window.close()
                 }else{
@@ -52,7 +52,7 @@ export default function StockForm({stockCate, mode, stock} : {
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>물품등록</h4>
             </header>
-            {state.mode==='write' && 
+            {mode==='write' && 
             <p style={{color:'red', fontSize:'13px', marginBottom:'5px'}}>
                 ※ 재고계산여부 체크는 한번 입력하면 수정할수 없습니다. 신중히 선택해 주세요.
             </p>}
@@ -99,8 +99,8 @@ export default function StockForm({stockCate, mode, stock} : {
                             <td className="table-label">재고계산여부</td>
                             <td className="table-radio-container">
                                 <div>
-                                    <label><input type="radio" value="Y" name="stockUseEa" checked={state.stockUseEa} readOnly={mode!=='write'}/>사용</label>
-                                    <label><input type="radio" value="N" name="stockUseEa" checked={!state.stockUseEa} readOnly={mode!=='write'}/>미사용</label>
+                                    <label><input type="radio" value="Y" name="stockUseEa" defaultChecked={state.stockUseEa} readOnly={mode!=='write'}/>사용</label>
+                                    <label><input type="radio" value="N" name="stockUseEa" defaultChecked={!state.stockUseEa} readOnly={mode!=='write'}/>미사용</label>
                                 </div>
                             </td>
                         </tr>
@@ -159,12 +159,12 @@ export default function StockForm({stockCate, mode, stock} : {
                 </table>
                 <div className="button-container">
                     <button type='button' onClick={submitHandler}>
-                        {state.mode ==='detail' && '수정하기'}
-                        {state.mode ==='edit' && '수정완료'}
-                        {state.mode ==='write' && '저장하기'}
+                        {mode ==='detail' && '수정하기'}
+                        {mode ==='edit' && '수정완료'}
+                        {mode ==='write' && '저장하기'}
                     </button>
                     <button type='button' onClick={()=>{
-                        state.mode==='edit' ? changeModeHandler('detail') : window.close()
+                        mode==='edit' ? changeModeHandler('detail') : window.close()
                     }}>취소</button>
                 </div>
             </form>

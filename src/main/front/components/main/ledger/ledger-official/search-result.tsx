@@ -1,4 +1,4 @@
-import '../ledger-search-result.scss';
+import '@/styles/table-style/search-result.scss';
 
 import { ResponseLedger } from "@/model/types/ledger/type";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
@@ -39,9 +39,9 @@ export default function LedgerOfficialSearchResult({searchInfo, officials} : {
 
     return(
         <>
-        <h3 className='ledger-title'>{searchInfo.searchTitle}</h3>
-        <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
-        <table className='ledger-search-result-table'>
+        <h3 className='search-title'>{searchInfo.searchTitle}</h3>
+        <div className='search-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
+        <table className='search-result-table'>
             <colgroup>
                   <col style={{width: "5%"}}/>    
                   <col style={{width: "10%"}}/>    
@@ -77,8 +77,8 @@ export default function LedgerOfficialSearchResult({searchInfo, officials} : {
                 </tr>
             </tbody>
         </table>
-        <div className="ledger-grid-table-container">
-            <table className='ledger-search-result-table'>
+        <div className="grid-table-container">
+            <table className='search-result-table'>
                 <thead>
                     <tr>
                         <td>품명</td>
@@ -94,7 +94,7 @@ export default function LedgerOfficialSearchResult({searchInfo, officials} : {
                     ))}
                 </tbody>
             </table>
-            <table className='ledger-search-result-table'>
+            <table className='search-result-table'>
                 <thead>
                     <tr>
                         <td>품명</td>

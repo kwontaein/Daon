@@ -7,12 +7,13 @@ import { RemianSearchCondition, ResponseRemain } from '@/model/types/sales/remai
 import '@/styles/table-style/search.scss';
 import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import ReaminSearchResult from './remain-search-result';
+import dayjs from 'dayjs';
 
 export default function RemainSearch(){
     const initailRemainSearch = {
         customerCate: 'none',
-        searchSDate:new Date(Date.now()),
-        searchEDate: new Date(Date.now()),
+        searchSDate: dayjs().subtract(2, 'month').date(1).format('YYYY-MM-DD'),
+        searchEDate:dayjs(new Date(Date.now())).endOf('month').format('YYYY-MM-DD'),
         sortCondition:'customer',
         condition:'ALL',
     }
@@ -58,11 +59,13 @@ export default function RemainSearch(){
                 if(state.sortCondition ==='customer'){
                     return  a.customerName.localeCompare(b.customerName)
                 }else{
-                    return a[state.sortCondition] - b[state.sortCondition] 
+                    if(b[state.sortCondition] === a[state.sortCondition]){
+                        return  a.customerName.localeCompare(b.customerName)
+                    }
+                    return b[state.sortCondition] - a[state.sortCondition]
                 }
             })   
-            console.log(sortedResult)
-            setRemainList(prev => ({ ...prev,... sortedResult }));
+            setRemainList(sortedResult);
         }
     },[state])
 
@@ -160,7 +163,7 @@ export default function RemainSearch(){
                 </table>
             </form>
             </div>
-            <ReaminSearchResult/>
+            <ReaminSearchResult remainList={remainList}/>
         </>
     )
 }

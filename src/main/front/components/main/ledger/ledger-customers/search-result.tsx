@@ -1,4 +1,5 @@
 import '../ledger-search-result.scss';
+import '@/styles/table-style/search-result.scss';
 
 import { ResponseLedger } from "@/model/types/ledger/type";
 import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
@@ -92,9 +93,9 @@ export default function LedgerCustomersSearchResult({searchInfo}:{searchInfo:{se
             <input type='checkbox' checked={mobileView} onChange={setMobileView}/> 모바일 원장
         </label>
         }
-        <h3 className='ledger-title'>{searchInfo.searchTitle+' 원장'}</h3>
-        <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
-        <table className={`ledger-search-result-table ${ mode!=='pc' && ' ledger-mobile'}`} style={{marginTop:'0'}}>
+        <h3 className='search-title'>{searchInfo.searchTitle+' 원장'}</h3>
+        <div className='search-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
+        <table className={`search-result-table ${ mode!=='pc' && ' mobile'}`} style={{marginTop:'0'}}>
             <colgroup>
                 {mode==='pc'?
                   <>
