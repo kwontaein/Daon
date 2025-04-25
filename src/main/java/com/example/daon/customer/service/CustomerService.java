@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final UserRepository userRepository;
     private final AffiliationRepository affiliationRepository;
     private final GlobalService globalService;
 
@@ -86,7 +85,7 @@ public class CustomerService {
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = null;
         if (request.getUserId() != null) {
-            user = userRepository.findById(request.getUserId()).orElse(null);
+            user = globalService.getUserEntity(request.getUserId());
         }
         AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
         CustomerEntity customer = customerRepository.save(request.toEntity(user, affiliationEntity));
