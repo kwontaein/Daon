@@ -20,21 +20,15 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     initialStocks: ResponseStock[],
     page: number
 }) {
-    const [state, action, isPending] = useActionState(stockSearchAction, {
-        ...initialStockState,
-        stocks: initialStocks,
-        initialStocks
-    });
-    const pageByStocks = useMemo(()=>state.stocks.slice((page - 1) * 20, ((page - 1) * 20) + 20),[state.stocks,page])
+    console.log(initialStocks)
+    const [state, action, isPending] = useActionState(stockSearchAction, initialStockState);
+    const [searchResult, setSerchResult] = useState<ResponseStock[]>()
+    const pageByStocks = useMemo(()=>(searchResult??initialStocks).slice((page - 1) * 20, ((page - 1) * 20) + 20),[initialStocks,searchResult,page])
     const [condition, setCondition] = useState(initialStockState.condition!=='none')
-    const [loading, setLoading] = useState(true)
-    const inputRef = useRef(null)
 
-    useEffect(()=>{
-        setLoading(isPending)
-    },[isPending])
-
+    const formRef = useRef(null)
     const redirectPage = useDeletePage()
+    
 
     //TODO: 모바일버전 구현
     const registerStock = () => {
@@ -46,10 +40,27 @@ export default function StockSearch({stockCate, initialStocks, page} : {
         }
     }
 
+    
+    const submitHandler = () => {
+        if(isPending) return
+        const formData = new FormData(formRef.current!);
+        formData.set('action', 'submit');
+        startTransition(() => {
+            action(formData);
+        });
+    };
+
+    useEffect(()=>{
+        if(state.searchResult){
+            setSerchResult(state.searchResult)
+            redirectPage()
+        }
+    },[state])
+
     return (
         <>
             <div className='search-container'>
-                <form action={action}>
+                <form action={action} ref={formRef}>
                     <table className="search-table">
                         <colgroup>
                             <col style={{ width: '5%' }}/>
@@ -96,19 +107,15 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                 </td>
                                 <td rowSpan={4}>
                                     <div className="grid-table-buttons">
-                                        <button type='submit' disabled={isPending} onClick={redirectPage}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                        <button type='submit' disabled={isPending} onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                         <button
                                             type="button"
                                             disabled={isPending}
-                                            onClick={(e) => startTransition(() => {
-                                                e.preventDefault();
-                                                const formData = changeFormData({
-                                                    ...initialStockState,
-                                                })
-                                                action(formData)
+                                            onClick={(e) => {
+                                                setSerchResult(null)
                                                 redirectPage()
                                                 setCondition(false)
-                                            })}>전 체 보 기</button>
+                                            }}>전 체 보 기</button>
                                         <button type="button" onClick={registerStock}>신 규 등 록</button>
                                         <button type="button">엑 셀 변 환</button>
                                     </div>
@@ -184,7 +191,6 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                                 <td className='table-label'>품명</td>
                                 <td>
                                     <input type='text' 
-                                           ref={inputRef}
                                            name='productName' 
                                            key={state.productName} 
                                            defaultValue={state.productName} />
@@ -195,9 +201,9 @@ export default function StockSearch({stockCate, initialStocks, page} : {
                 </form>
             </div>
             <StockSearchResult pageByStocks={pageByStocks}/>
-            {!loading &&
+            {!isPending &&
                 <Pagination
-                    totalItems={state.stocks.length}
+                    totalItems={(searchResult??initialStocks).length}
                     itemCountPerPage={20} 
                     pageCount={5} 
                     currentPage={Number(page)}/>

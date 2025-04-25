@@ -61,7 +61,7 @@ export const AsideOptions = {
     schedule: {
         asideTitle: '내일정관리',
         asideItems: [
-            {name: '내 일정', link: 'schedule'},
+            {name: '내일정관리', link: 'schedule'},
         ]
     },
 }
