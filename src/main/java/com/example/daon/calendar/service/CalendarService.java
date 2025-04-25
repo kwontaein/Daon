@@ -1,0 +1,95 @@
+package com.example.daon.calendar.service;
+
+import com.example.daon.admin.model.UserEntity;
+import com.example.daon.calendar.dto.request.CalendarRequest;
+import com.example.daon.calendar.dto.response.CalendarResponse;
+import com.example.daon.calendar.model.CalendarEntity;
+import com.example.daon.calendar.repository.CalendarRepository;
+import com.example.daon.global.service.GlobalService;
+import jakarta.persistence.criteria.Predicate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class CalendarService {
+    private final CalendarRepository calendarRepository;
+    private final GlobalService globalService;
+
+    public List<CalendarResponse> getSchedules(CalendarRequest calendarRequest) {
+        List<CalendarEntity> calendarEntities = calendarRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (calendarRequest.getUserId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
+            }
+
+            query.orderBy(criteriaBuilder.desc(root.get("regDate")));
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+
+        return calendarEntities.stream().map(globalService::convertToCalendarResponse).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void saveSchedules(CalendarRequest calendarRequest) {
+        UserEntity user = globalService.getUserEntity(null);
+
+        List<CalendarEntity> calendarEntities = calendarRepository.findAll((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (calendarRequest.getUserId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
+            }
+
+            if (calendarRequest.getRegDate() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("regDate"), calendarRequest.getRegDate()));
+            }
+
+            query.orderBy(criteriaBuilder.desc(root.get("regDate")));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+
+        // 내용이 공백일 경우 (== 비어있으면) 처리: 업데이트도 저장도 하지 않음
+        boolean isContentEmpty = calendarRequest.getMemo() == null || calendarRequest.getMemo().trim().isEmpty();
+
+        if (!calendarEntities.isEmpty()) {
+            CalendarEntity existingEntity = calendarEntities.get(0);
+
+            if (isContentEmpty) {
+                // 기존 일정 삭제
+                calendarRepository.delete(existingEntity);
+            } else {
+                // 내용이 있으면 수정
+                existingEntity.updateFromRequest(calendarRequest);
+                calendarRepository.save(existingEntity);
+            }
+        } else {
+            if (!isContentEmpty) {
+                // 기존 일정 없고 내용이 있으면 저장
+                calendarRepository.save(calendarRequest.toEntity(user));
+            }
+        }
+    }
+
+    public void deleteSchedules(CalendarRequest calendarRequest) {
+        calendarRepository.deleteById(calendarRequest.getCalendarId());
+    }
+
+    public void updateSchedule(CalendarRequest calendarRequest) {
+        if (calendarRequest.getMemo() == null || calendarRequest.getMemo().isEmpty()) {
+            deleteSchedules(calendarRequest);
+            return;
+        }
+        CalendarEntity calendar = calendarRepository.findById(calendarRequest.getCalendarId()).orElse(null);
+        calendar.updateFromRequest(calendarRequest);
+        calendarRepository.save(calendar);
+    }
+}
