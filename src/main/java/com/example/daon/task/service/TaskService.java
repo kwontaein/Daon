@@ -1,7 +1,6 @@
 package com.example.daon.task.service;
 
 import com.example.daon.admin.model.UserEntity;
-import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
@@ -27,7 +26,6 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final CustomerRepository customerRepository;
     private final EstimateRepository estimateRepository;
-    private final UserRepository userRepository;
     private final GlobalService globalService;
 
     //관리자데이터조회
@@ -91,7 +89,7 @@ public class TaskService {
     //업무등록
     public void saveTask(TaskRequest taskRequest) {
         CustomerEntity customer = customerRepository.findById(taskRequest.getCustomer()).orElse(null);
-        UserEntity assignedUser = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
+        UserEntity assignedUser = globalService.getUserEntity(taskRequest.getAssignedUser());
         EstimateEntity estimate = null;
         if (taskRequest.getEstimateId() != null) {
             estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
@@ -106,7 +104,7 @@ public class TaskService {
         TaskEntity task = taskRepository.findById(taskRequest.taskId).orElse(null);
         if (task != null) {
             EstimateEntity estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
-            UserEntity assignedUser = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
+            UserEntity assignedUser = globalService.getUserEntity(taskRequest.getAssignedUser());
             task.updateFromRequest(taskRequest, assignedUser, estimate);
         }
         taskRepository.save(task);
@@ -137,7 +135,7 @@ public class TaskService {
     //담당교체
     public void updateTaskUser(TaskRequest taskRequest) {
         TaskEntity task = taskRepository.findById(taskRequest.getTaskId()).orElse(null);
-        UserEntity user = userRepository.findById(taskRequest.getAssignedUser()).orElse(null);
+        UserEntity user = globalService.getUserEntity(taskRequest.getAssignedUser());
         task.setAssignedUser(user);
         taskRepository.save(task);
     }
