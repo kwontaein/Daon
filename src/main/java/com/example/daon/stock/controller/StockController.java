@@ -28,6 +28,11 @@ public class StockController {
         return stockService.getStockList(stockRequest);
     }
 
+    @PostMapping("api/getStockById")
+    public StockResponse getStockById(@RequestBody StockRequest stockRequest) {
+        return stockService.getStockById(stockRequest);
+    }
+
     //생성
     @PostMapping("api/saveStock")
     public void saveStock(@RequestBody StockRequest stockRequest) {
