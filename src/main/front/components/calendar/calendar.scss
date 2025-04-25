@@ -1,0 +1,154 @@
+@use '@/styles/_variables.scss' as var;
+
+.daon-calendar-container{
+    width: 100%;
+    margin : 5px;
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: transparent;
+
+
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+
+        th{
+            background-color: transparent;
+            &:has(.sun) {
+                background-color: red !important;
+            }
+            
+            &:has(.sat) {
+                background-color: blue !important;
+            }
+        }
+        
+    }
+    .fc-scrollgrid {
+        border-left: 1px solid var.$default-border-color !important;
+    }
+
+
+    tbody{
+        tr{
+            height: 12vh;
+            td{
+                border: 1px solid var.$default-border-color;
+                background-color: white;
+                &:has(.none){
+                    background-color: #f7f7f7;
+                }
+            }
+        }
+    }
+
+
+    .fc-daygrid-day-number{
+        width: 100%;
+        height: 100%;
+        &:hover{
+            color: inherit;
+        }
+    }
+    //일자 스타일
+    .calendar-day{
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+        height: 100%; // 전체 셀 높이에 맞춤
+        width: 100%;
+        padding: 2px 4px;
+        &.sun{
+            color: red !important;
+        }
+        
+        &.sat{
+            color: blue !important;
+        }
+        &.none{
+            color: #f7f7f7 !important;
+        }
+    }
+
+
+   
+    .is-click{
+        background-color: var.$default-point-color;
+        border-radius: 50%;
+        color: white;
+    }
+
+    //header 월화수목금토일
+    .fc-col-header-cell-cushion{
+        color: white; 
+    }
+
+    td{
+        background-color: transparent;
+        border:none;
+        text-align: center;
+    }
+    .fc-col-header{
+        margin: 0;
+    }
+    .fc-theme-standard .fc-scrollgrid {
+        border: none;
+    }
+
+    .fc .fc-daygrid-day-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 12vh;
+        a{
+            padding:0;
+        }
+    }
+    //이벤트(일정)칸 빈공백 제거
+    .fc-daygrid-day-events{
+        display: none;
+    }
+    .fc-col-header {
+        width: 100% !important;
+    }
+    .fc-daygrid-body{
+        width: 100% !important;
+    }
+    .fc-scrollgrid-sync-table{
+        width: 100% !important;
+    }
+}
+.calendar-header{
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+    span{
+        display: flex;
+        gap: 0.5em;
+    }
+    h3{
+        font-weight: bold;
+    }
+}
+
+.calendar-textarea {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    font-weight: 400 !important;
+    line-height: 1.2rem;
+    box-sizing: border-box;
+    resize: both;
+    user-select: all;
+    cursor: default;
+    font-size: 12px;
+    z-index: 9999;
+    font-weight: bold;
+    background-color: inherit;
+    position: relative;
+    pointer-events: auto; // pointer 이벤트 허용
+  }

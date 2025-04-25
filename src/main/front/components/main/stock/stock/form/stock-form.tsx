@@ -15,7 +15,8 @@ export default function StockForm({stockCate, mode, stock} : {
     mode: 'write' | 'edit' | 'detail',
     stock?: ResponseStock
 }) {
-    const [state, action, isPending] = useActionState(stockFormAction,{...stock, stockUseEa:true})
+
+    const [state, action, isPending] = useActionState(stockFormAction,{...stock, category: stock?.category?.stockCateId??'none' , stockUseEa:true})
     const formRef = useRef(null)
     const changeModeHandler = useChangeMode()
 
@@ -69,16 +70,20 @@ export default function StockForm({stockCate, mode, stock} : {
                             <td className="table-label">분류선택</td>
                             <td colSpan={3}>
                                 <label>
-                                    <select size={1} name='category'>
-                                        <option value='none'>분류선택</option>
-                                        {
-                                            stockCate.map((cate : StockCate) => (
-                                                <option key={cate.stockCateId} value={cate.stockCateId}>
-                                                    {cate.stockCateName}
-                                                </option>
-                                            ))
-                                        }
-                                    </select>
+                                    {mode==='detail' ?
+                                        <input name='category' defaultValue={stock.category.stockCateName} key={state.category+'category'} readOnly/>
+                                        :
+                                        <select size={1} name='category' defaultValue={state.category} key={state.category+'category'} >
+                                            <option value='none'>분류선택</option>
+                                            {
+                                                stockCate.map((cate : StockCate) => (
+                                                    <option key={cate.stockCateId} value={cate.stockCateId}>
+                                                        {cate.stockCateName}
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>    
+                                    }
                                 </label>
                                 {state.formErrors?.category &&  
                                     <ErrorBox key={state.formErrors.errorKey}>
@@ -90,24 +95,32 @@ export default function StockForm({stockCate, mode, stock} : {
                         <tr>
                             <td className="table-label">과세기준</td>
                             <td>
-                                <select name='taxation' defaultValue={state.taxation} key={state.taxation}>
-                                    {Object.entries(TaxationCate).map(([key,value])=>(
-                                        <option key={key}>{value}</option>
-                                    ))}
-                                </select>
+                                {mode==='detail' ?
+                                    <input  name='taxation' defaultValue={TaxationCate[state.taxation]} key={state.taxation+'texation'} readOnly/>
+                                    :
+                                    <select name='taxation' defaultValue={state.taxation} key={state.taxation+'texation'}>
+                                        {Object.entries(TaxationCate).map(([key,value])=>(
+                                            <option key={key}>{value}</option>
+                                        ))}
+                                    </select>
+                                }
                             </td>
                             <td className="table-label">재고계산여부</td>
                             <td className="table-radio-container">
-                                <div>
-                                    <label><input type="radio" value="Y" name="stockUseEa" defaultChecked={state.stockUseEa} readOnly={mode!=='write'}/>사용</label>
-                                    <label><input type="radio" value="N" name="stockUseEa" defaultChecked={!state.stockUseEa} readOnly={mode!=='write'}/>미사용</label>
-                                </div>
+                                {mode==='detail' ?
+                                    <input value={state.stockUseEa ? '사용' : '미사용'} readOnly/>
+                                    :
+                                    <div>
+                                        <label><input type="radio" value="Y" name="stockUseEa" defaultChecked={state.stockUseEa}/>사용</label>
+                                        <label><input type="radio" value="N" name="stockUseEa" defaultChecked={!state.stockUseEa}/>미사용</label>
+                                    </div>
+                                }
                             </td>
                         </tr>
                         <tr>
                             <td className="table-label">품목명</td>
                             <td>
-                                <input name="productName" defaultValue={state.productName} key={state.productName}/>
+                                <input name="productName" defaultValue={state.productName} key={state.productName} readOnly={mode==='detail'}/>
                                 {state.formErrors?.productName &&  
                                     <ErrorBox key={state.formErrors.errorKey}>
                                         {state.formErrors.productName}
@@ -115,16 +128,16 @@ export default function StockForm({stockCate, mode, stock} : {
                                 }
                             </td>
                             <td className="table-label">규격</td>
-                            <td><input name="modelName" defaultValue={state.modelName} key={state.modelName}/></td>
+                            <td><input name="modelName" defaultValue={state.modelName} key={state.modelName+'modelName'} readOnly={mode==='detail'}/></td>
                         </tr>
                         <tr>
                             <td className="table-label">입고가</td>
                             <td>
-                                <CustomNumberInput name='inPrice' defaultValue={state.inPrice} key={state.inPrice}/>
+                                <CustomNumberInput name='inPrice' defaultValue={state.inPrice} key={state.inPrice+'inPrice'} readOnly={mode==='detail'}/>
                             </td>                            
                             <td className="table-label">출고가</td>
                             <td>
-                                <CustomNumberInput name='outPrice' defaultValue={state.outPrice} key={state.outPrice}/>
+                                <CustomNumberInput name='outPrice' defaultValue={state.outPrice} key={state.outPrice+'outPrice'} readOnly={mode==='detail'}/>
                                 {state.formErrors?.outPrice &&  
                                     <ErrorBox key={state.formErrors.errorKey}>
                                         {state.formErrors.outPrice}
@@ -135,7 +148,7 @@ export default function StockForm({stockCate, mode, stock} : {
                             <tr>
                             <td className="table-label">이월재고</td>
                             <td colSpan={3}>
-                                <CustomNumberInput name="quantity" defaultValue={state.quantity} key={state.quantity}/>
+                                <CustomNumberInput name="quantity" defaultValue={state.quantity} key={state.quantity+'quantity'} readOnly={mode==='detail'}/>
                                 {state.formErrors?.quantity &&  
                                     <ErrorBox key={state.formErrors.errorKey}>
                                         {state.formErrors.quantity}
@@ -146,19 +159,21 @@ export default function StockForm({stockCate, mode, stock} : {
                         <tr>
                             <td className="table-label">호환기종</td>
                             <td colSpan={3}>
-                                <textarea name="compatibleModel" defaultValue={state.compatibleModel} key={state.compatibleModel}/>
+                                <textarea name="compatibleModel" defaultValue={state.compatibleModel} key={state.compatibleModel+'compatibleModel'} readOnly={mode==='detail'}/>
                             </td>
                         </tr>
                         <tr>
                             <td className="table-label">비고사항</td>
                             <td colSpan={3}>
-                                <textarea name="note" defaultValue={state.note} key={state.note}/>
+                                <textarea name="note" defaultValue={state.note} key={state.note+'note'} readOnly={mode==='detail'}/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div className="button-container">
-                    <button type='button' onClick={submitHandler}>
+                    <button type='button' onClick={()=>{
+                        mode==='detail' ? changeModeHandler('edit') : submitHandler()
+                    }}>
                         {mode ==='detail' && '수정하기'}
                         {mode ==='edit' && '수정완료'}
                         {mode ==='write' && '저장하기'}
