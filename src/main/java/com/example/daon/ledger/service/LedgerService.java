@@ -240,9 +240,11 @@ public class LedgerService {
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
+
             if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchSDate() != null) {
                 predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchSDate()));
             }
+
             if (ledgerRequest.getCustomerId() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), ledgerRequest.getCustomerId()));
             }
