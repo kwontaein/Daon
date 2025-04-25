@@ -45,7 +45,6 @@ public class EstimateService {
     private final CustomerRepository customerRepository;
     private final StockRepository stockRepository;
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final ReceiptRepository receiptRepository;
 
@@ -124,7 +123,7 @@ public class EstimateService {
         // 2. 관련 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
-        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
+        UserEntity user = globalService.getUserEntity(request.getUserId());
 
         TaskEntity task;
         if (request.getTaskId() != null) {
@@ -276,7 +275,7 @@ public class EstimateService {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         //UserDetails userDetails = globalService.extractFromSecurityContext();
-        UserEntity user = userRepository.findById(request.getUserId()).orElse(null);
+        UserEntity user = globalService.getUserEntity(request.getUserId());
         TaskEntity task = null;
         if (request.getTaskId() != null) {
             task = taskRepository.findById(request.getTaskId()).orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));

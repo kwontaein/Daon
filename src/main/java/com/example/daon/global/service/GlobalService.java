@@ -13,6 +13,8 @@ import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.calendar.dto.response.CalendarResponse;
+import com.example.daon.calendar.model.CalendarEntity;
 import com.example.daon.company.dto.response.CompanyResponse;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.dto.response.AffiliationResponse;
@@ -405,5 +407,16 @@ public class GlobalService {
                 .build();
     }
 
+
+    public CalendarResponse convertToCalendarResponse(CalendarEntity calendar) {
+        return CalendarResponse
+                .builder()
+                .calendarId(calendar.getCalendarId())
+                .regDate(calendar.getRegDate())
+                .memo(calendar.getMemo())
+                .userId(calendar.getUser().getUserId())
+                .userName(calendar.getUser().getName())
+                .build();
+    }
 
 }
