@@ -46,8 +46,8 @@ const updateTotal = (total, category, quntity, totalPrice)=>{
 export default function LedgerStockSearchResult({searchInfo}:{searchInfo:{searchResult:ResponseLedger[], searchTitle:string, searchSDate:Date}}){
     const screen = useScreenMode({tabletSize:800, mobileSize:620})
     const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
-  
     const mode =(screen!=='pc' ? screen: (mobileView ? 'tabelt': screen))
+
     const renderSearchResult = useMemo(()=>
         searchInfo.searchResult.reduce((prev,ledger,idx)=>{
         const category = ReceiptCategoryEnum[ledger.category]
@@ -95,7 +95,7 @@ export default function LedgerStockSearchResult({searchInfo}:{searchInfo:{search
         if(idx===searchInfo.searchResult.length-1){
             totalLedger =(
                 mode==='pc' ?
-                    <tr className='none-hover' style={{borderBottom:'none'}}>
+                    <tr className='none-hover' style={{borderBottom:'none'}} key='total-result'>
                         <td>총계</td>
                         <td></td>
                         <td></td>
@@ -109,7 +109,7 @@ export default function LedgerStockSearchResult({searchInfo}:{searchInfo:{search
                         <td className='right-align'>{newTotal.totalPrice.toLocaleString('ko-KR')}</td>
                     </tr>
                 :
-                <tbody className='none-hover'  style={{borderBottom:'none'}}>
+                <tbody className='none-hover'  style={{borderBottom:'none'}} key='total-result'>
                     <tr>
                         <td>총계</td>
                         <td></td>
@@ -178,7 +178,7 @@ export default function LedgerStockSearchResult({searchInfo}:{searchInfo:{search
                 }
             </thead>
             <tbody>
-            <tr style={{height:'20px'}}>
+                <tr style={{height:'20px'}}>
                     <td>{dayjs(searchInfo.searchSDate).format('YY.MM.DD')}</td>
                     <td></td>
                     <td className="left-align" style={{fontSize:'0.95rem'}}>{`<전 기 이 월>`}</td>
@@ -194,7 +194,6 @@ export default function LedgerStockSearchResult({searchInfo}:{searchInfo:{search
                 {mode ==='pc' && renderSearchResult.element}
             </tbody>
             {mode !=='pc' && renderSearchResult.element}
-
         </table>
         </>
        

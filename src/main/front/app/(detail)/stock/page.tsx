@@ -1,14 +1,16 @@
 import StockForm from "@/components/main/stock/stock/form/stock-form";
 import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
-import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
+import { getStockByIdApi, getStockListApi } from "@/features/stock/stock/api/searchStockApi";
 import { DetailPageProps } from "@/model/types/share/type";
 
 export default async function RegisterStockPage({searchParams}:DetailPageProps){
     const mode = (await searchParams).mode
-    const target = (await searchParams).target
-    const InitStockCate = await getStockCateApi()
+    const stockId = (await searchParams).target
 
+    const stock = await getStockByIdApi(stockId)
+    const InitStockCate = await getStockCateApi()
+    console.log(stock)
     return(
-       <StockForm mode={mode} stockCate={InitStockCate}/>
+       <StockForm mode={mode} stockCate={InitStockCate} stock={stock}/>
     )
 }

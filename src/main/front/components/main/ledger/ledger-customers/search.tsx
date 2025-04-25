@@ -20,7 +20,9 @@ export default function LedgerCustomerListSearch(){
     })
     useEffect(()=>{
         if(state.searchResult){
-            console.log(state.searchResult)
+            if(state.searchResult.length===0){
+                window.alert("검색 조건에 해당하는 결과가 없습니다.")
+            }
             setSearchInfo({
                 searchResult:state.searchResult,
                 searchTitle:`${state.searchSDate} ~ ${state.searchEDate} 복수거래처원장`,

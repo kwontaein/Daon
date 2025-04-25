@@ -9,34 +9,31 @@ export const initialStockState = {
     stockUseEa: true,
     productName: '',
     condition:'none',
-    stocks:[],
-    initialStocks:[],
     searchKey:uuidv4(),
 }
 
 
 export async function stockSearchAction(prevState, formData){
-    const searchData:StockSearchCondition = {
+    const formState:StockSearchCondition = {
         category: formData.get('category'),
-        remain: formData.get('remain'),
-        stockUseEa: formData.get('stockUseEa'),
-        condition: formData.get('condition'),
+        remain: formData.get('remain')==='use',
+        stockUseEa: formData.get('stockUseEa')==='use',
+        condition: formData.get('condition')==='condition',
         productName: formData.get('productName'),
     }
-    if(searchData.category==='none'){
-        searchData.category = null;
+
+    const action = formData.get('action')
+    let searchResult;
+    if(action==='submit'){
+        const postData = {
+            ...formState,
+            category: formState.category === 'none'
+                ? null
+                : formState.category
+        }    
+        searchResult = await searchStockApi(postData)
+
     }
-    searchData.condition= searchData.condition==='condition'
-    searchData.remain = searchData.remain==='use'
-    searchData.stockUseEa = searchData.stockUseEa==='use'
 
-    const searchKey = uuidv4()
-
-    const{category, condition, productName} = searchData
-
-    if(!category && !condition && !productName){
-        return {...prevState,...searchData, stocks : prevState.initialStocks, searchKey}
-    }
-    const stocks = await searchStockApi(searchData)
-    return {...prevState,...searchData, stocks, searchKey}
+    return {...prevState,...formState, searchResult}
 }
