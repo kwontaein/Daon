@@ -64,6 +64,10 @@ public class StockService {
         return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
     }
 
+    public StockResponse getStockById(StockRequest stockRequest) {
+        StockEntity stock = stockRepository.findById(stockRequest.getStockId()).orElse(null);
+        return globalService.convertToStockResponse(stock);
+    }
 
     // 생성
     @Transactional
@@ -123,4 +127,6 @@ public class StockService {
     public void deleteStockCate(StockCateRequest stockCateRequest) {
         stockCateRepository.deleteById(stockCateRequest.getStockCateId());
     }
+
+
 }
