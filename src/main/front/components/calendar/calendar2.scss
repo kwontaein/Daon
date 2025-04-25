@@ -1,0 +1,87 @@
+@use '@/styles/_variables.scss' as var;
+
+.calendar-table{
+    margin-top: 0.5rem;
+    width: 100%;
+    td{
+        padding-inline: 5px;
+        border: 1px solid var.$default-border-color !important;
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        border: var.$default-border-color;
+
+        tr{
+            background-color: transparent;
+        }
+        td {
+            background-color: transparent;
+            font-weight:bold;
+
+            &.sun {
+              background-color: red !important;
+            }
+          
+            &.sat {
+              background-color: blue !important;
+            }
+          }
+    }
+    tbody{
+        tr{
+            height: 12vh;
+            background-color: var.$bg-color;
+        }
+        td{
+            vertical-align: top;
+            font-size: 1.1rem;
+            font-weight: 550;
+            &.disabled{
+                background-color: #e7e7e7 !important;
+            }
+            &.today{
+                background-color: var.$memo-color;
+            }
+        }
+    }
+
+}
+.calendar-header{
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    span{
+        display: flex;
+        gap: 0.5em;
+    }
+    h3{
+        font-weight: bold;
+    }
+}
+
+.calendar-textarea {
+    margin-top: 5px;
+    width: 70%;
+    min-width: 5px;
+    padding: 4px;
+    font-weight: 400 !important;
+    height: 80px;
+    line-height: 1.2rem;
+    box-sizing: border-box;
+    background-color: inherit;
+    pointer-events: auto; // pointer 이벤트 허용
+    @media (max-width:620px){
+        font-size: 0.9rem;
+    }
+  }
+
+  

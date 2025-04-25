@@ -5,14 +5,12 @@ import {apiUrl} from '@/model/constants/apiUrl';
 import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import TaskSearchResult from './search-result';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import Pagination from '@/components/share/pagination';
 import { deleteTask } from '@/features/sales/task/api/taskApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
-import revalidateHandler from '@/features/revalidateHandler';
 import useDeletePage from '@/hooks/share/useDeletePage';
 
 
@@ -75,6 +73,13 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
             redirectPage()
         }
     },[state])
+
+    //검색중에 갱신되면 검색 조회결과도 다시 갱신
+    useEffect(()=>{
+        if(searchResult){
+            submitHandler()
+        }
+    },[initialTask])
 
     return (
         <>

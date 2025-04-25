@@ -1,3 +1,5 @@
+import DaonCalendar2 from "@/components/calendar/calendar2";
+
 export default function SchedulePage() {
-    return <div>Schedule Page</div>;
+    return <DaonCalendar2/>
 }
