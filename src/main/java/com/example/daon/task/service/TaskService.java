@@ -30,7 +30,13 @@ public class TaskService {
 
     //관리자데이터조회
     public List<TaskResponse> getTasks() {
-        List<TaskEntity> taskEntities = taskRepository.findAll();
+        List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+            query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
         return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
     }
 
@@ -61,8 +67,8 @@ public class TaskService {
                 //거래처 얻기
                 predicates.add(criteriaBuilder.equal(root.get("assignedUser").get("userId"), taskRequest.getAssignedUser()));
             }
-            //거래처분류
 
+            query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
 
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -78,7 +84,8 @@ public class TaskService {
 
             //처리완료 여부가 false 인 것들
             predicates.add(criteriaBuilder.equal(root.get("isCompleted"), false));
-
+            
+            query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

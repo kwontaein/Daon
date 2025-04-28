@@ -77,10 +77,15 @@ public class GlobalService {
      */
     public UserEntity getUserEntity(@Nullable String userId) {
         if (userId == null) {
-            userId = extractFromSecurityContext().getUsername();
+            return null;
         }
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다"));
         return userEntity;
+    }
+
+    public UserEntity getOwnUserEntity() {
+        String userId = extractFromSecurityContext().getUsername();
+        return getUserEntity(userId);
     }
 
 
