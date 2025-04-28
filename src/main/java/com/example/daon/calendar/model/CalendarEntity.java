@@ -25,8 +25,8 @@ public class CalendarEntity {
     private UUID calendarId;
 
     //날짜
-    @Column(name = "reg_date")
-    private LocalDate regDate;
+    @Column(name = "date")
+    private LocalDate date;
 
     //내용
     @Column(name = "memo")
@@ -38,7 +38,7 @@ public class CalendarEntity {
     private UserEntity user;
 
     public void updateFromRequest(CalendarRequest request) {
-        this.regDate = request.getRegDate();
+        this.date = request.getDate();
         this.memo = request.getMemo();
     }
 }

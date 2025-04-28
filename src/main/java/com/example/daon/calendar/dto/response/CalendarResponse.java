@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CalendarResponse {
     private UUID calendarId;
-    private LocalDate regDate;
+    private LocalDate date;
     private String memo;
     private String userId;
     private String userName;

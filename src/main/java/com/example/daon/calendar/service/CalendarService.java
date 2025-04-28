@@ -6,11 +6,13 @@ import com.example.daon.calendar.dto.response.CalendarResponse;
 import com.example.daon.calendar.model.CalendarEntity;
 import com.example.daon.calendar.repository.CalendarRepository;
 import com.example.daon.global.service.GlobalService;
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +32,14 @@ public class CalendarService {
                 predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
             }
 
-            query.orderBy(criteriaBuilder.desc(root.get("regDate")));
+            Integer month = calendarRequest.getMonth();
+            if (month == null || month == 0) {
+                month = LocalDate.now().getMonthValue();
+            }
+            Expression<Integer> monthExpression = criteriaBuilder.function("month", Integer.class, root.get("date"));
+            predicates.add(criteriaBuilder.equal(monthExpression, month));
+            
+            query.orderBy(criteriaBuilder.desc(root.get("date")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -49,11 +58,11 @@ public class CalendarService {
                 predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
             }
 
-            if (calendarRequest.getRegDate() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("regDate"), calendarRequest.getRegDate()));
+            if (calendarRequest.getDate() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("date"), calendarRequest.getDate()));
             }
 
-            query.orderBy(criteriaBuilder.desc(root.get("regDate")));
+            query.orderBy(criteriaBuilder.desc(root.get("date")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
