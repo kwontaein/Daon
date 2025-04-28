@@ -58,6 +58,9 @@ public class StockService {
                     predicates.add(criteriaBuilder.equal(root.get("stockUseEa"), stockRequest.isStockUseEa()));
                 }
             }
+
+            query.orderBy(criteriaBuilder.desc(root.get("productName"))); //이름순 정렬
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
