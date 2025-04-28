@@ -26,14 +26,14 @@ public class TaskController {
         return taskResponses;
     }
 
-    //관리자데이터조회
+    //업무 하나만 조회
     @PostMapping("api/getTask")
     public TaskResponse getTask(@RequestBody TaskRequest taskRequest) {
         TaskResponse taskResponse = taskService.getTask(taskRequest.getTaskId());
         return taskResponse;
     }
 
-    //관리자데이터조회
+    //조치 안된 업무조회 - TODO api 명 변경 필요
     @GetMapping("api/getTaskToday")
     public List<TaskResponse> getTaskToday() {
         return taskService.getTaskToday();
@@ -56,7 +56,7 @@ public class TaskController {
     public void updateTask(@RequestBody TaskRequest taskRequest) {
         taskService.updateTask(taskRequest);
     }
-    
+
 
     //업무삭제
     @PostMapping("api/deleteTask")

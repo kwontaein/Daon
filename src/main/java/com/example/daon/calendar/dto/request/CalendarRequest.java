@@ -16,14 +16,15 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CalendarRequest {
     private UUID calendarId;
-    private LocalDate regDate;
+    private LocalDate date;
     private String memo;
     private String userId;
+    private int month; // 어느 달 정보 가져올건지
 
     public CalendarEntity toEntity(UserEntity user) {
         return CalendarEntity
                 .builder()
-                .regDate(regDate)
+                .date(date)
                 .memo(memo)
                 .user(user)
                 .build();
