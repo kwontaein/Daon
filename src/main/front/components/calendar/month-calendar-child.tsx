@@ -10,7 +10,7 @@ export default function MonthCalendarChild({ year, month }: { year: number; mont
     const daysInMonth = dayjs(firstDay).daysInMonth(); //해당 달의 일수 (4월 =>30)
     const startDayOfWeek = dayjs(firstDay).startOf('month').day() //시작하는 요일
     const endDayOfWeek = dayjs(firstDay).endOf('month').day() // 끝나는 요일
-    const {setDate} = useCalendar()
+    const {setDate,setMode} = useCalendar()
 
     const monthOfDays = Array.from({length:daysInMonth+startDayOfWeek+(6-endDayOfWeek)}, (_,idx)=>{
         const day = (idx+1) -startDayOfWeek //현재 일 (0 = 이전달의 마지막 일, 1 부터 이번달의 1일)
@@ -57,7 +57,11 @@ export default function MonthCalendarChild({ year, month }: { year: number; mont
                     <tr key={weekIdx} className='none-height'>
                     {week.map((date, dayIdx) => (
                         <td key={dayIdx}>                            
-                            <a className={date.dayOfTheWeek ===0 ? 'red':( date.dayOfTheWeek=== 6 ? 'blue':undefined)} onClick={()=>setDate(new Date(year,month,date.day))}>{date.isCurrentMonth ? date.day : ''}</a>
+                            <a className={date.dayOfTheWeek ===0 ? 'red':( date.dayOfTheWeek=== 6 ? 'blue':undefined)} 
+                               onClick={()=>{
+                                setDate(new Date(year,month-1,date.day))
+                                setMode('month')
+                            }}>{date.isCurrentMonth ? date.day : ''}</a>
                         </td>
                     ))}
                     </tr>
