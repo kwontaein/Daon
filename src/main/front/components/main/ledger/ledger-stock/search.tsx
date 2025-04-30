@@ -35,7 +35,8 @@ export default function LedgerStockSearch(){
             });
         }
     }, [action]);
-    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"| "productName"|"modelName">) => {
+
+    const changeStockHandler = useCallback((stockInfo: Pick<ResponseStock,"stockId"|"productName"|"modelName">) => {
         changeHandler(stockInfo);
     }, [changeHandler]);
 
@@ -52,8 +53,12 @@ export default function LedgerStockSearch(){
             action(formData);
         });
     }
+
     useEffect(()=>{
         if(state.searchResult){
+            if(state.searchResult.length===0){
+                window.alert("검색 조건에 해당하는 결과가 없습니다.")
+            }
             setSearchInfo({
                 searchResult:state.searchResult,
                 searchTitle:`${state.productName}(${state.modelName??'-'})`,
@@ -90,12 +95,12 @@ export default function LedgerStockSearch(){
                         <td className='table-label'>품목명</td>
                         <td>
                             <input type='text' 
-                                   name='productName' 
-                                   defaultValue={state.productName} 
-                                   key={state.productName}
+                                   defaultValue={state.stockId ? `${state.productName} [${state.modelName??'-'}]` : ''} 
+                                   key={state.stockId}
                                    onKeyDown={searchStockHandler}/>
-                            <input type='hidden' name='stockId' value={state.stockId} readOnly/>
-                            <input type='hidden' name='modelName' value={state.modelName} readOnly/>
+                            <input type='hidden' name='stockId' value={state.stockId??''} readOnly/>
+                            <input type='hidden' name='productName' value={state.productName??''} readOnly/>
+                            <input type='hidden' name='modelName' value={state.modelName??''} readOnly/>
                         </td>              
                     </tr>
                     <tr>

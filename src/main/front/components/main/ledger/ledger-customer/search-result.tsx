@@ -1,4 +1,5 @@
 import '../ledger-search-result.scss';
+import '@/styles/table-style/search-result.scss';
 
 import { ResponseLedger } from "@/model/types/ledger/type";
 import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
@@ -33,7 +34,7 @@ const initialTotal: Total = {
 
 
 export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
-  const screen = useScreenMode({tabletSize:800, mobileSize:620})
+  const screen = useScreenMode({tabletSize:830, mobileSize:620})
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
 
   const mode =( screen!=='pc' ? screen: (mobileView ? 'tabelt': screen) )
@@ -92,9 +93,9 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
             <input type='checkbox' checked={mobileView} onChange={setMobileView}/> 모바일 원장
         </label>
         }
-        <h3 className='ledger-title'>{searchInfo.searchTitle+' 원장'}</h3>
-        <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
-        <table className={`ledger-search-result-table ${ mode!=='pc' && ' ledger-mobile'}`} style={{marginTop:'0'}}>
+        <h3 className='search-title'>{searchInfo.searchTitle+' 원장'}</h3>
+        <div className='search-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
+        <table className={`search-result-table ${ mode!=='pc' && ' mobile'}`} style={{marginTop:'0'}}>
             <colgroup>
                 {mode==='pc'?
                   <>
@@ -110,7 +111,7 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
                   <col style={{width: "6%", minWidth:'60px'}}/>    
                   <col style={{width: "8%", minWidth:'60px'}}/>    
                   <col style={{width: "5%",minWidth:'50px'}}/>    
-                  <col style={{width: "25%"}}/>   
+                  <col style={{width: "25%", minWidth:'40px'}}/>   
                 </>
                 :
                 <>

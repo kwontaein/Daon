@@ -10,6 +10,8 @@ import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
+import { updateTaskUserApi } from '@/features/sales/task/api/taskApi'
+import { useConfirm } from '@/hooks/share/useConfirm'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
@@ -51,6 +53,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                 window.open(url, "PopupWindow", popupOptions);
             }
     }
+    //업무 상세보기
     const taskDetailHandler = (taskId:string)=>{
         if(window.innerWidth>620){
             const params = new URLSearchParams
@@ -75,7 +78,24 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
             window.open(url, "actionTaken", popupOptions);
         }
     }
-    
+
+    const updateAssingedUserHandler =(taskId,assignedUser)=>{
+        if(assignedUser==='none'){
+            assignedUser=null
+        }
+        console.log(assignedUser)
+        const onUpdate = ()=>{
+            updateTaskUserApi(taskId,assignedUser).then((status)=>{
+                if(status===200){
+                    window.alert('변경이 완료되었습니다.')
+                }else{
+                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+                }
+            })
+        }
+        useConfirm('담당기사를 갱신하겠습니까?',onUpdate)
+    }
+
 
     const dateColor = useCallback((date)=>{
         const date1 = dayjs(date);
@@ -173,7 +193,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                     </td>
                                     <td>{task.requesterName}</td>
                                     <td>
-                                        <select defaultValue={task.assignedUser.userId}>
+                                        <select value={task.assignedUser.userId??'none'} onChange={(e)=>updateAssingedUserHandler(task.taskId, e.target.value)}>
                                             <option value='none'>미지정</option>
                                             {employees.map((employee) =>(
                                                 <option key={employee.userId} value={employee.userId}>{employee.name}</option>

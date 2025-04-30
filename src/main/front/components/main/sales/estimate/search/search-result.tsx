@@ -60,8 +60,8 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                         <td>{estimate.userName}</td>
                         {isTask &&
                         <td>
-                            {estimate.receipted ? 
-                                <>{estimate.receiptDate}</>
+                            {estimate.receiptDate ? 
+                                <>{dayjs(estimate.receiptDate).format('YY.MM.DD')}</>
                                 :
                                 <button onClick={viewTransEstimateHandler.bind(null,estimate.estimateId)}>전표전환</button>
                             }
@@ -69,7 +69,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
                         }
                         <td className='icon' onClick={()=> target === estimate.estimateId ? setTarget(null) :setTarget(estimate.estimateId)}>
                             <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === estimate.estimateId &&{color:'orange'}}/>
-                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} receipted={estimate.receipted}/>}
+                            {target === estimate.estimateId && <EstimateOptions estimateId={estimate.estimateId} receipted={!!estimate.receiptDate}/>}
                         </td>
                     </tr>
                 ))}
