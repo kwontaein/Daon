@@ -8,6 +8,7 @@ export type CalendarType={
     nextYear:()=>void,
     prevYear:()=>void,
     setDate :(date:Date)=>void,
+    setMode:(mode:'month'|'year')=>void,
     mode:'month'|'year'
 }
 
@@ -38,5 +39,12 @@ export const useCalendar = create<CalendarType>(set=>({
             currentDate:date
         }))
     },
+    setMode: (mode:'month'|'year')=>{
+        if(mode!=='month' && mode!=='year') return
+        set(()=>({
+            mode:mode
+        }))
+    },
+
     mode:'month'
 }))
