@@ -68,6 +68,7 @@ public class ReceiptsService {
                 StockEntity stock = stockRepository.findById(stockId).orElse(null);
                 predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
             }
+            //todo 정렬
 
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -239,5 +240,8 @@ public class ReceiptsService {
                 .stream()
                 .map(globalService::convertToReceiptResponse)
                 .collect(Collectors.toList());
+    }
+
+    public void saveReceiptsToEstimate(List<ReceiptRequest> receiptRequests) {
     }
 }

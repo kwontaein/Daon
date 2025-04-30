@@ -79,7 +79,8 @@ export async function updateEstimate(estimate: RequestEstimate) {
         }
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-} 
+}
+
 export async function deleteEstimate(estimateId) {
 
     return fetch("http://localhost:8080/api/deleteEstimate", {
@@ -87,7 +88,7 @@ export async function deleteEstimate(estimateId) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(estimateId),
+        body: JSON.stringify({estimateId}),
     }).then(async (response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -99,23 +100,23 @@ export async function deleteEstimate(estimateId) {
         }
         console.error('Error:', error)
     })
-} 
+}
 
 /**업무 견적서 또는 일반 견적서를 찾는 api task:true = 업무견적서 */
-export async function searchAllEstimateApi(task:boolean) {
+export async function searchAllEstimateApi(task: boolean) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
-    
-    const condition:EstimateCondition={
+
+    const condition: EstimateCondition = {
         condition: EstimateCategory.ALL,
         searchSDate: null,
         searchEDate: null,
         customerId: null,
         stockId: null,
         task,
-        receipted:false
-    }    
+        receipted: false
+    }
     return fetch("http://localhost:8080/api/getEstimates", {
         method: "POST",
         headers: {
@@ -137,10 +138,10 @@ export async function searchAllEstimateApi(task:boolean) {
         }
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-} 
+}
 
 
-export async function searchEstimateConditionApi(searchCondition:EstimateCondition) {
+export async function searchEstimateConditionApi(searchCondition: EstimateCondition) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
@@ -166,8 +167,9 @@ export async function searchEstimateConditionApi(searchCondition:EstimateConditi
         }
         console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-} 
-export async function transEstimateToReceiptApi(postData:{estimateId: string, receiptDate?: Date,note?: string}) {
+}
+
+export async function transEstimateToReceiptApi(postData: { estimateId: string, receiptDate?: Date, note?: string }) {
 
     return fetch("http://localhost:8080/api/estimatesPaid", {
         method: "POST",
