@@ -111,8 +111,8 @@ export default function CompanyForm({company}:{company?:ResponseCompany}){
                     <tr>
                         <td rowSpan={3} className="table-label">주소</td>
                         <td colSpan={3}>
-                            <input className="zip-code-input" name='zipCode' defaultValue={company && company.zipcode.split('-')[0]}/> -
-                            <input className="zip-code-input" name='zipCode2'defaultValue={company && company.zipcode.split('-')[1]} style={{marginLeft:'5px'}}/>  
+                            <input className="zip-code-input" name='zipCode' defaultValue={company && (company.zipcode??'-').split('-')[0]}/> -
+                            <input className="zip-code-input" name='zipCode2'defaultValue={company && (company.zipcode??'-').split('-')[1]} style={{marginLeft:'5px'}}/>  
                             [우편번호]  
                         </td>
                     </tr>
