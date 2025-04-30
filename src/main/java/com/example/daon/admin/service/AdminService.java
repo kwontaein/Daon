@@ -18,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,24 +49,32 @@ public class AdminService {
     public ResponseEntity<String> SignIn(String id, String password) {
         JwtToken tokenInfo;
         UserEntity userEntity;
+
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, password);
-            try {
-                // 사용자 정보 반환
-                userEntity = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
-            } catch (UsernameNotFoundException e) {
-                // 존재하지 않는 사용자인 경우
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("NON_EXISTENT_ERROR");
-            }
+
+            // 사용자 존재 여부 확인
+            userEntity = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
+
+            // 인증 수행
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+            // ✅ 인증 정보를 SecurityContext에 저장 (중요!)
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // 토큰 생성 및 저장
             tokenInfo = jwtTokenProvider.generateToken(authentication);
             redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
+
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
+
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("NON_EXISTENT_ERROR");
         } catch (BadCredentialsException e) {
-            // 비밀번호가 틀린 경우
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PW_ERROR");
         }
     }
+
 
     //사원정보 crud
 
@@ -122,5 +131,9 @@ public class AdminService {
             return false;
         }
         return true;
+    }
+
+    public UserResponse getMyDetail() {
+        return globalService.convertToUserResponse(globalService.resolveUser(null));
     }
 }
