@@ -118,6 +118,19 @@
     }
   }
 
+  .calendar-button-container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    button{
+      width: 100px;
+      height: 30px;
+    }
+  }
+  
+
 
   .month-calendar-table{
     margin-top: 0.5rem;
