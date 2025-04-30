@@ -1,7 +1,6 @@
 import { ResponseLedger } from "@/model/types/ledger/type";
 import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
 import dayjs from "dayjs";
-import { JSX } from "react";
 
 export type SubTotal = {
     sales: number;
@@ -76,8 +75,8 @@ export type Total = SubTotal & {
  export function renderMobileLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean) {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
-      <tbody key={ledger.receiptId}>
-        <tr style={isSameDate ? { border: 'none' } : undefined}>
+      <tbody key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
+        <tr>
           <td rowSpan={2}><input type="checkbox" /></td>
           <td rowSpan={2}>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
           <td rowSpan={2}>{category}</td>
