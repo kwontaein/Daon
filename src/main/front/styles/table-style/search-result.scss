@@ -113,3 +113,17 @@
         }
     }
 }
+
+.search-title{
+    font-size: 2rem;
+    text-decoration: underline;
+    margin-block: 1rem;
+    text-align: center;
+    @media(max-width:620px){
+        font-size: 1.5rem;
+    }
+}
+.search-date-container{
+    text-align: right;
+    font-size: 0.95rem;
+}

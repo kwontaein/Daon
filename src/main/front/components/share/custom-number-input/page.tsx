@@ -23,7 +23,7 @@ export default function CustomNumberInput({name, defaultValue,onChange,readOnly}
         <input
             name={name}
             type="text"
-            defaultValue={defaultValue}
+            defaultValue={Number(defaultValue??0).toLocaleString('ko-KR')}
             inputMode="numeric"
             pattern="\d*" // 숫자만 입력 가능
             onInput={numberInputHandler}    

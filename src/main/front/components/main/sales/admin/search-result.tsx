@@ -46,23 +46,10 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
         }
     }
 
-    //업무처리 상태 Handler
-    const taskActionTakenHandler = (taskId:string)=>{
-        if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set('taskId',taskId)
-            
-            const url = `${apiUrl}/register-action-taken?${params.toString()}`;
-            const popupOptions = "width=600,height=400,scrollbars=yes,resizable=yes"; 
-            
-            window.open(url, "actionTaken", popupOptions);
-        }
-    }
-    
 
     return(
         mode ? 
-        <table className='task-search-result-table'>
+        <table className='search-result-table'>
             <colgroup>
                 <col style={{ width: '1%' }}/>
                 <col style={{ width: `${mode==='pc' ? '5%' :'5%'}`, minWidth:'55px'}}/>
@@ -125,10 +112,7 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
                                     </td>
                                     {mode==='pc' &&
                                     <td>
-                                         {task.completeAt ?
-                                            <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
-                                            :
-                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
+                                         {task.completeAt && dayjs(task.completeAt).format('MM.DD HH:mm')}
                                     </td>}
                                     <td>
                                         <a onClick={()=>viewCustomerHandler(task.customer.customerId)}>

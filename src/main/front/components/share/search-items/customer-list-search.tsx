@@ -34,7 +34,11 @@ export default function CustomerListSearch({initialcustomers, page} : {
 
 
     const selectValue = () => {
-        const postData = customers.filter(({customerId})=> checkedState[customerId]).map(({customerId, customerName})=>{ return {customerId, customerName}})
+        const postData = customers
+            .filter(({customerId}) => checkedState[customerId])
+            .map(({customerId, customerName}) => {
+                return {customerId, customerName}
+            })
         const message ={
             customerArr: postData
         }

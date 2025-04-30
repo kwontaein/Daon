@@ -1,5 +1,5 @@
 import { useScreenMode } from '@/hooks/share/useScreenMode';
-import '../ledger-search-result.scss';
+import '@/styles/table-style/search-result.scss';
 
 import {  ResponseLedgerStock, ResponseStockCountResult } from "@/model/types/ledger/type";
 import dayjs from "dayjs";
@@ -55,10 +55,10 @@ export default function LedgerStockCountSearchResult({searchInfo} : {
         <>
         {mode &&
         <>
-            <h3 className='ledger-title'>{searchInfo.searchTitle}</h3>
-            <div className='ledger-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
-            <div className={mode==='pc'? 'ledger-grid-table-container' :''}>
-                <table className='ledger-search-result-table'>
+            <h3 className='search-title'>{searchInfo.searchTitle}</h3>
+            <div className='search-date-container'>{`Date : ${dayjs(new Date()).format('YYYY.MM.DD')}, Tel: ,Fax:`}</div>
+            <div className={mode==='pc'? 'grid-table-container' :''}>
+                <table className='search-result-table'>
                     <colgroup>
                         <col style={{width: "40%"}}/>    
                         <col style={{width: "20%"}}/>    
@@ -79,7 +79,7 @@ export default function LedgerStockCountSearchResult({searchInfo} : {
                     </tbody>
                 </table>
                 {(searchInfo.searchResult.stockLedgerResponses.length>2 && mode==='pc')&&
-                    <table className='ledger-search-result-table'>
+                    <table className='search-result-table'>
                     <colgroup>
                         <col style={{width: "20%"}}/>    
                         <col style={{width: "30%"}}/>    
@@ -100,7 +100,7 @@ export default function LedgerStockCountSearchResult({searchInfo} : {
                 </table>
                 }
                 </div>
-                <table className='ledger-search-result-table'>
+                <table className='search-result-table'>
                     <tbody>
                         <tr className='none-hover' style={{borderBottom:'none'}}>
                             <td>총계</td>
