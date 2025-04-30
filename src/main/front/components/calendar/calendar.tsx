@@ -10,19 +10,23 @@ import prevYearJPG from '@/assets/prevYear.gif';
 import prevMonthJPG from '@/assets/prevMonth.gif';
 import { useCalendar } from '@/store/zustand/calendar';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
+import MonthCalendar from './month-calendar';
 
 export default function DaonCalendar(){
-    const {currentDate ,prevMonth, nextMonth, prevYear, nextYear} = useCalendar()
+    const {currentDate ,prevMonth, nextMonth, prevYear, nextYear, mode, setMode} = useCalendar()
     const daysInMonth = dayjs(currentDate).daysInMonth(); //해당 달의 일수 (4월 =>30)
     const startDayOfWeek = dayjs(currentDate).startOf('month').day() //시작하는 요일
     const endDayOfWeek = dayjs(currentDate).endOf('month').day() // 끝나는 요일
     const  { itemsRef, target, setTarget } = useItemSelection(true)
 
+    //음력계산
+    const KoreanLunarCalendar = require('korean-lunar-calendar');
+
     const monthOfDays = Array.from({length:daysInMonth+startDayOfWeek+(6-endDayOfWeek)}, (_,idx)=>{
         const day = (idx+1) -startDayOfWeek //현재 일 (0 = 이전달의 마지막 일, 1 부터 이번달의 1일)
         const date = dayjs(currentDate).set('date', day);
         return{
-            day:day, //dlfwk
+            day:day, //일정
             dayOfTheWeek:date.day(),// 요일정보
             isCurrentMonth: day > 0 && day <= daysInMonth // 이번 달의 날짜인지 확인
         }
@@ -33,19 +37,33 @@ export default function DaonCalendar(){
         return prev;
       }, []);
     
+
+      const changeModeHandler =(mode)=>{
+            setMode(mode)
+      }
     return(
         <>
-        <div className='calendar-header'>
-            <span>
-                <Image src={prevYearJPG} alt='<<' onClick={prevYear} style={{zoom:'120%'}}/>
-                <Image src={prevMonthJPG} alt='<' onClick={prevMonth} style={{zoom:'120%'}}/>
-            </span>
-                <h3>{dayjs(currentDate).format('YYYY년 M월')}</h3>
-            <span>
-                <Image src={nextMonthJPG} alt='>' onClick={nextMonth} style={{zoom:'120%'}}/>
-                <Image src={nextYearJPG} alt='>>' onClick={nextYear} style={{zoom:'120%'}}/>
-            </span>
-        </div>
+        <section style={{display:'flex', justifyContent:'space-between'}}>
+            <div className='calendar-header'>
+                <span>
+                    <Image src={prevYearJPG} alt='<<' onClick={prevYear} style={{zoom:'120%'}}/>
+                    {mode==='month' && <Image src={prevMonthJPG} alt='<' onClick={prevMonth} style={{zoom:'120%'}}/>}
+                </span>
+                    <h3>{mode==='month' ?  dayjs(currentDate).format('YYYY년 M월') : dayjs(currentDate).format('YYYY년')}</h3>
+                <span>
+                {mode==='month' && <Image src={nextMonthJPG} alt='>' onClick={nextMonth} style={{zoom:'120%'}}/>}
+                    <Image src={nextYearJPG} alt='>>' onClick={nextYear} style={{zoom:'120%'}}/>
+                </span>
+            </div>
+            <div className='calendar-button-container'>
+                {mode==='month' && <button>저&nbsp;&nbsp;&nbsp;장</button>}
+                <button onClick={changeModeHandler.bind(null,'month')}>월간일정</button>
+                <button onClick={changeModeHandler.bind(null,'year')}>년&nbsp;&nbsp;&nbsp;력</button>
+            </div>
+        </section>
+        {mode ==='month' ?
+        <>
+
         <table className="calendar-table">
             <colgroup>
                 <col style={{width:'14.3%'}}/>
@@ -90,6 +108,9 @@ export default function DaonCalendar(){
             </tbody>
         </table>
         </>
-        
+        :
+        <MonthCalendar/>
+        }
+        </>        
     )
 }

@@ -15,22 +15,11 @@ import MonthCalendarChild from './month-calendar-child';
 export default function MonthCalendar(){
     const {currentDate, prevYear, nextYear} = useCalendar()
 
-    return(
-        <>
-        <div className='calendar-header'>
-            <span>
-                <Image src={prevYearJPG} alt='<<' onClick={prevYear} style={{zoom:'120%'}}/>
-            </span>
-                <h3>{dayjs(currentDate).format('YYYY년')}</h3>
-            <span>
-                <Image src={nextYearJPG} alt='>>' onClick={nextYear} style={{zoom:'120%'}}/>
-            </span>
-        </div>
+    return(    
         <div className='grid-calendar-container'>
             {[1,2,3,4,5,6,7,8,9,10,11,12].map((_,i)=>(
                 <MonthCalendarChild year={dayjs(currentDate).year()} month={i+1} key={i}/>
             ))}
         </div>
-        </> 
     )
 }
