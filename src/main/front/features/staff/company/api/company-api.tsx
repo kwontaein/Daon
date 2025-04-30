@@ -1,9 +1,9 @@
-import { ResponseCompany } from "@/model/types/staff/company/type";
+import {ResponseCompany} from "@/model/types/staff/company/type";
 
-export async function getCompany(){
+export async function getCompany() {
     const controller = new AbortController();
     const signal = controller.signal;
-    const timeoutId = setTimeout(()=> controller.abort(), 10000)
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     return await fetch("http://localhost:8080/api/getCompany", {
         headers: {
@@ -20,21 +20,21 @@ export async function getCompany(){
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
-            if(error.name=== 'AbortError'){
-                console.log('Fetch 요청이 시간초과되었습니다.')
-            }
-            console.error('Error:', error)
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function saveCompany(companyData:Omit<ResponseCompany,'companyId'>){
-    try{
+export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'>) {
+    try {
         const response = await fetch("http://localhost:8080/api/saveCompany", {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify(companyData)
+            body: JSON.stringify(companyData)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -43,14 +43,32 @@ export async function saveCompany(companyData:Omit<ResponseCompany,'companyId'>)
         console.error('Error:', error);
     }
 }
-export async function deleteCompany(companyId:string){
-    try{
-        const response = await fetch("http://localhost:8080/api/deleteCompany", {
-            method:"POST",
-            headers : {
+
+export async function updateCompany(companyData: ResponseCompany) {
+    try {
+        const response = await fetch("http://localhost:8080/api/updateCompany", {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json'
             },
-            body:JSON.stringify({companyId})
+            body: JSON.stringify(companyData)
+        })
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export async function deleteCompany(companyId: string) {
+    try {
+        const response = await fetch("http://localhost:8080/api/deleteCompany", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({companyId})
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
