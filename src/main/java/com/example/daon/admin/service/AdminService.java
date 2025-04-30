@@ -90,8 +90,9 @@ public class AdminService {
         userRepository.deleteById(userRequest.getUserId());
     }
 
-    public UserEntity GetEmployeeDetail(UserRequest userRequest) {
-        return userRepository.findById(userRequest.getUserId()).orElse(null);
+    public UserResponse GetEmployeeDetail(UserRequest userRequest) {
+        UserEntity user = userRepository.findById(userRequest.getUserId()).orElse(null);
+        return globalService.convertToUserResponse(user);
     }
 
     public List<DeptEntity> getDept() {
