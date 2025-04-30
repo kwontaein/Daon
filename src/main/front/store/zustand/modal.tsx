@@ -14,20 +14,15 @@ export type ModalState = {
     receipt:Partial<ResponseReceipt>//전표
     estimate:Partial<ResponseEstimate>,//견적서
     customer:Partial<ResponseCustomer>,//거래처
-    customerList:ResponseCustomer[],
+    customerList:Pick<ResponseCustomer,'customerId'| 'customerName'>[],
     task:Partial<ResponseTask>,//업무
     stock:Partial<ResponseStock>,//물품
     stockList:ResponseStock[],
     official:Partial<ResponseOfficial>//관리비
     company:Partial<ResponseCompany>,
     employee:Partial<ResponseEmployee>,
-    url:string,
-    page:number,
-    subModal:{
-        subUrl:string
-        page:number,
-        subPostData:Partial<ResponseStock>| Partial<ResponseCustomer>
-    }
+    modalPage:number,
+    searchKeyword:string;
     postData:Partial<ResponseStock>| Partial<ResponseCustomer>
     reset:()=>void,
     setModalState:(state:Partial<ModalState>)=>void
@@ -45,13 +40,8 @@ const initialModalState = {
     official:{},//관리비
     company:{},
     employee:{},
-    url:'',
-    page:0,
-    subModal:{
-        subUrl:'',
-        page:0,
-        subPostData:{}
-    },
+    searchKeyword:'',
+    modalPage:0,
 }
 
 export const useModalState = create<ModalState>(set=>({

@@ -1,7 +1,11 @@
 export default async function CopyRight(){
     return(
-        <span style={{width:'100%', alignItems:'center'}}>
-            <b>(주)다온정보</b> <p style={{color:'#FF0000'}}>다온정보 Corp.</p>Copyright 다온정보 Corp. All Rights Reserved.
-        </span>
+        <div style={{ width: '100%'}}>
+            <span style={{width:'100%',  paddingTop:'3rem', justifyContent:'center'}}>
+                <b>(주)다온정보</b>
+                <span style={{ color: '#FF0000', margin: '0 4px' }}>다온정보 Corp.</span>
+                <span> All Rights Reserved.</span>
+            </span>
+        </div>
     )
 }
