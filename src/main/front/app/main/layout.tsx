@@ -5,8 +5,6 @@ import MainHeader from "@/components/main/layout/header/_header";
 import AsideTitle from '@/components/main/layout/aside/asideTitle';
 
 
-
-
 export default async function MainLayout({navigation,aside,children,footer}: {
     aside: React.ReactNode;
     navigation: React.ReactNode;
@@ -26,8 +24,10 @@ export default async function MainLayout({navigation,aside,children,footer}: {
             <AsideTitle/> 
             {children}
           </section>
-          {footer}
         </section>
+        <footer>
+          {footer}
+        </footer>
       </>
     );
 }

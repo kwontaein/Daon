@@ -1,131 +1,70 @@
 @use '@/styles/_variables.scss' as var;
 
-.daon-calendar-container{
+.calendar-table{
+    margin-top: 0.5rem;
     width: 100%;
-    margin : 5px;
-    position: relative;
-    z-index: 0;
-    box-sizing: border-box;
-    border-radius: 5px;
-    background-color: transparent;
+    td{
+        padding-inline: 5px;
+        border: 1px solid var.$default-border-color;
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+    }
 
 
     thead{
         background-color: #8091A7;
         background-image: url('../../assets/bg_img.gif');
         background-repeat: repeat-x;
+        border: var.$default-border-color;
 
-        th{
+        tr{
             background-color: transparent;
-            &:has(.sun) {
-                background-color: red !important;
-            }
-            
-            &:has(.sat) {
-                background-color: blue !important;
-            }
         }
-        
-    }
-    .fc-scrollgrid {
-        border-left: 1px solid var.$default-border-color !important;
-    }
+        td {
+            background-color: transparent;
+            font-weight:bold;
 
-
+            &.sun {
+              background-color: red !important;
+            }
+          
+            &.sat {
+              background-color: blue !important;
+            }
+          }
+    }
     tbody{
         tr{
             height: 12vh;
-            td{
-                border: 1px solid var.$default-border-color;
-                background-color: white;
-                &:has(.none){
-                    background-color: #f7f7f7;
-                }
+            &.none-height{
+                height: auto !important;
+            }
+            background-color: var.$bg-color;
+        }
+        td{
+            vertical-align: top;
+            font-size: 1.1rem;
+            font-weight: 550;
+            &.disabled{
+                background-color: #e7e7e7 !important;
+            }
+            &.today{
+                background-color: var.$memo-color;
+            }
+            &:focus{
+                border:var.$default-point-color;
             }
         }
     }
 
-
-    .fc-daygrid-day-number{
-        width: 100%;
-        height: 100%;
-        &:hover{
-            color: inherit;
-        }
-    }
-    //일자 스타일
-    .calendar-day{
-        display: flex;
-        flex-direction: column;
-        text-align: start;
-        height: 100%; // 전체 셀 높이에 맞춤
-        width: 100%;
-        padding: 2px 4px;
-        &.sun{
-            color: red !important;
-        }
-        
-        &.sat{
-            color: blue !important;
-        }
-        &.none{
-            color: #f7f7f7 !important;
-        }
-    }
-
-
-   
-    .is-click{
-        background-color: var.$default-point-color;
-        border-radius: 50%;
-        color: white;
-    }
-
-    //header 월화수목금토일
-    .fc-col-header-cell-cushion{
-        color: white; 
-    }
-
-    td{
-        background-color: transparent;
-        border:none;
-        text-align: center;
-    }
-    .fc-col-header{
-        margin: 0;
-    }
-    .fc-theme-standard .fc-scrollgrid {
-        border: none;
-    }
-
-    .fc .fc-daygrid-day-top {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 12vh;
-        a{
-            padding:0;
-        }
-    }
-    //이벤트(일정)칸 빈공백 제거
-    .fc-daygrid-day-events{
-        display: none;
-    }
-    .fc-col-header {
-        width: 100% !important;
-    }
-    .fc-daygrid-body{
-        width: 100% !important;
-    }
-    .fc-scrollgrid-sync-table{
-        width: 100% !important;
-    }
 }
 .calendar-header{
     width: 200px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5em;
+    margin-top: 1.5rem;
     span{
         display: flex;
         gap: 0.5em;
@@ -137,18 +76,71 @@
 
 .calendar-textarea {
     width: 100%;
-    height: 100%;
-    padding: 4px;
+    height: 80px;
+    min-width: 100%;
+    min-height: 80px;
+
+    margin-top: 5px;
+    border:none;
+    
+    &:focus{
+        border: none;
+        outline: none;
+    }
+
     font-weight: 400 !important;
     line-height: 1.2rem;
     box-sizing: border-box;
-    resize: both;
-    user-select: all;
-    cursor: default;
-    font-size: 12px;
-    z-index: 9999;
-    font-weight: bold;
     background-color: inherit;
-    position: relative;
     pointer-events: auto; // pointer 이벤트 허용
+
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+
+    @media (max-width:620px){
+        font-size: 0.9rem;
+    }
+  }
+
+  .grid-calendar-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 2%;
+    @media (max-width:800px){
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+    }
+  }
+
+
+  .month-calendar-table{
+    margin-top: 0.5rem;
+    .table-label{
+        background-color: #f0f0f0;
+    }
+    
+    td{
+        text-align: center;
+        padding-inline: 5px;
+        border: 1px solid var.$default-border-color;
+    }
+
+    .red{
+        color:red;
+        &:hover{
+            color: #FF9900;
+        }
+    }
+    .blue{
+        color: blue;
+        &:hover{
+            color: #FF9900;
+        }
+    }
   }
