@@ -122,7 +122,7 @@ public class EstimateService {
         // 2. 관련 엔티티 조회
         CustomerEntity customer = customerRepository.findById(request.getCustomerId()).orElse(null);
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
-        UserEntity user = globalService.getUserEntity(request.getUserId());
+        UserEntity user = globalService.resolveUser(request.getUserId());
 
         TaskEntity task;
         if (request.getTaskId() != null) {
@@ -276,7 +276,7 @@ public class EstimateService {
         CompanyEntity company = companyRepository.findById(request.getCompanyId()).orElse(null);
         //UserDetails userDetails = globalService.extractFromSecurityContext();
 
-        UserEntity user = globalService.getUserEntity(request.getUserId() == null || request.getUserId().isEmpty() ? "kosq3964" : request.getUserId());
+        UserEntity user = globalService.resolveUser(request.getUserId() == null || request.getUserId().isEmpty() ? "kosq3964" : request.getUserId());
 
         TaskEntity task = null;
         if (request.getTaskId() != null) {

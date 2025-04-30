@@ -4,7 +4,6 @@ import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
-import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +43,11 @@ public class AdminController {
     @PostMapping("api/getEmployeeDetail")
     public UserResponse GetEmployeeDetail(@RequestBody UserRequest userRequest) {
         return adminService.GetEmployeeDetail(userRequest);
+    }
+
+    @PostMapping("api/getMyDetail")
+    public UserResponse getMyDetail() {
+        return adminService.getMyDetail();
     }
 
     @PostMapping("api/updateEmployee")
