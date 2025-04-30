@@ -38,7 +38,7 @@ public class CalendarService {
             }
             Expression<Integer> monthExpression = criteriaBuilder.function("month", Integer.class, root.get("date"));
             predicates.add(criteriaBuilder.equal(monthExpression, month));
-            
+
             query.orderBy(criteriaBuilder.desc(root.get("date")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -49,7 +49,7 @@ public class CalendarService {
 
     @Transactional
     public void saveSchedules(CalendarRequest calendarRequest) {
-        UserEntity user = globalService.getUserEntity(null);
+        UserEntity user = globalService.resolveUser(null);
 
         List<CalendarEntity> calendarEntities = calendarRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

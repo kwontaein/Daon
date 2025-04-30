@@ -19,8 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -180,19 +178,20 @@ public class JwtTokenProvider {
 
     //쿠키 생성 메소드
     public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
-        // 토큰 디코드
         Claims claims = parseClaims(tokenValue);
-        // 만료 시간 정보 얻기
-        long expirationTime = claims.getExpiration().getTime() / 1000; // 밀리초를 초로 변환
 
-        Cookie cookie;
-        cookie = new Cookie(tokenName, URLEncoder.encode(tokenValue, StandardCharsets.UTF_8));
+        long now = System.currentTimeMillis() / 1000;
+        long expirationTime = claims.getExpiration().getTime() / 1000;
+        int maxAge = (int) (expirationTime - now);
 
-        // 쿠키 속성 설정
-        cookie.setHttpOnly(true);  //httponly 옵션 설정
-        cookie.setSecure(true); //https 옵션 설정
-        cookie.setPath("/"); // 모든 곳에서 쿠키열람이 가능하도록 설정
-        cookie.setMaxAge(Math.toIntExact(expirationTime)); //쿠키 만료시간 설정
+        Cookie cookie = new Cookie(tokenName, tokenValue); // 인코딩 제거
+
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // 개발 환경에서는 false
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
+
         response.addCookie(cookie);
     }
+
 }

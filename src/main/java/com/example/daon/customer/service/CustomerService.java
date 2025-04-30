@@ -85,7 +85,7 @@ public class CustomerService {
         UserEntity user = null;
         System.out.println(request.getUserId());
         if (request.getUserId() != null || request.getUserId().isEmpty()) {
-            user = globalService.getUserEntity(request.getUserId());
+            user = globalService.resolveUser(request.getUserId());
         }
         AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
         CustomerEntity customer = customerRepository.save(request.toEntity(user, affiliationEntity));
