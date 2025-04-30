@@ -138,3 +138,18 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
         console.error('Error:', error);
     }
 }
+
+
+export const updateTaskUserApi= async (taskId, assignedUser)=>{
+    try {
+        const response = await fetch("http://localhost:8080/api/updateTaskUser", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({taskId,assignedUser}),
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.status;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

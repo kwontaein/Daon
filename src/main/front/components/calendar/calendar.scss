@@ -1,0 +1,146 @@
+@use '@/styles/_variables.scss' as var;
+
+.calendar-table{
+    margin-top: 0.5rem;
+    width: 100%;
+    td{
+        padding-inline: 5px;
+        border: 1px solid var.$default-border-color;
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+
+    thead{
+        background-color: #8091A7;
+        background-image: url('../../assets/bg_img.gif');
+        background-repeat: repeat-x;
+        border: var.$default-border-color;
+
+        tr{
+            background-color: transparent;
+        }
+        td {
+            background-color: transparent;
+            font-weight:bold;
+
+            &.sun {
+              background-color: red !important;
+            }
+          
+            &.sat {
+              background-color: blue !important;
+            }
+          }
+    }
+    tbody{
+        tr{
+            height: 12vh;
+            &.none-height{
+                height: auto !important;
+            }
+            background-color: var.$bg-color;
+        }
+        td{
+            vertical-align: top;
+            font-size: 1.1rem;
+            font-weight: 550;
+            &.disabled{
+                background-color: #e7e7e7 !important;
+            }
+            &.today{
+                background-color: var.$memo-color;
+            }
+            &:focus{
+                border:var.$default-point-color;
+            }
+        }
+    }
+
+}
+.calendar-header{
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    span{
+        display: flex;
+        gap: 0.5em;
+    }
+    h3{
+        font-weight: bold;
+    }
+}
+
+.calendar-textarea {
+    width: 100%;
+    height: 80px;
+    min-width: 100%;
+    min-height: 80px;
+
+    margin-top: 5px;
+    border:none;
+    
+    &:focus{
+        border: none;
+        outline: none;
+    }
+
+    font-weight: 400 !important;
+    line-height: 1.2rem;
+    box-sizing: border-box;
+    background-color: inherit;
+    pointer-events: auto; // pointer 이벤트 허용
+
+    ::-webkit-scrollbar{
+        display:none;
+    }
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+
+    @media (max-width:620px){
+        font-size: 0.9rem;
+    }
+  }
+
+  .grid-calendar-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 2%;
+    @media (max-width:800px){
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+    }
+  }
+
+
+  .month-calendar-table{
+    margin-top: 0.5rem;
+    .table-label{
+        background-color: #f0f0f0;
+    }
+    
+    td{
+        text-align: center;
+        padding-inline: 5px;
+        border: 1px solid var.$default-border-color;
+    }
+
+    .red{
+        color:red;
+        &:hover{
+            color: #FF9900;
+        }
+    }
+    .blue{
+        color: blue;
+        &:hover{
+            color: #FF9900;
+        }
+    }
+  }
