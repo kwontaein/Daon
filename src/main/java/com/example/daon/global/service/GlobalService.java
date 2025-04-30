@@ -417,7 +417,7 @@ public class GlobalService {
         return CalendarResponse
                 .builder()
                 .calendarId(calendar.getCalendarId())
-                .regDate(calendar.getRegDate())
+                .date(calendar.getDate())
                 .memo(calendar.getMemo())
                 .userId(calendar.getUser().getUserId())
                 .userName(calendar.getUser().getName())

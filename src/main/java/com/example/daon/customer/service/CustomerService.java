@@ -1,7 +1,6 @@
 package com.example.daon.customer.service;
 
 import com.example.daon.admin.model.UserEntity;
-import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.customer.dto.request.AffiliationRequest;
 import com.example.daon.customer.dto.request.CustomerRequest;
 import com.example.daon.customer.dto.response.AffiliationResponse;
@@ -84,7 +83,8 @@ public class CustomerService {
 
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = null;
-        if (request.getUserId() != null) {
+        System.out.println(request.getUserId());
+        if (request.getUserId() != null || request.getUserId().isEmpty()) {
             user = globalService.getUserEntity(request.getUserId());
         }
         AffiliationEntity affiliationEntity = affiliationRepository.findById(request.getAffiliationId()).orElseThrow(() -> new RuntimeException("잘못된 소속입니다."));
