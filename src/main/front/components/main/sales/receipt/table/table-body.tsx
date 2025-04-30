@@ -1,7 +1,7 @@
 'use client'
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import './table-body.scss';
+import './receipt-table.scss';
 
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import ReceiptOptions from '@/components/main/sales/receipt/options';
@@ -15,7 +15,7 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import useSearchOfficial from '@/hooks/sales/official/useSearchOfficial';
 
 
-export default function ReceiptTableBody({initialReceiptList} : {initialReceiptList:ResponseReceipt[]}){
+export default function ReceiptTableBody({initialReceiptList} : {initialReceiptList?:ResponseReceipt[]}){
     const {target,setTarget,itemsRef} = useItemSelection<string>(true) //복사 및 삭제대상 지정
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
     const [isRightClick, setIsRightClick] = useState<boolean>(false)
@@ -51,6 +51,32 @@ export default function ReceiptTableBody({initialReceiptList} : {initialReceiptL
         ));
     }, [ReceiptCategoryEnum]);
 
+    const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleLongPressStart = (e: React.TouchEvent,receiptId:string) => {
+        e.preventDefault(); // iOS에서 context menu 방지
+        pressTimerRef.current = setTimeout(() => {
+          setTarget(receiptId);
+          setMousePosition(getTouchPosition(e));
+          setIsRightClick(true);
+        }, 500); // 500ms 이상 누르면 "우클릭"
+      };
+    
+      const handleLongPressEnd = () => {
+        if (pressTimerRef.current) {
+          clearTimeout(pressTimerRef.current);
+          pressTimerRef.current = null;
+        }
+      };
+    
+      const getTouchPosition = (e: React.TouchEvent) => {
+        const touch = e.touches[0];
+        return {
+          x: touch.clientX,
+          y: touch.clientY,
+        };
+      };
+
     return(
         <>
         {receiptList.map((receipt, index) => (
@@ -61,6 +87,9 @@ export default function ReceiptTableBody({initialReceiptList} : {initialReceiptL
                         setMousePosition(getMousePosition(e))
                         setIsRightClick(true)
                     }}
+                    onTouchStart={handleLongPressStart.bind(null,receipt.receiptId)}
+                    onTouchEnd={handleLongPressEnd}
+                    onTouchMove={handleLongPressEnd}
                     onFocus={focusTarget.bind(null,receipt.receiptId, setTarget)}
                     onClick={()=>setIsRightClick(false)}
                     >

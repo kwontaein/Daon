@@ -7,10 +7,11 @@ import asideArrow from '@/assets/aside-arrow.gif';
 
 import Pagination from '../pagination';
 import Image from 'next/image';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import { useModalState } from '@/store/zustand/modal';
 
 
 export default function CustomerListSearch({initialcustomers, page} : {
@@ -24,6 +25,8 @@ export default function CustomerListSearch({initialcustomers, page} : {
     const pageByCustomers = useMemo(()=> customers.slice((page-1)*20, ((page-1)*20)+20) ,[customers,page])
 
     const deletePage = useDeletePage()
+    const router =useRouter()
+    const {searchKeyword, setModalState} = useModalState();
 
 
     const searchHandler = () =>{
@@ -39,12 +42,17 @@ export default function CustomerListSearch({initialcustomers, page} : {
             .map(({customerId, customerName}) => {
                 return {customerId, customerName}
             })
-        const message ={
-            customerArr: postData
-        }
-        if (window.opener && postData.length>0) {
-          window.opener.postMessage(message, "*");
-          window.close()
+        if(searchKeyword){
+            setModalState({customerList:postData})
+            router.back()
+        }else{
+            const message ={
+                customerArr: postData
+            }
+            if (window.opener && postData.length>0) {
+              window.opener.postMessage(message, "*");
+              window.close()
+            }
         }
     };
 
@@ -111,7 +119,8 @@ export default function CustomerListSearch({initialcustomers, page} : {
                         totalItems={customers.length}
                         itemCountPerPage={20} 
                         pageCount={5} 
-                        currentPage={Number(page)}/>
+                        currentPage={Number(page)}
+                        isModal={!!searchKeyword}/>
             <div className='button-container' style={{marginTop:'20px'}}>
                 <button onClick={selectValue}>선택완료</button>
                 <button onClick={()=>window.close()}>취소</button>

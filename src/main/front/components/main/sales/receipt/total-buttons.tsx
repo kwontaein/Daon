@@ -4,6 +4,7 @@ import { useConfirm } from '@/hooks/share/useConfirm';
 import './total-buttons.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { deleteReceiptApi } from '@/features/sales/receipt/api/receiptApi';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 
 
@@ -14,6 +15,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
     disableDelete:boolean
 }) {
 
+    const redirect = useRouterPath()
 
     const registerReceipt =()=>{
         //pc
@@ -21,7 +23,10 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             const url = `${apiUrl}/register-receipt`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "register-receipt", popupOptions);
+        }else{
+            redirect('register-receipt')
         }
+
     }
 
     const deleteReceipt = ()=>{
@@ -57,6 +62,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             window.open(url, "receipt", popupOptions);
         }
     }
+    
     return(
         <section className='total-buttons-container'>
             <button  onClick={registerReceipt}>

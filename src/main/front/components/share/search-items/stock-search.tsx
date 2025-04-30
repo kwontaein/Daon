@@ -8,19 +8,29 @@ import Pagination from '../pagination';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ResponseStock } from '@/model/types/stock/stock/types';
+import { useModalState } from '@/store/zustand/modal';
+import { useRouter } from 'next/navigation';
 export default function StockSearchItems({stocks, page, pageLength} : {
     stocks: ResponseStock[],
     page: number,
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
+    const {searchKeyword, setModalState} = useModalState()
+    const router = useRouter()
+
     const selectValue = (stock: ResponseStock) => {
-        const message ={
-            ...stock,
-        }
-        if (window.opener) {
-          window.opener.postMessage(message, "*");
-          window.close();
+        if(searchKeyword){
+            setModalState({stock})
+            router.back()
+        }else{
+            const message ={
+                ...stock,
+            }
+            if (window.opener) {
+              window.opener.postMessage(message, "*");
+              window.close();
+            }
         }
     };
       
@@ -99,7 +109,8 @@ export default function StockSearchItems({stocks, page, pageLength} : {
                         totalItems={pageLength}
                         itemCountPerPage={20} 
                         pageCount={5} 
-                        currentPage={Number(page)}/>
+                        currentPage={Number(page)}
+                        isModal={!!searchKeyword}/>
         </section>
     )
 }
