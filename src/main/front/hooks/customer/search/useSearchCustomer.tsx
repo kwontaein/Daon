@@ -14,7 +14,11 @@ export default function useSearchCustomer(
             if (event.data) {
                 const { customerName, customerId} = event.data;
                 if(customerName && customerId){
-                    changeHandler({...event.data} , target)
+                    const data = Object.fromEntries(
+                        Object.entries(event.data).filter(([key])=> 
+                            ['customerName','customerId','businessNumber','phoneNumber','address1','address2','zipCode'].includes(key)
+                        ))
+                    changeHandler({...data} , target)
                 }
             }
         };
