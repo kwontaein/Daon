@@ -101,7 +101,12 @@ export default function useReceiptList(initialReceiptList) {
     const checkCustomerId = (id: string) => !!receiptList.find(({ receiptId }) => receiptId === id)?.customerId;
 
     const setCustomerInfo = (customerInfo: Pick<ResponseCustomer, "customerId" | "customerName">, receiptId: string) => {
-        updateReceiptList(receiptId, customerInfo);
+        const updateData = Object.fromEntries(
+            Object.entries(customerInfo).filter(([key])=>{
+                ['customerId','customerName'].includes(key)
+            })
+        )
+        updateReceiptList(receiptId, updateData);
     };
 
     /** 재고 정보 관련 함수 */

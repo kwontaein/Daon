@@ -45,7 +45,7 @@ export const getCustomerAPi = async (customerId:string)=>{
 }
 
 
-export const saveCustomerApi = async (postData:Omit<RequestCustomer, 'customerId'>)=>{
+export const saveCustomerApi = async (postData:Partial<Omit<RequestCustomer, 'customerId'>>)=>{
 
     try {
         const response = await fetch("http://localhost:8080/api/saveCustomer", {
@@ -61,7 +61,7 @@ export const saveCustomerApi = async (postData:Omit<RequestCustomer, 'customerId
         console.error('Error:', error);
     }
 }
-export const updateCustomerApi = async (postData:RequestCustomer)=>{
+export const updateCustomerApi = async (postData:Partial<RequestCustomer>)=>{
 
     try {
         const response = await fetch("http://localhost:8080/api/updateCustomer", {
