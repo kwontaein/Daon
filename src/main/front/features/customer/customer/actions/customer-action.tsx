@@ -64,11 +64,13 @@ export async function submitBusinessInfo(prevState, formData) {
             return state ;
         }    
         
-        
+        const postData = Object.fromEntries(
+            Object.entries(customerData).filter(([key,value])=> (value!=='none' && value!==null))
+        )
         if(action==='write'){
-            status = await saveCustomerApi(customerData)
+            status = await saveCustomerApi(postData)
         }else if(action ==='edit'){
-            status = await updateCustomerApi(customerData)
+            status = await updateCustomerApi(postData)
         }
     }
  
