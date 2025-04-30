@@ -8,6 +8,8 @@ import Pagination from '../pagination';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import {ResponseOfficial} from '@/model/types/sales/official/type';
+import { useModalState } from '@/store/zustand/modal';
+import { useRouter } from 'next/navigation';
 
 export default function OfficialSearchItems({officials, page, pageLength}: {
     officials: ResponseOfficial[],
@@ -15,15 +17,25 @@ export default function OfficialSearchItems({officials, page, pageLength}: {
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
+    const {searchKeyword, setModalState} = useModalState()
+    const router = useRouter()
+
+
     const selectValue = (official: ResponseOfficial) => {
-        const message = {
-            ...official,
-        }
-        if (window.opener) {
-            window.opener.postMessage(message, "*");
-            window.close();
+        if(searchKeyword){
+            setModalState({official})
+            router.back()
+        }else{
+            const message = {
+                ...official,
+            }
+            if (window.opener) {
+                window.opener.postMessage(message, "*");
+                window.close();
+            }
         }
     };
+
 
     const handleKeyDown = (event: KeyboardEvent) => {
         // 방향키를 눌렀을 때 반응
@@ -94,7 +106,8 @@ export default function OfficialSearchItems({officials, page, pageLength}: {
                 totalItems={pageLength}
                 itemCountPerPage={20}
                 pageCount={5}
-                currentPage={Number(page)}/>
+                currentPage={Number(page)}
+                isModal={!!searchKeyword}/>
         </section>
     )
 }

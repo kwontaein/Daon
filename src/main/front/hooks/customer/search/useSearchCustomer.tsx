@@ -1,6 +1,8 @@
 import { useConfirm } from "@/hooks/share/useConfirm";
+import useRouterPath from "@/hooks/share/useRouterPath";
 import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
+import { useModalState } from "@/store/zustand/modal";
 import { useEffect, useRef, useState } from "react";
 
 export default function useSearchCustomer(
@@ -8,6 +10,9 @@ export default function useSearchCustomer(
     changeHandler : (customerInfo : Partial<ResponseCustomer>,uuid?: string) => void
 ) {
     const [target, setTarget] = useState('') 
+    const redirect = useRouterPath()
+
+    const {setModalState, customer} = useModalState()
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
@@ -24,6 +29,14 @@ export default function useSearchCustomer(
         return () => window.removeEventListener("message", handleMessage);
     }, [target]);
 
+
+    useEffect(()=>{
+        const {customerName, customerId} = customer
+        if(customerName && customerId){
+            changeHandler({...customer} , target)
+            setModalState({searchKeyword:'',modalPage:0})
+        }
+    },[customer])
 
 
 
@@ -48,6 +61,9 @@ export default function useSearchCustomer(
                 const url = `${apiUrl}/search-customer-items?searchName=${value}`; // 열고 싶은 링크
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchCustomer", popupOptions);
+            }else{
+                setModalState({searchKeyword:value, modalPage:0})
+                redirect('search-customer')
             }
         },100)
 

@@ -26,6 +26,8 @@
     }
     input{
         all:unset;
+        flex-shrink: 0 !important;
+        padding: 0 !important;
     }
 
 }
@@ -40,9 +42,11 @@ input::-webkit-inner-spin-button {
     width: 20px !important;
     cursor: pointer !important;
     cursor: pointer;
+
 }
 .custom-year{
     width: 4ch !important;
+    min-width: 2ch;
     text-align: right !important;
 }
 .custom-month{
@@ -51,6 +55,7 @@ input::-webkit-inner-spin-button {
 }
 .custom-day{
     width: 2ch !important;
+    min-width: 10px;
     text-align: right !important;
 }
 .custom-date-wrapper{
