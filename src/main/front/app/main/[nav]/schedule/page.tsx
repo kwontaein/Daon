@@ -1,5 +1,6 @@
-import DaonCalendar2 from "@/components/calendar/calendar2";
+import DaonCalendar from "@/components/calendar/calendar";
+import MonthCalendar from "@/components/calendar/month-calendar";
 
 export default function SchedulePage() {
-    return <DaonCalendar2/>
+    return <MonthCalendar/>
 }
