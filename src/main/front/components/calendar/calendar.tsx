@@ -19,11 +19,14 @@ export default function DaonCalendar(){
     const endDayOfWeek = dayjs(currentDate).endOf('month').day() // 끝나는 요일
     const  { itemsRef, target, setTarget } = useItemSelection(true)
 
+    //음력계산
+    const KoreanLunarCalendar = require('korean-lunar-calendar');
+
     const monthOfDays = Array.from({length:daysInMonth+startDayOfWeek+(6-endDayOfWeek)}, (_,idx)=>{
         const day = (idx+1) -startDayOfWeek //현재 일 (0 = 이전달의 마지막 일, 1 부터 이번달의 1일)
         const date = dayjs(currentDate).set('date', day);
         return{
-            day:day, //dlfwk
+            day:day, //일정
             dayOfTheWeek:date.day(),// 요일정보
             isCurrentMonth: day > 0 && day <= daysInMonth // 이번 달의 날짜인지 확인
         }
