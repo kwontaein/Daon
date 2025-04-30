@@ -42,7 +42,7 @@ public class AdminController {
     }
 
     @PostMapping("api/getEmployeeDetail")
-    public UserEntity GetEmployeeDetail(@RequestBody UserRequest userRequest) {
+    public UserResponse GetEmployeeDetail(@RequestBody UserRequest userRequest) {
         return adminService.GetEmployeeDetail(userRequest);
     }
 
