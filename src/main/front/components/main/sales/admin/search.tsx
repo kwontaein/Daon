@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
@@ -13,6 +13,8 @@ import { Affiliation } from '@/model/types/customer/affiliation/type';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
+import { ResponseCustomer } from '@/model/types/customer/customer/type';
 
 
 export default function AdminDataSearch({affiliations, initialTask, employees, page}: {
@@ -40,19 +42,38 @@ export default function AdminDataSearch({affiliations, initialTask, employees, p
         });
     }
 
-
-    //검색 시 페이지 제거
-    const redirectPage = () => {
-        if(page===1) return
-        deletePage()
-    }
-
     useEffect(()=>{
         if(state.searchResult){
             setSearchResult(state.searchResult)
-            redirectPage()
+            if(page===1) return
+            deletePage()
         }
     },[state])
+
+    //거래처 검색관련
+    const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
+    const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
+        if (formRef.current) {
+            const formData = new FormData(formRef.current);
+
+            Object.entries(info).forEach(([key, value]) => {
+                formData.set(key, value ?? "");
+            });
+
+            startTransition(() => {
+                action(formData);
+            });
+        }
+    }, [action]);
+
+    const changeCustomerHandler = useCallback((customerInfo: Pick<ResponseCustomer, "customerName" | "customerId">) => {
+        changeHandler(customerInfo);
+    }, [changeHandler]);
+
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
+
+
 
     return (
         <>
@@ -91,16 +112,14 @@ export default function AdminDataSearch({affiliations, initialTask, employees, p
                             className="dates-container"
                             style={{ display: `${mode === 'tabelt' ? 'block' : 'flex'}` }}>
                             <CustomDateInput
-                            defaultValue={state.searchSDate}
-                            name="searchSDate"
-                            className={mode === 'tabelt' ? 'none-max-width' : ''}
-                            />
+                                defaultValue={state.searchSDate}
+                                name="searchSDate"
+                                className={mode === 'tabelt' ? 'none-max-width' : ''}/>
                             {mode !== 'tabelt' && '~'}
-                            <CustomDateInput
-                            defaultValue={state.searchEDate}
-                            name="searchEDate"
-                            className={mode === 'tabelt' ? 'none-max-width' : ''}
-                            />
+                                <CustomDateInput
+                                    defaultValue={state.searchEDate}
+                                    name="searchEDate"
+                                    className={mode === 'tabelt' ? 'none-max-width' : ''}/>
                         </span>
                         </td>
                         <td rowSpan={4}>
@@ -108,7 +127,7 @@ export default function AdminDataSearch({affiliations, initialTask, employees, p
                                 <button type='button' disabled={isPending}
                                         onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button onClick={setSearchResult.bind(null,null)}>전 체 보 기</button>
+                                <button type='button' onClick={setSearchResult.bind(null,null)}>전 체 보 기</button>
                                 <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                                 <button type='button'>엑 셀 변 환</button>
                             </div>
@@ -133,7 +152,10 @@ export default function AdminDataSearch({affiliations, initialTask, employees, p
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>
-                        <td><input type='text' name='customerName'/></td>
+                        <td>
+                            <input type='text' name='customerName' onKeyDown={searchCustomerHandler} defaultValue={state.customerName} key={state.customerName+'customerName'}/>
+                            <input type='hidden' name='customerId' value={state.customerId??''} readOnly/>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

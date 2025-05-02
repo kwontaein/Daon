@@ -21,11 +21,6 @@ export default async function SearchCustomerItemsPage({searchParams} : SearchNam
     const searchResult:ResponseStock[] = await searchStockApi(postSearchInfo)
     const pageByStocks = searchResult.slice((page-1)*20, ((page-1)*20)+20)
 
-    if (typeof window !== "undefined") {
-        window.addEventListener("beforeunload", () => {
-          revalidateTag(`${productName}`);
-        });
-      }
     return(
         <StockSearchItems
           stocks={pageByStocks}

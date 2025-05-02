@@ -199,10 +199,10 @@ export default function EstimateHeader({companyList, task, estimate, mode}: {
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>{company.address}</td>
                     </tr>
-                    </tbody>
-                </table>
-                <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode}
-                              task={task ?? estimate?.taskResponse ?? null}/>
+                </tbody>
+            </table>
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse}/> 
+
             </form>
         </section>
     )

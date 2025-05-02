@@ -2,7 +2,7 @@ import RegisterReceiptPage from "@/app/(register)/register-receipt/page";
 import Image from 'next/image';
 
 import '@/styles/_global.scss';
-import '@/components/main/sales/receipt/table/table-header.scss';
+import '@/components/main/sales/receipt/table/receipt-table.scss';
 
 import asideArrow from '@/assets/aside-arrow.gif';
 

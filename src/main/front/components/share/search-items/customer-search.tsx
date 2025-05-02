@@ -8,20 +8,29 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import Pagination from '../pagination';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useModalState } from '@/store/zustand/modal';
+import { useRouter } from 'next/navigation';
 export default function CustomerSearchItems({customers, page, pageLength} : {
     customers: ResponseCustomer[],
     page: number,
     pageLength: number
 }) {
     const [idx, setIdx] = useState<number>(0)
-    console.log(customers)
+    const {searchKeyword, setModalState} = useModalState();
+    const router = useRouter()
+
     const selectValue = (value: ResponseCustomer) => {
-        const message ={
-            ...value
-        }
-        if (window.opener) {
-          window.opener.postMessage(message, "*");
-          window.close();
+        if(searchKeyword){
+            setModalState({customer:value})
+            router.back()
+        }else{
+            const message ={
+                ...value
+            }
+            if (window.opener) {
+              window.opener.postMessage(message, "*");
+              window.close();
+            }
         }
     };
       
@@ -101,9 +110,11 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
             </table>
             <Pagination
                         totalItems={pageLength}
-                        itemCountPerPage={20} 
+                        itemCountPerPage={!!searchKeyword ? 10 : 20} 
                         pageCount={5} 
-                        currentPage={Number(page)}/>
+                        currentPage={Number(page)}
+                        isModal={!!searchKeyword}
+                        />
         </section>
     )
 }
