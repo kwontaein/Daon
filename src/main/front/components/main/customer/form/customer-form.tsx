@@ -23,7 +23,6 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
     mode:'write'|'detail' |'edit'
     customer?: ResponseCustomer,
 }) {
-  console.log(customer)
   const initialState = useMemo(() => customer ??{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const formRef = useRef(null)
@@ -55,7 +54,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
           <h4>
             {mode === 'detail' && '거래처 상세보기'}
             {mode === 'edit' && '거래처 수정하기'}
-            {mode ==='write' && '전표입력'}
+            {mode ==='write' && '거래처 등록하기'}
           </h4>
       </header>
       <form action={action} ref={formRef}>

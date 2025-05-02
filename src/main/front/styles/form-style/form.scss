@@ -19,10 +19,7 @@
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
-  @media (max-width: 620px) {
-      font-size: 0.7rem
-  }
+  font-size: 0.85rem;
 
   input{
     box-sizing: border-box;
@@ -76,6 +73,7 @@
         div{
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;  
             gap: 0.4em;
             label{
                 height: 100%;
@@ -83,12 +81,11 @@
                 gap: 0.1em;
                 font-size: inherit;
             }
-            @media (max-width:620px) {
-                font-size: 1em;
-            }
         }
     }
 }
+
+
 .label-selector{
     border: none;
 }
@@ -103,7 +100,12 @@
   button{
     width: 100px;
     height: 30px;
+    @media (max-width:620px) {
+      width: 80px;
+      height: 25px;
+    }
   }
+  
 }
 
 @media print {
