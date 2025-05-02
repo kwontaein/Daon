@@ -15,6 +15,7 @@ import { apiUrl } from '@/model/constants/apiUrl';
 import Pagination from '@/components/share/pagination';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function CompanyTable({initialCompany, page}:{initialCompany:ResponseCompany[], page:number}){
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
@@ -23,9 +24,10 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
     const [loading, setLoading] = useState<boolean>(true)
     const mode = useScreenMode({tabletSize:700,mobileSize:620})
     const deletePage = useDeletePage()
+
     //search input variables 
     const inputRef = useRef<HTMLInputElement|null>(null)
-    
+    const redirect = useRouterPath()
 
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
 
@@ -50,6 +52,8 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
             const url = `${apiUrl}/register-company`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect('register-company')
         }
     }
 

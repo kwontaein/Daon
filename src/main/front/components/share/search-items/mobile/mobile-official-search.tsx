@@ -9,6 +9,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import OfficialSearchItems from "../official-search";
+import MobileModal from "../../mobile-modal/page";
 
 
 export default function MobileSearchOfficialItems(){
@@ -31,15 +32,9 @@ export default function MobileSearchOfficialItems(){
     const pageByOfficial = searchResult.slice((modalPage - 1) * 10, modalPage * 10);
     
     return(
-      <section className="modal-background" style={{zIndex:1005}}>
-      <div className='main' style={{width:'70%' ,height:'600px',}}>
-          <div className='close-button-container'>
-              <button onClick={() => window.history.back()}>
-                  <FontAwesomeIcon icon={faXmark}/>
-              </button>
-          </div>
-          <OfficialSearchItems officials={pageByOfficial} page={modalPage} pageLength={searchResult.length}/>
-      </div>
-  </section>
+      <MobileModal zIndex={1003} width="70%" height="500px">
+        <OfficialSearchItems officials={pageByOfficial} page={modalPage} pageLength={searchResult.length}/>
+      </MobileModal>
+
   )
 }
