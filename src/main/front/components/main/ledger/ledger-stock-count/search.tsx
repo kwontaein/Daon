@@ -18,7 +18,6 @@ export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCat
     
     useEffect(()=>{
         if(state.searchResult){
-            console.log(state.searchResult)
             setSearchInfo({
                 searchResult:state.searchResult,
                 searchTitle:`재고조사서`,

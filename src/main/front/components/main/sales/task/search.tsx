@@ -12,6 +12,9 @@ import { deleteTask } from '@/features/sales/task/api/taskApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import useRouterPath from '@/hooks/share/useRouterPath';
+import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
+import { ResponseCustomer } from '@/model/types/customer/customer/type';
 
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
@@ -24,15 +27,19 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const [searchResult, setSearchResult] = useState()
     const pageByTasks = useMemo(() => (searchResult??initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask , searchResult, page])    
     const formRef = useRef(null)
-
+    
+    
     //router control
     const deletePage = useDeletePage()
+    const redirect = useRouterPath()
     const registerTask = () => {
         //pc
         if (window.innerWidth > 620) {
             const url = `${apiUrl}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect('register-task')
         }
     }
 
@@ -60,17 +67,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete)
     }
 
-
-    //검색 시 페이지 제거
-    const redirectPage = () => {
-        if(page===1) return
-        deletePage()
-    }
-
     useEffect(()=>{
         if(state.searchResult){
             setSearchResult(state.searchResult)
-            redirectPage()
+            if(page===1) return
+            deletePage()
         }
     },[state])
 
@@ -80,6 +81,31 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
             submitHandler()
         }
     },[initialTask])
+
+
+    //거래처 검색관련
+    const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
+    const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
+        if (formRef.current) {
+            const formData = new FormData(formRef.current);
+
+            Object.entries(info).forEach(([key, value]) => {
+                formData.set(key, value ?? "");
+            });
+
+            startTransition(() => {
+                action(formData);
+            });
+        }
+    }, [action]);
+
+    const changeCustomerHandler = useCallback((customerInfo: Pick<ResponseCustomer, "customerName" | "customerId">) => {
+        changeHandler(customerInfo);
+    }, [changeHandler]);
+
+
+    const searchCustomerHandler = useSearchCustomer(checkCustomerId, changeCustomerHandler);
+
 
     return (
         <>
@@ -145,7 +171,10 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                     </tr>
                     <tr>
                         <td className='table-label'>거래처명</td>
-                        <td><input type='text' name='customerName'/></td>
+                        <td>
+                            <input type='text' name='customerName' onKeyDown={searchCustomerHandler} defaultValue={state.customerName} key={state.customerName+'customerName'}/>
+                            <input type='hidden' name='customerId' value={state.customerId??''} readOnly/>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
