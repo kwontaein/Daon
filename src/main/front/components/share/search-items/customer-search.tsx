@@ -110,11 +110,16 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
             </table>
             <Pagination
                         totalItems={pageLength}
-                        itemCountPerPage={20} 
+                        itemCountPerPage={!!searchKeyword ? 10 : 20} 
                         pageCount={5} 
                         currentPage={Number(page)}
                         isModal={!!searchKeyword}
                         />
+            {!!searchKeyword &&
+                <div className='button-container' style={{marginTop:'1rem'}}>
+                    <button onClick={()=>router.back()}>닫기</button>
+                </div>
+            }
         </section>
     )
 }

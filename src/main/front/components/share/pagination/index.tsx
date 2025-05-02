@@ -56,7 +56,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
              <FontAwesomeIcon icon={faChevronLeft} />
            </Link>
            :
-           <div onClick={()=>setModalState({modalPage:start-1})}>
+           <div onClick={()=>setModalState({modalPage:start-1})} style={{cursor:'pointer'}}>
               <FontAwesomeIcon icon={faChevronLeft} />
            </div>
           }
@@ -71,7 +71,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
                       {start + i}
                     </Link> 
                     :
-                    <div onClick={()=>setModalState({modalPage:start+i})}>
+                    <div onClick={()=>setModalState({modalPage:start+i})} style={{cursor:'pointer'}}>
                       {start + i}
                     </div>
                   }
@@ -85,7 +85,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
               <FontAwesomeIcon icon={faChevronRight}/>
             </Link>
             :
-            <div onClick={()=>setModalState({modalPage:start + pageCount})}>
+            <div onClick={()=>setModalState({modalPage:start + pageCount})} style={{cursor:'pointer'}}>
               <FontAwesomeIcon icon={faChevronRight}/>
             </div>
           }

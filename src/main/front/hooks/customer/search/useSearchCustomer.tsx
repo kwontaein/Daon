@@ -3,7 +3,7 @@ import useRouterPath from "@/hooks/share/useRouterPath";
 import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { useModalState } from "@/store/zustand/modal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 export default function useSearchCustomer(
     checkCustomerName : (id? : string) => boolean,
@@ -11,8 +11,8 @@ export default function useSearchCustomer(
 ) {
     const [target, setTarget] = useState('') 
     const redirect = useRouterPath()
-
-    const {setModalState, customer} = useModalState()
+    const searchKey = useId()
+    const {setModalState, customer,modalKey} = useModalState()
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
@@ -25,16 +25,16 @@ export default function useSearchCustomer(
         };
         window.removeEventListener("message", handleMessage);
         window.addEventListener("message", handleMessage);  
-
+        
         return () => window.removeEventListener("message", handleMessage);
     }, [target]);
-
+    
 
     useEffect(()=>{
         const {customerName, customerId} = customer
-        if(customerName && customerId){
+        if(customerName && customerId && modalKey===searchKey){
             changeHandler({...customer} , target)
-            setModalState({searchKeyword:'',modalPage:0})
+            setModalState({searchKeyword:'',customer:{},modalPage:1})
         }
     },[customer])
 
@@ -62,7 +62,7 @@ export default function useSearchCustomer(
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchCustomer", popupOptions);
             }else{
-                setModalState({searchKeyword:value, modalPage:0})
+                setModalState({searchKeyword:value, modalPage:1,modalKey:searchKey})
                 redirect('search-customer')
             }
         },100)

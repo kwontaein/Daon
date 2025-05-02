@@ -160,7 +160,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                             <td className="table-label">거래처선택</td>
                             <td>
                                 <input placeholder="거래처명을 입력하세요." name='customerName' key={state.customerName} defaultValue={state.customerName} onKeyDown={searchCustomerHandler} />
-                                <input type='hidden' name='customerId' value={state.customerId} />
+                                <input type='hidden' name='customerId' value={state.customerId} readOnly/>
                             </td>
                         </tr>
                         <tr>
