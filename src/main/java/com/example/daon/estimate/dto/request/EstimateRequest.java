@@ -25,7 +25,7 @@ public class EstimateRequest {
     private UUID companyId;
     private UUID taskId;
     private String userId;
-    private LocalDateTime estimateDate;
+    private LocalDate estimateDate;
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
     private LocalDateTime receiptDate;
@@ -50,7 +50,7 @@ public class EstimateRequest {
                 .user(user)
                 .receipted(false)
                 .totalAmount(totalAmount)
-                .estimateDate(estimateDate)
+                .estimateDate(estimateDate.atStartOfDay())
                 .items(items)
                 .task(task)
                 .build();

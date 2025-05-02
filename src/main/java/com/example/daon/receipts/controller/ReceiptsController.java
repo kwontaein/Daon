@@ -53,4 +53,11 @@ public class ReceiptsController {
     public DailyTotalEntity getReceiptTotal(@RequestBody ReceiptRequest receiptRequest) {
         return receiptsService.getReceiptTotal(receiptRequest.getSearchSDate());
     }
+
+    @PostMapping("api/saveReceiptsToEstimate")
+    public void saveReceiptsToEstimate(@RequestBody List<ReceiptRequest> receiptRequests) {
+        receiptsService.saveReceiptsToEstimate(receiptRequests);
+    }
+
+
 }
