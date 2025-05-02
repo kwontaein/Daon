@@ -14,6 +14,7 @@ import {ResponseStock} from '@/model/types/stock/stock/types';
 import StockSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function StockSearch({stockCate, initialStocks, page} : {
     stockCate: StockCate[],
@@ -27,7 +28,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
 
     const formRef = useRef(null)
     const redirectPage = useDeletePage()
-    
+    const redirect = useRouterPath()    
 
     //TODO: 모바일버전 구현
     const registerStock = () => {
@@ -36,6 +37,8 @@ export default function StockSearch({stockCate, initialStocks, page} : {
             const url = `${apiUrl}/register-stock`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect('register-stock')
         }
     }
 
