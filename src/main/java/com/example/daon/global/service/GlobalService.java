@@ -36,7 +36,6 @@ import com.example.daon.stock.model.StockEntity;
 import com.example.daon.task.dto.response.AssignedUser;
 import com.example.daon.task.dto.response.TaskResponse;
 import com.example.daon.task.model.TaskEntity;
-import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -46,6 +45,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,6 +65,7 @@ public class GlobalService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         // Authentication 객체에서 유저 정보 추출
+        System.out.println("authentication.getPrincipal() : " + authentication.getPrincipal());
         return (UserDetails) authentication.getPrincipal(); //->principal ->id , password , 권한
         // 유저 정보 사용
     }
@@ -75,17 +76,18 @@ public class GlobalService {
      * @param userId 조회할 유저 아이디(null일 경우 내 아이디)
      * @return 유저 정보
      */
-    public UserEntity getUserEntity(@Nullable String userId) {
-        if (userId == null) {
-            return null;
+    public UserEntity resolveUser(String userId) {
+        if (userId != null) {
+            Optional<UserEntity> optionalUser = userRepository.findById(userId);
+            if (optionalUser.isPresent()) {
+                return optionalUser.get();
+            }
         }
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저 정보가 없습니다"));
-        return userEntity;
-    }
 
-    public UserEntity getOwnUserEntity() {
-        String userId = extractFromSecurityContext().getUsername();
-        return getUserEntity(userId);
+        // userId가 null이거나 조회 실패 시 로그인 유저로 대체
+        String ownUserId = extractFromSecurityContext().getUsername();
+        return userRepository.findById(ownUserId)
+                .orElseThrow(() -> new RuntimeException("로그인한 사용자 정보를 찾을 수 없습니다"));
     }
 
 
@@ -417,7 +419,7 @@ public class GlobalService {
         return CalendarResponse
                 .builder()
                 .calendarId(calendar.getCalendarId())
-                .regDate(calendar.getRegDate())
+                .date(calendar.getDate())
                 .memo(calendar.getMemo())
                 .userId(calendar.getUser().getUserId())
                 .userName(calendar.getUser().getName())

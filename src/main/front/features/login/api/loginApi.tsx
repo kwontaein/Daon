@@ -1,17 +1,17 @@
-export const loginApi = async(userInfo:{userId:string, password:string})=>{
+export const loginApi = async (userInfo: { userId: string, password: string }) => {
     try {
         const response = await fetch("http://localhost:8080/api/signIn", {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(userInfo),
+            credentials: "include",
         });
 
-       
 
         const text = await response.text();
         if (!response.ok) {
             loginFilter(text)
-        }else{
+        } else {
             document.location.replace('/main/schedule/schedule')
         }
     } catch (error) {
