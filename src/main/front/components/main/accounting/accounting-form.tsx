@@ -13,11 +13,12 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 
 
 
-export default function AccountingForm({mode,division,categorySelections,accountingData}:{
+export default function AccountingForm({mode,division,categorySelections,accountingData,isMobile}:{
     mode:'write'|'detail'|'edit',
     division: keyof typeof AccountingDivision,
     categorySelections:{categorySelection:string}[],
     accountingData?:UnionAccountingType,
+    isMobile?:boolean
 }){
     const formRef = useRef<HTMLFormElement | null>(null);
     const [state, action, isPending] = useActionState(accountingFormAction,{...accountingData})
@@ -296,7 +297,7 @@ export default function AccountingForm({mode,division,categorySelections,account
         </form>
         <div className='button-container'>
             <button onClick={submitHandler}>저장</button>
-            <button onClick={()=>window.close()}>취소</button>
+            <button onClick={()=> isMobile ?  window.history.back(): window.close()}>취소</button>
         </div>
         </>
     )

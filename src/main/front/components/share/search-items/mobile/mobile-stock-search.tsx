@@ -2,10 +2,9 @@
 import { searchStockApi } from "@/features/stock/stock/api/searchStockApi";
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
 import { useModalState } from "@/store/zustand/modal";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import StockSearchItems from "../stock-search";
+import MobileModal from "../../mobile-modal/page";
 
 
 export default function MobileSearchStockItems(){
@@ -36,15 +35,9 @@ export default function MobileSearchStockItems(){
     const pageByStocks = searchResult.slice((modalPage - 1) * 10, modalPage * 10);
     
     return(
-      <section className="modal-background" style={{zIndex:1005}}>
-      <div className='main' style={{width:'70%' ,height:'550px',}}>
-          <div className='close-button-container'>
-              <button onClick={() => window.history.back()}>
-                  <FontAwesomeIcon icon={faXmark}/>
-              </button>
-          </div>
+      <MobileModal zIndex={1003} width="70%" height="500px">
           <StockSearchItems stocks={pageByStocks} page={modalPage} pageLength={searchResult.length}/>
-      </div>
-  </section>
+      </MobileModal>
+   
   )
 }

@@ -197,7 +197,7 @@ export default function EstimateHeader({companyList, task, estimate, mode} : {
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate.taskResponse}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse}/> 
             </form>
         </section>
     )
