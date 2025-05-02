@@ -65,6 +65,9 @@ export default function RemainSearch(){
                     return b[state.sortCondition] - a[state.sortCondition]
                 }
             })   
+            if(sortedResult.length===0){
+                window.alert('조회된 결과가 존재하지 않습니다.')
+            }
             setRemainList(sortedResult);
         }
     },[state])
@@ -163,7 +166,9 @@ export default function RemainSearch(){
                 </table>
             </form>
             </div>
-            <ReaminSearchResult remainList={remainList}/>
+            {remainList.length>0 &&
+                <ReaminSearchResult remainList={remainList}/>
+            }
         </>
     )
 }

@@ -1,7 +1,7 @@
 'use client'
 import dayjs from 'dayjs';
 import './custom-date-input.scss';
-import { RefObject, useMemo, useRef, useState } from 'react';
+import { RefObject, useId, useMemo, useRef, useState } from 'react';
 
 export default function CustomDateInput({ defaultValue, name, changeEvent, className ,readOnly}: {
     defaultValue: Date,
@@ -15,7 +15,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
     const monthInputRef = useRef<HTMLInputElement>(null);
     const dayInputRef = useRef<HTMLInputElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
-
+    const id = useId()
 
     const updateDate = (year: string, month: string, day: string) => {
         setDate(`${year}-${month}-${day}`);
@@ -88,7 +88,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
 
            
     return(        
-        <label className={`custom-date-container ${className}`}>
+        <label className={`custom-date-container ${className}`} htmlFor={`custom-year${id}`}>
             <input
                 ref={dateRef}
                 className="absolute-date"
@@ -100,7 +100,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
             />
             <div className={`custom-date-wrapper`}>
                 <label>
-                    <input className="custom-year" type="number" value={date.split('-')[0]} onChange={yearHandler} onFocus={handleFocus} readOnly={readOnly}/>
+                    <input id={`custom-year${id}`} className="custom-year" type="number" value={date.split('-')[0]} onChange={yearHandler} onFocus={handleFocus} readOnly={readOnly}/>
                     년
                 </label>
                 <label>

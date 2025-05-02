@@ -1,14 +1,28 @@
 import { useConfirm } from "@/hooks/share/useConfirm";
+import useRouterPath from "@/hooks/share/useRouterPath";
 import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
-import { useEffect, useRef, useState } from "react";
+import { useModalState } from "@/store/zustand/modal";
+import { useEffect, useId, useRef, useState } from "react";
 
 export default function useSearchOfficial(
     checkOfficialName : (id? : string) => boolean,
     changeHandler : (officialInfo : Partial<Pick<ResponseOfficial, 'officialId' | 'officialName'>>,uuid?: string) => void
 ) {
+    const searchKey = useId()
+    const redirect = useRouterPath()
     const [target, setTarget] = useState('') 
-    
+    const {setModalState, official,modalKey} = useModalState()
+
+    useEffect(()=>{
+        const {officialName, officialId} = official
+        if(officialName && officialId && modalKey===searchKey){
+            changeHandler({...official} , target)
+            setModalState({searchKeyword:'',official:{},modalPage:1})
+        }
+    },[official])
+
+
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
@@ -49,6 +63,9 @@ export default function useSearchOfficial(
                 const url = `${apiUrl}/search-official-items?searchName=${value}`; // 열고 싶은 링크
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchOfficial", popupOptions);
+            }else{
+                setModalState({searchKeyword:value, modalPage:1,modalKey:searchKey})
+                redirect('search-official')
             }
         },100)
 
