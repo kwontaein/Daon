@@ -20,7 +20,6 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     initialStocks: ResponseStock[],
     page: number
 }) {
-    console.log(initialStocks)
     const [state, action, isPending] = useActionState(stockSearchAction, initialStockState);
     const [searchResult, setSerchResult] = useState<ResponseStock[]>()
     const pageByStocks = useMemo(()=>(searchResult??initialStocks).slice((page - 1) * 20, ((page - 1) * 20) + 20),[initialStocks,searchResult,page])

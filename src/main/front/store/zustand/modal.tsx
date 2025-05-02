@@ -26,6 +26,7 @@ export type ModalState = {
     postData:Partial<ResponseStock>| Partial<ResponseCustomer>
     reset:()=>void,
     setModalState:(state:Partial<ModalState>)=>void
+    modalKey:string //모달을 식별하여 처리하기 위한 key
 }
 
 
@@ -42,6 +43,7 @@ const initialModalState = {
     employee:{},
     searchKeyword:'',
     modalPage:0,
+    modalKey:'',
 }
 
 export const useModalState = create<ModalState>(set=>({

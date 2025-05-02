@@ -15,7 +15,6 @@ export default async function ReceiptEditPage({searchParams}:{searchParams:Promi
     const receiptIds = JSON.parse((await searchParams).receiptIds)
     const initialReceiptList = await getReceiptByIds(receiptIds)
 
-    console.log(initialReceiptList)
     return (
             <div className="register-receipt-container">
             <header className="flex-row receipt-header">

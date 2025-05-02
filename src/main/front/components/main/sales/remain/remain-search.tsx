@@ -163,7 +163,9 @@ export default function RemainSearch(){
                 </table>
             </form>
             </div>
-            <ReaminSearchResult remainList={remainList}/>
+            {remainList.length>0 &&
+                <ReaminSearchResult remainList={remainList}/>
+            }
         </>
     )
 }

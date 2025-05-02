@@ -21,7 +21,6 @@ export default function LedgerOfficialSearch({officials}:{officials:ResponseOffi
             if(state.searchResult.length===0){
                 window.alert("검색 조건에 해당하는 결과가 없습니다.")
             }
-            console.log(state.searchResult)
             setSearchInfo({
                 searchResult:state.searchResult,
                 searchTitle:`${state.searchSDate} ~ ${state.searchEDate} 관리비원장`,

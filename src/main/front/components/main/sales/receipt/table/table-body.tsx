@@ -80,62 +80,61 @@ export default function ReceiptTableBody({initialReceiptList} : {initialReceiptL
     return(
         <>
         {receiptList.map((receipt, index) => (
-                <tbody key={receipt.receiptId} className={target===receipt.receiptId ? 'focused' : ''} 
-                    ref={(el) => {(itemsRef.current[receipt.receiptId] = el)}}
-                    onContextMenu={(e)=>{
-                        setTarget(receipt.receiptId)
-                        setMousePosition(getMousePosition(e))
-                        setIsRightClick(true)
-                    }}
-                    onTouchStart={handleLongPressStart.bind(null,receipt.receiptId)}
-                    onTouchEnd={handleLongPressEnd}
-                    onTouchMove={handleLongPressEnd}
-                    onFocus={focusTarget.bind(null,receipt.receiptId, setTarget)}
-                    onClick={()=>setIsRightClick(false)}
-                    >
-                    <tr>
-                        <td rowSpan={2} style={{position:'relative'}}>
-                            {(target===receipt.receiptId && isRightClick) && 
-                            <ReceiptOptions position={mousePosition} 
-                                            copyFn={()=>{copyReceipt(target)}} 
-                                            deleteFn={()=>{deleteReceipt(target)}} />}
-                            {index+1}
-                        </td>
-                        <td rowSpan={2} className='register-date'>
-                            <CustomDateInput
-                                defaultValue={receipt.timeStamp}
-                                name='timeStamp'
-                                changeEvent={(value)=>receiptHandler({timeStamp:new Date(value)}, receipt.receiptId)}
-                            />
-                        </td>
-                        <td rowSpan={2}>
-                            <select value={receipt.category} 
-                                    onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategoryEnum)},receipt.receiptId)} required>
-                                 <option value="disabled" disabled>전표입력</option>
-                                {memoizedReceiptCategoryEnum}
-                            </select>
-                        </td>
-                        <td><input type="text"
-                                className={DisabledStatus[receipt.category].customerName ? 'disabled' : ''}
-                                placeholder='거 래 처' 
-                                value={receipt.customerName || ''}
-                                readOnly={DisabledStatus[receipt.category].customerName}
-                                onChange={(e)=>!(!!receipt.customerId) && receiptHandler({customerName:e.target.value}, receipt.receiptId)}
-                                onKeyDown={(e)=>searchCustomerHandler(e, receipt.receiptId)}
-                                /></td>
-                        <td><input type="text"                                    
-                                className={DisabledStatus[receipt.category].memo ? 'disabled' : ''}
-                                placeholder='비 고'
-                                value={receipt.memo || ''} 
-                                readOnly={DisabledStatus[receipt.category].memo}
-                                onChange={(e)=>receiptHandler({memo:e.target.value}, receipt.receiptId)}/></td>
-                        <td colSpan={2}>
-                            <input type="text"
-                                className={DisabledStatus[receipt.category].description ? 'disabled' : ''}
-                                placeholder='적 요'
-                                value={receipt.description ||''}
-                                readOnly={DisabledStatus[receipt.category].description}
-                                onChange={(e)=>receiptHandler({description:e.target.value}, receipt.receiptId)}/></td>
+            <tbody key={receipt.receiptId} className={target===receipt.receiptId ? 'focused' : ''} 
+                ref={(el) => {(itemsRef.current[receipt.receiptId] = el)}}
+                onContextMenu={(e)=>{
+                    setTarget(receipt.receiptId)
+                    setMousePosition(getMousePosition(e))
+                    setIsRightClick(true)
+                }}
+                onTouchStart={handleLongPressStart.bind(null,receipt.receiptId)}
+                onTouchEnd={handleLongPressEnd}
+                onTouchMove={handleLongPressEnd}
+                onFocus={focusTarget.bind(null,receipt.receiptId, setTarget)}
+                onClick={()=>setIsRightClick(false)}>
+                <tr>
+                    <td rowSpan={2} style={{position:'relative'}}>
+                        {(target===receipt.receiptId && isRightClick) && 
+                        <ReceiptOptions position={mousePosition} 
+                                        copyFn={()=>{copyReceipt(target)}} 
+                                        deleteFn={()=>{deleteReceipt(target)}} />}
+                        {index+1}
+                    </td>
+                    <td rowSpan={2} className='register-date'>
+                        <CustomDateInput
+                            defaultValue={receipt.timeStamp}
+                            name='timeStamp'
+                            changeEvent={(value)=>receiptHandler({timeStamp:new Date(value)}, receipt.receiptId)}
+                        />
+                    </td>
+                    <td rowSpan={2}>
+                        <select value={receipt.category} 
+                                onChange={(e)=>receiptHandler({category:(e.target.value as ReceiptCategoryEnum)},receipt.receiptId)} required>
+                                <option value="disabled" disabled>전표입력</option>
+                            {memoizedReceiptCategoryEnum}
+                        </select>
+                    </td>
+                    <td><input type="text"
+                            className={DisabledStatus[receipt.category].customerName ? 'disabled' : ''}
+                            placeholder='거 래 처' 
+                            value={receipt.customerName || ''}
+                            readOnly={DisabledStatus[receipt.category].customerName}
+                            onChange={(e)=>!(!!receipt.customerId) && receiptHandler({customerName:e.target.value}, receipt.receiptId)}
+                            onKeyDown={(e)=>searchCustomerHandler(e, receipt.receiptId)}
+                            /></td>
+                    <td><input type="text"                                    
+                            className={DisabledStatus[receipt.category].memo ? 'disabled' : ''}
+                            placeholder='비 고'
+                            value={receipt.memo || ''} 
+                            readOnly={DisabledStatus[receipt.category].memo}
+                            onChange={(e)=>receiptHandler({memo:e.target.value}, receipt.receiptId)}/></td>
+                    <td colSpan={2}>
+                        <input type="text"
+                            className={DisabledStatus[receipt.category].description ? 'disabled' : ''}
+                            placeholder='적 요'
+                            value={receipt.description ||''}
+                            readOnly={DisabledStatus[receipt.category].description}
+                            onChange={(e)=>receiptHandler({description:e.target.value}, receipt.receiptId)}/></td>
                     </tr>
                     <tr>
                         <td><input type="text" 
