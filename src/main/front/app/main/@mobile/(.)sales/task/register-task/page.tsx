@@ -21,7 +21,7 @@ export default function MobileRegisterTask(){
                 const response = await getEmployeeApi()
                 setEmployees(response);
             }catch(error){
-                console.error('고객 검색 API 오류:', error);
+                console.error('API 오류:', error);
             }
         }
         fetchEmployees()

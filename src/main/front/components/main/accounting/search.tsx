@@ -27,6 +27,8 @@ import {
   getPurchaseVatApi,
   getSalesVATApi
 } from '@/features/accounting/api/accountingSearchApi';
+import dayjs from 'dayjs';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 const resultComponentMap: Record<string, (data: UnionAccountingType[]) => JSX.Element> = {
   svat: data => <SVATSaerchResult salesVATList={data as SalesVAT[]} />,
@@ -55,8 +57,12 @@ export default function AccountingSearch({
   initalListState: UnionAccountingType[];
   page: number;
 }) {
+  const initialPset = {
+    searchSDate: dayjs().subtract(2, 'month').date(1).format('YYYY-MM-DD'),
+    searchEDate:dayjs(new Date(Date.now())).endOf('month').format('YYYY-MM-DD'),
+  }
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action, isPending] = useActionState(accountingSearchAction, {});
+  const [state, action, isPending] = useActionState(accountingSearchAction, initialPset);
   const mode = useScreenMode({ tabletSize: 690, mobileSize: 620 });
   const [searchResult, setSearchResult] = useState<UnionAccountingType[]>();
 
@@ -74,12 +80,15 @@ export default function AccountingSearch({
     });
   };
 
+  const redirect = useRouterPath()
   const registerAccountingHandler = () => {
+    const params = new URLSearchParams({ division });
+    const url = `${apiUrl}/register-accounting?${params.toString()}`;
     if (window.innerWidth > 620) {
-      const params = new URLSearchParams({ division });
-      const url = `${apiUrl}/register-accounting?${params.toString()}`;
       const popupOptions = 'width=800,height=500,scrollbars=yes,resizable=yes';
       window.open(url, 'register', popupOptions);
+    }else{
+      redirect(`register-accounting?${params.toString()}`);
     }
   };
 
