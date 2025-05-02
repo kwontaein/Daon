@@ -4,7 +4,7 @@ import { getEmployeeApi } from "@/features/staff/employee/api/employeeApi";
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
-export default async function RegisterAffiliation(){
+export default async function RegisterCustomer(){
     
     const affiliation:Affiliation[] = await getAffiliation()
     const employees:ResponseEmployee[] = await getEmployeeApi()

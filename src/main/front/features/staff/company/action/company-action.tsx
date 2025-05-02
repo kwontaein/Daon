@@ -46,7 +46,6 @@ export async function submitCompanyInfo(prevState, formData) {
         errors.push(['ceo', '대표자명을 입력해주세요.'])
     }
 
-    console.log(errors)
     if(errors.length>0){
         const formErrors = Object.fromEntries(errors)
         formErrors.errorKey = uuidv4()

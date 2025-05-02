@@ -1,4 +1,4 @@
-import './table-header.scss'
+import './receipt-table.scss';
 
 export default function ReceiptTableContainer({children, isRegister}:{children:React.ReactNode, isRegister?:boolean}){
     return(

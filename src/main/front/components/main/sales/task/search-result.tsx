@@ -83,7 +83,6 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         if(assignedUser==='none'){
             assignedUser=null
         }
-        console.log(assignedUser)
         const onUpdate = ()=>{
             updateTaskUserApi(taskId,assignedUser).then((status)=>{
                 if(status===200){
@@ -122,7 +121,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                 <col style={{ width: `${mode==='pc' ? '5%' :'30%'}`, minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
                 <col style={{ width: `${mode==='pc' ? '20%' :'10%'}`}}/>
                 <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'95px'}`}}/>
-                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'none'}`}}/>
+                <col style={{ width: '5%', minWidth :`${mode==='pc' ? '55px' :'34px'}`}}/>
                 {mode==='pc' &&<col style={{width:'10%', minWidth: '95px'}}/>}
                 {mode==='pc' &&<col style={{width:'10%', minWidth: '55px'}}/>}
                 {mode==='pc' &&<col style={{width:'5%', minWidth: '55px'}}/>}

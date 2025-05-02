@@ -48,7 +48,8 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                         <td rowSpan={2}>
                             <div className="date-container">
                                 {isSelected && 
-                                    <input type="checkbox" 
+                                    <input type="checkbox"
+                                           style={{width:'14px', height:'14px'}} 
                                            onChange={update_checked.bind(null, receipt.receiptId)}
                                            checked={checkedState[receipt.receiptId]||false}/>
                                 }
