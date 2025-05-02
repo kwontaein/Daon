@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 
-export default function SearchCustomerItemsPage(){
+export default function MobileSearchCustomerItems(){
     const {searchKeyword, modalPage} = useModalState();
     const [searchResult, setSearchResult] = useState([])
 
@@ -24,7 +24,7 @@ export default function SearchCustomerItemsPage(){
     
           try {
             const response = await searchCustomersApi(postSearchInfo);
-            setSearchResult(response); // 응답 구조에 따라 .data 붙일 수도 있음
+            setSearchResult(response); 
           } catch (error) {
             console.error('고객 검색 API 오류:', error);
           }
@@ -33,11 +33,11 @@ export default function SearchCustomerItemsPage(){
         fetchCustomers();
       }, [searchKeyword]);
 
-      const pageByCustomers = searchResult.slice((modalPage - 1) * 20, modalPage * 20);
-
+    const pageByCustomers = searchResult.slice((modalPage - 1) * 10, modalPage * 10);
+    
     return(
-      <section className="modal-background" style={{zIndex:1002}}>
-      <div className='main' style={{width:'70%' ,height:'50%'}}>
+      <section className="modal-background" style={{zIndex:1005}}>
+      <div className='main' style={{width:'70%' ,height:'600px',}}>
           <div className='close-button-container'>
               <button onClick={() => window.history.back()}>
                   <FontAwesomeIcon icon={faXmark}/>

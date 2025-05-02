@@ -1,6 +1,7 @@
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
+import { useModalState } from "@/store/zustand/modal";
 import { useEffect, useState } from "react";
 
 export default function useSearchCustomerList(
@@ -8,6 +9,8 @@ export default function useSearchCustomerList(
     changeHandler : (customerInfo : Partial<Pick<ResponseCustomer, 'customerName' | 'customerId'>[]>,uuid?: string) => void
 ) {
     
+    const {customerList, setModalState} = useModalState()
+
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
@@ -26,6 +29,13 @@ export default function useSearchCustomerList(
     }, []);
 
 
+    useEffect(()=>{
+        
+        if(customerList.length>0){
+            changeHandler(customerList)
+            setModalState({searchKeyword:'', customerList:[],modalPage:1})
+        }
+    },[customerList])
 
 
     const searchCustomerHandler = (e)=>{

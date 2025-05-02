@@ -7,6 +7,7 @@ export default function useRouterPath(){
 
     return (route)=>{
         const params = new URLSearchParams(searchParams.toString()); 
+        if(pathname.includes(route)) return
         router.push(`${pathname}/${route}?${params.toString()}`); 
     }
 

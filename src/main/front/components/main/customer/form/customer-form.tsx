@@ -23,7 +23,6 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
     mode:'write'|'detail' |'edit'
     customer?: ResponseCustomer,
 }) {
-  console.log(customer)
   const initialState = useMemo(() => customer ??{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const formRef = useRef(null)

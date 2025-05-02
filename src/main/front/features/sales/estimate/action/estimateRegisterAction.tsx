@@ -42,7 +42,7 @@ export default async function estimateRegisterAction(prevState, formState){
         items
     }
     const action = formState.get('action')
-    console.log(estimateData)
+    
     if(action){
         const errors=[]
         items.forEach((item:ResponseEstimateItem)=>{

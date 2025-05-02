@@ -65,7 +65,7 @@ export default function StockSearchItems({stocks, page, pageLength} : {
         <section style={{padding:'5px'}}>
             <header className="register-header">
                     <Image src={asideArrow} alt=">" width={15}/>
-                    <h4>거래처 조회결과</h4>
+                    <h4>물품 조회결과</h4>
             </header>
             <table className='search-result-table'>
                 <colgroup>
