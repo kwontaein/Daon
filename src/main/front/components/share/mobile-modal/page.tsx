@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function MobileModal({children}:{children:React.ReactNode}){
+export default function MobileModal({children,height=550}:{children:React.ReactNode, height?:number}){
 
     return(
         <section className="modal-background" style={{zIndex:1002}}>
-            <div className='main' style={{height:'550px'}}>
+            <div className='main' style={{height}}>
                 <div className='close-button-container'>
                     <button onClick={() => window.history.back()}>
                         <FontAwesomeIcon icon={faXmark}/>
