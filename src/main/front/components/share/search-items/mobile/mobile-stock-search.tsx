@@ -26,7 +26,7 @@ export default function MobileSearchStockItems(){
             const response = await searchStockApi(postSearchInfo);
             setSearchResult(response); 
           } catch (error) {
-            console.error('고객 검색 API 오류:', error);
+            console.error('API 오류:', error);
           }
         };
     

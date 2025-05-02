@@ -10,7 +10,6 @@ import {
 } from 'react';
 
 import '@/styles/table-style/search.scss';
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
 import {apiUrl} from '@/model/constants/apiUrl';
 import {Affiliation} from '@/model/types/customer/affiliation/type';
@@ -21,6 +20,7 @@ import {changeFormData} from '@/features/share/changeFormData';
 import CustomerSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page} : {
@@ -47,7 +47,7 @@ export default function CustomerSearch(
 
     //router control
     const deletePage = useDeletePage()
-
+    const redirect = useRouterPath()
     //TODO: 모바일버전 구현
     const registerCustomer = () => {
         //pc
@@ -55,6 +55,8 @@ export default function CustomerSearch(
             const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
             const popupOptions = "width=600,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect('register-customer')
         }
     }
 
