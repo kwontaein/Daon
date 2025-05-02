@@ -84,7 +84,7 @@ public class TaskService {
 
             //처리완료 여부가 false 인 것들
             predicates.add(criteriaBuilder.equal(root.get("isCompleted"), false));
-            
+
             query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -96,7 +96,7 @@ public class TaskService {
     //업무등록
     public void saveTask(TaskRequest taskRequest) {
         CustomerEntity customer = customerRepository.findById(taskRequest.getCustomer()).orElse(null);
-        UserEntity assignedUser = globalService.getUserEntity(taskRequest.getAssignedUser());
+        UserEntity assignedUser = globalService.resolveUser(taskRequest.getAssignedUser());
         EstimateEntity estimate = null;
         if (taskRequest.getEstimateId() != null) {
             estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
@@ -111,7 +111,7 @@ public class TaskService {
         TaskEntity task = taskRepository.findById(taskRequest.taskId).orElse(null);
         if (task != null) {
             EstimateEntity estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
-            UserEntity assignedUser = globalService.getUserEntity(taskRequest.getAssignedUser());
+            UserEntity assignedUser = globalService.resolveUser(taskRequest.getAssignedUser());
             task.updateFromRequest(taskRequest, assignedUser, estimate);
         }
         taskRepository.save(task);
@@ -142,7 +142,7 @@ public class TaskService {
     //담당교체
     public void updateTaskUser(TaskRequest taskRequest) {
         TaskEntity task = taskRepository.findById(taskRequest.getTaskId()).orElse(null);
-        UserEntity user = globalService.getUserEntity(taskRequest.getAssignedUser());
+        UserEntity user = globalService.resolveUser(taskRequest.getAssignedUser());
         task.setAssignedUser(user);
         taskRepository.save(task);
     }
