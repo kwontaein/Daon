@@ -69,8 +69,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private boolean isExcludedURI(String requestURI) {
         // 인증 없이 접근 가능한 특정 URI를 확인
         return true;
-
-        /*"/api/SignIn".equals(requestURI) ||
+        /*"/api/signIn".equals(requestURI) ||
                 "/api/postCookie".equals(requestURI) ||
                 "/api/test".equals(requestURI);*/
     }
