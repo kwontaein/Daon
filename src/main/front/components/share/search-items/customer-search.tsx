@@ -115,11 +115,6 @@ export default function CustomerSearchItems({customers, page, pageLength} : {
                         currentPage={Number(page)}
                         isModal={!!searchKeyword}
                         />
-            {!!searchKeyword &&
-                <div className='button-container' style={{marginTop:'1rem'}}>
-                    <button onClick={()=>router.back()}>닫기</button>
-                </div>
-            }
         </section>
     )
 }

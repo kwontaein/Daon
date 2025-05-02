@@ -1,35 +1,14 @@
-'use client'
+import TaskForm from "@/components/main/sales/task/form/task-form";
+import MobileModal from "@/components/share/mobile-modal/page";
+import { getEmployeeApi } from "@/features/staff/employee/api/employeeApi";
+import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
-import '@/styles/_global.scss';
-
-
-import '@/components/main/sales/receipt/table/receipt-table.scss';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import TaskForm from '@/components/main/sales/task/form/task-form';
-import { getEmployeeApi } from '@/features/staff/employee/api/employeeApi';
-import { useEffect, useState } from 'react';
-import MobileModal from '@/components/share/mobile-modal/page';
-
-export default function MobileRegisterTask(){
-    const [employees, setEmployees] = useState()
-    
-    useEffect(()=>{
-        const fetchEmployees = async()=>{
-            try{
-                const response = await getEmployeeApi()
-                setEmployees(response);
-            }catch(error){
-                console.error('API 오류:', error);
-            }
-        }
-        fetchEmployees()
-    },[]) 
+export default async function RegisterTask(){
+    const employees:ResponseEmployee[] = await getEmployeeApi()
 
     return(
-        <MobileModal>
-            <>{employees && <TaskForm employees={employees} mode="write"/>}</>
+        <MobileModal height="fit-content">
+            <TaskForm employees={employees} mode="write"/>
         </MobileModal>
     )
 }
