@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
+import useRouterPath from '@/hooks/share/useRouterPath'
 
 const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
@@ -19,30 +20,36 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
     const taskIds = pageByTasks.map(({taskId})=>taskId)
     const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
 
-    //TODO: add mobile version
+    const redirect = useRouterPath()
     const viewCustomerHandler = (customerId:string)=>{
+        const params = new URLSearchParams({
+            mode: "detail",
+            target: customerId,
+          });
+
         if(window.innerWidth>620){
-            const params = new URLSearchParams({
-                mode: "detail",
-                target: customerId,
-              });
             const url = `${apiUrl}/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`customer?${params.toString()}`)
         }
     }
 
     
     const taskDetailHandler = (taskId:string)=>{
+        const params = new URLSearchParams
+        params.set('target',taskId)
+        params.set('mode','detail')
+
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set('target',taskId)
-            params.set('mode','detail')
             const url = `${apiUrl}/task?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`task?${params.toString()}`)
         }
     }
 

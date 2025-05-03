@@ -3,22 +3,27 @@ import '@/styles/options/options.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { deleteEstimate, transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimateApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function EstimateOptions({estimateId, receipted}:{estimateId:string, receipted:boolean}){
+    const redirect = useRouterPath()
 
-    //TODO: add mobile version
     const viewEstimateHandler = (estimateId:string)=>{
         if(receipted){
             useConfirm('정말로 전표전환을 취소하시겠습니까?', ()=>{transEstimateToReceiptApi({estimateId})})
             return
         }
+
+        const params = new URLSearchParams
+        params.set("mode", "detail")
+        params.set("target",estimateId)
+
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set("mode", "detail")
-            params.set("target",estimateId)
             const url = `${apiUrl}/estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`estimate?${params.toString()}`)
         }
     }
 

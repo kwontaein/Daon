@@ -17,6 +17,7 @@ import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/es
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
 import { apiUrl } from '@/model/constants/apiUrl';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 
 
@@ -28,7 +29,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
 }) {
     const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(isTask));
     const [estimate,setEstimate] = useState<ResponseEstimate[]>()
-
+    const redirect = useRouterPath()
     const pageByEstimate = useMemo(()=>(estimate??initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20),[page,estimate,initialEstimate])
     const formRef = useRef(null)
  
@@ -55,14 +56,15 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     },[initialEstimate])
 
     const estimateHandler = ()=>{
+        const params = new URLSearchParams
+        params.set("mode","write")
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set("mode","write")
-
             const url = `${apiUrl}/register-estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`register-estimate?${params.toString()}`)
         }
     }
 
