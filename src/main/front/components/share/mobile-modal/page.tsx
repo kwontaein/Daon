@@ -8,7 +8,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function MobileModal({
     children,
-    height = '550px',
+    height = 'fit-content',
     width='90%',
     notClosedButton,
     zIndex=1002

@@ -3,22 +3,25 @@ import '@/styles/options/options.scss';
 import { apiUrl } from '@/model/constants/apiUrl';
 import { deleteEmployeeApi } from '@/features/staff/employee/api/employeeApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function EmployeeOptions({employeeId}:{employeeId:string}){
+    const redirect = useRouterPath()
 
-        //TODO: add mobile version
-        const viewEmployeeInfoHandler = (employeeId:string)=>{
-           
-            if(window.innerWidth>620){
-                const params = new URLSearchParams({
-                    mode: "detail",
-                    target: employeeId,
-                  });
-                const url = `${apiUrl}/employee?${params.toString()}`;
-                const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
-                window.open(url, "PopupWindow", popupOptions);
-            }
+    const viewEmployeeInfoHandler = (employeeId:string)=>{
+        
+        const params = new URLSearchParams({
+            mode: "detail",
+            target: employeeId,
+            });
+        if(window.innerWidth>620){
+            const url = `${apiUrl}/employee?${params.toString()}`;
+            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
+            window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`employee?${params.toString()}`)
         }
+    }
 
         
         const deleteAccountingHandler = ()=>{

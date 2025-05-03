@@ -8,7 +8,7 @@ export default async function RegisterCustomer() {
   const employees = await getEmployeeApi();
 
   return (
-    <MobileModal height='fit-content'>
+    <MobileModal>
       <CustomerForm affiliation={affiliation} employees={employees} mode="write" />
     </MobileModal>
   );

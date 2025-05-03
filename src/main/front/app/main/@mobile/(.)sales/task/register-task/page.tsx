@@ -7,7 +7,7 @@ export default async function RegisterTask(){
     const employees:ResponseEmployee[] = await getEmployeeApi()
 
     return(
-        <MobileModal height="fit-content">
+        <MobileModal>
             <TaskForm employees={employees} mode="write"/>
         </MobileModal>
     )
