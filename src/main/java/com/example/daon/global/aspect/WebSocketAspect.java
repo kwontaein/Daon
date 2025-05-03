@@ -10,7 +10,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 @Aspect
@@ -41,9 +40,9 @@ public class WebSocketAspect {
             message.setDestination(paramName);
 
             if (paramValue instanceof List<?>) {
-                processListParam(paramName, (List<?>) paramValue, message);
+                processListParam((List<?>) paramValue);
             } else {
-                processSingleParam(paramName, paramValue, message);
+                processSingleParam(paramValue);
             }
         }
 
@@ -53,28 +52,15 @@ public class WebSocketAspect {
     }
 
     // List 타입 파라미터를 처리하여 각 DTO의 [paramName + "Id"] 필드 값을 추출
-    private void processListParam(String paramName, List<?> dtoList, Message message) {
-        String targetFieldName = paramName + "Id";
-        List<String> ids = new ArrayList<>();
-
+    private void processListParam(List<?> dtoList) {
         for (Object dto : dtoList) {
-            try {
-                Field idField = dto.getClass().getDeclaredField(targetFieldName);
-                idField.setAccessible(true);
-                Object idValue = idField.get(dto);
-                if (idValue != null) {
-                    ids.add(idValue.toString());
-                }
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                // 필요에 따라 로깅 처리
-                e.printStackTrace();
-            }
+            processSingleParam(dto);
         }
-        message.setId(ids.toString());
     }
 
+
     // 단일 DTO 파라미터를 처리하여 toString() 결과를 파싱함으로써 [paramName + "Id"]와 추가 조건에 따른 값을 추출
-    private void processSingleParam(String paramName, Object paramValue, Message defaultMessage) {
+    private void processSingleParam(Object paramValue) {
         Field[] fields = paramValue.getClass().getDeclaredFields();
 
         for (Field field : fields) {
