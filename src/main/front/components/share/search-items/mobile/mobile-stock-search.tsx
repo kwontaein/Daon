@@ -36,7 +36,7 @@ export default function MobileSearchStockItems(){
     
     return(
       <MobileModal zIndex={1003} width="70%" height="500px">
-          <StockSearchItems stocks={pageByStocks} page={modalPage} pageLength={searchResult.length}/>
+          {searchResult &&<StockSearchItems stocks={pageByStocks} page={modalPage} pageLength={searchResult.length}/>}
       </MobileModal>
    
   )

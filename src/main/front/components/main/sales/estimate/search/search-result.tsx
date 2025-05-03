@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import EstimateOptions from '../options';
 import { apiUrl } from '@/model/constants/apiUrl';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function EstimateSearchResult({pageByEstimate, isTask} : {
     pageByEstimate: ResponseEstimate[],
@@ -17,14 +18,17 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
     const { itemsRef, target, setTarget } = useItemSelection<string>(true);
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     
+    const redirect = useRouterPath()
     //TODO: add mobile version
     const viewTransEstimateHandler = (estimateId:string)=>{
+        const params = new URLSearchParams
+        params.set("target",estimateId)
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set("target",estimateId)
             const url = `${apiUrl}/trans-estimate?${params.toString()}`;
             const popupOptions = "width=800,height=400,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`trans-estimate?${params.toString()}`)
         }
     }
     return(
