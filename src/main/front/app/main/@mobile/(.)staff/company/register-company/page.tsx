@@ -3,7 +3,7 @@ import MobileModal from "@/components/share/mobile-modal/page";
 
 export default function RegisterCompany(){
     return(
-        <MobileModal height="fit-content">
+        <MobileModal>
             <CompanyForm/>
         </MobileModal>
     )

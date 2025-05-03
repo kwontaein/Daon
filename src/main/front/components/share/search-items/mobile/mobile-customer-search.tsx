@@ -36,7 +36,7 @@ export default function MobileSearchCustomerItems(){
     
     return(
       <MobileModal zIndex={1003} width="70%" height="500px">
-        <CustomerSearchItems customers={pageByCustomers} page={modalPage} pageLength={searchResult.length}/>
+        {searchResult && <CustomerSearchItems customers={pageByCustomers} page={modalPage} pageLength={searchResult.length}/>}
       </MobileModal>
 
   )

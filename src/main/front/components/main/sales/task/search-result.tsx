@@ -12,6 +12,7 @@ import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 import { updateTaskUserApi } from '@/features/sales/task/api/taskApi'
 import { useConfirm } from '@/hooks/share/useConfirm'
+import useRouterPath from '@/hooks/share/useRouterPath'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
@@ -21,61 +22,72 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     const nowDate = useMemo(()=>new Date(Date.now()),[])
     const taskIds = pageByTasks.map(({taskId})=>taskId)
     const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
+    const redirect = useRouterPath()
 
     //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
+        const params = new URLSearchParams({
+            mode: "detail",
+            target: customerId,
+          });
         if(window.innerWidth>620){
-            const params = new URLSearchParams({
-                mode: "detail",
-                target: customerId,
-              });
             const url = `${apiUrl}/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`customer?${params.toString()}`)
         }
     }
 
     //전표등록창을 띄우기 위한 함수
     const estimateHandler = (taskId:string,estimateId:string)=>{
-            if(window.innerWidth>620){
-                const params = new URLSearchParams
-                const path = estimateId ? 'estimate': 'register-estimate'
-                params.set("mode", estimateId ? "detail" :"write")
-                if(estimateId){
-                    params.set("target",estimateId)
-                }else{
-                    params.set('taskId',taskId)
-                }
-                const url = `${apiUrl}/${path}?${params.toString()}`;
-                const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
-                
-                window.open(url, "PopupWindow", popupOptions);
-            }
+        const params = new URLSearchParams
+        const path = estimateId ? 'estimate': 'register-estimate'
+        params.set("mode", estimateId ? "detail" :"write")
+        if(estimateId){
+            params.set("target",estimateId)
+        }else{
+            params.set('taskId',taskId)
+        }
+
+        if(window.innerWidth>620){
+            const url = `${apiUrl}/${path}?${params.toString()}`;
+            const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
+            
+            window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`${path}?${params.toString()}`)
+        }
     }
     //업무 상세보기
     const taskDetailHandler = (taskId:string)=>{
+        const params = new URLSearchParams
+        params.set('target',taskId)
+        params.set('mode','detail')
+
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set('target',taskId)
-            params.set('mode','detail')
             const url = `${apiUrl}/task?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`task?${params.toString()}`)
         }
     }
 
     //업무처리 상태 Handler
     const taskActionTakenHandler = (taskId:string)=>{
+        const params = new URLSearchParams
+        params.set('taskId',taskId)
+        
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set('taskId',taskId)
-            
             const url = `${apiUrl}/register-action-taken?${params.toString()}`;
             const popupOptions = "width=600,height=400,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "actionTaken", popupOptions);
+        }else{
+            redirect(`register-action-taken?${params.toString()}`)
         }
     }
 
