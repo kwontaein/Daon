@@ -52,14 +52,16 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             window.alert('전표화된 견적서가 포함되어 수정이 불가능합니다.')
             return
         }
-        //pc
+        const params = new URLSearchParams
+        params.set("receiptIds", JSON.stringify(selectList))
+
         if(window.innerWidth>620){
-            const params = new URLSearchParams
-            params.set("receiptIds", JSON.stringify(selectList))
 
             const url = `${apiUrl}/receipt?${params.toString()}`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "receipt", popupOptions);
+        }else{
+            redirect(`receipt?${params.toString()}`)
         }
     }
     

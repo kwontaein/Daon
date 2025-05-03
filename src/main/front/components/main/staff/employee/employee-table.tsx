@@ -15,6 +15,7 @@ import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employe
 import { apiUrl } from '@/model/constants/apiUrl';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import useDeletePage from '@/hooks/share/useDeletePage';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 
 export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
@@ -29,6 +30,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     const inputRef = useRef<HTMLInputElement|null>(null)
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const mode = useScreenMode({tabletSize:720,mobileSize:620})
+    const redirect = useRouterPath()
 
     const searchHandler = () =>{
         setEmployee(()=>{
@@ -53,6 +55,8 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
             const url = `${apiUrl}/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect('register-employee')
         }
     }
 

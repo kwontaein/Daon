@@ -2,7 +2,6 @@ import StockSearchItems from "@/components/share/search-items/stock-search";
 import { searchStockApi } from "@/features/stock/stock/api/searchStockApi";
 import { SearchNameProps } from "@/model/types/share/type";
 import { ResponseStock, StockSearchCondition } from "@/model/types/stock/stock/types";
-import { revalidateTag } from "next/cache";
 
 
 export const revalidate = 10 * 60 * 1; 
