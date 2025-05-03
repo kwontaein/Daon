@@ -6,7 +6,7 @@ export default async function RegisterStockPage(){
     const InitStockCate = await getStockCateApi()
 
     return(
-        <MobileModal height="fit-content">
+        <MobileModal>
             <StockForm mode='write' stockCate={InitStockCate}/>
         </MobileModal>
     )
