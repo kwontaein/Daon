@@ -74,55 +74,26 @@ public class WebSocketAspect {
     }
 
     // 단일 DTO 파라미터를 처리하여 toString() 결과를 파싱함으로써 [paramName + "Id"]와 추가 조건에 따른 값을 추출
-    private void processSingleParam(String paramName, Object paramValue, Message message) {
-        boolean isEstimate = "estimate".equals(paramName);
-        String targetSingularFieldName = paramName + "Id";
-        String targetPluralFieldName = paramName + "Ids";
+    private void processSingleParam(String paramName, Object paramValue, Message defaultMessage) {
+        Field[] fields = paramValue.getClass().getDeclaredFields();
 
-        String dtoString = paramValue.toString();
-        int startIndex = dtoString.indexOf("(");
-        int endIndex = dtoString.lastIndexOf(")");
+        for (Field field : fields) {
+            String fieldName = field.getName();
 
-        if (startIndex != -1 && endIndex != -1) {
-            String fieldsPart = dtoString.substring(startIndex + 1, endIndex);
-            // 주의: 값에 쉼표가 포함된 경우를 고려하면 보다 정교한 파싱이 필요할 수 있음
-            String[] fieldParts = fieldsPart.split(",");
-
-            for (String field : fieldParts) {
-                String[] keyValue = field.split("=");
-                if (keyValue.length == 2) {
-                    String key = keyValue[0].trim();
-                    String value = keyValue[1].trim();
-
-                    // 복수형 필드 (UUID 배열) 처리
-                    if (key.equals(targetPluralFieldName)) {
-                        // 예시: value가 "[uuid1, uuid2, uuid3]" 형태일 것으로 가정
-                        String arrayString = value;
-                        if (arrayString.startsWith("[") && arrayString.endsWith("]")) {
-                            arrayString = arrayString.substring(1, arrayString.length() - 1);
-                        }
-                        String[] uuidValues = arrayString.split(",");
-                        List<String> uuidList = new ArrayList<>();
-                        for (String uuid : uuidValues) {
-                            String trimmed = uuid.trim();
-                            if (!trimmed.isEmpty()) {
-                                uuidList.add(trimmed);
-                            }
-                        }
-                        message.setId(uuidList.toString());
+            if (fieldName.contains("Id")) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(paramValue);
+                    if (value != null) {
+                        // "estimateId" -> "estimate", "userId" -> "user", "taskIds" -> "task"
+                        String destination = fieldName.replace("Ids", "").replace("Id", "");
+                        Message msg = new Message();
+                        msg.setDestination(destination);
+                        msg.setId(value.toString());
+                        messagingTemplate.convertAndSend("/topic/transaction_alert", msg);
                     }
-                    // 단일 값 필드 처리
-                    else if (key.equals(targetSingularFieldName)) {
-                        message.setId(value);
-                    }
-
-                    // paramName이 "estimate"인 경우 추가 taskId 처리
-                    if (isEstimate && key.equals("taskId")) {
-                        Message taskMsg = new Message();
-                        taskMsg.setDestination("task");
-                        taskMsg.setId(value);
-                        messagingTemplate.convertAndSend("/topic/transaction_alert", taskMsg);
-                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
         }
