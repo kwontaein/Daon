@@ -14,7 +14,7 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
 
     
     return(
-        <MobileModal>
+        <MobileModal height="550px">
             <EstimateHeader
                 companyList={companyList}
                 task={task}

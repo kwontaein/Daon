@@ -33,7 +33,7 @@ export default function MobileSearchOfficialItems(){
     
     return(
       <MobileModal zIndex={1003} width="70%" height="500px">
-        <OfficialSearchItems officials={pageByOfficial} page={modalPage} pageLength={searchResult.length}/>
+        {searchResult && <OfficialSearchItems officials={pageByOfficial} page={modalPage} pageLength={searchResult.length}/>}
       </MobileModal>
 
   )
