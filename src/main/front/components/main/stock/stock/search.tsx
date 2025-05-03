@@ -30,7 +30,6 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     const redirectPage = useDeletePage()
     const redirect = useRouterPath()    
 
-    //TODO: 모바일버전 구현
     const registerStock = () => {
         //pc
         if (window.innerWidth> 620) {
