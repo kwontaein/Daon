@@ -54,7 +54,7 @@ export default function EmployeeForm({dept, employee, isMobile=false}: { dept: D
                 router.push(`employee?mode=detail&target=${employee.userId}`)
             } else {
                 window.alert('사원등록에 성공했습니다.')
-                window.close();
+                isMobile ? window.history.back() : window.close();
             }
             setIsDuplicateChecked(false)
         }else{
