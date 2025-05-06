@@ -22,7 +22,7 @@ const transEstimateAction = async (prevState, formData)=>{
     
 }
 
-export default function TransEstimate({estimateId}:{estimateId:string}){
+export default function TransEstimate({estimateId, isMobile}:{estimateId:string, isMobile?:boolean}){
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(transEstimateAction,{})
 
@@ -67,7 +67,7 @@ export default function TransEstimate({estimateId}:{estimateId:string}){
             </form>
             <div className='button-container'>
                 <button onClick={submitHandler} disabled={isPending}>전표전환</button>
-                <button onClick={window.close}>취소</button>
+                <button onClick={isMobile? window.history.back:window.close}>취소</button>
             </div>
        </section>
     )

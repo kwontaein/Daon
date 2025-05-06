@@ -13,8 +13,8 @@ export default async function RegisterStaff(){
     .catch((error) => console.error('Error:', error));
 
     return(
-        <MobileModal>
-            <EmployeeForm dept={dept}/>
+        <MobileModal >
+            <EmployeeForm dept={dept} isMobile={true}/>
         </MobileModal>
     )
 }
