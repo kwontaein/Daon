@@ -24,17 +24,10 @@ public class CalendarController {
     }
 
     @PostMapping("api/saveSchedules")
-    public void saveSchedules(@RequestBody CalendarRequest calendarRequest) {
-        calendarService.saveSchedules(calendarRequest);
+    public void saveSchedules(@RequestBody List<CalendarRequest> calendarRequests) {
+        for (CalendarRequest calendarRequest : calendarRequests) {
+            calendarService.saveSchedules(calendarRequest);
+        }
     }
 
-    @PostMapping("api/deleteSchedules")
-    public void deleteSchedules(@RequestBody CalendarRequest calendarRequest) {
-        calendarService.deleteSchedules(calendarRequest);
-    }
-
-    @PostMapping("api/updateSchedule")
-    public void updateSchedule(@RequestBody CalendarRequest calendarRequest) {
-        calendarService.updateSchedule(calendarRequest);
-    }
 }
