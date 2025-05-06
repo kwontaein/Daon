@@ -10,20 +10,20 @@ export default function MobileModal({
     children,
     height = 'fit-content',
     width='90%',
-    notClosedButton,
+    closeButton=false,
     zIndex=1002
 } : {
     children: React.ReactNode,
     height?: string|'fit-content',
     width?:string,
-    notClosedButton?: boolean
+    closeButton?: boolean
     zIndex?:number
 }) {
 
     return(
         <section className="modal-background" style={{zIndex}}>
             <div className='main' style={{height,width}}>
-                {!notClosedButton && 
+                {closeButton && 
                 <div className='close-button-container'>
                     <button onClick={() => window.history.back()}>
                         <FontAwesomeIcon icon={faXmark}/>

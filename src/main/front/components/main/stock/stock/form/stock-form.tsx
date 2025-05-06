@@ -4,16 +4,17 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 import { StockCate } from "@/model/types/stock/cate/type";
 import { ResponseStock, TaxationCate } from "@/model/types/stock/stock/types";
-import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import stockFormAction from "@/features/stock/stock/action/stock-form";
 import useChangeMode from "@/hooks/share/useChangeMode";
 import CustomNumberInput from "@/components/share/custom-number-input/page";
 import ErrorBox from "@/components/share/error-box/error-box";
 
-export default function StockForm({stockCate, mode, stock} : {
+export default function StockForm({stockCate, mode, stock, isMobile=false} : {
     stockCate: StockCate[],
     mode: 'write' | 'edit' | 'detail',
     stock?: ResponseStock
+    isMobile?:boolean
 }) {
 
     const [state, action, isPending] = useActionState(stockFormAction,{...stock, category: stock?.category?.stockCateId??'none' , stockUseEa:true})
@@ -179,7 +180,7 @@ export default function StockForm({stockCate, mode, stock} : {
                         {mode ==='write' && '저장하기'}
                     </button>
                     <button type='button' onClick={()=>{
-                        mode==='edit' ? changeModeHandler('detail') : window.close()
+                        mode==='edit' ? changeModeHandler('detail') :(isMobile? window.history.back(): window.close())
                     }}>취소</button>
                 </div>
             </form>

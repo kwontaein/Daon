@@ -8,8 +8,12 @@ export default async function RegisterCustomer() {
   const employees = await getEmployeeApi();
 
   return (
-    <MobileModal>
-      <CustomerForm affiliation={affiliation} employees={employees} mode="write" />
+    <MobileModal >
+    <CustomerForm
+        affiliation={affiliation}
+        employees={employees}
+        mode="write"
+        isMobile={true}/>    
     </MobileModal>
   );
 }

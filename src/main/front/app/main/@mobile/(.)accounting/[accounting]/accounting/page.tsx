@@ -42,8 +42,13 @@ export default async function AccountingPage({searchParams}:{
     
 
     return (
-        <MobileModal>
-            <AccountingForm mode={mode} division={division as keyof typeof AccountingDivision} categorySelections={categorySelections} accountingData={accountingData.at(-1)}/>
+        <MobileModal >
+        <AccountingForm
+            mode={mode}
+            division={division as keyof typeof AccountingDivision}
+            categorySelections={categorySelections}
+            accountingData={accountingData.at(-1)}
+            isMobile={true}/>        
         </MobileModal>
     )
 }

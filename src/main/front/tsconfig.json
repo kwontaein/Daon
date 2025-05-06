@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "model/constants/receipt/lunarcalndar.js", "components/main/staff/employee/form/staff-form2tsx", "features/stock/stock/action/stock-searchtsx", "hooks/customer/search/useSearchCustomertsx", "hooks/customer/search/useSearchCustomerstsx", "hooks/customer/search/useSearchCustomerstsx"  ],
+, "model/constants/receipt/lunarcalndar.js", "components/main/staff/employee/form/staff-form2tsx", "features/stock/stock/action/stock-searchtsx", "hooks/customer/search/useSearchCustomertsx", "hooks/customer/search/useSearchCustomerstsx", "hooks/customer/search/useSearchCustomerstsx", "components/share/search-items/mobile/mobile-customerList-searchtsx"  ],
   "exclude": [
     "../node_modules"
   ],

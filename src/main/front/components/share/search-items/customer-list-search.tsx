@@ -7,33 +7,40 @@ import asideArrow from '@/assets/aside-arrow.gif';
 
 import Pagination from '../pagination';
 import Image from 'next/image';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { useRouter } from 'next/navigation';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import { useModalState } from '@/store/zustand/modal';
 
 
-export default function CustomerListSearch({initialcustomers, page} : {
+export default function CustomerListSearch({initialcustomers, page, isMobile=false} : {
     initialcustomers: ResponseCustomer[],
     page: number,
+    isMobile?:boolean
 }) {
-    const [customers, setCustomers] = useState(initialcustomers)
+
+    const [customers, setCustomers] = useState([])
     const customerIds = useMemo(()=>customers.map(({customerId})=>customerId),[customers])
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIds)
     const inputRef = useRef<HTMLInputElement|null>(null)
-    const pageByCustomers = useMemo(()=> customers.slice((page-1)*20, ((page-1)*20)+20) ,[customers,page])
+    const count = isMobile? 10: 20
+    const pageByCustomers = useMemo(()=> customers.slice((page-1)*count, ((page-1)*count)+count) ,[customers,page])
 
     const deletePage = useDeletePage()
     const router =useRouter()
     const {searchKeyword, setModalState} = useModalState();
 
-
     const searchHandler = () =>{
         const newCustomers = customers.filter(({customerName})=>customerName.includes(inputRef.current.value))
+        setModalState({modalPage:1})
         setCustomers(newCustomers)
         deletePage()
     }
+
+    useEffect(()=>{
+        setCustomers(initialcustomers)
+    },[initialcustomers])
 
 
     const selectValue = () => {
@@ -65,10 +72,13 @@ export default function CustomerListSearch({initialcustomers, page} : {
                     <h4>거래처 조회결과</h4>
             </header>
             <section className="filter-container">
-                <h4>상세 거래처명</h4>
+                <h4>거래처 필터</h4>
                 <input type='text' ref={inputRef}/>
                 <button onClick={searchHandler}>조회</button>
-                <button onClick={()=>setCustomers(initialcustomers)}>필터해제</button>
+                <button onClick={()=>{
+                    setCustomers(initialcustomers)
+                    inputRef.current.value='';
+                }}>취소</button>
             </section>
             <table className='search-result-table'>
                 <colgroup>
@@ -97,9 +107,9 @@ export default function CustomerListSearch({initialcustomers, page} : {
                             key={customer.customerId}
                             className={checkedState[customer.customerId] ? 'is-click' :''}
                             style={{cursor:'pointer'}}
-                            onClick={()=>update_checked( customer.customerId)}
+                            onClick={()=>update_checked(customer.customerId)}
                             > 
-                            <td><input type='checkbox' checked={checkedState[customer.customerId]||false} onChange={()=>update_checked( customer.customerId)}/></td>
+                            <td><input type='checkbox' checked={checkedState[customer.customerId]||false} readOnly/></td>
                             <td className='left-align'>{customer.customerName}</td>
                             <td>{customer.phoneNumber}</td>
                             <td>{customer.fax}</td>
@@ -123,7 +133,7 @@ export default function CustomerListSearch({initialcustomers, page} : {
                         isModal={!!searchKeyword}/>
             <div className='button-container' style={{marginTop:'20px'}}>
                 <button onClick={selectValue}>선택완료</button>
-                <button onClick={()=>window.close()}>취소</button>
+                <button onClick={()=>window.history.back()}>취소</button>
             </div>
         </section>
     )
