@@ -23,11 +23,12 @@ export default async function EstimateDetailPage({searchParams}:DetailPageProps)
     }
     
     return (
-        <MobileModal height="550px">
+        <MobileModal height="550px" >
             <EstimateHeader
                 companyList={companyList}
                 estimate={estimate}
-                mode={mode}/>
+                mode={mode}
+                isMobile={true}/>
         </MobileModal>
     )
 }

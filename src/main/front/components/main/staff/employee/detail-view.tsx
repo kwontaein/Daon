@@ -7,7 +7,7 @@ import { EmployeeClassEnum, ResponseEmployee, UserRoleEnum } from "@/model/types
 import dayjs from "dayjs";
 import useChangeMode from "@/hooks/share/useChangeMode";
 
-export default function EmployeeDetailView({employee}:{employee:ResponseEmployee}){
+export default function EmployeeDetailView({employee, isMobile=false}:{employee:ResponseEmployee, isMobile?:boolean}){
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
     const changeModeHandler = useChangeMode()
@@ -136,7 +136,7 @@ export default function EmployeeDetailView({employee}:{employee:ResponseEmployee
         </table>
         <div className="button-container">
         <button onClick={()=>changeModeHandler('edit')}>수정</button>
-        <button onClick={()=>window.close()}>창닫기</button>
+        <button onClick={()=>isMobile? window.history.back():window.close()}>창닫기</button>
       </div>
     </section>
     )

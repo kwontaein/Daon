@@ -1,11 +1,11 @@
 'use client';
 
+import '@/styles/form-style/form.scss'
+
 import React, {startTransition, useEffect, useMemo, useRef} from 'react';
 import { useActionState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-import '@/styles/form-style/form.scss'
 
 import asideArrow from '@/assets/aside-arrow.gif';
 
@@ -17,11 +17,12 @@ import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
 
-export default function CustomerForm({affiliation, employees, customer, mode} : {
+export default function CustomerForm({affiliation, employees, customer, mode, isMobile} : {
     affiliation: Affiliation[],
     employees: ResponseEmployee[],
     mode:'write'|'detail' |'edit'
     customer?: ResponseCustomer,
+    isMobile?:boolean
 }) {
   const initialState = useMemo(() => customer ??{}, [customer]);
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
@@ -58,7 +59,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
           </h4>
       </header>
       <form action={action} ref={formRef}>
-      <table className="register-form-table print-section" key={state.customerId}>
+      <table className="register-form-table" key={state.customerId}>
           <colgroup>
                   <col style={{ width: '17%' }} />
                   <col style={{ width: '33%' }} />
@@ -224,7 +225,7 @@ export default function CustomerForm({affiliation, employees, customer, mode} : 
           {mode==='edit' && '수정완료'}
           {mode==='write' && '저장'}
         </button>
-        <button type='button' onClick={ ()=> mode==='edit' ? changeMode('detail') : window.close()}>취소</button>
+        <button type='button' onClick={ ()=> mode==='edit' ? changeMode('detail') :(isMobile? window.history.back() : window.close())}>취소</button>
       </div>
     </form>
     </section>

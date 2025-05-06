@@ -8,11 +8,12 @@ import { ResponseTask } from '@/model/types/sales/task/type';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
 
-export default function EstimateForm({estimateState, submit, mode, task} : {
+export default function EstimateForm({estimateState, submit, mode, task, isMobile = false} : {
     estimateState?: ResponseEstimate,
     submit: () => void,
     mode: 'write'|'detail'|'edit',
     task?:ResponseTask,
+    isMobile?:boolean
 }) {
     const {
         items,
@@ -155,7 +156,7 @@ export default function EstimateForm({estimateState, submit, mode, task} : {
                     }
                     <button type='button'
                              onClick={()=>{
-                                !task?.completeAt && mode==='edit' ? changeModeHandler('detail') : window.close()}}>
+                                !task?.completeAt && mode==='edit' ? changeModeHandler('detail') : (isMobile? window.history.back(): window.close())}}>
                         {!task?.completeAt ?'취 소' : '닫기'}</button>
             </div>
         </section>

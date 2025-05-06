@@ -13,29 +13,29 @@ export default function MobileSearchCustomerList(){
     const [searchResult, setSearchResult] = useState([])
 
     useEffect(() => {
-        const fetchCustomers = async () => {
-          const postSearchInfo: CustomerSearchCondition = {
-            category: null,
-            cateId: null,
-            searchTarget: 'all',
-            customerName: searchKeyword,
-            ceo: null,
-          };
-    
-          try {
-            const response = await searchCustomersApi(postSearchInfo);
-            setSearchResult(response); 
-          } catch (error) {
-            console.error('API 오류:', error);
-          }
-        };
+      const fetchCustomers = async () => {
+        const postSearchInfo: CustomerSearchCondition = {
+          category: null,
+          cateId: null,
+          searchTarget: 'all',
+          customerName: searchKeyword,
+          ceo: null,
+        }
+
+        try {
+          const response = await searchCustomersApi(postSearchInfo);
+          setSearchResult(response); 
+        } catch (error) {
+          console.error('API 오류:', error);
+        }
+      };
     
         fetchCustomers();
     }, [searchKeyword]);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="550px">
-        {searchResult && <CustomerListSearch initialcustomers={searchResult} page={modalPage}/>}
+      <MobileModal zIndex={1003} width="70%" height="550px" >
+        <CustomerListSearch initialcustomers={searchResult} page={modalPage} isMobile={true}/>
       </MobileModal>
 
   )

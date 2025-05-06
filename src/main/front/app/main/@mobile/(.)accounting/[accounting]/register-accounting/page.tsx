@@ -16,8 +16,12 @@ export default async function RegisterAccountingPage({searchParams}:{
         notFound()
     }
     return (
-        <MobileModal notClosedButton={true}>
-            <AccountingForm mode="write" division={division as keyof typeof AccountingDivision} categorySelections={categorySelections}/>
+        <MobileModal >
+        <AccountingForm
+            mode="write"
+            division={division as keyof typeof AccountingDivision}
+            categorySelections={categorySelections}
+            isMobile={true}/>        
         </MobileModal>
     )
 }
