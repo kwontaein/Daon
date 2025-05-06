@@ -2,6 +2,7 @@ package com.example.daon.stock.controller;
 
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
+import com.example.daon.stock.dto.response.PersonalStockResponse;
 import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.service.StockService;
@@ -75,5 +76,11 @@ public class StockController {
     @PostMapping("api/deleteStockCate")
     public void deleteStockCate(@RequestBody StockCateRequest stockCateRequest) {
         stockService.deleteStockCate(stockCateRequest);
+    }
+
+    //개인이 갖고 있는 품목 갯수
+    @PostMapping("api/getPersonalStock")
+    public List<PersonalStockResponse> getPersonalStock(@RequestBody StockRequest stockRequest) {
+        return stockService.getPersonalStock(stockRequest);
     }
 }
