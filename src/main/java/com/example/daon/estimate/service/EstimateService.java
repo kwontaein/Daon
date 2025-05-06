@@ -25,6 +25,7 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -330,7 +331,12 @@ public class EstimateService {
         }
 
         // 이후에 EstimateEntity를 삭제합니다.
-        estimateRepository.delete(estimate);
+        try {
+            estimateRepository.delete(estimate);
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new IllegalStateException("견적서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
 }

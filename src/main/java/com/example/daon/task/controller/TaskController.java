@@ -76,4 +76,19 @@ public class TaskController {
     public void updateTaskUser(@RequestBody TaskRequest taskRequest) {
         taskService.updateTaskUser(taskRequest);
     }
+
+
+/*    @GetMapping("/download/tasks")
+    public ResponseEntity<Resource> downloadTasksExcel() throws IOException {
+        List<TaskEntity> tasks = taskService.findAll();
+
+        ByteArrayInputStream excelStream = exportTasksToExcel(tasks);
+        InputStreamResource fileResource = new InputStreamResource(excelStream);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tasks.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(fileResource);
+    }*/
+
 }
