@@ -25,8 +25,13 @@ export default async function CustomerDetailPage({searchParams}: DetailPageProps
 
 
     return  (
-        <MobileModal>
-            <CustomerForm affiliation={affiliation} customer={customer} employees={employees} mode={mode}/>
+        <MobileModal >
+            <CustomerForm
+                affiliation={affiliation}
+                customer={customer}
+                employees={employees}
+                mode={mode}
+                isMobile={true}/>        
         </MobileModal>
     )
 
