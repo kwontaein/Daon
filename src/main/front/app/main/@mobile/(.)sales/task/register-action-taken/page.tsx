@@ -17,7 +17,7 @@ export default async function RegisterActionTaken({searchParams} : {
     const task:ResponseTask = await getTaskApi(taskId)
     return(
         <MobileModal>
-            <ActionTaken taskId={taskId}>
+            <ActionTaken taskId={taskId} isMobile={true}>
                 <ActionTakenContent details={task.details} actionTaken={task.actionTaken} mode='write'/>
             </ActionTaken>
         </MobileModal>

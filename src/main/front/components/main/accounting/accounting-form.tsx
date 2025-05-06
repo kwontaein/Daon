@@ -80,7 +80,8 @@ export default function AccountingForm({mode,division,categorySelections,account
                 if(mode==='edit'){
                     window.alert(AccountingDivision[division]+'의 수정이 완료되었습니다.')
                 }
-                window.close()
+                isMobile ? window.history.back() :window.close()
+
             }
         }
     },[state])

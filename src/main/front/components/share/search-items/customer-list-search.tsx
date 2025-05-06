@@ -32,7 +32,7 @@ export default function CustomerListSearch({initialcustomers, page, isMobile=fal
     const {searchKeyword, setModalState} = useModalState();
 
     const searchHandler = () =>{
-        const newCustomers = customers.filter(({customerName})=>customerName.includes(inputRef.current.value))
+        const newCustomers = initialcustomers.filter(({customerName})=>customerName.includes(inputRef.current.value))
         setModalState({modalPage:1})
         setCustomers(newCustomers)
         deletePage()
@@ -58,7 +58,7 @@ export default function CustomerListSearch({initialcustomers, page, isMobile=fal
             }
             if (window.opener && postData.length>0) {
               window.opener.postMessage(message, "*");
-              window.close()
+              isMobile ? window.history.back() : window.close()
             }
         }
     };

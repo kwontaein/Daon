@@ -15,7 +15,7 @@ import CustomDateInput from '@/components/share/custom-date-input/custom-date-in
 import useSearchOfficial from '@/hooks/sales/official/useSearchOfficial';
 
 
-export default function ReceiptTableBody({initialReceiptList} : {initialReceiptList?:ResponseReceipt[]}){
+export default function ReceiptTableBody({initialReceiptList, isMobile=false} : {initialReceiptList?:ResponseReceipt[], isMobile?:boolean}){
     const {target,setTarget,itemsRef} = useItemSelection<string>(true) //복사 및 삭제대상 지정
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
     const [isRightClick, setIsRightClick] = useState<boolean>(false)
@@ -34,7 +34,7 @@ export default function ReceiptTableBody({initialReceiptList} : {initialReceiptL
             checkOfficialId,
             setOfficialInfo,
             saveReceiptList
-        } = useReceiptList(initialReceiptList)
+        } = useReceiptList(initialReceiptList, isMobile)
 
 
     const searchCustomerHandler = useSearchCustomer(checkCustomerId,setCustomerInfo)
@@ -190,7 +190,7 @@ export default function ReceiptTableBody({initialReceiptList} : {initialReceiptL
                             {isEdit? '수정완료' : '저장하기'}
                         </button>
                         {isEdit &&
-                            <button onClick={()=>window.close()}>
+                            <button onClick={()=>isMobile ? window.history.back() :window.close()}>
                                 취소
                             </button>
                         }

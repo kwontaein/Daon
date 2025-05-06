@@ -20,9 +20,10 @@ const actionTakenAction = async(prevState, formData)=>{
     }
 }
 
-export default function ActionTaken({children, taskId}:{
+export default function ActionTaken({children, taskId, isMobile}:{
     children: React.ReactNode,
     taskId:string,
+    isMobile?:boolean
 }){
     const [state, action, isPending] = useActionState(actionTakenAction,{})
     const formRef = useRef(null)
@@ -33,7 +34,7 @@ export default function ActionTaken({children, taskId}:{
         if(state.status){
             if(state.status===200){
                 window.alert('업무처리가 완료되었습니다.')
-                window.close()
+                isMobile ? window.history.back() :window.close()
             }else{
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }

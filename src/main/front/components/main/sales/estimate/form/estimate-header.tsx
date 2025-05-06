@@ -104,7 +104,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
                     }, 100)
                 } else {
                     window.alert('견적서를 등록했습니다.')
-                    window.close();
+                    isMobile ? window.history.back() :window.close();
                 }
             } else {
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
