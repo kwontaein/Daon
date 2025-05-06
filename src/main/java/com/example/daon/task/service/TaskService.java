@@ -12,8 +12,16 @@ import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,5 +154,33 @@ public class TaskService {
         UserEntity user = globalService.resolveUser(taskRequest.getAssignedUser());
         task.setAssignedUser(user);
         taskRepository.save(task);
+    }
+
+
+    public ByteArrayInputStream exportTasksToExcel(List<TaskEntity> tasks) throws IOException {
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Tasks");
+
+            // 헤더 행 생성
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"ID", "제목", "상태", "생성일"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // 데이터 행 생성
+            for (int i = 0; i < tasks.size(); i++) {
+                Row row = sheet.createRow(i + 1);
+                TaskEntity task = tasks.get(i);
+                row.createCell(0).setCellValue(task.getTaskId().toString());
+                row.createCell(1).setCellValue(task.getDetails());
+                row.createCell(2).setCellValue(task.getCreatedAt());
+                row.createCell(3).setCellValue(task.getCreatedAt().toString());
+            }
+
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+        }
     }
 }
