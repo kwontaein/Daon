@@ -5,6 +5,7 @@ import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.company.repository.CompanyRepository;
 import com.example.daon.global.service.GlobalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,12 @@ public class CompanyService {
     }
 
     public void DeleteCompany(CompanyRequest companyRequest) {
-        companyRepository.deleteById(companyRequest.getCompanyId());
+        try {
+            companyRepository.deleteById(companyRequest.getCompanyId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new IllegalStateException("회사를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public CompanyEntity getCompanyDetail(CompanyRequest companyRequest) {
