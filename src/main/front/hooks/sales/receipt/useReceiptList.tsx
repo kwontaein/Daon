@@ -26,7 +26,7 @@ const initReceipt: ResponseReceipt = {
 };
 
 
-export default function useReceiptList(initialReceiptList) {
+export default function useReceiptList(initialReceiptList, isMobile=false) {
     const [receiptList, setReceiptList] = useState<ResponseReceipt[]>(initialReceiptList??[initReceipt]);
     /** 공통 업데이트 함수 */
     const updateReceiptList = (receiptId: string, updateData: Partial<ResponseReceipt>) => {
@@ -142,7 +142,7 @@ export default function useReceiptList(initialReceiptList) {
                 updateReceiptListApi(receiptList).then((status)=>{
                     if(status ===200){
                         window.alert('수정이 완료되었습니다.')
-                        window.close();
+                        isMobile ? window.history.back() :window.close();
                     }else{
                         window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
                     }
