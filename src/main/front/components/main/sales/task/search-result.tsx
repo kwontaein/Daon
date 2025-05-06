@@ -124,7 +124,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     },[])
 
     return(
-        mode ? 
+        mode &&
         <table className='task-search-result-table'>
             <colgroup>
                 <col style={{ width: '1%' }}/>
@@ -258,8 +258,6 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                             </tbody>
                         )}
         </table>
-        :
-        <div style={{marginTop:'14px'}}>loading...</div>
     )
 })
 
