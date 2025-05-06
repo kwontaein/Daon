@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import './company-form.scss'
+import '@/styles/form-style/form.scss'
 import {startTransition, useActionState, useEffect, useMemo, useRef} from "react";
 import {useRouter} from "next/navigation";
 import ErrorBox from "@/components/share/error-box/error-box";
 import {ResponseCompany} from "@/model/types/staff/company/type";
 import {submitCompanyInfo} from "@/features/staff/company/action/company-action";
 
-export default function CompanyForm({company}: { company?: ResponseCompany }) {
+export default function CompanyForm({company,isMobile=false}: { company?: ResponseCompany, isMobile?:boolean }) {
 
     const initialState = useMemo(() => company ?? {}, [company]);
     const [state, action, isPending] = useActionState(submitCompanyInfo, initialState);
@@ -34,15 +34,15 @@ export default function CompanyForm({company}: { company?: ResponseCompany }) {
     }, [state])
 
     return (
-        <section className="company-form-container">
+        <section className="register-form-container">
             {!company &&
-                <header className="register-company-header">
+                <header className="register-header">
                     <Image src={asideArrow} alt=">"/>
                     <h4>회사등록</h4>
                 </header>
             }
             <form action={action} ref={formRef}>
-                <table className="company-form-table" key={state.companyId}>
+                <table className="register-form-table" key={state.companyId}>
                     <colgroup>
                         <col style={{width: '15%'}}/>
                         <col style={{width: '35%'}}/>
@@ -144,10 +144,10 @@ export default function CompanyForm({company}: { company?: ResponseCompany }) {
                     </tr>
                     </tbody>
                 </table>
-                <div className='company-button-container'>
+                <div className='button-container' style={{justifyContent:'right'}}>
                     <button type={'button'} onClick={submitHandler} disabled={isPending}>저장</button>
                     <button type={'button'}
-                            onClick={() => company ? router.push(`company?mode=detail&target=${company.companyId}`) : window.close()}>취소
+                            onClick={() => company ? router.push(`company?mode=detail&target=${company.companyId}`) : (isMobile ? window.history.back() :window.close())}>취소
                     </button>
                 </div>
             </form>

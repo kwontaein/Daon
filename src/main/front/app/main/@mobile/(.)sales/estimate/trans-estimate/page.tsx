@@ -10,8 +10,8 @@ export default async function TransEstimatePage({searchParams} : DetailPageProps
     }
 
     return (
-        <MobileModal>
-            <TransEstimate estimateId={estimateId}/>
+        <MobileModal >
+            <TransEstimate estimateId={estimateId} isMobile={true}/>
         </MobileModal>
     )
 }
