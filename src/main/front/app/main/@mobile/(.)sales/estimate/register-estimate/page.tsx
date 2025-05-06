@@ -14,11 +14,12 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
 
     
     return(
-        <MobileModal height="550px">
+        <MobileModal height="550px" >
             <EstimateHeader
                 companyList={companyList}
                 task={task}
-                mode='write'/>
+                mode='write'
+                isMobile={true}/>
         </MobileModal>
     )
 }

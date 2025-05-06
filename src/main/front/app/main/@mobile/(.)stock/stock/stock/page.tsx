@@ -11,8 +11,8 @@ export default async function RegisterStockPage({searchParams}:DetailPageProps){
     const stock = await getStockByIdApi(stockId)
     const InitStockCate = await getStockCateApi()
     return(
-        <MobileModal>
-            <StockForm mode={mode} stockCate={InitStockCate} stock={stock}/>
+        <MobileModal >
+            <StockForm mode={mode} stockCate={InitStockCate} stock={stock} isMobile={true}/>
         </MobileModal>
     )
 }

@@ -79,7 +79,7 @@ export default function Pagination({ totalItems, itemCountPerPage, pageCount, cu
             )
           ))}
         </> 
-        <div className={`'move' ${noNext && 'invisible'}`}>
+        <div className={`move ${noNext && 'invisible'}`}>
           {!isModal ?
             <Link href={createPageUrl(start + pageCount)}>
               <FontAwesomeIcon icon={faChevronRight}/>

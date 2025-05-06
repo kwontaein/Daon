@@ -41,7 +41,7 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
     }
 
     return(
-        <MobileModal>
+        <MobileModal >
             <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
@@ -50,9 +50,9 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
                 </h4>
             </header>
             {mode ==='detail' ?
-             <CompanyDetail company={company}/>
+             <CompanyDetail company={company} isMobile={true}/>
              :
-             <CompanyForm company={company}/>
+             <CompanyForm company={company} isMobile={true}/>
             }
         </MobileModal>
        
