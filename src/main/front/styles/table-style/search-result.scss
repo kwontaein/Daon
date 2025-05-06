@@ -91,9 +91,12 @@
     }
     input{
         margin-right: 5px;
+        width: calc(100% - 200px);
+        
     }
     button{
         padding-inline: 5px;
+        margin-right: 5px;
     }
 }
 

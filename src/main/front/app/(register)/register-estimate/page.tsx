@@ -1,6 +1,5 @@
 import EstimateHeader from "@/components/main/sales/estimate/form/estimate-header"
 import {getCompany} from "@/features/staff/company/api/company-api"
-import {getEstimateApi} from "@/features/sales/estimate/api/estimateApi"
 import { getTaskApi } from "@/features/sales/task/api/taskApi"
 import { ResponseCompany } from "@/model/types/staff/company/type"
 import { EstimateRegisterProps } from "@/model/types/sales/estimate/type"
@@ -14,9 +13,9 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
 
     
     return(
-    <EstimateHeader
-        companyList={companyList}
-        task={task}
-        mode='write'/>
+        <EstimateHeader
+            companyList={companyList}
+            task={task}
+            mode='write'/>
     )
 }

@@ -143,7 +143,7 @@ option[value="disabled"][disabled] {
     background-color: white;
     z-index: 1002;
     overflow-y: auto;
-
+    max-width: 600px;
     .close-button-container{
       width: 100%;
       display: flex;

@@ -13,8 +13,9 @@ import {useConfirm} from "@/hooks/share/useConfirm";
 import {userIdDuplicationChecked} from "@/features/staff/employee/api/employeeApi";
 import {Dept} from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
+import CustomDateInput from "@/components/share/custom-date-input/custom-date-input";
 
-export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?: ResponseEmployee }) {
+export default function EmployeeForm({dept, employee, isMobile=false}: { dept: Dept[], employee?: ResponseEmployee, isMobile?:boolean }) {
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
     const formRef = useRef(null)
@@ -25,18 +26,15 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     joinDate: dayjs(employee.joinDate).format('YYYY-MM-DD'),
                     birthday: dayjs(employee.birthday).format('YYYY-MM-DD'),
                     deptId: employee.dept.deptId,
-                    married: employee.married
-                        ? 'married'
-                        : 'single',
                     isUpdate: true,
                 }
-                : {},
+                : {married:false},
         [employee]);
         
     const [state, action, isPending] = useActionState(submitEmployeeInfo, initialState);
+
     //중복체크 상태
     const [isDuplicateChecked, setIsDuplicateChecked] = useState<boolean>(!!employee)
-    const idRef = useRef<HTMLInputElement>(null)
     const router = useRouter();
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,7 +136,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                         <td colSpan={2} className="table-label">직위</td>
                         <td colSpan={2}>
                             <select name="userClass" key={state.userClass} defaultValue={state.userClass}>
-                                <option value="none">직위선택</option>
+                                <option value="none">선택</option>
                                 <option value="CEO">대표</option>
                                 <option value="DIRECTOR">이사</option>
                                 <option value="TEAM_LEADER">팀장</option>
@@ -157,7 +155,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                         <td colSpan={2} className="table-label">부서</td>
                         <td colSpan={2}>
                             <select name="deptId" defaultValue={state.deptId}>
-                                <option value="none">부서선택</option>
+                                <option value="none">선택</option>
                                 {dept.map(({deptId, deptName}) =>
                                     <option value={deptId} key={deptId}>
                                         {deptName}
@@ -206,7 +204,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                         </td>
                         <td colSpan={2} className="table-label">입사일</td>
                         <td colSpan={8}>
-                            <input type="date" name="joinDate" defaultValue={state.joinDate}/>
+                            <CustomDateInput name="joinDate" defaultValue={state.joinDate}/>
                             {state.formErrors?.joinDate &&
                                 <ErrorBox>
                                     {state.formErrors.joinDate}
@@ -254,27 +252,13 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     <tr>
                         <td colSpan={2} className="table-label">전화번호</td>
                         <td colSpan={4}>
-                            <input className="short-input" name="tel1"
-                                   defaultValue={state.tel1 ?? (employee && employee.tel.split('-')[0] || '')}
-                                   style={{marginLeft: '0'}} maxLength={4}/>
-                            - <input className="short-input" name="tel2"
-                                     defaultValue={state.tel2 ?? (employee && employee.tel.split('-')[1] || '')}
-                                     maxLength={4}/>
-                            - <input className="short-input" name="tel3"
-                                     defaultValue={state.tel3 ?? (employee && employee.tel.split('-')[0] || '')}
-                                     maxLength={4}/>
+                        <input name="tel"
+                                   defaultValue={state.tel}/>
                         </td>
                         <td colSpan={2} className="table-label">핸드폰</td>
                         <td colSpan={4}>
-                            <input className="short-input" name="phone1"
-                                   defaultValue={state.phone1 ?? (employee && employee.phone.split('-')[0] || '')}
-                                   style={{marginLeft: '0'}} maxLength={4}/>
-                            - <input className="short-input" name="phone2"
-                                     defaultValue={state.phone2 ?? (employee && employee.phone.split('-')[1] || '')}
-                                     maxLength={4}/>
-                            - <input className="short-input" name="phone3"
-                                     defaultValue={state.phone3 ?? (employee && employee.phone.split('-')[2] || '')}
-                                     maxLength={4}/>
+                            <input name="phone"
+                                   defaultValue={state.phone}/>
                         </td>
                     </tr>
                     <tr>
@@ -292,7 +276,7 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                     <tr>
                         <td colSpan={2} className="table-label">생년월일</td>
                         <td colSpan={4}>
-                            <input type="date" name="birthday" defaultValue={state.birthday}/>
+                            <CustomDateInput name="birthday" defaultValue={state.birthday}/>
                             {state.formErrors?.birthday &&
                                 <ErrorBox>
                                     {state.formErrors.birthday}
@@ -302,10 +286,14 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                         <td colSpan={2} className="table-label">결혼여부</td>
                         <td colSpan={4} className="table-radio-container">
                             <div>
-                                <label><input type="radio" value="single" name="married"
-                                              defaultChecked={state.married === 'single'}/>미혼</label>
-                                <label><input type="radio" value="married" name="married"
-                                              defaultChecked={state.married === 'married'}/>기혼</label>
+                                <label><input type="radio"
+                                              name="married"
+                                              value='single'
+                                              defaultChecked={!state.married}/>미혼</label>
+                                <label><input type="radio" 
+                                              name="married"
+                                              value='married'
+                                              defaultChecked={state.married}/>기혼</label>
                             </div>
                         </td>
                     </tr>
@@ -323,7 +311,10 @@ export default function EmployeeForm({dept, employee}: { dept: Dept[], employee?
                             onClick={submitHandler}>저장
                     </button>
                     <button type='button'
-                            onClick={() => employee ? router.push(`employee?mode=detail&target=${employee.userId}`) : window.close()}>취소
+                            onClick={() => 
+                                employee ? 
+                                    router.push(`employee?mode=detail&target=${employee.userId}`)
+                                    :(isMobile? window.history.back(): window.close())}>취소
                     </button>
                 </div>
             </form>

@@ -50,12 +50,18 @@
   }
 
   .id-input{
-    width: calc(100% - 70px);
+    width: calc(100% - 60px);
     margin-right: 5px;
   }
   .short-input{
     max-width:29% !important;
     margin-inline: 1% !important;
+  }
+  
+  .break-word-div{
+    display:block;
+    white-space:normal;
+    word-break:break-all;
   }
 
   .zip-code-input{

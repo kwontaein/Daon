@@ -3,7 +3,7 @@ import './form/company-form.scss'
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import useChangeMode from '@/hooks/share/useChangeMode';
 
-export default function CompanyDetail({company}:{company:ResponseCompany}){
+export default function CompanyDetail({company, isMobile=false}:{company:ResponseCompany, isMobile?:boolean}){
     const changeModeHandler = useChangeMode()
 
     return(
@@ -30,7 +30,7 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
                     </tr>
                     <tr>
                         <td className="table-label">사업자등록번호</td>
-                        <td>{company.businessNum}</td>
+                        <td>{company.businessNumber}</td>
                         <td className="table-label">전화</td>
                         <td>{company.tel}</td>
                     </tr>
@@ -82,7 +82,7 @@ export default function CompanyDetail({company}:{company:ResponseCompany}){
                 <button onClick={()=>window.print()}>인쇄</button>
                 <button onClick={()=>changeModeHandler('edit')}>수정</button>
                 <button>삭제</button>
-                <button onClick={()=>window.close()}>창닫기</button>
+                <button onClick={()=> isMobile ? window.history.back():window.close()}>창닫기</button>
             </div>
         </section>
     )
