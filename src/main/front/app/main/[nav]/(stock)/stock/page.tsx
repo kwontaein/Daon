@@ -1,4 +1,5 @@
 import StockSearch from "@/components/main/stock/stock/search";
+import CustomLoading from "@/components/share/loading/loading";
 import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
 import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
@@ -21,7 +22,7 @@ export default async function StockPage({searchParams}:StockPageProps){
 
     return(
         <section>
-            <Suspense fallback={<div>loading...</div>}>
+            <Suspense fallback={<CustomLoading content="물품 정보를 불러오고 있습니다."/>}>
                 <StockSearch stockCate={InitStockCate}  initialStocks={initialStocks} page={page}/>
             </Suspense>
         </section>
