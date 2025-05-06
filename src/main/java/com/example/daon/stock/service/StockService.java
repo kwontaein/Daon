@@ -3,6 +3,7 @@ package com.example.daon.stock.service;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
+import com.example.daon.stock.dto.response.PersonalStockResponse;
 import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockCate;
 import com.example.daon.stock.model.StockEntity;
@@ -10,6 +11,7 @@ import com.example.daon.stock.repository.StockCateRepository;
 import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,8 +130,17 @@ public class StockService {
     }
 
     public void deleteStockCate(StockCateRequest stockCateRequest) {
-        stockCateRepository.deleteById(stockCateRequest.getStockCateId());
+        try {
+            stockCateRepository.deleteById(stockCateRequest.getStockCateId());
+        } catch (
+                DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new IllegalStateException("회사를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
 
+    public List<PersonalStockResponse> getPersonalStock(StockRequest stockRequest) {
+        return null;
+    }
 }
