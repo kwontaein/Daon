@@ -14,7 +14,7 @@ import MobileModal from '@/components/share/mobile-modal/page';
 export default function MobileRegisterReceipt(){
     
     return(
-        <MobileModal height="550px">
+        <MobileModal height="550px" closeButton={true}>
             <div className="register-receipt-container">
                 <header className="flex-row receipt-header">
                     <Image src={asideArrow} alt=">" width={15}/>

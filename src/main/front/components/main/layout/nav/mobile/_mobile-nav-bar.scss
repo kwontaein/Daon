@@ -32,7 +32,7 @@
     @media (max-width : 620px){
         display: flex;
     }
-    position: absolute;
+    position: fixed;
     background-color: white;
     z-index:1001
 }

@@ -27,7 +27,7 @@ export default async function EmployeeDetailPage({searchParams}: DetailPageProps
     const employee: ResponseEmployee = await getEmployeeDetailApi(userId)
     
     return (
-        <MobileModal>
+        <MobileModal >
             <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>
@@ -36,9 +36,9 @@ export default async function EmployeeDetailPage({searchParams}: DetailPageProps
                 </h4>
             </header>
             {mode === 'detail' ?
-                <EmployeeDetailView employee={employee}/>
+                <EmployeeDetailView employee={employee} isMobile={true}/>
                 :
-                <EmployeeForm employee={employee} dept={dept}/>
+                <EmployeeForm employee={employee} dept={dept} isMobile={true}/>
             }
         </MobileModal>
 

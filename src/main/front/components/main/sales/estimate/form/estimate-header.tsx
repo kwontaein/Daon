@@ -17,11 +17,12 @@ import {useConfirm} from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
-export default function EstimateHeader({companyList, task, estimate, mode}: {
+export default function EstimateHeader({companyList, task, estimate, mode, isMobile = false}: {
     companyList: ResponseCompany[],
     mode: 'write' | 'detail' | 'edit',
     task?: ResponseTask,
     estimate?: ResponseEstimate,
+    isMobile?:boolean
 }) {
     //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(() => {
@@ -197,11 +198,15 @@ export default function EstimateHeader({companyList, task, estimate, mode}: {
                             <input type='hidden' name='userId' value={state.userId ?? ''} readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
-                        <td>{company.address}</td>
+                        <td>
+                            <div className='break-word-div'>
+                                {company.address}
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse}/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse} isMobile/> 
 
             </form>
         </section>
