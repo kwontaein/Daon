@@ -12,8 +12,16 @@ import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +41,7 @@ public class TaskService {
         List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.isNotNull(root.get("completeAt")));
             query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -145,5 +154,33 @@ public class TaskService {
         UserEntity user = globalService.resolveUser(taskRequest.getAssignedUser());
         task.setAssignedUser(user);
         taskRepository.save(task);
+    }
+
+
+    public ByteArrayInputStream exportTasksToExcel(List<TaskEntity> tasks) throws IOException {
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Tasks");
+
+            // 헤더 행 생성
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {"ID", "제목", "상태", "생성일"};
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // 데이터 행 생성
+            for (int i = 0; i < tasks.size(); i++) {
+                Row row = sheet.createRow(i + 1);
+                TaskEntity task = tasks.get(i);
+                row.createCell(0).setCellValue(task.getTaskId().toString());
+                row.createCell(1).setCellValue(task.getDetails());
+                row.createCell(2).setCellValue(task.getCreatedAt());
+                row.createCell(3).setCellValue(task.getCreatedAt().toString());
+            }
+
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+        }
     }
 }
