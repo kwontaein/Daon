@@ -12,6 +12,7 @@ import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -96,7 +97,12 @@ public class AdminService {
     }
 
     public void DeleteEmployee(UserRequest userRequest) {
-        userRepository.deleteById(userRequest.getUserId());
+        try {
+            userRepository.deleteById(userRequest.getUserId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new IllegalStateException("유저를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public UserResponse GetEmployeeDetail(UserRequest userRequest) {
@@ -122,7 +128,12 @@ public class AdminService {
     }
 
     public void DeleteDept(DeptRequest deptRequest) {
-        deptRepository.deleteById(deptRequest.getDeptId());
+        try {
+            deptRepository.deleteById(deptRequest.getDeptId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new IllegalStateException("부서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public boolean duplicationCheck(String userId) {
