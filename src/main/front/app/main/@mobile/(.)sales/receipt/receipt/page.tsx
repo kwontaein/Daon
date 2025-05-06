@@ -25,7 +25,7 @@ export default async function ReceiptEditPage({searchParams}:{searchParams:Promi
             </header>
             <main>
                 <ReceiptTableContainer isRegister={true}>
-                    <ReceiptTableBody initialReceiptList={initialReceiptList}/>
+                    <ReceiptTableBody initialReceiptList={initialReceiptList} isMobile={true}/>
                 </ReceiptTableContainer>
             </main>
             </div>
