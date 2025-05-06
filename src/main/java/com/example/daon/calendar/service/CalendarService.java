@@ -87,18 +87,4 @@ public class CalendarService {
             }
         }
     }
-
-    public void deleteSchedules(CalendarRequest calendarRequest) {
-        calendarRepository.deleteById(calendarRequest.getCalendarId());
-    }
-
-    public void updateSchedule(CalendarRequest calendarRequest) {
-        if (calendarRequest.getMemo() == null || calendarRequest.getMemo().isEmpty()) {
-            deleteSchedules(calendarRequest);
-            return;
-        }
-        CalendarEntity calendar = calendarRepository.findById(calendarRequest.getCalendarId()).orElse(null);
-        calendar.updateFromRequest(calendarRequest);
-        calendarRepository.save(calendar);
-    }
 }
