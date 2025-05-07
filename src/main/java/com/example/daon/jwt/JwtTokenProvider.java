@@ -56,22 +56,20 @@ public class JwtTokenProvider {
     // 유저 정보를 가지고 AccessToken, RefreshToken 을 생성하는 메서드
     // -> DB 에서 refreshToken 값이 있다면 AccessToken 생성 메소드만 실행.
     // 없다면 두개 다 생성 메소드 실행
-    public JwtToken generateToken(Authentication authentication) {
-
-        //System.out.println("토큰 생성 실행");
-
+    public JwtToken generateToken(Authentication authentication, HttpServletResponse response) {
         String accessToken = generateAccessTokenBy(authentication.getName(), authentication.getAuthorities());
         String refreshToken = generateRefreshToken();
 
-        //쿠키 생성 부분
         createCookie(response, "accessToken", accessToken);
         redisService.saveUserToken(authentication.getName(), refreshToken);
+
         return JwtToken.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
     }
+
 
     //AccessToken 생성 메소드
     private String generateAccessTokenBy(String subject, Collection<? extends GrantedAuthority> authorities) {
