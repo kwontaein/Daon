@@ -32,9 +32,6 @@ function Login() {
 
   return (
     <div className='login-container'>
-      {currentId === undefined ?
-        'loading...'
-        :
         <>
         <form action={action} ref={formRef}>
           <h1>로그인</h1>
@@ -46,9 +43,7 @@ function Login() {
             <RememberChecked currentId={currentId}/> 아이디 기억
           </span>
         <button onClick={submitHandler} className='login-button'>로그인</button>
-       </>
-      }
-        
+       </>  
     </div>
   );
 }

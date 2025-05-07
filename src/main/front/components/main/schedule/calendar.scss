@@ -5,6 +5,7 @@
     width: 100%;
     td{
         padding-inline: 5px;
+        padding-bottom: 5px;
         border: 1px solid var.$default-border-color;
         div{
             display: flex;
@@ -15,7 +16,7 @@
 
     thead{
         background-color: #8091A7;
-        background-image: url('../../assets/bg_img.gif');
+        background-image: url('../../../assets/bg_img.gif');
         background-repeat: repeat-x;
         border: var.$default-border-color;
 
@@ -64,14 +65,23 @@
     width: 200px;
     display: flex;
     justify-content: space-between;
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
+    align-items: center;
     span{
         display: flex;
         gap: 0.5em;
     }
     h3{
         font-weight: bold;
+        height: fit-content;
     }
+}
+
+.day-container{
+    display: flex !important;
+    flex-direction: row !important;
+    font-weight: 200;
+    gap: 5px;
 }
 
 .calendar-textarea {
@@ -124,9 +134,15 @@
     gap: 5px;
     align-items: center;
     justify-content: center;
+    height: 25px;
+    margin-top: 1.2rem;
     button{
-      width: 100px;
-      height: 30px;
+        width: 100px;
+        height: 25px;
+        @media (max-width:700px) {
+            width: 80px;
+            height: 25px;
+        }
     }
   }
   

@@ -55,7 +55,7 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
 
 
     return(
-        mode ? 
+        mode &&
         <table className='search-result-table'>
             <colgroup>
                 <col style={{ width: '1%' }}/>
@@ -175,8 +175,6 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
                             </tbody>
                         )}
         </table>
-        :
-        <div style={{marginTop:'14px'}}>loading...</div>
     )
 })
 

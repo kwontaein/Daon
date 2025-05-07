@@ -43,3 +43,21 @@ export function jwtFilter(error: string): void {
         document.location.replace('/')
     }
 }
+
+export async function getUserInfo(){
+    try {
+        const response = await fetch("http://localhost:8080/api/getMyDetail", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            credentials: "include",
+        });
+        const text = await response.text();
+
+        loginFilter(text)
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        return text ? JSON.parse(text) : [];
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

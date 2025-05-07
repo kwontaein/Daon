@@ -35,7 +35,8 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
             if(state.status===200){
                 if(mode==='write'){
                     window.alert('물품을 등록했습니다.')
-                    // window.close()
+                    isMobile ? window.history.back() : window.close()
+                    
                 }else{
                     window.alert('물품을 수정했습니다.')
                     changeModeHandler('detail')

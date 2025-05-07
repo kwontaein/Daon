@@ -1,8 +1,5 @@
-import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
-import CustomerDetail from "@/components/main/customer/detail-view";
 import CustomerForm from "@/components/main/customer/form/customer-form";
 import {ResponseCustomer} from "@/model/types/customer/customer/type";
 import {DetailPageProps} from "@/model/types/share/type";
@@ -25,7 +22,7 @@ export default async function CustomerDetailPage({searchParams}: DetailPageProps
 
 
     return  (
-        <MobileModal >
+        <MobileModal>
             <CustomerForm
                 affiliation={affiliation}
                 customer={customer}
