@@ -11,6 +11,11 @@ import prevMonthJPG from '@/assets/prevMonth.gif';
 import { useCalendar } from '@/store/zustand/calendar';
 import { useItemSelection } from '@/hooks/share/useItemSelection';
 import MonthCalendar from './month-calendar';
+import { isHoliday, getLunar } from 'holiday-kr';
+import { lunarHolidays, solarHolidays } from '@/model/constants/calendar/holiday';
+import { useEffect, useState } from 'react';
+import HolidayInfo from './holidayInfo';
+
 
 export default function DaonCalendar(){
     const {currentDate ,prevMonth, nextMonth, prevYear, nextYear, mode, setMode} = useCalendar()
@@ -19,28 +24,41 @@ export default function DaonCalendar(){
     const endDayOfWeek = dayjs(currentDate).endOf('month').day() // 끝나는 요일
     const  { itemsRef, target, setTarget } = useItemSelection(true)
 
-    //음력계산
-    const KoreanLunarCalendar = require('korean-lunar-calendar');
+    //달력의 총 셀개수
+    const totalCells = daysInMonth + startDayOfWeek + (6 - endDayOfWeek);
 
-    const monthOfDays = Array.from({length:daysInMonth+startDayOfWeek+(6-endDayOfWeek)}, (_,idx)=>{
-        const day = (idx+1) -startDayOfWeek //현재 일 (0 = 이전달의 마지막 일, 1 부터 이번달의 1일)
-        const date = dayjs(currentDate).set('date', day);
-        return{
-            day:day, //일정
-            dayOfTheWeek:date.day(),// 요일정보
-            isCurrentMonth: day > 0 && day <= daysInMonth // 이번 달의 날짜인지 확인
-        }
-    })
+    const monthOfDays = Array.from({ length: totalCells }, (_, idx) => {
+        const day = idx + 1 - startDayOfWeek; // 현재 셀에 해당하는 날짜
+    
+        const isCurrentMonth = day > 0 && day <= daysInMonth;
+        const solar = isCurrentMonth
+        ? new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+        : null;
+    
+        const dayInfo = dayjs(currentDate).set('date', day);
+        const dayOfTheWeek = dayInfo.day();
+        const isHolidayFlag = isCurrentMonth && isHoliday(solar);
+
+        return {
+            day,                 // 일
+            dayOfTheWeek,        // 요일 (0: 일요일 ~ 6: 토요일)
+            isCurrentMonth,      // 이번 달 날짜인지 여부
+            isHolidayFlag
+        };
+    });
     const weeks = monthOfDays.reduce((prev, day, idx) => {
         if (idx % 7 === 0) prev.push([]); // 한 주마다 새로운 배열 시작
         prev[prev.length - 1].push(day);
         return prev;
-      }, []);
+    }, []);
     
 
-      const changeModeHandler =(mode)=>{
-            setMode(mode)
-      }
+    const changeModeHandler =(mode)=>{
+        setMode(mode)
+    }
+
+    
+
     return(
         <>
         <section style={{display:'flex', justifyContent:'space-between'}}>
@@ -89,18 +107,28 @@ export default function DaonCalendar(){
                 {weeks.map((week, weekIdx) => (
                     <tr key={weekIdx}>
                     {week.map((date, dayIdx) => (
-                        <td
-                            ref={(el)=>{itemsRef.current[date.day] = el}}
+                        <td ref={(el)=>{itemsRef.current[date.day] = el}}
                             key={dayIdx}
                             className={`${date.isCurrentMonth ? '' : 'disabled'} 
                                 ${dayjs(currentDate).set('date', date.day).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD') ? 'today' : ''}`}
-                            style={target===date.day ? {border:'2px solid black'}:{}}>                            
+                            style={target===date.day ? {border:'2px solid black'}:{}}>
                             <div>
-                                <p style={{color: date.dayOfTheWeek ===0 ? 'red':( date.dayOfTheWeek=== 6 ? 'blue':undefined)}}>{date.isCurrentMonth ? date.day : ''}</p>
-                                {date.isCurrentMonth && 
-                                    <textarea className='calendar-textarea' spellCheck='false' onFocus={()=>setTarget(date.day)}/>
-                                }
-                            </div>
+                                <div className='day-container'>
+                                    <p style={{color: (date.dayOfTheWeek ===0||date.isHolidayFlag) ? 'red':( date.dayOfTheWeek=== 6 ? 'blue':undefined), fontWeight:550}}>
+                                        {date.isCurrentMonth ? date.day : ''}
+                                    </p>
+                                    {date.isCurrentMonth && (
+                                    <HolidayInfo
+                                        currentDate={currentDate}
+                                        day={date.day}
+                                        dayOfTheWeek={date.dayOfTheWeek}
+                                    />
+                                    )}
+                                </div>
+                            {date.isCurrentMonth && 
+                                <textarea className='calendar-textarea' spellCheck='false' onFocus={()=>setTarget(date.day)}/>
+                            }
+                            </div>                               
                         </td>
                     ))}
                     </tr>
