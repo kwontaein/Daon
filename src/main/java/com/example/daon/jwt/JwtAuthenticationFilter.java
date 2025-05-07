@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 인증 없이 접근 가능한 특정 URI를 확인
         return "/api/signIn".equals(requestURI) ||
                 "/api/postCookie".equals(requestURI) ||
-                "/api/getMyDetail".equals(requestURI) ||
+                /*"/api/getMyDetail".equals(requestURI) ||*/
                 "/api/test".equals(requestURI);
     }
 
