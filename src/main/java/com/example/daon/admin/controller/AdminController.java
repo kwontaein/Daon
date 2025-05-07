@@ -5,6 +5,7 @@ import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.service.AdminService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,10 @@ public class AdminController {
 
     //로그인
     @PostMapping("api/signIn")
-    public ResponseEntity<String> SignIn(@RequestBody UserRequest userRequest) {
-        return adminService.SignIn(userRequest.getUserId(), userRequest.getPassword());
+    public ResponseEntity<String> SignIn(@RequestBody UserRequest userRequest, HttpServletResponse response) {
+        return adminService.SignIn(userRequest.getUserId(), userRequest.getPassword(), response);
     }
+
 
     //사원정보 crud
     @PostMapping("api/saveEmployee")
