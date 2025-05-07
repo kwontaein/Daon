@@ -8,7 +8,7 @@ export default async function RegisterTask(){
 
     return(
         <MobileModal>
-            <TaskForm employees={employees} mode="write"/>
+            <TaskForm employees={employees} mode="write" isMobile={true}/>
         </MobileModal>
     )
 }

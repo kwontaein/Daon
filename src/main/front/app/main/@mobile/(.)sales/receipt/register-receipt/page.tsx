@@ -22,7 +22,7 @@ export default function MobileRegisterReceipt(){
                 </header>
                 <main>
                     <ReceiptTableContainer isRegister={true}>
-                        <ReceiptTableBody/>
+                        <ReceiptTableBody isMobile={true}/>
                     </ReceiptTableContainer>
                 </main>
             </div>
