@@ -27,10 +27,10 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
         if (!state.status) return
         if (state.status === 200) {
             window.alert('회사를 등록했습니다.')
+            isMobile ? window.history.back() :window.close()
         } else {
             window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요')
         }
-        window.close()
     }, [state])
 
     return (

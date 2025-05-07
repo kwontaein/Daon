@@ -18,7 +18,7 @@ export default async function TaskPage({searchParams}:DetailPageProps){
 
     return(
        <MobileModal>
-            <TaskForm employees={employee} task={task} mode={mode}/>
+            <TaskForm employees={employee} task={task} mode={mode} isMobile={true}/>
        </MobileModal>
     )
 }

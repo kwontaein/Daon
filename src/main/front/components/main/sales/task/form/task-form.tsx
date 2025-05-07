@@ -15,10 +15,11 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import ActionTakenContent from '../action-taken/content';
 import useChangeMode from '@/hooks/share/useChangeMode';
 
-export default function TaskForm({employees, task, mode}: {
+export default function TaskForm({employees, task, mode, isMobile}: {
     employees: ResponseEmployee[],
     task?: ResponseTask,
     mode: 'write' | 'detail' | 'edit'
+    isMobile?:boolean
 }) {
     const initialTask = {
         ...task,
@@ -72,7 +73,7 @@ export default function TaskForm({employees, task, mode}: {
         if (state.result === 200) {
             if (mode === 'write') {
                 window.alert('업무를 등록했습니다.')
-                window.close()
+                isMobile ? window.history.back() :window.close()
             } else {
                 window.alert('업무수정이 완료되었습니다.')
                 changeModeHandler('detail')
@@ -192,7 +193,7 @@ export default function TaskForm({employees, task, mode}: {
                     mode==='detail' ? changeModeHandler('edit'): submitTaskHandler()
                 }}>{mode ==='detail'? '수정': '저장'}</button>
                 <button type='button' onClick={()=>{
-                    mode==='edit' ? changeModeHandler('detail'): window.close()
+                    mode==='edit' ? changeModeHandler('detail'): (isMobile ? window.history.back() :window.close())
                 }}>취소</button>
             </div>
         </form>

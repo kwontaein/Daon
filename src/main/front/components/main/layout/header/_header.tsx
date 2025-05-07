@@ -7,6 +7,7 @@ import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileNavButton from "../nav/mobile/_mobile-nav-button";
 import { useDispatch } from "react-redux";
 import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer";
+import { getUserInfo } from "@/features/login/api/loginApi";
 
 
 export default function MainHeader(){
@@ -15,10 +16,16 @@ export default function MainHeader(){
     useEffect(()=>{
         dispatch(stompConnect())
 
+        const fetchUser = async () => {
+            const response = await getUserInfo()
+            console.log(response)
+        }
+        fetchUser()
         return ()=>{
             dispatch(stompDisconnect())
         }
     },[])
+
     
     return (
         <section className="header-container">
