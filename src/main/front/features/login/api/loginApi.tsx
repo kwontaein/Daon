@@ -51,14 +51,12 @@ export async function getUserInfo(){
             headers: {'Content-Type': 'application/json'},
             credentials: "include",
         });
-
-
         const text = await response.text();
-        if (!response.ok) {
-            loginFilter(text)
-        } else {
-            document.location.replace('/main/schedule/schedule')
-        }
+
+        loginFilter(text)
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
     }
