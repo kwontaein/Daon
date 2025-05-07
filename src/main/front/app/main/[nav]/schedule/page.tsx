@@ -1,4 +1,4 @@
-import DaonCalendar from "@/components/calendar/calendar";
+import DaonCalendar from "@/components/main/schedule/calendar";
 
 export default function SchedulePage() {
     return <DaonCalendar/>
