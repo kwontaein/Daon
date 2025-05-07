@@ -11,6 +11,7 @@ import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class AdminService {
      * @param password 유저 비밀번호
      **/
     @Transactional
-    public ResponseEntity<String> SignIn(String id, String password) {
+    public ResponseEntity<String> SignIn(String id, String password, HttpServletResponse response) {
         JwtToken tokenInfo;
         UserEntity userEntity;
 
@@ -64,7 +65,7 @@ public class AdminService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             // 토큰 생성 및 저장
-            tokenInfo = jwtTokenProvider.generateToken(authentication);
+            tokenInfo = jwtTokenProvider.generateToken(authentication, response);
             redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
 
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
