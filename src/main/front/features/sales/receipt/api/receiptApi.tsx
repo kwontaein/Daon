@@ -1,5 +1,9 @@
 'use server'
 import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
+import { cookies } from "next/headers";
+
+const cookieStore = cookies();
+const cookie = cookieStore.toString(); // 모든 쿠키 문자열로 추출
 
 export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const controller = new AbortController();
@@ -10,6 +14,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(receiptList),
@@ -36,6 +41,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(receiptList),
@@ -64,6 +70,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({receiptIds}),
@@ -92,6 +99,7 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(receiptCondition),
@@ -121,6 +129,7 @@ export async function getReceiptByIds(receiptIds: string[]) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({receiptIds}),
@@ -150,6 +159,7 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(receiptCondition),
@@ -177,6 +187,7 @@ export async function getRecieptTotalApi(searchSDate) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({searchSDate}),

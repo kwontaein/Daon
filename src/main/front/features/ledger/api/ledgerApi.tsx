@@ -1,5 +1,8 @@
 import { LedgerSearchCondition } from "@/model/types/ledger/type";
+import { cookies } from "next/headers";
 
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 //거래처별원장
 export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition){
@@ -7,7 +10,8 @@ export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -29,7 +33,8 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -52,7 +57,8 @@ export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -73,7 +79,8 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -94,7 +101,8 @@ export async function getPurchaseReceiptApi(searchCondition:LedgerSearchConditio
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -115,7 +123,8 @@ export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -137,7 +146,8 @@ export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -158,7 +168,8 @@ export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
