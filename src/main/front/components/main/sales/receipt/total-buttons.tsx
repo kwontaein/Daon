@@ -19,7 +19,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
     const registerReceipt =()=>{
         //pc
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-receipt`; // 열고 싶은 링크
+            const url = `/register-receipt`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "register-receipt", popupOptions);
         }else{
@@ -56,7 +56,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
 
         if(window.innerWidth>620){
 
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/receipt?${params.toString()}`; // 열고 싶은 링크
+            const url = `/receipt?${params.toString()}`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "receipt", popupOptions);
         }else{
