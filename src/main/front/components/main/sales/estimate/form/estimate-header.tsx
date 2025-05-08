@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import {useConfirm} from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
+import { useUserInformation } from '@/store/zustand/userInfo';
 
 export default function EstimateHeader({companyList, task, estimate, mode, isMobile = false}: {
     companyList: ResponseCompany[],
@@ -24,6 +25,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
     estimate?: ResponseEstimate,
     isMobile?:boolean
 }) {
+    const {user} = useUserInformation()
     //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(() => {
         if (task) {
@@ -47,7 +49,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
                 assignedUser: estimate.userName
             }
         } else {
-            return {}
+            return {assignedUser:user.userName, userId:user.userId}
         }
 
     }, [task, estimate, mode])

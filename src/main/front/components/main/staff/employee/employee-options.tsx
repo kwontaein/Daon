@@ -14,7 +14,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
             target: employeeId,
             });
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/employee?${params.toString()}`;
+            const url = `/employee?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{

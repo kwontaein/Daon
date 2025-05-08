@@ -6,8 +6,8 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 export const getDeptApi = async () => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getDept`, {
         headers: {
@@ -18,10 +18,9 @@ export const getDeptApi = async () => {
         cache: 'force-cache',
         next: {tags: ['dept']}
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     }).catch((error) => {
         console.error('Error:', error)
@@ -30,8 +29,8 @@ export const getDeptApi = async () => {
 
 export const updateDeptApi = async (dept: Dept[]) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateDept`, {
         method: "POST",
@@ -45,6 +44,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
     }).then(async (response) => {
         const text = await response.text();
         jwtFilter(text)
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -54,8 +54,8 @@ export const updateDeptApi = async (dept: Dept[]) => {
 
 export const createDeptApi = async (dept: Pick<Dept, 'deptName'>) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveDept`, {
         method: "POST",
@@ -66,10 +66,10 @@ export const createDeptApi = async (dept: Pick<Dept, 'deptName'>) => {
         credentials: 'include',
         body: JSON.stringify(dept),
         cache: 'no-store'
-    }).then(async (response) => {
-
+    }).then(async (response) => {        
         const text = await response.text();
         jwtFilter(text)
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -79,8 +79,8 @@ export const createDeptApi = async (dept: Pick<Dept, 'deptName'>) => {
 
 export const deleteDeptApi = async (dept: Dept) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteDept`, {
         method: "POST",
@@ -94,6 +94,7 @@ export const deleteDeptApi = async (dept: Dept) => {
     }).then(async (response) => {
         const text = await response.text();
         jwtFilter(text)
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
