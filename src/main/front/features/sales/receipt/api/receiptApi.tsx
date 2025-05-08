@@ -11,6 +11,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(receiptList),
         signal,
     }).then(async (response) => {
@@ -36,6 +37,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(receiptList),
         signal,
     }).then(async (response) => {
@@ -63,6 +65,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
@@ -90,6 +93,7 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(receiptCondition),
         signal,
         next: {revalidate: 3600, tags: ["receipt"]}
@@ -118,6 +122,7 @@ export async function getReceiptByIds(receiptIds: string[]) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
@@ -146,6 +151,7 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(receiptCondition),
         signal,
     }).then(async (response) => {
@@ -163,7 +169,6 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
 }
 
 export async function getRecieptTotalApi(searchSDate) {
-    console.log(searchSDate)
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -173,6 +178,7 @@ export async function getRecieptTotalApi(searchSDate) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({searchSDate}),
         signal,
     }).then(async (response) => {
