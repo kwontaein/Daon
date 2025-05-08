@@ -1,4 +1,8 @@
 import { RequestStock } from "@/model/types/stock/stock/types";
+import { cookies } from "next/headers";
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
     const controller = new AbortController();
@@ -9,6 +13,7 @@ export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),
@@ -38,6 +43,7 @@ export async function updateStockApi(stock:RequestStock) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),
@@ -67,6 +73,7 @@ export async function deleteStockApi(stockId:string) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({stockId}),

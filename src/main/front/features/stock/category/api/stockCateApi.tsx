@@ -1,13 +1,16 @@
 'use server';
 
 import { StockCate } from "@/model/types/stock/cate/type";
+import { cookies } from "next/headers";
 
-
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export const getStockCateApi = async () => {
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockCateList`, {
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         next: {tags: ['stocksCate']} 
@@ -33,6 +36,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(cates),
@@ -55,6 +59,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),
@@ -78,6 +83,7 @@ export const deleteStockCateApi =async (stock: StockCate) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),

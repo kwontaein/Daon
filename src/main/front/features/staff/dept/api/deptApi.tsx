@@ -1,8 +1,10 @@
 'use server';
 import { Dept } from "@/model/types/staff/dept/type";
+import { cookies } from "next/headers";
 
 
-
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 
 export const getDeptApi = async () => {
@@ -29,6 +31,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(dept),
@@ -52,6 +55,7 @@ export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(dept),
@@ -75,6 +79,7 @@ export const deleteDeptApi =async (dept: Dept) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(dept),

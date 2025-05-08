@@ -1,4 +1,9 @@
 import {ResponseCompany} from "@/model/types/staff/company/type";
+import { cookies } from "next/headers";
+
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export async function getCompany() {
     const controller = new AbortController();
@@ -8,6 +13,7 @@ export async function getCompany() {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         signal,
@@ -36,6 +42,7 @@ export async function getCompanyDetail(companyId:string) {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         signal,
@@ -61,7 +68,8 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCompany`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             body: JSON.stringify(companyData)
         })
@@ -78,7 +86,8 @@ export async function updateCompany(companyData: ResponseCompany) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCompany`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             body: JSON.stringify(companyData)
         })
@@ -95,7 +104,8 @@ export async function deleteCompany(companyId: string) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCompany`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             body: JSON.stringify({companyId})
         })
