@@ -1,6 +1,6 @@
 import StockPoint from "@/components/main/stock/point/point";
 export default async function StockPointPage(){
-    const InitStockPoint = await fetch("http://localhost:8080/api/getStockPointList",
+    const InitStockPoint = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockPointList`,
         {
             cache:'force-cache',
             next: { tags: ['stockPoint']} 

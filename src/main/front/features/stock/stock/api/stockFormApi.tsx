@@ -5,7 +5,7 @@ export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/saveStock", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function updateStockApi(stock:RequestStock) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/updateStock", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export async function deleteStockApi(stockId:string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/deleteStock", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

@@ -1,6 +1,5 @@
 import { useConfirm } from "@/hooks/share/useConfirm";
 import useRouterPath from "@/hooks/share/useRouterPath";
-import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import { useModalState } from "@/store/zustand/modal";
 import { useEffect, useId, useRef, useState } from "react";
@@ -60,7 +59,7 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
             e.preventDefault();
             //pc
             if(window.innerWidth>620){
-                const url = `${apiUrl}/search-stock-items?searchName=${value}`; // 열고 싶은 링크
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/search-stock-items?searchName=${value}`; // 열고 싶은 링크
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchStock", popupOptions);
             }else{

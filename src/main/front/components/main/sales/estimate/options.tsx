@@ -1,6 +1,5 @@
 'use client'
 import '@/styles/options/options.scss';
-import { apiUrl } from '@/model/constants/apiUrl';
 import { deleteEstimate, transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimateApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
@@ -19,7 +18,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
         params.set("target",estimateId)
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/estimate?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{

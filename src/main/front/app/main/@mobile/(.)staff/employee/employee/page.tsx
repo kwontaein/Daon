@@ -9,21 +9,14 @@ import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import {Dept} from "@/model/types/staff/dept/type";
 import { getEmployeeDetailApi } from "@/features/staff/employee/api/employeeApi";
 import MobileModal from "@/components/share/mobile-modal/page";
+import { getDeptApi } from "@/features/staff/dept/api/deptApi";
 
 
 export default async function EmployeeDetailPage({searchParams}: DetailPageProps) {
     const userId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    const dept: Dept[] = await fetch("http://localhost:8080/api/getDept",
-        {
-            cache: 'force-cache',
-            next: {tags: ['dept']}
-        }
-    )
-        .then((response) => response.json())
-        .catch((error) => console.error('Error:', error));
-
+    const dept: Dept[] = await getDeptApi()
     const employee: ResponseEmployee = await getEmployeeDetailApi(userId)
     
     return (
