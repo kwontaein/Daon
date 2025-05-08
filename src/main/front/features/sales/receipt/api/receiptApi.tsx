@@ -6,7 +6,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/saveReceipts", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/updateReceipt", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/deleteReceipt", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getReceipts", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export async function getReceiptByIds(receiptIds: string[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getReceiptsById", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getReceipts", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ export async function getRecieptTotalApi(searchSDate) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getReceiptTotal", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptTotal`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

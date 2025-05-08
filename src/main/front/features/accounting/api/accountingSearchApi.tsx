@@ -13,7 +13,7 @@ type searchCondition = {
 //매입부가세
 export async function getPurchaseVatApi(searchCondition?:searchCondition){
     try{
-        const response = await fetch("http://localhost:8080/api/getPurchaseVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ export async function getPurchaseVatApi(searchCondition?:searchCondition){
 //매출부가세
 export async function getSalesVATApi(searchCondition?:searchCondition){
     try{
-        const response = await fetch("http://localhost:8080/api/getSalesVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ export async function getSalesVATApi(searchCondition?:searchCondition){
 //카드증빙
 export async function getCardTransactionfApi(searchCondition?:searchCondition){
     try{
-        const response = await fetch("http://localhost:8080/api/getCardTransaction", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCardTransaction`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
 //지출증빙
 export async function getExpenseProofApi(searchCondition?:searchCondition){
     try{
-        const response = await fetch("http://localhost:8080/api/getExpenseProof", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExpenseProof`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export async function getExpenseProofApi(searchCondition?:searchCondition){
 //조달 및 수의 계산정산
 export async function getProcurementApi(searchCondition?:searchCondition){
     try{
-        const response = await fetch("http://localhost:8080/api/getProcurement", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getProcurement`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
