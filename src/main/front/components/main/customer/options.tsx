@@ -1,6 +1,5 @@
 'use client'
 import '@/styles/options/options.scss';
-import { apiUrl } from '@/model/constants/apiUrl';
 import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function CustomerOptions({customerId}:{customerId:string}){
@@ -14,7 +13,7 @@ export default function CustomerOptions({customerId}:{customerId:string}){
             });
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/customer?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }

@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/table-style/search.scss'
 
-import {apiUrl} from '@/model/constants/apiUrl';
+import {process.env.NEXT_PUBLIC_API_URL} from '@/model/constants/process.env.NEXT_PUBLIC_API_URL';
 import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
@@ -35,7 +35,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const registerTask = () => {
         //pc
         if (window.innerWidth > 620) {
-            const url = `${apiUrl}/register-task`; // 열고 싶은 링크
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-task`; // 열고 싶은 링크
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{

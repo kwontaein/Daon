@@ -4,7 +4,7 @@ import { LedgerSearchCondition } from "@/model/types/ledger/type";
 //거래처별원장
 export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getLedgers", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -23,7 +23,7 @@ export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition
 //복수거래처원장
 export async function getLedgerCustomesrApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getLedgers", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -43,7 +43,7 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
 //품목별원장
 export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getStockLedger", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -61,7 +61,7 @@ export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
 //매출장
 export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getSaleReceipt", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -79,7 +79,7 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
 //매입장
 export async function getPurchaseReceiptApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getPurchaseReceipt", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -97,7 +97,7 @@ export async function getPurchaseReceiptApi(searchCondition:LedgerSearchConditio
 //관리비원장
 export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getFeeReceipt", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -116,7 +116,7 @@ export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
 //재고조사서
 export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getStockSurvey", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -134,7 +134,7 @@ export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
 //기타원장
 export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
     try {
-        const response = await fetch("http://localhost:8080/api/getExtraLedger", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
