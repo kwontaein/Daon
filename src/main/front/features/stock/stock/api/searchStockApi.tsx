@@ -9,6 +9,9 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
@@ -43,6 +46,9 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
@@ -71,10 +77,15 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
         console.error('Error:', error);
     }).finally(() => clearTimeout(timeoutId));
 }
+
+
 export async function getStockByIdApi(stockId: string) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockById`, {
         method: "POST",
