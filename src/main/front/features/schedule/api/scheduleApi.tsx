@@ -1,28 +1,25 @@
-import { Schedule } from "@/model/types/schedule/type";
-import { cookies } from "next/headers";
+import { jwtFilter } from "@/features/login/api/loginApi";
+import { RequestSchedule, ResponseSchedule } from "@/model/types/schedule/type";
 
-export async function getUserSchedule(userId,year,month) {
+export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
-    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSchedules`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie: cookie
         },
         credentials: 'include',
-        body: JSON.stringify({userId,year,month}),
+        body: JSON.stringify({userId,year}),
         signal,
 
     }).then(async (response) => {
-
-
-        return response.status;
+        const text = await response.text();
+        jwtFilter(text)
+        return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -32,19 +29,15 @@ export async function getUserSchedule(userId,year,month) {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function saveSchedules(scheduleList:Schedule) {
+export async function saveSchedules(scheduleList:RequestSchedule[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    const accessToken = (await cookies()).get('accessToken').value
-    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSchedules`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie: cookie
         },
         credentials: 'include',
         body: JSON.stringify(scheduleList),
@@ -52,8 +45,9 @@ export async function saveSchedules(scheduleList:Schedule) {
 
     }).then(async (response) => {
 
-
-        return response.status;
+        const text = await response.text();
+        jwtFilter(text)
+        return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
