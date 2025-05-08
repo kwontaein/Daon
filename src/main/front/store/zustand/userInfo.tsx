@@ -7,7 +7,9 @@ export type UserInfo ={
     userName:string
     class: EmployeeClassEnum,
     role: UserRoleEnum,
-    last_login:Date
+    last_login:Date,
+    dept_Id:string,
+    deptName:string,
 }
 
 export type UserState ={
