@@ -6,7 +6,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getStockList", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getStockList", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export async function getStockByIdApi(stockId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch("http://localhost:8080/api/getStockById", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

@@ -2,7 +2,7 @@
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import accountingSearchAction from '@/features/accounting/action/accountingSearchAction';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
-import { apiUrl } from '@/model/constants/apiUrl';
+
 import {
   CardTransaction,
   ExpenseProof,
@@ -83,7 +83,7 @@ export default function AccountingSearch({
   const redirect = useRouterPath()
   const registerAccountingHandler = () => {
     const params = new URLSearchParams({ division });
-    const url = `${apiUrl}/register-accounting?${params.toString()}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/register-accounting?${params.toString()}`;
     if (window.innerWidth > 620) {
       const popupOptions = 'width=800,height=500,scrollbars=yes,resizable=yes';
       window.open(url, 'register', popupOptions);

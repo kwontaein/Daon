@@ -3,7 +3,7 @@ import { SaveTask, TaskSearchCondition } from "@/model/types/sales/task/type";
 
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/getTaskByOption", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(searchCondition),
@@ -27,7 +27,7 @@ export async function getTaskApi(taskId:string){
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     if(!taskId.trim()) return null
-    return fetch("http://localhost:8080/api/getTask", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTask`, {
         method:'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export async function getTasksApi(){
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
-    return fetch("http://localhost:8080/api/getTasks", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -79,7 +79,7 @@ export async function getTasksApi(){
 
 export const saveTask = async (task:SaveTask)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/saveTask", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task),
@@ -94,7 +94,7 @@ export const saveTask = async (task:SaveTask)=>{
 
 export const updateTask = async (task:SaveTask)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/updateTask", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task),
@@ -110,7 +110,7 @@ export const updateTask = async (task:SaveTask)=>{
 
 export const deleteTask = async (taskIds:string[])=>{
     try {
-        const response = await fetch("http://localhost:8080/api/deleteTask", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({taskIds}),
@@ -127,7 +127,7 @@ export const deleteTask = async (taskIds:string[])=>{
 
 export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/taskComplete", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
@@ -142,7 +142,7 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
 
 export const updateTaskUserApi= async (taskId, assignedUser)=>{
     try {
-        const response = await fetch("http://localhost:8080/api/updateTaskUser", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({taskId,assignedUser}),

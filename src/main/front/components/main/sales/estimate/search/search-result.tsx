@@ -8,7 +8,6 @@ import '@/styles/table-style/search-result.scss';
 import dayjs from 'dayjs';
 import React from 'react';
 import EstimateOptions from '../options';
-import { apiUrl } from '@/model/constants/apiUrl';
 import useRouterPath from '@/hooks/share/useRouterPath';
 
 export default function EstimateSearchResult({pageByEstimate, isTask} : {
@@ -24,7 +23,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
         const params = new URLSearchParams
         params.set("target",estimateId)
         if(window.innerWidth>620){
-            const url = `${apiUrl}/trans-estimate?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/trans-estimate?${params.toString()}`;
             const popupOptions = "width=800,height=400,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{

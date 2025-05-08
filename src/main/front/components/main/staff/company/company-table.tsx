@@ -11,7 +11,6 @@ import { useItemSelection } from "@/hooks/share/useItemSelection";
 
 import CompanyOptions from "./company-options";
 import { ResponseCompany } from "@/model/types/staff/company/type";
-import { apiUrl } from '@/model/constants/apiUrl';
 import Pagination from '@/components/share/pagination';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import useDeletePage from '@/hooks/share/useDeletePage';
@@ -49,7 +48,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
        //TODO: add mobile version
     const signNewCompanyHandler = ()=>{
         if(window.innerWidth>620){
-            const url = `${apiUrl}/register-company`; 
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-company`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{

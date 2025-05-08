@@ -8,6 +8,7 @@ import { ResponseCompany } from "@/model/types/staff/company/type";
 import CompanyDetail from "@/components/main/staff/company/detail-view";
 import CompanyForm from "@/components/main/staff/company/form/company-form";
 import { notFound } from "next/navigation";
+import { getCompanyDetail } from "@/features/staff/company/api/company-api";
 
 
 
@@ -15,26 +16,7 @@ export default async function CompanyDetailPage({searchParams}:DetailPageProps){
     const companyId = (await searchParams).target || ''
     const mode = (await searchParams).mode || 'detail';
 
-    const company:ResponseCompany = await fetch("http://localhost:8080/api/getCompanyDetail", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({companyId}),
-        next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
-    }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const text = await response.text();
-        if (!text) return [];
-        return JSON.parse(text);
-    }).catch((error) => {
-            if(error.name=== 'AbortError'){
-                console.log('Fetch 요청이 시간초과되었습니다.')
-            }
-            console.error('Error:', error)
-    })
+    const company:ResponseCompany = await getCompanyDetail(companyId)
     if(!company){
         return notFound()
     }
