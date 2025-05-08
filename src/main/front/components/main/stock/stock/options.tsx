@@ -15,7 +15,7 @@ export default function StockOptions({stockId}:{stockId:string}){
             });
 
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/stock?${params.toString()}`;
+            const url = `/stock?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{

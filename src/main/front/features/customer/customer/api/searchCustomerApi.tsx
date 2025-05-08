@@ -10,8 +10,8 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
         revalidate: 300,
         ...(searchCondition.customerName ? {tags: [searchCondition.customerName]} : {})
     };
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
             method: "POST",
@@ -24,10 +24,9 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
             next: nextOptions
 
         });
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -36,8 +35,8 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
 
 
 export const getCustomerAPi = async (customerId: string) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
             method: "POST",
@@ -48,10 +47,9 @@ export const getCustomerAPi = async (customerId: string) => {
             credentials: 'include',
             body: JSON.stringify({customerId}),
         });
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -60,8 +58,8 @@ export const getCustomerAPi = async (customerId: string) => {
 
 
 export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'customerId'>>) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCustomer`, {
@@ -77,14 +75,15 @@ export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'c
         const text = await response.text();
         jwtFilter(text)
 
+
         return response.status
     } catch (error) {
         console.error('Error:', error);
     }
 }
 export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
             method: "POST",
@@ -95,10 +94,9 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
             credentials: 'include',
             body: JSON.stringify(postData),
 
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status
     } catch (error) {
         console.error('Error:', error);
@@ -106,8 +104,8 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
 }
 
 export const deleteCustomerApi = async (customerId: string) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",
@@ -121,6 +119,7 @@ export const deleteCustomerApi = async (customerId: string) => {
         });
         const text = await response.text();
         jwtFilter(text)
+
 
         return response.status
     } catch (error) {

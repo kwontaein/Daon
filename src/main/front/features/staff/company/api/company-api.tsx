@@ -9,8 +9,8 @@ export async function getCompany() {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
         headers: {
@@ -22,10 +22,9 @@ export async function getCompany() {
         // cache:'no-store',
         next: {revalidate: 3600, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -41,8 +40,8 @@ export async function getCompanyDetail(companyId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
         headers: {
@@ -54,10 +53,9 @@ export async function getCompanyDetail(companyId: string) {
         body: JSON.stringify({companyId}),
         next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -70,8 +68,8 @@ export async function getCompanyDetail(companyId: string) {
 
 export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'>) {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCompany`, {
@@ -82,10 +80,9 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
             },
             body: JSON.stringify(companyData)
         })
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -94,8 +91,8 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
 
 export async function updateCompany(companyData: ResponseCompany) {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCompany`, {
@@ -106,10 +103,9 @@ export async function updateCompany(companyData: ResponseCompany) {
             },
             body: JSON.stringify(companyData)
         })
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -118,8 +114,8 @@ export async function updateCompany(companyData: ResponseCompany) {
 
 export async function deleteCompany(companyId: string) {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCompany`, {
@@ -130,10 +126,9 @@ export async function deleteCompany(companyId: string) {
             },
             body: JSON.stringify({companyId})
         })
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
