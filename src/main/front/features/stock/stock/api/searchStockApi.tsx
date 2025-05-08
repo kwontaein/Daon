@@ -11,6 +11,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(searchCondition),
         signal,
         next: {
@@ -43,6 +44,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(searchCondition),
         signal,
         next: {
@@ -74,6 +76,7 @@ export async function getStockByIdApi(stockId: string) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({stockId}),
         signal,
     }).then(async (response) => {

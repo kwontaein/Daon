@@ -4,7 +4,10 @@ import { AccountingDivision, CardTransaction, ExpenseProof, ProcurementSettlemen
 export async function getCategorySelectionApi(){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCategorySelection`, {
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            credentials:'include',
         });
 
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -24,6 +27,7 @@ export async function savePurchaseVatApi(saveData:UnionAccountingType){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as PurchaseVAT)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -41,6 +45,7 @@ export async function saveSalesVATApi(saveData:UnionAccountingType){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as SalesVAT)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,8 +61,9 @@ export async function saveCardTransactionApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as CardTransaction)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,8 +79,9 @@ export async function saveExpenseProofApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as ExpenseProof)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,8 +98,9 @@ export async function saveProcurementApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveProcurement`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as ProcurementSettlement)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -114,6 +122,7 @@ export async function updatePurchaseVatApi(saveData:UnionAccountingType){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as PurchaseVAT)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -131,6 +140,7 @@ export async function updateSalesVATApi(saveData:UnionAccountingType){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as SalesVAT)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -146,8 +156,9 @@ export async function updateCardTransactionApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCardTransaction`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as CardTransaction)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -163,8 +174,9 @@ export async function updateExpenseProofApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateExpenseProof`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as ExpenseProof)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -181,8 +193,9 @@ export async function updateProcurementApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateProcurement`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(saveData as ProcurementSettlement)
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -226,8 +239,9 @@ export async function deleteAccountingApi(division, id){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/jsonmethod'
+                'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify({[key]:id})
         })
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
