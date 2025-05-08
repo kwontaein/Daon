@@ -6,9 +6,8 @@ export const loginApi = async (userInfo: { userId: string, password: string }) =
             body: JSON.stringify(userInfo),
             credentials: "include",
         });
-
+        
         const text = await response.text();
-        jwtFilter(text)
         if (!response.ok) {
             loginFilter(text)
         } else {
@@ -34,29 +33,27 @@ export function jwtFilter(error: string): void {
     if (error === "302") {
         window.alert("모든 토큰이 만료되었습니다. 재로그인하세요.")
         document.location.replace('/')
-
     } else if (error === "401") {
         window.alert("알수없는 접근입니다 재로그인하세요.")
-
+        document.location.replace('/')
     } else if (error === "409") {
         window.alert("다른 곳에서 로그인되었습니다. 로그아웃합니다")
         document.location.replace('/')
     }
 }
 
-export async function getUserInfo() {
+export async function getUserInfo(){
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getMyDetail`, {
-            credentials: "include",
-            headers: {
+            credentials: "include", 
+            headers : {
                 'Content-Type': 'application/json'
             },
         })
         const text = await response.text();
+
         jwtFilter(text)
-
-
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);

@@ -51,7 +51,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     const signNewemployeeHandler = ()=>{
            
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-employee`; 
+            const url = `/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{
