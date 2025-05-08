@@ -10,6 +10,7 @@ export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         signal,
 
@@ -38,6 +39,7 @@ export async function updateStockApi(stock:RequestStock) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         signal,
 
@@ -66,6 +68,7 @@ export async function deleteStockApi(stockId:string) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({stockId}),
         signal,
 
