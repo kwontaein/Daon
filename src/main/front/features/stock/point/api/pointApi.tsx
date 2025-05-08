@@ -1,30 +1,26 @@
 'use server';
 
-import { StockPoint } from "@/model/types/stock/point/types";
-import { cookies } from "next/headers";
+import {StockPoint} from "@/model/types/stock/point/types";
+import {cookies} from "next/headers";
 
 
 export const updatePointApi = async (Points: StockPoint[]) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(Points),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if(response.status===500){
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -34,24 +30,20 @@ export const updatePointApi = async (Points: StockPoint[]) => {
 export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(stock),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if(response.status===500){
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -59,27 +51,23 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
 }
 
 
-export const deletePointApi =async (stock: StockPoint) => {
+export const deletePointApi = async (stock: StockPoint) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    
+    const cookie = cookieStore.toString();
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(stock),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if(response.status===500){
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)

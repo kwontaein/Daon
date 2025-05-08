@@ -1,8 +1,7 @@
-import { StockSearchCondition } from "@/model/types/stock/stock/types";
-import { cookies } from "next/headers";
+"use server"
+import {StockSearchCondition} from "@/model/types/stock/stock/types";
+import {cookies} from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
 
 export async function searchStockApi(searchCondition: StockSearchCondition) {
     const controller = new AbortController();
@@ -10,29 +9,28 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(searchCondition),
         signal,
         next: {
-            revalidate: 300, 
-            ...(searchCondition.productName ? { tags: [`${searchCondition.productName}`] } : {})
+            revalidate: 300,
+            ...(searchCondition.productName ? {tags: [`${searchCondition.productName}`]} : {})
         }
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
@@ -47,29 +45,28 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(searchCondition),
         signal,
         next: {
-            revalidate: 3600, 
+            revalidate: 3600,
             tags: ['stock'],
         }
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
@@ -85,25 +82,24 @@ export async function getStockByIdApi(stockId: string) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({stockId}),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');

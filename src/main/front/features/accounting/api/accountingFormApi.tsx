@@ -1,24 +1,35 @@
-import { AccountingDivision, CardTransaction, ExpenseProof, ProcurementSettlement, PurchaseVAT, SalesVAT, UnionAccountingType } from "@/model/types/accounting/type";
-import { cookies } from "next/headers";
+"use server"
+import {
+    AccountingDivision,
+    CardTransaction,
+    ExpenseProof,
+    ProcurementSettlement,
+    PurchaseVAT,
+    SalesVAT,
+    UnionAccountingType
+} from "@/model/types/accounting/type";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 //회계 거래처분류 
-export async function getCategorySelectionApi(){
+export async function getCategorySelectionApi() {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCategorySelection`, {
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
+            credentials: 'include',
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -26,86 +37,95 @@ export async function getCategorySelectionApi(){
 }
 
 //매입부가세
-export async function savePurchaseVatApi(saveData:UnionAccountingType){
+export async function savePurchaseVatApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
-    try{
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/savePurchaseVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as PurchaseVAT)
+            credentials: 'include',
+            body: JSON.stringify(saveData as PurchaseVAT)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
 //매출부가세
-export async function saveSalesVATApi(saveData:UnionAccountingType){
+export async function saveSalesVATApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
-    try{
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSalesVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as SalesVAT)
+            credentials: 'include',
+            body: JSON.stringify(saveData as SalesVAT)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
 //카드증빙
-export async function saveCardTransactionApi(saveData:UnionAccountingType){
+export async function saveCardTransactionApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as CardTransaction)
+            credentials: 'include',
+            body: JSON.stringify(saveData as CardTransaction)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
-//지출증빙
-export async function saveExpenseProofApi(saveData:UnionAccountingType){
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
-            method:"POST",
-            headers : {
-                'Content-Type': 'application/json',
-                Cookie:cookie,
-            },
-            credentials:'include',
-            body:JSON.stringify(saveData as ExpenseProof)
-        })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+//지출증빙
+export async function saveExpenseProofApi(saveData: UnionAccountingType) {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString();
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie,
+            },
+            credentials: 'include',
+            body: JSON.stringify(saveData as ExpenseProof)
+        })
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -113,108 +133,114 @@ export async function saveExpenseProofApi(saveData:UnionAccountingType){
 }
 
 //조달 및 수의 계산정산
-export async function saveProcurementApi(saveData:UnionAccountingType){
+export async function saveProcurementApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveProcurement`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as ProcurementSettlement)
+            credentials: 'include',
+            body: JSON.stringify(saveData as ProcurementSettlement)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
-
-
 
 
 //매입부가세
-export async function updatePurchaseVatApi(saveData:UnionAccountingType){
+export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updatePurchaseVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as PurchaseVAT)
+            credentials: 'include',
+            body: JSON.stringify(saveData as PurchaseVAT)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
 //매출부가세
-export async function updateSalesVATApi(saveData:UnionAccountingType){
+export async function updateSalesVATApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateSalesVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as SalesVAT)
+            credentials: 'include',
+            body: JSON.stringify(saveData as SalesVAT)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
 //카드증빙
-export async function updateCardTransactionApi(saveData:UnionAccountingType){
+export async function updateCardTransactionApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCardTransaction`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as CardTransaction)
+            credentials: 'include',
+            body: JSON.stringify(saveData as CardTransaction)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
 //지출증빙
-export async function updateExpenseProofApi(saveData:UnionAccountingType){
+export async function updateExpenseProofApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateExpenseProof`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as ExpenseProof)
+            credentials: 'include',
+            body: JSON.stringify(saveData as ExpenseProof)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        jwtFilter(text)
 
         return response.status;
     } catch (error) {
@@ -223,21 +249,22 @@ export async function updateExpenseProofApi(saveData:UnionAccountingType){
 }
 
 //조달 및 수의 계산정산
-export async function updateProcurementApi(saveData:UnionAccountingType){
+export async function updateProcurementApi(saveData: UnionAccountingType) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateProcurement`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify(saveData as ProcurementSettlement)
+            credentials: 'include',
+            body: JSON.stringify(saveData as ProcurementSettlement)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -245,48 +272,47 @@ export async function updateProcurementApi(saveData:UnionAccountingType){
 }
 
 
-
-
 //삭제 관련 api
-export async function deleteAccountingApi(division, id){
+export async function deleteAccountingApi(division, id) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     let api;
     let key;
-    switch(AccountingDivision[division]){
+    switch (AccountingDivision[division]) {
         case "매입부가세" :
-            api='deletePurchaseVAT'
-            key='purchaseVATId'
+            api = 'deletePurchaseVAT'
+            key = 'purchaseVATId'
             break;
         case "매출부가세" :
-            api='deleteSalesVAT'
-            key='salesVATId'
+            api = 'deleteSalesVAT'
+            key = 'salesVATId'
             break;
         case "카드증빙" :
-            api='deleteCardTransaction'
-            key='cardTransactionId'
+            api = 'deleteCardTransaction'
+            key = 'cardTransactionId'
             break;
         case "지출증빙" :
-            api='deleteExpenseProof'
-            key='expenseProofId'
+            api = 'deleteExpenseProof'
+            key = 'expenseProofId'
             break;
         case "조달및수의" :
-            api='deleteProcurement'
-            key='procurementSettlementId'
+            api = 'deleteProcurement'
+            key = 'procurementSettlementId'
             break;
     }
-    try{
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie,
+                Cookie: cookie,
             },
-            credentials:'include',
-            body:JSON.stringify({[key]:id})
+            credentials: 'include',
+            body: JSON.stringify({[key]: id})
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        jwtFilter(text)
 
         return response.status;
     } catch (error) {

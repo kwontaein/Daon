@@ -1,6 +1,7 @@
+"use server"
 import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
-import { cookies } from "next/headers";
-
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 export async function getEstimateApi(estimateId: string) {
@@ -9,23 +10,23 @@ export async function getEstimateApi(estimateId: string) {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({estimateId}),
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -42,23 +43,22 @@ export async function saveEstimate(estimate: RequestEstimate) {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(estimate),
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
 
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -74,21 +74,21 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(estimate),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -101,20 +101,20 @@ export async function updateEstimate(estimate: RequestEstimate) {
 export async function deleteEstimate(estimateId) {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
         method: "POST",
-        headers:{
+        headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({estimateId}),
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -141,23 +141,22 @@ export async function searchAllEstimateApi(task: boolean) {
     }
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(condition),
         next: {revalidate: 3600, tags: ['estimate']}, //1시간마다 재검증
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -176,21 +175,21 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     searchCondition.receipted = true;
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(searchCondition),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -204,21 +203,21 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
 export async function transEstimateToReceiptApi(postData: { estimateId: string, receiptDate?: Date, note?: string }) {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    
+    const cookie = cookieStore.toString();
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/estimatesPaid`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(postData),
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
