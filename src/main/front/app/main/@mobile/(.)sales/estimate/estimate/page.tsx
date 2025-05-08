@@ -6,8 +6,6 @@ import {getCompany} from "@/features/staff/company/api/company-api";
 import { getEstimateApi } from "@/features/sales/estimate/api/estimateApi";
 import EstimateHeader from "@/components/main/sales/estimate/form/estimate-header";
 import { DetailPageProps } from "@/model/types/share/type";
-import { getTaskApi } from '@/features/sales/task/api/taskApi';
-import { ResponseTask } from '@/model/types/sales/task/type';
 import { notFound } from 'next/navigation';
 import MobileModal from '@/components/share/mobile-modal/page';
 

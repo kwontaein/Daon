@@ -3,7 +3,7 @@ import '@/styles/table-style/search.scss';
 
 import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
 
-import {apiUrl} from '@/model/constants/apiUrl';
+import {process.env.NEXT_PUBLIC_API_URL} from '@/model/constants/process.env.NEXT_PUBLIC_API_URL';
 import {changeFormData} from '@/features/share/changeFormData';
 import {initialStockState, stockSearchAction} from '@/features/stock/stock/action/stock-search';
 
@@ -33,7 +33,7 @@ export default function StockSearch({stockCate, initialStocks, page} : {
     const registerStock = () => {
         //pc
         if (window.innerWidth> 620) {
-            const url = `${apiUrl}/register-stock`; // 열고 싶은 링크
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-stock`; // 열고 싶은 링크
             const popupOptions = "width=600,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{

@@ -11,7 +11,7 @@ import {
 
 import '@/styles/table-style/search.scss';
 
-import {apiUrl} from '@/model/constants/apiUrl';
+import {process.env.NEXT_PUBLIC_API_URL} from '@/model/constants/process.env.NEXT_PUBLIC_API_URL';
 import {Affiliation} from '@/model/types/customer/affiliation/type';
 
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
@@ -52,7 +52,7 @@ export default function CustomerSearch(
     const registerCustomer = () => {
         //pc
         if (window.innerWidth > 620) {
-            const url = `${apiUrl}/register-customer`; // 열고 싶은 링크
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-customer`; // 열고 싶은 링크
             const popupOptions = "width=600,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{

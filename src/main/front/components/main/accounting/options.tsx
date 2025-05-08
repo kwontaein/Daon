@@ -1,6 +1,5 @@
 'use client'
 import '@/styles/options/options.scss';
-import { apiUrl } from '@/model/constants/apiUrl';
 import { AccountingDivision } from '@/model/types/accounting/type';
 import { deleteAccountingApi } from '@/features/accounting/api/accountingFormApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
@@ -18,7 +17,7 @@ export default function AccountingOptions({id, division,paidDate}:{id:string, di
             });
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/accounting?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/accounting?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else[

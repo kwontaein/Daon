@@ -5,7 +5,7 @@ import { StockCate } from "@/model/types/stock/cate/type";
 
 
 export const getStockCateApi = async () => {
-    return fetch("http://localhost:8080/api/getStockCateList", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockCateList`, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -28,7 +28,7 @@ export const getStockCateApi = async () => {
 }
 
 export const updateStockCateApi = async (cates: StockCate[]) => {
-    return fetch("http://localhost:8080/api/updateStockCate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockCate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
 }
 
 export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) => {
-    return fetch("http://localhost:8080/api/saveStockCate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockCate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
 
 
 export const deleteStockCateApi =async (stock: StockCate) => {
-    return fetch("http://localhost:8080/api/deleteStockCate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockCate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

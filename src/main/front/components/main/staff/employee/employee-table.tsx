@@ -12,7 +12,6 @@ import Pagination from "@/components/share/pagination";
 import EmployeeOptions from "./employee-options";
 
 import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employee/type";
-import { apiUrl } from '@/model/constants/apiUrl';
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
@@ -52,7 +51,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     const signNewemployeeHandler = ()=>{
            
         if(window.innerWidth>620){
-            const url = `${apiUrl}/register-employee`; 
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{
