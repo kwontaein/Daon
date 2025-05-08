@@ -1,27 +1,26 @@
 'use server'
 
-import { ResponseEmployee } from "@/model/types/staff/employee/type";
-import { cookies } from "next/headers";
+import {ResponseEmployee} from "@/model/types/staff/employee/type";
+import {cookies} from "next/headers";
 
 
-
-export const getEmployeeApi = async()=>{
+export const getEmployeeApi = async () => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -33,24 +32,24 @@ export const getEmployeeApi = async()=>{
 
 }
 
-export const getEmployeeDetailApi = async(userId:string)=>{
+export const getEmployeeDetailApi = async (userId: string) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({userId}),
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -61,98 +60,95 @@ export const getEmployeeDetailApi = async(userId:string)=>{
     })
 }
 
-export const userIdDuplicationChecked = async(userId:string):Promise<boolean|null>=>{
+export const userIdDuplicationChecked = async (userId: string): Promise<boolean | null> => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({userId}),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         return response.json()
     }).catch((error) => {
         console.error('Error:', error)
     })
 }
 
-export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
+export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> & {
+    deptId: string
+}): Promise<number | void> => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(userInfo),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
     })
 }
 
-export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
+export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> & {
+    deptId: string
+}): Promise<number | void> => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(userInfo),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
     })
 }
-export const deleteEmployeeApi = async(userId:string)=>{
+export const deleteEmployeeApi = async (userId: string) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    
+    const cookie = cookieStore.toString();
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({userId}),
-        cache:'no-store'
+        cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+
+
         return response.status
     }).catch((error) => {
         console.error('Error:', error)

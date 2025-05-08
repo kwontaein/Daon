@@ -1,6 +1,7 @@
 'use server'
 import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
-import { cookies } from "next/headers";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
@@ -9,21 +10,21 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(receiptList),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
 
     }).catch((error) => {
@@ -33,27 +34,28 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         console.error('Error:', error);
     }).finally(() => clearTimeout(timeoutId));
 }
+
 export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(receiptList),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
 
     }).catch((error) => {
@@ -71,21 +73,21 @@ export async function deleteReceiptApi(receiptIds: string[]) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
 
     }).catch((error) => {
@@ -103,23 +105,23 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(receiptCondition),
         signal,
         next: {revalidate: 3600, tags: ["receipt"]}
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
@@ -134,24 +136,24 @@ export async function getReceiptByIds(receiptIds: string[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
-    
+
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
@@ -169,22 +171,22 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(receiptCondition),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -200,22 +202,22 @@ export async function getRecieptTotalApi(searchSDate) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptTotal`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({searchSDate}),
         signal,
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     }).catch((error) => {
         if (error.name === 'AbortError') {

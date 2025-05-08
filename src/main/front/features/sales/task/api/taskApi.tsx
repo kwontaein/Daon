@@ -1,28 +1,27 @@
 'use server'
-import { SaveTask, TaskSearchCondition } from "@/model/types/sales/task/type";
-import { cookies } from "next/headers";
+import {SaveTask, TaskSearchCondition} from "@/model/types/sales/task/type";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
-export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
+export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -30,115 +29,115 @@ export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
 }
 
 
-
-
-export async function getTaskApi(taskId:string){
+export async function getTaskApi(taskId: string) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
-    const timeoutId = setTimeout(()=> controller.abort(), 10000)
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    if(!taskId.trim()) return null
+    if (!taskId.trim()) return null
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTask`, {
-        method:'POST',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
-        body:JSON.stringify({taskId}),
+        credentials: 'include',
+        body: JSON.stringify({taskId}),
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
-            if(error.name=== 'AbortError'){
-                console.log('Fetch 요청이 시간초과되었습니다.')
-            }
-            console.error('Error:', error)
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-} 
+}
 
-export async function getTasksApi(){
+export async function getTasksApi() {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
-    const timeoutId = setTimeout(()=> controller.abort(), 10000)
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
-            if(error.name=== 'AbortError'){
-                console.log('Fetch 요청이 시간초과되었습니다.')
-            }
-            console.error('Error:', error)
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
     }).finally(() => clearTimeout(timeoutId));
-} 
+}
 
 
-export const saveTask = async (task:SaveTask)=>{
+export const saveTask = async (task: SaveTask) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
+            credentials: 'include',
             body: JSON.stringify(task),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-export const updateTask = async (task:SaveTask)=>{
+export const updateTask = async (task: SaveTask) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(task),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -146,22 +145,24 @@ export const updateTask = async (task:SaveTask)=>{
 }
 
 
-export const deleteTask = async (taskIds:string[])=>{
+export const deleteTask = async (taskIds: string[]) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify({taskIds}),
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -169,24 +170,24 @@ export const deleteTask = async (taskIds:string[])=>{
 }
 
 
-
-
-export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
+export const postTaskComplete = async (taskId: string, actionTaken: string) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
-            body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
+            credentials: 'include',
+            body: JSON.stringify({taskId: taskId, actionTaken: actionTaken}),
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -194,22 +195,24 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
 }
 
 
-export const updateTaskUserApi= async (taskId, assignedUser)=>{
+export const updateTaskUserApi = async (taskId, assignedUser) => {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    
+    const cookie = cookieStore.toString();
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
-            body: JSON.stringify({taskId,assignedUser}),
+            credentials: 'include',
+            body: JSON.stringify({taskId, assignedUser}),
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);

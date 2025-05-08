@@ -6,8 +6,9 @@ export const loginApi = async (userInfo: { userId: string, password: string }) =
             body: JSON.stringify(userInfo),
             credentials: "include",
         });
-        
+
         const text = await response.text();
+        jwtFilter(text)
         if (!response.ok) {
             loginFilter(text)
         } else {
@@ -43,20 +44,18 @@ export function jwtFilter(error: string): void {
     }
 }
 
-export async function getUserInfo(){
+export async function getUserInfo() {
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getMyDetail`, {
-            method: "POST",
-            credentials: "include", 
-            headers : {
+            credentials: "include",
+            headers: {
                 'Content-Type': 'application/json'
             },
         })
         const text = await response.text();
+        jwtFilter(text)
 
-        loginFilter(text)
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         return text ? JSON.parse(text) : [];
     } catch (error) {
