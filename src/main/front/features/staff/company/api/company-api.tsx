@@ -1,5 +1,7 @@
+"use server"
 import {ResponseCompany} from "@/model/types/staff/company/type";
-import { cookies } from "next/headers";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 export async function getCompany() {
@@ -8,22 +10,22 @@ export async function getCompany() {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         signal,
         // cache:'no-store',
         next: {revalidate: 3600, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -34,28 +36,28 @@ export async function getCompany() {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function getCompanyDetail(companyId:string) {
+export async function getCompanyDetail(companyId: string) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         signal,
         body: JSON.stringify({companyId}),
         next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -69,19 +71,21 @@ export async function getCompanyDetail(companyId:string) {
 export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'>) {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCompany`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
             body: JSON.stringify(companyData)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -91,19 +95,21 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
 export async function updateCompany(companyData: ResponseCompany) {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCompany`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
             body: JSON.stringify(companyData)
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -113,19 +119,21 @@ export async function updateCompany(companyData: ResponseCompany) {
 export async function deleteCompany(companyId: string) {
 
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    
+    const cookie = cookieStore.toString();
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCompany`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
             body: JSON.stringify({companyId})
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
+
+        const text = await response.text();
+        jwtFilter(text)
         return response.status;
     } catch (error) {
         console.error('Error:', error);

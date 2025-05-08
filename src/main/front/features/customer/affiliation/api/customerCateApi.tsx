@@ -2,48 +2,51 @@
 
 import {Affiliation} from "@/model/types/customer/affiliation/type";
 import {revalidateTag} from "next/cache";
-import { cookies } from "next/headers";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
-export const getAffiliation = async()=>{
+export const getAffiliation = async () => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`,{
+    const cookie = cookieStore.toString();
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`, {
         headers: {
             'Content-Type': 'application/json',
-                Cookie:cookie
+            Cookie: cookie
         },
         next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
+
         const text = await response.text();
+        jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
-    }).catch((error) => {console.error('Error:', error)})
+    }).catch((error) => {
+        console.error('Error:', error)
+    })
 
 }
 
 export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-                Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(affiliation),
         cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if (response.status === 500) {
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
+        const text = await response.text();
+        jwtFilter(text)
+
         revalidateTag("affiliation");
         // revalidatePath("/main/customer/customer-cate");
         return response.status
@@ -54,23 +57,22 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 
 export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if (response.status === 500) {
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
+        const text = await response.text();
+        jwtFilter(text)
+
         revalidateTag("affiliation");
         // revalidatePath("/main/customer/customer-cate");
         return response.status
@@ -82,23 +84,22 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
 
 export const deleteAffiliationApi = async (customer: Affiliation) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        if (response.status === 500) {
-            window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
-        }
+
+
+        const text = await response.text();
+        jwtFilter(text)
+
         revalidateTag("affiliation")
         // revalidatePath("/main/customer/customer-cate");
         return response.status

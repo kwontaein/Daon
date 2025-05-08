@@ -1,36 +1,39 @@
-import { cookies } from "next/headers"
+"use server"
+import {cookies} from "next/headers"
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 type searchCondition = {
-    searchSDate?:Date,
-    searchEDate?:Date,
-    customerName?:string,
-    purchaseVATId?:string,
-    salesVATId?:string,
-    cardTransactionId?:string
-    expenseProofId?:string
-    procurementSettlementId?:string
+    searchSDate?: Date,
+    searchEDate?: Date,
+    customerName?: string,
+    purchaseVATId?: string,
+    salesVATId?: string,
+    cardTransactionId?: string
+    expenseProofId?: string
+    procurementSettlementId?: string
 }
 
 
 //매입부가세
-export async function getPurchaseVatApi(searchCondition?:searchCondition){
+export async function getPurchaseVatApi(searchCondition?: searchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
-            body:JSON.stringify({...searchCondition??{}}),
-            ...(searchCondition ? {cache:'no-store'} :{}),
+            credentials: 'include',
+            body: JSON.stringify({...searchCondition ?? {}}),
+            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -38,24 +41,25 @@ export async function getPurchaseVatApi(searchCondition?:searchCondition){
 }
 
 //매출부가세
-export async function getSalesVATApi(searchCondition?:searchCondition){
+export async function getSalesVATApi(searchCondition?: searchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
-            body:JSON.stringify(searchCondition??{}),
-            ...(searchCondition ? {cache:'no-store'} :{}),
+            credentials: 'include',
+            body: JSON.stringify(searchCondition ?? {}),
+            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -63,24 +67,25 @@ export async function getSalesVATApi(searchCondition?:searchCondition){
 }
 
 //카드증빙
-export async function getCardTransactionfApi(searchCondition?:searchCondition){
+export async function getCardTransactionfApi(searchCondition?: searchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCardTransaction`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
-            body:JSON.stringify(searchCondition??{}),
-            ...(searchCondition ? {cache:'no-store'} :{}),
+            credentials: 'include',
+            body: JSON.stringify(searchCondition ?? {}),
+            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -88,24 +93,25 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
 }
 
 //지출증빙
-export async function getExpenseProofApi(searchCondition?:searchCondition){
+export async function getExpenseProofApi(searchCondition?: searchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExpenseProof`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
-            body:JSON.stringify(searchCondition??{}),
-            ...(searchCondition ? {cache:'no-store'} :{}),
+            credentials: 'include',
+            body: JSON.stringify(searchCondition ?? {}),
+            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -113,24 +119,25 @@ export async function getExpenseProofApi(searchCondition?:searchCondition){
 }
 
 //조달 및 수의 계산정산
-export async function getProcurementApi(searchCondition?:searchCondition){
+export async function getProcurementApi(searchCondition?: searchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
-    try{
+    const cookie = cookieStore.toString();
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getProcurement`, {
-            method:"POST",
-            headers : {
+            method: "POST",
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',
-            body:JSON.stringify(searchCondition??{}),
-            ...(searchCondition ? {cache:'no-store'} :{}),
+            credentials: 'include',
+            body: JSON.stringify(searchCondition ?? {}),
+            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
         })
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);

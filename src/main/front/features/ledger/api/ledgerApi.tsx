@@ -1,25 +1,27 @@
-import { LedgerSearchCondition } from "@/model/types/ledger/type";
-import { cookies } from "next/headers";
+"use server"
+import {LedgerSearchCondition} from "@/model/types/ledger/type";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 //거래처별원장
-export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition){
+export async function getLedgerCustomerApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -28,23 +30,23 @@ export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition
 
 
 //복수거래처원장
-export async function getLedgerCustomesrApi(searchCondition:LedgerSearchCondition){
+export async function getLedgerCustomesrApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -52,25 +54,24 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
 }
 
 
-
 //품목별원장
-export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
+export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -78,23 +79,23 @@ export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
 }
 
 //매출장
-export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
+export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -102,23 +103,23 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
 }
 
 //매입장
-export async function getPurchaseReceiptApi(searchCondition:LedgerSearchCondition){
+export async function getPurchaseReceiptApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -126,23 +127,23 @@ export async function getPurchaseReceiptApi(searchCondition:LedgerSearchConditio
 }
 
 //관리비원장
-export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
+export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -151,23 +152,23 @@ export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
 
 
 //재고조사서
-export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
+export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -175,27 +176,25 @@ export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
 }
 
 //기타원장
-export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
+export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
     }
 }
-
-
