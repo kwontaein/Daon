@@ -1,4 +1,8 @@
 import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
+import { cookies } from "next/headers";
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export async function getEstimateApi(estimateId: string) {
     const controller = new AbortController();
@@ -9,6 +13,7 @@ export async function getEstimateApi(estimateId: string) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({estimateId}),
@@ -18,7 +23,6 @@ export async function getEstimateApi(estimateId: string) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        console.log(response)
         const text = await response.text();
         if (!text) return [];
         return JSON.parse(text);
@@ -39,6 +43,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(estimate),
@@ -67,6 +72,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(estimate),
@@ -90,6 +96,7 @@ export async function deleteEstimate(estimateId) {
         method: "POST",
         headers:{
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({estimateId}),
@@ -125,6 +132,7 @@ export async function searchAllEstimateApi(task: boolean) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(condition),
@@ -156,6 +164,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(searchCondition),
@@ -181,6 +190,7 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(postData),

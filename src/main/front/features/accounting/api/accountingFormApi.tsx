@@ -1,11 +1,15 @@
 import { AccountingDivision, CardTransaction, ExpenseProof, ProcurementSettlement, PurchaseVAT, SalesVAT, UnionAccountingType } from "@/model/types/accounting/type";
+import { cookies } from "next/headers";
+const cookieStore = cookies();
+const cookie = cookieStore.toString(); 
 
 //회계 거래처분류 
 export async function getCategorySelectionApi(){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCategorySelection`, {
             headers: { 
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json',
+                Cookie:cookie,
             },
             credentials:'include',
         });
@@ -25,7 +29,8 @@ export async function savePurchaseVatApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/savePurchaseVAT`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie,
             },
             credentials:'include',
             body:JSON.stringify(saveData as PurchaseVAT)
@@ -43,7 +48,8 @@ export async function saveSalesVATApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSalesVAT`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie,
             },
             credentials:'include',
             body:JSON.stringify(saveData as SalesVAT)
@@ -61,7 +67,8 @@ export async function saveCardTransactionApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie,
             },
             credentials:'include',
             body:JSON.stringify(saveData as CardTransaction)
@@ -79,7 +86,8 @@ export async function saveExpenseProofApi(saveData:UnionAccountingType){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie,
             },
             credentials:'include',
             body:JSON.stringify(saveData as ExpenseProof)
