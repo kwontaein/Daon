@@ -1,9 +1,9 @@
-import { RequestStock } from "@/model/types/stock/stock/types";
-import { cookies } from "next/headers";
+"use server"
+import {RequestStock} from "@/model/types/stock/stock/types";
+import {cookies} from "next/headers";
 
 
-
-export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
+export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -14,19 +14,17 @@ export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(stock),
         signal,
 
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         return response.status;
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
@@ -35,7 +33,7 @@ export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function updateStockApi(stock:RequestStock) {
+export async function updateStockApi(stock: RequestStock) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -47,19 +45,17 @@ export async function updateStockApi(stock:RequestStock) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify(stock),
         signal,
 
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         return response.status;
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
@@ -68,31 +64,29 @@ export async function updateStockApi(stock:RequestStock) {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function deleteStockApi(stockId:string) {
+export async function deleteStockApi(stockId: string) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
-    
+
     const cookieStore = cookies()
     const cookie = cookieStore.toString()
-    
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie:cookie
+            Cookie: cookie
         },
-        credentials:'include',
+        credentials: 'include',
         body: JSON.stringify({stockId}),
         signal,
 
     }).then(async (response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
 
         return response.status;
-        
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');

@@ -1,32 +1,33 @@
-import { CustomerSearchCondition, RequestCustomer } from "@/model/types/customer/customer/type";
-import { cookies } from "next/headers";
+"use server"
+import {CustomerSearchCondition, RequestCustomer} from "@/model/types/customer/customer/type";
+import {cookies} from "next/headers";
+import {jwtFilter} from "@/features/login/api/loginApi";
 
 
+export const searchCustomersApi = async (searchCondition: CustomerSearchCondition) => {
 
-export const searchCustomersApi = async (searchCondition:CustomerSearchCondition)=>{
-    
     const nextOptions = {
         revalidate: 300,
-        ...(searchCondition.customerName ? { tags: [searchCondition.customerName] } : {})
+        ...(searchCondition.customerName ? {tags: [searchCondition.customerName]} : {})
     };
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(searchCondition),
-            next:nextOptions
+            next: nextOptions
 
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -34,24 +35,23 @@ export const searchCustomersApi = async (searchCondition:CustomerSearchCondition
 }
 
 
-
-export const getCustomerAPi = async (customerId:string)=>{
+export const getCustomerAPi = async (customerId: string) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify({customerId}),
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const text = await response.text();
+        jwtFilter(text)
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -59,66 +59,69 @@ export const getCustomerAPi = async (customerId:string)=>{
 }
 
 
-export const saveCustomerApi = async (postData:Partial<Omit<RequestCustomer, 'customerId'>>)=>{
+export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'customerId'>>) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCustomer`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(postData),
 
         });
+        const text = await response.text();
+        jwtFilter(text)
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         return response.status
     } catch (error) {
         console.error('Error:', error);
     }
 }
-export const updateCustomerApi = async (postData:Partial<RequestCustomer>)=>{
+export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify(postData),
 
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const text = await response.text();
+        jwtFilter(text)
         return response.status
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-export const deleteCustomerApi = async (customerId:string)=>{
+export const deleteCustomerApi = async (customerId: string) => {
     const cookieStore = cookies();
-    const cookie = cookieStore.toString(); 
+    const cookie = cookieStore.toString();
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
-            credentials:'include',            
+            credentials: 'include',
             body: JSON.stringify({customerId}),
 
         });
+        const text = await response.text();
+        jwtFilter(text)
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         return response.status
     } catch (error) {
         console.error('Error:', error);
