@@ -8,6 +8,7 @@ export const getOfficialApi = async (officialName?: string) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({officialName}),
         next: {
             revalidate: 3600, 
@@ -29,6 +30,7 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(official),
         cache:'no-store'
     }).then(async (response) => {
@@ -50,6 +52,7 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'offic
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(officialName),
         cache:'no-store'
     }).then(async (response) => {
@@ -72,6 +75,7 @@ export const deleteOfficialApi =async (official: ResponseOfficial) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(official),
         cache:'no-store'
     }).then(async (response) => {

@@ -5,7 +5,10 @@ export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',
             body: JSON.stringify(searchCondition),
         });
 
@@ -32,6 +35,7 @@ export async function getTaskApi(taskId:string){
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body:JSON.stringify({taskId}),
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
@@ -59,6 +63,7 @@ export async function getTasksApi(){
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
@@ -81,7 +86,10 @@ export const saveTask = async (task:SaveTask)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',
             body: JSON.stringify(task),
         });
 
@@ -96,7 +104,10 @@ export const updateTask = async (task:SaveTask)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(task),
         });
 
@@ -112,7 +123,10 @@ export const deleteTask = async (taskIds:string[])=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify({taskIds}),
         });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -129,7 +143,10 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
         });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -144,7 +161,10 @@ export const updateTaskUserApi= async (taskId, assignedUser)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify({taskId,assignedUser}),
         });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

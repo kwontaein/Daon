@@ -9,6 +9,7 @@ export const getEmployeeApi = async()=>{
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
@@ -32,6 +33,7 @@ export const getEmployeeDetailApi = async(userId:string)=>{
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({userId}),
     }).then(async (response) => {
         if (!response.ok) {
@@ -54,6 +56,7 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({userId}),
         cache:'no-store'
     }).then(async (response) => {
@@ -72,6 +75,7 @@ export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {d
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(userInfo),
         cache:'no-store'
     }).then(async (response) => {
@@ -91,6 +95,7 @@ export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & 
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(userInfo),
         cache:'no-store'
     }).then(async (response) => {
@@ -109,6 +114,7 @@ export const deleteEmployeeApi = async(userId:string)=>{
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({userId}),
         cache:'no-store'
     }).then(async (response) => {

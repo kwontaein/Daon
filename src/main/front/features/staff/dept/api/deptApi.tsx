@@ -11,6 +11,7 @@ export const getDeptApi = async () => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         cache: 'force-cache',
         next: {tags: ['dept']}
     }).then(async (response) => {
@@ -29,6 +30,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(dept),
         cache:'no-store'
     }).then(async (response) => {
@@ -51,6 +53,7 @@ export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(dept),
         cache:'no-store'
     }).then(async (response) => {
@@ -73,6 +76,7 @@ export const deleteDeptApi =async (dept: Dept) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(dept),
         cache:'no-store'
     }).then(async (response) => {

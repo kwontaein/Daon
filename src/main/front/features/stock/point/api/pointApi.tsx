@@ -10,6 +10,7 @@ export const updatePointApi = async (Points: StockPoint[]) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(Points),
         cache:'no-store'
     }).then(async (response) => {
@@ -33,6 +34,7 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {
@@ -57,6 +59,7 @@ export const deletePointApi =async (stock: StockPoint) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {

@@ -4,7 +4,10 @@ export const getNoPaidApi = async(searchCondition:RequestRemain)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getNoPaid`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
