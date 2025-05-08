@@ -9,6 +9,7 @@ export async function getCompany() {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         signal,
         // cache:'no-store',
         next: {revalidate: 3600, tags: ['company']} //1시간마다 재검증
@@ -36,6 +37,7 @@ export async function getCompanyDetail(companyId:string) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         signal,
         body: JSON.stringify({companyId}),
         next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증

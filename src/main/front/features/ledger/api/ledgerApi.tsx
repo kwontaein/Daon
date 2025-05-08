@@ -6,7 +6,10 @@ export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -25,7 +28,10 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -45,7 +51,10 @@ export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -63,7 +72,10 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -81,7 +93,10 @@ export async function getPurchaseReceiptApi(searchCondition:LedgerSearchConditio
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -99,7 +114,10 @@ export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -118,7 +136,10 @@ export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
@@ -136,7 +157,10 @@ export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            credentials:'include',            
             body: JSON.stringify(searchCondition),
         });
 
