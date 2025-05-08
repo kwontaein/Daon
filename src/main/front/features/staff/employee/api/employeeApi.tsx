@@ -1,13 +1,14 @@
 'use server'
 
+import { jwtFilter } from "@/features/login/api/loginApi";
 import {ResponseEmployee} from "@/model/types/staff/employee/type";
 import {cookies} from "next/headers";
 
 
 export const getEmployeeApi = async () => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
@@ -16,11 +17,10 @@ export const getEmployeeApi = async () => {
         },
         credentials: 'include',
         next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
-    }).then(async (response) => {
-
-
+    }).then(async (response) => {        
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -34,8 +34,8 @@ export const getEmployeeApi = async () => {
 
 export const getEmployeeDetailApi = async (userId: string) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
         method: "POST",
@@ -45,11 +45,10 @@ export const getEmployeeDetailApi = async (userId: string) => {
         },
         credentials: 'include',
         body: JSON.stringify({userId}),
-    }).then(async (response) => {
-
-
+    }).then(async (response) => {        
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -62,8 +61,8 @@ export const getEmployeeDetailApi = async (userId: string) => {
 
 export const userIdDuplicationChecked = async (userId: string): Promise<boolean | null> => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
         method: "POST",
@@ -74,7 +73,9 @@ export const userIdDuplicationChecked = async (userId: string): Promise<boolean 
         credentials: 'include',
         body: JSON.stringify({userId}),
         cache: 'no-store'
-    }).then(async (response) => {
+    }).then(async (response) => {        
+        const text = await response.text();
+        jwtFilter(text)
 
 
         return response.json()
@@ -87,8 +88,8 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
     deptId: string
 }): Promise<number | void> => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
         method: "POST",
@@ -100,6 +101,8 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
         body: JSON.stringify(userInfo),
         cache: 'no-store'
     }).then(async (response) => {
+        const text = await response.text();
+        jwtFilter(text)
 
 
         return response.status
@@ -112,8 +115,8 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
     deptId: string
 }): Promise<number | void> => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
         method: "POST",
@@ -125,6 +128,8 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
         body: JSON.stringify(userInfo),
         cache: 'no-store'
     }).then(async (response) => {
+        const text = await response.text();
+        jwtFilter(text)
 
 
         return response.status
@@ -134,8 +139,8 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
 }
 export const deleteEmployeeApi = async (userId: string) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
         method: "POST",
@@ -147,6 +152,8 @@ export const deleteEmployeeApi = async (userId: string) => {
         body: JSON.stringify({userId}),
         cache: 'no-store'
     }).then(async (response) => {
+        const text = await response.text();
+        jwtFilter(text)
 
 
         return response.status
