@@ -8,7 +8,6 @@ import  useCheckBoxState from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
-import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 import useRouterPath from '@/hooks/share/useRouterPath'
 
@@ -28,7 +27,7 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
           });
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/customer?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
@@ -44,7 +43,7 @@ const AdminDataSearchSearchResult = React.memo(({pageByTasks, employees} : {
         params.set('mode','detail')
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/task?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/task?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);

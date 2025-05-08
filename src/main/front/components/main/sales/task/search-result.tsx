@@ -8,7 +8,6 @@ import  useCheckBoxState from '@/hooks/share/useCheckboxState'
 
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
-import { apiUrl } from '@/model/constants/apiUrl'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 import { updateTaskUserApi } from '@/features/sales/task/api/taskApi'
 import { useConfirm } from '@/hooks/share/useConfirm'
@@ -31,7 +30,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
             target: customerId,
           });
         if(window.innerWidth>620){
-            const url = `${apiUrl}/customer?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
@@ -52,7 +51,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         }
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/${path}?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/${path}?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
@@ -67,7 +66,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         params.set('mode','detail')
 
         if(window.innerWidth>620){
-            const url = `${apiUrl}/task?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/task?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
@@ -82,7 +81,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
         params.set('taskId',taskId)
         
         if(window.innerWidth>620){
-            const url = `${apiUrl}/register-action-taken?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-action-taken?${params.toString()}`;
             const popupOptions = "width=600,height=400,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "actionTaken", popupOptions);

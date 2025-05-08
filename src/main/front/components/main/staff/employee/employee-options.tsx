@@ -1,6 +1,5 @@
 'use client'
 import '@/styles/options/options.scss';
-import { apiUrl } from '@/model/constants/apiUrl';
 import { deleteEmployeeApi } from '@/features/staff/employee/api/employeeApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
@@ -15,7 +14,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
             target: employeeId,
             });
         if(window.innerWidth>620){
-            const url = `${apiUrl}/employee?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/employee?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{
