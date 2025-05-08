@@ -9,6 +9,7 @@ export const getStockCateApi = async () => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         next: {tags: ['stocksCate']} 
     }).then(async (response) => {
         if (!response.ok) {
@@ -33,6 +34,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(cates),
         cache:'no-store'
     }).then(async (response) => {
@@ -54,6 +56,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {
@@ -76,6 +79,7 @@ export const deleteStockCateApi =async (stock: StockCate) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(stock),
         cache:'no-store'
     }).then(async (response) => {
