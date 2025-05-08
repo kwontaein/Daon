@@ -1,4 +1,5 @@
 "use server"
+import { jwtFilter } from "@/features/login/api/loginApi";
 import {RequestStock} from "@/model/types/stock/stock/types";
 import {cookies} from "next/headers";
 
@@ -23,8 +24,9 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
 
     }).then(async (response) => {
 
-
-        return response.status;
+        const text = await response.text();
+        jwtFilter(text)
+        return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -53,8 +55,9 @@ export async function updateStockApi(stock: RequestStock) {
 
     }).then(async (response) => {
 
-
-        return response.status;
+        const text = await response.text();
+        jwtFilter(text)
+        return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -83,8 +86,9 @@ export async function deleteStockApi(stockId: string) {
 
     }).then(async (response) => {
 
-
-        return response.status;
+        const text = await response.text();
+        jwtFilter(text)
+        return text ? JSON.parse(text) : [];
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
