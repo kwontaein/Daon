@@ -32,12 +32,12 @@ public class CalendarService {
                 predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
             }
 
-            Integer month = calendarRequest.getMonth();
-            if (month == null || month == 0) {
-                month = LocalDate.now().getMonthValue();
+            Integer year = calendarRequest.getYear();
+            if (year == null || year == 0) {
+                year = LocalDate.now().getMonthValue();
             }
-            Expression<Integer> monthExpression = criteriaBuilder.function("month", Integer.class, root.get("date"));
-            predicates.add(criteriaBuilder.equal(monthExpression, month));
+            Expression<Integer> yearExpress = criteriaBuilder.function("year", Integer.class, root.get("date"));
+            predicates.add(criteriaBuilder.equal(yearExpress, year));
 
             query.orderBy(criteriaBuilder.desc(root.get("date")));
             // 동적 조건을 조합하여 반환
