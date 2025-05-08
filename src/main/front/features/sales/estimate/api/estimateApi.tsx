@@ -1,13 +1,15 @@
 import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
+
 
 export async function getEstimateApi(estimateId: string) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
         method: "POST",
@@ -39,6 +41,9 @@ export async function saveEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEstimate`, {
         method: "POST",
         headers: {
@@ -68,6 +73,9 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEstimate`, {
         method: "POST",
         headers: {
@@ -91,6 +99,9 @@ export async function updateEstimate(estimate: RequestEstimate) {
 }
 
 export async function deleteEstimate(estimateId) {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
         method: "POST",
@@ -128,6 +139,10 @@ export async function searchAllEstimateApi(task: boolean) {
         task,
         receipted: false
     }
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
@@ -160,6 +175,8 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     const timeoutId = setTimeout(() => controller.abort(), 10000)
     searchCondition.receipted = true;
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
@@ -186,6 +203,9 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
 
 export async function transEstimateToReceiptApi(postData: { estimateId: string, receiptDate?: Date, note?: string }) {
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/estimatesPaid`, {
         method: "POST",
         headers: {
