@@ -24,6 +24,7 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(affiliation),
         cache: 'no-store'
     }).then(async (response) => {
@@ -47,6 +48,7 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
@@ -71,6 +73,7 @@ export const deleteAffiliationApi = async (customer: Affiliation) => {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
