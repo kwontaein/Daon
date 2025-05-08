@@ -47,7 +47,7 @@ public class AdminController {
         return adminService.GetEmployeeDetail(userRequest);
     }
 
-    @PostMapping("api/getMyDetail")
+    @GetMapping("api/getMyDetail")
     public UserResponse getMyDetail() {
         return adminService.getMyDetail();
     }
