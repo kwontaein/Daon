@@ -6,8 +6,7 @@ export const loginApi = async (userInfo: { userId: string, password: string }) =
             body: JSON.stringify(userInfo),
             credentials: "include",
         });
-
-
+        
         const text = await response.text();
         if (!response.ok) {
             loginFilter(text)
@@ -50,10 +49,10 @@ export async function getUserInfo(){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getMyDetail`, {
             method: "POST",
             credentials: "include", 
-            headers: {
-              "Content-Type": "application/json",
-            }
-          });
+            headers : {
+                'Content-Type': 'application/json'
+            },
+        })
         const text = await response.text();
 
         loginFilter(text)

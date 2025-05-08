@@ -10,6 +10,7 @@ export async function getEstimateApi(estimateId: string) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({estimateId}),
         signal,
         cache: 'no-cache'
@@ -39,6 +40,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(estimate),
         signal,
         cache: 'no-cache'
@@ -66,6 +68,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(estimate),
         signal,
     }).then(async (response) => {
@@ -85,9 +88,10 @@ export async function deleteEstimate(estimateId) {
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
         method: "POST",
-        headers: {
+        headers:{
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify({estimateId}),
     }).then(async (response) => {
         if (!response.ok) {
@@ -122,6 +126,7 @@ export async function searchAllEstimateApi(task: boolean) {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(condition),
         next: {revalidate: 3600, tags: ['estimate']}, //1시간마다 재검증
         signal,
@@ -152,6 +157,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(searchCondition),
         signal,
     }).then(async (response) => {
@@ -176,6 +182,7 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(postData),
     }).then(async (response) => {
         if (!response.ok) {

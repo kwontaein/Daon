@@ -18,6 +18,7 @@ export async function getPurchaseVatApi(searchCondition?:searchCondition){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify({...searchCondition??{}}),
             ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
@@ -39,6 +40,7 @@ export async function getSalesVATApi(searchCondition?:searchCondition){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(searchCondition??{}),
             ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
@@ -60,6 +62,7 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(searchCondition??{}),
             ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
@@ -81,6 +84,7 @@ export async function getExpenseProofApi(searchCondition?:searchCondition){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(searchCondition??{}),
             ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
@@ -102,6 +106,7 @@ export async function getProcurementApi(searchCondition?:searchCondition){
             headers : {
                 'Content-Type': 'application/json'
             },
+            credentials:'include',
             body:JSON.stringify(searchCondition??{}),
             ...(searchCondition ? {cache:'no-store'} :{}),
             next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
