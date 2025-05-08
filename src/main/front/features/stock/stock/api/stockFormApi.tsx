@@ -1,14 +1,15 @@
 import { RequestStock } from "@/model/types/stock/stock/types";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
+
 
 export async function saveStockApi(stock: Omit<RequestStock,'stockId'>) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies()
+    const cookie = cookieStore.toString()
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStock`, {
         method: "POST",
         headers: {
@@ -39,6 +40,9 @@ export async function updateStockApi(stock:RequestStock) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies()
+    const cookie = cookieStore.toString()
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStock`, {
         method: "POST",
         headers: {
@@ -68,7 +72,10 @@ export async function deleteStockApi(stockId:string) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
-
+    
+    const cookieStore = cookies()
+    const cookie = cookieStore.toString()
+    
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStock`, {
         method: "POST",
         headers: {

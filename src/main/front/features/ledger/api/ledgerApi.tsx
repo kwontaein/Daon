@@ -1,11 +1,11 @@
 import { LedgerSearchCondition } from "@/model/types/ledger/type";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
 
 //거래처별원장
 export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
@@ -29,6 +29,8 @@ export async function getLedgerCustomerApi(searchCondition:LedgerSearchCondition
 
 //복수거래처원장
 export async function getLedgerCustomesrApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
@@ -53,6 +55,8 @@ export async function getLedgerCustomesrApi(searchCondition:LedgerSearchConditio
 
 //품목별원장
 export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
             method: "POST",
@@ -75,6 +79,8 @@ export async function getLedgerStockApi(searchCondition:LedgerSearchCondition){
 
 //매출장
 export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
             method: "POST",
@@ -97,6 +103,8 @@ export async function getSaleReceiptApi(searchCondition:LedgerSearchCondition){
 
 //매입장
 export async function getPurchaseReceiptApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
             method: "POST",
@@ -119,6 +127,8 @@ export async function getPurchaseReceiptApi(searchCondition:LedgerSearchConditio
 
 //관리비원장
 export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
             method: "POST",
@@ -142,6 +152,8 @@ export async function getFeeReceiptAoi(searchCondition:LedgerSearchCondition){
 
 //재고조사서
 export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
             method: "POST",
@@ -164,6 +176,8 @@ export async function getStockSurveyApi(searchCondition:LedgerSearchCondition){
 
 //기타원장
 export async function getExtraLedgerApi(searchCondition:LedgerSearchCondition){
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
             method: "POST",

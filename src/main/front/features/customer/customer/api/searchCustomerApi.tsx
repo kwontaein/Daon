@@ -1,8 +1,7 @@
 import { CustomerSearchCondition, RequestCustomer } from "@/model/types/customer/customer/type";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
+
 
 export const searchCustomersApi = async (searchCondition:CustomerSearchCondition)=>{
     
@@ -10,6 +9,8 @@ export const searchCustomersApi = async (searchCondition:CustomerSearchCondition
         revalidate: 300,
         ...(searchCondition.customerName ? { tags: [searchCondition.customerName] } : {})
     };
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
             method: "POST",
@@ -35,7 +36,8 @@ export const searchCustomersApi = async (searchCondition:CustomerSearchCondition
 
 
 export const getCustomerAPi = async (customerId:string)=>{
-    
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
             method: "POST",
@@ -58,6 +60,8 @@ export const getCustomerAPi = async (customerId:string)=>{
 
 
 export const saveCustomerApi = async (postData:Partial<Omit<RequestCustomer, 'customerId'>>)=>{
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCustomer`, {
@@ -78,7 +82,8 @@ export const saveCustomerApi = async (postData:Partial<Omit<RequestCustomer, 'cu
     }
 }
 export const updateCustomerApi = async (postData:Partial<RequestCustomer>)=>{
-
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
             method: "POST",
@@ -99,7 +104,8 @@ export const updateCustomerApi = async (postData:Partial<RequestCustomer>)=>{
 }
 
 export const deleteCustomerApi = async (customerId:string)=>{
-
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",

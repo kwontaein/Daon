@@ -5,6 +5,10 @@ import { cookies } from "next/headers";
 const cookieStore = cookies()
 const cookie = cookieStore.toString()
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
             method: "POST",
@@ -34,6 +38,10 @@ export async function getTaskApi(taskId:string){
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
     if(!taskId.trim()) return null
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTask`, {
         method:'POST',
         headers: {
@@ -64,6 +72,9 @@ export async function getTasksApi(){
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(()=> controller.abort(), 10000)
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
         headers: {
             'Content-Type': 'application/json',
@@ -89,6 +100,10 @@ export async function getTasksApi(){
 
 
 export const saveTask = async (task:SaveTask)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
             method: "POST",
@@ -108,6 +123,10 @@ export const saveTask = async (task:SaveTask)=>{
 }
 
 export const updateTask = async (task:SaveTask)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
             method: "POST",
@@ -128,6 +147,10 @@ export const updateTask = async (task:SaveTask)=>{
 
 
 export const deleteTask = async (taskIds:string[])=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
@@ -149,6 +172,10 @@ export const deleteTask = async (taskIds:string[])=>{
 
 
 export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
             method: "POST",
@@ -168,6 +195,10 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
 
 
 export const updateTaskUserApi= async (taskId, assignedUser)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
             method: "POST",

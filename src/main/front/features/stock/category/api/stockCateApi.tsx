@@ -7,6 +7,10 @@ const cookieStore = cookies()
 const cookie = cookieStore.toString()
 
 export const getStockCateApi = async () => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockCateList`, {
         headers: {
             'Content-Type': 'application/json',
@@ -32,6 +36,10 @@ export const getStockCateApi = async () => {
 }
 
 export const updateStockCateApi = async (cates: StockCate[]) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockCate`, {
         method: "POST",
         headers: {
@@ -55,6 +63,10 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
 }
 
 export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockCate`, {
         method: "POST",
         headers: {
@@ -79,6 +91,10 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
 
 
 export const deleteStockCateApi =async (stock: StockCate) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockCate`, {
         method: "POST",
         headers: {
