@@ -1,12 +1,16 @@
 'use server'
 import { SaveTask, TaskSearchCondition } from "@/model/types/sales/task/type";
+import { cookies } from "next/headers";
 
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 export const fetchSearchTask = async (searchCondition:TaskSearchCondition)=>{
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body: JSON.stringify(searchCondition),
@@ -34,6 +38,7 @@ export async function getTaskApi(taskId:string){
         method:'POST',
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body:JSON.stringify({taskId}),
@@ -62,6 +67,7 @@ export async function getTasksApi(){
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         signal,
@@ -87,7 +93,8 @@ export const saveTask = async (task:SaveTask)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body: JSON.stringify(task),
@@ -105,7 +112,8 @@ export const updateTask = async (task:SaveTask)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(task),
@@ -124,7 +132,8 @@ export const deleteTask = async (taskIds:string[])=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify({taskIds}),
@@ -144,7 +153,8 @@ export const postTaskComplete = async (taskId:string, actionTaken:string)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify({taskId:taskId,actionTaken:actionTaken}),
@@ -162,7 +172,8 @@ export const updateTaskUserApi= async (taskId, assignedUser)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify({taskId,assignedUser}),
