@@ -2,10 +2,17 @@
 
 import {Affiliation} from "@/model/types/customer/affiliation/type";
 import {revalidateTag} from "next/cache";
+import { cookies } from "next/headers";
 
+const cookieStore = cookies()
+const cookie =cookieStore.toString()
 
 export const getAffiliation = async()=>{
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`,{
+        headers: {
+            'Content-Type': 'application/json',
+                Cookie:cookie
+        },
         next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
@@ -23,6 +30,7 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+                Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(affiliation),
@@ -47,6 +55,7 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(customer),
@@ -72,6 +81,7 @@ export const deleteAffiliationApi = async (customer: Affiliation) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(customer),

@@ -1,14 +1,17 @@
 'use server';
 
 import { StockPoint } from "@/model/types/stock/point/types";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export const updatePointApi = async (Points: StockPoint[]) => {
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(Points),
@@ -20,8 +23,6 @@ export const updatePointApi = async (Points: StockPoint[]) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stockPoint");
-        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -33,6 +34,7 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),
@@ -44,8 +46,6 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stockPoint");
-        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)
@@ -58,6 +58,7 @@ export const deletePointApi =async (stock: StockPoint) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(stock),
@@ -69,8 +70,6 @@ export const deletePointApi =async (stock: StockPoint) => {
         if(response.status===500){
             window.alert('문제가 발생했습니다 관리자에게 문의해주세요.')
         }
-        revalidateTag("stockPoint")
-        // revalidatePath("/main/stock/stock-point");
         return response.status
     }).catch((error) => {
         console.error('Error:', error)

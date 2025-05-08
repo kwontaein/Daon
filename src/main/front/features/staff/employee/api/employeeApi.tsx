@@ -1,13 +1,16 @@
 'use server'
 
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
+import { cookies } from "next/headers";
 
-
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export const getEmployeeApi = async()=>{
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
@@ -32,6 +35,7 @@ export const getEmployeeDetailApi = async(userId:string)=>{
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({userId}),
@@ -55,6 +59,7 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({userId}),
@@ -74,6 +79,7 @@ export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {d
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(userInfo),
@@ -94,6 +100,7 @@ export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & 
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(userInfo),
@@ -113,6 +120,7 @@ export const deleteEmployeeApi = async(userId:string)=>{
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({userId}),
