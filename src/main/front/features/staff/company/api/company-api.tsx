@@ -2,13 +2,13 @@ import {ResponseCompany} from "@/model/types/staff/company/type";
 import { cookies } from "next/headers";
 
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
-
 export async function getCompany() {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
         headers: {
@@ -39,6 +39,9 @@ export async function getCompanyDetail(companyId:string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
         headers: {
             'Content-Type': 'application/json',
@@ -64,6 +67,10 @@ export async function getCompanyDetail(companyId:string) {
 }
 
 export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'>) {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCompany`, {
             method: "POST",
@@ -82,6 +89,10 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
 }
 
 export async function updateCompany(companyData: ResponseCompany) {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCompany`, {
             method: "POST",
@@ -100,6 +111,10 @@ export async function updateCompany(companyData: ResponseCompany) {
 }
 
 export async function deleteCompany(companyId: string) {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCompany`, {
             method: "POST",

@@ -4,10 +4,12 @@ import { ResponseOfficial } from "@/model/types/sales/official/type";
 import { cookies } from "next/headers";
 
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
 
 export const getOfficialApi = async (officialName?: string) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
         method: "POST",
         headers: {
@@ -31,6 +33,9 @@ export const getOfficialApi = async (officialName?: string) => {
 }
 
 export const updateOfficialApi = async (official: ResponseOfficial[]) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateOfficial`, {
         method: "POST",
         headers: {
@@ -54,6 +59,9 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
 }
 
 export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'officialName'>) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveOfficial`, {
         method: "POST",
         headers: {
@@ -78,6 +86,9 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'offic
 
 
 export const deleteOfficialApi =async (official: ResponseOfficial) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
         method: "POST",
         headers: {
