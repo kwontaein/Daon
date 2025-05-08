@@ -58,7 +58,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         const params = new URLSearchParams
         params.set("mode","write")
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-estimate?${params.toString()}`;
+            const url = `/register-estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);

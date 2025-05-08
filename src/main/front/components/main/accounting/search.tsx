@@ -83,7 +83,7 @@ export default function AccountingSearch({
   const redirect = useRouterPath()
   const registerAccountingHandler = () => {
     const params = new URLSearchParams({ division });
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/register-accounting?${params.toString()}`;
+    const url = `/register-accounting?${params.toString()}`;
     if (window.innerWidth > 620) {
       const popupOptions = 'width=800,height=500,scrollbars=yes,resizable=yes';
       window.open(url, 'register', popupOptions);
