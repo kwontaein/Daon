@@ -3,11 +3,12 @@ import { Dept } from "@/model/types/staff/dept/type";
 import { cookies } from "next/headers";
 
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
-
 
 export const getDeptApi = async () => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getDept`, {
         method: "POST",
         headers: {
@@ -27,6 +28,10 @@ export const getDeptApi = async () => {
 }
 
 export const updateDeptApi = async (dept: Dept[]) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateDept`, {
         method: "POST",
         headers: {
@@ -51,6 +56,10 @@ export const updateDeptApi = async (dept: Dept[]) => {
 
 
 export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveDept`, {
         method: "POST",
         headers: {
@@ -75,6 +84,10 @@ export const createDeptApi = async (dept: Pick<Dept,'deptName'>) => {
 
 
 export const deleteDeptApi =async (dept: Dept) => {
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteDept`, {
         method: "POST",
         headers: {

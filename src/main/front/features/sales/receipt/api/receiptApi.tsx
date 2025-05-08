@@ -2,13 +2,14 @@
 import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies();
-const cookie = cookieStore.toString(); // 모든 쿠키 문자열로 추출
 
 export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveReceipts`, {
         method: "POST",
@@ -36,6 +37,9 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateReceipt`, {
         method: "POST",
@@ -66,6 +70,9 @@ export async function deleteReceiptApi(receiptIds: string[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteReceipt`, {
         method: "POST",
         headers: {
@@ -94,6 +101,9 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
@@ -124,6 +134,9 @@ export async function getReceiptByIds(receiptIds: string[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+    
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
         method: "POST",
@@ -155,6 +168,9 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
@@ -182,6 +198,9 @@ export async function getRecieptTotalApi(searchSDate) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptTotal`, {
         method: "POST",

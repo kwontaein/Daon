@@ -4,10 +4,10 @@ import {Affiliation} from "@/model/types/customer/affiliation/type";
 import {revalidateTag} from "next/cache";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie =cookieStore.toString()
 
 export const getAffiliation = async()=>{
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`,{
         headers: {
             'Content-Type': 'application/json',
@@ -26,6 +26,8 @@ export const getAffiliation = async()=>{
 }
 
 export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateAffiliation`, {
         method: "POST",
         headers: {
@@ -51,6 +53,8 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 }
 
 export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveAffiliation`, {
         method: "POST",
         headers: {
@@ -77,6 +81,8 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
 
 
 export const deleteAffiliationApi = async (customer: Affiliation) => {
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {
         method: "POST",
         headers: {

@@ -3,10 +3,13 @@
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { cookies } from "next/headers";
 
-const cookieStore = cookies()
-const cookie = cookieStore.toString()
+
 
 export const getEmployeeApi = async()=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
             'Content-Type': 'application/json',
@@ -31,6 +34,10 @@ export const getEmployeeApi = async()=>{
 }
 
 export const getEmployeeDetailApi = async(userId:string)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
         method: "POST",
         headers: {
@@ -55,6 +62,10 @@ export const getEmployeeDetailApi = async(userId:string)=>{
 }
 
 export const userIdDuplicationChecked = async(userId:string):Promise<boolean|null>=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
         method: "POST",
         headers: {
@@ -75,6 +86,10 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
 }
 
 export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
         method: "POST",
         headers: {
@@ -96,6 +111,10 @@ export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {d
 }
 
 export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
         method: "POST",
         headers: {
@@ -116,6 +135,10 @@ export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & 
     })
 }
 export const deleteEmployeeApi = async(userId:string)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
         method: "POST",
         headers: {
