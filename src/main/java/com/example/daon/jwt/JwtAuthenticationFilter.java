@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
@@ -28,6 +29,25 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
 
+        /**
+         * 쿠키 확인용
+         */
+        Enumeration<String> headerNames = httpRequest.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = httpRequest.getHeader(headerName);
+            System.out.println("Header: " + headerName + " = " + headerValue);
+        }
+        Cookie[] cookies = httpRequest.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                System.out.println("Cookie: " + cookie.getName() + " = " + cookie.getValue());
+            }
+        } else {
+            System.out.println("요청에 쿠키 없음");
+        }
+
+
         // 특정 API는 필터링 없이 바로 통과
         if (isExcludedURI(requestURI)) {
             chain.doFilter(request, response);
@@ -37,6 +57,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // Request로부터 JWT 토큰을 추출
         String token = resolveCookieFilter(httpRequest)[0];
         if (token == null) {
+            System.out.println("토큰 없음");
             // 토큰이 없으면 401 Unauthorized 응답
             respondWithUnauthorized(httpResponse);
             return;
