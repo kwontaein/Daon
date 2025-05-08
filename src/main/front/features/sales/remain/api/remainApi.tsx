@@ -5,6 +5,10 @@ const cookieStore = cookies()
 const cookie = cookieStore.toString()
 
 export const getNoPaidApi = async(searchCondition:RequestRemain)=>{
+
+    const cookieStore = cookies();
+    const cookie = cookieStore.toString(); 
+    
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getNoPaid`, {
             method: "POST",
