@@ -1,5 +1,8 @@
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
+import { cookies } from "next/headers";
 
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export async function searchStockApi(searchCondition: StockSearchCondition) {
     const controller = new AbortController();
@@ -10,6 +13,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(searchCondition),
@@ -43,6 +47,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(searchCondition),
@@ -75,6 +80,7 @@ export async function getStockByIdApi(stockId: string) {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({stockId}),

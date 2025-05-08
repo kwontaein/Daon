@@ -1,4 +1,4 @@
-import { PurchaseVAT, SalesVAT } from "@/model/types/accounting/type";
+import { cookies } from "next/headers"
 
 type searchCondition = {
     searchSDate?:Date,
@@ -10,13 +10,18 @@ type searchCondition = {
     expenseProofId?:string
     procurementSettlementId?:string
 }
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString();
+
 //매입부가세
 export async function getPurchaseVatApi(searchCondition?:searchCondition){
     try{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseVAT`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body:JSON.stringify({...searchCondition??{}}),
@@ -38,7 +43,8 @@ export async function getSalesVATApi(searchCondition?:searchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body:JSON.stringify(searchCondition??{}),
@@ -60,7 +66,8 @@ export async function getCardTransactionfApi(searchCondition?:searchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCardTransaction`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body:JSON.stringify(searchCondition??{}),
@@ -82,7 +89,8 @@ export async function getExpenseProofApi(searchCondition?:searchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExpenseProof`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body:JSON.stringify(searchCondition??{}),
@@ -104,7 +112,8 @@ export async function getProcurementApi(searchCondition?:searchCondition){
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getProcurement`, {
             method:"POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',
             body:JSON.stringify(searchCondition??{}),
