@@ -1,12 +1,18 @@
 'use server';
 
 import { ResponseOfficial } from "@/model/types/sales/official/type";
+import { cookies } from "next/headers";
+
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export const getOfficialApi = async (officialName?: string) => {
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify({officialName}),
@@ -29,6 +35,7 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(official),
@@ -51,6 +58,7 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'offic
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(officialName),
@@ -74,6 +82,7 @@ export const deleteOfficialApi =async (official: ResponseOfficial) => {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
+            Cookie:cookie
         },
         credentials:'include',
         body: JSON.stringify(official),

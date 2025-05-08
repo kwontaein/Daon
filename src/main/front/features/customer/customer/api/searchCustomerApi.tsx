@@ -1,4 +1,8 @@
 import { CustomerSearchCondition, RequestCustomer } from "@/model/types/customer/customer/type";
+import { cookies } from "next/headers";
+
+const cookieStore = cookies()
+const cookie = cookieStore.toString()
 
 export const searchCustomersApi = async (searchCondition:CustomerSearchCondition)=>{
     
@@ -10,7 +14,8 @@ export const searchCustomersApi = async (searchCondition:CustomerSearchCondition
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(searchCondition),
@@ -35,7 +40,8 @@ export const getCustomerAPi = async (customerId:string)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify({customerId}),
@@ -57,7 +63,8 @@ export const saveCustomerApi = async (postData:Partial<Omit<RequestCustomer, 'cu
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCustomer`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(postData),
@@ -76,7 +83,8 @@ export const updateCustomerApi = async (postData:Partial<RequestCustomer>)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify(postData),
@@ -96,7 +104,8 @@ export const deleteCustomerApi = async (customerId:string)=>{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Cookie:cookie
             },
             credentials:'include',            
             body: JSON.stringify({customerId}),
