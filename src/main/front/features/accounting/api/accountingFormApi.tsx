@@ -3,7 +3,7 @@ import { AccountingDivision, CardTransaction, ExpenseProof, ProcurementSettlemen
 //회계 거래처분류 
 export async function getCategorySelectionApi(){
     try {
-        const response = await fetch("http://localhost:8080/api/getCategorySelection", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCategorySelection`, {
             headers: { 'Content-Type': 'application/json' },
         });
 
@@ -19,7 +19,7 @@ export async function getCategorySelectionApi(){
 //매입부가세
 export async function savePurchaseVatApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/savePurchaseVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/savePurchaseVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export async function savePurchaseVatApi(saveData:UnionAccountingType){
 //매출부가세
 export async function saveSalesVATApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/saveSalesVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSalesVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ export async function saveSalesVATApi(saveData:UnionAccountingType){
 //카드증빙
 export async function saveCardTransactionApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/saveCardTransaction", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -70,7 +70,7 @@ export async function saveCardTransactionApi(saveData:UnionAccountingType){
 //지출증빙
 export async function saveExpenseProofApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/saveExpenseProof", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -88,7 +88,7 @@ export async function saveExpenseProofApi(saveData:UnionAccountingType){
 //조달 및 수의 계산정산
 export async function saveProcurementApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/saveProcurement", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveProcurement`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -109,7 +109,7 @@ export async function saveProcurementApi(saveData:UnionAccountingType){
 //매입부가세
 export async function updatePurchaseVatApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/updatePurchaseVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updatePurchaseVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ export async function updatePurchaseVatApi(saveData:UnionAccountingType){
 //매출부가세
 export async function updateSalesVATApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/updateSalesVAT", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateSalesVAT`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/json'
@@ -143,7 +143,7 @@ export async function updateSalesVATApi(saveData:UnionAccountingType){
 //카드증빙
 export async function updateCardTransactionApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/updateCardTransaction", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCardTransaction`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -160,7 +160,7 @@ export async function updateCardTransactionApi(saveData:UnionAccountingType){
 //지출증빙
 export async function updateExpenseProofApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/updateExpenseProof", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateExpenseProof`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -178,7 +178,7 @@ export async function updateExpenseProofApi(saveData:UnionAccountingType){
 //조달 및 수의 계산정산
 export async function updateProcurementApi(saveData:UnionAccountingType){
     try{
-        const response = await fetch("http://localhost:8080/api/updateProcurement", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateProcurement`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'
@@ -223,7 +223,7 @@ export async function deleteAccountingApi(division, id){
             break;
     }
     try{
-        const response = await fetch(`http://localhost:8080/api/${api}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
             method:"POST",
             headers : {
                 'Content-Type': 'application/jsonmethod'

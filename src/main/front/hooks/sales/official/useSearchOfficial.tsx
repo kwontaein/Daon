@@ -1,9 +1,8 @@
 import { useConfirm } from "@/hooks/share/useConfirm";
 import useRouterPath from "@/hooks/share/useRouterPath";
-import { apiUrl } from "@/model/constants/apiUrl";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
 import { useModalState } from "@/store/zustand/modal";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 export default function useSearchOfficial(
     checkOfficialName : (id? : string) => boolean,
@@ -60,7 +59,7 @@ export default function useSearchOfficial(
             e.preventDefault();
             //pc
             if(window.innerWidth>620){
-                const url = `${apiUrl}/search-official-items?searchName=${value}`; // 열고 싶은 링크
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/search-official-items?searchName=${value}`; // 열고 싶은 링크
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchOfficial", popupOptions);
             }else{

@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 
 
 export const updatePointApi = async (Points: StockPoint[]) => {
-    return fetch("http://localhost:8080/api/updateStockPoint", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export const updatePointApi = async (Points: StockPoint[]) => {
 }
 
 export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) => {
-    return fetch("http://localhost:8080/api/saveStockPoint", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
 
 
 export const deletePointApi =async (stock: StockPoint) => {
-    return fetch("http://localhost:8080/api/deleteStockPoint", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

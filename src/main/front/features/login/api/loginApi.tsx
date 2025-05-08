@@ -1,6 +1,6 @@
 export const loginApi = async (userInfo: { userId: string, password: string }) => {
     try {
-        const response = await fetch("http://localhost:8080/api/signIn", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signIn`, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(userInfo),
@@ -45,12 +45,15 @@ export function jwtFilter(error: string): void {
 }
 
 export async function getUserInfo(){
+
     try {
-        const response = await fetch("http://localhost:8080/api/getMyDetail", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getMyDetail`, {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            credentials: "include",
-        });
+            credentials: "include", 
+            headers: {
+              "Content-Type": "application/json",
+            }
+          });
         const text = await response.text();
 
         loginFilter(text)

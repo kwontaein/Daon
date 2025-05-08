@@ -3,7 +3,7 @@
 import { ResponseOfficial } from "@/model/types/sales/official/type";
 
 export const getOfficialApi = async (officialName?: string) => {
-    return fetch("http://localhost:8080/api/getOfficial", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const getOfficialApi = async (officialName?: string) => {
 }
 
 export const updateOfficialApi = async (official: ResponseOfficial[]) => {
-    return fetch("http://localhost:8080/api/updateOfficial", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateOfficial`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
 }
 
 export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'officialName'>) => {
-    return fetch("http://localhost:8080/api/saveOfficial", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveOfficial`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial,'offic
 
 
 export const deleteOfficialApi =async (official: ResponseOfficial) => {
-    return fetch("http://localhost:8080/api/deleteOfficial", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
