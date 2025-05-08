@@ -20,6 +20,7 @@ public class CalendarRequest {
     private String memo;
     private String userId;
     private int month; // 어느 달 정보 가져올건지
+    private int year; // 어느 달 정보 가져올건지
 
     public CalendarEntity toEntity(UserEntity user) {
         return CalendarEntity
