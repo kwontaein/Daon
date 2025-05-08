@@ -5,7 +5,7 @@ import {revalidateTag} from "next/cache";
 
 
 export const getAffiliation = async()=>{
-    return await fetch("http://localhost:8080/api/getAffiliation",{
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`,{
         next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
         if (!response.ok) {
@@ -19,7 +19,7 @@ export const getAffiliation = async()=>{
 }
 
 export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
-    return await fetch("http://localhost:8080/api/updateAffiliation", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 }
 
 export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
-    return await fetch("http://localhost:8080/api/saveAffiliation", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
 
 
 export const deleteAffiliationApi = async (customer: Affiliation) => {
-    return fetch("http://localhost:8080/api/deleteAffiliation", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

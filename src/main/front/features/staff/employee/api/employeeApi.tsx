@@ -5,7 +5,7 @@ import { ResponseEmployee } from "@/model/types/staff/employee/type";
 
 
 export const getEmployeeApi = async()=>{
-    return await fetch("http://localhost:8080/api/getEmployees", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -27,7 +27,7 @@ export const getEmployeeApi = async()=>{
 }
 
 export const getEmployeeDetailApi = async(userId:string)=>{
-    return await fetch("http://localhost:8080/api/getEmployeeDetail", {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const getEmployeeDetailApi = async(userId:string)=>{
 }
 
 export const userIdDuplicationChecked = async(userId:string):Promise<boolean|null>=>{
-    return fetch("http://localhost:8080/api/duplicationCheck", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const userIdDuplicationChecked = async(userId:string):Promise<boolean|nul
 }
 
 export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
-    return fetch("http://localhost:8080/api/saveEmployee", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const saveEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {d
 }
 
 export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & {deptId:string}):Promise<number|void>=>{
-    return fetch("http://localhost:8080/api/updateEmployee", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export const updateEmployeeApi = async(userInfo:Omit<ResponseEmployee,'dept'> & 
     })
 }
 export const deleteEmployeeApi = async(userId:string)=>{
-    return fetch("http://localhost:8080/api/deleteEmployee", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

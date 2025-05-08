@@ -5,7 +5,7 @@ export async function getEstimateApi(estimateId: string) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    return fetch("http://localhost:8080/api/getEstimate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    return fetch("http://localhost:8080/api/saveEstimate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    return fetch("http://localhost:8080/api/updateEstimate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
 
 export async function deleteEstimate(estimateId) {
 
-    return fetch("http://localhost:8080/api/deleteEstimate", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export async function searchAllEstimateApi(task: boolean) {
         task,
         receipted: false
     }
-    return fetch("http://localhost:8080/api/getEstimates", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     const timeoutId = setTimeout(() => controller.abort(), 10000)
     searchCondition.receipted = true;
 
-    return fetch("http://localhost:8080/api/getEstimates", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
 
 export async function transEstimateToReceiptApi(postData: { estimateId: string, receiptDate?: Date, note?: string }) {
 
-    return fetch("http://localhost:8080/api/estimatesPaid", {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/estimatesPaid`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

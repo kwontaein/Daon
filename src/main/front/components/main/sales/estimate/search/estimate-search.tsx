@@ -16,7 +16,6 @@ import { EstimateCategory, ResponseEstimate } from '@/model/types/sales/estimate
 import estimateSearchAction, { initialEstimateSearch } from '@/features/sales/estimate/action/estimateSearchAction';
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
-import { apiUrl } from '@/model/constants/apiUrl';
 import useRouterPath from '@/hooks/share/useRouterPath';
 
 
@@ -59,7 +58,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         const params = new URLSearchParams
         params.set("mode","write")
         if(window.innerWidth>620){
-            const url = `${apiUrl}/register-estimate?${params.toString()}`;
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             
             window.open(url, "PopupWindow", popupOptions);
