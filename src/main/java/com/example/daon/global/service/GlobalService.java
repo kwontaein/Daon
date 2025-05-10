@@ -421,6 +421,15 @@ public class GlobalService {
     }
 
     public BoardResponse convertToBoardResponse(BoardEntity boardEntity) {
-        return BoardResponse.builder().build();
+        return BoardResponse
+                .builder()
+                .boardId(boardEntity.getBoardId())
+                .title(boardEntity.getTitle())
+                .notice(boardEntity.isNotice())
+                .views(boardEntity.getViews())
+                .content(boardEntity.getContent())
+                .createAt(boardEntity.getCreateAt())
+                .writer(boardEntity.getWriter())
+                .build();
     }
 }

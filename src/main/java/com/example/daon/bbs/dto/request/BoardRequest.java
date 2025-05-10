@@ -21,6 +21,7 @@ public class BoardRequest {
     private String title;
     private String content;
     private boolean notice;
+    private int views;
 
     public BoardEntity toEntity() {
         return BoardEntity
@@ -29,6 +30,7 @@ public class BoardRequest {
                 .content(content)
                 .title(title)
                 .writer(writer)
+                .views(0)
                 .build();
     }
 
