@@ -40,6 +40,9 @@ public class BoardEntity {
 
     @Column(name = "notice")
     private boolean notice;
+    
+    @Column(name = "views")
+    private int views;
 
     public void updateFromRequest(BoardRequest boardRequest) {
         this.title = boardRequest.getTitle();
