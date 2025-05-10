@@ -20,5 +20,6 @@ public class BoardResponse {
     private String title;
     private String content;
     private boolean notice;
+    private int views;
 
 }
