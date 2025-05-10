@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity(name = "board")
@@ -26,8 +26,8 @@ public class BoardEntity {
     @Column(nullable = false, unique = true, name = "board_id", columnDefinition = "BINARY(16)")
     private UUID boardId;
     //작성일
-    @Column(nullable = false, name = "date")
-    private Timestamp date;
+    @Column(nullable = false, name = "create_at")
+    private LocalDate createAt;
     //작성자
     @Column(nullable = false, name = "writer")
     private String writer;
