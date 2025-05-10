@@ -1,4 +1,5 @@
 import BoardList from "@/components/main/board/board-list";
+import RegisterBoard from "@/components/main/board/register-board";
 import { ResponseBoard } from "@/model/types/board/type";
 import {v4 as uuidv4} from "uuid";
 
@@ -72,6 +73,10 @@ export default async function BoardPage({searchParams}:{
 
 
     return(
-        <BoardList initialBoardItems={BoardData} page={page}/>
+        <>
+            {mode ==='view' &&<BoardList initialBoardItems={BoardData} page={page}/>}
+            {mode ==='write' && <RegisterBoard/>}
+        </>
     )
+        
 }
