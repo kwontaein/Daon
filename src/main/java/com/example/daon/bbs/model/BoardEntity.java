@@ -1,5 +1,6 @@
 package com.example.daon.bbs.model;
 
+import com.example.daon.bbs.dto.request.BoardRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,4 +38,12 @@ public class BoardEntity {
     @Column(nullable = false, name = "content")
     private String content;
 
+    @Column(name = "notice")
+    private boolean notice;
+
+    public void updateFromRequest(BoardRequest boardRequest) {
+        this.title = boardRequest.getTitle();
+        this.content = boardRequest.getContent();
+        this.notice = boardRequest.isNotice();
+    }
 }
