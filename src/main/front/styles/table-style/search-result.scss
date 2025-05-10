@@ -130,3 +130,11 @@
     text-align: right;
     font-size: 0.95rem;
 }
+
+.hover-text{
+   a{
+    &:hover{
+        color: #FF9900;
+      }
+   }
+}

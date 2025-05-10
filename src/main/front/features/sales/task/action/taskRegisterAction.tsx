@@ -1,7 +1,6 @@
 'use server'
 import {v4 as uuidv4} from "uuid";
 import { saveTask, updateTask } from "../api/taskApi";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 export default async function taskRegisterAction(prevState, formData){
     const TaskData ={
