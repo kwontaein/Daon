@@ -13,6 +13,8 @@ import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.bbs.dto.response.BoardResponse;
+import com.example.daon.bbs.model.BoardEntity;
 import com.example.daon.calendar.dto.response.CalendarResponse;
 import com.example.daon.calendar.model.CalendarEntity;
 import com.example.daon.company.dto.response.CompanyResponse;
@@ -27,7 +29,6 @@ import com.example.daon.estimate.dto.response.EstimateResponse;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.ledger.dto.response.LedgerResponse;
-import com.example.daon.ledger.dto.response.NoPaidResponse;
 import com.example.daon.ledger.dto.response.StockLedgerResponse;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.ReceiptEntity;
@@ -408,13 +409,6 @@ public class GlobalService {
                 .build();
     }
 
-    public NoPaidResponse convertToNoPaidResponse(ReceiptEntity receipt) {
-        return NoPaidResponse
-                .builder()
-                .build();
-    }
-
-
     public CalendarResponse convertToCalendarResponse(CalendarEntity calendar) {
         return CalendarResponse
                 .builder()
@@ -426,4 +420,7 @@ public class GlobalService {
                 .build();
     }
 
+    public BoardResponse convertToBoardResponse(BoardEntity boardEntity) {
+        return BoardResponse.builder().build();
+    }
 }
