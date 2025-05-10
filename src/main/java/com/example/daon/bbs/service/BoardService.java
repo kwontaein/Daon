@@ -23,7 +23,7 @@ public class BoardService {
         List<BoardEntity> boardEntities = boardRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-            query.orderBy(criteriaBuilder.desc(root.get("date")));
+            query.orderBy(criteriaBuilder.desc(root.get("createAt")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
         return boardEntities.stream().map(globalService::convertToBoardResponse).collect(Collectors.toList());
