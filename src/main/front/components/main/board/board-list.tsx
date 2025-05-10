@@ -75,7 +75,11 @@ export default function BoardList({initialBoardItems,page}:{
                             </span>
                         </td>
                         <td><button type='button' onClick={cancleHandler}>취소</button></td>
-                        <td><button>글등록</button></td>
+                        <td>
+                            <button>
+                                <Link href={`/main/board/board?mode=write`}>글등록</Link>
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -84,7 +88,7 @@ export default function BoardList({initialBoardItems,page}:{
                 <colgroup>
                     <col style={{width:'1%', minWidth:'42px'}}/>
                     <col style={{width:'70%'}}/>
-                    <col style={{width:'10%'}}/>
+                    <col style={{width:'10%', minWidth:'45px'}}/>
                     <col style={{width:'15%'}}/>
                     <col style={{width:'5%', minWidth:'42px'}}/>
                 </colgroup>
@@ -103,7 +107,7 @@ export default function BoardList({initialBoardItems,page}:{
                             <td>{board.notice ?
                                 <Image src={notice} alt='💡' width={15}/>: index }</td>
                             <td className='left-align hover-text' style={{fontWeight:board.notice? 'bold':'unset'}}>
-                                <Link href={`/main/board/board?board=${board.boardId}`}>
+                                <Link href={`/main/board/board?target=${board.boardId}`}>
                                     {board.title}
                                 </Link>
                             </td>
