@@ -39,6 +39,8 @@ export function jwtFilter(error: string): void {
     } else if (error === "409") {
         window.alert("다른 곳에서 로그인되었습니다. 로그아웃합니다")
         document.location.replace('/')
+    }else if(error ==='404'){
+        window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
     }
 }
 
