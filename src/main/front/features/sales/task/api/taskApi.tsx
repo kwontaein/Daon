@@ -5,8 +5,8 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
@@ -18,10 +18,9 @@ export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     } catch (error) {
         console.error('Error:', error);
@@ -36,8 +35,8 @@ export async function getTaskApi(taskId: string) {
 
     if (!taskId.trim()) return null
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTask`, {
         method: 'POST',
@@ -50,10 +49,9 @@ export async function getTaskApi(taskId: string) {
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -69,8 +67,8 @@ export async function getTasksApi() {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
         headers: {
@@ -81,10 +79,9 @@ export async function getTasksApi() {
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         if (!text) return [];
         return JSON.parse(text);
     }).catch((error) => {
@@ -98,8 +95,8 @@ export async function getTasksApi() {
 
 export const saveTask = async (task: SaveTask) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
@@ -110,10 +107,9 @@ export const saveTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -122,8 +118,8 @@ export const saveTask = async (task: SaveTask) => {
 
 export const updateTask = async (task: SaveTask) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
@@ -134,10 +130,9 @@ export const updateTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -147,8 +142,8 @@ export const updateTask = async (task: SaveTask) => {
 
 export const deleteTask = async (taskIds: string[]) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
@@ -159,10 +154,9 @@ export const deleteTask = async (taskIds: string[]) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskIds}),
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -172,8 +166,8 @@ export const deleteTask = async (taskIds: string[]) => {
 
 export const postTaskComplete = async (taskId: string, actionTaken: string) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
@@ -184,10 +178,9 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId: taskId, actionTaken: actionTaken}),
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
@@ -197,8 +190,8 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
 
 export const updateTaskUserApi = async (taskId, assignedUser) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
@@ -209,10 +202,9 @@ export const updateTaskUserApi = async (taskId, assignedUser) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId, assignedUser}),
-        });
-
-        const text = await response.text();
+        });        const text = await response.text();
         jwtFilter(text)
+
         return response.status;
     } catch (error) {
         console.error('Error:', error);
