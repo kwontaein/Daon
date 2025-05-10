@@ -59,7 +59,7 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
             e.preventDefault();
             //pc
             if(window.innerWidth>620){
-                const url = `${process.env.NEXT_PUBLIC_API_URL}/search-stock-items?searchName=${value}`; // 열고 싶은 링크
+                const url = `/search-stock-items?searchName=${value}`; // 열고 싶은 링크
                 const popupOptions = "width=500,height=700,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
                 window.open(url, "searchStock", popupOptions);
             }else{

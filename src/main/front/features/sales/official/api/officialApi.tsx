@@ -1,13 +1,14 @@
 'use server';
 
+import { jwtFilter } from "@/features/login/api/loginApi";
 import {ResponseOfficial} from "@/model/types/sales/official/type";
 import {cookies} from "next/headers";
 
 
 export const getOfficialApi = async (officialName?: string) => {
 
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
         method: "POST",
@@ -22,10 +23,9 @@ export const getOfficialApi = async (officialName?: string) => {
             ...(officialName ? {} : {tags: ['official']})
         }
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
         return text ? JSON.parse(text) : [];
     }).catch((error) => {
         console.error('Error:', error)
@@ -33,8 +33,8 @@ export const getOfficialApi = async (officialName?: string) => {
 }
 
 export const updateOfficialApi = async (official: ResponseOfficial[]) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateOfficial`, {
         method: "POST",
@@ -55,8 +55,8 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
 }
 
 export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'officialName'>) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveOfficial`, {
         method: "POST",
@@ -78,8 +78,8 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'offi
 
 
 export const deleteOfficialApi = async (official: ResponseOfficial) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
         method: "POST",

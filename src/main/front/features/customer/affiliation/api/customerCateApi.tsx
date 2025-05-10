@@ -7,8 +7,8 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 
 export const getAffiliation = async () => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`, {
         headers: {
             'Content-Type': 'application/json',
@@ -16,10 +16,9 @@ export const getAffiliation = async () => {
         },
         next: {revalidate: 3600, tags: ['affiliation']} //1시간마다 재검증
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
 
         if (!text) return [];
         return JSON.parse(text);
@@ -30,8 +29,8 @@ export const getAffiliation = async () => {
 }
 
 export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateAffiliation`, {
         method: "POST",
         headers: {
@@ -42,10 +41,9 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
         body: JSON.stringify(affiliation),
         cache: 'no-store'
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
 
         revalidateTag("affiliation");
         // revalidatePath("/main/customer/customer-cate");
@@ -56,8 +54,8 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 }
 
 export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveAffiliation`, {
         method: "POST",
         headers: {
@@ -68,10 +66,9 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
 
         revalidateTag("affiliation");
         // revalidatePath("/main/customer/customer-cate");
@@ -83,8 +80,8 @@ export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliatio
 
 
 export const deleteAffiliationApi = async (customer: Affiliation) => {
-    const cookieStore = cookies();
-    const cookie = cookieStore.toString();
+    const accessToken = (await cookies()).get('accessToken').value
+    const cookie = `accessToken=${accessToken}`
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {
         method: "POST",
         headers: {
@@ -95,10 +92,9 @@ export const deleteAffiliationApi = async (customer: Affiliation) => {
         body: JSON.stringify(customer),
         cache: 'no-store'
     }).then(async (response) => {
-
-
         const text = await response.text();
         jwtFilter(text)
+
 
         revalidateTag("affiliation")
         // revalidatePath("/main/customer/customer-cate");
