@@ -42,4 +42,11 @@ public class BoardService {
     public void deleteBoard(BoardRequest boardRequest) {
         boardRepository.deleteById(boardRequest.getBoardId());
     }
+
+    public void updateViews(BoardRequest boardRequest) {
+        BoardEntity boardEntity = boardRepository.findById(boardRequest.getBoardId()).orElse(null);
+        boardEntity.setViews(boardEntity.getViews() + 1);
+        boardRepository.save(boardEntity);
+
+    }
 }

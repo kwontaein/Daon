@@ -37,4 +37,9 @@ public class BoardController {
     public void deleteBoard(@RequestBody BoardRequest boardRequest) {
         boardService.deleteBoard(boardRequest);
     }
+
+    @PostMapping("api/updateViews")
+    public void updateViews(@RequestBody BoardRequest boardRequest) {
+        boardService.updateViews(boardRequest);
+    }
 }
