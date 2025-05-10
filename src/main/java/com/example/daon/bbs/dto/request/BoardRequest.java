@@ -1,5 +1,6 @@
 package com.example.daon.bbs.dto.request;
 
+import com.example.daon.bbs.model.BoardEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +20,16 @@ public class BoardRequest {
     private String writer;
     private String title;
     private String content;
+    private boolean notice;
+
+    public BoardEntity toEntity() {
+        return BoardEntity
+                .builder()
+                .notice(notice)
+                .content(content)
+                .title(title)
+                .writer(writer)
+                .build();
+    }
 
 }
