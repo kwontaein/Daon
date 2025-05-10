@@ -1,9 +1,10 @@
 export type ResponseBoard ={
-    boardId:string
+    boardId?:string
     writer:string
-    createAt:Date
+    createAt?:Date
     title:string
     content:string
     notice:boolean
-    views:number
+    views?:number
+    files?:File
 }

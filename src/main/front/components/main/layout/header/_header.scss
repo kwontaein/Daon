@@ -54,19 +54,13 @@
     }
 }
 
-.header-lastOnline {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 1rem;
-}
 
-  
 .header-lastOnline {
     flex-shrink: 1; 
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 
+    margin-left: 1rem;
     min-width: 0; 
 }
 
