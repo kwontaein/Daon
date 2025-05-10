@@ -222,3 +222,19 @@ select{
         padding-inline: 5px;
     }
 }
+
+.additional-search-container{
+    td{
+        padding-inline: 2px;
+    }
+    input{
+        width: calc(100% - 20px);
+    }
+    button{
+        width: 50px;
+        height: 25px;
+    }
+    icon{
+        cursor: pointer;
+    }
+}
