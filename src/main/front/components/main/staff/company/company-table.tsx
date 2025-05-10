@@ -48,7 +48,7 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
        //TODO: add mobile version
     const signNewCompanyHandler = ()=>{
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/register-company`; 
+            const url = `/register-company`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "PopupWindow", popupOptions);
         }else{

@@ -18,7 +18,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
         params.set("target",estimateId)
 
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/estimate?${params.toString()}`;
+            const url = `/estimate?${params.toString()}`;
             const popupOptions = "width=800,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
         }else{
