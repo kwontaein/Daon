@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -15,9 +15,10 @@ import java.util.UUID;
 public class BoardResponse {
 
     private UUID boardId;
-    private Timestamp date;
+    private LocalDate createAt;
     private String writer;
     private String title;
     private String content;
+    private boolean notice;
 
 }
