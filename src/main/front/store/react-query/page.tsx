@@ -1,3 +1,4 @@
+import { getUserSchedule } from "@/features/schedule/api/scheduleApi";
 import {
     keepPreviousData,
     QueryClient,
@@ -9,10 +10,12 @@ import {
 
 export const QUERY_USER_SCHEDULE = "QUERY_USER_SCHEDULE"
 
-export const useFetchCalendar =  (year:number,month:number)=>
+export const useFetchCalendar =  (userId:string, year:number)=>
     useQuery({
-        queryKey:[QUERY_USER_SCHEDULE,year,month],
-        queryFn:()=>{}
+        queryKey:[QUERY_USER_SCHEDULE, year],
+        queryFn:()=>getUserSchedule(userId, year),
     })
 
 
+
+export const queryClient = new QueryClient();

@@ -58,7 +58,7 @@ export default function useSearchCustomerList(
         e.preventDefault();
         //pc
         if(window.innerWidth>620){
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/search-customer-list?searchName=${value}`; // 열고 싶은 링크
+            const url = `/search-customer-list?searchName=${value}`; // 열고 싶은 링크
             const popupOptions = "width=500,height=750,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
             window.open(url, "searchCustomerList", popupOptions);
         }else{
