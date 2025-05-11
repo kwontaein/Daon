@@ -7,7 +7,7 @@ import {cookies} from "next/headers";
 
 export const getEmployeeApi = async () => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
@@ -18,11 +18,18 @@ export const getEmployeeApi = async () => {
         credentials: 'include',
         next: {revalidate: 3600, tags: ['user']} //1시간마다 재검증
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -34,7 +41,7 @@ export const getEmployeeApi = async () => {
 
 export const getEmployeeDetailApi = async (userId: string) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
@@ -46,11 +53,18 @@ export const getEmployeeDetailApi = async (userId: string) => {
         credentials: 'include',
         body: JSON.stringify({userId}),
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -61,7 +75,7 @@ export const getEmployeeDetailApi = async (userId: string) => {
 
 export const userIdDuplicationChecked = async (userId: string): Promise<boolean | null> => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
@@ -74,8 +88,7 @@ export const userIdDuplicationChecked = async (userId: string): Promise<boolean 
         body: JSON.stringify({userId}),
         cache: 'no-store'
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.json()
@@ -88,7 +101,7 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
     deptId: string
 }): Promise<number | void> => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
@@ -101,8 +114,7 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
         body: JSON.stringify(userInfo),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status
@@ -115,7 +127,7 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
     deptId: string
 }): Promise<number | void> => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
@@ -128,8 +140,7 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
         body: JSON.stringify(userInfo),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status
@@ -139,7 +150,7 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
 }
 export const deleteEmployeeApi = async (userId: string) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
@@ -152,8 +163,7 @@ export const deleteEmployeeApi = async (userId: string) => {
         body: JSON.stringify({userId}),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status

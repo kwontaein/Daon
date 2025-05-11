@@ -29,18 +29,34 @@ function loginFilter(error: string): void {
     }
 }
 
-export function jwtFilter(error: string): void {
-    if (error === "302") {
-        window.alert("모든 토큰이 만료되었습니다. 재로그인하세요.")
-        document.location.replace('/')
-    } else if (error === "401") {
-        window.alert("알수없는 접근입니다 재로그인하세요.")
-        document.location.replace('/')
-    } else if (error === "409") {
-        window.alert("다른 곳에서 로그인되었습니다. 로그아웃합니다")
-        document.location.replace('/')
-    }else if(error ==='404'){
-        window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+export async function jwtFilter(error: string): Promise<void> {
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    switch (error) {
+        case "302":
+            window.alert("모든 토큰이 만료되었습니다. 재로그인하세요.");
+            await delay(100); // alert 표시를 위한 짧은 대기
+            document.location.replace('/');
+            break;
+
+        case "401":
+            window.alert("알수없는 접근입니다. 재로그인하세요.");
+            await delay(100);
+            document.location.replace('/');
+            break;
+
+        case "409":
+            window.alert("다른 곳에서 로그인되었습니다. 로그아웃합니다.");
+            await delay(100);
+            document.location.replace('/');
+            break;
+
+        case "404":
+            window.alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            break;
+
+        default:
+            break;
     }
 }
 
@@ -53,10 +69,18 @@ export async function getUserInfo(){
                 'Content-Type': 'application/json'
             },
         })
+        await jwtFilter(response.status.toString());
+
         const text = await response.text();
 
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }

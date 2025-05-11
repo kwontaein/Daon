@@ -14,7 +14,7 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 //회계 거래처분류 
 export async function getCategorySelectionApi() {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -25,11 +25,19 @@ export async function getCategorySelectionApi() {
             },
             credentials: 'include',
         });
+        await jwtFilter(response.status.toString());
+
+
         const text = await response.text();
-        jwtFilter(text)
 
+        if (!text) return null;
 
-        return text ? JSON.parse(text) : [];
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -37,7 +45,7 @@ export async function getCategorySelectionApi() {
 
 //매입부가세
 export async function savePurchaseVatApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -50,8 +58,7 @@ export async function savePurchaseVatApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as PurchaseVAT)
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -61,7 +68,7 @@ export async function savePurchaseVatApi(saveData: UnionAccountingType) {
 
 //매출부가세
 export async function saveSalesVATApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -74,8 +81,7 @@ export async function saveSalesVATApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as SalesVAT)
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -85,7 +91,7 @@ export async function saveSalesVATApi(saveData: UnionAccountingType) {
 
 //카드증빙
 export async function saveCardTransactionApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
@@ -97,8 +103,7 @@ export async function saveCardTransactionApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as CardTransaction)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -108,7 +113,7 @@ export async function saveCardTransactionApi(saveData: UnionAccountingType) {
 
 //지출증빙
 export async function saveExpenseProofApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
@@ -120,8 +125,7 @@ export async function saveExpenseProofApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ExpenseProof)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -131,7 +135,7 @@ export async function saveExpenseProofApi(saveData: UnionAccountingType) {
 
 //조달 및 수의 계산정산
 export async function saveProcurementApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveProcurement`, {
@@ -143,8 +147,7 @@ export async function saveProcurementApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -155,7 +158,7 @@ export async function saveProcurementApi(saveData: UnionAccountingType) {
 
 //매입부가세
 export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updatePurchaseVAT`, {
@@ -167,8 +170,7 @@ export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as PurchaseVAT)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -178,7 +180,7 @@ export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
 
 //매출부가세
 export async function updateSalesVATApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateSalesVAT`, {
@@ -190,8 +192,7 @@ export async function updateSalesVATApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as SalesVAT)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -201,7 +202,7 @@ export async function updateSalesVATApi(saveData: UnionAccountingType) {
 
 //카드증빙
 export async function updateCardTransactionApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCardTransaction`, {
@@ -213,8 +214,7 @@ export async function updateCardTransactionApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as CardTransaction)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -224,7 +224,7 @@ export async function updateCardTransactionApi(saveData: UnionAccountingType) {
 
 //지출증빙
 export async function updateExpenseProofApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateExpenseProof`, {
@@ -236,8 +236,7 @@ export async function updateExpenseProofApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ExpenseProof)
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status;
@@ -248,7 +247,7 @@ export async function updateExpenseProofApi(saveData: UnionAccountingType) {
 
 //조달 및 수의 계산정산
 export async function updateProcurementApi(saveData: UnionAccountingType) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateProcurement`, {
@@ -260,8 +259,7 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -272,7 +270,7 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
 
 //삭제 관련 api
 export async function deleteAccountingApi(division, id) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     let api;
@@ -309,8 +307,7 @@ export async function deleteAccountingApi(division, id) {
             credentials: 'include',
             body: JSON.stringify({[key]: id})
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status;
