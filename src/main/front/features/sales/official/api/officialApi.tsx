@@ -7,7 +7,7 @@ import {cookies} from "next/headers";
 
 export const getOfficialApi = async (officialName?: string) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
@@ -23,17 +23,25 @@ export const getOfficialApi = async (officialName?: string) => {
             ...(officialName ? {} : {tags: ['official']})
         }
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         console.error('Error:', error)
     })
 }
 
 export const updateOfficialApi = async (official: ResponseOfficial[]) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateOfficial`, {
@@ -55,7 +63,7 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
 }
 
 export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'officialName'>) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveOfficial`, {
@@ -78,7 +86,7 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'offi
 
 
 export const deleteOfficialApi = async (official: ResponseOfficial) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
