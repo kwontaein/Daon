@@ -60,7 +60,7 @@ export default function MainHeader() {
             <>
             <span className="header-content left">
                 <p>{currentTime}</p>
-                <b className="header-depart">{`${user?.deptName ?? ''} / ${user?.userName ?? ''} ${EmployeeClassEnum[user.class] ?? ''}`}</b>
+                <b className="header-depart">{`${user?.deptName ?? ''} ${user?.userName ? '/':''} ${user?.userName ?? ''} ${EmployeeClassEnum[user.class] ?? ''}`}</b>
             </span>
             <span className="header-content right">
                 <p className="header-lastOnline">

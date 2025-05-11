@@ -20,8 +20,9 @@ export default function CustomerOptions({customerId, customerName}:{customerId:s
             const url = `/customer?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
             window.open(url, "PopupWindow", popupOptions);
+        }else{
+            redirect(`customer?${params.toString()}`)
         }
-        redirect(`customer?${params.toString()}`)
     }
 
     const searchCustomerLedger =()=>{
