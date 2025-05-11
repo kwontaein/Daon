@@ -63,7 +63,7 @@ const CustomerSearchResult = React.memo(({pageByCustomers}:{pageByCustomers:Resp
                     <td></td>
                     <td className='icon' onClick={()=> target === customer.customerId ? setTarget(null) :setTarget(customer.customerId)}>
                         <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === customer.customerId &&{color:'orange'}}/>
-                        {target === customer.customerId && <CustomerOptions customerId={customer.customerId}/>}
+                        {target === customer.customerId && <CustomerOptions customerId={customer.customerId} customerName={customer.customerName}/>}
                     </td>
                 </tr>
             ))}

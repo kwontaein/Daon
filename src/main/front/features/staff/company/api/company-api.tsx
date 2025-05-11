@@ -9,7 +9,7 @@ export async function getCompany() {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
@@ -22,11 +22,18 @@ export async function getCompany() {
         // cache:'no-store',
         next: {revalidate: 3600, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -40,7 +47,7 @@ export async function getCompanyDetail(companyId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
@@ -53,11 +60,18 @@ export async function getCompanyDetail(companyId: string) {
         body: JSON.stringify({companyId}),
         next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -68,7 +82,7 @@ export async function getCompanyDetail(companyId: string) {
 
 export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'>) {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -80,8 +94,7 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
             },
             body: JSON.stringify(companyData)
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -91,7 +104,7 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
 
 export async function updateCompany(companyData: ResponseCompany) {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -103,8 +116,7 @@ export async function updateCompany(companyData: ResponseCompany) {
             },
             body: JSON.stringify(companyData)
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -114,7 +126,7 @@ export async function updateCompany(companyData: ResponseCompany) {
 
 export async function deleteCompany(companyId: string) {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -126,8 +138,7 @@ export async function deleteCompany(companyId: string) {
             },
             body: JSON.stringify({companyId})
         })
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {

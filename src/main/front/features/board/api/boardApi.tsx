@@ -3,7 +3,7 @@ import { ResponseBoard } from "@/model/types/board/type";
 import { cookies } from "next/headers";
 
 export async function getBoardApi(board: ResponseBoard) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getBoard`, {
@@ -14,17 +14,25 @@ export async function getBoardApi(board: ResponseBoard) {
             credentials: 'include',
             body: JSON.stringify(board),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
 export async function saveBoardApi(board: ResponseBoard) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveBoard`, {
@@ -36,16 +44,24 @@ export async function saveBoardApi(board: ResponseBoard) {
             credentials: 'include',
             body: JSON.stringify(board),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 export async function updateBoardApi(board: ResponseBoard) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
@@ -57,16 +73,24 @@ export async function updateBoardApi(board: ResponseBoard) {
             credentials: 'include',
             body: JSON.stringify(board),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 export async function deleteBoardApi(boardId:string) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
@@ -78,17 +102,25 @@ export async function deleteBoardApi(boardId:string) {
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
 export async function updateBoard(boardId:string) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateViews`, {
@@ -100,10 +132,18 @@ export async function updateBoard(boardId:string) {
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
