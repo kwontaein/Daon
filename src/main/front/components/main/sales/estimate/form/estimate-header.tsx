@@ -16,7 +16,8 @@ import dayjs from 'dayjs';
 import {useConfirm} from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
-import { useUserInformation } from '@/store/zustand/userInfo';
+import { UserInfo, useUserInformation } from '@/store/zustand/userInfo';
+import { getUserInfo } from '@/features/login/api/loginApi';
 
 export default function EstimateHeader({companyList, task, estimate, mode, isMobile = false}: {
     companyList: ResponseCompany[],
@@ -25,7 +26,30 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
     estimate?: ResponseEstimate,
     isMobile?:boolean
 }) {
-    const {user} = useUserInformation()
+    const {user, setUser} = useUserInformation()
+
+    useEffect(() => {
+        if(isMobile) return
+        const fetchUser = async () => {
+            const userInfo = await getUserInfo();
+            if (userInfo) {
+                const user = {
+                    userId: userInfo.userId,
+                    userName: userInfo.name,
+                    class: userInfo.userClass,
+                    role: userInfo.uerRole,
+                    last_login: new Date(Date.now()),
+                    dept_Id: userInfo.dept.deptId,
+                    deptName: userInfo.dept.deptName,
+                };
+                setUser(user);
+            } else {
+                isMobile ? window.history.back() : window.close()
+            }
+        };
+        fetchUser()
+    }, []);
+
     //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(() => {
         if (task) {
@@ -49,17 +73,20 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
                 assignedUser: estimate.userName
             }
         } else {
-            return {assignedUser:user.userName, userId:user.userId}
+            return {
+                assignedUser: user?.userName,
+                userId: user?.userId
+            }
         }
 
-    }, [task, estimate, mode])
+    }, [task, estimate, mode, user])
 
     const [state, action, isPending] = useActionState(estimateRegisterAction, initialState)
     const initialCompany = estimate ? companyList.find(({companyId}) => companyId === estimate.company.companyId) : companyList[0]
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
     const changeModeHandler = useChangeMode()
 
-
+ 
     const companyHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         if (mode === 'detail') return
         const company = companyList.find(({companyId}) => companyId === e.target.value)
@@ -196,8 +223,8 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' defaultValue={state.assignedUser ?? ''} readOnly/>
-                            <input type='hidden' name='userId' value={state.userId ?? ''} readOnly/>
+                            <input type='text' name='assignedUser' value={user?.userName??''} readOnly/>
+                            <input type='hidden' name='userId' value={user?.userId??''} key={state.userId+'userId'}readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>
@@ -208,7 +235,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
                     </tr>
                 </tbody>
             </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse} isMobile/> 
+            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse} isMobile={isMobile}/> 
 
             </form>
         </section>

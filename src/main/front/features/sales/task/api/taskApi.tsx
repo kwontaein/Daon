@@ -114,12 +114,11 @@ export async function getTasksApi() {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-
 export async function getAdminTasksApi() {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
-    
+
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
@@ -167,8 +166,7 @@ export const saveTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });
-        await jwtFilter(response.status.toString());
+        });        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -190,8 +188,7 @@ export const updateTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });
-        await jwtFilter(response.status.toString());
+        });        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -214,8 +211,7 @@ export const deleteTask = async (taskIds: string[]) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskIds}),
-        });
-        await jwtFilter(response.status.toString());
+        });        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -238,10 +234,10 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId: taskId, actionTaken: actionTaken}),
-        });
+        });        
         await jwtFilter(response.status.toString());
-
         return response.status;
+        
     } catch (error) {
         console.error('Error:', error);
     }
@@ -262,8 +258,7 @@ export const updateTaskUserApi = async (taskId, assignedUser) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId, assignedUser}),
-        });
-        await jwtFilter(response.status.toString());
+        });        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {

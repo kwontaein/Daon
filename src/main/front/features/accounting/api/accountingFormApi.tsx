@@ -27,9 +27,7 @@ export async function getCategorySelectionApi() {
         });
         await jwtFilter(response.status.toString());
 
-
         const text = await response.text();
-
         if (!text) return null;
 
         try {
@@ -59,8 +57,8 @@ export async function savePurchaseVatApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as PurchaseVAT)
         })
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -82,8 +80,8 @@ export async function saveSalesVATApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as SalesVAT)
         })
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -104,8 +102,8 @@ export async function saveCardTransactionApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as CardTransaction)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -126,8 +124,8 @@ export async function saveExpenseProofApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as ExpenseProof)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -148,8 +146,8 @@ export async function saveProcurementApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -171,8 +169,8 @@ export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as PurchaseVAT)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -193,8 +191,8 @@ export async function updateSalesVATApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as SalesVAT)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -215,8 +213,8 @@ export async function updateCardTransactionApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as CardTransaction)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -237,9 +235,8 @@ export async function updateExpenseProofApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as ExpenseProof)
         })
         await jwtFilter(response.status.toString());
-
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -260,8 +257,8 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -308,9 +305,8 @@ export async function deleteAccountingApi(division, id) {
             body: JSON.stringify({[key]: id})
         })
         await jwtFilter(response.status.toString());
-
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }

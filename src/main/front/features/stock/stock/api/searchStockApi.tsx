@@ -21,10 +21,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         credentials: 'include',
         body: JSON.stringify(searchCondition),
         signal,
-        next: {
-            revalidate: 300,
-            ...(searchCondition.productName ? {tags: [`${searchCondition.productName}`]} : {})
-        }
+        cache:'no-cache'
     }).then(async (response) => {
         await jwtFilter(response.status.toString());
 

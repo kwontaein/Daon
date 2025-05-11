@@ -2,7 +2,7 @@
 import '@/styles/table-style/search.scss'
 
 
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
 import TaskSearchResult from './search-result';
@@ -28,7 +28,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     const pageByTasks = useMemo(() => (searchResult ?? initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask, searchResult, page])
     const formRef = useRef(null)
 
-
     //router control
     const deletePage = useDeletePage()
     const redirect = useRouterPath()
@@ -50,6 +49,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         startTransition(() => {
             action(formData);
         });
+        deletePage()
     }
 
     const deleteTaskHandler = () => {
@@ -70,17 +70,10 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
     useEffect(() => {
         if (state.searchResult) {
             setSearchResult(state.searchResult)
-            if (page === 1) return
-            deletePage()
         }
     }, [state])
 
-    //검색중에 갱신되면 검색 조회결과도 다시 갱신
-    useEffect(() => {
-        if (searchResult) {
-            submitHandler()
-        }
-    }, [initialTask])
+
 
 
     //거래처 검색관련

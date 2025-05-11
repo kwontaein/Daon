@@ -11,7 +11,6 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
     const companyList:ResponseCompany[] = await getCompany()
     const task:ResponseTask =await getTaskApi(taskId)
 
-    
     return(
         <EstimateHeader
             companyList={companyList}

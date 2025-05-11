@@ -12,7 +12,6 @@ export default async function remainSearchAction(prevState,formData){
     }
 
     const action = formData.get('action')
-    
     if(action==='submit'){
         const searchResult = await getNoPaidApi(formState)
         return{
