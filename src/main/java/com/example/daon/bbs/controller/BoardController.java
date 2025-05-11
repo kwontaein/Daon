@@ -4,10 +4,11 @@ import com.example.daon.bbs.dto.request.BoardRequest;
 import com.example.daon.bbs.dto.response.BoardResponse;
 import com.example.daon.bbs.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,22 +25,31 @@ public class BoardController {
     }
 
     @PostMapping("api/saveBoard")
-    public void saveBoard(@RequestBody BoardRequest boardRequest) {
-        boardService.saveBoard(boardRequest);
+    public void saveBoard(@ModelAttribute BoardRequest boardRequest) {
+        try {
+            boardService.saveBoard(boardRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("api/updateBoard")
-    public void updateBoard(@RequestBody BoardRequest boardRequest) {
-        boardService.updateBoard(boardRequest);
+    public void updateBoard(@ModelAttribute BoardRequest boardRequest) {
+        try {
+            boardService.updateBoard(boardRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("api/deleteBoard")
-    public void deleteBoard(@RequestBody BoardRequest boardRequest) {
+    public void deleteBoard(@ModelAttribute BoardRequest boardRequest) {
         boardService.deleteBoard(boardRequest);
     }
 
     @PostMapping("api/updateViews")
-    public void updateViews(@RequestBody BoardRequest boardRequest) {
+    public void updateViews(@ModelAttribute BoardRequest boardRequest) {
         boardService.updateViews(boardRequest);
     }
+
 }
