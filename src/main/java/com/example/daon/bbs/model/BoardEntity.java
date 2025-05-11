@@ -1,10 +1,7 @@
 package com.example.daon.bbs.model;
 
 import com.example.daon.bbs.dto.request.BoardRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "board")
@@ -40,9 +38,12 @@ public class BoardEntity {
 
     @Column(name = "notice")
     private boolean notice;
-    
+
     @Column(name = "views")
     private int views;
+
+    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)
+    private List<FileEntity> files;
 
     public void updateFromRequest(BoardRequest boardRequest) {
         this.title = boardRequest.getTitle();
