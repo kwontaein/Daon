@@ -9,7 +9,7 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStock`, {
@@ -24,9 +24,17 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
 
     }).then(async (response) => {
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -41,7 +49,7 @@ export async function updateStockApi(stock: RequestStock) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStock`, {
         method: "POST",
@@ -55,9 +63,17 @@ export async function updateStockApi(stock: RequestStock) {
 
     }).then(async (response) => {
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -72,7 +88,7 @@ export async function deleteStockApi(stockId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStock`, {
         method: "POST",
@@ -86,9 +102,17 @@ export async function deleteStockApi(stockId: string) {
 
     }).then(async (response) => {
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {

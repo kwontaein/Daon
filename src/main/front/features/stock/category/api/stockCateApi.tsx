@@ -7,7 +7,7 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 export const getStockCateApi = async () => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockCateList`, {
@@ -18,10 +18,18 @@ export const getStockCateApi = async () => {
         credentials: 'include',
         next: {tags: ['stocksCate']}
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         console.error('Error:', error)
     })
@@ -29,7 +37,7 @@ export const getStockCateApi = async () => {
 
 export const updateStockCateApi = async (cates: StockCate[]) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockCate`, {
@@ -42,8 +50,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
         body: JSON.stringify(cates),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {
@@ -53,7 +60,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
 
 export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockCate`, {
@@ -66,8 +73,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
         body: JSON.stringify(stock),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {
@@ -78,7 +84,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
 
 export const deleteStockCateApi = async (stock: StockCate) => {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockCate`, {
@@ -91,8 +97,7 @@ export const deleteStockCateApi = async (stock: StockCate) => {
         body: JSON.stringify(stock),
         cache: 'no-store'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {

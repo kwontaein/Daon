@@ -73,3 +73,4 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
     return searchStockHandler
     
 }
+

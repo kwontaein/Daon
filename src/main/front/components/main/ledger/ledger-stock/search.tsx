@@ -8,6 +8,7 @@ import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actio
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import LedgerStockSearchResult from './search-result';
+import { useModalState } from '@/store/zustand/modal';
 
 export default function LedgerStockSearch(){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
@@ -16,9 +17,30 @@ export default function LedgerStockSearch(){
         searchTitle:null,
         searchSDate:null,
     })
-
+    const {stock,setModalState} = useModalState() 
     const formRef = useRef(null)
         
+    useEffect(()=>{
+        //품목에서 원장조회를 누를 시 ModalState 갱신 후 ledger-stock로 이동하여 조회 
+        //첫 랜더링 시에만 검색처리
+        const {stockId, productName, modelName} = stock
+        if(stockId && productName){
+
+            const formData = new FormData(formRef.current);
+            formData.set('stockId',stockId)
+            formData.set('productName',productName)
+            formData.set('modelName',modelName)
+
+            formData.set('action', 'customer');
+            startTransition(() => {
+                action(formData);
+            });
+            
+            //조회 후 값 비워주기 -> 재조회 방지
+            setModalState({stock:{}})
+        }
+    },[])
+
     //물품 검색관련
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
 

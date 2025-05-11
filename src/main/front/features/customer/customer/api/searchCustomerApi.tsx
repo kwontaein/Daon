@@ -10,7 +10,7 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
         revalidate: 300,
         ...(searchCondition.customerName ? {tags: [searchCondition.customerName]} : {})
     };
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
@@ -24,10 +24,18 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
             next: nextOptions
 
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -35,7 +43,7 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
 
 
 export const getCustomerAPi = async (customerId: string) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
@@ -47,10 +55,18 @@ export const getCustomerAPi = async (customerId: string) => {
             credentials: 'include',
             body: JSON.stringify({customerId}),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -58,7 +74,7 @@ export const getCustomerAPi = async (customerId: string) => {
 
 
 export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'customerId'>>) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     try {
@@ -72,8 +88,7 @@ export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'c
             body: JSON.stringify(postData),
 
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status
@@ -82,7 +97,7 @@ export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'c
     }
 }
 export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
@@ -94,8 +109,7 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
             credentials: 'include',
             body: JSON.stringify(postData),
 
-        });        const text = await response.text();
-        jwtFilter(text)
+        });        await jwtFilter(response.status.toString());
 
         return response.status
     } catch (error) {
@@ -104,7 +118,7 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
 }
 
 export const deleteCustomerApi = async (customerId: string) => {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
@@ -117,8 +131,7 @@ export const deleteCustomerApi = async (customerId: string) => {
             body: JSON.stringify({customerId}),
 
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
 
         return response.status

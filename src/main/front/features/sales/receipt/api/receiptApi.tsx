@@ -9,7 +9,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveReceipts`, {
@@ -23,8 +23,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         signal,
     }).then(async (response) => {
 
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
         return response.status
 
     }).catch((error) => {
@@ -40,7 +39,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateReceipt`, {
@@ -54,8 +53,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
         signal,
     }).then(async (response) => {
 
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
         return response.status
 
     }).catch((error) => {
@@ -72,7 +70,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteReceipt`, {
@@ -86,8 +84,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
         signal,
     }).then(async (response) => {
 
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
         return response.status
 
     }).catch((error) => {
@@ -104,7 +101,7 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
@@ -120,9 +117,17 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     }).then(async (response) => {
 
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -137,7 +142,7 @@ export async function getReceiptByIds(receiptIds: string[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
@@ -152,9 +157,17 @@ export async function getReceiptByIds(receiptIds: string[]) {
     }).then(async (response) => {
 
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -170,7 +183,7 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
@@ -185,9 +198,17 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     }).then(async (response) => {
 
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
@@ -201,7 +222,7 @@ export async function getRecieptTotalApi(searchSDate) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptTotal`, {
@@ -216,9 +237,17 @@ export async function getRecieptTotalApi(searchSDate) {
     }).then(async (response) => {
 
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
