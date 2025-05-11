@@ -34,9 +34,10 @@ export default function CustomerSearch(
         customers: initialCustomers,
         initialCustomers
     });
+    const formRef = useRef(null)
     const pageByCustomers = useMemo(() =>
-            state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
-        , [state.customers, page])
+        state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
+    , [state.customers, page])
 
     const [loading, setLoading] = useState(true)
     const inputRef = useRef(null)
@@ -48,7 +49,7 @@ export default function CustomerSearch(
     //router control
     const deletePage = useDeletePage()
     const redirect = useRouterPath()
-    //TODO: 모바일버전 구현
+
     const registerCustomer = () => {
         //pc
         if (window.innerWidth > 620) {
@@ -60,10 +61,18 @@ export default function CustomerSearch(
         }
     }
 
+    //검색 중 거래처 검색시 다시 조회
+    useEffect(()=>{
+        const formData = new FormData(formRef.current!);
+        startTransition(() => {
+          action(formData);
+        });
+    },[initialCustomers])
+
     return (
         <>
             <div className='search-container'>
-                <form action={action}>
+                <form action={action} ref={formRef}>
                     <table className="search-table">
                         <colgroup>
                             <col style={{width: '5%'}}/>

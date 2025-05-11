@@ -56,7 +56,7 @@ export default function LedgerCustomersSearchResult({searchInfo}:{searchInfo:{se
   
       let ledgerCount = prev.ledgerCount + 1;
       const isLast = idx === searchInfo.searchResult.length - 1;
-      const isNewDate = ledger.timeStamp !== searchInfo.searchResult[idx + 1]?.timeStamp; 
+      const isNewDate = dayjs(ledger.timeStamp).format('YYYY-MM-DD') !== dayjs(searchInfo.searchResult[idx + 1]?.timeStamp).format('YYYY-MM-DD'); 
   
       //다음 ledger이랑 날짜가 다르거나 없으면 당일소계를 추가
       if ((ledgerCount > 1 && isNewDate) || isLast) {
