@@ -28,31 +28,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
 
-        /**
-         * 쿠키 확인용
-         */
-        Cookie[] cookies = httpRequest.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                System.out.println("Cookie: " + cookie.getName() + " = " + cookie.getValue());
-            }
-        } else {
-            System.out.println("요청에 쿠키 없음");
-        }
-        String uri = httpRequest.getRequestURI();        // /api/user/info
-        String method = httpRequest.getMethod();         // GET, POST 등
-        String queryString = httpRequest.getQueryString(); // 파라미터 ?id=1&name=test
-
-        System.out.println("요청 API URI: " + uri);
-        System.out.println("요청 메서드: " + method);
-        System.out.println("Query String: " + queryString);
-        System.out.println("전체 요청 URL: " + httpRequest.getRequestURL().toString());
-
-        if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
-            System.out.println("프리플라이트 OPTIONS 요청 감지: " + httpRequest.getRequestURI());
-        }
-
-
         // 특정 API는 필터링 없이 바로 통과
         if (isExcludedURI(requestURI)) {
             chain.doFilter(request, response);
@@ -62,7 +37,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // Request로부터 JWT 토큰을 추출
         String token = resolveCookieFilter(httpRequest)[0];
         if (token == null) {
-            System.out.println("토큰 없음");
             // 토큰이 없으면 401 Unauthorized 응답
             respondWithUnauthorized(httpResponse);
             return;
@@ -76,23 +50,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // JWT 토큰의 유효성을 검사
         String tokenValidationResult = jwtTokenProvider.validateToken(token);
         if ("true".equals(tokenValidationResult)) {
-            System.out.println("토큰 인증 성공");
             // 인증 객체를 SecurityContext에 세팅해야 함
             SecurityContextHolder.getContext().setAuthentication(authentication); // ✅ 추가 필요
             response = tokenTrue(token, httpResponse, authentication);
         } else if ("Expired JWT Token".equals(tokenValidationResult)) {
             // 토큰이 만료되었을 경우 처리
-            System.out.println("만료된 토큰");
             handleExpiredToken(httpResponse, authentication, dbRefreshToken, refreshValidate);
         } else {
             // 토큰이 유효하지 않으면 401 Unauthorized 응답
-            System.out.println("유효하지 않은 토큰");
             respondWithUnauthorized(httpResponse);
         }
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
         // 응답이 아직 커밋되지 않았다면, 필터 체인을 계속 진행
         if (!httpResponse.isCommitted()) {
             chain.doFilter(request, response);

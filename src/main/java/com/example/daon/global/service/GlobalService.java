@@ -14,7 +14,9 @@ import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.bbs.dto.response.BoardResponse;
+import com.example.daon.bbs.dto.response.FileResponse;
 import com.example.daon.bbs.model.BoardEntity;
+import com.example.daon.bbs.model.FileEntity;
 import com.example.daon.calendar.dto.response.CalendarResponse;
 import com.example.daon.calendar.model.CalendarEntity;
 import com.example.daon.company.dto.response.CompanyResponse;
@@ -430,6 +432,16 @@ public class GlobalService {
                 .content(boardEntity.getContent())
                 .createAt(boardEntity.getCreateAt())
                 .writer(boardEntity.getWriter())
+                .build();
+    }
+
+    public FileResponse convertToFileResponse(FileEntity fileEntity) {
+        return FileResponse
+                .builder()
+                .fileId(fileEntity.getFileId())
+                .boardId(fileEntity.getBoardId().getBoardId())
+                .fileName(fileEntity.getFileName())
+                .fileLink(fileEntity.getFilePath())
                 .build();
     }
 }
