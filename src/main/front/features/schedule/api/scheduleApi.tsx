@@ -17,9 +17,17 @@ export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
         signal,
 
     }).then(async (response) => {
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -45,9 +53,17 @@ export async function saveSchedules(scheduleList:RequestSchedule[]) {
 
     }).then(async (response) => {
 
+        await jwtFilter(response.status.toString());
         const text = await response.text();
-        jwtFilter(text)
-        return text ? JSON.parse(text) : [];
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
