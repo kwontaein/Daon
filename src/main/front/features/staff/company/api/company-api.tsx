@@ -96,8 +96,8 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
             body: JSON.stringify(companyData)
         })
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -118,8 +118,8 @@ export async function updateCompany(companyData: ResponseCompany) {
             body: JSON.stringify(companyData)
         })
         await jwtFilter(response.status.toString());
-
         return response.status;
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -140,8 +140,8 @@ export async function deleteCompany(companyId: string) {
             body: JSON.stringify({companyId})
         })
         await jwtFilter(response.status.toString());
-
         return response.status;
+        
     } catch (error) {
         console.error('Error:', error);
     }

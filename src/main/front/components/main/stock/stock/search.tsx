@@ -2,9 +2,6 @@
 import '@/styles/table-style/search.scss';
 
 import {startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
-
-
-import {changeFormData} from '@/features/share/changeFormData';
 import {initialStockState, stockSearchAction} from '@/features/stock/stock/action/stock-search';
 
 
@@ -27,8 +24,8 @@ export default function StockSearch({stockCate, initialStocks, page}: {
     const [condition, setCondition] = useState(initialStockState.condition !== 'none')
 
     const formRef = useRef(null)
-    const redirectPage = useDeletePage()
     const redirect = useRouterPath()
+    const deletePage = useDeletePage()
 
     const registerStock = () => {
         //pc
@@ -41,7 +38,6 @@ export default function StockSearch({stockCate, initialStocks, page}: {
         }
     }
 
-
     const submitHandler = () => {
         if (isPending) return
         const formData = new FormData(formRef.current!);
@@ -49,14 +45,26 @@ export default function StockSearch({stockCate, initialStocks, page}: {
         startTransition(() => {
             action(formData);
         });
+        deletePage()
     };
 
     useEffect(() => {
         if (state.searchResult) {
             setSerchResult(state.searchResult)
-            redirectPage()
         }
     }, [state])
+    
+    useEffect(()=>{
+        if(searchResult){
+            if (isPending) return
+            const formData = new FormData(formRef.current!);
+            formData.set('action', 'submit');
+            startTransition(() => {
+                action(formData);
+            });
+        }
+    },[initialStocks])
+
 
     return (
         <>
@@ -116,7 +124,7 @@ export default function StockSearch({stockCate, initialStocks, page}: {
                                         disabled={isPending}
                                         onClick={(e) => {
                                             setSerchResult(null)
-                                            redirectPage()
+                                            deletePage()
                                             setCondition(false)
                                         }}>전 체 보 기
                                     </button>

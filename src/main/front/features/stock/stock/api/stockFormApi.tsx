@@ -23,18 +23,8 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
         signal,
 
     }).then(async (response) => {
-
         await jwtFilter(response.status.toString());
-        const text = await response.text();
-
-        if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return response.status;
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -64,16 +54,7 @@ export async function updateStockApi(stock: RequestStock) {
     }).then(async (response) => {
 
         await jwtFilter(response.status.toString());
-        const text = await response.text();
-
-        if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return response.status;
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -101,18 +82,8 @@ export async function deleteStockApi(stockId: string) {
         signal,
 
     }).then(async (response) => {
-
         await jwtFilter(response.status.toString());
-        const text = await response.text();
-
-        if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return response.status;
 
     }).catch((error) => {
         if (error.name === 'AbortError') {

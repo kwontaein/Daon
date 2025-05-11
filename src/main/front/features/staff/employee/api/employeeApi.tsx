@@ -141,9 +141,8 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
         cache: 'no-store'
     }).then(async (response) => {
         await jwtFilter(response.status.toString());
-
-
         return response.status
+
     }).catch((error) => {
         console.error('Error:', error)
     })
@@ -164,9 +163,8 @@ export const deleteEmployeeApi = async (userId: string) => {
         cache: 'no-store'
     }).then(async (response) => {
         await jwtFilter(response.status.toString());
-
-
         return response.status
+        
     }).catch((error) => {
         console.error('Error:', error)
     })
