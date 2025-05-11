@@ -51,6 +51,7 @@ export async function getCompanyDetail(companyId: string) {
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
+        method: "POST",
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie

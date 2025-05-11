@@ -115,6 +115,44 @@ export async function getTasksApi() {
 }
 
 
+export async function getAdminTasksApi() {
+    const controller = new AbortController();
+    const signal = controller.signal;//작업 취소 컨트롤
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+    
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAdminTask`, {
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: cookie
+        },
+        credentials: 'include',
+        signal,
+        next: {revalidate: 3600, tags: ['adminTask']} //1시간마다 재검증
+    }).then(async (response) => {
+        await jwtFilter(response.status.toString());
+
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
+    }).catch((error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }
+        console.error('Error:', error)
+    }).finally(() => clearTimeout(timeoutId));
+}
+
+
 export const saveTask = async (task: SaveTask) => {
 
     const accessToken = (await cookies()).get('accessToken')?.value
@@ -129,7 +167,8 @@ export const saveTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });        await jwtFilter(response.status.toString());
+        });
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -151,7 +190,8 @@ export const updateTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });        await jwtFilter(response.status.toString());
+        });
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -174,7 +214,8 @@ export const deleteTask = async (taskIds: string[]) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskIds}),
-        });        await jwtFilter(response.status.toString());
+        });
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -197,7 +238,8 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId: taskId, actionTaken: actionTaken}),
-        });        await jwtFilter(response.status.toString());
+        });
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {
@@ -220,7 +262,8 @@ export const updateTaskUserApi = async (taskId, assignedUser) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId, assignedUser}),
-        });        await jwtFilter(response.status.toString());
+        });
+        await jwtFilter(response.status.toString());
 
         return response.status;
     } catch (error) {

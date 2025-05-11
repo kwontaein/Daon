@@ -36,7 +36,8 @@ public class SalesVATService {
     public void saveSalesVAT(SalesVATRequest salesVATRequest) {
         CustomerEntity customer = customerRepository.findById(salesVATRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
         categorySelectionService.findAndSave(salesVATRequest.getCategorySelection());
-        salesVATRepository.save(salesVATRequest.toSalesVATEntity(customer));
+        SalesVATEntity salesVATEntity = salesVATRepository.save(salesVATRequest.toSalesVATEntity(customer));
+        salesVATRequest.setSalesVATId(salesVATEntity.getSalesVATId()); //ㄴㄴ 그건 너가 보낸게 있고 생성은 null이라 임의 지정 해야ㅑ함
     }
 
     public void updateSalesVAT(SalesVATRequest salesVATRequest) {
@@ -51,6 +52,7 @@ public class SalesVATService {
     }
 
     public List<SalesVATResponse> getSalesVAT(SalesVATRequest salesVATRequest) {
+        System.out.println("salesVATRequest.getSalesVATId() : " + salesVATRequest.getSalesVATId());
         List<SalesVATEntity> salesVATEntities = salesVATRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -70,6 +72,7 @@ public class SalesVATService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+        System.out.println(salesVATEntities.size());
         return salesVATEntities.stream().map(globalService::convertToSalesVATResponse).collect(Collectors.toList());
     }
 
