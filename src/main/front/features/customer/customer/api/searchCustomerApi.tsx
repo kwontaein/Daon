@@ -89,9 +89,8 @@ export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'c
 
         });
         await jwtFilter(response.status.toString());
-
-
         return response.status
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -109,9 +108,10 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
             credentials: 'include',
             body: JSON.stringify(postData),
 
-        });        await jwtFilter(response.status.toString());
-
+        });        
+        await jwtFilter(response.status.toString());
         return response.status
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -132,9 +132,8 @@ export const deleteCustomerApi = async (customerId: string) => {
 
         });
         await jwtFilter(response.status.toString());
-
-
         return response.status
+        
     } catch (error) {
         console.error('Error:', error);
     }
