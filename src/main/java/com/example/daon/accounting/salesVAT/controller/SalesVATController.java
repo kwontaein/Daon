@@ -2,7 +2,6 @@ package com.example.daon.accounting.salesVAT.controller;
 
 import com.example.daon.accounting.salesVAT.dto.request.SalesVATRequest;
 import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
-import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.accounting.salesVAT.service.SalesVATService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
