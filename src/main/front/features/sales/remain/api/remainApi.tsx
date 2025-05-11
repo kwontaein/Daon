@@ -5,11 +5,8 @@ import {cookies} from "next/headers";
 
 export const getNoPaidApi = async (searchCondition: RequestRemain) => {
 
-    const accessToekn= (await cookies()).get('accessToken');
-
-
-    const cookieStore = (await cookies()).get('accessToken');
-    const cookie = accessToekn.value
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getNoPaid`, {
