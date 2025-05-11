@@ -33,6 +33,7 @@ public class PurchaseVATService {
     }
 
     public void updatePurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
+        System.out.println("purchaseVATRequest.getId : " + purchaseVATRequest.getPurchaseVATId());
         PurchaseVATEntity purchaseVATEntity = purchaseVATRepository.findById(purchaseVATRequest.getPurchaseVATId()).orElseThrow(() -> new RuntimeException("존재하지 않는 항목입니다."));
         CustomerEntity customer = customerRepository.findById(purchaseVATRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("존재하지 않는 고객입니다."));
         purchaseVATEntity.updateFromRequest(purchaseVATRequest, customer);

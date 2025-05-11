@@ -160,7 +160,7 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
             credentials: 'include',
             body: JSON.stringify(searchCondition ?? {}),
             ...(searchCondition ? {cache: 'no-store'} : {}),
-            next: {revalidate: 3600, tags: ['procurement']} //1시간마다 재검증
+            next: {revalidate: 3600, tags: ['procurementSettlement']} //1시간마다 재검증
         })
         await jwtFilter(response.status.toString());
 

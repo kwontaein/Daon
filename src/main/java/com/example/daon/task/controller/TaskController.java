@@ -4,10 +4,7 @@ import com.example.daon.task.dto.request.TaskRequest;
 import com.example.daon.task.dto.response.TaskResponse;
 import com.example.daon.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,17 +23,18 @@ public class TaskController {
         return taskResponses;
     }
 
+    @GetMapping("api/getAdminTask")
+    public List<TaskResponse> getAdminTask() {
+        List<TaskResponse> taskResponses = taskService.getAdminTasks();
+        return taskResponses;
+    }
+
+
     //업무 하나만 조회
     @PostMapping("api/getTask")
     public TaskResponse getTask(@RequestBody TaskRequest taskRequest) {
         TaskResponse taskResponse = taskService.getTask(taskRequest.getTaskId());
         return taskResponse;
-    }
-
-    //조치 안된 업무조회 - TODO api 명 변경 필요
-    @GetMapping("api/getTaskToday")
-    public List<TaskResponse> getTaskToday() {
-        return taskService.getTaskToday();
     }
 
     //업무검색-조건
