@@ -9,7 +9,7 @@ export async function getEstimateApi(estimateId: string) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
@@ -23,11 +23,18 @@ export async function getEstimateApi(estimateId: string) {
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -41,7 +48,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEstimate`, {
@@ -55,8 +62,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
         signal,
         cache: 'no-cache'
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {
@@ -72,7 +78,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEstimate`, {
@@ -85,8 +91,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
         body: JSON.stringify(estimate),
         signal,
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {
@@ -99,7 +104,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
 
 export async function deleteEstimate(estimateId) {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
@@ -111,8 +116,7 @@ export async function deleteEstimate(estimateId) {
         credentials: 'include',
         body: JSON.stringify({estimateId}),
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
         return response.status
     }).catch((error) => {
@@ -139,7 +143,7 @@ export async function searchAllEstimateApi(task: boolean) {
         receipted: false
     }
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
@@ -153,11 +157,18 @@ export async function searchAllEstimateApi(task: boolean) {
         next: {revalidate: 3600, tags: ['estimate']}, //1시간마다 재검증
         signal,
     }).then(async (response) => {        
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -173,8 +184,9 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     const timeoutId = setTimeout(() => controller.abort(), 10000)
     searchCondition.receipted = true;
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
+    
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
         method: "POST",
         headers: {
@@ -185,11 +197,18 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
         body: JSON.stringify(searchCondition),
         signal,
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -200,7 +219,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
 
 export async function transEstimateToReceiptApi(postData: { estimateId: string, receiptDate?: Date, note?: string }) {
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/estimatesPaid`, {
@@ -212,11 +231,18 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
         credentials: 'include',
         body: JSON.stringify(postData),
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        if (!text) return [];
-        return JSON.parse(text);
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
