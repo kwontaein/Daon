@@ -34,6 +34,7 @@ public class CompanyController {
 
     @PostMapping("api/getCompanyDetail")
     public CompanyEntity getCompanyDetail(@RequestBody CompanyRequest companyRequest) {
+        System.out.println("실행?");
         return companyService.getCompanyDetail(companyRequest);
     }
 

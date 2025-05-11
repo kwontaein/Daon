@@ -94,7 +94,7 @@ public class LedgerService {
 
             // 전표 선택 옵션 추가
             addCategoryPredicates(ledgerRequest, root, predicates);
-            query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
+            query.orderBy(criteriaBuilder.asc(root.get("timeStamp")));
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

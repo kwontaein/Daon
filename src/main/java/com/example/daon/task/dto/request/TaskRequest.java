@@ -49,6 +49,8 @@ public class TaskRequest {
 
     private String actionTaken;
 
+    private boolean admin;
+
     public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt, EstimateEntity estimate) {
         return TaskEntity
                 .builder()

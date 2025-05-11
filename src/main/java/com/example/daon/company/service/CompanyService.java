@@ -48,6 +48,7 @@ public class CompanyService {
     public CompanyEntity getCompanyDetail(CompanyRequest companyRequest) {
         CompanyEntity company = companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
         globalService.convertToCompanyResponse(company);
+        System.out.println(company);
         return company;
     }
 }

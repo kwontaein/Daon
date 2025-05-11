@@ -37,11 +37,24 @@ public class TaskService {
     private final GlobalService globalService;
 
     //관리자데이터조회
-    public List<TaskResponse> getTasks() {
+    public List<TaskResponse> getAdminTasks() {
         List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.isNotNull(root.get("completeAt")));
+            query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
+            // 동적 조건을 조합하여 반환
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+        return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
+    }
+
+    //처음 목록 조회
+    public List<TaskResponse> getTasks() {
+        List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
+            //조건문 사용을 위한 객체
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.isNull(root.get("completeAt")));
             query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -56,6 +69,7 @@ public class TaskService {
 
     //업무검색 - 거래처 구분 담당자 거래처분류
     public List<TaskResponse> getTaskByOption(TaskRequest taskRequest) {
+        System.out.println("실행 getTaskByOption");
         List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -92,7 +106,7 @@ public class TaskService {
             List<Predicate> predicates = new ArrayList<>();
 
             //처리완료 여부가 false 인 것들
-            predicates.add(criteriaBuilder.equal(root.get("isCompleted"), false));
+            predicates.add(criteriaBuilder.isNull(root.get("completeAt")));
 
             query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
             // 동적 조건을 조합하여 반환
