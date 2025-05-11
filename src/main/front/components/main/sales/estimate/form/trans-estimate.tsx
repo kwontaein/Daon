@@ -38,11 +38,13 @@ export default function TransEstimate({estimateId, isMobile}:{estimateId:string,
         if(state.status){
             if(state.status===200){
                 window.alert('전표전환이 완료되었습니다.')
+                window.close()
             }else{
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
         }
     },[state])
+    
     return(
         <section className='register-form-container' style={{padding:'8px', boxSizing:'border-box'}}>
             <header className="register-header">
@@ -67,7 +69,7 @@ export default function TransEstimate({estimateId, isMobile}:{estimateId:string,
             </form>
             <div className='button-container'>
                 <button onClick={submitHandler} disabled={isPending}>전표전환</button>
-                <button onClick={isMobile? window.history.back:window.close}>취소</button>
+                <button onClick={()=>{isMobile? window.history.back():window.close()}}>취소</button>
             </div>
        </section>
     )

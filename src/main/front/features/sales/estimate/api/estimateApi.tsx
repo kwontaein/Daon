@@ -63,8 +63,8 @@ export async function saveEstimate(estimate: RequestEstimate) {
         cache: 'no-cache'
     }).then(async (response) => {        
         await jwtFilter(response.status.toString());
-
         return response.status
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -92,8 +92,8 @@ export async function updateEstimate(estimate: RequestEstimate) {
         signal,
     }).then(async (response) => {        
         await jwtFilter(response.status.toString());
-
         return response.status
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -117,8 +117,8 @@ export async function deleteEstimate(estimateId) {
         body: JSON.stringify({estimateId}),
     }).then(async (response) => {        
         await jwtFilter(response.status.toString());
-
         return response.status
+
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
@@ -232,17 +232,8 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
         body: JSON.stringify(postData),
     }).then(async (response) => {
         await jwtFilter(response.status.toString());
-
-        const text = await response.text();
-
-        if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return response.status
+        
     }).catch((error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
