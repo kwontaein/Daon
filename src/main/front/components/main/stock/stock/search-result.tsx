@@ -60,7 +60,7 @@ const StockSearchResult = React.memo(({pageByStocks}:{pageByStocks:ResponseStock
                             <td>{stock.outPrice.toLocaleString('ko-KR')}</td>
                             <td className='icon' onClick={()=> target === stock.stockId ? setTarget(null) :setTarget(stock.stockId)}>
                                 <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === stock.stockId &&{color:'orange'}}/>
-                                {target === stock.stockId && <StockOptions stockId={stock.stockId}/>}
+                                {target === stock.stockId && <StockOptions stockId={stock.stockId} productName={stock.productName} modelName={stock.modelName}/>}
                             </td>
                         </tr>
                     ))}

@@ -9,7 +9,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
@@ -26,10 +26,18 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
             ...(searchCondition.productName ? {tags: [`${searchCondition.productName}`]} : {})
         }
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -44,7 +52,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
@@ -61,10 +69,18 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
             tags: ['stock'],
         }
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {
@@ -80,7 +96,7 @@ export async function getStockByIdApi(stockId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockById`, {
@@ -93,10 +109,18 @@ export async function getStockByIdApi(stockId: string) {
         body: JSON.stringify({stockId}),
         signal,
     }).then(async (response) => {
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
 
     }).catch((error) => {
         if (error.name === 'AbortError') {

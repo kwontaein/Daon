@@ -6,7 +6,7 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 
 //거래처별원장
 export async function getLedgerCustomerApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
@@ -18,10 +18,18 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -30,7 +38,7 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
 
 //복수거래처원장
 export async function getLedgerCustomesrApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
@@ -42,10 +50,18 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -54,7 +70,7 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
 
 //품목별원장
 export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
@@ -66,10 +82,18 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -77,7 +101,7 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
 
 //매출장
 export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
@@ -89,10 +113,18 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -100,7 +132,7 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
 
 //매입장
 export async function getPurchaseReceiptApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
@@ -112,10 +144,18 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -123,7 +163,7 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
 
 //관리비원장
 export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
@@ -135,10 +175,18 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -147,7 +195,7 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
 
 //재고조사서
 export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
@@ -159,10 +207,18 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -170,7 +226,7 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
 
 //기타원장
 export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) {
-    const accessToken = (await cookies()).get('accessToken').value
+    const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
@@ -182,10 +238,18 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        const text = await response.text();
-        jwtFilter(text)
+        await jwtFilter(response.status.toString());
 
-        return text ? JSON.parse(text) : [];
+        const text = await response.text();
+
+        if (!text) return null;
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('JSON 파싱 에러:', parseError);
+            return null;
+        }
     } catch (error) {
         console.error('Error:', error);
     }
