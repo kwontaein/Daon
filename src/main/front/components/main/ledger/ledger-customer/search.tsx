@@ -12,6 +12,7 @@ import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actio
 import { ResponseStock } from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import LedgerCustomerSearchResult from './search-result';
+import { useModalState } from '@/store/zustand/modal';
 
 export default function LedgerCustomerSearch({affiliations, stockCates}:{affiliations:Affiliation[], stockCates:StockCate[]}){
     const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
@@ -23,7 +24,25 @@ export default function LedgerCustomerSearch({affiliations, stockCates}:{affilia
     })
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
+    const {customer, setModalState} = useModalState()
 
+    useEffect(()=>{
+        //거래처별 원장조회를 누를 시 ModalState 갱신 후 ledger-customer로 이동하여 조회 
+        //첫 랜더링 시에만 검색처리
+        const {customerId,customerName} = customer
+        if(customerId && customerName){
+
+            const formData = new FormData(formRef.current);
+            formData.set('customerName',customerName)
+            formData.set('customerId',customerId)
+            formData.set('action', 'customer');
+            startTransition(() => {
+                action(formData);
+            });
+            //조회 후 값 비워주기 -> 재조회 방지
+            setModalState({customer:{}})
+        }
+    },[])
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
