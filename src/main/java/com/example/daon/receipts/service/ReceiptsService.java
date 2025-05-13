@@ -69,7 +69,7 @@ public class ReceiptsService {
                 predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
             }
             //todo 정렬
-
+            query.orderBy(criteriaBuilder.desc(root.get("timeStamp"))); //날짜순 정렬
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
