@@ -26,12 +26,16 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         await jwtFilter(response.status.toString());
         return response.status
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
@@ -56,12 +60,16 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
         await jwtFilter(response.status.toString());
         return response.status
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 
@@ -87,12 +95,16 @@ export async function deleteReceiptApi(receiptIds: string[]) {
         await jwtFilter(response.status.toString());
         return response.status
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 
@@ -115,26 +127,22 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
         signal,
         next: {revalidate: 3600, tags: ["receipt"]}
     }).then(async (response) => {
-
-
         await jwtFilter(response.status.toString());
         const text = await response.text();
 
         if (!text) return null;
+        return JSON.parse(text);
 
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function getReceiptByIds(receiptIds: string[]) {
@@ -155,26 +163,22 @@ export async function getReceiptByIds(receiptIds: string[]) {
         body: JSON.stringify({receiptIds}),
         signal,
     }).then(async (response) => {
-
-
         await jwtFilter(response.status.toString());
         const text = await response.text();
 
         if (!text) return null;
+        return JSON.parse(text);
 
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 
@@ -196,25 +200,21 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
         body: JSON.stringify(receiptCondition),
         signal,
     }).then(async (response) => {
-
-
         await jwtFilter(response.status.toString());
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-    }).catch((error) => {
+        return JSON.parse(text);
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function getRecieptTotalApi(searchSDate) {
@@ -241,17 +241,15 @@ export async function getRecieptTotalApi(searchSDate) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-    }).catch((error) => {
+        return JSON.parse(text);
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }

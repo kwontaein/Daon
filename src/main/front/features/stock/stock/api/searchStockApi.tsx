@@ -28,20 +28,18 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         const text = await response.text();
 
         if (!text) return null;
+        return JSON.parse(text);
 
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function getStockListApi(searchCondition: StockSearchCondition) {
@@ -71,20 +69,18 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
         const text = await response.text();
 
         if (!text) return null;
+        return JSON.parse(text);
 
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 
@@ -111,19 +107,17 @@ export async function getStockByIdApi(stockId: string) {
         const text = await response.text();
 
         if (!text) return null;
+        return JSON.parse(text);
 
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 

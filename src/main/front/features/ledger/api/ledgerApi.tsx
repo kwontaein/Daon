@@ -8,7 +8,7 @@ import {jwtFilter} from "@/features/login/api/loginApi";
 export async function getLedgerCustomerApi(searchCondition: LedgerSearchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
-    try {
+    try{
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
             method: "POST",
             headers: {
@@ -19,20 +19,20 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
             body: JSON.stringify(searchCondition),
         });
         await jwtFilter(response.status.toString());
-
+    
         const text = await response.text();
-
+    
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
+        return JSON.parse(text);
+    }catch (error) {
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
         }
-    } catch (error) {
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
+   
 }
 
 
@@ -55,15 +55,13 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -87,15 +85,13 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -118,15 +114,13 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -149,15 +143,13 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -180,15 +172,13 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -212,15 +202,13 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -243,14 +231,12 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
