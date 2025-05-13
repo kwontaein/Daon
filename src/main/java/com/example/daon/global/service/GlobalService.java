@@ -11,6 +11,7 @@ import com.example.daon.accounting.purchaseVAT.dto.response.PurchaseVATResponse;
 import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
 import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
+import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.bbs.dto.response.BoardResponse;
@@ -23,7 +24,6 @@ import com.example.daon.company.dto.response.CompanyResponse;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.dto.response.AffiliationResponse;
 import com.example.daon.customer.dto.response.CustomerResponse;
-import com.example.daon.customer.dto.response.UserResponse;
 import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.dto.response.EstimateItemResponse;
@@ -94,8 +94,8 @@ public class GlobalService {
     }
 
 
-    public com.example.daon.admin.dto.response.UserResponse convertToUserResponse(UserEntity user) {
-        return com.example.daon.admin.dto.response.UserResponse
+    public UserResponse convertToUserResponse(UserEntity user) {
+        return UserResponse
                 .builder()
                 .userId(user.getUserId())
                 .password(null)
@@ -147,10 +147,6 @@ public class GlobalService {
 
     //응답 변환
     public CustomerResponse convertToCustomerResponse(CustomerEntity customer) {
-        UserResponse userResponse = null;
-        if (customer.getUser() != null) {
-            userResponse = new UserResponse(customer.getUser().getUserId(), customer.getUser().getUsername());
-        }
         return CustomerResponse
                 .builder()
                 .customerId(customer.getCustomerId())
@@ -176,7 +172,7 @@ public class GlobalService {
                 .contactInfo(customer.getContactInfo())
                 .phoneNumber(customer.getPhoneNumber())
                 .fax(customer.getFax())
-                .user(userResponse)
+                .userId(customer.getUser() != null ? customer.getUser().getUserId() : null)
                 .affiliationId(customer.getCustomerAffiliation().getCustomerAffiliationId())
                 .affiliationName(customer.getCustomerAffiliation().getCustomerAffiliationName())
                 .build();
