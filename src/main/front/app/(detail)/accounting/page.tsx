@@ -43,7 +43,6 @@ export default async function AccountingPage({searchParams}: {
             accountingData = await getProcurementApi({procurementSettlementId: id})
             break;
     }
-    console.log(accountingData);
 
 
     return <AccountingForm mode={mode} division={division as keyof typeof AccountingDivision}

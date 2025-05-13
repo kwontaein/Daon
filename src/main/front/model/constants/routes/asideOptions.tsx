@@ -72,3 +72,35 @@ export const AsideKeyOfValues= Object.values(AsideOptions).reduce((acc, category
     });
     return acc;
 }, {} as Record<string, string>);
+
+export const MAIN_URL = '/main'
+
+export const AUTH_ROUTES = {
+    LOGIN: '/',
+    SIGN_UP: '/register-employee'
+}
+
+export const PUBLIC_ROUTES = [AUTH_ROUTES.LOGIN]
+
+
+
+
+export const ROLE_CHECK_ROUTES ={
+    sales:[
+        'receipt',
+        'estimate',
+        'remain',
+        'official',
+    ],
+    staff:[
+        'company',
+        'employee',
+        'dept',
+    ],
+    customer:[
+        'customer',
+        'affiliation'
+    ]
+}
+
+

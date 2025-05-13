@@ -23,18 +23,15 @@ export const getEmployeeApi = async () => {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-    }).catch((error) => {
+        return JSON.parse(text);
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
+        }else if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error)
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 
 }
@@ -58,18 +55,15 @@ export const getEmployeeDetailApi = async (userId: string) => {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
-    }).catch((error) => {
+        return JSON.parse(text);
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
+        }else if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error)
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 
@@ -92,8 +86,13 @@ export const userIdDuplicationChecked = async (userId: string): Promise<boolean 
 
 
         return response.json()
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 
@@ -118,8 +117,13 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
 
 
         return response.status
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 
@@ -143,8 +147,13 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
         await jwtFilter(response.status.toString());
         return response.status
 
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 export const deleteEmployeeApi = async (userId: string) => {
@@ -165,7 +174,12 @@ export const deleteEmployeeApi = async (userId: string) => {
         await jwtFilter(response.status.toString());
         return response.status
         
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
