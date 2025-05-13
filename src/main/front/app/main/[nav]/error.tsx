@@ -1,26 +1,22 @@
-'use client';
+// app/main/[nav]/error.tsx
+'use client'; // 클라이언트 컴포넌트로 선언
 
 import { useEffect } from 'react';
 
-interface ErrorProps {
-  error: Error;
-  reset: () => void;
-}
-
-export default function GlobalError({ error }: ErrorProps) {
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
-    if (error?.message) {
-      window.alert(error.message);
+    if (error.message) {
+        alert(error.message); 
+        window.location.replace('/');
+    } else {
+        alert('알 수 없는 에러가 발생했습니다.');
     }
-    // 여기서 리디렉트 하고 싶다면 아래 코드도 사용 가능
-    window.location.replace('/');
   }, [error]);
 
   return (
-    <html>
-      <body>
-        {/* <h2>요청 중 문제가 발생했습니다.</h2> */}
-      </body>
-    </html>
+    <div>
+      <h2>문제가 발생했습니다.</h2>
+      <button onClick={reset}>다시 시도하기</button>
+    </div>
   );
 }
