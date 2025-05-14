@@ -134,9 +134,12 @@ public class AdminService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void DeleteEmployee(UserRequest userRequest) {
         try {
-            userRepository.deleteById(userRequest.getUserId());
+            UserEntity user = userRepository.findById(userRequest.getUserId()).orElse(null);
+            enableUrlRepository.deleteByUser(user);
+            userRepository.delete(user);
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new IllegalStateException("유저를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
@@ -200,4 +203,13 @@ public class AdminService {
         return globalService.convertToEnableUrlResponse(enableUrl);
     }
 
+    public void test() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        for (UserEntity user : userEntities) {
+            if (enableUrlRepository.findByUser(user) != null) {
+                EnableUrlRequest enableUrlRequest = new EnableUrlRequest();
+                enableUrlRepository.save(enableUrlRequest.toEntityFirstTime(user));
+            }
+        }
+    }
 }
