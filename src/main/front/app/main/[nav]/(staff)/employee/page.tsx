@@ -1,7 +1,7 @@
 import PermissionManagementForm from "@/components/main/staff/employee/employee-permission-form";
 import EmployeeTable from "@/components/main/staff/employee/employee-table";
 import CustomLoading from "@/components/share/loading/loading";
-import { getEmployeeApi } from "@/features/staff/employee/api/employeeApi";
+import { getEmployeeApi, getEnableUrl } from "@/features/staff/employee/api/employeeApi";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { Suspense } from "react";
@@ -23,7 +23,8 @@ export default async function StaffPage({searchParams} : {
         const findEmployee = initialEmployee.find(({userId})=>userId===permissionTarget.trim())
         const {userId, name} = findEmployee
         if(userId && name){
-            return <PermissionManagementForm userId={userId} userName={name}/>
+            const initialPermission = await getEnableUrl(userId)
+            return <PermissionManagementForm userId={userId} userName={name} initialPermission={initialPermission}/>
         }
     }
     

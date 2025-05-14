@@ -37,6 +37,7 @@ export  function jwtFilter(statusCode: string): Promise<void> {
         '401': '로그인이 필요합니다.',
         '403': '접근 권한이 없습니다.',
         '500': '서버 오류입니다. 관리자에게 문의하세요.',
+        '404': '데이터가 존재하지 않습니다.'
       };
 
     // 서버 환경: window가 undefined
