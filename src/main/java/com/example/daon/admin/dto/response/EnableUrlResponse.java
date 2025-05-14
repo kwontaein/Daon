@@ -30,7 +30,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Sales {
+    public static class Sales {
         private boolean receipt; // 전표입력
         private boolean task; // 업무관리
         private boolean admin; // 관리자데이터조회
@@ -44,7 +44,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Customer {
+    public static class Customer {
         private boolean customer; // 거래처관리
         private boolean affiliation; // 소속관리
     }
@@ -53,7 +53,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Stock {
+    public static class Stock {
         private boolean stock; // 품목/재고 관리
         private boolean stockCate; // 분류관리
         private boolean point; // 구매적립금설정
@@ -63,7 +63,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Ledger {
+    public static class Ledger {
         private boolean ledgerCustomer; // 거래처별원장출력
         private boolean ledgerCustomers; // 복수거래처원장출력
         private boolean ledgerStock; // 품목별원장출력
@@ -78,7 +78,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Staff {
+    public static class Staff {
         private boolean company; // 회사정보
         private boolean employee; // 사원관리
         private boolean dept; // 부서관리
@@ -88,7 +88,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Accounting {
+    public static class Accounting {
         private boolean pvat; // 매입부가세
         private boolean svat; // 매출부가세
         private boolean pset; // 조달및수익계약정산
@@ -100,7 +100,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Board {
+    public static class Board {
         private boolean board; // 사내게시판
 
     }
@@ -109,7 +109,7 @@ public class EnableUrlResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public class Schedule {
+    public static class Schedule {
         private boolean schedule; // 내일정관리
     }
 }
