@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EnableUrlRequest {
 
     private UUID urlId;
-    private UserEntity user;
+    private String userId;
     private boolean receipt; // 전표입력
     private boolean task; // 업무관리
     private boolean admin; // 관리자데이터조회
