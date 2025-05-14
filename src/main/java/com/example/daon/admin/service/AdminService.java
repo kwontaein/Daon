@@ -3,6 +3,7 @@ package com.example.daon.admin.service;
 import com.example.daon.admin.dto.request.DeptRequest;
 import com.example.daon.admin.dto.request.EnableUrlRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.dto.response.EnableUrlResponse;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.model.EnableUrl;
@@ -118,7 +119,7 @@ public class AdminService {
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         UserEntity user = userRepository.save(userRequest.toEntity(passwordEncoder, dept));
         EnableUrlRequest enableUrlRequest = new EnableUrlRequest();
-        enableUrlRequest.toEntity(user);
+        enableUrlRequest.toEntityFirstTime(user);
     }
 
     public List<UserResponse> GetEmployees() {
@@ -184,4 +185,19 @@ public class AdminService {
     public UserResponse getMyDetail() {
         return globalService.convertToUserResponse(globalService.resolveUser(null));
     }
+
+
+    //접근가능링크 수정
+    public void UpdateEnableUrl(EnableUrlRequest enableUrlRequest) {
+        EnableUrl enableUrl = enableUrlRepository.findById(enableUrlRequest.getUrlId()).orElse(null);
+        enableUrl.updateFromRequest(enableUrlRequest);
+        enableUrlRepository.save(enableUrl);
+    }
+
+    //접근가능링크 읽기
+    public EnableUrlResponse getEnableUrl(EnableUrlRequest enableUrlRequest) {
+        EnableUrl enableUrl = enableUrlRepository.findByUser(enableUrlRequest.getUser()).orElse(null);
+        return globalService.convertToEnableUrlResponse(enableUrl);
+    }
+
 }

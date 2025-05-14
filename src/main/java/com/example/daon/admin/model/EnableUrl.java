@@ -1,5 +1,6 @@
 package com.example.daon.admin.model;
 
+import com.example.daon.admin.dto.request.EnableUrlRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -95,5 +96,39 @@ public class EnableUrl {
     private boolean board = false;
     @Builder.Default
     private boolean schedule = false;
+
+    public void updateFromRequest(EnableUrlRequest request) {
+
+        this.receipt = request.isReceipt(); // 전표입력
+        this.task = request.isTask(); // 업무관리
+        this.admin = request.isAdmin(); // 관리자데이터조회
+        this.estimate = request.isEstimate(); // 견적서관리
+        this.taskEstimate = request.isTaskEstimate(); // 견적서관리 [업무]
+        this.remain = request.isRemain(); // 미수/미지급현황
+        this.official = request.isOfficial(); // 관리비관리
+        this.customer = request.isCustomer(); // 거래처관리
+        this.affiliation = request.isAffiliation(); // 소속관리
+        this.stock = request.isStock(); // 품목/재고 관리
+        this.stockCate = request.isStockCate(); // 분류관리
+        this.point = request.isPoint(); // 구매적립금설정
+        this.ledgerCustomer = request.isLedgerCustomer(); // 거래처별원장출력
+        this.ledgerCustomers = request.isLedgerCustomers(); // 복수거래처원장출력
+        this.ledgerStock = request.isLedgerStock(); // 품목별원장출력
+        this.ledgerSales = request.isLedgerSales(); // 매출장 출력
+        this.ledgerPurchase = request.isLedgerPurchase(); // 매입장 출력
+        this.ledgerOfficial = request.isLedgerOfficial(); // 관리비 원장출력
+        this.ledgerStockCount = request.isLedgerStockCount(); // 재고조사서
+        this.ledgerEtc = request.isLedgerEtc(); // 기타원장
+        this.company = request.isCompany(); // 회사정보
+        this.employee = request.isEmployee(); // 사원관리
+        this.dept = request.isDept(); // 부서관리
+        this.pvat = request.isPvat(); // 매입부가세
+        this.svat = request.isSvat(); // 매출부가세
+        this.pset = request.isPset(); // 조달및수익계약정산
+        this.card = request.isCard(); // 카드결제내역
+        this.proof = request.isProof(); // 지출증빙
+        this.board = request.isBoard(); // 사내게시판
+        this.schedule = request.isSchedule(); // 내일정관리
+    }
 }
 
