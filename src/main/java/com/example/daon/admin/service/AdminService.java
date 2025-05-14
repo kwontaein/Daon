@@ -119,7 +119,7 @@ public class AdminService {
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         UserEntity user = userRepository.save(userRequest.toEntity(passwordEncoder, dept));
         EnableUrlRequest enableUrlRequest = new EnableUrlRequest();
-        enableUrlRequest.toEntityFirstTime(user);
+        enableUrlRepository.save(enableUrlRequest.toEntityFirstTime(user));
     }
 
     public List<UserResponse> GetEmployees() {
