@@ -1,16 +1,22 @@
 package com.example.daon.admin.service;
 
 import com.example.daon.admin.dto.request.DeptRequest;
+import com.example.daon.admin.dto.request.EnableUrlRequest;
 import com.example.daon.admin.dto.request.UserRequest;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
+import com.example.daon.admin.model.EnableUrl;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
+import com.example.daon.admin.repository.EnableUrlRepository;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +32,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +43,7 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final UserRepository userRepository;
     private final DeptRepository deptRepository;
+    private final EnableUrlRepository enableUrlRepository;
     private final RedisService redisService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -68,6 +77,12 @@ public class AdminService {
             tokenInfo = jwtTokenProvider.generateToken(authentication, response);
             redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
 
+            EnableUrl enableUrl = enableUrlRepository.findByUser(userEntity).orElse(null);
+
+            if (enableUrl != null) {
+                setEnableUrlCookie(enableUrl, response); // ✅ 분리된 메서드 호출
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
 
         } catch (UsernameNotFoundException e) {
@@ -78,11 +93,32 @@ public class AdminService {
     }
 
 
+    //접근가능경로 쿠키 생성
+    public void setEnableUrlCookie(EnableUrl enableUrl, HttpServletResponse response) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String enableUrlJson = objectMapper.writeValueAsString(enableUrl);
+            String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
+
+            Cookie cookie = new Cookie("enable_url", encoded);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60); // 1시간
+
+            response.addCookie(cookie);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("EnableUrl 쿠키 직렬화 실패", e);
+        }
+    }
+
+
     //사원정보 crud
 
     public void CreateEmployee(UserRequest userRequest) {
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
-        userRepository.save(userRequest.toEntity(passwordEncoder, dept));
+        UserEntity user = userRepository.save(userRequest.toEntity(passwordEncoder, dept));
+        EnableUrlRequest enableUrlRequest = new EnableUrlRequest();
+        enableUrlRequest.toEntity(user);
     }
 
     public List<UserResponse> GetEmployees() {
