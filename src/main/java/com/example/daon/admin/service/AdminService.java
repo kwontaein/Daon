@@ -192,7 +192,7 @@ public class AdminService {
 
     //접근가능링크 수정
     public void UpdateEnableUrl(EnableUrlRequest enableUrlRequest) {
-        EnableUrl enableUrl = enableUrlRepository.findById(enableUrlRequest.getUrlId()).orElse(null);
+        EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
         enableUrl.updateFromRequest(enableUrlRequest);
         enableUrlRepository.save(enableUrl);
     }
