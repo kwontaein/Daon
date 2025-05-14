@@ -14,9 +14,7 @@ export default async function TestPage() {
      console.log("서버 요청 결과:", response.data);*/
     async function test() {
         try {
-            const response = await axios.post('http://localhost:8080/api/estimatesPaid', {
-                estimateId: 'f9dac47d-a883-489e-b687-9e62e9c9a1a5',
-            });
+            const response = await axios.get('http://localhost:8080/api/test', {});
             console.log('성공:', response.data);
         } catch (error) {
             console.log('에러 발생:', error);
@@ -414,6 +412,9 @@ export default async function TestPage() {
     return (
         <div>
             <div>테스트용 페이지</div>
+            <div>
+                <button onClick={test}>테스트</button>
+            </div>
             <div>
                 <button onClick={testEstimateRequest}>견적서입력 테스트</button>
             </div>
