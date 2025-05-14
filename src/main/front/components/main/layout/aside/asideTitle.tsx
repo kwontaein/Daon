@@ -1,5 +1,5 @@
 'use client'
-import { AsideKeyOfValues } from '@/model/constants/asideOptions';
+import { AsideKeyOfValues } from '@/model/constants/routes/asideOptions';
 import '@/styles/_global.scss';
 import './asideTitle.scss';
 import asideArrow from '@/assets/aside-arrow.gif';

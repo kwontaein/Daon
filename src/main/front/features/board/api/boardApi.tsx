@@ -19,15 +19,13 @@ export async function getBoardApi(board: ResponseBoard) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -43,25 +41,27 @@ export async function saveBoardApi(board: ResponseBoard) {
             formData.append("files", file); // 필드명 "files"는 백엔드 DTO와 일치해야 함
         });
     }
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveBoard`, {
-        method: "POST",
-        body: formData, // ✅ Content-Type 자동 설정됨
-        credentials: 'include'
-    });
-
-    await jwtFilter(response.status.toString());
-
-    const text = await response.text();
-
-    if (!text) return null;
-
-    try {
+    try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveBoard`, {
+            method: "POST",
+            body: formData, // ✅ Content-Type 자동 설정됨
+            credentials: 'include'
+        });
+    
+        await jwtFilter(response.status.toString());
+    
+        const text = await response.text();
+    
+        if (!text) return null;
         return JSON.parse(text);
-    } catch (parseError) {
-        console.error('JSON 파싱 에러:', parseError);
-        return null;
+    }catch (error) {
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
+  
 }
 
 
@@ -83,15 +83,13 @@ export async function updateBoardApi(board: ResponseBoard) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -113,15 +111,13 @@ export async function deleteBoardApi(boardId: string) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -143,15 +139,13 @@ export async function updateBoard(boardId: string) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 

@@ -22,8 +22,13 @@ export const updatePointApi = async (Points: StockPoint[]) => {
 
 
         return response.status
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 
@@ -45,8 +50,13 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
 
 
         return response.status
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }
 
@@ -69,7 +79,12 @@ export const deletePointApi = async (stock: StockPoint) => {
 
 
         return response.status
-    }).catch((error) => {
-        console.error('Error:', error)
+    }).catch(async(error) => {
+       if (error instanceof Response) {
+            const { message } = await error.json();
+            // 이 메시지를 클라이언트 컴포넌트로 전달
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     })
 }

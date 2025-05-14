@@ -26,12 +26,16 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
         await jwtFilter(response.status.toString());
         return response.status;
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function updateStockApi(stock: RequestStock) {
@@ -56,12 +60,16 @@ export async function updateStockApi(stock: RequestStock) {
         await jwtFilter(response.status.toString());
         return response.status;
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }
 
 export async function deleteStockApi(stockId: string) {
@@ -85,10 +93,14 @@ export async function deleteStockApi(stockId: string) {
         await jwtFilter(response.status.toString());
         return response.status;
 
-    }).catch((error) => {
+    }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.');
+        }else  if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
         }
-        console.error('Error:', error);
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
+
 }

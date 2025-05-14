@@ -2,7 +2,7 @@
 import Link from "next/link";
 import './_aside.scss'
 import { notFound, usePathname, useRouter } from "next/navigation";
-import { AsideOptions } from "@/model/constants/asideOptions";
+import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useEffect, useRef } from "react";
 
 export default function MainAside(){
