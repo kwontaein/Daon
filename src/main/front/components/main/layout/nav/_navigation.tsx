@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import './_navigation.scss';
-import { AsideOptions } from '@/model/constants/asideOptions';
+import { AsideOptions } from '@/model/constants/routes/asideOptions';
 
 export default function Navigation(){
     const navigation_route = Object.entries(AsideOptions)

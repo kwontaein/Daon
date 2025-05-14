@@ -35,15 +35,13 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -68,15 +66,13 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -101,15 +97,13 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -134,15 +128,13 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
 
@@ -167,14 +159,12 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }

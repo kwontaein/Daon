@@ -1,4 +1,4 @@
-import { AsideOptions } from "@/model/constants/asideOptions";
+import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";

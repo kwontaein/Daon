@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 
 import MobileAsideBar from "@/components/main/layout/aside/mobile/_mobile-aside";
-import { AsideOptions } from "@/model/constants/asideOptions";
+import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useScreenMode } from "@/hooks/share/useScreenMode";
 
 export default function MobileNavBar(){

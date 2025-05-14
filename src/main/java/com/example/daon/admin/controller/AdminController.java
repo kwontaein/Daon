@@ -90,7 +90,7 @@ public class AdminController {
         return adminService.duplicationCheck(userRequest.getUserId());
     }
 
-    @PostMapping("api/UpdateEnableUrl")
+    @PostMapping("api/updateEnableUrl")
     public void UpdateEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest) {
         adminService.UpdateEnableUrl(enableUrlRequest);
     }

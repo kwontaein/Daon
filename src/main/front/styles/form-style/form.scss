@@ -16,6 +16,12 @@
   width: 100%;
 }
 .register-form-table{
+   
+  thead{
+    background-color: #8091A7;
+    background-image: url('../../assets/bg_img.gif');
+    background-repeat: repeat-x;
+  }
   table-layout: auto;
   width: 100%;
   border-collapse: collapse;
@@ -50,7 +56,7 @@
   }
 
   .id-input{
-    width: calc(100% - 60px);
+    width: calc(100% - 70px);
     margin-right: 5px;
   }
   .short-input{
@@ -79,14 +85,21 @@
         div{
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;  
+            flex-wrap: wrap; 
             gap: 0.4em;
             label{
                 height: 100%;
                 display: flex;
+                align-items: center;
                 gap: 0.1em;
-                font-size: inherit;
+                font-size: inherit; 
+                user-select:none;
+                input{
+                  width: 13px !important;
+                  height: 13px !important;
+                }
             }
+          
         }
     }
 }
@@ -190,4 +203,31 @@
 
 .placeholder-small::placeholder {
   font-size: 0.8rem;
+}
+
+.left-align{
+  text-align: left !important;
+}
+.form-mobile{
+  tbody{
+      tr{
+          height: 25px;
+          background-color: inherit !important;
+          border: unset !important;
+          td{
+              text-align: center;
+              border: unset;
+          }
+      }
+      border-block: 1px solid var.$default-border-color;
+  }
+}
+.none-hover{
+  &:hover{
+      background-color: transparent !important;
+  }
+}
+
+.right-border{
+  border-right: 1px solid var.$default-border-color !important;
 }

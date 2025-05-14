@@ -35,11 +35,15 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
             }
             useConfirm('정말로 삭제하시겠습니까?',onDelete)
         }
+        
+        const employeePermissionHandler =()=>{
+            redirect(`?permissionTarget=${employeeId}`)
+        }
 
     return(
         <menu className='options-container'>
             <li onClick={viewEmployeeInfoHandler.bind(null,employeeId)}>회원정보</li>
-            <li>권한관리</li>
+            <li onClick={employeePermissionHandler}>권한관리</li>
             <li onClick={deleteAccountingHandler} className='delete-option'>삭제하기</li>
         </menu>    
     )
