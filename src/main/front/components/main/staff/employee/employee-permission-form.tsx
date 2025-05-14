@@ -3,22 +3,22 @@ import '@/styles/form-style/form.scss';
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { AsideOptions } from '@/model/constants/routes/asideOptions';
-import { startTransition, useActionState, useEffect, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import { permissionFormAction } from '@/features/staff/employee/action/employee-permission-action';
 import { KeyofAsideValues } from '@/model/types/staff/employee/type';
 export default function PermissionManagementForm({userName,userId, initialPermission}:{userName:string,userId:string, initialPermission:KeyofAsideValues}){
+     
     const checkRecodeState = Object.fromEntries(
         Object.entries(AsideOptions).map(([nav,{asideItems}])=>{
-            const asideLinkList = asideItems.map(({link})=>{
-                return link
-            })
-            const checkedState = useCheckBoxState(asideLinkList)
+            const checkedState = useCheckBoxState(asideItems.map(({link})=> link), false, initialPermission[nav])
             return [nav,checkedState]
         })
     )
+
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(permissionFormAction,{userId})
-    
+
+
     const submitHandler =() => {
         const formData = new FormData(formRef.current);
         formData.set('action', 'submit');
@@ -26,18 +26,17 @@ export default function PermissionManagementForm({userName,userId, initialPermis
             action(formData);
         });
     }
-    useEffect(()=>{
-        console.log(initialPermission)
-        // Object.entries(initialPermission).forEach(([nav,asideItmes])=>{
-        //     Object.entries(asideItmes).forEach(([link, isAble])=>{
-        //         if(isAble){
-        //             checkRecodeState[nav].update_checked(link)
-        //         }
-        //     })
-        // })
-        
-    },[initialPermission])
+
     
+    useEffect(()=>{
+        if(state.status){
+            if(state.status===200){
+                window.alert('저장이 완료되었습니다.')
+            }else{
+                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
+        }
+    },[state])
 
     return(
         <>
