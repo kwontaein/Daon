@@ -196,7 +196,7 @@ public class AdminService {
 
     //접근가능링크 읽기
     public EnableUrlResponse getEnableUrl(EnableUrlRequest enableUrlRequest) {
-        EnableUrl enableUrl = enableUrlRepository.findByUser(enableUrlRequest.getUser()).orElse(null);
+        EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
         return globalService.convertToEnableUrlResponse(enableUrl);
     }
 
