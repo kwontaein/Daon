@@ -100,4 +100,8 @@ public class AdminController {
         return adminService.getEnableUrl(enableUrlRequest);
     }
 
+    @GetMapping("api/test")
+    public void test() {
+        adminService.test();
+    }
 }
