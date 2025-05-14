@@ -445,8 +445,6 @@ public class GlobalService {
 
     public EnableUrlResponse convertToEnableUrlResponse(EnableUrl enableUrl) {
         return EnableUrlResponse.builder()
-                .urlId(enableUrl.getUrlId())
-                .user(enableUrl.getUser())
                 .sales(EnableUrlResponse.Sales.builder()
                         .receipt(enableUrl.isReceipt())
                         .task(enableUrl.isTask())
