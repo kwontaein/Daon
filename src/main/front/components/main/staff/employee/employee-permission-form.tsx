@@ -3,6 +3,8 @@ import '@/styles/form-style/form.scss';
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { AsideOptions } from '@/model/constants/routes/asideOptions';
+import { startTransition, useActionState, useRef } from 'react';
+import { permissionFormAction } from '@/features/staff/employee/action/employee-permission-action';
 export default function PermissionManagementForm({userName,userId}){
     const checkRecodeState = Object.fromEntries(
         Object.entries(AsideOptions).map(([nav,{asideItems}])=>{
@@ -13,94 +15,27 @@ export default function PermissionManagementForm({userName,userId}){
             return [nav,checkedState]
         })
     )
+    const formRef = useRef(null)
+    const [state, action, isPending] = useActionState(permissionFormAction,{userId})
+    
+    const submitHandler =() => {
+        const formData = new FormData(formRef.current);
+        formData.set('action', 'submit');
+        startTransition(() => {
+            action(formData);
+        });
+    }
+    
 
     return(
-        <form className='register-form-container'>
+        <>
+        <form className='register-form-container' action={action} ref={formRef}>
             <table className='register-form-table form-mobile'>
                 <thead style={{height:'5px'}} />
                 <tbody style={{fontSize:'14px'}}>
                     <tr>
                         <td className='table-label left-align right-border'>사원명</td>
                         <td colSpan={2} className='left-align'>{userName}</td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td className='table-label table-radio-container right-border'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                <input
-                                    type='checkbox'/>
-                                    자동등록권한
-                                </label>
-                            </div>
-                        </td>
-                        <td className='table-radio-container'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                    <input type='checkbox'/>
-                                    고객자동등록
-                                </label>
-                            </div>
-                        </td>
-                        <td className='table-radio-container'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                    <input type='checkbox'/>
-                                    고객자동등록
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td className='table-label table-radio-container right-border'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                <input
-                                    type='checkbox'/>
-                                    알림
-                                </label>
-                            </div>
-                        </td>
-                        <td colSpan={2} className='table-radio-container'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                    <input type='checkbox'/>
-                                    임대품목알림
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td className='table-label table-radio-container right-border'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                <input
-                                    type='checkbox'/>
-                                    A/S 수정/삭제
-                                </label>
-                            </div>
-                        </td>
-                        <td className='table-radio-container'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                    <input type='checkbox'/>
-                                    A/S 수정권한
-                                </label>
-                            </div>
-                        </td>
-                        <td className='table-radio-container'>
-                            <div>
-                                <label style={{fontSize:'14px'}}>
-                                    <input type='checkbox'/>
-                                    A/S 삭제권한
-                                </label>
-                            </div>
-                        </td>
                     </tr>
                 </tbody>
                 {Object.entries(AsideOptions).map(([nav,{asideTitle,asideItems}])=>(
@@ -184,5 +119,10 @@ export default function PermissionManagementForm({userName,userId}){
                     ))}
             </table>
         </form>
+        <div className='button-container' style={{justifyContent:'right'}}>
+            <button onClick={submitHandler}>저장</button>
+            <button onClick={()=>window.location.replace('/main/staff/employee')}>취소</button>
+        </div>
+        </>
     )
 }
