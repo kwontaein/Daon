@@ -29,34 +29,45 @@ function loginFilter(error: string): void {
     }
 }
 
-export async function jwtFilter(error: string): Promise<void> {
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-    switch (error) {
-        case "302":
-            window.alert("모든 토큰이 만료되었습니다. 재로그인하세요.");
-            await delay(100); // alert 표시를 위한 짧은 대기
-            document.location.replace('/');
-            break;
 
-        case "401":
-            window.alert("알수없는 접근입니다. 재로그인하세요.");
-            await delay(100);
-            document.location.replace('/');
-            break;
+export  function jwtFilter(statusCode: string): Promise<void> {
+    const redirectUrl = '/'; // 로그인 경로
+    const errorMessage = {
+        '401': '로그인이 필요합니다.',
+        '403': '접근 권한이 없습니다.',
+        '500': '서버 오류입니다. 관리자에게 문의하세요.',
+        '404': '데이터가 존재하지 않습니다.'
+      };
 
-        case "409":
-            window.alert("다른 곳에서 로그인되었습니다. 로그아웃합니다.");
-            await delay(100);
-            document.location.replace('/');
-            break;
+    // 서버 환경: window가 undefined
+    if (typeof window === 'undefined') {
+      // 서버에서는 응답을 throw해서 API 핸들러가 적절하게 처리하게 함
+        if (["401", "403", "500"].includes(statusCode)) {
+            alert( errorMessage[statusCode])
 
-        case "404":
-            window.alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
-            break;
-
+            throw new Response(JSON.stringify({ code: 'Unauthorized' ,message: errorMessage[statusCode] }), {
+                status: parseInt(statusCode, 10),
+                headers: {
+                'Content-Type': 'application/json',
+                },
+            });
+        }
+        return
+    }
+  
+    // 클라이언트 환경
+    switch (statusCode) {
+        case '401':
+        case '403':
+        alert(errorMessage[statusCode]);
+        window.location.replace(redirectUrl);
+        break;
+        case '500':
+        alert(errorMessage[statusCode]);
+        break;
         default:
-            break;
+        break;
     }
 }
 
@@ -74,14 +85,12 @@ export async function getUserInfo(){
         const text = await response.text();
 
         if (!text) return null;
-
-        try {
-            return JSON.parse(text);
-        } catch (parseError) {
-            console.error('JSON 파싱 에러:', parseError);
-            return null;
-        }
+        return JSON.parse(text);
     } catch (error) {
-        console.error('Error:', error);
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }

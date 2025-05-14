@@ -13,10 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class EnableUrlResponse {
-
-    private UUID urlId;
-    private UserEntity user;
-
     private Sales sales;
     private Customer customer;
     private Stock stock;

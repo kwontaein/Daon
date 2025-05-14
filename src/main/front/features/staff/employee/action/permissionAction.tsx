@@ -35,6 +35,7 @@ export async function submitEmployeeInfo(prevState, formData) {
     const errors =[]
     let status;
 
+    console.log(employeeData)
    if(action ==='submit'){
         if(employeeData.userClass==='none'){
             errors.push(['userClass', '직급을 선택해주세요.'])
@@ -51,7 +52,7 @@ export async function submitEmployeeInfo(prevState, formData) {
         if(isInvalidText(employeeData.userId)){
             errors.push(['userId', '아이디를 입력해주세요.'])
         }
-        if(isInvalidText(employeeData.password)){
+        if(!prevState.isUpdate && isInvalidText(employeeData.password)){
             errors.push(['password', '비밀번호를 입력해주세요.'])
         }
         if(!employeeData.joinDate){
