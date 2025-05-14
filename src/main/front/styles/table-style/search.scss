@@ -59,12 +59,15 @@
             label{
                 height: 100%;
                 display: flex;
+                align-items: center;
                 gap: 2px;
                 cursor: pointer;
+                user-select:none;
             }
             input{
-                width: fit-content !important;
-            }
+                width: 13px !important;
+                height: 13px !important;
+              }
             @media(max-width:620px){
                 font-size: 0.9rem;
             }

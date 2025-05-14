@@ -89,7 +89,7 @@ export default function EmployeeDetailView({employee, isMobile=false}:{employee:
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">비밀번호</td>
-                    <td colSpan={8}>{("*").repeat(employee.password.length)}</td>
+                    <td colSpan={8}>{("*").repeat(8)}</td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="table-label">이메일</td>
