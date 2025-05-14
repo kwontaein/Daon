@@ -3,7 +3,7 @@ import '@/styles/_global.scss';
 import axios from "axios";
 import {ReceiptCategoryEnum} from "@/model/types/sales/receipt/type";
 
-export default async function TestPage() {
+export default function TestPage() {
 
     /**
      * 테스트
@@ -12,7 +12,7 @@ export default async function TestPage() {
     /*
     const response = await axios.post("http://localhost:8080/api/estimatesPaid",);
      console.log("서버 요청 결과:", response.data);*/
-    async function test() {
+    const test= async()=> {
         try {
             const response = await axios.get('http://localhost:8080/api/test', {});
             console.log('성공:', response.data);
@@ -21,7 +21,7 @@ export default async function TestPage() {
         }
     }
 
-    async function testCreateReceipt() {
+    const testCreateReceipt= async()=> {
         // 전송할 요청 바디 예시
         const requestBody = {
             receiptId: 'd92cc9eb-95ee-4ab8-8716-953b556ee371',   // 전표 아이디 (UUID)
@@ -53,7 +53,7 @@ export default async function TestPage() {
         }
     }
 
-    async function testEstimateRequest() {
+    const testEstimateRequest= async()=> {
         try {
             const response = await axios.post('http://localhost:8080/api/updateEstimate', {
                 estimateId: 'f9dac47d-a883-489e-b687-9e62e9c9a1a5',
@@ -82,7 +82,7 @@ export default async function TestPage() {
         }
     }
 
-    async function createStock() {
+    const createStock= async()=> {
         // 전송할 데이터 (예시)
         const stockData = {
             // stockId: 'a3f36c9f3-174a-4a43-b58f-6d2cdf60f5da',  // 예시 UUID
@@ -111,7 +111,7 @@ export default async function TestPage() {
         }
     }
 
-    async function updateStock() {
+    const updateStock= async()=> {
         // 전송할 데이터 (예시)
         const stockData = {
             stockId: '7484b411-909e-4886-8f0d-01b211131932',  // 예시 UUID
@@ -140,7 +140,7 @@ export default async function TestPage() {
         }
     }
 
-    async function getStock() {
+    const getStock= async()=> {
         // 전송할 데이터 (예시)
         const stockData = {
             // stockId: 'a3f36c9f3-174a-4a43-b58f-6d2cdf60f5da',  // 예시 UUID
@@ -169,7 +169,7 @@ export default async function TestPage() {
         }
     }
 
-    async function deleteStock() {
+    const deleteStock= async()=> {
         // 전송할 데이터 (예시)
         const stockData = {
             stockId: '7484b411-909e-4886-8f0d-01b211131932',  // 예시 UUID
@@ -185,7 +185,7 @@ export default async function TestPage() {
         }
     }
 
-    async function getStockCate() {
+    const getStockCate= async()=> {
         // 전송할 데이터 (예시)
 
         try {
@@ -198,7 +198,7 @@ export default async function TestPage() {
         }
     }
 
-    async function saveStockCate() {
+    const saveStockCate= async()=> {
         // 전송할 데이터 (예시)
         const stockCate = {
             stockCateName: '테스트분류2',
@@ -215,7 +215,7 @@ export default async function TestPage() {
         }
     }
 
-    async function updateStockCate() {
+    const updateStockCate= async()=> {
         // 전송할 데이터 (예시)
         const stockCate = {
             stockCateId: '42e55dad-ea16-48d1-ac5a-23d9736535a6',
@@ -233,7 +233,7 @@ export default async function TestPage() {
         }
     }
 
-    async function createUser() {
+    const createUser= async()=> {
         try {
             // 전송할 데이터 객체 생성
             const userData = {
@@ -268,7 +268,7 @@ export default async function TestPage() {
         }
     }
 
-    async function updateUser() {
+    const updateUser= async()=> {
         try {
             // 전송할 데이터 객체 생성
             const userData = {
@@ -303,7 +303,7 @@ export default async function TestPage() {
         }
     }
 
-    async function getCompany() {
+    const getCompany= async()=> {
         // 전송할 데이터 (예시)
 
         try {
@@ -317,7 +317,7 @@ export default async function TestPage() {
     }
 
 
-    async function getReceipts() {
+    const getReceipts= async()=> {
         // 전송할 데이터 (예시)
         const receipts = {
             category: ReceiptCategoryEnum.EX,
@@ -337,7 +337,7 @@ export default async function TestPage() {
         }
     }
 
-    async function getEstimates() {
+    const getEstimates= async()=> {
         // 전송할 데이터 (예시)
         const receipts = {
             category: ReceiptCategoryEnum.EX,
@@ -359,7 +359,7 @@ export default async function TestPage() {
         }
     }
 
-    async function getEstimate() {
+    const getEstimate= async()=> {
         // 전송할 데이터 (예시)
         const receipts = {
             estimateId: 'bca47abc-c853-4897-9a2f-22c2a24e672d',
@@ -375,7 +375,7 @@ export default async function TestPage() {
         }
     }
 
-    async function toReceipt() {
+    const toReceipt= async()=> {
         // 전송할 데이터 (예시)
         const receipts = {
             estimateId: '6130cbfe-3c2d-4b8f-9ae8-994ce27f8e7c',
@@ -392,7 +392,7 @@ export default async function TestPage() {
     }
 
 
-    async function getNoPaid() {
+    const getNoPaid= async()=> {
         // 전송할 데이터 (예시)
         const LedgerRequest = {
             searchSDate: '2025-03-01T00:00:00',
