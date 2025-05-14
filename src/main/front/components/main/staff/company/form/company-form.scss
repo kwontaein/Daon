@@ -67,6 +67,7 @@
                 height: 100%;
                 display: flex;
                 gap: 0.4em;
+                user-select:none;
             }
             @media (max-width:767px) {
                 gap: 0.4em;
