@@ -3,9 +3,10 @@ import '@/styles/form-style/form.scss';
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { AsideOptions } from '@/model/constants/routes/asideOptions';
-import { startTransition, useActionState, useRef } from 'react';
+import { startTransition, useActionState, useEffect, useRef } from 'react';
 import { permissionFormAction } from '@/features/staff/employee/action/employee-permission-action';
-export default function PermissionManagementForm({userName,userId}){
+import { KeyofAsideValues } from '@/model/types/staff/employee/type';
+export default function PermissionManagementForm({userName,userId, initialPermission}:{userName:string,userId:string, initialPermission:KeyofAsideValues}){
     const checkRecodeState = Object.fromEntries(
         Object.entries(AsideOptions).map(([nav,{asideItems}])=>{
             const asideLinkList = asideItems.map(({link})=>{
@@ -25,6 +26,17 @@ export default function PermissionManagementForm({userName,userId}){
             action(formData);
         });
     }
+    useEffect(()=>{
+        console.log(initialPermission)
+        // Object.entries(initialPermission).forEach(([nav,asideItmes])=>{
+        //     Object.entries(asideItmes).forEach(([link, isAble])=>{
+        //         if(isAble){
+        //             checkRecodeState[nav].update_checked(link)
+        //         }
+        //     })
+        // })
+        
+    },[initialPermission])
     
 
     return(
