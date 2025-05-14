@@ -1,13 +1,13 @@
 "use client";
+import '@/styles/form-style/form.scss';
 import Image from "next/image";
 import asideArrow from '@/assets/aside-arrow.gif';
-import '@/styles/form-style/form.scss';
 
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 
 import {ResponseEmployee} from "@/model/types/staff/employee/type";
-import {submitEmployeeInfo} from "@/features/staff/employee/action/employee-action";
+import {submitEmployeeInfo} from "@/features/staff/employee/action/permissionAction";
 import ErrorBox from "@/components/share/error-box/error-box";
 import {useConfirm} from "@/hooks/share/useConfirm";
 import {userIdDuplicationChecked} from "@/features/staff/employee/api/employeeApi";
@@ -18,8 +18,10 @@ import CustomDateInput from "@/components/share/custom-date-input/custom-date-in
 export default function EmployeeForm({dept, employee, isMobile=false}: { dept: Dept[], employee?: ResponseEmployee, isMobile?:boolean }) {
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
+    const [chagnePassword, setChangePassword] = useReducer((prev)=>!prev,false)
     const formRef = useRef(null)
 
+    console.log(employee)
     const initialState = useMemo(() =>
             employee ? {
                     ...employee,
@@ -237,7 +239,25 @@ export default function EmployeeForm({dept, employee, isMobile=false}: { dept: D
                     <tr>
                         <td colSpan={2} className="table-label">비밀번호</td>
                         <td colSpan={8}>
-                            <input name="password" defaultValue={state.password} type="password"/>
+                            {state.isUpdate ?
+                           (chagnePassword ?
+                            <>
+                            <input className={employee ? 'id-input' : ''} name="password" defaultValue={state.password??''} type="password"/>
+                            <button type='button'
+                                        onClick={setChangePassword}>
+                                    변경취소
+                            </button>
+                            </>
+                             :
+                            <>
+                            <input className={employee ? 'id-input' : ''} defaultValue={"*".repeat(8)} type="password" readOnly/>
+                            <button type='button'
+                                    onClick={setChangePassword}>
+                                변경하기
+                            </button>
+                            </>):
+                             <input name="password" defaultValue={state.password} type="password"/>
+                            }                           
                             {state.formErrors?.password &&
                                 <ErrorBox>
                                     {state.formErrors.password}

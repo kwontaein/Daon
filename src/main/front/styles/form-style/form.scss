@@ -56,7 +56,7 @@
   }
 
   .id-input{
-    width: calc(100% - 60px);
+    width: calc(100% - 70px);
     margin-right: 5px;
   }
   .short-input{
@@ -92,7 +92,8 @@
                 display: flex;
                 align-items: center;
                 gap: 0.1em;
-                font-size: inherit;
+                font-size: inherit; 
+                user-select:none;
                 input{
                   width: 13px !important;
                   height: 13px !important;
