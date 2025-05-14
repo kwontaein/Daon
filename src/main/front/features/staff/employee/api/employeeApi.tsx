@@ -1,7 +1,7 @@
 'use server'
 
 import { jwtFilter } from "@/features/login/api/loginApi";
-import {ResponseEmployee} from "@/model/types/staff/employee/type";
+import {KeyofAsideValues, ListOfAside, ResponseEmployee} from "@/model/types/staff/employee/type";
 import {cookies} from "next/headers";
 
 
@@ -203,6 +203,30 @@ export const getEnableUrl =async(userId)=>{
 
         if (!text) return null;
         return JSON.parse(text);
+    }catch (error) {
+        if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
+export const updateEnableUrl =async(urlList:ListOfAside & {userId:string})=>{
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEnableUrl`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            body: JSON.stringify(urlList),
+            cache: 'no-store'
+        })
+        await jwtFilter(response.status.toString());
+        return response.status
     }catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();

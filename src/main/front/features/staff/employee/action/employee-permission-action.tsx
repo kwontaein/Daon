@@ -1,5 +1,6 @@
 import { AsideOptions } from "@/model/constants/routes/asideOptions"
-import { ListOfAside } from "@/model/types/staff/employee/type";
+import { KeyofAsideValues, ListOfAside } from "@/model/types/staff/employee/type";
+import { updateEnableUrl } from "../api/employeeApi";
 function kebabToCamel(str: string): string {
     return str.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
   }
@@ -13,15 +14,17 @@ export async function permissionFormAction(prevState,formState){
             return prev
         },[]))),
         userId:prevState.userId
-    }
+    } 
     console.log(permissionState)
     
     const action = formState.get('action')
+    let status;
     if(action==='submit'){
-        
+        const status = await updateEnableUrl(permissionState)
     }
     return{
         ...prevState,
-        ...permissionState
+        ...permissionState,
+        status
     }
 }

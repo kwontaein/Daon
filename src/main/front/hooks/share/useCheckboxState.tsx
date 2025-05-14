@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { checkboxReducer, checkedType, initialCheckState } from "./reducer/checkboxReducer";
+import { checkboxReducer, checkedType } from "./reducer/checkboxReducer";
 
 export interface ReturnCheckBoxHook {
     checkedState: checkedType,
@@ -9,8 +9,8 @@ export interface ReturnCheckBoxHook {
     isAllChecked: boolean,
 }
 
-export default function useCheckBoxState(items:string[],pageReset:boolean =false):ReturnCheckBoxHook{
-    const [checkedState, dispatchCheckedState] = useReducer(checkboxReducer, initialCheckState)
+export default function useCheckBoxState(items:string[],pageReset:boolean =false, initialCheckState?:Record<string,boolean>[]):ReturnCheckBoxHook{
+    const [checkedState, dispatchCheckedState] = useReducer(checkboxReducer, initialCheckState??{})
     
     const isAllChecked = useMemo(() => {
         if (items.length === 0) return false;
