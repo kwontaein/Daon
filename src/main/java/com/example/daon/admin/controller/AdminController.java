@@ -1,7 +1,9 @@
 package com.example.daon.admin.controller;
 
 import com.example.daon.admin.dto.request.DeptRequest;
+import com.example.daon.admin.dto.request.EnableUrlRequest;
 import com.example.daon.admin.dto.request.UserRequest;
+import com.example.daon.admin.dto.response.EnableUrlResponse;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.DeptEntity;
 import com.example.daon.admin.service.AdminService;
@@ -87,4 +89,15 @@ public class AdminController {
     public boolean duplicationCheck(@RequestBody UserRequest userRequest) {
         return adminService.duplicationCheck(userRequest.getUserId());
     }
+
+    @PostMapping("api/UpdateEnableUrl")
+    public void UpdateEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest) {
+        adminService.UpdateEnableUrl(enableUrlRequest);
+    }
+
+    @PostMapping("api/getEnableUrl")
+    public EnableUrlResponse getEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest) {
+        return adminService.getEnableUrl(enableUrlRequest);
+    }
+
 }

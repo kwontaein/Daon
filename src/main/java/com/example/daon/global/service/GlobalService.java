@@ -11,6 +11,9 @@ import com.example.daon.accounting.purchaseVAT.dto.response.PurchaseVATResponse;
 import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
 import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
+import com.example.daon.admin.dto.response.EnableUrlResponse;
+import com.example.daon.admin.dto.response.UserResponse;
+import com.example.daon.admin.model.EnableUrl;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.bbs.dto.response.BoardResponse;
@@ -23,7 +26,6 @@ import com.example.daon.company.dto.response.CompanyResponse;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.dto.response.AffiliationResponse;
 import com.example.daon.customer.dto.response.CustomerResponse;
-import com.example.daon.customer.dto.response.UserResponse;
 import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.dto.response.EstimateItemResponse;
@@ -94,8 +96,8 @@ public class GlobalService {
     }
 
 
-    public com.example.daon.admin.dto.response.UserResponse convertToUserResponse(UserEntity user) {
-        return com.example.daon.admin.dto.response.UserResponse
+    public UserResponse convertToUserResponse(UserEntity user) {
+        return UserResponse
                 .builder()
                 .userId(user.getUserId())
                 .password(null)
@@ -147,10 +149,6 @@ public class GlobalService {
 
     //응답 변환
     public CustomerResponse convertToCustomerResponse(CustomerEntity customer) {
-        UserResponse userResponse = null;
-        if (customer.getUser() != null) {
-            userResponse = new UserResponse(customer.getUser().getUserId(), customer.getUser().getUsername());
-        }
         return CustomerResponse
                 .builder()
                 .customerId(customer.getCustomerId())
@@ -176,7 +174,7 @@ public class GlobalService {
                 .contactInfo(customer.getContactInfo())
                 .phoneNumber(customer.getPhoneNumber())
                 .fax(customer.getFax())
-                .user(userResponse)
+                .userId(customer.getUser() != null ? customer.getUser().getUserId() : null)
                 .affiliationId(customer.getCustomerAffiliation().getCustomerAffiliationId())
                 .affiliationName(customer.getCustomerAffiliation().getCustomerAffiliationName())
                 .build();
@@ -444,4 +442,58 @@ public class GlobalService {
                 .fileLink(fileEntity.getFilePath())
                 .build();
     }
+
+    public EnableUrlResponse convertToEnableUrlResponse(EnableUrl enableUrl) {
+        return EnableUrlResponse.builder()
+                .urlId(enableUrl.getUrlId())
+                .user(enableUrl.getUser())
+                .sales(EnableUrlResponse.Sales.builder()
+                        .receipt(enableUrl.isReceipt())
+                        .task(enableUrl.isTask())
+                        .admin(enableUrl.isAdmin())
+                        .estimate(enableUrl.isEstimate())
+                        .taskEstimate(enableUrl.isTaskEstimate())
+                        .remain(enableUrl.isRemain())
+                        .official(enableUrl.isOfficial())
+                        .build())
+                .customer(EnableUrlResponse.Customer.builder()
+                        .customer(enableUrl.isCustomer())
+                        .affiliation(enableUrl.isAffiliation())
+                        .build())
+                .stock(EnableUrlResponse.Stock.builder()
+                        .stock(enableUrl.isStock())
+                        .stockCate(enableUrl.isStockCate())
+                        .point(enableUrl.isPoint())
+                        .build())
+                .ledger(EnableUrlResponse.Ledger.builder()
+                        .ledgerCustomer(enableUrl.isLedgerCustomer())
+                        .ledgerCustomers(enableUrl.isLedgerCustomers())
+                        .ledgerStock(enableUrl.isLedgerStock())
+                        .ledgerSales(enableUrl.isLedgerSales())
+                        .ledgerPurchase(enableUrl.isLedgerPurchase())
+                        .ledgerOfficial(enableUrl.isLedgerOfficial())
+                        .ledgerStockCount(enableUrl.isLedgerStockCount())
+                        .ledgerEtc(enableUrl.isLedgerEtc())
+                        .build())
+                .staff(EnableUrlResponse.Staff.builder()
+                        .company(enableUrl.isCompany())
+                        .employee(enableUrl.isEmployee())
+                        .dept(enableUrl.isDept())
+                        .build())
+                .accounting(EnableUrlResponse.Accounting.builder()
+                        .pvat(enableUrl.isPvat())
+                        .svat(enableUrl.isSvat())
+                        .pset(enableUrl.isPset())
+                        .card(enableUrl.isCard())
+                        .proof(enableUrl.isProof())
+                        .build())
+                .board(EnableUrlResponse.Board.builder()
+                        .board(enableUrl.isBoard())
+                        .build())
+                .schedule(EnableUrlResponse.Schedule.builder()
+                        .schedule(enableUrl.isSchedule())
+                        .build())
+                .build();
+    }
+
 }
