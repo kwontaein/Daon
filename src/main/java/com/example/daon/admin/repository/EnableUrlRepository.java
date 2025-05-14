@@ -13,4 +13,6 @@ import java.util.UUID;
 @Repository
 public interface EnableUrlRepository extends JpaRepository<EnableUrl, UUID>, JpaSpecificationExecutor<EnableUrl> {
     Optional<EnableUrl> findByUser(@Param("user") UserEntity user);
+
+    void deleteByUser(@Param("user") UserEntity user);
 }
