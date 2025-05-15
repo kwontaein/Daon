@@ -79,9 +79,8 @@ public class AdminService {
             redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
 
             EnableUrl enableUrl = enableUrlRepository.findByUser(userEntity).orElse(null);
-
             if (enableUrl != null) {
-                setEnableUrlCookie(enableUrl, response); // ✅ 분리된 메서드 호출
+                setEnableUrlCookie(globalService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
             }
 
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
@@ -95,7 +94,7 @@ public class AdminService {
 
 
     //접근가능경로 쿠키 생성
-    public void setEnableUrlCookie(EnableUrl enableUrl, HttpServletResponse response) {
+    public void setEnableUrlCookie(EnableUrlResponse enableUrl, HttpServletResponse response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             String enableUrlJson = objectMapper.writeValueAsString(enableUrl);
