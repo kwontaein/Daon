@@ -1,7 +1,8 @@
 'use server';
 import {Dept} from "@/model/types/staff/dept/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 export const getDeptApi = async () => {

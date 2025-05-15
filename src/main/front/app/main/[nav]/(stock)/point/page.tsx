@@ -1,6 +1,7 @@
 import StockPoint from "@/components/main/stock/point/point";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 export default async function StockPointPage() {
     const cookieStore = cookies();

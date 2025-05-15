@@ -1,4 +1,4 @@
-import { jwtFilter } from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
 import { RequestSchedule, ResponseSchedule } from "@/model/types/schedule/type";
 
 export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {

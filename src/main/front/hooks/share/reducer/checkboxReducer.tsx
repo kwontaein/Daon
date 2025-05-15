@@ -1,4 +1,3 @@
-export const initialCheckState:checkedType ={}
 
 export type checkedType ={
  [id:string]:boolean
