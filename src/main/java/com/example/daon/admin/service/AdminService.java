@@ -190,10 +190,19 @@ public class AdminService {
 
 
     //접근가능링크 수정
-    public void UpdateEnableUrl(EnableUrlRequest enableUrlRequest) {
+    public ResponseEntity<String> UpdateEnableUrl(EnableUrlRequest enableUrlRequest, HttpServletResponse response) {
         EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
         enableUrl.updateFromRequest(enableUrlRequest);
         enableUrlRepository.save(enableUrl);
+        return UpdateEnableUrlCookie(enableUrlRequest, response);
+    }
+
+    public ResponseEntity<String> UpdateEnableUrlCookie(EnableUrlRequest enableUrlRequest, HttpServletResponse response) {
+        EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
+        if (enableUrl.getUser().getUserId() == globalService.resolveUser(null).getUserId()) {
+            setEnableUrlCookie(globalService.convertToEnableUrlResponse(enableUrl), response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("접근 권한이 수정되었습니다.");
     }
 
     //접근가능링크 읽기
