@@ -1,7 +1,8 @@
 'use server'
 import {SaveTask, TaskSearchCondition} from "@/model/types/sales/task/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
 

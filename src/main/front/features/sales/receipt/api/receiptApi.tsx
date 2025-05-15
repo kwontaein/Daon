@@ -1,7 +1,8 @@
 'use server'
 import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
