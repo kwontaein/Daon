@@ -55,8 +55,8 @@ public class AdminController {
     }
 
     @PostMapping("api/updateEmployee")
-    public void UpdateEmployee(@RequestBody UserRequest userRequest) {
-        adminService.UpdateEmployee(userRequest);
+    public void UpdateEmployee(@RequestBody UserRequest userRequest, HttpServletResponse response) {
+        adminService.UpdateEmployee(userRequest, response);
     }
 
     @PostMapping("api/deleteEmployee")

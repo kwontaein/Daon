@@ -78,10 +78,12 @@ public class AdminService {
             tokenInfo = jwtTokenProvider.generateToken(authentication, response);
             redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
 
+
             EnableUrl enableUrl = enableUrlRepository.findByUser(userEntity).orElse(null);
             if (enableUrl != null) {
                 setEnableUrlCookie(globalService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
             }
+            setAdminCookie(userEntity, response);
 
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
 
@@ -111,6 +113,23 @@ public class AdminService {
         }
     }
 
+    public void setAdminCookie(UserEntity user, HttpServletResponse response) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String enableUrlJson = objectMapper.writeValueAsString(globalService.convertToAdminCookie(user));
+            String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
+
+            Cookie cookie = new Cookie("user", encoded);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60); // 1시간
+
+            response.addCookie(cookie);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("EnableUrl 쿠키 직렬화 실패", e);
+        }
+    }
+
 
     //사원정보 crud
 
@@ -126,11 +145,14 @@ public class AdminService {
         return userEntities.stream().map(globalService::convertToUserResponse).collect(Collectors.toList());
     }
 
-    public void UpdateEmployee(UserRequest userRequest) {
+    public void UpdateEmployee(UserRequest userRequest, HttpServletResponse response) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElseThrow(() -> new RuntimeException("존재하지 않는 유저입니다."));
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         user.updateFromRequest(userRequest, dept, passwordEncoder);
         userRepository.save(user);
+        if (user.getUserId() == globalService.resolveUser(null).getUserId()) {
+            setAdminCookie(user, response);
+        }
     }
 
     @Transactional
