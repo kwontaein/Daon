@@ -1,6 +1,7 @@
 "use server"
 import {cookies} from "next/headers"
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 type searchCondition = {
     searchSDate?: Date,

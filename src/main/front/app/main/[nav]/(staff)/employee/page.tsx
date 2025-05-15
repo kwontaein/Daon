@@ -2,7 +2,6 @@ import PermissionManagementForm from "@/components/main/staff/employee/employee-
 import EmployeeTable from "@/components/main/staff/employee/employee-table";
 import CustomLoading from "@/components/share/loading/loading";
 import { getEmployeeApi, getEnableUrl } from "@/features/staff/employee/api/employeeApi";
-import { PageByProps } from "@/model/types/share/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { Suspense } from "react";
 

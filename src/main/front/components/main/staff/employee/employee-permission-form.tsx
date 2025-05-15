@@ -5,25 +5,23 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import {AsideOptions} from '@/model/constants/routes/asideOptions';
 import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
 import {permissionFormAction} from '@/features/staff/employee/action/employee-permission-action';
-import {KeyofAsideValues} from '@/model/types/staff/employee/type';
+import {EnableUrlType} from '@/model/types/staff/employee/type';
+import { kebabToCamel } from '@/features/share/kebabToCamel';
 
-function kebabToCamel(str: string): string {
-    return str.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
-}
+
 
 export default function PermissionManagementForm({userName, userId, initialPermission}: {
     userName: string,
     userId: string,
-    initialPermission: KeyofAsideValues
-}) {
+    initialPermission: EnableUrlType
+}) {    
 
     const checkRecodeState = Object.fromEntries(
         Object.entries(AsideOptions).map(([nav, {asideItems}]) => {
-            const checkedState = useCheckBoxState(asideItems.map(({link}) => link), false, initialPermission[nav])
+            const checkedState = useCheckBoxState(asideItems.map(({link}) => kebabToCamel(link)), false, initialPermission[nav])
             return [nav, checkedState]
         })
     )
-
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(permissionFormAction, {userId})
 
@@ -112,7 +110,7 @@ export default function PermissionManagementForm({userName, userId, initialPermi
                                                 <input
                                                     type='checkbox'
                                                     name={nav}
-                                                    value={link}
+                                                    value={kebabToCamel(link)}
                                                     checked={checkRecodeState[nav].checkedState[kebabToCamel(link)] ?? false}
                                                     onChange={() => checkRecodeState[nav].update_checked(kebabToCamel(link))}/>
                                                 {name}
@@ -126,7 +124,7 @@ export default function PermissionManagementForm({userName, userId, initialPermi
                                                     <input
                                                         type='checkbox'
                                                         name={nav}
-                                                        value={asideItems[idx + 1].link}
+                                                        value={kebabToCamel(asideItems[idx + 1].link)}
                                                         checked={checkRecodeState[nav].checkedState[kebabToCamel(asideItems[idx + 1].link)] ?? false}
                                                         onChange={() => checkRecodeState[nav].update_checked(kebabToCamel(asideItems[idx + 1].link))}/>
                                                     {asideItems[idx + 1].name}

@@ -42,7 +42,7 @@ function Login() {
           <span>
             <RememberChecked currentId={currentId}/> 아이디 기억
           </span>
-        <button onClick={submitHandler} className='login-button'>로그인</button>
+        <button onClick={submitHandler} className='login-button' disabled={isPending}>로그인</button>
        </>  
     </div>
   );
