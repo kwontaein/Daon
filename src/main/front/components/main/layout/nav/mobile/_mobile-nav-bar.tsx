@@ -12,8 +12,10 @@ import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileAsideBar from "@/components/main/layout/aside/mobile/_mobile-aside";
 import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useScreenMode } from "@/hooks/share/useScreenMode";
+import { EnableUrlType } from "@/model/types/staff/employee/type";
+import { kebabToCamel } from "@/features/share/kebabToCamel";
 
-export default function MobileNavBar(){
+export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){
     const navigation_route = Object.entries(AsideOptions)
 
 
@@ -52,6 +54,7 @@ export default function MobileNavBar(){
             <section className='nav-mobile-wrapper'>
                 <ul className='nav-mobile-ul'>
                     {navigation_route.map(([currentNav, {asideTitle,asideItems}])=>(
+                        Object.values(enableUrl[kebabToCamel(currentNav)]).includes(true) &&
                         <li className={nav === currentNav ? 'hover' : ''} key={currentNav}>
                             <Link href={`/main/${currentNav}/${asideItems[0].link}?toggle=true`}>{asideTitle}</Link>
                         </li>
@@ -61,7 +64,7 @@ export default function MobileNavBar(){
                     <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
                 </button>
             </section>
-            <MobileAsideBar nav={nav||'schedule'}/>
+            <MobileAsideBar nav={nav||'schedule'} enableUrl={enableUrl}/>
         </nav>
         </>
     )
