@@ -79,7 +79,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                     <tr>
                         <td className='table-label'>작성자</td>
                         <td colSpan={2}>
-                            {user.userName}
+                            {user.name}
                             <input type='hidden' name='writer' value={user.userId ?? ''} readOnly/>
                             <input type='hidden' name='views' defaultValue={state.views ?? 0}/>
                         </td>

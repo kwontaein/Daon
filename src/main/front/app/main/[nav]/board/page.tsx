@@ -1,6 +1,7 @@
 import BoardList from "@/components/main/board/board-list";
 import RegisterBoard from "@/components/main/board/register-board";
 import {ResponseBoard} from "@/model/types/board/type";
+import { cookies } from "next/headers";
 import {v4 as uuidv4} from "uuid";
 
 const BoardData: ResponseBoard[] = [

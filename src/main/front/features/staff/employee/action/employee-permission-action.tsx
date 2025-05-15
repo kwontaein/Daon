@@ -1,7 +1,7 @@
 import { AsideOptions } from "@/model/constants/routes/asideOptions"
-import { EnableUrlType, ListOfAside } from "@/model/types/staff/employee/type";
 import { updateEnableUrl } from "../api/employeeApi";
 import { kebabToCamel } from "@/features/share/kebabToCamel";
+import { ListOfAside } from "@/model/types/share/type";
 
 export async function permissionFormAction(prevState,formState){
     const permissionState:ListOfAside & { userId:string } ={
@@ -14,7 +14,6 @@ export async function permissionFormAction(prevState,formState){
         },[]))),
         userId:prevState.userId
     } 
-    console.log(permissionState)
     
     const action = formState.get('action')
     let status;

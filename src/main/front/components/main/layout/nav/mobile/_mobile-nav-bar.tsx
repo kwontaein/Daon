@@ -12,7 +12,7 @@ import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileAsideBar from "@/components/main/layout/aside/mobile/_mobile-aside";
 import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useScreenMode } from "@/hooks/share/useScreenMode";
-import { EnableUrlType } from "@/model/types/staff/employee/type";
+import { EnableUrlType } from "@/model/types/share/type";
 import { kebabToCamel } from "@/features/share/kebabToCamel";
 
 export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){

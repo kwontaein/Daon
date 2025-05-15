@@ -1,4 +1,3 @@
-'use server'
 import { loginApi } from "../api/loginApi";
 import {v4 as uuidv4} from "uuid";
 
