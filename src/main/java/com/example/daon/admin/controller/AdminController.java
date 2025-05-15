@@ -55,8 +55,8 @@ public class AdminController {
     }
 
     @PostMapping("api/updateEmployee")
-    public void UpdateEmployee(@RequestBody UserRequest userRequest) {
-        adminService.UpdateEmployee(userRequest);
+    public void UpdateEmployee(@RequestBody UserRequest userRequest, HttpServletResponse response) {
+        adminService.UpdateEmployee(userRequest, response);
     }
 
     @PostMapping("api/deleteEmployee")
@@ -91,8 +91,13 @@ public class AdminController {
     }
 
     @PostMapping("api/updateEnableUrl")
-    public void UpdateEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest) {
-        adminService.UpdateEnableUrl(enableUrlRequest);
+    public ResponseEntity<String> UpdateEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest, HttpServletResponse response) {
+        return adminService.UpdateEnableUrl(enableUrlRequest, response);
+    }
+
+    @PostMapping("api/updateEnableUrlCookie")
+    public ResponseEntity<String> updateEnableUrlCookie(@RequestBody EnableUrlRequest enableUrlRequest, HttpServletResponse response) {
+        return adminService.UpdateEnableUrlCookie(enableUrlRequest, response);
     }
 
     @PostMapping("api/getEnableUrl")
