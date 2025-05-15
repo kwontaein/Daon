@@ -1,9 +1,7 @@
 import { AsideOptions } from "@/model/constants/routes/asideOptions"
-import { KeyofAsideValues, ListOfAside } from "@/model/types/staff/employee/type";
+import { EnableUrlType, ListOfAside } from "@/model/types/staff/employee/type";
 import { updateEnableUrl } from "../api/employeeApi";
-function kebabToCamel(str: string): string {
-    return str.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
-}
+import { kebabToCamel } from "@/features/share/kebabToCamel";
 
 export async function permissionFormAction(prevState,formState){
     const permissionState:ListOfAside & { userId:string } ={

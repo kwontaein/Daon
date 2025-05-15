@@ -111,11 +111,11 @@ export type ListOfAside = {
   [K in AllLinks]: boolean;
 };
 
-// export type KeyofAsideValues ={
+// export type EnableUrlType ={
 //   [K in keyof AsideOptionsType] :ExtractLinks<AsideOptionsType[K]>
 // }
 
-export type KeyofAsideValues = {
+export type EnableUrlType = {
   [K in keyof AsideOptionsType]: {
     [Item in AsideOptionsType[K]['asideItems'][number]['link'] as KebabToCamelCase<Item>]: boolean;
   };

@@ -1,7 +1,8 @@
 "use server"
 import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 export async function getEstimateApi(estimateId: string) {
