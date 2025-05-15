@@ -3,6 +3,7 @@ import '@/styles/main-view/main.scss';
 
 import MainHeader from "@/components/main/layout/header/_header";
 import AsideTitle from '@/components/main/layout/aside/asideTitle';
+import { getUserInfo } from '@/features/login/api/loginApi';
 
 
 export default async function MainLayout({navigation,aside,children,footer,search,mobile}: {
@@ -13,11 +14,11 @@ export default async function MainLayout({navigation,aside,children,footer,searc
     search: React.ReactNode;
     mobile: React.ReactNode;
   }) {
-    
+    const userInfo = await getUserInfo()
     return (
       <>
         <header>
-          <MainHeader />
+          <MainHeader userInfo={userInfo}/>
         </header>
         {search}
         {mobile}

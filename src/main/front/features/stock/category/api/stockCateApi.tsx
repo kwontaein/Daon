@@ -2,7 +2,8 @@
 
 import {StockCate} from "@/model/types/stock/cate/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 export const getStockCateApi = async () => {

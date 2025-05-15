@@ -1,7 +1,7 @@
 'use server'
 
 import { jwtFilter } from "@/features/login/api/loginApi";
-import {KeyofAsideValues, ListOfAside, ResponseEmployee} from "@/model/types/staff/employee/type";
+import {EnableUrlType, ListOfAside, ResponseEmployee} from "@/model/types/staff/employee/type";
 import {cookies} from "next/headers";
 
 

@@ -1,11 +1,13 @@
 'use client';
 import Link from "next/link";
 import './_aside.scss'
-import { notFound, usePathname, useRouter } from "next/navigation";
+import {  usePathname, useRouter } from "next/navigation";
 import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useEffect, useRef } from "react";
+import { EnableUrlType } from "@/model/types/staff/employee/type";
+import { kebabToCamel } from "@/features/share/kebabToCamel";
 
-export default function MainAside(){
+export default function MainAside({enableUrl} :{enableUrl: EnableUrlType}){
     const pathName = usePathname()
     const nav = pathName.split("/")[2]
     const router = useRouter();
@@ -44,6 +46,7 @@ export default function MainAside(){
                     {AsideOptions[nav ?? 'schedule'].asideTitle}
                 </div>
                 {AsideOptions[nav].asideItems.map((item)=>(
+                    enableUrl[kebabToCamel(nav)][kebabToCamel(item.link)] &&
                     <li key={item.link}>
                         <b>ㆍ</b><Link href={`/main/${nav}/${item.link}`}>{item.name}</Link>
                     </li>
