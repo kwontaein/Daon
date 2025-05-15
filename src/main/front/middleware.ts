@@ -10,7 +10,9 @@ export async function middleware(request: NextRequest) {
 
     const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
     const cookie = (await cookies()).get('accessToken')?.value;
-    console.log(isPublicRoute, cookie)
+    const enable_url = (await cookies()).get('enable_url')?.value;
+
+    console.log(enable_url)
     if(!cookie && pathname.startsWith('/main')){
         console.log(isPublicRoute)
         return NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
