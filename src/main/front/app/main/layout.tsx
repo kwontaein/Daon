@@ -3,7 +3,7 @@ import '@/styles/main-view/main.scss';
 
 import MainHeader from "@/components/main/layout/header/_header";
 import AsideTitle from '@/components/main/layout/aside/asideTitle';
-import { getUserInfo } from '@/features/login/api/loginApi';
+import { cookies } from 'next/headers';
 
 
 export default async function MainLayout({navigation,aside,children,footer,search,mobile}: {
@@ -14,11 +14,12 @@ export default async function MainLayout({navigation,aside,children,footer,searc
     search: React.ReactNode;
     mobile: React.ReactNode;
   }) {
-    const userInfo = await getUserInfo()
+    const userInfo = (await cookies()).get('user')?.value
+
     return (
       <>
         <header>
-          <MainHeader userInfo={userInfo}/>
+          <MainHeader userInfo={JSON.parse(userInfo)}/>
         </header>
         {search}
         {mobile}

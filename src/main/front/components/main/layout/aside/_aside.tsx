@@ -4,7 +4,7 @@ import './_aside.scss'
 import {  usePathname, useRouter } from "next/navigation";
 import { AsideOptions } from "@/model/constants/routes/asideOptions";
 import { useEffect, useRef } from "react";
-import { EnableUrlType } from "@/model/types/staff/employee/type";
+import { EnableUrlType } from "@/model/types/share/type";
 import { kebabToCamel } from "@/features/share/kebabToCamel";
 
 export default function MainAside({enableUrl} :{enableUrl: EnableUrlType}){
@@ -13,37 +13,12 @@ export default function MainAside({enableUrl} :{enableUrl: EnableUrlType}){
     const router = useRouter();
 
     const cacheRouteRef = useRef<Record<string, Record<string, boolean>>>({});
-
-    useEffect(() => {
-        if (!nav) {
-            router.replace("/main/schedule/schedule");
-            return;
-        }
-        const { asideItems } = AsideOptions[nav];
-        const subNav = pathName.split("/")[3];
-        //nav에 대한 객체 초기화
-        if (!cacheRouteRef.current[nav]) {
-            cacheRouteRef.current[nav] = {};
-        }
-        // 이미 허용된 경로라면 리턴
-        if (cacheRouteRef.current[nav][subNav]) {
-            return;
-        }
-        const isAbleRoute = asideItems.some(({ link }) => link === subNav);
-
-        if (!isAbleRoute) {
-            router.replace(`/main/${nav}/${asideItems[0].link}`);
-        } else {
-            cacheRouteRef.current[nav][subNav] = true;
-        }
-    }, [nav]);
-
     return(
         <>
         {nav &&  
             <aside className="aside-container">
                 <div className="aside-header">
-                    {AsideOptions[nav ?? 'schedule'].asideTitle}
+                    {AsideOptions[nav].asideTitle}
                 </div>
                 {AsideOptions[nav].asideItems.map((item)=>(
                     enableUrl[kebabToCamel(nav)][kebabToCamel(item.link)] &&

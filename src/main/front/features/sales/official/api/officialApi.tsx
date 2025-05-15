@@ -1,6 +1,6 @@
 'use server';
 
-import { jwtFilter } from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
 import {ResponseOfficial} from "@/model/types/sales/official/type";
 import {cookies} from "next/headers";
 
