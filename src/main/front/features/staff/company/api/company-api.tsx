@@ -1,7 +1,8 @@
 "use server"
 import {ResponseCompany} from "@/model/types/staff/company/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 export async function getCompany() {

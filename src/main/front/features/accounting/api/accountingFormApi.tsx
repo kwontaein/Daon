@@ -9,7 +9,8 @@ import {
     UnionAccountingType
 } from "@/model/types/accounting/type";
 import {cookies} from "next/headers";
-import {jwtFilter} from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
+
 
 
 //회계 거래처분류 

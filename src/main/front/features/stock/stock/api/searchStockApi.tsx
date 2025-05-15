@@ -1,5 +1,5 @@
 "use server"
-import { jwtFilter } from "@/features/login/api/loginApi";
+import jwtFilter from "@/features/share/jwtFilter";
 import {StockSearchCondition} from "@/model/types/stock/stock/types";
 import {cookies} from "next/headers";
 

@@ -4,11 +4,8 @@ import {create} from 'zustand'
 
 export type UserInfo ={
     userId:string
-    userName:string
-    class: EmployeeClassEnum,
-    role: UserRoleEnum,
-    last_login:Date,
-    dept_Id:string,
+    name:string
+    userClass: EmployeeClassEnum,
     deptName:string,
 }
 
