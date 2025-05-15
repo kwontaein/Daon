@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import './_navigation.scss';
 import { AsideOptions } from '@/model/constants/routes/asideOptions';
-import { EnableUrlType } from '@/model/types/staff/employee/type';
 import { kebabToCamel } from '@/features/share/kebabToCamel';
+import { EnableUrlType } from '@/model/types/share/type';
 
 export default function Navigation({enableUrl} :{enableUrl: EnableUrlType}){
     const navigation_route = Object.entries(AsideOptions)
-
     return(
             <nav className='nav-container'>
                 <ul className='nav-container__ul'>
