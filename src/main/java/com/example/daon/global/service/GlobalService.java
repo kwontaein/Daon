@@ -11,6 +11,7 @@ import com.example.daon.accounting.purchaseVAT.dto.response.PurchaseVATResponse;
 import com.example.daon.accounting.purchaseVAT.model.PurchaseVATEntity;
 import com.example.daon.accounting.salesVAT.dto.response.SalesVATResponse;
 import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
+import com.example.daon.admin.dto.response.AdminCookie;
 import com.example.daon.admin.dto.response.EnableUrlResponse;
 import com.example.daon.admin.dto.response.UserResponse;
 import com.example.daon.admin.model.EnableUrl;
@@ -494,4 +495,13 @@ public class GlobalService {
                 .build();
     }
 
+    public AdminCookie convertToAdminCookie(UserEntity user) {
+        return AdminCookie
+                .builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .userClass(user.getUserClass())
+                .deptName(user.getDept().getDeptName())
+                .build();
+    }
 }
