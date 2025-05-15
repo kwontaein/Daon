@@ -15,15 +15,14 @@ export default function PermissionManagementForm({userName, userId, initialPermi
     userName: string,
     userId: string,
     initialPermission: KeyofAsideValues
-}) {
+}) {    
 
     const checkRecodeState = Object.fromEntries(
         Object.entries(AsideOptions).map(([nav, {asideItems}]) => {
-            const checkedState = useCheckBoxState(asideItems.map(({link}) => link), false, initialPermission[nav])
+            const checkedState = useCheckBoxState(asideItems.map(({link}) => kebabToCamel(link)), false, initialPermission[nav])
             return [nav, checkedState]
         })
     )
-
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(permissionFormAction, {userId})
 
@@ -112,7 +111,7 @@ export default function PermissionManagementForm({userName, userId, initialPermi
                                                 <input
                                                     type='checkbox'
                                                     name={nav}
-                                                    value={link}
+                                                    value={kebabToCamel(link)}
                                                     checked={checkRecodeState[nav].checkedState[kebabToCamel(link)] ?? false}
                                                     onChange={() => checkRecodeState[nav].update_checked(kebabToCamel(link))}/>
                                                 {name}
@@ -126,7 +125,7 @@ export default function PermissionManagementForm({userName, userId, initialPermi
                                                     <input
                                                         type='checkbox'
                                                         name={nav}
-                                                        value={asideItems[idx + 1].link}
+                                                        value={kebabToCamel(asideItems[idx + 1].link)}
                                                         checked={checkRecodeState[nav].checkedState[kebabToCamel(asideItems[idx + 1].link)] ?? false}
                                                         onChange={() => checkRecodeState[nav].update_checked(kebabToCamel(asideItems[idx + 1].link))}/>
                                                     {asideItems[idx + 1].name}
