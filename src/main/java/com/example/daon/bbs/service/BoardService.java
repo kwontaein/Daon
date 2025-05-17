@@ -10,6 +10,7 @@ import com.example.daon.bbs.repository.FileRepository;
 import com.example.daon.global.service.GlobalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,31 +46,38 @@ public class BoardService {
 
     @Transactional
     public void saveBoard(BoardRequest boardRequest) throws IOException {
-        System.out.println("boardRequest : " + boardRequest);
 
         // 1. 게시글 저장
         BoardEntity boardEntity = boardRepository.save(boardRequest.toEntity());
 
         // 2. 첨부파일 저장
         List<MultipartFile> files = boardRequest.getFiles();
+
         for (MultipartFile file : files) {
-            String uuid = UUID.randomUUID().toString();
-            String originalName = file.getOriginalFilename();
-            String fileName = uuid + "_" + originalName;
-            Path path = Paths.get(uploadDir + fileName);
-
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
-
-            // 3. 파일 DB 정보 저장
-            FileEntity fileEntity = new FileEntity();
-            fileEntity.setFileName(fileName);
-            fileEntity.setOriginalName(originalName);
-            fileEntity.setFilePath(path.toString());
-            fileEntity.setBoardId(boardEntity); // 관계 설정
-
-            fileRepository.save(fileEntity);
+            saveOneFile(file, boardEntity);  // 별도 메서드로 트랜잭션 묶기
         }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveOneFile(MultipartFile file, BoardEntity boardEntity) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        String originalName = file.getOriginalFilename();
+        String fileName = uuid + "_" + originalName;
+        Path path = Paths.get(uploadDir + fileName);
+
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+
+        // 3. 파일 DB 정보 저장
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFileId(UUID.randomUUID()); // 이걸 직접 넣어도 안된다는 거지?
+        fileEntity.setFileName(fileName);
+        fileEntity.setOriginalName(originalName);
+        fileEntity.setFilePath(path.toString());
+        fileEntity.setBoardId(boardEntity); // 관계 설정
+
+        fileRepository.save(fileEntity);
+        fileRepository.flush(); // 즉시 DB insert 실행
     }
 
 
