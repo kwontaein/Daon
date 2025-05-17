@@ -4,9 +4,9 @@ import {useUserInformation} from '@/store/zustand/userInfo'
 import '@/styles/form-style/form.scss'
 import './file.scss';
 
-import {startTransition, useActionState, useRef, useState} from 'react';
+import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import BoardAction from '@/features/board/actions/boardActions';
 import {useRouter} from 'next/navigation';
 
@@ -49,17 +49,27 @@ export default function RegisterBoard({initialBoard, mode}) {
         });
     }
 
+    useEffect(()=>{
+        if(state.status){
+            if(state.status===200){
+                window.alert('저장이 완료되었습니다.')
+            }else{
+                window.alert('알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
+            }
+        }
+    },[state])
+
     return (
         <section style={{maxWidth: '700px', width: '100%'}}>
             <form action={action} ref={formRef}>
-                <table className='register-form-table' style={{fontSize: '1rem', marginTop: '1rem'}}>
+                <table className='register-form-table' style={{fontSize: '1rem', marginTop: '1rem', tableLayout:'fixed'}}>
                     <colgroup>
-                        <col style={{width: '10%'}}/>
+                        <col style={{width: '10%', minWidth:'80px'}}/>
                         <col style={{width: '30%'}}/>
                         <col style={{width: '10%'}}/>
-                        <col style={{width: '10%'}}/>
+                        <col style={{width: '10%', minWidth:'80px'}}/>
                         <col style={{width: '30%'}}/>
-                        <col style={{width: '10%'}}/>
+                        <col style={{width: '10%', minWidth:'80px'}}/>
                     </colgroup>
                     <thead></thead>
                     <tbody>
@@ -91,9 +101,6 @@ export default function RegisterBoard({initialBoard, mode}) {
                         </td>
                     </tr>
                     <tr>
-
-                    </tr>
-                    <tr>
                         <td className='table-label'>제목</td>
                         <td colSpan={5}>
                             <input name='title'
@@ -113,7 +120,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                     <tr>
                         <td className='table-label'>첨부파일</td>
                         <td colSpan={4}>
-                            <div className='file-container '>
+                            <div className='file-container'>
                                 <div className='upload-area'>
                                     <div className='file-list'>
                                         {files.map((file, idx) => (
@@ -134,7 +141,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                             </div>
                         </td>
                         <td>
-                            <button type='button' onClick={handleButtonClick} style={{paddingInline: '5px'}}>파일 첨부
+                            <button type='button' onClick={handleButtonClick} style={{width:'100%'}}>파일 첨부
                             </button>
                             <input ref={fileInputRef}
                                    type="file"
