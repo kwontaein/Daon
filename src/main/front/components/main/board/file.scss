@@ -1,6 +1,5 @@
 .file-container {
     width: 100%;
-    max-width: 700px;
     display: block;
     flex-direction: row;
     align-items: flex-start;
@@ -29,35 +28,32 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 6px;
-        min-width: 0
-        }
+        gap: 4px;
+    }
     
     .file-name-container {
-        width: calc(100vw - 370px);
-        max-width: 525px;
-        flex: 1 1 auto;
-        min-width: 0;     
+        flex: 1 1 0;
+        min-width: 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        @media (max-width:620px){
-            width: calc(100vw - 200px);
-        }
-        @media (max-width:500px){
-            width: 70vw;
-        }
+        // @media (max-width:620px){
+        //     width: calc(100vw - 200px);
+        // }
+        // @media (max-width:500px){
+        //     width: 70vw;
+        // }
     }
     
     .removeBtn {
-        width: 12px;
         flex-shrink: 0;
+        width: 16px;
+        height: 16px;
         font-size: 12px;
         background: none;
         border: none;
         color: #c00;
         cursor: pointer;
+        
     }
-
-
 }
