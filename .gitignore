@@ -85,3 +85,5 @@ yarn-error.log*
 
 # 운영 환경 빌드 출력물
 out/
+
+uploads/
