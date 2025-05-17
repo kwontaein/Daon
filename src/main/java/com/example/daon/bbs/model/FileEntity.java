@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -16,13 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FileEntity {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(nullable = false, unique = true, name = "file_id", columnDefinition = "BINARY(16)")
+    @Column(name = "file_id", columnDefinition = "BINARY(16)", updatable = false, nullable = false)
     private UUID fileId;
-    
+
     @ManyToOne
-    @JoinColumn(nullable = false, unique = true, name = "board_id", columnDefinition = "BINARY(16)")
+    @JoinColumn(name = "board_id")
     private BoardEntity boardId;
 
     @Column(name = "original_name")
