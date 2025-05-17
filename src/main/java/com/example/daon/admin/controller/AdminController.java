@@ -32,6 +32,15 @@ public class AdminController {
         return adminService.SignIn(userRequest.getUserId(), userRequest.getPassword(), response);
     }
 
+    /**
+     * 로그아웃
+     */
+    @PostMapping("/api/logout")
+    public String logout(HttpServletResponse response) {
+
+        adminService.logout(response);
+        return "logout";
+    }
 
     //사원정보 crud
     @PostMapping("api/saveEmployee")
