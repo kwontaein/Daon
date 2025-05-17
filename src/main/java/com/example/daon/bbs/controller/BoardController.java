@@ -31,10 +31,12 @@ public class BoardController {
         return boardService.getBoard();
     }
     @PostMapping("api/saveBoard")
+  
     public void saveBoard(
         @RequestPart("board") String boardJson,
         @RequestPart(value = "files", required = false) List<MultipartFile> files
     ) {
+
         try {
             ObjectMapper mapper = new ObjectMapper();
             BoardRequest boardRequest = mapper.readValue(boardJson, BoardRequest.class);
