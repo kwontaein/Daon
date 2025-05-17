@@ -28,6 +28,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -130,6 +131,31 @@ public class AdminService {
         }
     }
 
+    /**
+     * 로그아웃
+     *
+     * @param response 쿠키를 삭제하기 위한 response
+     **/
+    @Transactional
+    public void logout(HttpServletResponse response) {
+        //쿠키를 제거함으로서 로그인 토큰 정보 제거
+        UserDetails userDetails = globalService.extractFromSecurityContext();
+        redisService.deleteUserToken(userDetails.getUsername());
+        removeCookie(response, "accessToken");
+    }
+
+    /**
+     * 쿠키 제거
+     *
+     * @param response 쿠키를 삭제하기 위한 response
+     * @param name     쿠키 이름
+     **/
+    public void removeCookie(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
 
     //사원정보 crud
 
