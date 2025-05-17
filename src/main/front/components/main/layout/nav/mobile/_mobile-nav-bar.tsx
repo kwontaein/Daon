@@ -18,7 +18,7 @@ import { kebabToCamel } from "@/features/share/kebabToCamel";
 export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){
     const navigation_route = Object.entries(AsideOptions)
 
-
+    
     /* route information */
     const searchParams = useSearchParams();
     const nav = useParams().nav as string;
@@ -60,7 +60,7 @@ export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){
                         </li>
                     ))}
                 </ul>
-                <button className={'mobile-logout-button'}>
+                <button className={'mobile-logout-button'} onClick={()=>window.location.replace('/logout')}>
                     <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
                 </button>
             </section>

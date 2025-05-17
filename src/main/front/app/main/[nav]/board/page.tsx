@@ -1,3 +1,4 @@
+import BoardDetail from "@/components/main/board/board-detail";
 import BoardList from "@/components/main/board/board-list";
 import RegisterBoard from "@/components/main/board/register-board";
 import {ResponseBoard} from "@/model/types/board/type";
@@ -75,8 +76,9 @@ export default async function BoardPage({searchParams}: {
 
     return (
         <>
-            {mode === 'view' && <BoardList initialBoardItems={BoardData} page={page}/>}
-            {mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
+            {target && <BoardDetail initialBoard={BoardData[0]}/>}
+            {!target && mode === 'view' && <BoardList initialBoardItems={BoardData} page={page}/>}
+            {!target &&mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
         </>
     )
 

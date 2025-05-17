@@ -15,9 +15,10 @@ import { isHoliday, getLunar } from 'holiday-kr';
 import { useEffect, useState } from 'react';
 import HolidayInfo from './holidayInfo';
 import useSchedule from '@/hooks/schedule/useSchedule';
+import { UserInfo } from '@/store/zustand/userInfo';
 
 
-export default function DaonCalendar(){
+export default function DaonCalendar({user}:{user:UserInfo}){
     const  { itemsRef, target, setTarget } = useItemSelection(true)
     const {
         scheduleStore,
@@ -31,7 +32,7 @@ export default function DaonCalendar(){
         nextMonth, 
         prevYear, 
         nextYear
-    } = useSchedule()
+    } = useSchedule(user)
 
     return(
         <>
