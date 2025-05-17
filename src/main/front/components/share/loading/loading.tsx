@@ -1,3 +1,4 @@
+'use client'
 import './loading.scss'
 import Spinner from '@/assets/spinner.gif'
 import Image from 'next/image';

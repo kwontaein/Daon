@@ -12,7 +12,6 @@ export default function jwtFilter(statusCode: string): Promise<void> {
     if (typeof window === 'undefined') {
       // 서버에서는 응답을 throw해서 API 핸들러가 적절하게 처리하게 함
         if (["401", "403", "500"].includes(statusCode)) {
-            alert( errorMessage[statusCode])
 
             throw new Response(JSON.stringify({ code: 'Unauthorized' ,message: errorMessage[statusCode] }), {
                 status: parseInt(statusCode, 10),
