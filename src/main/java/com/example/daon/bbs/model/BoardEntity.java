@@ -42,7 +42,7 @@ public class BoardEntity {
     @Column(name = "views")
     private int views;
 
-    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "boardId", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<FileEntity> files;
 
     public void updateFromRequest(BoardRequest boardRequest) {
