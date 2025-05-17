@@ -26,9 +26,11 @@ public class BoardController {
 
     @PostMapping("api/saveBoard")
     public void saveBoard(@ModelAttribute BoardRequest boardRequest) {
+        System.out.println("저장 실행");
         try {
             boardService.saveBoard(boardRequest);
         } catch (IOException e) {
+            System.out.println("저장 실행 실패");
             throw new RuntimeException(e);
         }
     }
