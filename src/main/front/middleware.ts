@@ -17,13 +17,22 @@ export async function middleware(request: NextRequest) {
     const user = (await cookies()).get('user')?.value
     const cookie = (await cookies()).get('accessToken')?.value;
 
+    if(pathname.startsWith('/logout')){
+      const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
+      redirectResponse.cookies.delete('accessToken');
+      redirectResponse.cookies.delete('user');
+      redirectResponse.cookies.delete('enable_url');
+      return redirectResponse;
+    }
+
     if((!enable_url || !user || !cookie)){
       //하나라도 없으면 전부 삭제
-      response.cookies.delete('accessToken');
-      response.cookies.delete('user');
-      response.cookies.delete('enable_url');
+      const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
+      redirectResponse.cookies.delete('accessToken');
+      redirectResponse.cookies.delete('user');
+      redirectResponse.cookies.delete('enable_url');
       if(!isPublicRoute){ //권한이 없는데 공용라우트가 아니면 로그인창으로 우회
-        return NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
+        return redirectResponse;
       }
     }else{ 
       if(cookie && pathname === AUTH_ROUTES.LOGIN){ //쿠키가 존재하는데 로그인창으로 이동 시도 시 => 다시 돌아가기
@@ -95,10 +104,11 @@ export async function middleware(request: NextRequest) {
           }
         }
       }catch(e){
-        response.cookies.delete('accessToken');
-        response.cookies.delete('user');
-        response.cookies.delete('enable_url');
-        return NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
+        const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
+        redirectResponse.cookies.delete('accessToken');
+        redirectResponse.cookies.delete('user');
+        redirectResponse.cookies.delete('enable_url');
+        return redirectResponse;
       }  
     }
     

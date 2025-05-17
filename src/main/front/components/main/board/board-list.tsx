@@ -25,7 +25,6 @@ function searchBoardAction(prev, formData){
             ? prev.initialBoardItems
                 .filter((board) => board[searchOption].includes(searchTitle))
             : null
-        
     }
 }
 

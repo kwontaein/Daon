@@ -4,12 +4,13 @@ import CustomTextInput from '../share/custom-text-input/page';
 import { startTransition, useActionState, useCallback, useEffect, useRef, useState } from 'react';
 import RememberChecked from './rememberChecked';
 import loginAction from '@/features/login/actions/loginAction';
+import { useUserInformation } from '@/store/zustand/userInfo';
 
 function Login() {
   const [currentId, setCurrentId] = useState<string|undefined>(undefined);
   const [state, action, isPending] = useActionState(loginAction,{})
   const formRef =useRef(null)
-
+  const {deleteUser} = useUserInformation()
 
   const submitHandler = useCallback(() => {
     const formData = new FormData(formRef.current);
@@ -21,6 +22,7 @@ function Login() {
   useEffect(()=>{
     const savedId = localStorage.getItem('savedId')??''
     setCurrentId(savedId)
+    deleteUser();
   },[])
 
   useEffect(()=>{

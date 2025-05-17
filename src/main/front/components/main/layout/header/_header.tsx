@@ -52,7 +52,7 @@ export default function MainHeader({userInfo}) {
                 <p className="header-lastOnline">
                     최종접속일시 : {formattedLastLogin}
                 </p>
-                <button className="logout-button">
+                <button className="logout-button" onClick={()=>window.location.replace('/logout')}>
                     <FontAwesomeIcon icon={faPowerOff} style={{ width: '1.2rem' }} />
                     로그아웃
                 </button>

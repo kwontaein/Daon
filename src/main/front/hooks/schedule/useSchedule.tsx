@@ -3,17 +3,16 @@ import { useItemSelection } from '@/hooks/share/useItemSelection';
 import { isHoliday } from 'holiday-kr';
 import { useEffect, useMemo, useState } from 'react';
 import { saveSchedules } from "@/features/schedule/api/scheduleApi";
-import { useUserInformation } from "@/store/zustand/userInfo";
+import { UserInfo, useUserInformation } from "@/store/zustand/userInfo";
 import dayjs from 'dayjs';
 import { useFetchCalendar } from '@/store/react-query/page';
 import { RequestSchedule, ScheduleDateOfKey } from '@/model/types/schedule/type';
 
-export default function useSchedule(){
+export default function useSchedule(user:UserInfo){
     const {currentDate ,prevMonth, nextMonth, prevYear, nextYear, mode, setMode} = useCalendar()
     const daysInMonth = dayjs(currentDate).daysInMonth(); //해당 달의 일수 (4월 =>30)
     const startDayOfWeek = dayjs(currentDate).startOf('month').day() //시작하는 요일
     const endDayOfWeek = dayjs(currentDate).endOf('month').day() // 끝나는 요일
-    const {user} = useUserInformation()
     const {data, refetch} = useFetchCalendar( user.userId, currentDate.getFullYear())
     const [scheduleStore, setScheduleStore] = useState<ScheduleDateOfKey>({})
     
