@@ -61,6 +61,11 @@ public class WebSocketAspect {
 
     // 단일 DTO 파라미터를 처리하여 toString() 결과를 파싱함으로써 [paramName + "Id"]와 추가 조건에 따른 값을 추출
     private void processSingleParam(Object paramValue) {
+        if (paramValue == null) {
+            // 로그를 남기거나 아무 처리 없이 리턴
+            System.out.println("paramValue is null. Skipping processing.");
+            return;
+        }
         Field[] fields = paramValue.getClass().getDeclaredFields();
 
         for (Field field : fields) {
