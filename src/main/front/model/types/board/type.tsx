@@ -14,6 +14,9 @@ export type BoardFile={
     fileId:string,
     fileLink:string,
     fileName:string
+    originalName:string
+    download:number
+    fileSize:number
 }
 export type RequestBoard = {
     boardId?: string
