@@ -26,8 +26,8 @@ public class BoardRequest {
     private int views;
     private List<MultipartFile> files;      // 기존 저장 항목
     //----------------------업데이트 시 필요항목
-    /*private List<UUID> existingFileIds;     // 유지할 파일 ID 목록
-    private List<MultipartFile> newFiles;   // 새로 업로드된 파일들*/
+    private List<UUID> existingFileIds;     // 유지할 파일 ID 목록
+    private List<MultipartFile> newFiles;   // 새로 업로드된 파일들
 
     public BoardEntity toEntity() {
         return BoardEntity

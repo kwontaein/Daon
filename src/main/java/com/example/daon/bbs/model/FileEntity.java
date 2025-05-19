@@ -30,4 +30,11 @@ public class FileEntity {
 
     @Column(name = "file_name")
     private String fileName; //저장 파일 이름
+
+    @Column(name = "download")
+    private int download; //저장 파일 횟수
+
+    @Column(name = "file_size")
+    private Long fileSize; // byte 단위
+
 }

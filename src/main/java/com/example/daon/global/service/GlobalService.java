@@ -439,8 +439,11 @@ public class GlobalService {
                 .builder()
                 .fileId(fileEntity.getFileId())
                 .boardId(fileEntity.getBoardId().getBoardId())
-                .fileName(fileEntity.getFileName())
+                .originalName(fileEntity.getOriginalName())
+                .fileName(fileEntity.getOriginalName())
                 .fileLink(fileEntity.getFilePath())
+                .fileSize(fileEntity.getFileSize())
+                .download(fileEntity.getDownload())
                 .build();
     }
 
