@@ -1,9 +1,9 @@
 "use server"
-import {ResponseBoard} from "@/model/types/board/type";
+import {RequestBoard} from "@/model/types/board/type";
 import {saveBoardApi, updateBoardApi} from "@/features/board/api/boardApi";
 
 export default async function BoardAction(prevState, formData) {
-    const formState: ResponseBoard = {
+    const formState: RequestBoard = {
         writer: formData.get('writer'),
         title: formData.get('title'),
         content: formData.get('content'),
@@ -22,5 +22,6 @@ export default async function BoardAction(prevState, formData) {
     return {
         ...prevState,
         ...formState,
+        status
     }
 }

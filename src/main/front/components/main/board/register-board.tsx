@@ -9,8 +9,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import BoardAction from '@/features/board/actions/boardActions';
 import {useRouter} from 'next/navigation';
+import { ResponseBoard } from '@/model/types/board/type';
 
-export default function RegisterBoard({initialBoard, mode}) {
+export default function RegisterBoard({initialBoard, mode}:{initialBoard:ResponseBoard, mode:'write'|'edit'}) {
     const {user} = useUserInformation()
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef(null);
@@ -53,6 +54,7 @@ export default function RegisterBoard({initialBoard, mode}) {
         if(state.status){
             if(state.status===200){
                 window.alert('저장이 완료되었습니다.')
+                router.replace('/main/board/board')
             }else{
                 window.alert('알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
