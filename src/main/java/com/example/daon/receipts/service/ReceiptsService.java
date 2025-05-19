@@ -100,6 +100,7 @@ public class ReceiptsService {
 
         if (request.getStockId() != null) {
             stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
+            stock.setQuantity(stock.getQuantity());
         }
 
         if (request.getOfficialId() != null) {
@@ -109,11 +110,23 @@ public class ReceiptsService {
         if (request.getReceiptId() != null) {
             ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
             if (receiptEntity != null) {
-                //이전에 더했던 값 빼기
+                // 기존 총합 롤백
                 updateDailyTotal(receiptEntity.getTotalPrice().negate(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
-                //새로운 값 더하기
+
+                // ✅ 기존 수량 롤백
+                if (stock != null && receiptEntity.getQuantity() != null) {
+                    adjustStockQuantity(stock, receiptEntity.getQuantity(), receiptEntity.getCategory(), true); // true: rollback
+                }
+
+                // 총합 업데이트
                 updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
+
                 receiptEntity.updateFromRequest(request, customer, stock);
+
+                // ✅ 새로운 수량 반영
+                if (stock != null && request.getQuantity() != null) {
+                    adjustStockQuantity(stock, request.getQuantity(), request.getCategory(), false); // false: apply new
+                }
                 receiptRepository.save(receiptEntity);
                 return;
             }
@@ -123,6 +136,7 @@ public class ReceiptsService {
         ReceiptEntity receipt = request.toEntity(entity, customer, stock, official);
 
         if (request.getQuantity() != null && stock != null) {
+            adjustStockQuantity(stock, request.getQuantity(), request.getCategory(), false); // 신규 적용
             BigDecimal quantity = BigDecimal.valueOf(request.getQuantity());
             BigDecimal tp = quantity.multiply(stock.getOutPrice());
             receipt.setTotalPrice(tp);
@@ -135,6 +149,31 @@ public class ReceiptsService {
         request.setReceiptId(receiptEntity.getReceiptId());
     }
 
+    //재고 수량 업데이트
+    private void adjustStockQuantity(StockEntity stock, Integer quantity, ReceiptCategory category, boolean isRollback) {
+        if (quantity == null || stock == null || category == null) return;
+
+        int currentStock = stock.getQuantity();
+        int q = quantity;
+
+        switch (category) {
+            case PURCHASE:
+            case RETURN_IN:
+                stock.setQuantity(currentStock + (isRollback ? -q : q)); // 입고
+                break;
+
+            case SALES:
+            case RETURN_OUT:
+                stock.setQuantity(currentStock + (isRollback ? q : -q)); // 출고
+                break;
+
+            // 기타 카테고리는 재고 변화 없음
+            default:
+                break;
+        }
+
+        stockRepository.save(stock);
+    }
 
     /**
      * 전표 저장 및 수정 (단일 객체)

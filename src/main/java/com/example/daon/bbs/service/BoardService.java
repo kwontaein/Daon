@@ -47,7 +47,7 @@ public class BoardService {
 
     @Transactional
     public void saveBoard(BoardRequest boardRequest) throws IOException {
-
+        System.out.println(boardRequest.getContent());
         // 1. 게시글 저장
         BoardEntity boardEntity = boardRepository.save(boardRequest.toEntity());
 
