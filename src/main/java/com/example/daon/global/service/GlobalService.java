@@ -441,6 +441,8 @@ public class GlobalService {
                 .boardId(fileEntity.getBoardId().getBoardId())
                 .fileName(fileEntity.getOriginalName())
                 .fileLink(fileEntity.getFilePath())
+                .fileSize(fileEntity.getFileSize())
+                .download(fileEntity.getDownload())
                 .build();
     }
 
