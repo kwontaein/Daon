@@ -86,7 +86,7 @@ public class BoardService {
 
     @Transactional
     public void updateBoard(BoardRequest boardRequest) throws IOException {
-    /*    UUID boardId = boardRequest.getBoardId();
+        UUID boardId = boardRequest.getBoardId();
 
         // 1. 게시글 가져오기
         BoardEntity boardEntity = boardRepository.findById(boardId)
@@ -111,32 +111,17 @@ public class BoardService {
 
             fileRepository.delete(file); // DB 삭제
         }
-
         // 새 파일 저장
         List<MultipartFile> newFiles = boardRequest.getNewFiles();
         for (MultipartFile file : newFiles) {
-            String uuid = UUID.randomUUID().toString();
-            String originalName = file.getOriginalFilename();
-            String fileName = uuid + "_" + originalName;
-            Path path = Paths.get(uploadDir + fileName);
-
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
-
-            FileEntity fileEntity = new FileEntity();
-            fileEntity.setFileName(fileName);
-            fileEntity.setOriginalName(originalName);
-            fileEntity.setFilePath(path.toString());
-            fileEntity.setBoardId(boardEntity);
-
-            fileRepository.save(fileEntity);
+            saveOneFile(file, boardEntity);
         }
 
         // 4. 서브테이블 정보 업데이트 (예: 태그, 댓글, etc.)
         // TODO: 필요시 여기에 구현
 
         // 5. 게시글 저장 (JPA 영속성 컨텍스트로 생략 가능)
-        boardRepository.save(boardEntity);*/
+        boardRepository.save(boardEntity);
     }
 
 
@@ -179,7 +164,6 @@ public class BoardService {
     public void updateDownload(FileRequest fileRequest) {
         FileEntity file = fileRepository.findById(fileRequest.getFileId()).orElse(null);
         file.setDownload(file.getDownload() + 1);
-
         fileRepository.save(file);
     }
 }
