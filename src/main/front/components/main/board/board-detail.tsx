@@ -12,7 +12,7 @@ import { useItemSelection } from '@/hooks/share/useItemSelection';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import BoardOption from './options';
 import { ClientMousePosition } from '@/model/types/share/type';
-import { after } from 'next/server';
+
 
 export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     initialBoard: ResponseBoard,
@@ -26,7 +26,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     const {itemsRef, target,setTarget} = useItemSelection(true)
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
    
-
+    console.log(initialBoard)
     const getMousePosition = (
         e: MouseEvent<HTMLDivElement>,
     ) => {
@@ -86,7 +86,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
 
                     <tr>
                         <td colSpan={6} style={{paddingBlock: '5px', border:'unset'}}>
-                            <div style={{minHeight:'200px', padding:'5px'}}>
+                            <div style={{minHeight:'200px', padding:'5px', whiteSpace:'pre-wrap'}}>
                                 {state.content}
                             </div>
                         </td>
@@ -102,7 +102,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                                                 <div className='file-name-container' title={file.fileName}><b>{file.fileName}</b></div>
                                                 <div
                                                     className='icon'
-                                                    style={{position:'relative'}}
+                                                    style={{position:'relative', width:'16px', height:'16px'}}
                                                     onClick={(e)=> {
                                                             (target === file.fileId && target) ? setTarget(null) :setTarget(file.fileId)
                                                             setMousePosition(getMousePosition(e))
