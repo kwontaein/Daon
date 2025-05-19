@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -26,7 +27,7 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @PostMapping("api/getBoard")
+    @GetMapping("api/getBoard")
     public List<BoardResponse> getBoard() {
         return boardService.getBoard();
     }
