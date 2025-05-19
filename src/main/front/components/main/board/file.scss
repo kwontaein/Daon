@@ -37,12 +37,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // @media (max-width:620px){
-        //     width: calc(100vw - 200px);
-        // }
-        // @media (max-width:500px){
-        //     width: 70vw;
-        // }
+        position: relative;
     }
     
     .removeBtn {
@@ -54,6 +49,28 @@
         border: none;
         color: #c00;
         cursor: pointer;
-        
+    }
+}
+
+.ellipsis {
+    white-space: nowrap;       
+    overflow: hidden;          
+    text-overflow: ellipsis;   
+    display: block;            
+    max-width: 100%;           
+  }
+
+
+.borad-control-container{
+    max-width: 700px;
+    width: 100%;
+    tr{
+        cursor: pointer;
+        border-block: 10px solid #e8e8e8;
+        height: 27px;
+        td{
+            padding: 5px;
+            text-align: left;
+        }
     }
 }

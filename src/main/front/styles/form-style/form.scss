@@ -107,6 +107,12 @@
     }
 }
 
+.icon{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .label-selector{
     border: none;

@@ -6,7 +6,10 @@ import com.example.daon.bbs.dto.response.BoardResponse;
 import com.example.daon.bbs.service.BoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -50,8 +53,17 @@ public class BoardController {
     }
 
     @PostMapping("api/updateBoard")
-    public void updateBoard(@ModelAttribute BoardRequest boardRequest) {
+    public void updateBoard(
+        @RequestPart("board") String boardJson,
+        @RequestPart(value = "newFiles", required = false) List<MultipartFile> newFiles
+    ) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            BoardRequest boardRequest = mapper.readValue(boardJson, BoardRequest.class);
+
+            if (newFiles != null && !newFiles.isEmpty()) {
+                boardRequest.setNewFiles(newFiles);
+            }
             boardService.updateBoard(boardRequest);
         } catch (IOException e) {
             throw new RuntimeException(e);
