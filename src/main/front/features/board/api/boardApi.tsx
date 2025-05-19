@@ -1,3 +1,4 @@
+"use server"
 import jwtFilter from "@/features/share/jwtFilter";
 
 import {RequestBoard} from "@/model/types/board/type";
@@ -13,6 +14,7 @@ export async function getBoardApi() {
                 Cookie: cookie
             },
             credentials: 'include',
+            next: {revalidate: 3600, tags: ['board']}
         });
         await jwtFilter(response.status.toString());
 
@@ -126,7 +128,8 @@ export async function deleteBoardApi(boardId: string) {
     }
 }
 
-export async function updateBoard(boardId: string) {
+export async function updateViews(boardId: string) {
+    console.log(boardId)
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
@@ -134,7 +137,7 @@ export async function updateBoard(boardId: string) {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                Cookie: cookie
+                Cookie:cookie
             },
             credentials: 'include',
             body: JSON.stringify({boardId}),
