@@ -12,6 +12,7 @@ import { useItemSelection } from '@/hooks/share/useItemSelection';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import BoardOption from './options';
 import { ClientMousePosition } from '@/model/types/share/type';
+import { after } from 'next/server';
 
 export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     initialBoard: ResponseBoard,
@@ -34,10 +35,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
         return(
             { x:tableRect.left-30, y:tableRect.top+20 }
         )
-        //            { x: e.clientX - tableRect.left, y: e.clientY - tableRect.top }
-
     };
-
 
 
     const router = useRouter()
@@ -63,13 +61,13 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                     <thead></thead>
                     <tbody>
                     <tr>
-                        <td className='table-label'>제목</td>
-                        <td colSpan={5}>
+                        <td className='table-label' style={{borderLeft:'unset'}}>제목</td>
+                        <td colSpan={5} style={{borderRight:'unset'}}>
                             {state.title}
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>작성자</td>
+                        <td className='table-label' style={{borderLeft:'unset'}}>작성자</td>
                         <td>
                             {state.writer}
                             <input type='hidden' name='writer' defaultValue={state.writer} readOnly/>
@@ -81,21 +79,21 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                             </span>
                         </td>
                         <td className='table-label'>조회</td>
-                        <td style={{textAlign:'center'}}>
+                        <td style={{textAlign:'center', borderRight:'unset'}}>
                             {state.views}
                         </td>
                     </tr>
 
                     <tr>
-                        <td colSpan={6} style={{paddingBlock: '5px'}}>
+                        <td colSpan={6} style={{paddingBlock: '5px', border:'unset'}}>
                             <div style={{minHeight:'200px', padding:'5px'}}>
                                 {state.content}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td className='table-label'>첨부된파일</td>
-                        <td colSpan={5}>
+                        <td className='table-label' style={{borderLeft:'unset'}}>첨부된파일</td>
+                        <td colSpan={5} style={{padding:'unset', borderRight:'unset'}}>
                             <div className='file-container'>
                                 <div className='upload-area'>
                                     <div className='file-list'>
@@ -138,7 +136,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                     {beforeBoard && 
                         <tr>
                             <td style={{color:'#CC3300'}}>△ 이전글</td>
-                            <td onClick={()=>router.push(`/main/board/board/?target=${afterBoard.boardId}`)}><a>{beforeBoard.title}</a></td>
+                            <td onClick={()=>router.push(`/main/board/board/?target=${beforeBoard.boardId}`)}><a>{beforeBoard.title}</a></td>
                             <td style={{textAlign:'right'}}>{beforeBoard.writer}</td>
                         </tr>
                     }
