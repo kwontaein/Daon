@@ -118,6 +118,7 @@ export default function BoardList({initialBoardItems,page}:{
                             <td>{board.views}</td>
                         </tr>
                     ))}
+                    {pageByBoard.length ===0 && <tr><td colSpan={5}>내용이 존재하지 않습니다.</td></tr>}
                 </tbody>              
             </table>
             <Pagination
