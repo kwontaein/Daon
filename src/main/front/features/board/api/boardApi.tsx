@@ -79,15 +79,35 @@ export async function saveBoardApi(board: RequestBoard) {
 export async function updateBoardApi(board: RequestBoard) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
+   
+    const formData = new FormData();
+
+    const boardData = {
+        boardId:board.boardId,
+        writer: board.writer,
+        title: board.title,
+        content: board.content,
+        notice: board.notice,
+        views:board.views,
+        existingFileIds:board.existingFileIds
+    };
+
+    formData.append("board", JSON.stringify(boardData)); // "board"는 서버에서 받을 필드명
+
+    // 첨부파일 배열이 있다면
+    if (board.newFiles && board.newFiles.length > 0) {
+        board.newFiles.forEach((file: File) => {
+            formData.append("newFiles", file); // 필드명 "files"는 백엔드 DTO와 일치해야 함
+        });
+    }
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
                 Cookie: cookie
             },
+            body: formData, // ✅ Content-Type 자동 설정됨
             credentials: 'include',
-            body: JSON.stringify(board),
         });
         await jwtFilter(response.status.toString());
         return response.status
