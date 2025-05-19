@@ -83,8 +83,8 @@ export default async function BoardPage({searchParams}: {
 
         const beforeBoard = idx-1 >=0 ? initialBoards[idx-1] :null
         const afterBoard = idx+1 <= initialBoards.length ? initialBoards[idx+1] :null
-        
-        if(board){
+
+        if(board){ 
             return <BoardDetail initialBoard={board} beforeBoard={beforeBoard} afterBoard={afterBoard}/>
         }else{
             notFound()
