@@ -67,17 +67,17 @@ public class BoardController {
     }
 
     @PostMapping("api/updateDownload")
-    public void updateDownload(@ModelAttribute FileRequest fileRequest) {
+    public void updateDownload(@RequestBody FileRequest fileRequest) {
         boardService.updateDownload(fileRequest);
     }
 
     @PostMapping("api/deleteBoard")
-    public void deleteBoard(@ModelAttribute BoardRequest boardRequest) {
+    public void deleteBoard(@RequestBody BoardRequest boardRequest) {
         boardService.deleteBoard(boardRequest);
     }
 
     @PostMapping("api/updateViews")
-    public void updateViews(@ModelAttribute BoardRequest boardRequest) {
+    public void updateViews(@RequestBody BoardRequest boardRequest) {
         boardService.updateViews(boardRequest);
     }
 
