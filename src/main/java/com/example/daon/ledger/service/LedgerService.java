@@ -237,12 +237,13 @@ public class LedgerService {
 
     //넌 일단 보류 - 기타원장
     public List<LedgerResponse> getExtraLedger(LedgerRequest ledgerRequest) {
+        System.out.println(ledgerRequest);
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
-            if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchSDate() != null) {
-                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchSDate()));
+            if (ledgerRequest.getSearchSDate() != null && ledgerRequest.getSearchEDate() != null) {
+                predicates.add(criteriaBuilder.between(root.get("timeStamp"), ledgerRequest.getSearchSDate(), ledgerRequest.getSearchEDate()));
             }
 
             if (ledgerRequest.getCustomerId() != null) {
@@ -258,7 +259,7 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-
+        System.out.println(receiptEntities.size());
         return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
