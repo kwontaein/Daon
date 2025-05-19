@@ -14,6 +14,9 @@ import java.util.UUID;
 public class FileResponse {
     private String fileLink;
     private String fileName;
+    private String originalName;
     private UUID fileId;
     private UUID boardId;
+    private long fileSize;
+    private int download;
 }
