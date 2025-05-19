@@ -14,6 +14,7 @@ export default async function BoardAction(prevState, formData) {
 
     const action = formData.get('action')
     let status;
+
     if (action === 'write') {
         status = await saveBoardApi(formState)
     } else if (action === 'edit') {
