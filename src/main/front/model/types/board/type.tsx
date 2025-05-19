@@ -7,6 +7,7 @@ export type ResponseBoard = {
     notice: boolean
     views?: number
     files?:BoardFile[]
+
 }
 
 export type BoardFile={
@@ -26,5 +27,7 @@ export type RequestBoard = {
     content: string
     notice: boolean
     views?: number
-    files?: File[]
+    files?: File[]    
+    existingFileIds?:string[] //수정 시 유지되는 파일id들
+    newFiles?:File[];   // 새로 업로드된 파일들
 }

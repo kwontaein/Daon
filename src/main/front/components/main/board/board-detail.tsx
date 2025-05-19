@@ -2,7 +2,7 @@
 import '@/styles/form-style/form.scss'
 import './file.scss';
 
-import React, {MouseEvent, useActionState, useEffect, useRef, useState} from 'react';
+import React, {MouseEvent, startTransition, useEffect, useMemo, useOptimistic, useRef, useState} from 'react';
 import BoardAction from '@/features/board/actions/boardActions';
 import {useRouter} from 'next/navigation';
 import dayjs from 'dayjs';
@@ -14,7 +14,12 @@ import BoardOption from './options';
 import { ClientMousePosition } from '@/model/types/share/type';
 import { filesize } from 'filesize';
 import { updateViews } from '@/features/board/api/boardApi';
+import { useUserInformation } from '@/store/zustand/userInfo';
+import BoardDetailOption from './board-detail-options';
 
+const fetchViews = async (boardId:string)=>{
+    await updateViews(boardId)
+}
 
 export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     initialBoard: ResponseBoard,
@@ -22,40 +27,63 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     afterBoard?: ResponseBoard
 }) {
     const [files, setFiles] = useState<BoardFile[]>([]);
-    const formRef = useRef(null)
-    const [state, action, isPending] = useActionState(BoardAction, initialBoard ?? {})
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const {itemsRef, target,setTarget} = useItemSelection(true)
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
-   
+    const router = useRouter()
+    
+    const {user} = useUserInformation()
+    const hasFetchedViews = useRef(false); //views 중복 업데이트 방지
+
+    const [views, dispatchView] = useOptimistic(initialBoard.views,(initialBoard, actionType)=>{
+        switch(actionType){
+            case 'update' :
+                return initialBoard+1;
+            case 'rollback' :
+                return initialBoard;
+        }
+    })
+
+    const fetchBoardViews =()=>{
+        try{
+            startTransition(()=>{
+                dispatchView('update')
+            })
+            updateViews(initialBoard.boardId)
+        }catch(error){
+            startTransition(()=>{
+                dispatchView('rollback')
+            })
+            console.error('Failed to update views:', error);
+        }
+
+    }
+    useEffect(()=>{
+        if (hasFetchedViews.current) return;
+        hasFetchedViews.current = true;
+        fetchBoardViews()
+    },[])
+
     const getMousePosition = (
         e: MouseEvent<HTMLDivElement>,
     ) => {
         e.preventDefault();
         const tableRect = e.currentTarget.getBoundingClientRect();
         return(
-            { x:tableRect.left-30, y:tableRect.top+20 }
+            { x:tableRect.left-30, y:tableRect.top + 20}
         )
     };
-    useEffect(()=>{
-        const fetchViews = async ()=>{
-            await updateViews(initialBoard.boardId)
-        }
-        fetchViews()
-    },[])
 
-
-    const router = useRouter()
+    console.log(initialBoard.files)
 
     useEffect(()=>{
-        if(initialBoard.files.length===0) return
+
         setFiles(initialBoard.files)
     },[initialBoard])
 
     
     return (
         <section style={{maxWidth: '700px', width: '100%', position:'relative'}}>
-            <form action={action} ref={formRef}>
                 <table className='register-form-table' style={{fontSize: '1rem', marginTop: '1rem', tableLayout:'fixed'}}>
                     <colgroup>
                         <col style={{width: '15%', minWidth:'90px'}}/>
@@ -69,32 +97,46 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                     <tbody>
                     <tr>
                         <td className='table-label' style={{borderLeft:'unset'}}>제목</td>
-                        <td colSpan={5} style={{borderRight:'unset'}}>
-                            {state.title}
+                        <td colSpan={user.userId !== initialBoard.writer ? 5 : 4} style={{borderRight:'unset'}}>
+                            {initialBoard.title}
                         </td>
+                        {user.userId === initialBoard.writer && 
+                            <td style={{borderInline:'unset'}} ref={(el) =>{itemsRef.current[initialBoard.boardId] = el}}>
+                                 <div
+                                    className='icon'
+                                    style={{position:'relative', width:'16px', height:'16px', marginLeft: 'auto'}}
+                                    onClick={(e)=> {
+                                            (target === initialBoard.boardId && target) ? setTarget(null) :setTarget(initialBoard.boardId)
+                                            setMousePosition(getMousePosition(e))
+                                        }}>
+                                        <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === initialBoard.boardId &&{color:'orange'}}/>
+                                    {target === initialBoard.boardId && <BoardDetailOption  boardId={initialBoard.boardId} position={mousePosition}/>}
+                                </div>
+                            </td>
+                        }
                     </tr>
                     <tr>
                         <td className='table-label' style={{borderLeft:'unset'}}>작성자</td>
                         <td>
-                            {state.writer}
-                            <input type='hidden' name='writer' defaultValue={state.writer} readOnly/>
+                            {initialBoard.writer}
+                            <input type='hidden' name='writer' defaultValue={initialBoard.writer} readOnly/>
                         </td>
                         <td className='table-label'>작성일자</td>
                         <td>
                             <span className='ellipsis '>
-                                {dayjs(state.createAt).format('YY.MM.DD A hh:mm:ss')}
+                                {dayjs(initialBoard.createAt).format('YY.MM.DD A hh:mm:ss')}
                             </span>
                         </td>
                         <td className='table-label'>조회</td>
                         <td style={{textAlign:'center', borderRight:'unset'}}>
-                            {state.views}
+                            {views}
                         </td>
                     </tr>
 
                     <tr>
                         <td colSpan={6} style={{paddingBlock: '5px', border:'unset'}}>
                             <div style={{minHeight:'200px', padding:'5px', whiteSpace:'pre-wrap'}}>
-                                {state.content}
+                                {initialBoard.content}
                             </div>
                         </td>
                     </tr>
@@ -113,10 +155,9 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                                                     onClick={(e)=> {
                                                             (target === file.fileId && target) ? setTarget(null) :setTarget(file.fileId)
                                                             setMousePosition(getMousePosition(e))
-                                                            setTarget(file.fileId);
                                                         }}>
                                                         <MemoizedFontAwesomeIcon icon={faEllipsis} style={target === file.fileId &&{color:'orange'}}/>
-                                                    {target === file.fileId && <BoardOption fileId={file.fileId} boardId={file.boardId} position={mousePosition}/>}
+                                                    {target === file.fileId && <BoardOption fileLink={file.fileLink} position={mousePosition}/>}
                                                 </div>
                                             </div>
                                         ))}
@@ -132,7 +173,6 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                     </tr>
                     </tbody>
                 </table>
-            </form>
             <table className='borad-control-container'>
                 <colgroup>
                     <col style={{width:'15%', minWidth:'70px'}}></col>
