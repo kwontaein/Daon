@@ -1,8 +1,10 @@
 import BoardDetail from "@/components/main/board/board-detail";
 import BoardList from "@/components/main/board/board-list";
 import RegisterBoard from "@/components/main/board/register-board";
+import { getBoardApi } from "@/features/board/api/boardApi";
 import {ResponseBoard} from "@/model/types/board/type";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import {v4 as uuidv4} from "uuid";
 
 const BoardData: ResponseBoard[] = [
@@ -73,12 +75,25 @@ export default async function BoardPage({searchParams}: {
     const target = (await searchParams).target || ''
     const mode = (await searchParams).mode ?? 'view'
 
+    const initialBoards:ResponseBoard[] = await getBoardApi()
 
+    if(target){
+        const board = initialBoards.find(({boardId})=>boardId ===target)
+        const idx = initialBoards.findIndex(({boardId})=>boardId ===target)
+
+        const beforeBoard = idx-1 >=0 ? initialBoards[idx-1] :null
+        const afterBoard = idx+1 <= initialBoards.length ? initialBoards[idx+1] :null
+        
+        if(board){
+            return <BoardDetail initialBoard={board} beforeBoard={beforeBoard} afterBoard={afterBoard}/>
+        }else{
+            notFound()
+        }
+    }
     return (
         <>
-            {target && <BoardDetail initialBoard={BoardData[0]}/>}
-            {!target && mode === 'view' && <BoardList initialBoardItems={BoardData} page={page}/>}
-            {!target &&mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
+            {mode === 'view' && <BoardList initialBoardItems={initialBoards} page={page}/>}
+            {mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
         </>
     )
 
