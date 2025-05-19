@@ -8,15 +8,27 @@ import {startTransition, useActionState, useEffect, useRef, useState} from 'reac
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import BoardAction from '@/features/board/actions/boardActions';
-import {useRouter} from 'next/navigation';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+import { ResponseBoard } from '@/model/types/board/type';
 
-export default function RegisterBoard({initialBoard, mode}) {
+export default function RegisterBoard({initialBoard, mode}:{initialBoard:ResponseBoard, mode:'write'|'edit'}) {
     const {user} = useUserInformation()
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef(null);
     const formRef = useRef(null)
+
     const [state, action, isPending] = useActionState(BoardAction, initialBoard ?? {})
+    const [initialFiles, setInitialFiles] = useState(initialBoard?.files??[])
     const router = useRouter()
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+  
+    const deleteMode = ()=>{
+        const params = new URLSearchParams(searchParams.toString()); 
+        params.delete("mode"); 
+      // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`); 
+    }
 
     const handleButtonClick = () => {
         fileInputRef.current?.click();
@@ -52,7 +64,13 @@ export default function RegisterBoard({initialBoard, mode}) {
     useEffect(()=>{
         if(state.status){
             if(state.status===200){
-                window.alert('저장이 완료되었습니다.')
+                if(mode === 'write'){
+                    window.alert('저장이 완료되었습니다.')
+                    router.replace('/main/board/board')
+                }else if(mode ==='edit'){
+                    window.alert('수정 완료되었습니다.')
+                    deleteMode()
+                }
             }else{
                 window.alert('알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
@@ -123,8 +141,17 @@ export default function RegisterBoard({initialBoard, mode}) {
                             <div className='file-container'>
                                 <div className='upload-area'>
                                     <div className='file-list'>
+                                        {initialFiles.map((file,idx)=>(
+                                            <div className='file-item' key={'initialFiles'+idx}>
+                                            <div className='file-name-container' title={file.originalName}>{file.originalName}</div>
+                                            <input type='hidden' name='existingFileIds' value={file.fileId} readOnly/>
+                                            <button onClick={() => setInitialFiles((prev)=>prev.filter(({originalName})=>originalName!==file.originalName))} className='removeBtn'>
+                                                <FontAwesomeIcon icon={faXmark}/>
+                                            </button>
+                                        </div>
+                                        ))}
                                         {files.map((file, idx) => (
-                                            <div className='file-item' key={idx}>
+                                            <div className='file-item' key={'files'+idx}>
                                                 <div className='file-name-container' title={file.name}>{file.name}</div>
                                                 <button onClick={() => removeFile(idx)} className='removeBtn'>
                                                     <FontAwesomeIcon icon={faXmark}/>
@@ -132,7 +159,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                                             </div>
                                         ))}
                                     </div>
-                                    {files.length === 0 &&
+                                    {(files.length === 0 && initialFiles.length===0) &&
                                         <div>
                                             첨부된 파일이 없습니다.
                                         </div>
@@ -145,7 +172,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                             </button>
                             <input ref={fileInputRef}
                                    type="file"
-                                   name="files"
+                                   name={files.length>0 ? "files" :''}
                                    id="file-upload"
                                    multiple
                                    onChange={handleFileChange} style={{width: 'fit-content', display: 'none'}}/>
@@ -155,7 +182,7 @@ export default function RegisterBoard({initialBoard, mode}) {
                 </table>
             </form>
             <div className='button-container' style={{justifyContent: 'right'}}>
-                <button onClick={submitHandler}>저장</button>
+                <button onClick={submitHandler} disabled={isPending}>저장</button>
                 <button onClick={() => router.push('/main/board/board')}>취소</button>
             </div>
         </section>
