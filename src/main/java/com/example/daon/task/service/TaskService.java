@@ -171,7 +171,8 @@ public class TaskService {
     }
 
 
-    public ByteArrayInputStream exportTasksToExcel(List<TaskEntity> tasks) throws IOException {
+    public ByteArrayInputStream exportTasksToExcel() throws IOException {
+        List<TaskEntity> tasks = taskRepository.findAll();
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Tasks");
 
