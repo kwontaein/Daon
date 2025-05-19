@@ -1,6 +1,7 @@
 package com.example.daon.bbs.service;
 
 import com.example.daon.bbs.dto.request.BoardRequest;
+import com.example.daon.bbs.dto.request.FileRequest;
 import com.example.daon.bbs.dto.response.BoardResponse;
 import com.example.daon.bbs.dto.response.FileResponse;
 import com.example.daon.bbs.model.BoardEntity;
@@ -74,6 +75,8 @@ public class BoardService {
         fileEntity.setFileName(fileName);
         fileEntity.setOriginalName(originalName);
         fileEntity.setFilePath(path.toString());
+        fileEntity.setFileSize(file.getSize()); // 👈 파일 크기 저장
+        fileEntity.setDownload(0); // 👈 파일 크기 저장
         fileEntity.setBoardId(boardEntity); // 관계 설정
 
         fileRepository.save(fileEntity);
@@ -173,4 +176,10 @@ public class BoardService {
     }
 
 
+    public void updateDownload(FileRequest fileRequest) {
+        FileEntity file = fileRepository.findById(fileRequest.getFileId()).orElse(null);
+        file.setDownload(file.getDownload() + 1);
+
+        fileRepository.save(file);
+    }
 }
