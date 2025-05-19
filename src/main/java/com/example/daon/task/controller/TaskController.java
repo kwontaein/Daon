@@ -4,8 +4,17 @@ import com.example.daon.task.dto.request.TaskRequest;
 import com.example.daon.task.dto.response.TaskResponse;
 import com.example.daon.task.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -76,17 +85,14 @@ public class TaskController {
     }
 
 
-/*    @GetMapping("/download/tasks")
-    public ResponseEntity<Resource> downloadTasksExcel() throws IOException {
-        List<TaskEntity> tasks = taskService.findAll();
-
-        ByteArrayInputStream excelStream = exportTasksToExcel(tasks);
+    @GetMapping("/download/tasks")
+    public ResponseEntity<InputStreamResource> downloadTasksExcel() throws IOException {
+        ByteArrayInputStream excelStream = taskService.exportTasksToExcel();
         InputStreamResource fileResource = new InputStreamResource(excelStream);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tasks.xlsx")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(fileResource);
-    }*/
+    }
 
 }

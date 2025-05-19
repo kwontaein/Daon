@@ -1,7 +1,6 @@
 package com.example.daon.bbs.service;
 
 import com.example.daon.bbs.dto.request.BoardRequest;
-import com.example.daon.bbs.dto.request.FileRequest;
 import com.example.daon.bbs.dto.response.BoardResponse;
 import com.example.daon.bbs.dto.response.FileResponse;
 import com.example.daon.bbs.model.BoardEntity;
@@ -10,12 +9,18 @@ import com.example.daon.bbs.repository.BoardRepository;
 import com.example.daon.bbs.repository.FileRepository;
 import com.example.daon.global.service.GlobalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -86,6 +91,7 @@ public class BoardService {
 
     @Transactional
     public void updateBoard(BoardRequest boardRequest) throws IOException {
+        System.out.println("boardRequest : " + boardRequest);
         UUID boardId = boardRequest.getBoardId();
 
         // 1. 게시글 가져오기
@@ -114,7 +120,7 @@ public class BoardService {
         // 새 파일 저장
 
         List<MultipartFile> newFiles = boardRequest.getNewFiles();
-        if(newFiles != null){
+        if (newFiles != null) {
             for (MultipartFile file : newFiles) {
                 saveOneFile(file, boardEntity);
             }
@@ -165,9 +171,30 @@ public class BoardService {
     }
 
 
-    public void updateDownload(FileRequest fileRequest) {
-        FileEntity file = fileRepository.findById(fileRequest.getFileId()).orElse(null);
+    public void updateDownload(String filename) {
+        FileEntity file = fileRepository.findByFileName(filename).orElse(null);
         file.setDownload(file.getDownload() + 1);
         fileRepository.save(file);
+    }
+
+    public ResponseEntity<Resource> downloadFile(String filename) {
+        try {
+            // 파일 저장 경로 (실제 저장 경로에 맞게 수정)
+            Path filePath = Paths.get("uploads").resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (!resource.exists()) {
+                throw new RuntimeException("파일을 찾을 수 없습니다: " + filename);
+            }
+            updateDownload(filename);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("파일을 불러오는 중 오류가 발생했습니다.", e);
+        }
     }
 }
