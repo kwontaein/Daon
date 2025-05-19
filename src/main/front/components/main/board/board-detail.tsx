@@ -12,6 +12,8 @@ import { useItemSelection } from '@/hooks/share/useItemSelection';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import BoardOption from './options';
 import { ClientMousePosition } from '@/model/types/share/type';
+import { filesize } from 'filesize';
+import { updateViews } from '@/features/board/api/boardApi';
 
 
 export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
@@ -26,7 +28,6 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
     const {itemsRef, target,setTarget} = useItemSelection(true)
     const [mousePosition, setMousePosition] = useState<ClientMousePosition|null>(null)
    
-    console.log(initialBoard)
     const getMousePosition = (
         e: MouseEvent<HTMLDivElement>,
     ) => {
@@ -36,6 +37,12 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
             { x:tableRect.left-30, y:tableRect.top+20 }
         )
     };
+    useEffect(()=>{
+        const fetchViews = async ()=>{
+            await updateViews(initialBoard.boardId)
+        }
+        fetchViews()
+    },[])
 
 
     const router = useRouter()
@@ -51,7 +58,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
             <form action={action} ref={formRef}>
                 <table className='register-form-table' style={{fontSize: '1rem', marginTop: '1rem', tableLayout:'fixed'}}>
                     <colgroup>
-                        <col style={{width: '8%', minWidth:'90px'}}/>
+                        <col style={{width: '15%', minWidth:'90px'}}/>
                         <col style={{width: '25%'}}/>
                         <col style={{width: '8%', minWidth:'90px'}}/>
                         <col style={{width: '40%'}}/>
@@ -99,7 +106,7 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                                     <div className='file-list'>
                                         {files.map((file, idx) => (
                                             <div className='file-item' key={idx} ref={(el) =>{itemsRef.current[file.fileId] = el}}>
-                                                <div className='file-name-container' title={file.fileName}><b>{file.fileName}</b></div>
+                                                <div className='file-name-container' title={file.fileName}>{`${file.originalName} (${filesize(file.fileSize,{ round: 2 })}), 다운로드수 : ${file.download}`} </div>
                                                 <div
                                                     className='icon'
                                                     style={{position:'relative', width:'16px', height:'16px'}}
@@ -128,8 +135,8 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
             </form>
             <table className='borad-control-container'>
                 <colgroup>
-                    <col style={{width:'10%', minWidth:'70px'}}></col>
-                    <col style={{width:'70%'}}></col>
+                    <col style={{width:'15%', minWidth:'70px'}}></col>
+                    <col style={{width:'65%'}}></col>
                     <col style={{width:'20%'}}></col>
                 </colgroup>
                 <tbody >
