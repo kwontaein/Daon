@@ -14,6 +14,7 @@ export default function AutoResizeTextArea(props) {
   return (
     <textarea
       ref={textareaRef}
+      spellCheck={false}
       onChange={handleChange}
       style={{
         overflow: 'hidden',

@@ -1,8 +1,10 @@
 import BoardDetail from "@/components/main/board/board-detail";
 import BoardList from "@/components/main/board/board-list";
 import RegisterBoard from "@/components/main/board/register-board";
+import { getBoardApi, updateViews } from "@/features/board/api/boardApi";
 import {ResponseBoard} from "@/model/types/board/type";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import {v4 as uuidv4} from "uuid";
 
 const BoardData: ResponseBoard[] = [
@@ -71,14 +73,37 @@ export default async function BoardPage({searchParams}: {
 }) {
     const page = (await searchParams).page ?? 1
     const target = (await searchParams).target || ''
-    const mode = (await searchParams).mode ?? 'view'
+    const mode = (await searchParams).mode
+    const userInfo = (await cookies()).get('user')?.value
+    
+    const initialBoards:ResponseBoard[] = await getBoardApi()
 
+    if(target){
+        const board = initialBoards.find(({boardId})=>boardId ===target)
+        const idx = initialBoards.findIndex(({boardId})=>boardId ===target)
+
+        const beforeBoard = idx-1 >=0 ? initialBoards[idx-1] :null
+        const afterBoard = idx+1 <= initialBoards.length ? initialBoards[idx+1] :null
+
+        if(!board){
+            notFound
+        }else{
+            if(mode==='edit'){
+                //작성자랑 수정자랑 같지 않으면 notFound
+                if(board.writer !== JSON.parse(userInfo).userId){
+                    notFound()
+                }
+                return <RegisterBoard mode={mode} initialBoard={board}/>
+            }else{
+                return <BoardDetail initialBoard={board} beforeBoard={beforeBoard} afterBoard={afterBoard}/>
+            }
+        }
+    }
 
     return (
         <>
-            {target && <BoardDetail initialBoard={BoardData[0]}/>}
-            {!target && mode === 'view' && <BoardList initialBoardItems={BoardData} page={page}/>}
-            {!target &&mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
+            {mode === undefined && <BoardList initialBoardItems={initialBoards} page={page}/>}
+            {mode === 'write' && <RegisterBoard mode={mode} initialBoard={null}/>}
         </>
     )
 

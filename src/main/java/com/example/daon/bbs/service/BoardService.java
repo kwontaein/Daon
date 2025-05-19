@@ -112,10 +112,14 @@ public class BoardService {
             fileRepository.delete(file); // DB 삭제
         }
         // 새 파일 저장
+
         List<MultipartFile> newFiles = boardRequest.getNewFiles();
-        for (MultipartFile file : newFiles) {
-            saveOneFile(file, boardEntity);
+        if(newFiles != null){
+            for (MultipartFile file : newFiles) {
+                saveOneFile(file, boardEntity);
+            }
         }
+
 
         // 4. 서브테이블 정보 업데이트 (예: 태그, 댓글, etc.)
         // TODO: 필요시 여기에 구현
