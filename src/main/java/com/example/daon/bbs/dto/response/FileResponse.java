@@ -17,4 +17,6 @@ public class FileResponse {
     private String originalName;
     private UUID fileId;
     private UUID boardId;
+    private long fileSize;
+    private int download;
 }
