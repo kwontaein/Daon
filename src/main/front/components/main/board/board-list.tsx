@@ -36,7 +36,8 @@ export default function BoardList({initialBoardItems,page}:{
     const pageByBoard = useMemo(()=>(boardList??initialBoardItems).slice((page-1)*20, ((page-1)*20)+20),[initialBoardItems, boardList,page])
     const [state, action] = useActionState(searchBoardAction,{initialBoardItems})
     const formRef = useRef(null)
-    
+    const noticeCount = initialBoardItems.filter(({notice})=>notice).length
+
     const cancleHandler = () => {
         const formData = new FormData(formRef.current!);
         formData.set('searchOption', 'title');
@@ -45,6 +46,7 @@ export default function BoardList({initialBoardItems,page}:{
             action(formData);
         });
     };
+
     useEffect(()=>{
         setBoardList(state.boardList)
     },[state])
@@ -104,7 +106,8 @@ export default function BoardList({initialBoardItems,page}:{
                     {pageByBoard.map((board,index)=>(
                         <tr key={board.boardId}>
                             <td>{board.notice ?
-                                <Image src={notice} alt='💡' width={15}/>: index }</td>
+                                <Image src={notice} alt='💡' width={15}/>: index - noticeCount + 1}
+                            </td>
                             <td className='left-align hover-text' style={{fontWeight:board.notice? 'bold':'unset'}}>
                                 <Link href={`/main/board/board?target=${board.boardId}`}>
                                     {board.title}
@@ -115,6 +118,7 @@ export default function BoardList({initialBoardItems,page}:{
                             <td>{board.views}</td>
                         </tr>
                     ))}
+                    {pageByBoard.length ===0 && <tr><td colSpan={5}>내용이 존재하지 않습니다.</td></tr>}
                 </tbody>              
             </table>
             <Pagination
