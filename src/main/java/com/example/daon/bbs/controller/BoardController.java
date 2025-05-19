@@ -6,10 +6,7 @@ import com.example.daon.bbs.dto.response.BoardResponse;
 import com.example.daon.bbs.service.BoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,7 +20,7 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
 
-    @PostMapping("api/getBoard")
+    @GetMapping("api/getBoard")
     public List<BoardResponse> getBoard() {
         return boardService.getBoard();
     }
