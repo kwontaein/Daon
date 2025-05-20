@@ -27,11 +27,7 @@ export default async function BoardAction(prevState, formData) {
     return {
         ...prevState,
         ...formState,
-<<<<<<< HEAD
-        boardId:prevState.boardId,
-=======
         boardId: prevState.boardId,
->>>>>>> upstream/main
         status
     }
 }

@@ -72,9 +72,6 @@
 
 .icon{
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 .left-align{
     text-align: left !important;
@@ -131,3 +128,10 @@
         }
     }
 }
+
+
+@media print {
+    .mobile-view-label {
+      display: none;
+    }
+  }

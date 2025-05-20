@@ -1,3 +1,4 @@
+import { checkedType } from "@/hooks/share/reducer/checkboxReducer";
 import { ResponseLedger } from "@/model/types/ledger/type";
 import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
 import dayjs from "dayjs";
@@ -45,13 +46,13 @@ export type Total = SubTotal & {
     newTotal.quntity += quantity;
     return { newSub, newTotal };
   }
-  
+
   //ledger
- export function renderLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean) {
+ export function renderLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean, checkedState: checkedType, update_checked:(id:string)=>void) {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
       <tr key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
-        <td><input type="checkbox" /></td>
+        <td><input type="checkbox" checked={checkedState[ledger.receiptId]??false} onChange={()=>update_checked(ledger.receiptId)}/></td>
         <td>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
         <td>{category}</td>
         <td className="left-align">
@@ -72,12 +73,12 @@ export type Total = SubTotal & {
     );
   }
 
- export function renderMobileLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean) {
+ export function renderMobileLedgerRow(ledger: ResponseLedger, balance: number, isSameDate: boolean, checkedState: checkedType, update_checked:(id:string)=>void) {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
       <tbody key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
         <tr>
-          <td rowSpan={2}><input type="checkbox" /></td>
+          <td rowSpan={2}><input type="checkbox" checked={checkedState[ledger.receiptId]??false} onChange={()=>update_checked(ledger.receiptId)}/></td>
           <td rowSpan={2}>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
           <td rowSpan={2}>{category}</td>
           <td rowSpan={2} className="left-align">
