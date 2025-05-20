@@ -50,9 +50,8 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
         setLoading(false)
     },[employee, page])
 
-    //TODO: add mobile version
+
     const signNewemployeeHandler = ()=>{
-        // if(UserRoleEnum[user] !== '')
         if(window.innerWidth>620){
             const url = `/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션
@@ -123,7 +122,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
                     currentPage={Number(page)}
                 />
             }
-            {!loading &&
+            {(!loading && UserRoleEnum[user.userRole] === '관리자') &&
             <div className='right-buttons-container'>
                 <button onClick={signNewemployeeHandler}>신규등록</button>
             </div>
