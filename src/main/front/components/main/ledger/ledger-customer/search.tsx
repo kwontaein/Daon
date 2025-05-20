@@ -149,75 +149,6 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                                                 {affiliation.affiliationName}
                                             </option>
                                         ))}
-<<<<<<< HEAD
-                                </select>
-                            </label>
-                        </td>
-                        <td className='table-label'>거래처명</td>
-                        <td>
-                            <input type='text' 
-                                   name='customerName' 
-                                   defaultValue={state.customerName} 
-                                   key={state.customerName}
-                                   onKeyDown={searchCustomerHandler}/>
-                            <input type='hidden' name='customerId' value={state.customerId} readOnly/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className='table-label'>물품분류</td>
-                        <td>
-                            <label>
-                                <select size={1} name='stockCate' defaultValue={state.stockCate} key={state.stockCate} style={{width:'calc(100% + 4px)'}}>
-                                    <option value='none'>선택안함</option>
-                                    {stockCates.map((stock)=>(
-                                        <option key={stock.stockCateId} value={stock.stockCateId}>
-                                            {stock.stockCateName}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                        </td>
-                        <td className='table-label'>물품명</td>
-                        <td>
-                            <input type='text' 
-                                   name='productName' 
-                                   defaultValue={state.productName} 
-                                   key={state.productName} 
-                                   onKeyDown={searchStockHandler}/>
-                            <input type='hidden' name='stockId' value={state.stockId} readOnly/>
-                        </td>
-                                    
-                    </tr>
-                    <tr>
-                        <td className='table-label'>전표선택</td>
-                        <td className='table-radio-container' colSpan={3}>
-                            <div>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.sales} value='sales'/> 매출</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.purchase} value='purchase'/> 매입</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.deposit} value='deposit'/> 입금</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.withdrawal} value='withdrawal'/> 출금</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.salesDiscount} value='salesDiscount'/> 매출할인</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.purchaseDiscount} value='purchaseDiscount'/> 매입할인</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.returnOut} value='returnOut'/> 반품출고</label>
-                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.returnIn} value='returnIn'/> 반품입고</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={4} className='one-line-buttons'>
-                            <div>
-                                <button type='button' onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
-                                <button type='button'>엑 셀 변 환</button>
-                                <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
-                                <button type='button' onClick={()=>window.print()}>견적서인쇄</button>
-                           </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </form>
-        </section>
-=======
                                     </select>
                                 </label>
                             </td>
@@ -255,8 +186,6 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                                        onKeyDown={searchStockHandler}/>
                                 <input type='hidden' name='stockId' value={state.stockId} readOnly/>
                             </td>
->>>>>>> upstream/main
-
                         </tr>
                         <tr>
                             <td className='table-label'>전표선택</td>
@@ -293,7 +222,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                                         exportLedgerCustomerToExcel(searchInfo.searchTitle, searchInfo.searchResult)
                                     }>엑 셀 변 환
                                     </button>
-                                    <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                    <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                                     <button type='button'>견적서인쇄</button>
                                 </div>
                             </td>

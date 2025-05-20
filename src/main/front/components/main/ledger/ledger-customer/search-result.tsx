@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import React, { JSX, useMemo, useReducer } from "react";
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { renderLedgerRow, renderMobileLedgerRow, renderMobileSubTotalRow, renderMobileTotalRow, renderSubTotalRow, renderTotalRow, SubTotal, Total, updateSubTotals } from './ledger-result-rows';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
 type Accumulator = {
   elements: JSX.Element[];
   date: Date;
@@ -38,7 +39,10 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
 
   const mode =( screen!=='pc' ? screen: (mobileView ? 'tabelt': screen) )
-  
+  const receiptIds = useMemo(()=>searchInfo.searchResult.map(({receiptId})=>receiptId),[searchInfo.searchResult])
+  const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(receiptIds)
+
+
   const resultReducer = useMemo(()=>
   
     searchInfo.searchResult.reduce<Accumulator>((prev, ledger, idx) => {
@@ -50,10 +54,10 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
           ? prev.balance + ledger.totalPrice
           : prev.balance - ledger.totalPrice;
   
-      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, (isSamePrevDate || isSameNextDate) ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
+      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, isSamePrevDate ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
       const elements = [...prev.elements];
   
-      elements.push( mode==='pc' ?renderLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)) : renderMobileLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)));
+      elements.push( mode==='pc' ?renderLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate), checkedState, update_checked) : renderMobileLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate),  checkedState, update_checked));
   
       let ledgerCount = prev.ledgerCount + 1;
       const isLast = idx === searchInfo.searchResult.length - 1;
@@ -84,7 +88,7 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
       subTotalOfTheDay: initialSubTotal,
       total: initialTotal,
       ledgerCount: 0
-    })  ,[mode, searchInfo.searchResult])
+    })  ,[mode, searchInfo.searchResult, checkedState])
     
 
     return(
@@ -130,7 +134,7 @@ export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{sea
             </colgroup>
             <thead>
                 <tr>
-                    <td rowSpan={mode==='pc'? 1 :2}><input type="checkbox"/></td>
+                    <td rowSpan={mode==='pc'? 1 :2}><input type="checkbox" checked={isAllChecked} onChange={toggleAllChecked}/></td>
                     <td rowSpan={mode==='pc'? 1 :2}>날짜</td>
                     <td rowSpan={mode==='pc'? 1 :2}>계정</td>
                     <td rowSpan={mode==='pc'? 1 :2}>품목</td>
