@@ -145,7 +145,7 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
             <div className={`estimate-button-container ${(!!task?.completeAt) ?'justify-right' :'justify-center'}`}>
                     {mode==='detail' &&
                         <>
-                            <button>견적서인쇄</button>
+                            <button onClick={()=>window.print()}>견적서인쇄</button>
                             {!task?.completeAt && <button onClick={()=>changeModeHandler('edit')}>견적서수정</button>}
                         </>
                     }
