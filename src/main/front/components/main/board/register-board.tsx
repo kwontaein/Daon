@@ -16,7 +16,7 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef(null);
     const formRef = useRef(null)
-
+    console.log(initialBoard)
     const [state, action, isPending] = useActionState(BoardAction, initialBoard ?? {})
     const [initialFiles, setInitialFiles] = useState(initialBoard?.files??[])
     const router = useRouter()
