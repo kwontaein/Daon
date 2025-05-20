@@ -17,7 +17,6 @@ export default async function BoardAction(prevState, formData) {
         boardId: action ==='edit'? prevState.boardId :null
     }
 
-    console.log(formState.newFiles)
     let status;
 
     if (action === 'write') {
@@ -28,6 +27,7 @@ export default async function BoardAction(prevState, formData) {
     return {
         ...prevState,
         ...formState,
+        boardId:prevState.boardId,
         status
     }
 }

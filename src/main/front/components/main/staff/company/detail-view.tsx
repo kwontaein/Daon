@@ -2,10 +2,29 @@
 import './form/company-form.scss'
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import useChangeMode from '@/hooks/share/useChangeMode';
+import { deleteCompany } from '@/features/staff/company/api/company-api';
+import { useConfirm } from '@/hooks/share/useConfirm';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function CompanyDetail({company, isMobile=false}:{company:ResponseCompany, isMobile?:boolean}){
     const changeModeHandler = useChangeMode()
+    const patchname = usePathname()
+    const router = useRouter()
 
+    const deleteCompanyHandler =()=>{
+        const onDelete = async()=>{
+            await deleteCompany(company.companyId).then(()=>{
+                window.alert('삭제가 완료되었습니다.')
+                const path = patchname.split('/')
+                if(path.length>2){
+                    router.back()
+                }else{
+                    window.close()
+                }
+            })
+        }
+        useConfirm('정말로 해당 회사를 삭제하시겠습니까?',onDelete)
+    }
     return(
         <section className="company-form-container">
             <table className="company-form-table">
@@ -81,7 +100,7 @@ export default function CompanyDetail({company, isMobile=false}:{company:Respons
             <div className="button-container">
                 <button onClick={()=>window.print()}>인쇄</button>
                 <button onClick={()=>changeModeHandler('edit')}>수정</button>
-                <button>삭제</button>
+                <button onClick={deleteCompanyHandler}>삭제</button>
                 <button onClick={()=> isMobile ? window.history.back():window.close()}>창닫기</button>
             </div>
         </section>
