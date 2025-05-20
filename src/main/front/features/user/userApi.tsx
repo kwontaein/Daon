@@ -12,6 +12,8 @@ export async function getUserInfo(){
                  'Content-Type': 'application/json',
                  Cookie: cookie
              },
+             next: {tags: ['user']} //1시간마다 재검증
+
          })
          await jwtFilter(response.status.toString());
  
