@@ -4,7 +4,8 @@ import Login from '@/components/login/login';
 import '@/components/login/login.scss';
 import '@/styles/_global.scss';
 
-export default function HomePage(){
+
+export default async function HomePage(){
     return(
         <section className='login-wrapper'>
             <Banner/>
