@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 import { AUTH_ROUTES, MAIN_URL, PUBLIC_ROUTES } from './model/constants/routes/asideOptions';
 import { cookies } from 'next/headers';
 import { kebabToCamel } from './features/share/kebabToCamel';
+import { revalidateAllPaths } from './features/revalidateHandler';
 function camelToKebab(str) {
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
@@ -14,23 +15,22 @@ export async function middleware(request: NextRequest) {
     const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
     
     const enable_url = (await cookies()).get('enable_url')?.value;
-    const user = (await cookies()).get('user')?.value
     const cookie = (await cookies()).get('accessToken')?.value;
 
     if(pathname.startsWith('/logout')){
       const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
       redirectResponse.cookies.delete('accessToken');
-      redirectResponse.cookies.delete('user');
       redirectResponse.cookies.delete('enable_url');
       return redirectResponse;
     }
 
-    if((!enable_url || !user || !cookie)){
+    if((!enable_url || !cookie)){
       //하나라도 없으면 전부 삭제
       const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
       redirectResponse.cookies.delete('accessToken');
-      redirectResponse.cookies.delete('user');
       redirectResponse.cookies.delete('enable_url');
+      revalidateAllPaths()
+
       if(!isPublicRoute){ //권한이 없는데 공용라우트가 아니면 로그인창으로 우회
         return redirectResponse;
       }
@@ -52,7 +52,6 @@ export async function middleware(request: NextRequest) {
                     .map(([aside]) => ({ nav, aside })))
               if(firstAbleRoute.length>0){
                 const {nav, aside} = firstAbleRoute[0];
-                console.log(nav,aside)
                 return NextResponse.redirect(new URL(`/main/${camelToKebab(nav)}/${camelToKebab(aside)}`, request.url));
               }else{
                 return new NextResponse(null, { status: 404 }); //우회 가능한 경로가 없으면 404

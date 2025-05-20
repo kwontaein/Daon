@@ -6,14 +6,15 @@ import { EstimateRegisterProps } from "@/model/types/sales/estimate/type"
 import { ResponseTask } from "@/model/types/sales/task/type"
 import MobileModal from "@/components/share/mobile-modal/page"
 import { cookies } from "next/headers"
+import { getUserInfo } from "@/features/user/userApi"
 
 export default async function RegisterEstimatePage({searchParams}:EstimateRegisterProps){
     const taskId = (await searchParams).taskId ||''
 
     const companyList:ResponseCompany[] = await getCompany()
     const task:ResponseTask =await getTaskApi(taskId)
-    const userInfo = (await cookies()).get('user')?.value
-    
+    const userInfo = await getUserInfo()
+
     return(
         <MobileModal height="550px" >
             <EstimateHeader
@@ -21,7 +22,7 @@ export default async function RegisterEstimatePage({searchParams}:EstimateRegist
                 task={task}
                 mode='write'
                 isMobile={true}
-                userInfo={JSON.parse(userInfo)}/>
+                userInfo={userInfo}/>
         </MobileModal>
     )
 }

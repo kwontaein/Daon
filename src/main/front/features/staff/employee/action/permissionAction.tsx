@@ -2,7 +2,6 @@
 
 import {v4 as uuidv4} from "uuid";
 import { saveEmployeeApi, updateEmployeeApi, userIdDuplicationChecked } from "../api/employeeApi";
-import { revalidateTag } from "next/cache";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
