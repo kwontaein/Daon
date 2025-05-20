@@ -11,10 +11,10 @@ export default async function BoardAction(prevState, formData) {
         content: formData.get('content'),
         notice: formData.get('notice'),
         views: formData.get('views'),
-        files: (action ==='write' && formData.getAll('files').length>0) ? formData.getAll('files') as File[] :null,
-        newFiles: (action ==='edit' && formData.getAll('files').length>0) ? formData.getAll('files') as File[] :null,
-        existingFileIds: action ==='edit' ? formData.getAll('existingFileIds') : null,
-        boardId: action ==='edit'? prevState.boardId :null
+        files: (action === 'write' && formData.getAll('files').length > 0) ? formData.getAll('files') as File[] : null,
+        newFiles: (action === 'edit' && formData.getAll('files').length > 0) ? formData.getAll('files') as File[] : null,
+        existingFileIds: action === 'edit' ? formData.getAll('existingFileIds') : null,
+        boardId: action === 'edit' ? prevState.boardId : null
     }
 
     let status;
@@ -27,7 +27,11 @@ export default async function BoardAction(prevState, formData) {
     return {
         ...prevState,
         ...formState,
+<<<<<<< HEAD
         boardId:prevState.boardId,
+=======
+        boardId: prevState.boardId,
+>>>>>>> upstream/main
         status
     }
 }
