@@ -3,10 +3,17 @@ import {create} from 'zustand'
 
 
 export type UserInfo ={
-    userId:string
-    name:string
+    userId: string,
+    joinDate: Date,
+    birthday: Date,
+    name: string,
+    tel: string,
+    phone: string,
+    email: string,
+    memo: string,
     userClass: EmployeeClassEnum,
-    deptName:string,
+    userRole: UserRoleEnum,
+    dept: { deptId: string, deptName: string }
 }
 
 export type UserState ={

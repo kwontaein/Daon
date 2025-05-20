@@ -6,7 +6,7 @@ import asideArrow from '@/assets/aside-arrow.gif';
 import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 
-import {ResponseEmployee} from "@/model/types/staff/employee/type";
+import {EmployeeClassEnum, ResponseEmployee, UserRoleEnum} from "@/model/types/staff/employee/type";
 import {submitEmployeeInfo} from "@/features/staff/employee/action/permissionAction";
 import ErrorBox from "@/components/share/error-box/error-box";
 import {useConfirm} from "@/hooks/share/useConfirm";
@@ -14,14 +14,14 @@ import {userIdDuplicationChecked} from "@/features/staff/employee/api/employeeAp
 import {Dept} from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
 import CustomDateInput from "@/components/share/custom-date-input/custom-date-input";
+import { UserInfo } from '@/store/zustand/userInfo';
 
-export default function EmployeeForm({dept, employee, isMobile=false}: { dept: Dept[], employee?: ResponseEmployee, isMobile?:boolean }) {
+export default function EmployeeForm({dept, employee, isMobile=false, userInfo}: { dept: Dept[], employee?: ResponseEmployee, isMobile?:boolean ,userInfo?:UserInfo}) {
     const [image, setImage] = useState<string | null>(null);
     const [buttonText, setButtonText] = useState("사진 선택"); // 버튼 텍스트 변경 가능
     const [chagnePassword, setChangePassword] = useReducer((prev)=>!prev,false)
     const formRef = useRef(null)
 
-    console.log(employee)
     const initialState = useMemo(() =>
             employee ? {
                     ...employee,
@@ -124,10 +124,10 @@ export default function EmployeeForm({dept, employee, isMobile=false}: { dept: D
                         <td colSpan={2} className="table-label">관리등급</td>
                         <td colSpan={2}>
                             <select name='userRole' defaultValue={state.userRole}>
-                                <option value="GM">운영자</option>
-                                <option value="SGM">부운영자</option>
-                                <option value="MEM">일반회원</option>
-                                <option value="NOMEM">비회원</option>
+                                {Object.entries(UserRoleEnum).map(([key,value])=>(
+                                    ((UserRoleEnum[userInfo?.userRole??'ADMIN'] ==='관리자')||(userInfo.userRole ===key))&&
+                                    <option value={key} key={key}>{value}</option>
+                                ))}
                             </select>
                             {state.formErrors?.userRole &&
                                 <ErrorBox>
@@ -139,14 +139,10 @@ export default function EmployeeForm({dept, employee, isMobile=false}: { dept: D
                         <td colSpan={2}>
                             <select name="userClass" key={state.userClass} defaultValue={state.userClass}>
                                 <option value="none">선택</option>
-                                <option value="CEO">대표</option>
-                                <option value="DIRECTOR">이사</option>
-                                <option value="TEAM_LEADER">팀장</option>
-                                <option value="DEPUTY_GENERAL_MANAGER">차장</option>
-                                <option value="MANAGER">과장</option>
-                                <option value="ASSISTANT_MANAGER">대리</option>
-                                <option value="PROFESSIONAL">주임</option>
-                                <option value="STAFF">사원</option>
+                                {Object.entries(EmployeeClassEnum).map(([key,value])=>(
+                                    ((UserRoleEnum[userInfo?.userRole??'ADMIN'] ==='관리자')||(userInfo.userClass ===key))&&
+                                    <option value={key} key={key}>{value}</option>
+                                ))}
                             </select>
                             {state.formErrors?.userClass &&
                                 <ErrorBox>
@@ -158,7 +154,8 @@ export default function EmployeeForm({dept, employee, isMobile=false}: { dept: D
                         <td colSpan={2}>
                             <select name="deptId" defaultValue={state.deptId}>
                                 <option value="none">선택</option>
-                                {dept.map(({deptId, deptName}) =>
+                                {dept.map(({deptId, deptName}) =>     
+                                 ((UserRoleEnum[userInfo?.userRole??'ADMIN'] ==='관리자')||(userInfo.dept.deptId ===deptId))&&
                                     <option value={deptId} key={deptId}>
                                         {deptName}
                                     </option>
