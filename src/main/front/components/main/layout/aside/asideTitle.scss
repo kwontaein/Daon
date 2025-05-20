@@ -14,3 +14,9 @@
 }
 
 
+
+@media print {
+    .header-title{
+      display: none;
+    }
+  }
