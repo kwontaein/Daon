@@ -29,6 +29,11 @@ import {
 } from '@/features/accounting/api/accountingSearchApi';
 import dayjs from 'dayjs';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import {exportSvatToExcel} from "@/components/main/accounting/svat/exportSvatToExcel";
+import {exportPvatToExcel} from "@/components/main/accounting/pvat/exportPvatToExcel";
+import {exportPsetToExcel} from "@/components/main/accounting/pset/exportPsetToExcel";
+import {exportProofToExcel} from "@/components/main/accounting/proof/exportProofToExcel";
+import {exportCardTransactionToExcel} from "@/components/main/accounting/card/exportCardTransactionToExcel";
 
 const resultComponentMap: Record<string, (data: UnionAccountingType[]) => JSX.Element> = {
     svat: data => <SVATSaerchResult salesVATList={data as SalesVAT[]}/>,
@@ -106,6 +111,26 @@ export default function AccountingSearch({
         }
     }, [state]);
 
+    const excelDownloadHandler = () => {
+        if (division === 'svat') {
+            const data = searchResult ?? initialListState;
+            exportSvatToExcel(data as SalesVAT[]);
+        } else if (division === 'pvat') {
+            const data = searchResult ?? initialListState;
+            exportPvatToExcel(data as PurchaseVAT[]);
+        } else if (division === 'pset') {
+            const data = searchResult ?? initialListState;
+            exportPsetToExcel(data as ProcurementSettlement[]);
+        } else if (division === 'proof') {
+            const data = searchResult ?? initialListState;
+            exportProofToExcel(data as ExpenseProof[]);
+        } else if (division === 'card') {
+            const data = searchResult ?? initialListState;
+            exportCardTransactionToExcel(data as CardTransaction[]);
+        }
+        // pvat, card 등 다른 division 도 추가 가능
+    };
+
     return (
         <>
             <section className="search-container">
@@ -167,7 +192,7 @@ export default function AccountingSearch({
                                     <button type="button" onClick={allViewHandler}>
                                         전 체 보 기
                                     </button>
-                                    <button type="button">엑 셀 변 환</button>
+                                    <button type="button" onClick={excelDownloadHandler}>엑 셀 변 환</button>
                                     <button type="button" onClick={registerAccountingHandler}>
                                         신 규 등 록
                                     </button>
