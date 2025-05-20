@@ -11,10 +11,11 @@ import { useItemSelection } from "@/hooks/share/useItemSelection";
 import Pagination from "@/components/share/pagination";
 import EmployeeOptions from "./employee-options";
 
-import { EmployeeClassEnum, ResponseEmployee } from "@/model/types/staff/employee/type";
+import { EmployeeClassEnum, ResponseEmployee, UserRoleEnum } from "@/model/types/staff/employee/type";
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import { useUserInformation } from '@/store/zustand/userInfo';
 
 
 export default function EmployeeTable({initialEmployee, page}:{initialEmployee:ResponseEmployee[], page:number}){
@@ -30,6 +31,8 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const mode = useScreenMode({tabletSize:720,mobileSize:620})
     const redirect = useRouterPath()
+
+    const {user} = useUserInformation()
 
     const searchHandler = () =>{
         setEmployee(()=>{
@@ -49,7 +52,7 @@ export default function EmployeeTable({initialEmployee, page}:{initialEmployee:R
 
     //TODO: add mobile version
     const signNewemployeeHandler = ()=>{
-           
+        // if(UserRoleEnum[user] !== '')
         if(window.innerWidth>620){
             const url = `/register-employee`; 
             const popupOptions = "width=620,height=500,scrollbars=yes,resizable=yes"; // 팝업 창 옵션

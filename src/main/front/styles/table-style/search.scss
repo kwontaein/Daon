@@ -240,7 +240,12 @@ select{
     icon{
         cursor: pointer;
         display: flex;
-        align-items: center;
-        justify-content: center;
+
     }
 }
+
+@media print {
+    .search-table {
+      display: none; 
+    }
+  }
