@@ -1,80 +1,96 @@
-
 'use client';
 import '@/styles/table-style/search.scss';
 
-import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
-import { initialLedgertState, ledgerSearchAction } from '@/features/ledger/actions/ledgerSearchAction';
-import { StockCate } from '@/model/types/stock/cate/type';
+import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
+import {initialLedgertState, ledgerSearchAction} from '@/features/ledger/actions/ledgerSearchAction';
+import {StockCate} from '@/model/types/stock/cate/type';
 import LedgerStockCountSearchResult from './search-result';
+import {exportStockCountToExcel} from "@/components/main/ledger/ledger-stock-count/exportStockCountToExcel";
 
-export default function LedgerStockCountSearch({stockCates}:{stockCates:StockCate[]}){
-    const [state, action] = useActionState(ledgerSearchAction,initialLedgertState)
+export default function LedgerStockCountSearch({stockCates}: { stockCates: StockCate[] }) {
+    const [state, action] = useActionState(ledgerSearchAction, initialLedgertState)
     const formRef = useRef(null)
 
     const [searchInfo, setSearchInfo] = useState({
-        searchResult:null,
-        searchTitle:null,
-    })    
-    
-    useEffect(()=>{
-        if(state.searchResult){
+        searchResult: null,
+        searchTitle: null,
+    })
+
+    useEffect(() => {
+        if (state.searchResult) {
             setSearchInfo({
-                searchResult:state.searchResult,
-                searchTitle:`재고조사서`,
+                searchResult: state.searchResult,
+                searchTitle: `재고조사서`,
             })
         }
-    },[state])
+    }, [state])
 
-    const submitHandler =() => {
+    const submitHandler = () => {
         const formData = new FormData(formRef.current);
         formData.set('action', 'stock-count');
         startTransition(() => {
             action(formData);
         });
     }
-    
 
-    return(
+
+    return (
         <section className='search-container'>
             <form action={action} ref={formRef}>
-            <table className='search-table'>
-                <colgroup>
-                    <col style={{ width: '10%' }} />
-                    <col style={{ width: '90%' }} />
-                </colgroup>
-                <thead>
+                <table className='search-table'>
+                    <colgroup>
+                        <col style={{width: '10%'}}/>
+                        <col style={{width: '90%'}}/>
+                    </colgroup>
+                    <thead>
                     <tr>
                         <td colSpan={2} className="table-title">
-                            검색옵션 
+                            검색옵션
                         </td>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td className='table-label'>품목분류</td>
                         <td>
                             <select name='stockCateId' defaultValue={state.stockCateId} key={state.stockCateId}>
                                 <option value='none'>관리비분류</option>
-                                {stockCates.map((stockCate)=>(
-                                    <option key={stockCate.stockCateId} value={stockCate.stockCateId}>{stockCate.stockCateName}</option>
+                                {stockCates.map((stockCate) => (
+                                    <option key={stockCate.stockCateId}
+                                            value={stockCate.stockCateId}>{stockCate.stockCateName}</option>
                                 ))}
                             </select>
-                        </td>              
+                        </td>
                     </tr>
-                   
+
                     <tr>
                         <td colSpan={2} className='one-line-buttons'>
                             <div>
+<<<<<<< HEAD
                                 <button type='button' onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
                                 <button type='button'>엑 셀 변 환</button>
                                 <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                            </div>
+=======
+                                <button type='button'
+                                        onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                </button>
+                                <button type='button' onClick={() =>
+                                    exportStockCountToExcel(
+                                        searchInfo.searchResult,
+                                        searchInfo.searchTitle
+                                    )
+                                }>엑 셀 변 환
+                                </button>
+                                <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                            </div>
+>>>>>>> upstream/main
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             </form>
-            {searchInfo.searchResult && searchInfo.searchResult.stockLedgerResponses.length>2 &&
+            {searchInfo.searchResult && searchInfo.searchResult.stockLedgerResponses.length > 2 &&
                 <LedgerStockCountSearchResult searchInfo={searchInfo}/>
             }
         </section>
