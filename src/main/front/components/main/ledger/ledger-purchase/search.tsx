@@ -131,6 +131,12 @@ export default function LedgerPurchaseSearch({stockCates}: { stockCates: StockCa
                     <tr>
                         <td colSpan={4} className='one-line-buttons'>
                             <div>
+<<<<<<< HEAD
+                                <button type='button' onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button type='button'>엑 셀 변 환</button>
+                                <button type='button'onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                           </div>
+=======
                                 <button type='button'
                                         onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
@@ -144,6 +150,7 @@ export default function LedgerPurchaseSearch({stockCates}: { stockCates: StockCa
                                 </button>
                                 <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                             </div>
+>>>>>>> upstream/main
                         </td>
                     </tr>
 

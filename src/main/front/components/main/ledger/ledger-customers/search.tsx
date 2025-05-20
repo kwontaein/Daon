@@ -96,6 +96,53 @@ export default function LedgerCustomerListSearch() {
                                                  name='searchSDate'/> ~ <CustomDateInput
                                 defaultValue={state.searchEDate} name='searchEDate'/>
                             </span>
+<<<<<<< HEAD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className='table-label'>거래처명</td>
+                        <td>
+                            <input type='text' 
+                                   name='customerName' 
+                                   defaultValue={state.customerName} 
+                                   key={state.customerName}
+                                   onKeyDown={searchCustomerHandler}/>
+                            <input type='hidden' name='customerIds' value={JSON.stringify(state.customerIds)+''} readOnly/>
+                        </td>              
+                    </tr>
+                    <tr>
+                        <td className='table-label'>전표선택</td>
+                        <td className='table-radio-container'>
+                            <div>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.sales} value='sales'/> 매출</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.purchase} value='purchase'/> 매입</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.deposit} value='deposit'/> 입금</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.withdrawal} value='withdrawal'/> 출금</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.salesDiscount} value='salesDiscount'/> 매출할인</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.purchaseDiscount} value='purchaseDiscount'/> 매입할인</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.returnOut} value='returnOut'/> 반품출고</label>
+                                <label><input type='checkbox' name='receiptCate' defaultChecked={state.returnIn} value='returnIn'/> 반품입고</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2} className='one-line-buttons'>
+                            <div>
+                                <button type='button' onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색</button>
+                                <button type='button'>엑 셀 변 환</button>
+                                <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                           </div>
+                        </td>
+                    </tr>
+                        
+                </tbody>
+            </table>
+            </form>
+        </section>
+        {searchInfo.searchResult.length>0 &&
+            <LedgerCustomersSearchResult searchInfo={searchInfo}/>
+        }
+=======
                             </td>
                         </tr>
                         <tr>
@@ -157,6 +204,7 @@ export default function LedgerCustomerListSearch() {
             {searchInfo.searchResult.length > 0 &&
                 <LedgerCustomersSearchResult searchInfo={searchInfo}/>
             }
+>>>>>>> upstream/main
         </>
     )
 }
