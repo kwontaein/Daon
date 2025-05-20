@@ -101,3 +101,8 @@
         color: var.$default-white-color !important;
     }
 }
+@media print {
+    .nav-mobile-container {
+      display: none; 
+    }
+  }

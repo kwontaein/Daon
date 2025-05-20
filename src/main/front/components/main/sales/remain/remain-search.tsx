@@ -117,7 +117,7 @@ export default function RemainSearch() {
                                         disabled={isPending}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
                                 <button onClick={() => exportRemainReportToExcel(remainList)}>엑 셀 변 환</button>
-                                <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                             </td>
                         </tr>
                         <tr>
