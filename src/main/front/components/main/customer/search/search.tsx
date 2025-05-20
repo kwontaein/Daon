@@ -21,6 +21,7 @@ import CustomerSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import {exportCustomersToExcel} from "@/components/main/customer/search/exportCustomersToExcel";
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page}: {
@@ -36,8 +37,8 @@ export default function CustomerSearch(
     });
     const formRef = useRef(null)
     const pageByCustomers = useMemo(() =>
-        state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
-    , [state.customers, page])
+            state.customers.slice((page - 1) * 20, ((page - 1) * 20) + 20)
+        , [state.customers, page])
 
     const [loading, setLoading] = useState(true)
     const inputRef = useRef(null)
@@ -62,12 +63,12 @@ export default function CustomerSearch(
     }
 
     //검색 중 거래처 검색시 다시 조회
-    useEffect(()=>{
+    useEffect(() => {
         const formData = new FormData(formRef.current!);
         startTransition(() => {
-          action(formData);
+            action(formData);
         });
-    },[initialCustomers])
+    }, [initialCustomers])
 
     return (
         <>
@@ -139,7 +140,10 @@ export default function CustomerSearch(
                                         })}>전 체 보 기
                                     </button>
                                     <button onClick={registerCustomer}>신 규 등 록</button>
-                                    <button>엑 셀 변 환</button>
+                                    <button
+                                        onClick={() => exportCustomersToExcel(state.customers ?? initialCustomers)}>엑 셀
+                                        변 환
+                                    </button>
                                 </div>
                             </td>
                         </tr>
