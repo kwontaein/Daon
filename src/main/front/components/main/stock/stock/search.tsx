@@ -12,6 +12,7 @@ import StockSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import {exportStocksToExcel} from "@/components/main/stock/stock/exportStocksToExcel";
 
 export default function StockSearch({stockCate, initialStocks, page}: {
     stockCate: StockCate[],
@@ -19,7 +20,7 @@ export default function StockSearch({stockCate, initialStocks, page}: {
     page: number
 }) {
     const [state, action, isPending] = useActionState(stockSearchAction, initialStockState);
-    const [searchResult, setSerchResult] = useState<ResponseStock[]>()
+    const [searchResult, setSearchResult] = useState<ResponseStock[]>()
     const pageByStocks = useMemo(() => (searchResult ?? initialStocks).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialStocks, searchResult, page])
     const [condition, setCondition] = useState(initialStockState.condition !== 'none')
 
@@ -50,12 +51,12 @@ export default function StockSearch({stockCate, initialStocks, page}: {
 
     useEffect(() => {
         if (state.searchResult) {
-            setSerchResult(state.searchResult)
+            setSearchResult(state.searchResult)
         }
     }, [state])
-    
-    useEffect(()=>{
-        if(searchResult){
+
+    useEffect(() => {
+        if (searchResult) {
             if (isPending) return
             const formData = new FormData(formRef.current!);
             formData.set('action', 'submit');
@@ -63,7 +64,7 @@ export default function StockSearch({stockCate, initialStocks, page}: {
                 action(formData);
             });
         }
-    },[initialStocks])
+    }, [initialStocks])
 
 
     return (
@@ -123,13 +124,15 @@ export default function StockSearch({stockCate, initialStocks, page}: {
                                         type="button"
                                         disabled={isPending}
                                         onClick={(e) => {
-                                            setSerchResult(null)
+                                            setSearchResult(null)
                                             deletePage()
                                             setCondition(false)
                                         }}>전 체 보 기
                                     </button>
                                     <button type="button" onClick={registerStock}>신 규 등 록</button>
-                                    <button type="button">엑 셀 변 환</button>
+                                    <button type="button"
+                                            onClick={() => exportStocksToExcel(searchResult ?? initialStocks)}>엑 셀 변 환
+                                    </button>
                                 </div>
                             </td>
                         </tr>

@@ -15,6 +15,7 @@ import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
+import {exportTasksToExcel} from "@/components/main/sales/task/exportTasksToExcel";
 
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
@@ -72,8 +73,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
             setSearchResult(state.searchResult)
         }
     }, [state])
-
-
 
 
     //거래처 검색관련
@@ -140,7 +139,8 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                                     <button type='button' disabled={isPending}
                                             onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
-                                    <button>엑 셀 변 환</button>
+                                    <button onClick={() => exportTasksToExcel(searchResult ?? initialTask)}>엑 셀 변 환
+                                    </button>
                                     <button type='button' onClick={registerTask}>업 무 등 록</button>
                                     <button type='button' onClick={deleteTaskHandler}>체 크 삭 제</button>
                                 </div>

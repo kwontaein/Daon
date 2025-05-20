@@ -14,7 +14,7 @@ export function exportLedgerEtcToExcel(ledgerList: ResponseLedger[], title: stri
         날짜: dayjs(item.timeStamp).format('YYYY-MM-DD'),
         계정: ReceiptCategoryEnum[item.category],
         거래처: item.customerName,
-        품명: `${item.productName}[${item.modelName ?? '-'}]`,
+        품명: `${item.productName ?? ""}${(item.productName ?? "") && '[' + (item.modelName ?? '-') + ']'}`,
         적요: item.description,
         수량: item.quantity,
         단가: item.outPrice,
