@@ -125,7 +125,7 @@ export type Total = SubTotal & {
       <tr key={`subTotal-${idx}`} style={{ borderTop: 'none' }}>
         <td></td><td></td>
         <td className="left-align"><b>[당일소계]</b></td>
-        <td></td><td></td>
+        <td></td><td></td><td></td>
         <td className="right-align"><b>{sub.purchase.toLocaleString('ko-KR')}</b></td>
         <td className="right-align"><b>{sub.sales.toLocaleString('ko-KR')}</b></td>
         <td className="right-align"><b>{sub.purchase_discount.toLocaleString('ko-KR')}</b></td>

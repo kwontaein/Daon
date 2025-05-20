@@ -49,7 +49,7 @@ export default function LedgerCustomersSearchResult({searchInfo}:{searchInfo:{se
           ? prev.balance + ledger.totalPrice
           : prev.balance - ledger.totalPrice;
   
-      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, (isSamePrevDate || isSameNextDate) ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
+      const { newSub, newTotal } = updateSubTotals(category, ledger.totalPrice, ledger.quantity, isSamePrevDate ? prev.subTotalOfTheDay : initialSubTotal, prev.total);
       const elements = [...prev.elements];
   
       elements.push( mode==='pc' ? renderLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)) : renderMobileLedgerRow(ledger, balance, (isSamePrevDate || isSameNextDate)));
