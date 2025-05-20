@@ -15,7 +15,7 @@ export default async function MainLayout({navigation,aside,children,footer,searc
     mobile: React.ReactNode;
   }) {
     const userInfo = (await cookies()).get('user')?.value
-
+    console.log(JSON.parse(userInfo))
     return (
       <>
         <header>
