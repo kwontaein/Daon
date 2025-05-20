@@ -1,6 +1,7 @@
 package com.example.daon.admin.dto.response;
 
 import com.example.daon.admin.model.ClassType;
+import com.example.daon.admin.model.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,6 @@ public class AdminCookie {
 
     //부서 -> enum
     private String deptName;
+
+    private RoleType roleType;
 }

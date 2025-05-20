@@ -1,0 +1,257 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../admin_global.css">    <meta charset="UTF-8">
+</head>
+
+<body leftmargin="0" topmargin="0">
+
+<div id='stampLayer' style='position:absolute; left:650px; top:110px; z-index:1;'></div>
+
+<table width="700" cellspacing="0" cellpadding="0" align="center" style="border:solid 1px #000000;">
+
+<tr><td colspan="3" height="30"></td></tr>
+<tr><td colspan="3" style="text-align:center;"><span id="docuTitle" style="font-weight:bold; font-family:돋움; font-size: 25px;">견&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</span></b></td></tr>
+<tr><td colspan="3" height="50"></td></tr>
+
+<tr> 
+
+<td valign="top" style="text-align:center;">
+<table width="90%" border="0" cellspacing="0" cellpadding="0">
+<tr><td height="10" colspan="2">&nbsp;</font></td></tr>
+<tr>
+<td height="30" align="right" class="bottomLine">&nbsp;<span id="customerName" style="font-family:돋움; font-size:14px;"></span></td>
+<td align="right" class="bottomLine"><span style="font-family:돋움; font-size:14px;">&nbsp;귀&nbsp;하&nbsp;</span></td>
+</tr>
+<tr><td align="right" height="30" class="bottomLine" colspan="2"><span id="estimateDate" style="font-family:돋움; font-size:14px;">&nbsp;</span>&nbsp;</td></tr>
+<tr><td height="50" colspan="2" style="text-align:center;">아래와 같이 견적합니다.</td></tr>
+</table>
+
+</td>
+
+<td width="10%">&nbsp;</td>
+
+<td width="45%" valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr><td style="height:30px; font-family:돋움; font-size:14px;">등록번호 : <span id="busiNum" style="letter-spacing:3px;"></span></td></tr>
+<tr><td style="height:30px; font-family:돋움; font-size:14px;">상호 : <span id="companyName"></span>&nbsp;&nbsp;성명 : <span id="ceoName"></span></td></tr>
+<tr><td style="height:30px; font-family:돋움; font-size:14px;">주소 : <span id="addr"></span></td></tr>
+<tr><td style="height:30px; font-family:돋움; font-size:14px;">TEL : <span id="companyTel"></span>&nbsp;/&nbsp;FAX <span id="companyFax"></span></td></tr>
+</table>
+
+</td>
+</tr>
+
+<tr><td colspan="3" height="40"></td></tr>
+
+<tr>
+<td colspan="3">
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td width="10"></td>
+<td width="60" style="font-family:돋움; font-size:14px; border-bottom:solid 1px #000000;">금&nbsp;&nbsp;&nbsp;액 :</td>
+<td width="230" style="text-align:center; font-family:돋움; font-size:14px; border-bottom:solid 1px #000000;">\ <span id="numberTotalPrice" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td><span style="font-family:돋움; font-size:14px;">&nbsp;&nbsp;(부가세포함)</span><span id="hangulTotalPrice" style="display:none;"></span></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr><td height="30"></td></tr>
+
+<tr> 
+<td colspan="3">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<tr align="center"> 
+<td width="25%" height="35" class="blackLeft2" style="background-color:#EFEFEF;"><b><span id="title01" style="font-family:돋움; font-size:14px;">품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</span></b></td>
+<td width="25%" class="blackCenter2" style="background-color:#EFEFEF;"><b><span id="title02" style="font-family:돋움; font-size:14px;">규&nbsp;&nbsp;&nbsp;&nbsp;격</span></b></td>
+<td width="10%" class="blackCenter2" style="background-color:#EFEFEF;"><b><span id="title03" style="font-family:돋움; font-size:14px;">수&nbsp;&nbsp;&nbsp;&nbsp;량</span></b></td>
+<td width="15%" class="blackCenter2" style="background-color:#EFEFEF;"><b><span id="title04" style="font-family:돋움; font-size:14px;">단&nbsp;&nbsp;&nbsp;&nbsp;가</span></b></td>
+<td width="15%" class="blackCenter2" style="background-color:#EFEFEF;"><b><span id="title05" style="font-family:돋움; font-size:14px;">공&nbsp;급&nbsp;가&nbsp;액</span></b></td>
+<td width="10%" class="blackRight2" style="background-color:#EFEFEF;"><b><span id="title06" style="font-family:돋움; font-size:14px;">비&nbsp;&nbsp;&nbsp;고</span></b></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_0" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_1" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_2" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_3" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_4" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_5" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_6" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_7" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_8" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_9" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_10" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_11" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_12" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_13" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_14" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<tr align="center"> 
+<td class="grayCenter" height="25"><span id="stockName_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockUnitPrice_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter" align="right"><span id="stockTotalPrice_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight"><span id="note_15" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+
+<tr align="center"> 
+<td class="grayCenter2" height="25"><span id="stockName_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter2"><span id="stockStandard_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter2"><span id="stockEa_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter2" align="right"><span id="stockUnitPrice_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayCenter2" align="right"><span id="stockTotalPrice_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+<td class="grayRight2"><span id="note_16" style="font-family:돋움; font-size:14px;">&nbsp;</span></td>
+</tr>
+
+<!--
+<tr align="center"> 
+<td class="grayCenter" height="30"><span id="stockName_17" style="font-family:돋움;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockStandard_17" style="font-family:돋움;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockEa_17" style="font-family:돋움;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockUnitPrice_17" style="font-family:돋움;">&nbsp;</span></td>
+<td class="grayCenter"><span id="stockTotalPrice_17" style="font-family:돋움;">&nbsp;</span></td>
+<td class="blackTd2"><span id="note_17" style="font-family:돋움;">&nbsp;</span></td>
+</tr>
+-->
+
+<tr align="center"> 
+<td class="blackLeft2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000;" height="30">&nbsp;</td>
+<td class="blackCenter2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000;">&nbsp;</td>
+<td class="blackCenter2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000;">&nbsp;</td>
+<td class="blackCenter2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; background-color:#EFEFEF;"><span style="font-family:돋움;">합계</span></td>
+<td class="blackCenter2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000;" align="right"><span id="totalPrice" style="font-family:돋움; font-size:14px;">&nbsp;</span>&nbsp;</td>
+<td class="blackRight2" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000;">&nbsp;</td>
+</tr>
+
+<tr><td colspan="6" class="bottomLine" style="height:60px; font-size:14px; padding-left:5px;">비고</td></tr>
+<tr><td colspan="6" style="height:40px; font-size:14px; padding-left:5px; letter-spacing:4px;">결재계좌 : 우리은행 1005-201-383854&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예금주 ㈜명인정보</td></tr>
+
+</table>
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>

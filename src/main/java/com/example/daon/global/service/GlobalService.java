@@ -504,6 +504,7 @@ public class GlobalService {
                 .userId(user.getUserId())
                 .name(user.getName())
                 .userClass(user.getUserClass())
+                .roleType(user.getUserRole())
                 .deptName(user.getDept().getDeptName())
                 .build();
     }
