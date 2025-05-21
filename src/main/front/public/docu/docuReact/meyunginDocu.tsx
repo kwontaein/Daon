@@ -1,32 +1,14 @@
 import React from "react";
 import "/styles/test/meyunginDocu.scss";
+import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
 
-interface EstimateItem {
-    name: string;
-    standard: string;
-    quantity: number;
-    unitPrice: number;
-    totalPrice: number;
-    note: string;
-}
-
-interface EstimateData {
-    customerName: string;
-    estimateDate: string;
-    busiNum: string;
-    companyName: string;
-    ceoName: string;
-    addr: string;
-    companyTel: string;
-    companyFax: string;
-    numberTotalPrice: string;
-    items: EstimateItem[];
-}
 
 const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
     return (
         <div className="estimate-document">
-            <div className="title">견&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서</div>
+            <div
+                className="title">견&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서
+            </div>
 
             <div className="info-section">
                 <div className="left">
@@ -59,13 +41,13 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                     <col width="10%"/>
                 </colgroup>
                 <thead>
-                <tr style={{height:'35px'}}>
+                <tr style={{height: '35px'}}>
                     <th>품목</th>
                     <th>규격</th>
                     <th>수량</th>
                     <th>단가</th>
                     <th>공급가액</th>
-                    <th style={{borderRight:'unset'}}>비고</th>
+                    <th style={{borderRight: 'unset'}}>비고</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,10 +58,10 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                         <td>{item.quantity || '\u00A0'}</td>
                         <td>{item?.unitPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>
                         <td>{item?.totalPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>
-                        <td style={{borderRight:'unset'}}>{item.note || '\u00A0'}</td>
+                        <td style={{borderRight: 'unset'}}>{item.note || '\u00A0'}</td>
                     </tr>
                 ))}
-                <tr style={{textAlign: "center", height:'30px'}}>
+                <tr style={{textAlign: "center", height: '30px'}}>
                     <td className="blackLeft2 borderTopBottom" height="30">&nbsp;</td>
                     <td className="blackCenter2 borderTopBottom">&nbsp;</td>
                     <td className="blackCenter2 borderTopBottom">&nbsp;</td>
@@ -91,19 +73,34 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                     {data.numberTotalPrice?.toLocaleString()}&nbsp;
                     </span>
                     </td>
-                    <td className="blackRight2 borderTopBottom" style={{borderRight:'unset'}}>&nbsp;</td>
+                    <td className="blackRight2 borderTopBottom" style={{borderRight: 'unset'}}>&nbsp;</td>
                 </tr>
 
                 <tr>
                     <td colSpan={6} className="bottomLine"
-                        style={{height: "60px", fontSize: "14px", paddingLeft: "5px", textAlign:'left', borderRight:'unset', fontWeight:'550'}}>
+                        style={{
+                            height: "60px",
+                            fontSize: "14px",
+                            paddingLeft: "5px",
+                            textAlign: 'left',
+                            borderRight: 'unset',
+                            fontWeight: '550'
+                        }}>
                         비고
                     </td>
                 </tr>
 
                 <tr>
                     <td colSpan={6}
-                        style={{height: "40px", fontSize: "14px", paddingLeft: "5px", textAlign:'left', letterSpacing: "3px", borderRight:'unset', fontWeight:'550'}}>
+                        style={{
+                            height: "40px",
+                            fontSize: "14px",
+                            paddingLeft: "5px",
+                            textAlign: 'left',
+                            letterSpacing: "3px",
+                            borderRight: 'unset',
+                            fontWeight: '550'
+                        }}>
                         결재계좌 : 우리은행 1005-201-383854&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예금주 ㈜명인정보
                     </td>
                 </tr>
