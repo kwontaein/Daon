@@ -1,6 +1,6 @@
 import React from "react";
 import "/styles/test/JaccDocu.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
 
 const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
 
@@ -121,9 +121,9 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <tbody>
                     {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                         <tr key={idx}>
-                            <td>{item.name || '\u00A0'}</td>
-                            <td>{item.standard || '\u00A0'}</td>
-                            <td>{item.ea || '\u00A0'}</td>
+                            <td>{item.productName || '\u00A0'}</td>
+                            <td>{item.modelName || '\u00A0'}</td>
+                            <td>{item.quantity || '\u00A0'}</td>
                             <td>{item.unitPrice || '\u00A0'}</td>
                             <td>{item.totalPrice || '\u00A0'}</td>
                             <td>{item.note || '\u00A0'}</td>
