@@ -31,6 +31,13 @@ public class EstimateController {
         return estimateService.getEstimate(estimateRequest.getEstimateId());
     }
 
+    //단일조회
+    @PostMapping("api/getEstimatesByIds")
+    public List<EstimateResponse> getEstimatesByIds(@RequestBody EstimateRequest estimateRequest) {
+        return estimateService.getEstimatesByIds(estimateRequest.getEstimateIds());
+    }
+
+
     //수정
     @PostMapping("api/updateEstimate")
     public void updateEstimate(@RequestBody EstimateRequest estimateRequest) {
