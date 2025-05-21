@@ -258,26 +258,31 @@ img {
 .blackLeft {
   @extend %black-td-base;
   @include border($color-black, 1px, 1px, 0px, 1px);
+  text-align: center
 }
 
 .blackCenter {
   @extend %black-td-base;
   @include border($color-black, 1px, 1px, 0px, 0px);
+  text-align: center
 }
 
 .blackRight {
   @extend %black-td-base;
   @include border($color-black, 1px, 1px, 0px, 0px);
+  text-align: center
 }
 
 .blackCenterBottom {
   @extend %black-td-base;
   @include border($color-black, 1px, 1px, 1px, 0px);
+  text-align: center
 }
 
 .blackRightBottom {
   @extend %black-td-base;
   @include border($color-black, 1px, 1px, 1px, 0px);
+  text-align: center
 }
 
 // === GRAY BORDERS ===

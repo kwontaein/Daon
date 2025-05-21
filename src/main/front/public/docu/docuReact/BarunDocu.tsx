@@ -53,8 +53,7 @@ const BarunDocu = ({
                                 <td></td>
                                 <th
                                     rowSpan={6}
-                                    style={{border: "2px solid #000", borderRight: "1px dotted"}}
-                                >
+                                    style={{border: "2px solid #000", borderRight: "1px dotted"}}>
                                     <p>공</p>
                                     <p>급</p>
                                     <p>자</p>

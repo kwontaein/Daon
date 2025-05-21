@@ -102,34 +102,42 @@ const DaonDocu = ({data}) => {
                 <tr>
                     <td>
                         <table className="dataTable">
+                             <colgroup>
+                                <col width="29%"/>
+                                <col width="20%"/>
+                                <col width="11%"/>
+                                <col width="14%"/>
+                                <col width="15%"/>
+                                <col width="11%"/>
+                            </colgroup>
                             <thead>
-                            <tr>
-                                <td>품 목</td>
+                            <tr style={{padding:'1px', height:'21px'}}>
+                                <td style={{borderLeft:'unset'}}>품 목</td>
                                 <td>규 격</td>
                                 <td>수 량</td>
                                 <td>단 가</td>
                                 <td>공급가액</td>
-                                <td>비 고</td>
+                                <td style={{borderRight:'unset'}}>비 고</td>
                             </tr>
                             </thead>
                             <tbody>
                             {[...stockList, ...Array(17 - stockList.length).fill({})].map((item, idx) => (
                                 <tr key={idx}>
-                                    <td>{item.name || '\u00A0'}</td>
+                                    <td style={{borderLeft:'unset'}}>{item.name || '\u00A0'}</td>
                                     <td>{item.standard || '\u00A0'}</td>
                                     <td>{item.ea || '\u00A0'}</td>
                                     <td>{item.unitPrice || '\u00A0'}</td>
                                     <td>{item.totalPrice || '\u00A0'}</td>
-                                    <td>{item.note || '\u00A0'}</td>
+                                    <td style={{borderRight:'unset'}}>{item.note || '\u00A0'}</td>
                                 </tr>
                             ))}
-                            <tr>
-                                <td style={{borderBottom: '1px solid #000'}}>합 계</td>
+                            <tr style={{height:'33px'}}>
+                                <td style={{borderBottom: '1px solid #000', borderLeft:'unset'}}>합 계</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>{totalPrice}</td>
-                                <td></td>
+                                <td style={{borderRight:'unset'}}></td>
                             </tr>
                             </tbody>
                         </table>
