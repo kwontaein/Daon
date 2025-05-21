@@ -1,20 +1,8 @@
 import React from "react";
 import "/styles/test/JaccDocu.scss";
+import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
 
-const JaccDocu = ({data}) => {
-    const {
-        estimateDate,
-        customerName,
-        busiNum,
-        companyName,
-        ceoName,
-        addr,
-        hangulTotalPrice,
-        stockItems,
-        totalPrice,
-        companyTel,
-        companyFax,
-    } = data;
+const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
 
     return (
         <div className="estimate-container">
@@ -28,23 +16,36 @@ const JaccDocu = ({data}) => {
                         <col width='50%'/>
                     </colgroup>
                     <tbody>
-                        <tr style={{height:'14.67px'}}>
-                            <td colSpan={4}></td>
-                        </tr>
-                        <tr>
-                           <td>
-                           <table style={{width:'100%'}}>
+                    <tr style={{height: '14.67px'}}>
+                        <td colSpan={4}></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style={{width: '100%'}}>
                                 <tbody>
-                                    <tr><td></td></tr>
-                                    <tr><td style={{borderBottom:'1px solid black', textAlign:'right'}}>{estimateDate}</td></tr>
-                                    <tr><td></td></tr>
-                                    <tr><td style={{borderBottom:'1px solid black', textAlign:'right'}}><span className="customer-honorific">{customerName}&nbsp;&nbsp;&nbsp;貴&nbsp;下&nbsp;</span></td></tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style={{
+                                        borderBottom: '1px solid black',
+                                        textAlign: 'right'
+                                    }}>{data.estimateDate}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style={{borderBottom: '1px solid black', textAlign: 'right'}}><span
+                                        className="customer-honorific">{data.customerName}&nbsp;&nbsp;&nbsp;貴&nbsp;下&nbsp;</span>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
-                           </td>
-                           <td></td>
-                           <td>
-                           <table>
+                        </td>
+                        <td></td>
+                        <td>
+                            <table>
                                 <colgroup>
                                     <col width="40%"/>
                                     <col width="2%"/>
@@ -52,38 +53,58 @@ const JaccDocu = ({data}) => {
                                     <col/>
                                 </colgroup>
                                 <tbody>
-                                    <tr>
-                                        <td style={{borderBottom:'1px solid black'}}><b>등&nbsp;&nbsp;록&nbsp;&nbsp;번&nbsp;호</b></td>
-                                        <td style={{borderBottom:'1px solid black'}}><b>:</b></td>
-                                        <td style={{borderBottom:'1px solid black',paddingLeft:'10px', fontSize:'15px'}}><b>{busiNum}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{borderBottom:'1px solid black'}}><b>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호</b></td>
-                                        <td style={{borderBottom:'1px solid black'}}><b>:</b></td>
-                                        <td style={{borderBottom:'1px solid black', paddingLeft:'10px', fontSize:'15px'}}><b>{companyName}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{borderBottom:'1px solid black'}}><b>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</b></td>
-                                        <td style={{borderBottom:'1px solid black'}}><b>:</b></td>
-                                        <td style={{borderBottom:'1px solid black', paddingLeft:'10px', fontSize:'15px'}}><b>{ceoName}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{borderBottom:'1px solid black'}}><b>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</b></td>
-                                        <td style={{borderBottom:'1px solid black'}}><b>:</b></td>
-                                        <td style={{borderBottom:'1px solid black', paddingLeft:'10px', fontSize:'15px'}}><b>{addr}</b></td>
-                                    </tr>
+                                <tr>
+                                    <td style={{borderBottom: '1px solid black'}}>
+                                        <b>등&nbsp;&nbsp;록&nbsp;&nbsp;번&nbsp;호</b></td>
+                                    <td style={{borderBottom: '1px solid black'}}><b>:</b></td>
+                                    <td style={{
+                                        borderBottom: '1px solid black',
+                                        paddingLeft: '10px',
+                                        fontSize: '15px'
+                                    }}><b>{data.busiNum}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style={{borderBottom: '1px solid black'}}>
+                                        <b>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호</b></td>
+                                    <td style={{borderBottom: '1px solid black'}}><b>:</b></td>
+                                    <td style={{
+                                        borderBottom: '1px solid black',
+                                        paddingLeft: '10px',
+                                        fontSize: '15px'
+                                    }}><b>{data.companyName}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style={{borderBottom: '1px solid black'}}>
+                                        <b>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표</b></td>
+                                    <td style={{borderBottom: '1px solid black'}}><b>:</b></td>
+                                    <td style={{
+                                        borderBottom: '1px solid black',
+                                        paddingLeft: '10px',
+                                        fontSize: '15px'
+                                    }}><b>{data.ceoName}</b></td>
+                                </tr>
+                                <tr>
+                                    <td style={{borderBottom: '1px solid black'}}>
+                                        <b>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</b></td>
+                                    <td style={{borderBottom: '1px solid black'}}><b>:</b></td>
+                                    <td style={{
+                                        borderBottom: '1px solid black',
+                                        paddingLeft: '10px',
+                                        fontSize: '15px'
+                                    }}><b>{data.addr}</b></td>
+                                </tr>
                                 </tbody>
                             </table>
-                           </td>
-                        </tr>
-                        <tr style={{height:'14.67px'}}>
-                            <td colSpan={4}></td>
-                        </tr>
-                        <tr>
-                            <td colSpan={4}>
-                                합계금액 : {hangulTotalPrice}
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
+                    <tr style={{height: '14.67px'}}>
+                        <td colSpan={4}></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={4}>
+                            합계금액 : {data.hangulTotalPrice}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
                 <table className="stock-table">
@@ -98,7 +119,7 @@ const JaccDocu = ({data}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {[...stockItems, ...Array(17 - stockItems.length).fill({})].map((item, idx) => (
+                    {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                         <tr key={idx}>
                             <td>{item.name || '\u00A0'}</td>
                             <td>{item.standard || '\u00A0'}</td>
@@ -111,7 +132,7 @@ const JaccDocu = ({data}) => {
                     <tr>
                         <td colSpan={3}></td>
                         <td>합계</td>
-                        <td>{totalPrice}</td>
+                        <td>{data.totalPrice}</td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -126,32 +147,32 @@ const JaccDocu = ({data}) => {
                         <col width='26.5%'/>
                     </colgroup>
                     <tbody>
-                        <tr>
-                            <td>계좌번호</td>
-                            <td>:</td>
-                            <td>우리은행 1005-180-690520 예금주 홍 문선</td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}>인수자</td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}></td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}></td>
-                        </tr>
-                        <tr>
-                            <td>취급품목</td>
-                            <td>:</td>
-                            <td>삼성 HP Epson , 프린터 , 스캐너 , 팩시밀리</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>디지탈카메라 , 각종 전산소모품 및 주변기기</td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}>담당자</td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}></td>
-                            <td rowSpan={2} style={{border:'1px solid black'}}></td>
-                        </tr>
-                        <tr>
-                            <td>T&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;L</td>
-                            <td>:</td>
-                            <td>{companyTel}, FAX : {companyFax}</td>
-                        </tr>
+                    <tr>
+                        <td>계좌번호</td>
+                        <td>:</td>
+                        <td>우리은행 1005-180-690520 예금주 홍 문선</td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}>인수자</td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}></td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}></td>
+                    </tr>
+                    <tr>
+                        <td>취급품목</td>
+                        <td>:</td>
+                        <td>삼성 HP Epson , 프린터 , 스캐너 , 팩시밀리</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>디지탈카메라 , 각종 전산소모품 및 주변기기</td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}>담당자</td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}></td>
+                        <td rowSpan={2} style={{border: '1px solid black'}}></td>
+                    </tr>
+                    <tr>
+                        <td>T&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;L</td>
+                        <td>:</td>
+                        <td>{data.companyTel}, FAX : {data.companyFax}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

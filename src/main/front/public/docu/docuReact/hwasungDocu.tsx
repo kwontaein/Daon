@@ -1,19 +1,8 @@
 import React from "react";
 import "/styles/test/admin_global.scss";
+import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
 
-const HwasungDocu = ({
-                         estimateDate,
-                         customerName,
-                         busiNum,
-                         companyName,
-                         ceoName,
-                         addr,
-                         items,
-                         totalPrice,
-                         hangulTotalPrice,
-                         companyTel,
-                         companyFax,
-                     }) => {
+const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
     return (
         <div style={{margin: "0 auto", width: 700}}>
             <div style={{position: "absolute", left: 610, top: 140, zIndex: 1}} id="stampLayer"></div>
@@ -41,12 +30,12 @@ const HwasungDocu = ({
                                 <tbody>
                                 <tr>
                                     <td align="left" colSpan={2} style={{fontSize: 18}}>
-                                        {estimateDate}&nbsp;
+                                        {data.estimateDate}&nbsp;
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="70%" align="center" style={{fontSize: 18, lineHeight: "40px"}}>
-                                        {customerName}
+                                        {data.customerName}
                                     </td>
                                     <td align="left" style={{lineHeight: "40px", fontSize: 18}}>
                                         귀&nbsp;&nbsp;하
@@ -69,7 +58,7 @@ const HwasungDocu = ({
                                     <td height="30" style={{fontSize: "18px"}}>등&nbsp;록&nbsp;번&nbsp;호</td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, letterSpacing: 3}}>
-                                        <b style={{fontSize: "18px"}}>{busiNum}</b>
+                                        <b style={{fontSize: "18px"}}>{data.busiNum}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,7 +67,7 @@ const HwasungDocu = ({
                                     </td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, letterSpacing: 10}}>
-                                        <b style={{fontSize: "18px"}}>{companyName}</b>
+                                        <b style={{fontSize: "18px"}}>{data.companyName}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -87,7 +76,7 @@ const HwasungDocu = ({
                                     </td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, letterSpacing: 30}}>
-                                        <b style={{fontSize: "18px"}}>{ceoName}</b>
+                                        <b style={{fontSize: "18px"}}>{data.ceoName}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -96,7 +85,7 @@ const HwasungDocu = ({
                                     </td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, fontSize: 16, letterSpacing: 4}}>
-                                        <b style={{fontSize: "18px"}}>{addr}</b>
+                                        <b style={{fontSize: "18px"}}>{data.addr}</b>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -124,28 +113,28 @@ const HwasungDocu = ({
                                     backgroundColor: "unset",
                                     height: "35px"
                                 }}>
-                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackLeft">품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명
                                     </th>
-                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackCenter">규&nbsp;&nbsp;&nbsp;&nbsp;격
                                     </th>
-                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackCenter">수&nbsp;&nbsp;&nbsp;&nbsp;량
                                     </th>
-                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackCenter">단&nbsp;&nbsp;&nbsp;&nbsp;가
                                     </th>
-                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackCenter">공&nbsp;급&nbsp;가&nbsp;액
                                     </th>
-                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize:'16px'}}
+                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize: '16px'}}
                                         className="blackRight">비&nbsp;&nbsp;&nbsp;&nbsp;고
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {[...items, ...Array(17 - items.length).fill({})].map((item, idx) => (
+                                {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                                     <tr key={idx} style={{alignItems: "center"}}>
                                         <td className="blackLeft" style={{height: 30}}>{item.stockName || '\u00A0'}</td>
                                         <td className="blackCenter">{item.stockStandard || '\u00A0'}</td>
@@ -161,7 +150,7 @@ const HwasungDocu = ({
                                     <td className="blackCenterBottom">&nbsp;</td>
                                     <td className="blackCenterBottom">&nbsp;</td>
                                     <td className="blackCenterBottom">합계</td>
-                                    <td className="blackCenterBottom">{totalPrice}</td>
+                                    <td className="blackCenterBottom">{data.totalPrice}</td>
                                     <td className="blackRightBottom">&nbsp;</td>
                                 </tr>
                                 </tbody>
@@ -175,12 +164,12 @@ const HwasungDocu = ({
 
                     <tr>
                         <td height="25" colSpan={3} style={{fontSize: 16}}>
-                            <b>2. 합계금액 (부가세포함) : {hangulTotalPrice}</b>
+                            <b>2. 합계금액 (부가세포함) : {data.hangulTotalPrice}</b>
                         </td>
                     </tr>
                     <tr>
                         <td height="25" colSpan={3} style={{fontSize: 16}}>
-                            <b>3. 대표전화 : {companyTel} , FAX : {companyFax}</b>
+                            <b>3. 대표전화 : {data.companyTel} , FAX : {data.companyFax}</b>
                         </td>
                     </tr>
                     <tr>
