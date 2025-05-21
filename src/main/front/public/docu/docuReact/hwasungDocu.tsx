@@ -28,9 +28,9 @@ const HwasungDocu = ({
                     <tr>
                         <td colSpan={3}>
                             <b>
-                  <span id="docuTitle" style={{fontSize: 30}}>
-                    견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서
-                  </span>
+                            <span id="docuTitle" style={{fontSize: 30}}>
+                                견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서
+                            </span>
                             </b>
                         </td>
                     </tr>
@@ -124,35 +124,35 @@ const HwasungDocu = ({
                                     backgroundColor: "unset",
                                     height: "35px"
                                 }}>
-                                    <th style={{width: "25%", backgroundColor: "transparent"}}
+                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackLeft">품&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명
                                     </th>
-                                    <th style={{width: "25%", backgroundColor: "transparent"}}
+                                    <th style={{width: "25%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackCenter">규&nbsp;&nbsp;&nbsp;&nbsp;격
                                     </th>
-                                    <th style={{width: "10%", backgroundColor: "transparent"}}
+                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackCenter">수&nbsp;&nbsp;&nbsp;&nbsp;량
                                     </th>
-                                    <th style={{width: "15%", backgroundColor: "transparent"}}
+                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackCenter">단&nbsp;&nbsp;&nbsp;&nbsp;가
                                     </th>
-                                    <th style={{width: "15%", backgroundColor: "transparent"}}
+                                    <th style={{width: "15%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackCenter">공&nbsp;급&nbsp;가&nbsp;액
                                     </th>
-                                    <th style={{width: "10%", backgroundColor: "transparent"}}
+                                    <th style={{width: "10%", backgroundColor: "transparent", fontSize:'16px'}}
                                         className="blackRight">비&nbsp;&nbsp;&nbsp;&nbsp;고
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {items.map((item, idx) => (
+                                {[...items, ...Array(17 - items.length).fill({})].map((item, idx) => (
                                     <tr key={idx} style={{alignItems: "center"}}>
-                                        <td className="blackLeft" style={{height: 30}}>{item.stockName}</td>
-                                        <td className="blackCenter">{item.stockStandard}</td>
-                                        <td className="blackCenter">{item.stockEa}</td>
-                                        <td className="blackCenter">{item.stockUnitPrice}</td>
-                                        <td className="blackCenter">{item.stockTotalPrice}</td>
-                                        <td className="blackRight">{item.note}</td>
+                                        <td className="blackLeft" style={{height: 30}}>{item.stockName || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.stockStandard || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.stockEa || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.stockUnitPrice || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.stockTotalPrice || '\u00A0'}</td>
+                                        <td className="blackRight">{item.note || '\u00A0'}</td>
                                     </tr>
                                 ))}
 
@@ -174,18 +174,18 @@ const HwasungDocu = ({
                     </tr>
 
                     <tr>
-                        <td height="25" colSpan={3} style={{fontSize: 16, fontWeight: "bold"}}>
-                            2. 합계금액 (부가세포함) : {hangulTotalPrice}
+                        <td height="25" colSpan={3} style={{fontSize: 16}}>
+                            <b>2. 합계금액 (부가세포함) : {hangulTotalPrice}</b>
                         </td>
                     </tr>
                     <tr>
-                        <td height="25" colSpan={3} style={{fontSize: 16, fontWeight: "bold"}}>
-                            3. 대표전화 : {companyTel} , FAX : {companyFax}
+                        <td height="25" colSpan={3} style={{fontSize: 16}}>
+                            <b>3. 대표전화 : {companyTel} , FAX : {companyFax}</b>
                         </td>
                     </tr>
                     <tr>
-                        <td height="25" colSpan={3} style={{fontSize: 16, fontWeight: "bold"}}>
-                            4. 계좌번호 : 농협중앙회 1076 - 02 - 039044 예금주 : 홍문선
+                        <td height="25" colSpan={3} style={{fontSize: 16}}>
+                            <b>4. 계좌번호 : 농협중앙회 1076 - 02 - 039044 예금주 : 홍문선</b>
                         </td>
                     </tr>
                     </tbody>
