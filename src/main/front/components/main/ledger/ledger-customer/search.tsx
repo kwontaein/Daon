@@ -13,6 +13,8 @@ import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import LedgerCustomerSearchResult from './search-result';
 import {useModalState} from '@/store/zustand/modal';
 import {exportLedgerCustomerToExcel} from "@/components/main/ledger/ledger-customer/exportLedgerCustomerToExcel";
+import useRouterPath from '@/hooks/share/useRouterPath';
+import useCheckBoxState from '@/hooks/share/useCheckboxState';
 
 export default function LedgerCustomerSearch({affiliations, stockCates}: {
     affiliations: Affiliation[],
@@ -28,7 +30,11 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
     const checkCustomerId = useCallback(() => !!state.customerId, [state.customerId]);
     const checkStockId = useCallback(() => !!state.stockId, [state.stockId]);
     const {customer, setModalState} = useModalState()
+    const redirect = useRouterPath()
 
+    const receiptIds = useMemo(()=>searchInfo.searchResult.map(({receiptId})=>receiptId),[searchInfo.searchResult])
+    const estimateCheckHook = useCheckBoxState(receiptIds)
+  
     useEffect(() => {
         //거래처별 원장조회를 누를 시 ModalState 갱신 후 ledger-customer로 이동하여 조회 
         //첫 랜더링 시에만 검색처리
@@ -46,6 +52,19 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
             setModalState({customer: {}})
         }
     }, [])
+
+    useEffect(() => {
+        if (state.searchResult) {
+            if (state.searchResult.length === 0) {
+                window.alert("검색 조건에 해당하는 결과가 없습니다.")
+            }
+            setSearchInfo({
+                searchResult: state.searchResult,
+                searchTitle: state.customerName,
+                searchSDate: state.searchSDate
+            })
+        }
+    }, [state])
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -84,18 +103,23 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
         });
     }
 
-    useEffect(() => {
-        if (state.searchResult) {
-            if (state.searchResult.length === 0) {
-                window.alert("검색 조건에 해당하는 결과가 없습니다.")
-            }
-            setSearchInfo({
-                searchResult: state.searchResult,
-                searchTitle: state.customerName,
-                searchSDate: state.searchSDate
-            })
-        }
-    }, [state])
+
+
+    const printEstimatehandler = ()=>{
+        const {checkedState} = estimateCheckHook
+        
+        const params = new URLSearchParams({
+            target:JSON.stringify(Object.entries(checkedState).map(([key,value])=>key)),
+         });
+
+        if(window.innerWidth>620){
+            const url = `/estimate-print?${params.toString()}`;
+            const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
+            window.open(url, "PopupWindow", popupOptions);
+        }else[
+            redirect(`estimate-print?${params.toString()}`)
+        ]
+    }
 
     return (
         <>
@@ -223,7 +247,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                                     }>엑 셀 변 환
                                     </button>
                                     <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
-                                    <button type='button'>견적서인쇄</button>
+                                    <button type='button' onClick={printEstimatehandler}>견적서인쇄</button>
                                 </div>
                             </td>
                         </tr>
@@ -233,7 +257,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
             </section>
 
             {searchInfo.searchResult.length > 0 &&
-                <LedgerCustomerSearchResult searchInfo={searchInfo}/>
+                <LedgerCustomerSearchResult searchInfo={searchInfo} estimateCheckHook={estimateCheckHook}/>
             }
         </>
     )

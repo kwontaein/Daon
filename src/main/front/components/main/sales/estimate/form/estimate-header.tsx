@@ -19,13 +19,13 @@ import useChangeMode from '@/hooks/share/useChangeMode';
 import { UserInfo, useUserInformation } from '@/store/zustand/userInfo';
 import { notFound } from 'next/navigation';
 
-export default function EstimateHeader({companyList, task, estimate, mode, isMobile = false, userInfo}: {
+export default function EstimateHeader({companyList, task, estimate, mode, userInfo, isMobile = false}: {
     companyList: ResponseCompany[],
     mode: 'write' | 'detail' | 'edit',
     task?: ResponseTask,
     estimate?: ResponseEstimate,
-    isMobile?:boolean,
     userInfo?: UserInfo
+    isMobile?:boolean,
 }) {
 
     const {user} = useUserInformation()
