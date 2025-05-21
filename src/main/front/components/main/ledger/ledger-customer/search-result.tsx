@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import React, { JSX, useMemo, useReducer } from "react";
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { renderLedgerRow, renderMobileLedgerRow, renderMobileSubTotalRow, renderMobileTotalRow, renderSubTotalRow, renderTotalRow, SubTotal, Total, updateSubTotals } from './ledger-result-rows';
-import useCheckBoxState from '@/hooks/share/useCheckboxState';
+import useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState';
 type Accumulator = {
   elements: JSX.Element[];
   date: Date;
@@ -34,17 +34,14 @@ const initialTotal: Total = {
 };
 
 
-export default function LedgerCustomerSearchResult({searchInfo}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date}}){
+export default function LedgerCustomerSearchResult({searchInfo, estimateCheckHook}:{searchInfo:{searchTitle:string,searchResult:ResponseLedger[],searchSDate:Date},estimateCheckHook:ReturnCheckBoxHook}){
   const screen = useScreenMode({tabletSize:830, mobileSize:620})
   const [mobileView,setMobileView] = useReducer((prev)=>!prev,false)
-
+  const {checkedState, isAllChecked, update_checked, toggleAllChecked} = estimateCheckHook
   const mode =( screen!=='pc' ? screen: (mobileView ? 'tabelt': screen) )
-  const receiptIds = useMemo(()=>searchInfo.searchResult.map(({receiptId})=>receiptId),[searchInfo.searchResult])
-  const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(receiptIds)
 
 
   const resultReducer = useMemo(()=>
-  
     searchInfo.searchResult.reduce<Accumulator>((prev, ledger, idx) => {
       const category = ReceiptCategoryEnum[ledger.category];
       const isSamePrevDate =  dayjs(prev.date).format('YYYY-MM-DD') === dayjs(ledger.timeStamp).format('YYYY-MM-DD');

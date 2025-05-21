@@ -43,6 +43,8 @@ export default async function estimateRegisterAction(prevState, formState){
     }
     const action = formState.get('action')
     
+    delete prevState.formErrors
+    
     if(action){
         const errors=[]
         items.forEach((item:ResponseEstimateItem)=>{
@@ -72,7 +74,6 @@ export default async function estimateRegisterAction(prevState, formState){
         return {...prevState, ...estimateData, status}
     }else{
         delete prevState.status
-        delete prevState.formErrors
         return {...prevState, ...estimateData}
     }
 

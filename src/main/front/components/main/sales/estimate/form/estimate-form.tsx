@@ -6,6 +6,7 @@ import { ResponseEstimate } from "@/model/types/sales/estimate/type"
 import useEstimate from '@/hooks/sales/task-estimate/useEstimate';
 import { ResponseTask } from '@/model/types/sales/task/type';
 import useChangeMode from '@/hooks/share/useChangeMode';
+import useRouterPath from '@/hooks/share/useRouterPath';
 
 
 export default function EstimateForm({estimateState, submit, mode, task, isMobile = false} : {
@@ -26,6 +27,21 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
     
     const {checkedState,isAllChecked, resetChecked, update_checked, toggleAllChecked} = useCheckBoxState(itemIds)
     const changeModeHandler = useChangeMode()
+    const redirect = useRouterPath()
+
+    const printEstimatehandler = ()=>{
+        const params = new URLSearchParams({
+            target:JSON.stringify(estimateState.items.map(({estimateId})=>estimateId)),
+         });
+
+        if(window.innerWidth>620){
+            const url = `/estimate-print?${params.toString()}`;
+            const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
+            window.open(url, "PopupWindow", popupOptions);
+        }else[
+            redirect(`estimate-print?${params.toString()}`)
+        ]
+    }
 
     return(
         <section className='estimate-container'>
@@ -145,7 +161,7 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
             <div className={`estimate-button-container ${(!!task?.completeAt) ?'justify-right' :'justify-center'}`}>
                     {mode==='detail' &&
                         <>
-                            <button onClick={()=>window.print()}>견적서인쇄</button>
+                            <button onClick={printEstimatehandler}>견적서인쇄</button>
                             {!task?.completeAt && <button onClick={()=>changeModeHandler('edit')}>견적서수정</button>}
                         </>
                     }
