@@ -23,7 +23,6 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     const {checkedState, isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(taskIds)
     const redirect = useRouterPath()
 
-    //TODO: add mobile version
     const viewCustomerHandler = (customerId:string)=>{
         const params = new URLSearchParams({
             mode: "detail",
