@@ -1,19 +1,8 @@
 import React from "react";
 import "/styles/test/daonDocu.scss";
+import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
 
-const BarunDocu = ({
-                       estimateDate,
-                       busiNum,
-                       companyName,
-                       ceoName,
-                       customerName,
-                       addr,
-                       companyTel,
-                       companyFax,
-                       hangulTotalPrice,
-                       totalPrice,
-                       stocks, // 배열로 {stockName, stockStandard, stockEa, stockUnitPrice, stockTotalPrice, note} 형태
-                   }) => {
+const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
     return (
         <div className="wrap" style={{marginTop: 75}}>
             <table className="wrapTable">
@@ -48,7 +37,7 @@ const BarunDocu = ({
                             <tbody>
                             <tr>
                                 <td className="underline right" style={{textAlign: "center"}}>
-                                    <span id="estimateDate">{estimateDate}</span>
+                                    <span id="estimateDate">{data.estimateDate}</span>
                                 </td>
                                 <td></td>
                                 <th
@@ -72,7 +61,7 @@ const BarunDocu = ({
                                         borderLeft: 0,
                                     }}
                                 >
-                                    &nbsp;<span id="busiNum">{busiNum}</span>
+                                    &nbsp;<span id="busiNum">{data.busiNum}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -82,26 +71,26 @@ const BarunDocu = ({
                                     상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호
                                 </th>
                                 <td colSpan={2} className="left" style={{border: "1px dotted #000", borderLeft: 0}}>
-                                    &nbsp;<a id="companyName" style={{letterSpacing: 0}}>{companyName}</a>
+                                    &nbsp;<a id="companyName" style={{letterSpacing: 0}}>{data.companyName}</a>
                                 </td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     성명
                                 </th>
                                 <td colSpan={2} className="left"
                                     style={{border: "1px dotted #000", borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="ceoName" style={{letterSpacing: 0}}>{ceoName}</a>(인)
+                                    &nbsp;<a id="ceoName" style={{letterSpacing: 0}}>{data.ceoName}</a>(인)
                                 </td>
                             </tr>
                             <tr>
                                 <td className="underline right" style={{textAlign: "center"}}>
-                                    <a id="customerName">{customerName}</a>&nbsp;귀하
+                                    <a id="customerName">{data.customerName}</a>&nbsp;귀하
                                 </td>
                                 <td></td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     사업장주소
                                 </th>
                                 <td colSpan={5} className="left" style={{borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="addr">{addr}</a>
+                                    &nbsp;<a id="addr">{data.addr}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -129,7 +118,7 @@ const BarunDocu = ({
                                     전화번호
                                 </th>
                                 <td colSpan={2} className="left" style={{borderBottom: "2px solid #000"}}>
-                                    &nbsp;<a id="companyTel">{companyTel}</a>
+                                    &nbsp;<a id="companyTel">{data.companyTel}</a>
                                 </td>
                                 <th
                                     colSpan={1}
@@ -143,7 +132,7 @@ const BarunDocu = ({
                                 </th>
                                 <td colSpan={2} className="left"
                                     style={{borderBottom: "2px solid #000", borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="companyFax">{companyFax}</a>
+                                    &nbsp;<a id="companyFax">{data.companyFax}</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -157,7 +146,7 @@ const BarunDocu = ({
                     <td>
                         <div className="priceLeft2">&nbsp;합계금액</div>
                         <div className="priceRight">
-                            일금&nbsp;<span id="hangulTotalPrice">{hangulTotalPrice}</span>
+                            일금&nbsp;<span id="hangulTotalPrice">{data.hangulTotalPrice}</span>
                             <p style={{fontSize: 11}}>(부가가치세는 포함입니다.)</p>
                         </div>
                     </td>
@@ -184,7 +173,7 @@ const BarunDocu = ({
                             </tr>
                             </thead>
                             <tbody>
-                            {[...stocks, ...Array(17 - stocks.length).fill({})].map((stock, index) => (
+                            {[...data.items, ...Array(17 - data.items.length).fill({})].map((stock, index) => (
                                 <tr key={index} style={{borderTop: index === 0 ? "1px solid #000" : undefined}}>
                                     <td style={{borderLeft: 0}}>
                                         <span id={`stockName_${index}`}>{stock.stockName}</span>
@@ -211,7 +200,7 @@ const BarunDocu = ({
                                     합계금액
                                 </td>
                                 <td style={{borderRight: 0}}>
-                                    <span id="totalPrice">{totalPrice}</span>
+                                    <span id="totalPrice">{data.totalPrice}</span>
                                 </td>
                                 <td style={{borderRight: 0}}></td>
                             </tr>
