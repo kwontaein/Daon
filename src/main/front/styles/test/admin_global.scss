@@ -1,0 +1,323 @@
+// === VARIABLES ===
+$font-main: Tahoma, "돋움";
+$font-size-default: 9pt;
+$color-white: #FFFFFF;
+$color-black: #000000;
+$color-gray: #AFAFAF;
+$color-green: green;
+$color-orange: #FF9900;
+$color-title-bg: #8091A7;
+$color-title-border: #ADB7BF;
+$color-title-border-dark: #5B6F80;
+
+// === MIXINS ===
+@mixin border($color, $top, $right, $bottom, $left) {
+  border-color: $color;
+  border-style: solid;
+  border-top-width: $top;
+  border-right-width: $right;
+  border-bottom-width: $bottom;
+  border-left-width: $left;
+}
+
+// === BASE ===
+body {
+  // background-color: #66798C;
+  // background-image: url('');
+  background-repeat: repeat-x;
+  font-family: $font-main;
+}
+
+.introBody {
+  background-color: $color-white;
+}
+
+th, td, textarea, option {
+  font-size: $font-size-default;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+
+  &:link {
+    color: #444444;
+  }
+
+  &:active {
+    color: #333333;
+  }
+
+  &:hover {
+    color: $color-orange;
+  }
+}
+
+th {
+  background: $color-green;
+  color: $color-white;
+}
+
+img {
+  border: none;
+}
+
+.img {
+  @include border(#666666, 1px, 1px, 1px, 1px);
+}
+
+.inputbox, .textbox, input.calendar {
+  font-size: $font-size-default;
+  color: $color-black;
+  background-color: $color-white;
+}
+
+.checkbox {
+  @include border($color-black, 1px, 1px, 1px, 1px);
+  font-size: $font-size-default;
+  color: $color-black;
+  background-color: $color-white;
+}
+
+.selectbox {
+  font-size: $font-size-default;
+  color: $color-black;
+  background-color: $color-white;
+  border: none;
+}
+
+.bgimg {
+  border: 2px solid #C6C6C6;
+}
+
+// === COMPONENTS ===
+
+.clsTableTitle, .bdTitle {
+  text-align: center;
+  font-size: 12px;
+  font-family: $font-main;
+  background-color: $color-title-bg;
+  color: $color-white;
+  border-top: 1px solid $color-title-border;
+  border-left: 1px solid $color-title-border;
+  border-right: 1px solid $color-title-border-dark;
+  border-bottom: 1px solid $color-title-border-dark;
+}
+
+.btnSubmit {
+  font-family: $font-main;
+  font-size: $font-size-default;
+}
+
+.btnSubmitBig {
+  font-size: $font-size-default;
+  width: 100px;
+  height: 30px;
+}
+
+.tdDocu, .lineHeight {
+  line-height: 20px;
+}
+
+.paddingLeft {
+  text-align: left;
+  padding-left: 5px;
+}
+
+.paddingRight {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.caution {
+  font-family: $font-main;
+  font-size: $font-size-default;
+  color: #FF0000;
+  line-height: 20px;
+}
+
+.listrev {
+  font-family: $font-main;
+  font-size: $font-size-default;
+  color: $color-white;
+  background-color: #6a5f4c;
+}
+
+// === 게시판 테이블 ===
+
+.bdTD, .bdList {
+  text-align: center;
+  font-size: 12px;
+  font-family: $font-main;
+}
+
+.bdTD {
+  color: $color-white;
+  @include border($color-title-border-dark, 1px, 1px, 1px, 1px);
+}
+
+.bdList {
+  background-color: $color-white;
+  color: $color-black;
+}
+
+.bdLine, .bar, .conTop {
+  background-color: #CACACA;
+}
+
+.bar {
+  background-color: #66798C;
+}
+
+.bodyBackColor {
+  background-color: $color-white;
+  background-repeat: repeat-x;
+}
+
+.conTD {
+  text-align: center;
+  background-color: #F5F5F5;
+}
+
+.conLine {
+  background-color: #D8D8D8;
+}
+
+// === INPUTS ===
+.input_none,
+.input_cal {
+  font-family: $font-main;
+  font-size: 12px;
+  line-height: 120%;
+  background-color: $color-white;
+}
+
+// === PRINT ===
+.noprint {
+  display: none;
+}
+
+// === TABLE BORDERS ===
+%black-td-base {
+  border-style: solid;
+  font-size: $font-size-default;
+  color: $color-black;
+  border-color: $color-black;
+}
+
+.blackTd, .blackTd6, .blackLeftBottom, .blackBorder {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 1px, 1px);
+}
+
+.blackTd1 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 1px);
+}
+
+.blackTd2 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 0px);
+}
+
+.blackTd3 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 0px, 1px, 1px);
+}
+
+.blackTd4 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 0px);
+}
+
+.blackTd5 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 0px, 1px, 1px);
+}
+
+.blackTd7 {
+  @extend %black-td-base;
+  @include border($color-black, 0px, 1px, 1px, 1px);
+}
+
+.blackTd8 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 0px, 1px, 0px);
+}
+
+.blackTd9 {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 0px, 0px, 0px);
+}
+
+.bottomLine {
+  @extend %black-td-base;
+  @include border($color-black, 0px, 0px, 1px, 0px);
+}
+
+.blackLeft {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 1px);
+}
+
+.blackCenter {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 0px);
+}
+
+.blackRight {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 0px, 0px);
+}
+
+.blackCenterBottom {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 1px, 0px);
+}
+
+.blackRightBottom {
+  @extend %black-td-base;
+  @include border($color-black, 1px, 1px, 1px, 0px);
+}
+
+// === GRAY BORDERS ===
+.grayCenter, .grayRight, .grayCenter2, .grayRight2 {
+  font-size: $font-size-default;
+  color: $color-black;
+  border-style: solid;
+  border-color: $color-gray;
+}
+
+.grayCenter {
+  @include border($color-gray, 0px, 1px, 1px, 0px);
+}
+
+.grayRight {
+  @include border($color-gray, 0px, 0px, 1px, 0px);
+}
+
+.grayCenter2 {
+  @include border($color-gray, 0px, 1px, 0px, 0px);
+}
+
+.grayRight2 {
+  @include border($color-gray, 0px, 0px, 0px, 0px);
+}
+
+// === ESTIMATE ===
+.estimate1 {
+  font-family: $font-main;
+  font-size: 10pt;
+}
+
+.basicTable {
+  background-color: #B4B4B4;
+}
+
+.basicTop {
+  background-color: #F5F5F5;
+}
+
+.basicList {
+  background-color: #FFFFFF;
+}
