@@ -1,5 +1,5 @@
 import React from "react";
-import "/styles/test/admin_global.css";
+import "/styles/test/admin_global.scss";
 
 const HwasungDocu = ({
                          estimateDate,

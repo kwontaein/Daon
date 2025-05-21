@@ -1,141 +1,129 @@
-.estimate-template {
-  font-family: 'Nanum Gothic', 'Arial', sans-serif;
-  font-size: 14px;
-  color: #333;
-  width: 800px;
+.estimate-container {
+  font-family: '궁서', Tahoma, sans-serif;
+  width: 700px;
   margin: 0 auto;
-  background: #fff;
+  background-color: white;
+}
 
-  #stampLayer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 100px;
-    height: 100px;
-    opacity: 0.1;
-    /* 스탬프 이미지 등 배경 가능 */
+.stamp-layer {
+  position: absolute;
+  left: 640px;
+  top: 110px;
+  z-index: 1;
+}
+
+.title {
+  font-size: 45px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.left {
+  width: 45%;
+}
+
+.right {
+  width: 50%;
+
+  .bottom-line {
+    border-bottom: 1px solid #000;
+    padding: 4px 0;
+    font-size: 18px;
   }
 
-  .container {
-    width: 100%;
-    border-collapse: collapse;
+  span {
+    margin-left: 10px;
+    letter-spacing: 5px;
+  }
+}
 
-    .title {
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
-      padding: 15px 0;
-      border-bottom: 2px solid #000;
-      letter-spacing: 10px;
-    }
+.customer {
+  display: flex;
+  justify-content: space-between;
 
-    .spacer {
-      height: 20px;
-    }
+  .info-space {
+    padding: 4px 0;
+    font-size: 18px;
+  }
+}
 
-    .spacer-small {
-      height: 10px;
-    }
+.total-hangul {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 
-    .customer-info, .company-info {
-      vertical-align: top;
-      width: 40%;
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 
-      .inner-table {
-        width: 100%;
-        border-collapse: collapse;
+  th, td {
+    border: 1px solid black;
+    font-size: 15px;
+    padding: 5px;
+    text-align: center;
+  }
 
-        td {
-          padding: 4px 6px;
-        }
 
-        .bottom-line {
-          border-bottom: 1px solid #999;
-        }
+}
 
-        .date {
-          font-size: 12px;
-          color: #666;
-        }
+.footer {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
 
-        .customer {
-          font-weight: 600;
-          font-size: 16px;
-        }
+  .bank-info {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
 
-        .right-align {
-          text-align: right;
-        }
-      }
-    }
+  .signatures {
+    justify-content: flex-end;
 
-    .gap {
-      width: 20%;
-    }
+    .signatures_sub {
+      display: flex;
 
-    .total {
-      font-weight: 700;
-      font-size: 16px;
-      text-align: right;
-      padding: 10px 0;
-      border-top: 2px solid #000;
-      border-bottom: 2px solid #000;
-    }
-
-    .item-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-
-      th, td {
-        border: 1px solid #aaa;
-        padding: 8px;
+      .sign-box {
+        border: 1px solid black;
+        width: 70px;
+        height: 33px;
+        margin-left: 10px;
         text-align: center;
-        font-size: 13px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        line-height: 50px;
       }
 
-      th {
-        background-color: #f4f4f4;
-        font-weight: 600;
-      }
-
-      .right-align {
-        text-align: right;
-      }
-    }
-
-    .footer-table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-
-      td {
-        padding: 6px 8px;
-        font-size: 12px;
-        vertical-align: middle;
-      }
-
-      .label {
-        font-weight: 700;
-        width: 80px;
-      }
-
-      .colon {
-        width: 10px;
-      }
-
-      .value {
-        width: 300px;
-      }
-
-      .footer-box {
-        border: 1px solid #333;
-        width: 80px;
-        height: 40px;
+      .sign-box-middle {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border: 1px solid black;
+        width: 3.7px;
+        height: 33px;
         text-align: center;
-        vertical-align: middle;
-        font-size: 12px;
+        line-height: 50px;
+      }
+
+      .sign-box-bottom {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border: 1px solid black;
+        width: 180px;
+        height: 33px;
+        text-align: center;
+        line-height: 50px;
       }
     }
+
+
   }
 }
