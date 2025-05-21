@@ -1,5 +1,5 @@
 import React from "react";
-import "/styles/test/daonDocu.css";
+import "/styles/test/daonDocu.scss";
 
 const BarunDocu = ({
                        estimateDate,
