@@ -25,7 +25,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, isMob
     task?: ResponseTask,
     estimate?: ResponseEstimate,
     isMobile?:boolean,
-    userInfo: UserInfo
+    userInfo?: UserInfo
 }) {
 
     const {user} = useUserInformation()

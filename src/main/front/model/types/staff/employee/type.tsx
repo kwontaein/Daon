@@ -40,9 +40,9 @@ export enum EmployeeClassEnum {
 
   // 권한
   export enum UserRoleEnum {
-    USER = "일반사용자",
     ADMIN = "관리자",
     MANAGER = "매니저",
+    USER = "일반사용자",
   }
   
 export type EmployeePermission ={

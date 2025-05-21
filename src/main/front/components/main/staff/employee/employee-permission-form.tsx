@@ -5,8 +5,8 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import {AsideOptions} from '@/model/constants/routes/asideOptions';
 import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
 import {permissionFormAction} from '@/features/staff/employee/action/employee-permission-action';
-import {EnableUrlType} from '@/model/types/staff/employee/type';
 import { kebabToCamel } from '@/features/share/kebabToCamel';
+import { EnableUrlType } from '@/model/types/share/type';
 
 
 
