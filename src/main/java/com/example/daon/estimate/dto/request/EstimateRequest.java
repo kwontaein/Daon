@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 @Data
 public class EstimateRequest {
     private UUID estimateId;
+    private List<UUID> estimateIds;
     private UUID customerId;
     private UUID companyId;
     private UUID taskId;
