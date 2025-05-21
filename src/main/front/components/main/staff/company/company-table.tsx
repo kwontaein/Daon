@@ -45,7 +45,6 @@ export default function CompanyTable({initialCompany, page}:{initialCompany:Resp
         setLoading(false)
     },[company, page])
 
-       //TODO: add mobile version
     const signNewCompanyHandler = ()=>{
         if(window.innerWidth>620){
             const url = `/register-company`; 

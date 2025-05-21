@@ -18,7 +18,7 @@ export default function EstimateSearchResult({pageByEstimate, isTask} : {
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     
     const redirect = useRouterPath()
-    //TODO: add mobile version
+
     const viewTransEstimateHandler = (estimateId:string)=>{
         const params = new URLSearchParams
         params.set("target",estimateId)

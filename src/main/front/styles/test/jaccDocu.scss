@@ -13,35 +13,40 @@
 }
 
 .title {
-  font-size: 45px;
+  font-size: 52px;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 14ppx;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.left {
-  width: 45%;
-}
-
-.right {
-  width: 50%;
-
-  .bottom-line {
-    border-bottom: 1px solid #000;
-    padding: 4px 0;
-    font-size: 18px;
+.estimate-header-table{
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  font-size: 18px;
+  table{
+    table-layout: auto;
+    border-collapse: collapse;
   }
+    tr{
+      height: 30px;
+      td{
+        border: transparent;
+      }
+    }
 
-  span {
-    margin-left: 10px;
-    letter-spacing: 5px;
+}
+
+.estimate-footer-table{
+  table-layout: auto;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px;
+  margin-top: 10px;
+  tr{
+    height: 15px !important;
   }
 }
+
 
 .customer {
   display: flex;
@@ -55,13 +60,11 @@
 
 .total-hangul {
   font-size: 16px;
-  margin-bottom: 10px;
 }
 
 .stock-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 
   th, td {
     border: 1px solid black;
@@ -69,61 +72,11 @@
     padding: 5px;
     text-align: center;
   }
-
-
-}
-
-.footer {
-  display: flex;
-  margin-top: 20px;
-  justify-content: space-between;
-
-  .bank-info {
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-
-  .signatures {
-    justify-content: flex-end;
-
-    .signatures_sub {
-      display: flex;
-
-      .sign-box {
-        border: 1px solid black;
-        width: 70px;
-        height: 33px;
-        margin-left: 10px;
-        text-align: center;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        line-height: 50px;
-      }
-
-      .sign-box-middle {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        border: 1px solid black;
-        width: 3.7px;
-        height: 33px;
-        text-align: center;
-        line-height: 50px;
-      }
-
-      .sign-box-bottom {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        border: 1px solid black;
-        width: 180px;
-        height: 33px;
-        text-align: center;
-        line-height: 50px;
-      }
+  thead{
+    td{
+      font-size: 16px !important;
     }
-
-
   }
+
 }
+
