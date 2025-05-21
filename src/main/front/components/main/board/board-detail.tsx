@@ -74,7 +74,6 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
         )
     };
 
-    console.log(initialBoard.files)
 
     useEffect(()=>{
 
