@@ -7,11 +7,12 @@ import useRouterPath from '@/hooks/share/useRouterPath';
 
 
 
-export default function ReceiptButtons({isSelected, selectList, toggleIsSelected,disableDelete} : {
+export default function ReceiptButtons({isSelected, selectList, toggleIsSelected, disableDelete, disableEstimate} : {
     isSelected: boolean,
     selectList: string[],
     toggleIsSelected: () => void
-    disableDelete:boolean
+    disableDelete:boolean,
+    disableEstimate:boolean,
 }) {
 
     const redirect = useRouterPath()
@@ -33,7 +34,10 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             window.alert('전표화된 견적서가 포함되어 삭제가 불가능합니다.')
             return
         }
-        if(selectList.length===0) return
+        if(selectList.length===0){
+            window.alert('한 개 이상의 전표를 선택해주세요.')
+            return
+        }
             const submit = async()=>{
             const status =await deleteReceiptApi(selectList)
             if(status===200){
@@ -46,7 +50,10 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
     }
 
     const editReceipt =()=>{
-        if(selectList.length===0) return
+        if(selectList.length===0){
+            window.alert('한 개 이상의 전표를 선택해주세요.')
+            return
+        }
         if(disableDelete){
             window.alert('전표화된 견적서가 포함되어 수정이 불가능합니다.')
             return
@@ -63,7 +70,28 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             redirect(`receipt?${params.toString()}`)
         }
     }
-    
+    const printEstimatehandler = ()=>{
+        if(selectList.length===0){
+            window.alert('한 개 이상의 전표를 선택해주세요.')
+            return
+        }
+        if(disableEstimate){
+            window.alert('매출, 매출대체건을 제외한 전표는 입금처리를 할 수 없습니다.')
+            return
+        }
+        const params = new URLSearchParams({
+            receiptIds:JSON.stringify(selectList),
+         });
+
+        if(window.innerWidth>620){
+            const url = `/estimate-print?${params.toString()}`;
+            const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
+            window.open(url, "PopupWindow", popupOptions);
+        }else[
+            redirect(`estimate-print?${params.toString()}`)
+        ]
+    }
+
     return(
         <section className='total-buttons-container'>
             <button  onClick={registerReceipt}>
@@ -80,7 +108,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
                     <button onClick={deleteReceipt}>
                         전표삭제
                     </button>
-                    <button>
+                    <button onClick={printEstimatehandler}>
                         견적서
                     </button>
                 </>

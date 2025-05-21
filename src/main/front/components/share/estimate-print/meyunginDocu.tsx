@@ -1,6 +1,6 @@
 import React from "react";
 import "/styles/test/meyunginDocu.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
 
 
 const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
@@ -53,8 +53,8 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                 <tbody>
                 {[data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                     <tr key={idx} className="content-border">
-                        <td>{item.name || '\u00A0'}</td>
-                        <td>{item.standard || '\u00A0'}</td>
+                        <td>{item.productName || '\u00A0'}</td>
+                        <td>{item.modelName || '\u00A0'}</td>
                         <td>{item.quantity || '\u00A0'}</td>
                         <td>{item?.unitPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>
                         <td>{item?.totalPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>

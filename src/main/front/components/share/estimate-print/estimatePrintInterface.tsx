@@ -1,11 +1,12 @@
 export interface EstimateItem {
-    name: string;
-    standard: string;
+    productName: string;
+    modelName: string;
     quantity: number;
     unitPrice: number;
     totalPrice: number;
     note?: string;
 }
+
 
 export interface EstimateData {
     estimateDate: string;

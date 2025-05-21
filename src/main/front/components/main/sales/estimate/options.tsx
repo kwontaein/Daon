@@ -43,7 +43,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
     const printEstimatehandler = ()=>{
         
         const params = new URLSearchParams({
-            target:JSON.stringify([estimateId]),
+            estimateIds:JSON.stringify([estimateId]),
          });
 
         if(window.innerWidth>620){
