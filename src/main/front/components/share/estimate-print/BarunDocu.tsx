@@ -1,6 +1,6 @@
 import React from "react";
 import "/styles/test/daonDocu.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
 
 const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
     return (
@@ -176,13 +176,13 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             {[...data.items, ...Array(17 - data.items.length).fill({})].map((stock, index) => (
                                 <tr key={index} style={{borderTop: index === 0 ? "1px solid #000" : undefined}}>
                                     <td style={{borderLeft: 0}}>
-                                        <span id={`stockName_${index}`}>{stock.stockName}</span>
+                                        <span id={`stockName_${index}`}>{stock.productName}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockStandard_${index}`}>{stock.stockStandard}</span>
+                                        <span id={`stockStandard_${index}`}>{stock.modelName}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockEa_${index}`}>{stock.stockEa}</span>
+                                        <span id={`stockEa_${index}`}>{stock.quantity}</span>
                                     </td>
                                     <td>
                                         <span id={`stockUnitPrice_${index}`}>{stock.stockUnitPrice}</span>

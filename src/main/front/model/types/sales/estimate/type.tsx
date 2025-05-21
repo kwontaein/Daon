@@ -44,11 +44,11 @@ interface User{
     itemId: string;        // UUID -> string
     estimateId: string;    // String -> string
     productName: string;
+    modelName:string;
     quantity: number;      // Integer -> number
     unitPrice: number;     // BigDecimal -> number
     stockId: string;       // UUID -> string
-    hand: boolean;
-    modelName:string;
+    hand?: boolean;
   }
   
 
