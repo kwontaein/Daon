@@ -46,7 +46,7 @@ export default function MainHeader({userInfo}) {
             <>
             <span className="header-content left">
                 <p>{currentTime}</p>
-                <b className="header-depart">{`${user?.deptName ?? ''} ${user?.name ? '/':''} ${user?.name ?? ''} ${EmployeeClassEnum[user.userClass] ?? ''}`}</b>
+                <b className="header-depart">{`${user?.dept?.deptName ?? ''} ${user?.name ? '/':''} ${user?.name ?? ''} ${EmployeeClassEnum[user.userClass] ?? ''}`}</b>
             </span>
             <span className="header-content right">
                 <p className="header-lastOnline">

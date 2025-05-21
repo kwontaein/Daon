@@ -1,7 +1,6 @@
 'use server';
 
 import {Affiliation} from "@/model/types/customer/affiliation/type";
-import {revalidateTag} from "next/cache";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
 
