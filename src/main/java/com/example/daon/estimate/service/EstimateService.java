@@ -21,6 +21,7 @@ import com.example.daon.stock.repository.StockRepository;
 import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -339,6 +340,20 @@ public class EstimateService {
         }
     }
 
+    public List<EstimateResponse> getEstimatesByIds(List<UUID> estimateIds) {
+
+        List<EstimateEntity> estimateEntities = estimateRepository.findAll((root, query, criteriaBuilder) -> {
+            CriteriaBuilder.In<UUID> inClause = criteriaBuilder.in(root.get("receiptId"));
+            for (UUID id : estimateIds) {
+                inClause.value(id);
+            }
+            return inClause;
+        });
+        return estimateEntities
+                .stream()
+                .map(globalService::convertToEstimateResponse)
+                .collect(Collectors.toList());
+    }
 }
 
 
