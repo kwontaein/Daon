@@ -1,6 +1,6 @@
 import React from "react";
 import "/styles/test/admin_global.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
 
 const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
     return (
@@ -136,9 +136,9 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                 <tbody>
                                 {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                                     <tr key={idx} style={{alignItems: "center"}}>
-                                        <td className="blackLeft" style={{height: 30}}>{item.stockName || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockStandard || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockEa || '\u00A0'}</td>
+                                        <td className="blackLeft" style={{height: 30}}>{item.productName || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.modelName || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.quantity || '\u00A0'}</td>
                                         <td className="blackCenter">{item.stockUnitPrice || '\u00A0'}</td>
                                         <td className="blackCenter">{item.stockTotalPrice || '\u00A0'}</td>
                                         <td className="blackRight">{item.note || '\u00A0'}</td>

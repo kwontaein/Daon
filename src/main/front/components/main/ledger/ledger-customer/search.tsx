@@ -109,7 +109,7 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
         const {checkedState} = estimateCheckHook
         
         const params = new URLSearchParams({
-            target:JSON.stringify(Object.entries(checkedState).map(([key,value])=>key)),
+            estimateIds:JSON.stringify(Object.keys(checkedState)),
          });
 
         if(window.innerWidth>620){

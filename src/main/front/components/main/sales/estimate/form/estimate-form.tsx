@@ -31,7 +31,7 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
 
     const printEstimatehandler = ()=>{
         const params = new URLSearchParams({
-            target:JSON.stringify(estimateState.items.map(({estimateId})=>estimateId)),
+            estimateIds:JSON.stringify(estimateState.items.map(({estimateId})=>estimateId)),
          });
 
         if(window.innerWidth>620){

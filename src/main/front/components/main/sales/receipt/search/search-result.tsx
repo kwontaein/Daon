@@ -24,6 +24,12 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
         () => !!pageByReceipt.find(({estimateId, receiptId}) => estimateId && selectList.includes(receiptId)),
         [selectList, pageByReceipt]
     )
+    //체크목록이 전부 매출, 매출대체인지 확인
+    const disableEstimate = useMemo(() => !pageByReceipt.every(
+        ({receiptId, category}) => selectList.includes(receiptId)
+            ? (ReceiptCategoryEnum[category] === '매출' || ReceiptCategoryEnum[category] === '매출대체')
+            : true
+    ), [selectList, pageByReceipt])
 
     useEffect(()=>{
         if(!isSelected){
@@ -37,7 +43,9 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                 isSelected={isSelected}
                 toggleIsSelected={toggleIsSelected}
                 selectList={selectList}
-                disableDelete={disableDelete}/>            
+                disableDelete={disableDelete}
+                disableEstimate={disableEstimate}
+                />            
            <ReceiptTableContainer>
            {pageByReceipt.map((receipt: ResponseReceipt, index: number) => (
                 <tbody key={receipt.receiptId} className={`search-result-container ${(receipt.estimateId) ? 'estimate-receipt' : ''}`}>
