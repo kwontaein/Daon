@@ -1,21 +1,8 @@
 import React from 'react';
 import '../../../styles/test/daonDocu.scss';
+import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
 
-const DaonDocu = ({data}) => {
-    const {
-        estimateDate,
-        busiNum,
-        companyName,
-        customerName,
-        ceoName,
-        addr,
-        numberTotalPrice,
-        hangulTotalPrice,
-        stockList,
-        totalPrice,
-        companyTel,
-        companyFax,
-    } = data;
+const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
 
     return (
         <div className="wrap">
@@ -57,31 +44,31 @@ const DaonDocu = ({data}) => {
                             <tbody>
                             <tr>
                                 <td className="underline right">
-                                    <span id="estimateDate">{estimateDate}</span>
+                                    <span id="estimateDate">{data.estimateDate}</span>
                                 </td>
                                 <td></td>
                                 <td>등록번호 :</td>
-                                <td className="left"><span id="busiNum">{busiNum}</span></td>
+                                <td className="left"><span id="busiNum">{data.busiNum}</span></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호 :</td>
-                                <td className="left"><span id="companyName">{companyName}</span></td>
+                                <td className="left"><span id="companyName">{data.companyName}</span></td>
                             </tr>
                             <tr>
                                 <td className="right">
-                                    <span id="customerName">{customerName} 귀하</span>
+                                    <span id="customerName">{data.customerName} 귀하</span>
                                 </td>
                                 <td></td>
                                 <td>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표 :</td>
-                                <td className="left"><span id="ceoName">{ceoName}</span></td>
+                                <td className="left"><span id="ceoName">{data.ceoName}</span></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :</td>
-                                <td className="left"><span id="addr">{addr}</span></td>
+                                <td className="left"><span id="addr">{data.addr}</span></td>
                             </tr>
                             </tbody>
                         </table>
@@ -95,14 +82,14 @@ const DaonDocu = ({data}) => {
                 <tr>
                     <td>
                         <div className="priceLeft">1. 합계금액(부가세포함)</div>
-                        <div className="priceRight">￦ {numberTotalPrice} {hangulTotalPrice}</div>
+                        <div className="priceRight">￦ {data.numberTotalPrice} {data.hangulTotalPrice}</div>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
                         <table className="dataTable">
-                             <colgroup>
+                            <colgroup>
                                 <col width="29%"/>
                                 <col width="20%"/>
                                 <col width="11%"/>
@@ -111,33 +98,33 @@ const DaonDocu = ({data}) => {
                                 <col width="11%"/>
                             </colgroup>
                             <thead>
-                            <tr style={{padding:'1px', height:'21px'}}>
-                                <td style={{borderLeft:'unset'}}>품 목</td>
+                            <tr style={{padding: '1px', height: '21px'}}>
+                                <td style={{borderLeft: 'unset'}}>품 목</td>
                                 <td>규 격</td>
                                 <td>수 량</td>
                                 <td>단 가</td>
                                 <td>공급가액</td>
-                                <td style={{borderRight:'unset'}}>비 고</td>
+                                <td style={{borderRight: 'unset'}}>비 고</td>
                             </tr>
                             </thead>
                             <tbody>
-                            {[...stockList, ...Array(17 - stockList.length).fill({})].map((item, idx) => (
+                            {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
                                 <tr key={idx}>
-                                    <td style={{borderLeft:'unset'}}>{item.name || '\u00A0'}</td>
+                                    <td style={{borderLeft: 'unset'}}>{item.name || '\u00A0'}</td>
                                     <td>{item.standard || '\u00A0'}</td>
                                     <td>{item.ea || '\u00A0'}</td>
                                     <td>{item.unitPrice || '\u00A0'}</td>
                                     <td>{item.totalPrice || '\u00A0'}</td>
-                                    <td style={{borderRight:'unset'}}>{item.note || '\u00A0'}</td>
+                                    <td style={{borderRight: 'unset'}}>{item.note || '\u00A0'}</td>
                                 </tr>
                             ))}
-                            <tr style={{height:'33px'}}>
-                                <td style={{borderBottom: '1px solid #000', borderLeft:'unset'}}>합 계</td>
+                            <tr style={{height: '33px'}}>
+                                <td style={{borderBottom: '1px solid #000', borderLeft: 'unset'}}>합 계</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{totalPrice}</td>
-                                <td style={{borderRight:'unset'}}></td>
+                                <td>{data.totalPrice}</td>
+                                <td style={{borderRight: 'unset'}}></td>
                             </tr>
                             </tbody>
                         </table>
@@ -168,7 +155,7 @@ const DaonDocu = ({data}) => {
                             </tr>
                             <tr>
                                 <td className="bankInfo">
-                                    3. 연락처 : 전화 {companyTel} / 팩스 {companyFax}
+                                    3. 연락처 : 전화 {data.companyTel} / 팩스 {data.companyFax}
                                 </td>
                             </tr>
                             <tr>
