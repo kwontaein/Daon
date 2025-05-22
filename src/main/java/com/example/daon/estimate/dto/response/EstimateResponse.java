@@ -34,5 +34,5 @@ public class EstimateResponse {
     private String customerName;
     private String assignedUser;
     private TaskResponse taskResponse;
-    private String note;
+    private String memo;
 }
