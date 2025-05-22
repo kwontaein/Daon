@@ -206,7 +206,7 @@ public class GlobalService {
                 .customerId(estimate.getCustomer().getCustomerId())
                 .customerName(estimate.getCustomer().getCustomerName())
                 .items(estimate.getItems().stream().map(this::convertToEstimateItemResponse).collect(Collectors.toList()))
-                .note(estimate.getNote())
+                .memo(estimate.getMemo())
                 .build();
     }
 
