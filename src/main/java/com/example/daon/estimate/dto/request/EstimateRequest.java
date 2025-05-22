@@ -37,7 +37,7 @@ public class EstimateRequest {
     private String companyName;
     private String customerName;
     private String productName;
-    private String note;
+    private String memo;
     private boolean receipted;
     private boolean task;
     private Condition condition;
@@ -53,7 +53,7 @@ public class EstimateRequest {
                 .estimateDate(estimateDate.atStartOfDay())
                 .items(items)
                 .task(task)
-                .note(note)
+                .memo(memo)
                 .build();
     }
 
