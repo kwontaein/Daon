@@ -9,11 +9,11 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
   useEffect(() => {
     if (error.message) {
         alert(error.message); 
-        router.push('/'); 
+        router.replace('/'); 
       } else {
         alert('알 수 없는 에러가 발생했습니다.');
     }
-  }, [error]);
+  }, []);
 
   return null
 }

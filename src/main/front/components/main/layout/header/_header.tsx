@@ -34,10 +34,6 @@ export default function MainHeader({userInfo}) {
         } else {
             deleteUser();
         }
-
-        return () => {
-            dispatch(stompDisconnect());
-        };
     }, []);
 
     return (
