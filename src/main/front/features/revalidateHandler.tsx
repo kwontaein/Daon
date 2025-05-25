@@ -6,6 +6,6 @@ export default async function revalidateHandler(destination:string){
 }
 
 export async function revalidateAllPaths() {
-    const paths = ['/', '/main']; // 여기에 필요한 경로 추가
-    paths.forEach((path) => revalidatePath(path));
-  }
+    const paths = ['/', '/main'];
+    await Promise.all(paths.map(path => revalidatePath(path)));
+}
