@@ -2,7 +2,7 @@
 import '@/styles/form-style/form.scss';
 
 import {startTransition, useActionState, useEffect, useMemo, useRef} from 'react';
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import Image from 'next/image';
 
 import {ResponseEmployee} from '@/model/types/staff/employee/type';
@@ -10,7 +10,7 @@ import {ResponseCustomer} from '@/model/types/customer/customer/type';
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
 
 import taskRegisterAction from '@/features/sales/task/action/taskRegisterAction';
-import ErrorBox from '@/components/share/error-box/error-box';
+import ErrorBox from '@/components/share/error/error-box';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import ActionTakenContent from '../action-taken/content';
 import useChangeMode from '@/hooks/share/useChangeMode';

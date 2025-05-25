@@ -31,13 +31,13 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
 
     const printEstimatehandler = ()=>{
         const params = new URLSearchParams({
-            estimateIds:JSON.stringify(estimateState.items.map(({estimateId})=>estimateId)),
+            estimateId:estimateState.estimateId,
          });
 
         if(window.innerWidth>620){
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
-            window.open(url, "PopupWindow", popupOptions);
+            window.open(url, "printEstimate", popupOptions);
         }else[
             redirect(`estimate-print?${params.toString()}`)
         ]
@@ -74,7 +74,7 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((estimate,idx)=>(
+                    {items.map((estimate)=>(
                         <tr key={estimate.itemId} className={estimate.hand ? 'hand-estimate' : ''}>
                             <td>
                                 <input
@@ -130,7 +130,10 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
                                     readOnly/>
                                 </td>
                             <td>
-                                <input />
+                                <input name='memo' 
+                                       value={estimate.memo}  
+                                       onChange={(e) =>
+                                        estimateItemHandler({ memo: e.target.value }, estimate.itemId)}/>
                             </td>
                         </tr>
                     ))}
@@ -161,7 +164,7 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
             <div className={`estimate-button-container ${(!!task?.completeAt) ?'justify-right' :'justify-center'}`}>
                     {mode==='detail' &&
                         <>
-                            <button onClick={printEstimatehandler}>견적서인쇄</button>
+                            <button onClick={printEstimatehandler} >견적서인쇄</button>
                             {!task?.completeAt && <button onClick={()=>changeModeHandler('edit')}>견적서수정</button>}
                         </>
                     }

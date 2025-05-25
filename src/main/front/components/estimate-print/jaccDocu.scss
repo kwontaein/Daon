@@ -13,7 +13,7 @@
 }
 
 .title {
-  font-size: 52px;
+  font-size: 45px;
   text-align: left;
   margin-bottom: 14ppx;
 }
@@ -31,6 +31,7 @@
       height: 30px;
       td{
         border: transparent;
+        font-size: 18px;
       }
     }
 
@@ -47,6 +48,10 @@
   }
 }
 
+.customer-honorific{
+  width: 100%;
+  display: flex;
+}
 
 .customer {
   display: flex;

@@ -11,25 +11,16 @@ import ReceiptTableContainer from '../table/table-header';
 interface ReceiptItemProps{
     pageByReceipt:ResponseReceipt[]
     basicIndex: number;
+    allReceiptList:ResponseReceipt[]
 }
 
-export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptItemProps){
+export default function ReceiptSearchResult({pageByReceipt, allReceiptList, basicIndex}:ReceiptItemProps){
 
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
-    const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
-    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds,true)
+    // const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
+    const receiptIds:string[] = useMemo(()=> allReceiptList.map(({receiptId})=>receiptId),[allReceiptList])
+    const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds)
     const selectList = useMemo(()=>Object.keys(checkedState), [checkedState])
-    //체크목록 중 전표화된 견적서 포함되면 삭제불가능
-    const disableDelete = useMemo(
-        () => !!pageByReceipt.find(({estimateId, receiptId}) => estimateId && selectList.includes(receiptId)),
-        [selectList, pageByReceipt]
-    )
-    //체크목록이 전부 매출, 매출대체인지 확인
-    const disableEstimate = useMemo(() => !pageByReceipt.every(
-        ({receiptId, category}) => selectList.includes(receiptId)
-            ? (ReceiptCategoryEnum[category] === '매출' || ReceiptCategoryEnum[category] === '매출대체')
-            : true
-    ), [selectList, pageByReceipt])
 
     useEffect(()=>{
         if(!isSelected){
@@ -43,8 +34,8 @@ export default function ReceiptSearchResult({pageByReceipt, basicIndex}:ReceiptI
                 isSelected={isSelected}
                 toggleIsSelected={toggleIsSelected}
                 selectList={selectList}
-                disableDelete={disableDelete}
-                disableEstimate={disableEstimate}
+                allReceiptList={allReceiptList}
+                updateCheck={update_checked}
                 />            
            <ReceiptTableContainer>
            {pageByReceipt.map((receipt: ResponseReceipt, index: number) => (

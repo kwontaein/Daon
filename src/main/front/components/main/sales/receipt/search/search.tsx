@@ -173,7 +173,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                     </tbody>
                 </table>
             </form>
-            <MemoizedReceiptSearchResult pageByReceipt={pageByReceipt} basicIndex={(page - 1) * 10}/>
+            <MemoizedReceiptSearchResult pageByReceipt={pageByReceipt} basicIndex={(page - 1) * 10} allReceiptList={receiptList??initialReceipts}/>
             {!isPending &&
                 <Pagination
                     totalItems={(receiptList?? initialReceipts).length}

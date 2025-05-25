@@ -1,25 +1,27 @@
 import React from 'react';
-import '../../../styles/test/daonDocu.scss';
-import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
+import './daonDocu.scss';
+import { printEstimateType } from '@/model/types/print-estimate/type';
+import dayjs from 'dayjs';
+import { changeNumberToKorean } from '@/features/share/numberToKorean';
+import Image from 'next/image';
 
-const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
-
+const DaonDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
+    console.log(printEstimate.items)
     return (
-        <div className="wrap">
+        <div className="wrap" style={{marginTop:'75px'}}>
             <table className="wrapTable" id="estimateTable">
                 <tbody>
                 <tr>
                     <td height="30"></td>
                 </tr>
-
                 <tr>
                     <td>
                         <table className="infoTable" id="titleTable">
                             <tbody>
                             <tr>
                                 <td></td>
-                                <td className="center">
-                                    <span id="docuTitle">견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서</span>
+                                <td className="center" style={{letterSpacing: printEstimate.title.length>3 ? 10 : 25}}>
+                                    <span id="docuTitle">{printEstimate.title}</span>
                                 </td>
                                 <td></td>
                             </tr>
@@ -44,31 +46,52 @@ const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             <tbody>
                             <tr>
                                 <td className="underline right">
-                                    <span id="estimateDate">{data.estimateDate}</span>
+                                    <span id="estimateDate">
+                                        <span style={{ display: 'inline-block', marginRight: "30px", width: '50px',  whiteSpace: 'nowrap' , textAlign: 'right'}}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("YYYY")}년</span>
+                                        <span style={{ display: 'inline-block', marginRight: "30px", width: '32.5px',  whiteSpace: 'nowrap' ,textAlign: 'right'}}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("M")}월</span>
+                                        <span style={{ display: 'inline-block', width: '32.5px', textAlign: 'right',  whiteSpace: 'nowrap' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("DD")}일</span>
+                                    </span>
                                 </td>
                                 <td></td>
                                 <td>등록번호 :</td>
-                                <td className="left"><span id="busiNum">{data.busiNum}</span></td>
+                                <td className="left"><span id="busiNum">{printEstimate.company.businessNumber}</span></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호 :</td>
-                                <td className="left"><span id="companyName">{data.companyName}</span></td>
+                                <td className="left">
+                                    <span id="companyName" style={{position:'relative'}}>
+                                        {printEstimate.company.companyName}
+                                        {printEstimate.isStamp && 
+                                            <div style={{position:'absolute', marginLeft:'100px'}}>
+                                                <Image 
+                                                    src={`/assets/stamp/${printEstimate.company.stamp}`} 
+                                                    alt="" 
+                                                    width={70} 
+                                                    height={70}/>
+                                            </div>
+                                        }
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td className="right">
-                                    <span id="customerName">{data.customerName} 귀하</span>
+                                    <span id="customerName" style={{letterSpacing:printEstimate.customerName.length>14 ? 'unset' : '2px'}}>{printEstimate.customerName} 귀하</span>
                                 </td>
                                 <td></td>
                                 <td>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표 :</td>
-                                <td className="left"><span id="ceoName">{data.ceoName}</span></td>
+                                <td className="left">
+                                    <span id="ceoName">
+                                        {printEstimate.company.ceo}
+                                    </span>
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소 :</td>
-                                <td className="left"><span id="addr">{data.addr}</span></td>
+                                <td className="left"><span id="addr">{printEstimate.company.address}</span></td>
                             </tr>
                             </tbody>
                         </table>
@@ -82,7 +105,7 @@ const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                 <tr>
                     <td>
                         <div className="priceLeft">1. 합계금액(부가세포함)</div>
-                        <div className="priceRight">￦ {data.numberTotalPrice} {data.hangulTotalPrice}</div>
+                        <div className="priceRight"> {`${changeNumberToKorean(printEstimate.totalPrice)} 원 (￦${printEstimate.totalPrice.toLocaleString('ko-KR')})`}</div>
                     </td>
                 </tr>
 
@@ -108,14 +131,18 @@ const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
+                            {[...printEstimate.items, ...Array(17 - printEstimate.items.length).fill({})].map((item, idx) => (
                                 <tr key={idx}>
                                     <td style={{borderLeft: 'unset'}}>{item.productName || '\u00A0'}</td>
                                     <td>{item.modelName || '\u00A0'}</td>
-                                    <td>{item.quantity || '\u00A0'}</td>
-                                    <td>{item.unitPrice || '\u00A0'}</td>
-                                    <td>{item.totalPrice || '\u00A0'}</td>
-                                    <td style={{borderRight: 'unset'}}>{item.note || '\u00A0'}</td>
+                                    <td>{item.quantity ? item.quantity.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                    <td>{item.unitPrice ? item.unitPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                    <td>{item.totalPrice ? item.totalPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                    <td style={{borderRight: 'unset'}}>{
+                                        item.productName
+                                        ? (printEstimate.isMemoToDate ? dayjs(item.estimateDate).format('YY.M.D') : item.memo)
+                                        : '\u00A0'
+                                    }</td>
                                 </tr>
                             ))}
                             <tr style={{height: '33px'}}>
@@ -123,7 +150,7 @@ const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{data.totalPrice}</td>
+                                <td>{printEstimate.totalPrice.toLocaleString('ko-KR')} </td>
                                 <td style={{borderRight: 'unset'}}></td>
                             </tr>
                             </tbody>
@@ -155,7 +182,7 @@ const DaonDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             </tr>
                             <tr>
                                 <td className="bankInfo">
-                                    3. 연락처 : 전화 {data.companyTel} / 팩스 {data.companyFax}
+                                    3. 연락처 : 전화 {printEstimate.company.tel} / 팩스 {printEstimate.company.fax}
                                 </td>
                             </tr>
                             <tr>

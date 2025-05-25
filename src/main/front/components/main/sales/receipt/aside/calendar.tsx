@@ -10,10 +10,10 @@ import { useEffect, useRef, useState } from "react";
 import dayjs from 'dayjs';
 //이미지 관련
 import Image from 'next/image';
-import nextYear from '@/assets/nextYear.gif';
-import nextMonth from '@/assets/nextMonth.gif';
-import prevYear from '@/assets/prevYear.gif';
-import prevMonth from '@/assets/prevMonth.gif';
+import nextYear from '@/public/assets/nextYear.gif';
+import nextMonth from '@/public/assets/nextMonth.gif';
+import prevYear from '@/public/assets/prevYear.gif';
+import prevMonth from '@/public/assets/prevMonth.gif';
 
 
 import { getHolidays } from '@/model/constants/sales/receipt/holidays';

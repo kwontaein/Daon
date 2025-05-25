@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 import {startTransition, useActionState, useEffect, useMemo, useRef} from "react";
 import {useRouter} from "next/navigation";
-import ErrorBox from "@/components/share/error-box/error-box";
+import ErrorBox from "@/components/share/error/error-box";
 import {ResponseCompany} from "@/model/types/staff/company/type";
 import {submitCompanyInfo} from "@/features/staff/company/action/company-action";
 
