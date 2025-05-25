@@ -2,11 +2,11 @@
 
 /*import {exportToExcel} from './excel';
 import EstimateDocument from "@/public/daonDocu";*/
-import BarunDocu from "@/public/docu/docuReact/BarunDocu";
-import HwasungDocu from "@/public/docu/docuReact/hwasungDocu";
-import MeyunginDocu from "@/public/docu/docuReact/meyunginDocu";
-import JaccDocu from "@/public/docu/docuReact/jaccDocu";
-import DaonDocu from "@/public/docu/docuReact/daonDocu";
+import BarunDocu from "@/components/estimate-print/barunDocu";
+import HwasungDocu from "@/components/estimate-print/hwasungDocu";
+import MeyunginDocu from "@/components/estimate-print/meyunginDocu";
+import JaccDocu from "@/components/estimate-print/jaccDocu";
+import DaonDocu from "@/components/estimate-print/daonDocu";
 
 const TaskExcelDownload = () => {
     // const stocks = [
@@ -129,26 +129,28 @@ const TaskExcelDownload = () => {
 
     // return <MeyunginDocu data={estimateData}/>
 
-    const estimateData = {
-        estimateDate: '2025-05-21',
-        customerName: '홍길동',
-        busiNum: '123-45-67890',
-        companyName: '예제회사',
-        ceoName: '김대표',
-        addr: '서울특별시 강남구 테헤란로 123',
-        hangulTotalPrice: '일백만원정',
-        stockItems: [
-            {name: '프린터', standard: 'HP-L500', ea: 2, unitPrice: '300,000', totalPrice: '600,000', note: '신제품'},
-            {name: '스캐너', standard: 'Epson-XS', ea: 1, unitPrice: '400,000', totalPrice: '400,000', note: ''}
-        ],
-        totalPrice: '1,000,000',
-        companyTel: '02-1234-5678',
-        companyFax: '02-8765-4321',
-    };
+    // const estimateData:EstimateData = {
+    //     estimateDate: '2025-05-21',
+    //     busiNum: '123-45-67890',
+    //     customerName: '홍길동',
+    //     companyName: '예제회사',
+    //     ceoName: '김대표',
+    //     addr: '서울특별시 강남구 테헤란로 123',
+    //     hangulTotalPrice: '일백만원정',
+    //     numberTotalPrice:"1,200,000",
+    //     items: [
+    //         {productName: '프린터', modelName: 'HP-L500', quantity:1, unitPrice: 300000, totalPrice: 600000, note: '신제품'},
+    //         {productName: '스캐너', modelName: 'Epson-XS', quantity:1, unitPrice: 400000, totalPrice: 400000, note: ''}
+    //     ],
+    //     totalPrice: '1,000,000',
+    //     companyTel: '02-1234-5678',
+    //     companyFax: '02-8765-4321',
+    // };
 
-    return <JaccDocu
-        data={estimateData}
-    />
+
+    // return <JaccDocu
+    //     data={estimateData}
+    // />
 };
 
 export default TaskExcelDownload;

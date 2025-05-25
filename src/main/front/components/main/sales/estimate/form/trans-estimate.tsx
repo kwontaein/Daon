@@ -2,7 +2,7 @@
 import '@/styles/form-style/form.scss'
 
 import Image from 'next/image'
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import { startTransition, useActionState, useEffect, useRef } from 'react';
 import { transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimateApi';

@@ -1,6 +1,6 @@
 'use client'
 import './loading.scss'
-import Spinner from '@/assets/spinner.gif'
+import Spinner from '@/public/assets/spinner.gif'
 import Image from 'next/image';
 
 export default function CustomLoading({content='', bgOpacity=true}){

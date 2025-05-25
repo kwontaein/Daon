@@ -193,7 +193,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                          {task.completeAt ?
                                             <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
                                             :
-                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
+                                            <button type='button' onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                     </td>}
                                     <td>
                                         <a onClick={()=>viewCustomerHandler(task.customer.customerId)}>
@@ -222,7 +222,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                     </>
                                     }
                                     <td rowSpan={mode==='pc'? 1:2}>
-                                        <button onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
+                                        <button type='button' onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
                                             {task.estimateId ? '인쇄':'작성'}
                                         </button>
                                     </td>
@@ -233,7 +233,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                         {task.completeAt ?
                                             <>{dayjs(task.completeAt).format('MM.DD HH:mm')}</>
                                             :
-                                            <button onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
+                                            <button type='button' onClick={()=>taskActionTakenHandler(task.taskId)}>처리중</button>}
                                         </td>
                                         <td onClick={()=>taskDetailHandler(task.taskId)}><a>{task.details||'-'}</a></td>
                                         <td>{task.model}</td>

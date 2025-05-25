@@ -4,10 +4,10 @@ import './calendar.scss'
 
 //이미지 관련
 import Image from 'next/image';
-import nextYearJPG from '@/assets/nextYear.gif';
-import nextMonthJPG from '@/assets/nextMonth.gif';
-import prevYearJPG from '@/assets/prevYear.gif';
-import prevMonthJPG from '@/assets/prevMonth.gif';
+import nextYearJPG from '@/public/assets/nextYear.gif';
+import nextMonthJPG from '@/public/assets/nextMonth.gif';
+import prevYearJPG from '@/public/assets/prevYear.gif';
+import prevMonthJPG from '@/public/assets/prevMonth.gif';
 import { useCalendar } from '@/store/zustand/calendar';
 import dayjs from 'dayjs';
 import MonthCalendarChild from './month-calendar-child';

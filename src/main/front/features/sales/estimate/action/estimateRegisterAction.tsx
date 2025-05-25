@@ -9,7 +9,7 @@ function isInvalidText(text) {
     return !text || text.trim() === '';
   }
 
-const EstimateItemSequence = ['itemId','productName','modelName', 'quantity', 'unitPrice', 'stockId' , 'hand']
+const EstimateItemSequence = ['itemId','productName','modelName', 'quantity', 'unitPrice', 'stockId' , 'hand', 'memo']
 export default async function estimateRegisterAction(prevState, formState){
     const arr = []
     arr.push(formState.getAll(EstimateItemSequence[0]))
@@ -19,6 +19,7 @@ export default async function estimateRegisterAction(prevState, formState){
     arr.push(formState.getAll(EstimateItemSequence[4]).map((item)=>Number(item.replaceAll(',',''))))
     arr.push(formState.getAll(EstimateItemSequence[5]))
     arr.push(formState.getAll(EstimateItemSequence[6]).map((item)=>item==='true'))
+    arr.push(formState.getAll(EstimateItemSequence[7]))
 
     const items = arr.reduce((prev,next,row)=>{
         next.forEach((item,column)=>{
@@ -42,6 +43,8 @@ export default async function estimateRegisterAction(prevState, formState){
         items
     }
     const action = formState.get('action')
+    
+    delete prevState.formErrors
     
     if(action){
         const errors=[]
@@ -72,7 +75,6 @@ export default async function estimateRegisterAction(prevState, formState){
         return {...prevState, ...estimateData, status}
     }else{
         delete prevState.status
-        delete prevState.formErrors
         return {...prevState, ...estimateData}
     }
 

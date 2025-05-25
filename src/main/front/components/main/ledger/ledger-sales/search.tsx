@@ -40,7 +40,7 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}: {
             })
         }
     }, [state])
-
+    
 
     const changeHandler = useCallback(<T extends Record<string, string>>(info: T) => {
         if (formRef.current) {
@@ -172,7 +172,7 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}: {
                                 <button type='button'
                                         onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button' onClick={() =>
+                                <button type='button' disabled={searchInfo.searchResult.length===0} onClick={() =>
                                     exportLedgerSalesToExcel(
                                         searchInfo.searchResult,
                                         `${searchInfo.searchTitle} 매출원장`,
@@ -180,10 +180,8 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}: {
                                     )
                                 }>엑 셀 변 환
                                 </button>
-                                <button type='button'>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
-                                <button type='button' onClick={()=>window.print()}>견적서인쇄</button>
-                           </div>
-
+                                <button type='button' disabled={searchInfo.searchResult.length===0} >인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>                           
+                            </div>
                         </td>
                     </tr>
                     </tbody>

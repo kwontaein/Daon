@@ -141,11 +141,11 @@ export default function LedgerCustomerListSearch() {
                                     <button type='button'
                                             onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
-                                    <button type='button'
+                                    <button type='button' disabled={searchInfo.searchResult.length===0}
                                             onClick={() => exportLedgerCustomersToExcel(searchInfo.searchResult, searchInfo.searchTitle + '원장', searchInfo.searchSDate)}
                                     >엑 셀 변 환
                                     </button>
-                                    <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                    <button type='button' disabled={searchInfo.searchResult.length===0} onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
                                 </div>
                             </td>
                         </tr>

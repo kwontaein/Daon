@@ -87,7 +87,7 @@ export type Total = SubTotal & {
         </tr>
         <tr style={{borderTop:'none'}}>
           {ledger?.productName &&<td className="left-align" style={{color:'blue'}}>
-            {(ledger?.productName ??'') + (ledger?.modelName ??(['매출','매입'].includes(category)) ? ` [${ledger.modelName}]` : '')}
+            {(ledger?.productName) + (ledger?.modelName ??(['매출','매입'].includes(category)) ? ` [${ledger.modelName}]` : '')}
           </td>
           }
           <td>{ledger.outPrice && ledger.outPrice.toLocaleString('ko-KR')}</td>

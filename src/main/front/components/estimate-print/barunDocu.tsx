@@ -1,20 +1,24 @@
 import React from "react";
-import "/styles/test/daonDocu.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import "./barunDocu.scss";
+import { printEstimateType } from "@/model/types/print-estimate/type";
 
-const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
+import dayjs from "dayjs";
+import { changeNumberToKorean } from "@/features/share/numberToKorean";
+import Image from "next/image";
+
+const BarunDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
     return (
-        <div className="wrap" style={{marginTop: 75}}>
-            <table className="wrapTable">
+        <div className="wrap barundocu-container" style={{marginTop:'75px'}}>
+            <table className="barundocu-wrapTable">
                 <tbody>
                 <tr>
                     <td height="30"></td>
                 </tr>
                 <tr>
                     <td className="center">
-              <span id="docuTitle" style={{fontSize: 30}}>
-                [ 견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서 ]
-              </span>
+                    <span id="docuTitle" style={{letterSpacing: printEstimate.title.length>3 ? 10 :25}}>
+                        {`[${printEstimate.title}]`}
+                    </span>
                     </td>
                 </tr>
                 <tr>
@@ -22,7 +26,7 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                 </tr>
                 <tr>
                     <td>
-                        <table className="infoTable2" style={{height: 120}}>
+                        <table className="barun-infoTable2" style={{height: 120, borderCollapse:'collapse'}}>
                             <colgroup>
                                 <col width="47%"/>
                                 <col width="2%"/>
@@ -36,8 +40,12 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             </colgroup>
                             <tbody>
                             <tr>
-                                <td className="underline right" style={{textAlign: "center"}}>
-                                    <span id="estimateDate">{data.estimateDate}</span>
+                                <td className="underline">
+                                    <span id="estimateDate">
+                                        <span style={{ display: 'inline-block', marginRight: "30px", width: '38px',  whiteSpace: 'nowrap', textAlign: 'right' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("YYYY")}년</span>
+                                        <span style={{ display: 'inline-block', marginRight: "30px", width: '25px',  whiteSpace: 'nowrap', textAlign: 'right' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("M")}월</span>
+                                        <span style={{ display: 'inline-block', width: '25px',  whiteSpace: 'nowrap', textAlign: 'right' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("DD")}일</span>
+                                    </span>
                                 </td>
                                 <td></td>
                                 <th
@@ -61,7 +69,7 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                         borderLeft: 0,
                                     }}
                                 >
-                                    &nbsp;<span id="busiNum">{data.busiNum}</span>
+                                    &nbsp;<span id="busiNum">{printEstimate.company?.businessNumber}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -71,26 +79,35 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호
                                 </th>
                                 <td colSpan={2} className="left" style={{border: "1px dotted #000", borderLeft: 0}}>
-                                    &nbsp;<a id="companyName" style={{letterSpacing: 0}}>{data.companyName}</a>
+                                    &nbsp;<a id="companyName" style={{letterSpacing: 0}}>{printEstimate.company?.companyName}</a>
                                 </td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     성명
                                 </th>
                                 <td colSpan={2} className="left"
-                                    style={{border: "1px dotted #000", borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="ceoName" style={{letterSpacing: 0}}>{data.ceoName}</a>(인)
+                                    style={{border: "1px dotted #000", borderRight: "2px solid #000", position:'relative'}}>
+                                    &nbsp;<a id="ceoName" style={{letterSpacing: 0}}>{printEstimate.company?.ceo}</a>(인)
+                                    {printEstimate.isStamp && 
+                                        <div style={{position:'absolute', marginLeft:'30px', marginTop:'-40px'}}>
+                                            <Image 
+                                                src={`/assets/stamp/${printEstimate.company.stamp}`} 
+                                                alt="" 
+                                                width={80} 
+                                                height={80}/>
+                                        </div>
+                                    }
                                 </td>
                             </tr>
                             <tr>
                                 <td className="underline right" style={{textAlign: "center"}}>
-                                    <a id="customerName">{data.customerName}</a>&nbsp;귀하
+                                    <a id="customerName">{printEstimate.customerName}</a>&nbsp;귀하
                                 </td>
                                 <td></td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     사업장주소
                                 </th>
                                 <td colSpan={5} className="left" style={{borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="addr">{data.addr}</a>
+                                    &nbsp;<a id="addr">{printEstimate.company?.address}</a>
                                 </td>
                             </tr>
                             <tr>
@@ -118,7 +135,7 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     전화번호
                                 </th>
                                 <td colSpan={2} className="left" style={{borderBottom: "2px solid #000"}}>
-                                    &nbsp;<a id="companyTel">{data.companyTel}</a>
+                                    &nbsp;<a id="companyTel">{printEstimate.company?.tel}</a>
                                 </td>
                                 <th
                                     colSpan={1}
@@ -132,7 +149,7 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                 </th>
                                 <td colSpan={2} className="left"
                                     style={{borderBottom: "2px solid #000", borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="companyFax">{data.companyFax}</a>
+                                    &nbsp;<a id="companyFax">{printEstimate.company?.fax}</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -146,14 +163,14 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <td>
                         <div className="priceLeft2">&nbsp;합계금액</div>
                         <div className="priceRight">
-                            일금&nbsp;<span id="hangulTotalPrice">{data.hangulTotalPrice}</span>
+                            일금&nbsp;<span id="hangulTotalPrice">{`${changeNumberToKorean(printEstimate.totalPrice)} 원 (￦${printEstimate.totalPrice.toLocaleString('ko-KR')})`}</span>
                             <p style={{fontSize: 11}}>(부가가치세는 포함입니다.)</p>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <table className="dataTable">
+                    <td colSpan={9}>
+                        <table className="printEstimateTable">
                             <colgroup>
                                 <col width="30%"/>
                                 <col width="20%"/>
@@ -173,48 +190,52 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {[...data.items, ...Array(17 - data.items.length).fill({})].map((stock, index) => (
+                            {[...printEstimate.items, ...Array(17 - printEstimate.items.length).fill({})].map((stock, index) => (
                                 <tr key={index} style={{borderTop: index === 0 ? "1px solid #000" : undefined}}>
                                     <td style={{borderLeft: 0}}>
-                                        <span id={`stockName_${index}`}>{stock.stockName}</span>
+                                        <span id={`stockName_${index}`}>{stock.productName}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockStandard_${index}`}>{stock.stockStandard}</span>
+                                        <span id={`stockStandard_${index}`}>{stock.modelName}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockEa_${index}`}>{stock.stockEa}</span>
+                                        <span id={`stockEa_${index}`}>{stock.quantity ? stock?.quantity.toLocaleString('ko-KR') : "\u00A0"}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockUnitPrice_${index}`}>{stock.stockUnitPrice}</span>
+                                        <span id={`stockUnitPrice_${index}`}>{stock.unitPrice ? stock?.unitPrice.toLocaleString('ko-KR') : "\u00A0"}</span>
                                     </td>
                                     <td>
-                                        <span id={`stockTotalPrice_${index}`}>{stock.stockTotalPrice}</span>
+                                        <span id={`stockTotalPrice_${index}`}>{stock.totalPrice ? stock?.totalPrice.toLocaleString('ko-KR') : "\u00A0"}</span>
                                     </td>
                                     <td style={{borderRight: 0}}>
-                                        <span id={`note_${index}`}>{stock.note || "\u00A0"}</span>
+                                        <span id={`note_${index}`}>{
+                                            stock.productName
+                                            ? (printEstimate.isMemoToDate ? dayjs(stock.estimateDate).format('YY.M.D') : stock.memo)
+                                            : '\u00A0'
+                                        }</span>
                                     </td>
                                 </tr>
                             ))}
                             <tr>
-                                <td colSpan={4} style={{textAlign: "center", borderLeft: 0}}>
-                                    합계금액
+                                <td colSpan={4} style={{textAlign: "center", borderLeft: 0, height:'30px', borderBottom:'unset'}}>
+                                    합&nbsp;계&nbsp;금&nbsp;액
                                 </td>
-                                <td style={{borderRight: 0}}>
-                                    <span id="totalPrice">{data.totalPrice}</span>
+                                <td style={{borderRight: 0, borderBottom:'unset'}}>
+                                    <span id="totalPrice">{printEstimate.totalPrice.toLocaleString('ko-KR')}</span>
                                 </td>
-                                <td style={{borderRight: 0}}></td>
+                                <td style={{borderRight: 0, borderBottom:'unset'}}></td>
                             </tr>
                             </tbody>
                         </table>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style={{borderTop: "1px solid black"}}>
                         <table className="infoTable" style={{borderTop: "none"}}>
                             <tbody>
                             <tr>
-                                <td style={{textAlign: "center"}}>
-                                    결제계좌 : 우리은행 1005-704-478518 &nbsp; 예금주 : 전경자
+                                <td style={{textAlign: "center", fontSize:'12px', height:'30px'}}>
+                                    결제계좌 : 우 리 은 행&nbsp;&nbsp;&nbsp;1 0 0 5 - 7 0 4 - 4 7 8 5 1 8 &nbsp; 예금주 : 전경자
                                 </td>
                             </tr>
                             </tbody>
@@ -226,9 +247,15 @@ const BarunDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                         <table className="infoTable">
                             <tbody>
                             <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td style={{textAlign: "left"}}>
-                                    비&nbsp;&nbsp;&nbsp;고 :
+                                    비&nbsp;&nbsp;&nbsp;&nbsp;고 :
                                 </td>
+                            </tr>
+                            <tr>
+                                <td></td>
                             </tr>
                             </tbody>
                         </table>
