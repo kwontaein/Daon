@@ -135,6 +135,11 @@ public class JwtTokenProvider {
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
+        if (accessToken == null || accessToken.trim().split("\\.").length != 3) {
+            System.out.println("Invalid token format: " + accessToken);
+            throw new MalformedJwtException("Invalid JWT format: " + accessToken);
+        }
+
         // 토큰 복호화 [email(이메일), auth(권한) 정보를 가져옴], claims.getSubject = email
         Claims claims = parseClaims(accessToken);
         // 클레임에서 권한 정보 가져오기
@@ -165,12 +170,20 @@ public class JwtTokenProvider {
             return "JWT claims string is empty";
         }
     }
-
+    
     private Claims parseClaims(String accessToken) {
+        if (accessToken == null || accessToken.trim().split("\\.").length != 3) {
+            throw new MalformedJwtException("Invalid JWT format: " + accessToken);
+        }
+
         try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            return e.getClaims(); // 만료된 토큰이라도 claim은 파싱 가능
         }
     }
 
