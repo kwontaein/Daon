@@ -15,6 +15,7 @@ import {useModalState} from '@/store/zustand/modal';
 import {exportLedgerCustomerToExcel} from "@/components/main/ledger/ledger-customer/exportLedgerCustomerToExcel";
 import useRouterPath from '@/hooks/share/useRouterPath';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
+import { ReceiptCategoryEnum } from '@/model/types/sales/receipt/type';
 
 export default function LedgerCustomerSearch({affiliations, stockCates}: {
     affiliations: Affiliation[],
@@ -32,7 +33,10 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
     const {customer, setModalState} = useModalState()
     const redirect = useRouterPath()
 
-    const receiptIds = useMemo(()=>searchInfo.searchResult.map(({receiptId})=>receiptId),[searchInfo.searchResult])
+    const receiptIds = useMemo(
+        () => searchInfo.searchResult.filter(({category}) =>['매출', '매출대체'].includes(ReceiptCategoryEnum[category])).map(({receiptId}) => receiptId),
+        [searchInfo.searchResult]
+    )
     const estimateCheckHook = useCheckBoxState(receiptIds)
   
     useEffect(() => {
@@ -107,15 +111,20 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
 
     const printEstimatehandler = ()=>{
         const {checkedState} = estimateCheckHook
-        
+        const selectedReceipt = Object.keys(checkedState);
+
+        if(selectedReceipt.length>17){
+            window.alert('17개 이상은 출력할수 없습니다.')
+            return
+        }
         const params = new URLSearchParams({
-            estimateIds:JSON.stringify(Object.keys(checkedState)),
+            receiptIds:JSON.stringify(selectedReceipt),
          });
 
         if(window.innerWidth>620){
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
-            window.open(url, "PopupWindow", popupOptions);
+            window.open(url, "printEstimate", popupOptions);
         }else[
             redirect(`estimate-print?${params.toString()}`)
         ]
@@ -242,12 +251,12 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                                     <button type='button'
                                             onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
-                                    <button type='button' onClick={() =>
+                                    <button type='button' disabled={searchInfo.searchResult.length===0} onClick={() =>
                                         exportLedgerCustomerToExcel(searchInfo.searchTitle, searchInfo.searchResult)
                                     }>엑 셀 변 환
                                     </button>
-                                    <button type='button' onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
-                                    <button type='button' onClick={printEstimatehandler}>견적서인쇄</button>
+                                    <button type='button' onClick={()=>window.print()} disabled={searchInfo.searchResult.length===0}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                    <button type='button' disabled={Object.keys(estimateCheckHook.checkedState).length===0} onClick={printEstimatehandler}>견적서인쇄</button>
                                 </div>
                             </td>
                         </tr>

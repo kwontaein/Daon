@@ -1,14 +1,14 @@
 "use client";
 import '@/styles/form-style/form.scss';
 import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 
 import {EmployeeClassEnum, ResponseEmployee, UserRoleEnum} from "@/model/types/staff/employee/type";
 import {submitEmployeeInfo} from "@/features/staff/employee/action/permissionAction";
-import ErrorBox from "@/components/share/error-box/error-box";
+import ErrorBox from "@/components/share/error/error-box";
 import {useConfirm} from "@/hooks/share/useConfirm";
 import {userIdDuplicationChecked} from "@/features/staff/employee/api/employeeApi";
 import {Dept} from "@/model/types/staff/dept/type";

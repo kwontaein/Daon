@@ -49,6 +49,7 @@ interface User{
     unitPrice: number;     // BigDecimal -> number
     stockId: string;       // UUID -> string
     hand?: boolean;
+    memo?:string;
   }
   
 

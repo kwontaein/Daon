@@ -52,11 +52,16 @@ export type Total = SubTotal & {
     const category = ReceiptCategoryEnum[ledger.category];
     return (
       <tr key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
-        <td><input type="checkbox" checked={checkedState[ledger.receiptId]??false} onChange={()=>update_checked(ledger.receiptId)}/></td>
+        <td>{['매출', '매출대체'].includes(category) &&
+            <input
+                type="checkbox"
+                checked={checkedState[ledger.receiptId]??false}
+                onChange={()=>update_checked(ledger.receiptId)}/>}
+        </td>        
         <td>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
         <td>{category}</td>
         <td className="left-align">
-          {ledger?.productName}
+          {ledger?.productName ??''}
           <br />
           {ledger?.modelName ??(['매출','매입'].includes(category) && '-')}
         </td>
@@ -78,13 +83,18 @@ export type Total = SubTotal & {
     return (
       <tbody key={ledger.receiptId} style={isSameDate ? { border: 'none' } : undefined}>
         <tr>
-          <td rowSpan={2}><input type="checkbox" checked={checkedState[ledger.receiptId]??false} onChange={()=>update_checked(ledger.receiptId)}/></td>
+          <td rowSpan={2}>{['매출', '매출대체'].includes(category) &&
+              <input
+                  type="checkbox"
+                  checked={checkedState[ledger.receiptId]??false}
+                  onChange={()=>update_checked(ledger.receiptId)}/>}
+          </td>    
           <td rowSpan={2}>{dayjs(ledger.timeStamp).format('YY.MM.DD')}</td>
           <td rowSpan={2}>{category}</td>
           <td rowSpan={2} className="left-align">
-            {ledger?.productName}
+            {ledger?.productName??''}
             <br/>
-            {ledger?.modelName}
+            {ledger?.modelName??''}
           </td>
           <td>{ledger.quantity}</td>
           <td className="right-align">{(['매출', '출금', '반품출고'].includes(category) ? ledger.totalPrice : 0).toLocaleString('ko-KR')}</td>

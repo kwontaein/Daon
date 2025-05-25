@@ -43,13 +43,13 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
     const printEstimatehandler = ()=>{
         
         const params = new URLSearchParams({
-            estimateIds:JSON.stringify([estimateId]),
+            estimateId:estimateId,
          });
 
         if(window.innerWidth>620){
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
-            window.open(url, "PopupWindow", popupOptions);
+            window.open(url, "printEstimate", popupOptions);
         }else[
             redirect(`estimate-print?${params.toString()}`)
         ]

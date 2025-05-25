@@ -2,7 +2,7 @@
 import '@/styles/form-style/form.scss';
 
 import Image from 'next/image';
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import accountingFormAction from '@/features/accounting/action/accountingFormAction';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
