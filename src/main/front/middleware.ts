@@ -29,7 +29,6 @@ export async function middleware(request: NextRequest) {
       const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
       redirectResponse.cookies.delete('accessToken');
       redirectResponse.cookies.delete('enable_url');
-      revalidateAllPaths()
 
       if(cookie && !enable_url ){ //enable만 존재하지 않으면 임의로 삭제한 것으로 간주
         return redirectResponse;
