@@ -8,7 +8,6 @@ import { startTransition, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useReceiptSearch(initialReceipts,page,action){
-    const dispatch = useDispatch()
     const today =dayjs(new Date(Date.now())).format('YYYY-MM-DD')
     const pathname = usePathname()
     const searchParams = useSearchParams()

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 import { StockCate } from "@/model/types/stock/cate/type";
 import { ResponseStock, TaxationCate } from "@/model/types/stock/stock/types";
@@ -8,7 +8,7 @@ import { startTransition, useActionState, useEffect, useRef } from "react";
 import stockFormAction from "@/features/stock/stock/action/stock-form";
 import useChangeMode from "@/hooks/share/useChangeMode";
 import CustomNumberInput from "@/components/share/custom-number-input/page";
-import ErrorBox from "@/components/share/error-box/error-box";
+import ErrorBox from "@/components/share/error/error-box";
 
 export default function StockForm({stockCate, mode, stock, isMobile=false} : {
     stockCate: StockCate[],

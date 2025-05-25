@@ -13,6 +13,7 @@ export async function getEstimateApi(estimateId: string) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
+    if(!estimateId) return null
     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
         method: "POST",
         headers: {
@@ -21,6 +22,44 @@ export async function getEstimateApi(estimateId: string) {
         },
         credentials: 'include',
         body: JSON.stringify({estimateId}),
+        signal,
+        cache: 'no-cache'
+    }).then(async (response) => {
+        await jwtFilter(response.status.toString());
+
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    }).catch(async (error) => {
+        if (error.name === 'AbortError') {
+            console.log('Fetch 요청이 시간초과되었습니다.')
+        }else if (error instanceof Response) {
+            const { message } = await error.json();
+            throw new Error(message);
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }).finally(() => clearTimeout(timeoutId));
+}
+
+export async function getEstimatesByIds(estimateIds: string[]) {
+    const controller = new AbortController();
+    const signal = controller.signal;//작업 취소 컨트롤
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+
+    if(!estimateIds || estimateIds.length===0) return null
+
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimatesByIds`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: cookie
+        },
+        credentials: 'include',
+        body: JSON.stringify({estimateIds}),
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
