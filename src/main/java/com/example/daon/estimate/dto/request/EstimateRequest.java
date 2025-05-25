@@ -30,7 +30,6 @@ public class EstimateRequest {
     private BigDecimal totalAmount;
     private List<EstimateItemRequest> items;
     private LocalDateTime receiptDate;
-
     //----------------------
 
     private LocalDate searchSDate;  //검색 날짜 시작일
@@ -38,7 +37,7 @@ public class EstimateRequest {
     private String companyName;
     private String customerName;
     private String productName;
-    private String note;
+    private String memo;
     private boolean receipted;
     private boolean task;
     private Condition condition;
@@ -54,6 +53,7 @@ public class EstimateRequest {
                 .estimateDate(estimateDate.atStartOfDay())
                 .items(items)
                 .task(task)
+                .memo(memo)
                 .build();
     }
 

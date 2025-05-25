@@ -245,7 +245,7 @@ public class EstimateService {
                     item.getQuantity(),
                     item.getUnitPrice(),
                     "",
-                    request.getNote(),
+                    request.getMemo(),
                     FromCategory.ESTIMATE
             );
             receiptRepository.save(receipt);
@@ -341,9 +341,8 @@ public class EstimateService {
     }
 
     public List<EstimateResponse> getEstimatesByIds(List<UUID> estimateIds) {
-
         List<EstimateEntity> estimateEntities = estimateRepository.findAll((root, query, criteriaBuilder) -> {
-            CriteriaBuilder.In<UUID> inClause = criteriaBuilder.in(root.get("receiptId"));
+            CriteriaBuilder.In<UUID> inClause = criteriaBuilder.in(root.get("estimateId"));
             for (UUID id : estimateIds) {
                 inClause.value(id);
             }
