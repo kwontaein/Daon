@@ -36,12 +36,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // Request로부터 JWT 토큰을 추출
         String token = resolveCookieFilter(httpRequest)[0];
-        if (token == null) {
-            // 토큰이 없으면 401 Unauthorized 응답
+        if (token == null || token.trim().split("\\.").length != 3) {
+            System.out.println("Invalid token format: " + token);
             respondWithUnauthorized(httpResponse);
             return;
         }
-
+        
         // JWT 토큰에서 Authentication 객체를 생성하고, 저장된 리프레시 토큰을 가져옴
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         String dbRefreshToken = redisService.getUserTokenById(authentication.getName());
