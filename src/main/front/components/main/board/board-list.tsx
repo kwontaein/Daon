@@ -2,7 +2,7 @@
 import '@/styles/table-style/search-result.scss';
 import '@/styles/table-style/search.scss';
 
-import notice from '@/assets/notice.gif';
+import notice from '@/public/assets/notice.gif';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import Link from 'next/link';

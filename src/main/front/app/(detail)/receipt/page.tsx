@@ -4,15 +4,14 @@ import Image from 'next/image';
 import '@/styles/_global.scss';
 import '@/components/main/sales/receipt/table/receipt-table.scss';
 
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 
-import { ModeByProps } from "@/model/types/share/type";
 import ReceiptTableBody from '@/components/main/sales/receipt/table/table-body';
 import ReceiptTableContainer from '@/components/main/sales/receipt/table/table-header';
 import { getReceiptByIds } from "@/features/sales/receipt/api/receiptApi";
 
 export default async function ReceiptEditPage({searchParams}:{searchParams:Promise<{receiptIds:string}>}){
-    const receiptIds = JSON.parse((await searchParams).receiptIds)
+    const receiptIds = JSON.parse((await searchParams).receiptIds)|| []
     const initialReceiptList = await getReceiptByIds(receiptIds)
 
     return (

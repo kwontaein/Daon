@@ -6,7 +6,7 @@ import { ReceiptCategoryEnum } from '@/model/types/sales/receipt/type';
 import { useMemo } from 'react';
 
 export default function LedgerSalesSearchResult({searchInfo}:{searchInfo:{searchResult:ResponseLedger[], searchTitle:string}}){
-    
+
     const totalResult = useMemo(()=>
         searchInfo.searchResult.reduce((prev,next)=>{
             const {total, quantity, outPrice} = prev
