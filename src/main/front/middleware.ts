@@ -31,13 +31,10 @@ export async function middleware(request: NextRequest) {
       redirectResponse.cookies.delete('enable_url');
       revalidateAllPaths()
 
-      if(!isPublicRoute){ //권한이 없는데 공용라우트가 아니면 로그인창으로 우회
+      if(cookie && !enable_url ){ //enable만 존재하지 않으면 임의로 삭제한 것으로 간주
         return redirectResponse;
       }
     }else{ 
-      if(cookie && pathname === AUTH_ROUTES.LOGIN){ //쿠키가 존재하는데 로그인창으로 이동 시도 시 => 다시 돌아가기
-          return NextResponse.redirect(new URL(MAIN_URL, request.url));
-      }
       try{
         const able_url = JSON.parse(enable_url)
         const mergeAside = Object.assign({},...Object.values(able_url)) //사용가능한 url 객체 {[key]:boolean}형식
@@ -57,6 +54,9 @@ export async function middleware(request: NextRequest) {
                 return new NextResponse(null, { status: 404 }); //우회 가능한 경로가 없으면 404
               }
             }
+        }
+        if(cookie && pathname === AUTH_ROUTES.LOGIN){ //쿠키가 존재하는데 로그인창으로 이동 시도 시 => 다시 돌아가기
+          return findEnableRoute()
         }
   
         if(pathname.startsWith(`/main`)){
@@ -105,7 +105,6 @@ export async function middleware(request: NextRequest) {
       }catch(e){
         const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
         redirectResponse.cookies.delete('accessToken');
-        redirectResponse.cookies.delete('user');
         redirectResponse.cookies.delete('enable_url');
         return redirectResponse;
       }  

@@ -1,11 +1,12 @@
 'use client'
 import React, { startTransition, useActionState, useCallback, useEffect, useRef } from "react"
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import '@/styles/form-style/form.scss';
 import Image from "next/image";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import {  postTaskComplete } from "@/features/sales/task/api/taskApi";
+import { useRouter } from "next/navigation";
 
 
 const actionTakenAction = async(prevState, formData)=>{
@@ -27,7 +28,7 @@ export default function ActionTaken({children, taskId, isMobile}:{
 }){
     const [state, action, isPending] = useActionState(actionTakenAction,{})
     const formRef = useRef(null)
-   
+    const router = useRouter()
 
 
     useEffect(()=>{
@@ -67,8 +68,8 @@ export default function ActionTaken({children, taskId, isMobile}:{
             </table>
             <input type="hidden" name='taskId' value={taskId??''} readOnly />
             <div className="button-container">
-                <button type='button' onClick={submitHandler}>처리확인</button>
-                <button onClick={()=>window.close()}>취소</button>
+                <button type='button' onClick={submitHandler} disabled={isPending}>처리확인</button>
+                <button type='button' onClick={()=> isMobile? router.back(): window.close()}>취소</button>
             </div>
         </form>
     )

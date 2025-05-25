@@ -2,7 +2,7 @@
 import { AsideKeyOfValues } from '@/model/constants/routes/asideOptions';
 import '@/styles/_global.scss';
 import './asideTitle.scss';
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 

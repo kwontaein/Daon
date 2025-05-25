@@ -1,28 +1,30 @@
-html {
+
+
+
+.barundocu-container{
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-}
 
-#docuTitle {
-  font-size: 35px;
-  font-weight: bold;
-  // letter-spacing: 60px;
-}
-
-.wrap {
-  text-align: center;
-  width: 700px;
-  margin: 0 auto;
-}
-
-table {
-  &.wrapTable {
-    width: 100%;
-    border: 1px solid #000;
-    border-collapse: collapse;
-    border-spacing: 0;
+  #docuTitle {
+    font-size: 35px;
+    font-weight: bold;
   }
+  
+  .wrap {
+    text-align: center;
+    width: 700px;
+    margin: 0 auto;
+  }
+  
+  
+.barundocu-wrapTable{
+  font-family: sans-serif;
+  width: 100%;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  border-spacing: 0;
+
 
   &.infoTable,
   &.infoTable2 {
@@ -41,7 +43,7 @@ table {
     }
   }
 
-  &.infoTable2 {
+  &.barun-infoTable2 {
     th,
     td {
       font-size: 12px;
@@ -163,6 +165,7 @@ table {
 
 span {
   &#estimateDate {
+    gap:10px;
   }
 
   &#customerName {
@@ -177,4 +180,22 @@ span {
   &.bankAccount {
     letter-spacing: 3.5px;
   }
+}
+
+
+.printEstimateTable{
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+
+  th{
+    background-color: #EFEFEF;
+    border: 1px solid black;
+    font-size: 14px;
+  }
+  td{
+    border: 1px solid #afafaf;
+    font-size: 14px;
+  }
+}
 }

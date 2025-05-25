@@ -33,7 +33,7 @@ export function exportLedgerCustomersToExcel(
             날짜: dayjs(item.timeStamp).format('YYYY-MM-DD'),
             계정: category,
             상호: item.customerName,
-            품목: `${item.productName}[${item.modelName ?? '-'}]`,
+            품목: `${item.productName??''} ${item.modelName ? '['+item.modelName+']' : ''}`,
             수량: item.quantity,
             단가: item.outPrice,
             판매_출금: isSales ? item.totalPrice : '',
