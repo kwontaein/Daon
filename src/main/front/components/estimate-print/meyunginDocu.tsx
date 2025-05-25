@@ -1,33 +1,34 @@
 import React from "react";
-import "/styles/test/meyunginDocu.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import "./meyunginDocu.scss";
+import { printEstimateType } from "@/model/types/print-estimate/type";
+import dayjs from "dayjs";
 
 
-const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
+const EstimateDocument: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
     return (
         <div className="estimate-document">
-            <div
-                className="title">견&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서
+            <div className="title" style={{letterSpacing: printEstimate.title.length>3 ? 10 :25}}>
+                {printEstimate.title}
             </div>
 
             <div className="info-section">
                 <div className="left">
-                    <div className="customer-name">{data.customerName} 귀하</div>
-                    <div className="date">{data.estimateDate}</div>
+                    <div className="customer-name">{printEstimate.customerName} 귀하</div>
+                    <div className="date">{dayjs(printEstimate.printDate).format(" YYYY년   M월   DD일")}</div>
                     <div className="note">아래와 같이 견적합니다.</div>
                 </div>
 
                 <div className="right">
-                    <div>등록번호: {data.busiNum}</div>
-                    <div>상호: {data.companyName} 성명: {data.ceoName}</div>
-                    <div>주소: {data.addr}</div>
-                    <div>TEL: {data.companyTel} / FAX: {data.companyFax}</div>
+                    <div>등록번호: {printEstimate.company.businessNumber}</div>
+                    <div>상호: {printEstimate.company.companyName} 성명: {printEstimate.company.ceo}</div>
+                    <div>주소: {printEstimate.company.addressDetail}</div>
+                    <div>TEL: {printEstimate.company.tel} / FAX: {printEstimate.company.fax}</div>
                 </div>
             </div>
 
             <div className="total-price">
                 <span className="label">금 액:</span>
-                <span className="value">₩ {data.numberTotalPrice}</span>
+                <span className="value">₩ {printEstimate.totalPrice.toLocaleString('ko-KR')}</span>
                 <span className="tax-note">(부가세포함)</span>
             </div>
 
@@ -51,14 +52,18 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {[data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
+                {[printEstimate.items, ...Array(17 - printEstimate.items.length).fill({})].map((item, idx) => (
                     <tr key={idx} className="content-border">
-                        <td>{item.name || '\u00A0'}</td>
-                        <td>{item.standard || '\u00A0'}</td>
+                        <td>{item.productName || '\u00A0'}</td>
+                        <td>{item.modelName || '\u00A0'}</td>
                         <td>{item.quantity || '\u00A0'}</td>
                         <td>{item?.unitPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>
                         <td>{item?.totalPrice ? item.totalPrice.toLocaleString() : '\u00A0'}</td>
-                        <td style={{borderRight: 'unset'}}>{item.note || '\u00A0'}</td>
+                        <td style={{borderRight: 'unset'}}> {
+                            item.productName
+                            ? (printEstimate.isMemoToDate ? dayjs(item.estimateDate).format('YY.M.D') : item.memo)
+                            : '\u00A0'
+                        }</td>
                     </tr>
                 ))}
                 <tr style={{textAlign: "center", height: '30px'}}>
@@ -70,7 +75,7 @@ const EstimateDocument: React.FC<{ data: EstimateData }> = ({data}) => {
                     </td>
                     <td className="blackCenter2 borderTopBottom" style={{textAlign: "right"}}>
                     <span style={{fontFamily: "돋움", fontSize: "14px"}}>
-                    {data.numberTotalPrice?.toLocaleString()}&nbsp;
+                    {printEstimate.totalPrice?.toLocaleString()}&nbsp;
                     </span>
                     </td>
                     <td className="blackRight2 borderTopBottom" style={{borderRight: 'unset'}}>&nbsp;</td>

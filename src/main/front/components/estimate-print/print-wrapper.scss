@@ -1,0 +1,121 @@
+.print-estimate-container{
+    box-sizing: border-box;
+    padding: 5px;
+    overflow-y: auto;
+}
+.print-estimate-header{
+    hr{
+        display: block;
+        margin-block-start: 0.5em;
+        margin-block-end: 0.5em;
+        margin-inline-start: auto;
+        margin-inline-end: auto;
+        unicode-bidi: isolate;
+        overflow: hidden;
+        border-style: inset;
+        border-width: 1px;
+    }
+    .print-estimate-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 9pt;
+    }
+}
+
+.print-estimate-left{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    flex-wrap: wrap;
+    width: fit-content;
+
+    select{
+        border: none;
+        box-sizing: border-box;
+        padding-block: 2px;
+        &:focus{
+            outline: none;
+            border:none;
+        }
+    }
+}
+
+.print-estimate-right{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: right;
+    button{
+        width: 140px;
+        height: 25px;
+        box-sizing: border-box;
+        padding-inline: 6px;
+        padding-block: 1px;
+    }
+}
+
+
+.checkbox-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    gap: 3px;
+    label{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1px;
+        font-size: inherit; 
+        user-select:none;
+        input{
+            width: 13px !important;
+            height: 13px !important;
+        }
+    }
+}
+
+.estiamte-content-wrapper{
+    height: 880px;
+    overflow-y: auto;
+    @media (max-width:750px){
+        zoom: 94%;
+    }
+    @media (max-width:700px){
+        zoom: 88%;
+    }
+    @media (max-width:650px){
+        zoom: 82%;
+    }
+    @media (max-width:600px){
+        zoom: 76%;
+    }
+    @media (max-width:570px){
+        zoom: 70%;
+    }
+    @media (max-width:540px){
+        zoom: 64%;
+    }
+    @media (max-width:475px){
+        zoom: 60%;
+    }
+    @media (max-width:450px){
+        zoom: 56%;
+    }
+    @media (max-width:420px){
+        zoom: 52%;
+    }
+    @media (max-width:400px){
+        zoom: 48%;
+    }
+    @media (max-width:360px){
+        zoom: 44%;
+    }
+}
+
+@media print {
+    .print-estimate-header{
+        display: none;
+    }
+}

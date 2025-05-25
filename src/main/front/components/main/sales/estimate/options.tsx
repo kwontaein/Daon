@@ -39,9 +39,25 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
         }
         useConfirm('정말로 해당 견적서를 삭제하시겠습니까?', onDelete)
     }
+    
+    const printEstimatehandler = ()=>{
+        
+        const params = new URLSearchParams({
+            estimateId:estimateId,
+         });
+
+        if(window.innerWidth>620){
+            const url = `/estimate-print?${params.toString()}`;
+            const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
+            window.open(url, "printEstimate", popupOptions);
+        }else[
+            redirect(`estimate-print?${params.toString()}`)
+        ]
+    }
+
     return(
         <menu className='options-container'>
-            <li>인쇄하기</li>
+            <li onClick={printEstimatehandler}>인쇄하기</li>
             <li onClick={viewEstimateHandler.bind(null,estimateId)}>{receipted ? '전환취소' :'상세보기'}</li>
             <li onClick={deleteEstiamteHandler} className='delete-option'>삭제하기</li>
         </menu>    

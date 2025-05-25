@@ -14,3 +14,50 @@
         padding: 0.4em;
     }
 }
+
+.modal-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1003;
+
+    main{
+        width: 90%;
+        max-width: 620px;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: white;
+        height :500px;
+
+        article{
+            height: calc(100% - 90px);
+            overflow-y: auto;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            tbody{
+                &:hover{
+                    background-color: rgb(197,202,254);
+                }
+            }
+        }
+    }
+
+    .register-header{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap:8px;
+        margin-bottom: 10px;  
+        h4{
+          margin: 0;
+          font-size: 18px;  
+        }
+      }
+}
+

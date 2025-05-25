@@ -1,10 +1,13 @@
 import React from "react";
-import "/styles/test/admin_global.scss";
-import {EstimateData} from "@/public/docu/docuReact/estimatePrintInterface";
+import "./admin_global.scss";
+import { printEstimateType } from "@/model/types/print-estimate/type";
+import dayjs from "dayjs";
+import { changeNumberToKorean } from "@/features/share/numberToKorean";
+import Image from "next/image";
 
-const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
+const HwasungDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
     return (
-        <div style={{margin: "0 auto", width: 700}}>
+        <div style={{margin: "0 auto", width: 700, marginTop:'30px'}}>
             <div style={{position: "absolute", left: 610, top: 140, zIndex: 1}} id="stampLayer"></div>
             <form name="form1">
                 <table width="700" cellSpacing="0" cellPadding="0" border={0} align="center">
@@ -17,8 +20,8 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <tr>
                         <td colSpan={3}>
                             <b>
-                            <span id="docuTitle" style={{fontSize: 30}}>
-                                견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서
+                            <span id="docuTitle" style={{fontSize: 30,letterSpacing: printEstimate.title.length>3 ? 10 :25}}>
+                                {printEstimate.title}
                             </span>
                             </b>
                         </td>
@@ -27,18 +30,27 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <tr>
                         <td valign="top">
                             <table width="100%" border={0} cellSpacing="0" cellPadding="0">
+                                <colgroup>
+                                    <col style={{width:"75%"}}/>
+                                    <col style={{width:"25%", minWidth:'100px'}}/>
+                                </colgroup>
                                 <tbody>
                                 <tr>
-                                    <td align="left" colSpan={2} style={{fontSize: 18}}>
-                                        {data.estimateDate}&nbsp;
+                                    <td  align="left" style={{fontSize: 18}}>
+                                        <span style={{display:'flex', justifyContent:'space-between', height:'30px'}}>
+                                            <span style={{ display: 'inline-block', marginRight: "30px", width: '60px',  whiteSpace: 'nowrap' ,textAlign: 'right'}}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("YYYY")}년</span>
+                                            <span style={{ marginRight: "30px", width: '40px',  whiteSpace: 'nowrap' ,textAlign: 'right'}}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("M")}월</span>
+                                            <span style={{ width: '40px', whiteSpace: 'nowrap', textAlign: 'right' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("DD")}일</span>
+                                        </span>
                                     </td>
+                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td width="70%" align="center" style={{fontSize: 18, lineHeight: "40px"}}>
-                                        {data.customerName}
+                                    <td align="center" style={{fontSize: printEstimate.customerName.length>14 ? 17:18, lineHeight: "20px"}}>
+                                        {printEstimate.customerName}
                                     </td>
-                                    <td align="left" style={{lineHeight: "40px", fontSize: 18}}>
-                                        귀&nbsp;&nbsp;하
+                                    <td align="left" style={{lineHeight: "20px", fontSize: printEstimate.customerName.length>14 ? 17:18}}>
+                                    &nbsp;귀&nbsp;&nbsp;하
                                     </td>
                                 </tr>
                                 <tr>
@@ -50,7 +62,7 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
 
                         <td>&nbsp;</td>
 
-                        <td width="60%" valign="top">
+                        <td width="50%" valign="top">
                             <table width="100%" border={0} cellSpacing="0" cellPadding="0"
                                    style={{fontWeight: "bold"}}>
                                 <tbody>
@@ -58,7 +70,7 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     <td height="30" style={{fontSize: "18px"}}>등&nbsp;록&nbsp;번&nbsp;호</td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, letterSpacing: 3}}>
-                                        <b style={{fontSize: "18px"}}>{data.busiNum}</b>
+                                        <b style={{fontSize: "18px"}}>{printEstimate.company.businessNumber}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,7 +79,7 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     </td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, letterSpacing: 10}}>
-                                        <b style={{fontSize: "18px"}}>{data.companyName}</b>
+                                        <b style={{fontSize: "18px"}}>{printEstimate.company.companyName}</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,8 +87,17 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                         style={{fontSize: "18px"}}>대&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;표
                                     </td>
                                     <td>:</td>
-                                    <td style={{paddingLeft: 10, letterSpacing: 30}}>
-                                        <b style={{fontSize: "18px"}}>{data.ceoName}</b>
+                                    <td style={{paddingLeft: 10, letterSpacing: 30, position:'relative'}}>
+                                        <b style={{fontSize: "18px"}}>{printEstimate.company.ceo}</b>
+                                        {printEstimate.isStamp && 
+                                        <div style={{position:'absolute', marginLeft:'120px', marginTop:'-30px'}}>
+                                            <Image 
+                                                src={`/assets/stamp/${printEstimate.company.stamp}`} 
+                                                alt="" 
+                                                width={43} 
+                                                height={43}/>
+                                        </div>
+                                    }
                                     </td>
                                 </tr>
                                 <tr>
@@ -85,7 +106,7 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     </td>
                                     <td>:</td>
                                     <td style={{paddingLeft: 10, fontSize: 16, letterSpacing: 4}}>
-                                        <b style={{fontSize: "18px"}}>{data.addr}</b>
+                                        <b style={{fontSize: "16px"}}>{printEstimate.company.address}</b>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -134,14 +155,18 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
+                                {[...printEstimate.items, ...Array(17 - printEstimate.items.length).fill({})].map((item, idx) => (
                                     <tr key={idx} style={{alignItems: "center"}}>
-                                        <td className="blackLeft" style={{height: 30}}>{item.stockName || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockStandard || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockEa || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockUnitPrice || '\u00A0'}</td>
-                                        <td className="blackCenter">{item.stockTotalPrice || '\u00A0'}</td>
-                                        <td className="blackRight">{item.note || '\u00A0'}</td>
+                                        <td className="blackLeft" style={{height: 30}}>{item.productName || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.modelName || '\u00A0'}</td>
+                                        <td className="blackCenter">{item.quantity ? item.quantity.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                        <td className="blackCenter">{item.unitPrice ? item.unitPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                        <td className="blackCenter">{item.totalPrice ? item.totalPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                                        <td className="blackRight">{
+                                            item.productName
+                                            ? (printEstimate.isMemoToDate ? dayjs(item.estimateDate).format('YY.M.D') : item.memo)
+                                            : '\u00A0'
+                                        }</td>
                                     </tr>
                                 ))}
 
@@ -150,7 +175,7 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     <td className="blackCenterBottom">&nbsp;</td>
                                     <td className="blackCenterBottom">&nbsp;</td>
                                     <td className="blackCenterBottom">합계</td>
-                                    <td className="blackCenterBottom">{data.totalPrice}</td>
+                                    <td className="blackCenterBottom">{printEstimate.totalPrice.toLocaleString('ko-KR')} </td>
                                     <td className="blackRightBottom">&nbsp;</td>
                                 </tr>
                                 </tbody>
@@ -164,12 +189,12 @@ const HwasungDocu: React.FC<{ data: EstimateData }> = ({data}) => {
 
                     <tr>
                         <td height="25" colSpan={3} style={{fontSize: 16}}>
-                            <b>2. 합계금액 (부가세포함) : {data.hangulTotalPrice}</b>
+                            <b>{`2. 합계금액 (부가세포함) : ${changeNumberToKorean(printEstimate.totalPrice)} 원 (￦${printEstimate.totalPrice.toLocaleString('ko-KR')})`}</b>
                         </td>
                     </tr>
                     <tr>
                         <td height="25" colSpan={3} style={{fontSize: 16}}>
-                            <b>3. 대표전화 : {data.companyTel} , FAX : {data.companyFax}</b>
+                            <b>3. 대표전화 : {printEstimate.company.tel} , FAX : {printEstimate.company.fax}</b>
                         </td>
                     </tr>
                     <tr>

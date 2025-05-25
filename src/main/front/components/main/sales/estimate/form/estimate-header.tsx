@@ -2,7 +2,7 @@
 import '@/styles/form-style/form.scss';
 
 import Image from 'next/image';
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import {ResponseCompany} from '@/model/types/staff/company/type';
 import {ChangeEvent, startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
 import {ResponseTask} from '@/model/types/sales/task/type';
@@ -19,13 +19,13 @@ import useChangeMode from '@/hooks/share/useChangeMode';
 import { UserInfo, useUserInformation } from '@/store/zustand/userInfo';
 import { notFound } from 'next/navigation';
 
-export default function EstimateHeader({companyList, task, estimate, mode, isMobile = false, userInfo}: {
+export default function EstimateHeader({companyList, task, estimate, mode, userInfo, isMobile = false}: {
     companyList: ResponseCompany[],
     mode: 'write' | 'detail' | 'edit',
     task?: ResponseTask,
     estimate?: ResponseEstimate,
-    isMobile?:boolean,
     userInfo?: UserInfo
+    isMobile?:boolean,
 }) {
 
     const {user} = useUserInformation()
