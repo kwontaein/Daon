@@ -3,7 +3,7 @@ import '@/styles/table-style/search-result.scss';
 import '@/styles/form-style/form.scss';
 import '@/styles/_global.scss'
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import Pagination from '../pagination';
 import Image from 'next/image';

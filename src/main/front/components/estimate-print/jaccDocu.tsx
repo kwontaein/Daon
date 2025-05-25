@@ -1,14 +1,17 @@
 import React from "react";
-import "/styles/test/JaccDocu.scss";
-import {EstimateData} from "@/components/share/estimate-print/estimatePrintInterface";
+import "./jaccDocu.scss";
+import { printEstimateType } from "@/model/types/print-estimate/type";
+import dayjs from "dayjs";
+import { changeNumberToKorean } from "@/features/share/numberToKorean";
+import Image from "next/image";
 
-const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
+const JaccDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
 
     return (
-        <div className="estimate-container">
+        <div className="estimate-container" style={{marginTop:'30px'}}>
             <div id="stampLayer" className="stamp-layer"/>
             <div className="estimate-table">
-                <div className="title">견&nbsp;&nbsp;&nbsp;적&nbsp;&nbsp;&nbsp;서</div>
+                <div className="title" style={{letterSpacing: printEstimate.title.length>3 ? 15 :60}}>{printEstimate.title}</div>
                 <table className="estimate-header-table">
                     <colgroup>
                         <col width='45%'/>
@@ -22,22 +25,35 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <tr>
                         <td>
                             <table style={{width: '100%'}}>
+                                <colgroup>
+                                </colgroup>
                                 <tbody>
                                 <tr>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td style={{
-                                        borderBottom: '1px solid black',
-                                        textAlign: 'right'
-                                    }}>{data.estimateDate}</td>
+                                    <td colSpan={2} 
+                                        style={{
+                                            borderBottom: '1px solid black',
+                                            textAlign: 'right',
+                                            fontSize:'20px'
+                                        }}>
+                                        <span style={{display:'flex', justifyContent:'space-between', height:'30px'}}>
+                                            <span style={{ display: 'inline-block', marginRight: "30px", width: '65px',  whiteSpace: 'nowrap' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("YYYY")}년</span>
+                                            <span style={{ display: 'inline-block', marginRight: "30px", width: '50px',  whiteSpace: 'nowrap' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("M")}월</span>
+                                            <span style={{ display: 'inline-block', width: '50px', textAlign: 'right',  whiteSpace: 'nowrap' }}>{printEstimate.isDatePrint  && dayjs(printEstimate.printDate).format("DD")}일</span>
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td style={{borderBottom: '1px solid black', textAlign: 'right'}}><span
-                                        className="customer-honorific">{data.customerName}&nbsp;&nbsp;&nbsp;貴&nbsp;下&nbsp;</span>
+                                    <td style={{borderBottom: '1px solid black', textAlign: 'right'}}>
+                                        {printEstimate.customerName}
+                                    </td>
+                                    <td style={{borderBottom: '1px solid black', textAlign: 'right'}}>
+                                    &nbsp;&nbsp;&nbsp;貴&nbsp;下
                                     </td>
                                 </tr>
                                 </tbody>
@@ -60,8 +76,7 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     <td style={{
                                         borderBottom: '1px solid black',
                                         paddingLeft: '10px',
-                                        fontSize: '15px'
-                                    }}><b>{data.busiNum}</b></td>
+                                    }}><b>{printEstimate.company.businessNumber}</b></td>
                                 </tr>
                                 <tr>
                                     <td style={{borderBottom: '1px solid black'}}>
@@ -70,8 +85,8 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     <td style={{
                                         borderBottom: '1px solid black',
                                         paddingLeft: '10px',
-                                        fontSize: '15px'
-                                    }}><b>{data.companyName}</b></td>
+                                        letterSpacing:'5px'
+                                    }}><b>{printEstimate.company.printName}</b></td>
                                 </tr>
                                 <tr>
                                     <td style={{borderBottom: '1px solid black'}}>
@@ -80,8 +95,20 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                     <td style={{
                                         borderBottom: '1px solid black',
                                         paddingLeft: '10px',
-                                        fontSize: '15px'
-                                    }}><b>{data.ceoName}</b></td>
+                                        letterSpacing:'15px',
+                                        position:'relative'
+                                    }}>
+                                        <b>{printEstimate.company.ceo}</b>
+                                        {printEstimate.isStamp && 
+                                            <div style={{position:'absolute', marginLeft:'100px', marginTop:'-30px'}}>
+                                                <Image 
+                                                    src={`/assets/stamp/${printEstimate.company.stamp}`} 
+                                                    alt="" 
+                                                    width={50} 
+                                                    height={50}/>
+                                            </div>
+                                        }
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td style={{borderBottom: '1px solid black'}}>
@@ -91,7 +118,7 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                                         borderBottom: '1px solid black',
                                         paddingLeft: '10px',
                                         fontSize: '15px'
-                                    }}><b>{data.addr}</b></td>
+                                    }}><b>{printEstimate.company.address} {printEstimate.company.addressDetail}</b></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -101,8 +128,8 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                         <td colSpan={4}></td>
                     </tr>
                     <tr>
-                        <td colSpan={4}>
-                            합계금액 : {data.hangulTotalPrice}
+                        <td colSpan={4} style={{fontSize:'16px'}}>
+                            <b>{`합계금액 : ${changeNumberToKorean(printEstimate.totalPrice)} 원 (￦${printEstimate.totalPrice.toLocaleString('ko-KR')})`}</b>
                         </td>
                     </tr>
                     </tbody>
@@ -119,20 +146,24 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {[...data.items, ...Array(17 - data.items.length).fill({})].map((item, idx) => (
+                    {[...printEstimate.items, ...Array(17 - printEstimate.items.length).fill({})].map((item, idx) => (
                         <tr key={idx}>
                             <td>{item.productName || '\u00A0'}</td>
                             <td>{item.modelName || '\u00A0'}</td>
-                            <td>{item.quantity || '\u00A0'}</td>
-                            <td>{item.unitPrice || '\u00A0'}</td>
-                            <td>{item.totalPrice || '\u00A0'}</td>
-                            <td>{item.note || '\u00A0'}</td>
+                            <td>{item.quantity ? item.quantity.toLocaleString('ko-KR') : '\u00A0'}</td>
+                            <td>{item.unitPrice ? item.unitPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                            <td>{item.totalPrice ? item.totalPrice.toLocaleString('ko-KR') : '\u00A0'}</td>
+                            <td>{
+                                item.productName
+                                ? (printEstimate.isMemoToDate ? dayjs(item.estimateDate).format('YY.M.D') : item.memo)
+                                : '\u00A0'
+                            }</td>
                         </tr>
                     ))}
                     <tr>
                         <td colSpan={3}></td>
                         <td>합계</td>
-                        <td>{data.totalPrice}</td>
+                        <td>{printEstimate.totalPrice.toLocaleString('ko-KR')} </td>
                         <td></td>
                     </tr>
                     </tbody>
@@ -171,7 +202,7 @@ const JaccDocu: React.FC<{ data: EstimateData }> = ({data}) => {
                     <tr>
                         <td>T&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;L</td>
                         <td>:</td>
-                        <td>{data.companyTel}, FAX : {data.companyFax}</td>
+                        <td>{printEstimate.company.tel}, FAX : {printEstimate.company.fax}</td>
                     </tr>
                     </tbody>
                 </table>

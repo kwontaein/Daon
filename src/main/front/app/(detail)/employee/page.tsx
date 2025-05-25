@@ -1,5 +1,5 @@
 import Image from "next/image";
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
 import {DetailPageProps} from "@/model/types/share/type";

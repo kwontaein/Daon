@@ -17,7 +17,8 @@ export default function useEstimate(estimate:ResponseEstimate, mode:'write'|'det
             modelName:'',
             quantity: 0,
             unitPrice:0,
-            hand
+            hand,
+            memo:''
         }])
     }
     useEffect(()=>{

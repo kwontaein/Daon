@@ -7,10 +7,10 @@ import { useActionState } from 'react';
 import Image from 'next/image';
 
 
-import asideArrow from '@/assets/aside-arrow.gif';
+import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import { submitBusinessInfo } from '@/features/customer/customer/actions/customer-action';
-import ErrorBox from '@/components/share/error-box/error-box';
+import ErrorBox from '@/components/share/error/error-box';
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';

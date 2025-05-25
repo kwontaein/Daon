@@ -153,7 +153,8 @@ export async function getReceiptByIds(receiptIds: string[]) {
 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
-
+    
+    if (!receiptIds || receiptIds.length===0) return null
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
         method: "POST",
         headers: {
