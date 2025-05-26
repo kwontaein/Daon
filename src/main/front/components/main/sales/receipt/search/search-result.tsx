@@ -6,18 +6,21 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import ReceiptButtons from '../total-buttons';
 import ReceiptTableContainer from '../table/table-header';
+import { useSearchParams } from 'next/navigation';
 
 
 interface ReceiptItemProps{
-    pageByReceipt:ResponseReceipt[]
-    basicIndex: number;
     allReceiptList:ResponseReceipt[]
 }
 
-export default function ReceiptSearchResult({pageByReceipt, allReceiptList, basicIndex}:ReceiptItemProps){
-
+export default function ReceiptSearchResult({allReceiptList}:{allReceiptList:ResponseReceipt[]}){
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);
-    // const receiptIds:string[] = useMemo(()=> pageByReceipt.map(({receiptId})=>receiptId),[pageByReceipt])
+    const searchParams = useSearchParams()
+    const page = Number(searchParams.get('page')||1)
+    const basicIndex = (page-1) * 10
+    
+    const pageByReceipt = useMemo(()=> allReceiptList.slice((page - 1) * 10, ((page - 1) * 10) + 10),[allReceiptList, page])
+
     const receiptIds:string[] = useMemo(()=> allReceiptList.map(({receiptId})=>receiptId),[allReceiptList])
     const {checkedState, update_checked, resetChecked} = useCheckBoxState(receiptIds)
     const selectList = useMemo(()=>Object.keys(checkedState), [checkedState])
