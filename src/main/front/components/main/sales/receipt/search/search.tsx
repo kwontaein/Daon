@@ -24,14 +24,15 @@ const MemoizedReceiptSearchResult = React.memo(ReceiptSearchResult);
 
 export default function ReceiptSearch({ initialReceipts, page }: { initialReceipts: ResponseReceipt[], page: number }) {
     const [state, action, isPending] = useActionState(receiptSearchAction, initialReceiptSearch);
-
-    const { receiptList, pageByReceipt, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(initialReceipts, page, action);
+    const { receiptList, formRef, todayReceipt, dailySummary, setReceiptList } = useReceiptSearch(action);
     const {date, date_id} = useDailySummary()
     const deletePage = useDeletePage()
+
     
     //일일종합검색
     useEffect(()=>{
         if(date_id && !isPending){
+            deletePage()
             const formData = new FormData(formRef.current);
             formData.set('searchSDate', date)
             formData.set('searchEDate', date)
@@ -40,7 +41,6 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
             formData.set('stockId', initialReceiptSearch.stockId);
             formData.set('productName', initialReceiptSearch.productName);
             formData.set('action', 'submit');
-
             startTransition(() => {
                 action(formData);
             });
@@ -173,7 +173,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
                     </tbody>
                 </table>
             </form>
-            <MemoizedReceiptSearchResult pageByReceipt={pageByReceipt} basicIndex={(page - 1) * 10} allReceiptList={receiptList??initialReceipts}/>
+            <MemoizedReceiptSearchResult allReceiptList={receiptList??initialReceipts}/>
             {!isPending &&
                 <Pagination
                     totalItems={(receiptList?? initialReceipts).length}
