@@ -5,7 +5,7 @@ import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss';
 import Image from "next/image";
 import { useConfirm } from "@/hooks/share/useConfirm";
-import {  postTaskComplete } from "@/features/sales/task/api/taskApi";
+import {  postTaskComplete } from "@/features/sales/task/api/server-api";
 import { useRouter } from "next/navigation";
 
 

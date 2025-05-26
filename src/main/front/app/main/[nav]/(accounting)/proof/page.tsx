@@ -1,6 +1,6 @@
 import AccountingSearch from "@/components/main/accounting/search";
-import {getExpenseProofApi} from "@/features/accounting/api/accountingSearchApi";
-import {getCompany} from "@/features/staff/company/api/company-api";
+import {getExpenseProofApi} from "@/features/accounting/api/search-server-api";
+import {getCompany} from "@/features/staff/company/api/server-api";
 import {PageByProps} from "@/model/types/share/type";
 
 export default async function ProofPage({searchParams}: PageByProps) {

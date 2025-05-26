@@ -1,6 +1,6 @@
 import CompanyTable from "@/components/main/staff/company/company-table";
 import CustomLoading from "@/components/share/loading/loading";
-import {getCompany} from "@/features/staff/company/api/company-api";
+import {getCompany} from "@/features/staff/company/api/server-api";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import { Suspense } from "react";

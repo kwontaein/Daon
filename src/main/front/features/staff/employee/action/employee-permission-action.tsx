@@ -1,5 +1,5 @@
 import { AsideOptions } from "@/model/constants/routes/asideOptions"
-import { updateEnableUrl } from "../api/employeeApi";
+import { updateEnableUrl } from "../api/server-api";
 import { kebabToCamel } from "@/features/share/kebabToCamel";
 import { ListOfAside } from "@/model/types/share/type";
 

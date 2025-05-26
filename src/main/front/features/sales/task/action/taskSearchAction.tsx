@@ -1,5 +1,5 @@
 import { TaskSearchCondition } from "@/model/types/sales/task/type"
-import { fetchSearchTask } from "../api/taskApi";
+import { fetchSearchTask } from "../api/server-api";
 import {v4 as uuidv4} from "uuid";
 import dayjs from "dayjs";
 

@@ -1,7 +1,7 @@
 import EstimatePrintWrapper from "@/components/estimate-print/print-wrapper"
-import { getEstimateApi } from "@/features/sales/estimate/api/estimateApi"
-import { getReceiptByIds } from "@/features/sales/receipt/api/receiptApi"
-import { getCompany } from "@/features/staff/company/api/company-api"
+import { getEstimateApi } from "@/features/sales/estimate/api/server-api"
+import { getReceiptByIds } from "@/features/sales/receipt/api/server-api"
+import { getCompany } from "@/features/staff/company/api/server-api"
 
 
 export default async function EstimatePrintPage({searchParams}:{searchParams:Promise<{

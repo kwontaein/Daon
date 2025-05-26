@@ -1,5 +1,5 @@
 import { ReceiptCondition } from "@/model/types/sales/receipt/type"
-import { getReceiptSearchListApi } from "../api/receiptApi"
+import { getReceiptSearchListApi } from "../api/server-api"
 import dayjs from "dayjs"
 
 export const initialReceiptSearch ={
@@ -24,6 +24,7 @@ export default async function receiptSearchAction(prevState, formState){
 
     if(action==='submit'){
         const searchReceipt = await getReceiptSearchListApi(searchCondition)
+
         return {
             ...prevState,
             ...searchCondition,

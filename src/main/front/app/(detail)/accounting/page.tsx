@@ -1,12 +1,12 @@
 import AccountingForm from "@/components/main/accounting/accounting-form";
-import {getCategorySelectionApi} from "@/features/accounting/api/accountingFormApi";
+import {getCategorySelectionApi} from "@/features/accounting/api/form-server-api";
 import {
     getCardTransactionfApi,
     getExpenseProofApi,
     getProcurementApi,
     getPurchaseVatApi,
     getSalesVATApi
-} from "@/features/accounting/api/accountingSearchApi";
+} from "@/features/accounting/api/search-server-api";
 import {AccountingDivision} from "@/model/types/accounting/type";
 import {notFound} from "next/navigation";
 

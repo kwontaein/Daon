@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import { CustomerSearch, CustomerSearchCondition } from "@/model/types/customer/customer/type";
-import { searchCustomersApi} from "../api/searchCustomerApi";
+import { searchCustomersApi} from "../api/server-api";
 
 
 

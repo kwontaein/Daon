@@ -23,7 +23,9 @@ export const getOfficialApi = async (officialName?: string) => {
                 ...(officialName ? {} : {tags: ['official']})
             }
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -33,6 +35,9 @@ export const getOfficialApi = async (officialName?: string) => {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -53,13 +58,18 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
             body: JSON.stringify(official),
             cache: 'no-store'
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -80,40 +90,19 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'offi
             body: JSON.stringify(officialName),
             cache: 'no-store'
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
     }catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
         }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    }
-}
-
-
-export const deleteOfficialApi = async (official: ResponseOfficial) => {
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-
-    try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie
-            },
-            credentials: 'include',
-            body: JSON.stringify(official),
-            cache: 'no-store'
-        })
-        await jwtFilter(response.status.toString());
-        return response.status
-    } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
+

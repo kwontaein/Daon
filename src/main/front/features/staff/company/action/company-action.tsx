@@ -1,7 +1,7 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveCompany } from "../api/company-api";
+import { saveCompany } from "../api/server-api";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 
 function isInvalidText(text) {

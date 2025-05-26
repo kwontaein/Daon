@@ -10,7 +10,7 @@ import {
     updateProcurementApi,
     updatePurchaseVatApi,
     updateSalesVATApi
-} from "../api/accountingFormApi";
+} from "../api/form-server-api";
 
 
 const apiMap = {

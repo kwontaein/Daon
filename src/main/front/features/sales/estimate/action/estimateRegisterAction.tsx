@@ -3,7 +3,7 @@
 //보내야 할 것 customerId companyId, items, userId
 
 import { RequestEstimate, ResponseEstimateItem } from "@/model/types/sales/estimate/type"
-import { saveEstimate, updateEstimate } from "../api/estimateApi"
+import { saveEstimate, updateEstimate } from "../api/server-api"
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
