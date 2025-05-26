@@ -50,7 +50,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
 
     return(
         <menu className='options-container'>
-            <li onClick={viewEmployeeInfoHandler.bind(null,employeeId)}>회원정보</li>
+            <li onClick={()=>viewEmployeeInfoHandler(employeeId)}>회원정보</li>
             <li onClick={employeePermissionHandler}>권한관리</li>
             <li onClick={deleteAccountingHandler} className='delete-option'>삭제하기</li>
         </menu>    

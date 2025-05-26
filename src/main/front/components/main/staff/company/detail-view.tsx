@@ -93,10 +93,10 @@ export default function CompanyDetail({company, isMobile=false}:{company:Respons
                 </tbody>
             </table>
             <div className="button-container">
-                <button onClick={()=>window.print()}>인쇄</button>
-                <button onClick={()=>changeModeHandler('edit')}>수정</button>
-                <button onClick={deleteCompanyHandler}>삭제</button>
-                <button onClick={()=> isMobile ? window.history.back():window.close()}>창닫기</button>
+                <button onClick={()=>window.print()}>인&nbsp;&nbsp;쇄</button>
+                <button onClick={()=>changeModeHandler('edit')}>수&nbsp;&nbsp;정</button>
+                <button onClick={deleteCompanyHandler}>삭&nbsp;&nbsp;제</button>
+                <button onClick={()=> isMobile ? window.history.back():window.close()}>창&nbsp;닫&nbsp;기</button>
             </div>
         </section>
     )
