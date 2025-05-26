@@ -1,7 +1,7 @@
 'use client'
 import {useState, useRef, useEffect} from "react";
 
-import { saveStockCateApi, deleteStockCateApi, updateStockCateApi } from "../../../features/stock/category/api/stockCateApi";
+import { saveStockCateApi, deleteStockCateApi, updateStockCateApi } from "../../../features/stock/category/api/server-api";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { StockCate } from "@/model/types/stock/cate/type";
 import { CateMode } from "@/model/types/share/type";

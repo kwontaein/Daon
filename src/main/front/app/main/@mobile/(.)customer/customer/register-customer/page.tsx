@@ -1,5 +1,5 @@
-import { getAffiliation } from '@/features/customer/affiliation/api/customerCateApi';
-import { getEmployeeApi } from '@/features/staff/employee/api/employeeApi';
+import { getAffiliation } from '@/features/customer/affiliation/api/server-api';
+import { getEmployeeApi } from '@/features/staff/employee/api/server-api';
 import CustomerForm from '@/components/main/customer/form/customer-form';
 import MobileModal from '@/components/share/mobile-modal/page';
 

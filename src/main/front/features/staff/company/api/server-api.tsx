@@ -23,7 +23,9 @@ export async function getCompany() {
         // cache:'no-store',
         next: {revalidate: 3600, tags: ['company']} //1시간마다 재검증
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -59,7 +61,9 @@ export async function getCompanyDetail(companyId: string) {
         body: JSON.stringify({companyId}),
         next: {revalidate: 1800, tags: [`${companyId}`]} //30분마다 재검증
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -90,13 +94,18 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
             },
             body: JSON.stringify(companyData)
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -116,7 +125,9 @@ export async function updateCompany(companyData: ResponseCompany) {
             },
             body: JSON.stringify(companyData)
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
@@ -124,31 +135,8 @@ export async function updateCompany(companyData: ResponseCompany) {
             const { message } = await error.json();
             throw new Error(message);
         }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    }
-}
-
-export async function deleteCompany(companyId: string) {
-
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCompany`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie
-            },
-            body: JSON.stringify({companyId})
-        })
-        await jwtFilter(response.status.toString());
-        return response.status;
-        
-    } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }

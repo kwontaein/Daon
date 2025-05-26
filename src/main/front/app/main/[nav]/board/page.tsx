@@ -1,7 +1,7 @@
 import BoardDetail from "@/components/main/board/board-detail";
 import BoardList from "@/components/main/board/board-list";
 import RegisterBoard from "@/components/main/board/register-board";
-import { getBoardApi, updateViews } from "@/features/board/api/boardApi";
+import { getBoardApi, updateViews } from "@/features/board/api/server-api";
 import { getUserInfo } from "@/features/user/userApi";
 import {ResponseBoard} from "@/model/types/board/type";
 import { cookies } from "next/headers";

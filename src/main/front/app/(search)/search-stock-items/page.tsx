@@ -1,5 +1,5 @@
 import StockSearchItems from "@/components/share/search-items/stock-search";
-import { searchStockApi } from "@/features/stock/stock/api/searchStockApi";
+import { searchStockApi } from "@/features/stock/stock/api/search-server-api";
 import { SearchNameProps } from "@/model/types/share/type";
 import { ResponseStock, StockSearchCondition } from "@/model/types/stock/stock/types";
 
