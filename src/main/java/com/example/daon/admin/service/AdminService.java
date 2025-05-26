@@ -11,6 +11,7 @@ import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.EnableUrlRepository;
 import com.example.daon.admin.repository.UserRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
@@ -189,7 +190,7 @@ public class AdminService {
             userRepository.delete(user);
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
-            throw new IllegalStateException("유저를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("유저를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }
 
@@ -220,7 +221,7 @@ public class AdminService {
             deptRepository.deleteById(deptRequest.getDeptId());
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
-            throw new IllegalStateException("부서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("부서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }
 

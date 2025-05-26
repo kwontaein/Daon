@@ -4,6 +4,7 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.official.model.OfficialEntity;
 import com.example.daon.official.repository.OfficialRepository;
@@ -19,6 +20,7 @@ import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -43,6 +45,7 @@ public class ReceiptsService {
 
 
     public List<ReceiptResponse> getReceipts(ReceiptCategory category, LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
+        System.out.println("stockId : " + stockId);
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -195,7 +198,12 @@ public class ReceiptsService {
     }
 
     public void deleteReceipts(List<UUID> ids) {
-        receiptRepository.deleteAllById(ids);
+        try {
+            receiptRepository.deleteAllById(ids);
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new ResourceInUseException("전표를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     //일일정산

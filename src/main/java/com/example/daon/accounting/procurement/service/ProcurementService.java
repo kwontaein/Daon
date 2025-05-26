@@ -7,6 +7,7 @@ import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.repository.ProcurementRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,12 @@ public class ProcurementService {
     }
 
     public void deleteProcurement(ProcurementRequest procurementRequest) {
-        procurementRepository.deleteById(procurementRequest.getProcurementSettlementId());
+        try {
+            procurementRepository.deleteById(procurementRequest.getProcurementSettlementId());
+        } catch (Exception e) {
+            throw new ResourceInUseException("매입부가세를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
+
     }
 
     public List<ProcurementResponse> getProcurement(ProcurementRequest procurementRequest) {
