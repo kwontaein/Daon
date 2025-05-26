@@ -11,11 +11,13 @@ import com.example.daon.customer.model.CustomerCate;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,7 +104,12 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomers(CustomerRequest request) {
-        customerRepository.deleteById(request.getCustomerId());
+        try {
+            customerRepository.deleteById(request.getCustomerId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new ResourceInUseException("고객을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public List<AffiliationResponse> getAffiliation() {
@@ -134,7 +141,12 @@ public class CustomerService {
 
     @Transactional
     public void deleteAffiliation(AffiliationRequest request) {
-        affiliationRepository.deleteById(request.getAffiliationId());
+        try {
+            affiliationRepository.deleteById(request.getAffiliationId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new ResourceInUseException("소속을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
 }
