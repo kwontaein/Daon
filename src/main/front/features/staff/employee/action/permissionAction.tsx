@@ -1,7 +1,7 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveEmployeeApi, updateEmployeeApi, userIdDuplicationChecked } from "../api/server-api";
+import { saveEmployeeApi, updateEmployeeApi } from "../api/server-api";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';
@@ -34,8 +34,7 @@ export async function submitEmployeeInfo(prevState, formData) {
     const errors =[]
     let status;
 
-    console.log(employeeData)
-   if(action ==='submit'){
+   if(action){
         if(employeeData.userClass==='none'){
             errors.push(['userClass', '직급을 선택해주세요.'])
         }
@@ -77,9 +76,9 @@ export async function submitEmployeeInfo(prevState, formData) {
 
 
         // API 요청 
-        if(prevState.isUpdate){
+        if(action==='edit'){
             status = await updateEmployeeApi(employeeData)
-        }else{
+        }else if(action==='write'){
             status = await saveEmployeeApi(employeeData)
         }
    }
