@@ -10,7 +10,7 @@ import {EmployeeClassEnum, ResponseEmployee, UserRoleEnum} from "@/model/types/s
 import {submitEmployeeInfo} from "@/features/staff/employee/action/permissionAction";
 import ErrorBox from "@/components/share/error/error-box";
 import {useConfirm} from "@/hooks/share/useConfirm";
-import {userIdDuplicationChecked} from "@/features/staff/employee/api/employeeApi";
+import {userIdDuplicationChecked} from "@/features/staff/employee/api/server-api";
 import {Dept} from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
 import CustomDateInput from "@/components/share/custom-date-input/custom-date-input";
@@ -53,7 +53,8 @@ export default function EmployeeForm({dept, employee, isMobile=false, userInfo}:
         if (state.status===200) {
             if (state.isUpdate) {
                 window.alert('사원정보 변경이 완료되었습니다.')
-                router.push(`employee?mode=detail&target=${employee.userId}`)
+                isMobile ? window.history.back() : router.push(`employee?mode=detail&target=${employee.userId}`)
+                
             } else {
                 window.alert('사원등록에 성공했습니다.')
                 isMobile ? window.history.back() : window.close();
@@ -329,9 +330,10 @@ export default function EmployeeForm({dept, employee, isMobile=false, userInfo}:
                     </button>
                     <button type='button'
                             onClick={() => 
-                                employee ? 
+                                isMobile ? window.history.back() :
+                                (employee ? 
                                     router.push(`employee?mode=detail&target=${employee.userId}`)
-                                    :(isMobile? window.history.back(): window.close())}>취소
+                                    : window.close())}>취소
                     </button>
                 </div>
             </form>

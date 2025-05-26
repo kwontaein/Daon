@@ -26,7 +26,7 @@ import {
     getProcurementApi,
     getPurchaseVatApi,
     getSalesVATApi
-} from '@/features/accounting/api/accountingSearchApi';
+} from '@/features/accounting/api/search-server-api';
 import dayjs from 'dayjs';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import {exportSvatToExcel} from "@/components/main/accounting/svat/exportSvatToExcel";

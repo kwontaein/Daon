@@ -8,7 +8,7 @@ import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import ReceiptTableBody from '@/components/main/sales/receipt/table/table-body';
 import ReceiptTableContainer from '@/components/main/sales/receipt/table/table-header';
-import { getReceiptByIds } from "@/features/sales/receipt/api/receiptApi";
+import { getReceiptByIds } from "@/features/sales/receipt/api/server-api";
 
 export default async function ReceiptEditPage({searchParams}:{searchParams:Promise<{receiptIds:string}>}){
     const receiptIds = JSON.parse((await searchParams).receiptIds)|| []

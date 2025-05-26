@@ -1,5 +1,5 @@
 import OfficialSearchItems from "@/components/share/search-items/official-search";
-import {getOfficialApi} from "@/features/sales/official/api/officialApi";
+import {getOfficialApi} from "@/features/sales/official/api/server-api";
 import {ResponseOfficial} from "@/model/types/sales/official/type";
 import {SearchNameProps} from "@/model/types/share/type";
 import {revalidateTag} from "next/cache";

@@ -1,8 +1,8 @@
 'use client'
 import '@/styles/options/options.scss';
-import { deleteCompany } from '@/features/staff/company/api/company-api';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import { deleteCompany } from '@/features/staff/company/api/client-api';
 
 export default function CompanyOptions({companyId}:{companyId:string}){
     const redirect = useRouterPath()
@@ -23,13 +23,7 @@ export default function CompanyOptions({companyId}:{companyId:string}){
 
     const deleteHandler = ()=>{
         const onDelete = async()=>{
-            await deleteCompany(companyId).then(res=>{
-                if(res===200){
-                    window.alert('삭제가 완료되었습니다.')
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-                }
-            })
+            await deleteCompany(companyId)
         }
         useConfirm('해당 회사를 정말로 삭제하시겠습니까?', onDelete)
     }
