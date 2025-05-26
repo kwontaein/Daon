@@ -4,7 +4,7 @@ export default function jwtFilter(statusCode: string): never| undefined {
   const errorMessage = {
     '401': '로그인이 필요합니다.',
     '403': '접근 권한이 없습니다.',
-    '409': '참조중인 데이터는 삭제가 불가능합니다.',
+    '409': '참조중인 데이터가 존재하여 삭제가 불가능합니다.',
     '500': '서버 오류입니다. 관리자에게 문의하세요.',
     '404': '데이터가 존재하지 않습니다.',
   };

@@ -1,7 +1,7 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveCompany } from "../api/server-api";
+import { saveCompany, updateCompany } from "../api/server-api";
 import { ResponseCompany } from "@/model/types/staff/company/type";
 
 function isInvalidText(text) {
@@ -10,7 +10,7 @@ function isInvalidText(text) {
 
 
 export async function submitCompanyInfo(prevState, formData) {
-    const companyData:Omit<ResponseCompany,'companyId'> = {
+    const companyData:ResponseCompany = {
         companyName: formData.get('companyName'),
         printName: formData.get('printName'),
         ceo: formData.get('ceo'),
@@ -30,6 +30,7 @@ export async function submitCompanyInfo(prevState, formData) {
         memo: formData.get('memo'),
         estimate: formData.get('estimate'),
         stamp: formData.get('stamp'),
+        companyId: prevState.companyId
     };
 
     const errors =[]
@@ -45,19 +46,26 @@ export async function submitCompanyInfo(prevState, formData) {
     if(isInvalidText(companyData.ceo)){
         errors.push(['ceo', '대표자명을 입력해주세요.'])
     }
-
-    if(errors.length>0){
-        const formErrors = Object.fromEntries(errors)
-        formErrors.errorKey = uuidv4()
-        const state = {
-            ...prevState,
-            ...companyData,
-            formErrors
-        } 
-        return state ;
+    const action = formData.get('action')
+    let status
+    if(action){
+        if(errors.length>0){
+            const formErrors = Object.fromEntries(errors)
+            formErrors.errorKey = uuidv4()
+            const state = {
+                ...prevState,
+                ...companyData,
+                formErrors
+            } 
+            return state ;
+        }
+        if(action ==='write'){
+            status = await saveCompany(companyData)
+        }else if (action ==='edit'){
+            status = await updateCompany(companyData)
+        }
     }
-
-    const status = await saveCompany(companyData)
+   
     return {
         ...prevState,
         ...companyData,

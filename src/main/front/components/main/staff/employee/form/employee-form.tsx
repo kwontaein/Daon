@@ -68,7 +68,7 @@ export default function EmployeeForm({
                 window.alert('사원정보 변경이 완료되었습니다.')
                 isMobile ? window.history.back() : router.push(`employee?mode=detail&target=${employee.userId}`)
                 
-            } else {
+            }else if(mode==='write'){
                 window.alert('사원등록에 성공했습니다.')
                 isMobile ? window.history.back() : window.close();
             }
@@ -322,7 +322,7 @@ export default function EmployeeForm({
                     <tr>
                         <td rowSpan={3} colSpan={2} className="table-label">주소</td>
                         <td colSpan={11}>
-                            <input name="zipCode" defaultValue={state.zipCode} className="zip-code-input" readOnly={mode==='detail'}/>[우변번호]
+                            <input name="zipCode" defaultValue={state.zipCode} className="zip-code-input" readOnly={mode==='detail'}/>[우편번호]
                         </td>
                     </tr>
                     <tr>
