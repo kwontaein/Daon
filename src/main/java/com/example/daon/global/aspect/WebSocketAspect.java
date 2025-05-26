@@ -33,7 +33,7 @@ public class WebSocketAspect {
             String paramName = parameterNames[i].replace("Requests", "").replace("Request", "");
             Object paramValue = args[i];
             String methodName = signature.getName();
-            if (methodName.contains("get")) {
+            if (methodName.contains("get") || methodName.contains("Get")) {
                 return;
             }
             // 메시지의 목적지를 해당 파라미터 이름으로 설정

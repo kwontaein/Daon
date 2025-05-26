@@ -1,5 +1,6 @@
 package com.example.daon.stock.service;
 
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
@@ -109,7 +110,12 @@ public class StockService {
 
     @Transactional
     public void deleteStock(StockRequest stockRequest) {
-        stockRepository.deleteById(stockRequest.getStockId());
+        try {
+            stockRepository.deleteById(stockRequest.getStockId());
+        } catch (DataIntegrityViolationException e) {
+            // 외래키 제약 조건 위반 처리
+            throw new ResourceInUseException("품목을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public List<StockCate> getStockCateList() {
@@ -135,7 +141,7 @@ public class StockService {
         } catch (
                 DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
-            throw new IllegalStateException("회사를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("품목분류를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }
 

@@ -5,6 +5,7 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.task.dto.request.TaskRequest;
 import com.example.daon.task.dto.response.TaskResponse;
@@ -17,6 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -150,7 +152,13 @@ public class TaskService {
                 task.setEstimate(null);   // TaskEntity의 참조 해제
                 estimateRepository.deleteById(estimate.getEstimateId());
             }
-            taskRepository.deleteById(taskId);
+            try {
+                taskRepository.deleteById(taskId);
+            } catch (
+                    DataIntegrityViolationException e) {
+                // 외래키 제약 조건 위반 처리
+                throw new ResourceInUseException("업무를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            }
         }
     }
 

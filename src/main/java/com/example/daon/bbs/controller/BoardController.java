@@ -27,7 +27,6 @@ public class BoardController {
     }
 
     @PostMapping("api/saveBoard")
-
     public void saveBoard(
             @RequestPart("board") String boardJson,
             @RequestPart(value = "files", required = false) List<MultipartFile> files
