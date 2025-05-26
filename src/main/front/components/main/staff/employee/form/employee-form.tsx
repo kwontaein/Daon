@@ -68,7 +68,7 @@ export default function EmployeeForm({
                 window.alert('사원정보 변경이 완료되었습니다.')
                 isMobile ? window.history.back() : router.push(`employee?mode=detail&target=${employee.userId}`)
                 
-            } else {
+            }else if(mode==='write'){
                 window.alert('사원등록에 성공했습니다.')
                 isMobile ? window.history.back() : window.close();
             }
@@ -231,12 +231,19 @@ export default function EmployeeForm({
                         </td>
                         <td colSpan={2} className="table-label">입사일</td>
                         <td colSpan={8}>
-                            <CustomDateInput name="joinDate" defaultValue={state.joinDate} readOnly={mode==='detail'}/>
-                            {state.formErrors?.joinDate &&
-                                <ErrorBox>
-                                    {state.formErrors.joinDate}
-                                </ErrorBox>
+                            {mode==='detail' ?
+                                <input value={dayjs(employee.joinDate).format('YYYY년 M월 D일')} readOnly/>
+                                :
+                                <>
+                                <CustomDateInput name="joinDate" defaultValue={state.joinDate}/>
+                                {state.formErrors?.joinDate &&
+                                    <ErrorBox>
+                                        {state.formErrors.joinDate}
+                                    </ErrorBox>
+                                }
+                                </>
                             }
+                            
                         </td>
                     </tr>
                     <tr>
@@ -315,7 +322,7 @@ export default function EmployeeForm({
                     <tr>
                         <td rowSpan={3} colSpan={2} className="table-label">주소</td>
                         <td colSpan={11}>
-                            <input name="zipCode" defaultValue={state.zipCode} className="zip-code-input" readOnly={mode==='detail'}/>[우변번호]
+                            <input name="zipCode" defaultValue={state.zipCode} className="zip-code-input" readOnly={mode==='detail'}/>[우편번호]
                         </td>
                     </tr>
                     <tr>
@@ -327,11 +334,17 @@ export default function EmployeeForm({
                     <tr>
                         <td colSpan={2} className="table-label">생년월일</td>
                         <td colSpan={4}>
-                            <CustomDateInput name="birthday" defaultValue={state.birthday} readOnly={mode==='detail'}/>
-                            {state.formErrors?.birthday &&
-                                <ErrorBox>
-                                    {state.formErrors.birthday}
-                                </ErrorBox>
+                            {mode==='detail' ? 
+                                <input value={dayjs(employee.birthday).format('YYYY년 M월 D일')} readOnly/>
+                                :
+                                <>
+                                <CustomDateInput name="birthday" defaultValue={state.birthday}/>
+                                {state.formErrors?.birthday &&
+                                    <ErrorBox>
+                                        {state.formErrors.birthday}
+                                    </ErrorBox>
+                                }
+                                </>
                             }
                         </td>
                         <td colSpan={2} className="table-label">결혼여부</td>

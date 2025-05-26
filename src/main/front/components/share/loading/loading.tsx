@@ -15,7 +15,7 @@ export default function CustomLoading({content}:{content?:string}){
      return(
         <div className={`full-screen-div ${visible ? "visible" : ""}`}>
             <Image src={Spinner} alt={'Loading'}/>
-            <p>{content ??'데이터를 불러오는 중입니다.'}</p>
+            <p>{content ??'Loading..'}</p>
         </div>
     )
 }
