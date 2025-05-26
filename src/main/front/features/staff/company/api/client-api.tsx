@@ -11,8 +11,11 @@ export async function deleteCompany(companyId: string) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify({companyId})
+            
         })
+        
         if(!response.ok){
             jwtFilter(response.status.toString());
         }else{
