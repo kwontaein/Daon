@@ -1,12 +1,12 @@
 import TaskSearch from "@/components/main/sales/task/search";
-import {getTasksApi} from "@/features/sales/task/api/taskApi";
+import {getTasksApi} from "@/features/sales/task/api/server-api";
 
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { PageByProps } from "@/model/types/share/type";
 import { ResponseEmployee } from "@/model/types/staff/employee/type";
 import { ResponseTask } from "@/model/types/sales/task/type";
-import { getAffiliation } from "@/features/customer/affiliation/api/customerCateApi";
-import { getEmployeeApi } from "@/features/staff/employee/api/employeeApi";
+import { getAffiliation } from "@/features/customer/affiliation/api/server-api";
+import { getEmployeeApi } from "@/features/staff/employee/api/server-api";
 
 export default async function TaskPage({searchParams}:PageByProps){
     const page = (await searchParams).page || 1;

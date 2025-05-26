@@ -1,3 +1,5 @@
+import { deleteBoardApi } from "@/features/board/api/client-api"
+import { useConfirm } from "@/hooks/share/useConfirm"
 import { useScreenMode } from "@/hooks/share/useScreenMode"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -14,6 +16,15 @@ export default function BoardDetailOption({boardId, position} : {
         params.set("target", boardId)
         router.push(`/main/board/board?${params.toString()}`)
     }
+
+    const deleteBoard =()=>{
+        const onDelete = async ()=>{
+            await deleteBoardApi(boardId).then((res)=>{
+                if(res ===200)  router.push(`/main/board/board`)
+            })
+        }
+        useConfirm('정말로 해당 게시물을 삭제하시겠습니까?', onDelete)
+    }
     return(
         <menu className='options-container' 
               style={{
@@ -23,7 +34,7 @@ export default function BoardDetailOption({boardId, position} : {
                     width:'70px'
                 }}>
             <li onClick={editBoardHandler}>수정하기</li>
-            <li className="delete-option">삭제하기</li>
+            <li className="delete-option" onClick={deleteBoard}>삭제하기</li>
         </menu>    
     )
 }

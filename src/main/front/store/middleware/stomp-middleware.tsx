@@ -3,7 +3,7 @@ import SockJS from "sockjs-client";
 import {call, delay, fork, put, race, take} from 'redux-saga/effects';
 import {buffers, END, eventChannel} from 'redux-saga';
 import { DISCONNECT_STOMP, receivedStompMsg, SYNCHRONIZATION_STOMP } from "../slice/stomp-reducer";
-import revalidateHandler from "@/features/revalidateHandler";
+import revalidateHandler, { revalidateAllPaths } from "@/features/revalidateHandler";
 
 
 
@@ -15,6 +15,7 @@ function* closeWebSocketSaga(channel: any) {
         const {payload} = yield take(DISCONNECT_STOMP)// 웹소켓 끊는 dispatch 발생 시 가져옴
         if (payload) {
             channel.close();
+            revalidateAllPaths()
         }
     }
 }

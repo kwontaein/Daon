@@ -13,7 +13,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import BoardOption from './options';
 import { ClientMousePosition } from '@/model/types/share/type';
 import { filesize } from 'filesize';
-import { updateViews } from '@/features/board/api/boardApi';
+import { updateViews } from '@/features/board/api/server-api';
 import { useUserInformation } from '@/store/zustand/userInfo';
 import BoardDetailOption from './board-detail-options';
 

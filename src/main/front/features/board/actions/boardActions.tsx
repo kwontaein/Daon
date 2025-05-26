@@ -1,6 +1,6 @@
 "use server"
 import {RequestBoard} from "@/model/types/board/type";
-import {saveBoardApi, updateBoardApi} from "@/features/board/api/boardApi";
+import {saveBoardApi, updateBoardApi} from "@/features/board/api/server-api";
 
 export default async function BoardAction(prevState, formData) {
     const action = formData.get('action')

@@ -19,7 +19,9 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
     
         const text = await response.text();
     
@@ -28,8 +30,10 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
     }catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
-            // 이 메시지를 클라이언트 컴포넌트로 전달
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -51,7 +55,9 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -61,6 +67,9 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -81,7 +90,9 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -91,6 +102,9 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -110,7 +124,9 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -120,6 +136,9 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -139,7 +158,9 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -149,6 +170,9 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -168,7 +192,9 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -178,6 +204,9 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -198,7 +227,9 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -208,6 +239,9 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -227,7 +261,9 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -237,6 +273,9 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }

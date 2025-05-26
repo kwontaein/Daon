@@ -3,7 +3,7 @@ import ReceiptSearch from "@/components/main/sales/receipt/search/search";
 import '@/styles/_global.scss';
 
 import { PageByProps } from "@/model/types/share/type";
-import { getReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
+import { getReceiptListApi } from "@/features/sales/receipt/api/server-api";
 import { ReceiptCategoryEnum } from "@/model/types/sales/receipt/type";
 
 const allSearchConditions={

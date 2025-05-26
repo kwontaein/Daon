@@ -26,7 +26,9 @@ export async function getCategorySelectionApi() {
             },
             credentials: 'include',
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -36,6 +38,9 @@ export async function getCategorySelectionApi() {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -56,13 +61,18 @@ export async function savePurchaseVatApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as PurchaseVAT)
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -83,13 +93,18 @@ export async function saveSalesVATApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as SalesVAT)
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -109,13 +124,18 @@ export async function saveCardTransactionApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as CardTransaction)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -135,13 +155,18 @@ export async function saveExpenseProofApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ExpenseProof)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -161,13 +186,18 @@ export async function saveProcurementApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -188,13 +218,18 @@ export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as PurchaseVAT)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -214,13 +249,18 @@ export async function updateSalesVATApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as SalesVAT)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -240,13 +280,18 @@ export async function updateCardTransactionApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as CardTransaction)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -266,13 +311,18 @@ export async function updateExpenseProofApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ExpenseProof)
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -292,7 +342,9 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
             credentials: 'include',
             body: JSON.stringify(saveData as ProcurementSettlement)
         })        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
 
     } catch (error) {
@@ -300,58 +352,11 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
             const { message } = await error.json();
             throw new Error(message);
         }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    }
-}
-
-
-//삭제 관련 api
-export async function deleteAccountingApi(division, id) {
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-
-    let api;
-    let key;
-    switch (AccountingDivision[division]) {
-        case "매입부가세" :
-            api = 'deletePurchaseVAT'
-            key = 'purchaseVATId'
-            break;
-        case "매출부가세" :
-            api = 'deleteSalesVAT'
-            key = 'salesVATId'
-            break;
-        case "카드증빙" :
-            api = 'deleteCardTransaction'
-            key = 'cardTransactionId'
-            break;
-        case "지출증빙" :
-            api = 'deleteExpenseProof'
-            key = 'expenseProofId'
-            break;
-        case "조달및수의" :
-            api = 'deleteProcurement'
-            key = 'procurementSettlementId'
-            break;
-    }
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie,
-            },
-            credentials: 'include',
-            body: JSON.stringify({[key]: id})
-        })
-        await jwtFilter(response.status.toString());
-        return response.status;
-
-    } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
+
+

@@ -1,10 +1,11 @@
 'use client'
 import {useState, useRef, useEffect} from "react";
 
-import { createPointApi, deletePointApi, updatePointApi } from "../../../features/stock/point/api/pointApi";
+import { createPointApi, updatePointApi } from "../../../features/stock/point/api/server-api";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { StockPoint } from "@/model/types/stock/point/types";
 import { CateMode } from "@/model/types/share/type";
+import { deletePointApi } from "@/features/stock/point/api/client-api";
 
 export default function useStockPoint(InitStockPoint:StockPoint[]){
     const [pointState, setPointState] = useState<StockPoint[]>(InitStockPoint)
@@ -61,7 +62,6 @@ export default function useStockPoint(InitStockPoint:StockPoint[]){
         const deleteRequest = ()=>{
             deletePointApi(point).then((status)=>{
                 if(status === 200){
-                    window.alert('삭제가 완료되었습니다.')
                     setMode(null)
                 }
             })

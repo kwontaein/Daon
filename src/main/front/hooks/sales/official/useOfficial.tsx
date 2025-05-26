@@ -2,8 +2,9 @@
 import {useState, useRef} from "react";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
-import { deleteOfficialApi, saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/officialApi";
+import { saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/server-api";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
+import { deleteOfficialApi } from "@/features/sales/official/api/client-api";
 
 export default function useOfficial(InitialOfficial:ResponseOfficial[]){
     const [officialState, setOfficialState] = useState<ResponseOfficial[]>(InitialOfficial)
@@ -22,7 +23,6 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
         if (postOfficial.length>0 && postAble) {
             updateOfficialApi(postOfficial).then((status) => {
                 if(status === 200){
-                    window.alert('수정이 완료되었습니다.')
                     setMode(null)
                 }
             })
@@ -56,7 +56,6 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
         const deleteRequest = ()=>{
             deleteOfficialApi(official).then((status)=>{
                 if(status === 200){
-                    window.alert('삭제가 완료되었습니다.')
                     setMode(null)
                 }
             })
