@@ -7,6 +7,7 @@ import com.example.daon.accounting.salesVAT.model.SalesVATEntity;
 import com.example.daon.accounting.salesVAT.repository.SalesVATRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
@@ -48,7 +49,11 @@ public class SalesVATService {
     }
 
     public void deleteSalesVAT(SalesVATRequest salesVATRequest) {
-        salesVATRepository.deleteById(salesVATRequest.getSalesVATId());
+        try {
+            salesVATRepository.deleteById(salesVATRequest.getSalesVATId());
+        } catch (Exception e) {
+            throw new ResourceInUseException("매출부가세를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+        }
     }
 
     public List<SalesVATResponse> getSalesVAT(SalesVATRequest salesVATRequest) {
