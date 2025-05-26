@@ -7,17 +7,19 @@ import {useRouter} from "next/navigation";
 import ErrorBox from "@/components/share/error/error-box";
 import {ResponseCompany} from "@/model/types/staff/company/type";
 import {submitCompanyInfo} from "@/features/staff/company/action/company-action";
+import useChangeMode from "@/hooks/share/useChangeMode";
 
-export default function CompanyForm({company,isMobile=false}: { company?: ResponseCompany, isMobile?:boolean }) {
+export default function CompanyForm({company,isMobile=false,mode}: { company?: ResponseCompany, isMobile?:boolean, mode:'write'|'detail'|'edit' }) {
 
     const initialState = useMemo(() => company ?? {}, [company]);
     const [state, action, isPending] = useActionState(submitCompanyInfo, initialState);
     const formRef = useRef(null)
     const router = useRouter();
+    const changeModeHandler = useChangeMode()
 
     const submitHandler = () => {
         const formData = new FormData(formRef.current);
-        formData.set('action', 'submit');
+        formData.set('action', mode);
         startTransition(() => {
             action(formData);
         });
@@ -26,21 +28,28 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
     useEffect(() => {
         if (!state.status) return
         if (state.status === 200) {
-            company ? window.alert('수정이 완료되었습니다.') : window.alert('회사를 등록했습니다.')
-            isMobile ? window.history.back() :window.close()
-        } else {
+            if(mode==='edit') {
+                window.alert('수정이 완료되었습니다.')
+                isMobile ? window.history.back() : router.push(`company?mode=detail&target=${company.companyId}`)
+            }else if(mode==='write'){
+                window.alert('회사를 등록했습니다.')
+                isMobile ? window.history.back() : window.close();
+            }
+        }else{
             window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요')
         }
     }, [state])
 
     return (
-        <section className="register-form-container">
-            {!company &&
-                <header className="register-header">
-                    <Image src={asideArrow} alt=">"/>
-                    <h4>회사등록</h4>
-                </header>
-            }
+        <section className={`register-form-container ${mode==='detail' ? 'view-mode': ''}`}>
+            <header className="register-header">
+                <Image src={asideArrow} alt=">" width={15}/>
+                <h4>
+                    {mode === 'detail' && '회사정보 상세보기'}
+                    {mode === 'edit' && '회사정보 수정하기'}
+                    {mode === 'write' && '회사정보 등록하기'}
+                </h4>
+            </header>
             <form action={action} ref={formRef}>
                 <table className="register-form-table" key={state.companyId}>
                     <colgroup>
@@ -111,13 +120,7 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
                     <tr>
                         <td rowSpan={3} className="table-label">주소</td>
                         <td colSpan={3}>
-
-                            <input className="zip-code-input" name='zipCode'
-                                   defaultValue={company && (company.zipcode ?? '-').split('-')[0]}/> -
-                            <input className="zip-code-input" name='zipCode2'
-                                   defaultValue={company && (company.zipcode ?? '-').split('-')[1]}
-                                   style={{marginLeft: '5px'}}/>
-                            [우편번호]
+                        <input name="zipcode" defaultValue={state.zipcode} className="zip-code-input" readOnly={mode==='detail'}/>[우편번호]
                         </td>
                     </tr>
                     <tr>
@@ -145,9 +148,21 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
                     </tbody>
                 </table>
                 <div className='button-container' style={{justifyContent:'right'}}>
-                    <button type={'button'} onClick={submitHandler} disabled={isPending}>저장</button>
+                <button type='button'
+                            disabled={isPending}
+                            onClick={()=> {mode==='detail' ? changeModeHandler('edit'): submitHandler()}}>
+                            {mode==='detail' && <>수&nbsp;&nbsp;&nbsp;&nbsp;정</>}
+                            {mode==='edit' && <>수&nbsp;정&nbsp;완&nbsp;료</>}
+                            {mode==='write' && <>저&nbsp;&nbsp;&nbsp;&nbsp;장</>}
+                    </button>
                     <button type={'button'}
-                            onClick={() => isMobile ? window.history.back() : (company ? router.push(`company?mode=detail&target=${company.companyId}`) : window.close())}>취소
+                            onClick={() =>
+                                {isMobile ? window.history.back() :
+                                (mode==='edit' ?
+                                    router.push(`company?mode=detail&target=${company.companyId}`)
+                                    : window.close())}}>
+                            {mode==='edit' ? <>취&nbsp;&nbsp;&nbsp;&nbsp;소</> : <>창&nbsp;닫&nbsp;기</> }
+
                     </button>
                 </div>
             </form>
