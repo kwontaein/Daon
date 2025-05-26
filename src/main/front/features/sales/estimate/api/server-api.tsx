@@ -25,7 +25,9 @@ export async function getEstimateApi(estimateId: string) {
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -63,7 +65,9 @@ export async function getEstimatesByIds(estimateIds: string[]) {
         signal,
         cache: 'no-cache'
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -99,7 +103,9 @@ export async function saveEstimate(estimate: RequestEstimate) {
         signal,
         cache: 'no-cache'
     }).then(async (response) => {        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
 
     }).catch(async (error) => {
@@ -131,7 +137,9 @@ export async function updateEstimate(estimate: RequestEstimate) {
         body: JSON.stringify(estimate),
         signal,
     }).then(async (response) => {        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
 
     }).catch(async (error) => {
@@ -145,33 +153,6 @@ export async function updateEstimate(estimate: RequestEstimate) {
     }).finally(() => clearTimeout(timeoutId));
 }
 
-export async function deleteEstimate(estimateId) {
-
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            Cookie: cookie
-        },
-        credentials: 'include',
-        body: JSON.stringify({estimateId}),
-    }).then(async (response) => {        
-        await jwtFilter(response.status.toString());
-        return response.status
-
-    }).catch(async (error) => {
-        if (error.name === 'AbortError') {
-            console.log('Fetch 요청이 시간초과되었습니다.')
-        }else if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
-        }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    })
-}
 
 /**업무 견적서 또는 일반 견적서를 찾는 api task:true = 업무견적서 */
 export async function searchAllEstimateApi(task: boolean) {
@@ -203,7 +184,9 @@ export async function searchAllEstimateApi(task: boolean) {
         next: {revalidate: 3600, tags: ['estimate']}, //1시간마다 재검증
         signal,
     }).then(async (response) => {        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -240,7 +223,9 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
         body: JSON.stringify(searchCondition),
         signal,
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -271,7 +256,9 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
         credentials: 'include',
         body: JSON.stringify(postData),
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
         
     }).catch(async (error) => {

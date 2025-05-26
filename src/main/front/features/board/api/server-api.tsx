@@ -16,7 +16,9 @@ export async function getBoardApi() {
             credentials: 'include',
             next: {revalidate: 3600, tags: ['board']}
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -26,6 +28,9 @@ export async function getBoardApi() {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -62,7 +67,9 @@ export async function saveBoardApi(board: RequestBoard) {
             credentials: 'include'
         });
     
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
     }catch (error) {
         console.error(error)
@@ -109,44 +116,22 @@ export async function updateBoardApi(board: RequestBoard) {
             body: formData, // ✅ Content-Type 자동 설정됨
             credentials: 'include',
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
         }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    }
-}
-
-export async function deleteBoardApi(boardId: string) {
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie
-            },
-            credentials: 'include',
-            body: JSON.stringify({boardId}),
-        });
-        await jwtFilter(response.status.toString());
-
-        const text = await response.text();
-
-        if (!text) return null;
-        return JSON.parse(text);
-    } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
+
 
 export async function updateViews(boardId: string) {
     console.log(boardId)
@@ -162,7 +147,9 @@ export async function updateViews(boardId: string) {
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -172,6 +159,9 @@ export async function updateViews(boardId: string) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }

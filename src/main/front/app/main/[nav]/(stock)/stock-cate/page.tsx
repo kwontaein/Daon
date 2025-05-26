@@ -1,5 +1,5 @@
 import StockCate from "@/components/main/stock/category/stock-cate";
-import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
+import { getStockCateApi } from "@/features/stock/category/api/server-api";
 
 
 export default async function CustomerCatePage() {

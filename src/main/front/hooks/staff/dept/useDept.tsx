@@ -1,10 +1,11 @@
 'use client'
 import {useState, useRef, useEffect} from "react";
 
-import { createDeptApi, deleteDeptApi, updateDeptApi } from "../../../features/staff/dept/api/deptApi";
+import { createDeptApi, updateDeptApi } from "../../../features/staff/dept/api/server-api";
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
 import { Dept } from "@/model/types/staff/dept/type";
+import { deleteDeptApi } from "@/features/staff/dept/api/client-api";
 
 export default function useDept(InitDept:Dept[]){
     const [deptState, setDeptState] = useState<Dept[]>(InitDept)
@@ -63,7 +64,6 @@ export default function useDept(InitDept:Dept[]){
         const deleteRequest = ()=>{
             deleteDeptApi(dept).then((status)=>{
                 if(status === 200){
-                    window.alert('삭제가 완료되었습니다.')
                     setMode(null)
                 }
             })

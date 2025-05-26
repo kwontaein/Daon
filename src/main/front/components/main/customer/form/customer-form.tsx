@@ -15,6 +15,9 @@ import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/custo
 import { Affiliation } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import useChangeMode from '@/hooks/share/useChangeMode';
+import { deleteCustomerApi } from '@/features/customer/customer/api/client-api';
+import { useConfirm } from '@/hooks/share/useConfirm';
+import { useRouter } from 'next/navigation';
 
 
 export default function CustomerForm({affiliation, employees, customer, mode, isMobile} : {
@@ -28,6 +31,18 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
   const [state, action, isPending] = useActionState(submitBusinessInfo, initialState);
   const formRef = useRef(null)
   const changeMode = useChangeMode()
+  const router = useRouter()
+
+  const deleteCustomer =  ()=>{
+    const onDelete = async ()=>{
+      await deleteCustomerApi(customer?.customerId).then((res)=>{
+        if(res===200){
+          isMobile ? router.back(): window.close()
+        }
+      })
+    }
+    useConfirm('정말로 해당 거래처를 삭제하시겠습니까?', onDelete)
+  }
 
   const submitHandler = () => {
     const formData = new FormData(formRef.current!);
@@ -49,7 +64,7 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
   },[state])
 
   return (
-    <section className='register-form-container'>
+    <section className={`register-form-container ${mode==='detail' ? 'view-mode':''}`}>
       <header className="register-header">
           <Image src={asideArrow} alt=">" width={15}/>
           <h4>
@@ -117,7 +132,7 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
             <tr>
               <td className='table-label'>상호명</td>
               <td colSpan={3}>
-                <input type='text' name="customerName" defaultValue={state.customerName} readOnly={mode==='detail'}/>
+                <input type='text' name="customerName" defaultValue={state.customerName??''} readOnly={mode==='detail'}/>
                 <input type='hidden' name="customerId" value={state.customerId} readOnly/>
                  {state.formErrors?.customerName &&
                   <ErrorBox key={state.formErrors?.errorKey}>
@@ -128,23 +143,23 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
             </tr>
             <tr>
               <td className='table-label'>계산서명</td>
-              <td colSpan={3}><input type='text' name="billName" defaultValue={state.billName} readOnly={mode==='detail'}/></td>
+              <td colSpan={3}><input type='text' name="billName" defaultValue={state.billName??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td className='table-label'>대표자</td>
-              <td><input type='text' name="ceo" defaultValue={state.ceo} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="ceo" defaultValue={state.ceo??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>주민번호</td>
-              <td><input type='text' name="ceoNum"  defaultValue={state.ceoNum} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="ceoNum"  defaultValue={state.ceoNum??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td className='table-label'>사업자등록번호</td>
-              <td><input type='text' name="businessNum"  defaultValue={state.businessNum} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="businessNum"  defaultValue={state.businessNum??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>업태</td>
-              <td><input type='text' name="businessType"  defaultValue={state.businessType} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="businessType"  defaultValue={state.businessType??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td className='table-label'>종목</td>
-              <td><input type='text' name="contents" defaultValue={state.contents} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="contents" defaultValue={state.contents??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>담당자</td>
               <td>
                 {mode==='detail' ?
@@ -154,7 +169,7 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
                     <select className="label-selector" size={1} name="userId" key={state.userId+'userId'} defaultValue={state.userId}>
                         <option value='none'>선택</option>
                         {employees.map((employee)=>(
-                          <option value={employee.userId} key={employee.userId}>{employee.name}</option>
+                          <option value={employee.userId??''} key={employee.userId}>{employee.name}</option>
                         ))}
                     </select>
                     {state.formErrors?.userId &&  
@@ -170,62 +185,76 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
               <td className='table-label'>전화</td>
               <td><input type='text' name="phoneNumber" defaultValue={state.phoneNumber} readOnly={mode==='detail'}/></td>
               <td className='table-label'>FAX</td>
-              <td><input type='text' name="fax" defaultValue={state.fax} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="fax" defaultValue={state.fax??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td rowSpan={3} className='table-label'>주소</td>
               <td colSpan={3}>
-                <input className='zip-code-input' name='zipCode' defaultValue={state.zipCode} readOnly={mode==='detail'}/>
+                <input className='zip-code-input' name='zipCode' defaultValue={state.zipCode??''} readOnly={mode==='detail'}/>
                 [우편번호]
               </td>
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address1' defaultValue={state.address1} readOnly={mode==='detail'}/>
+                <input name='address1' defaultValue={state.address1??''} readOnly={mode==='detail'}/>
               </td>
             </tr>
             <tr>
               <td colSpan={3}>
-                <input name='address2' defaultValue={state.address2} readOnly={mode==='detail'}/>
+                <input name='address2' defaultValue={state.address2??''} readOnly={mode==='detail'}/>
               </td>
             </tr>
             <tr>
               <td className='table-label'>담당</td>
-              <td><input type='text' name='customerRp' defaultValue={state.customerRp} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name='customerRp' defaultValue={state.customerRp??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>담당자연락처</td>
-              <td><input type='text' name="customerRpCall" defaultValue={state.customerRpCall} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="customerRpCall" defaultValue={state.customerRpCall??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td className='table-label'>거래은행</td>
-              <td><input type='text' name="bankName" defaultValue={state.bankName} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="bankName" defaultValue={state.bankName??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>계좌번호</td>
-              <td><input type='text' name="bankNum" defaultValue={state.bankNum} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="bankNum" defaultValue={state.bankNum??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
               <td className='table-label'>예금주</td>
-              <td><input type='text' name="bankOwner" defaultValue={state.bankOwner} readOnly={mode==='detail'}/></td>
+              <td><input type='text' name="bankOwner" defaultValue={state.bankOwner??''} readOnly={mode==='detail'}/></td>
               <td className='table-label'>이월잔액</td>
               <td><input type='text' name=""/></td>
             </tr>
             <tr>
                 <td className='table-label'>취급품목</td>
-                <td colSpan={3}><textarea name="handlingItem" defaultValue={state.handlingItem} readOnly={mode==='detail'}/></td>
+                <td colSpan={3}><textarea name="handlingItem" defaultValue={state.handlingItem??''} readOnly={mode==='detail'}/></td>
             </tr>
             <tr>
                 <td className='table-label'>메모</td>
-                <td colSpan={3}><textarea name="memo" defaultValue={state.memo} readOnly={mode==='detail'}/></td>
+                <td colSpan={3}><textarea name="memo" defaultValue={state.memo??''} readOnly={mode==='detail'}/></td>
             </tr>
         </tbody>
       </table>
       <div className='button-container'>
+        {mode==='detail' && 
+          <button onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+        }
         <button type='button' onClick={()=>{
           mode ==='detail' ? changeMode('edit') : submitHandler()
         }} disabled={isPending}>
-          {mode==='detail' && '수정'}
-          {mode==='edit' && '수정완료'}
-          {mode==='write' && '저장'}
+          {mode==='detail' && <div>수&nbsp;&nbsp;&nbsp;&nbsp;정</div>}
+          {mode==='edit' && <div>수&nbsp;정&nbsp;완&nbsp;료</div>}
+          {mode==='write' && <div>저&nbsp;&nbsp;&nbsp;&nbsp;장</div>}
         </button>
-        <button type='button' onClick={ ()=> mode==='edit' ? changeMode('detail') :(isMobile? window.history.back() : window.close())}>취소</button>
+        {mode==='detail' &&
+          <button onClick={deleteCustomer}>
+            삭&nbsp;&nbsp;&nbsp;&nbsp;제
+          </button>
+        }
+        <button type='button' onClick={ ()=> isMobile ? window.history.back() : (mode==='edit' ? changeMode('detail') : window.close())}>
+          {mode ==='detail' ? 
+          <div>창&nbsp;닫&nbsp;기</div>
+          :
+          <div>취&nbsp;&nbsp;&nbsp;&nbsp;소</div>
+          }
+        </button>
       </div>
     </form>
     </section>

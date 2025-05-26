@@ -1,6 +1,6 @@
 import AccountingForm from "@/components/main/accounting/accounting-form";
 import MobileModal from "@/components/share/mobile-modal/page";
-import { getCategorySelectionApi } from "@/features/accounting/api/accountingFormApi";
+import { getCategorySelectionApi } from "@/features/accounting/api/form-server-api";
 import { AccountingDivision } from "@/model/types/accounting/type";
 import { notFound } from "next/navigation";
 

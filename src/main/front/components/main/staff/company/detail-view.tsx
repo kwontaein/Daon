@@ -2,24 +2,19 @@
 import './form/company-form.scss'
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import useChangeMode from '@/hooks/share/useChangeMode';
-import { deleteCompany } from '@/features/staff/company/api/company-api';
 import { useConfirm } from '@/hooks/share/useConfirm';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { deleteCompany } from '@/features/staff/company/api/client-api';
 
 export default function CompanyDetail({company, isMobile=false}:{company:ResponseCompany, isMobile?:boolean}){
     const changeModeHandler = useChangeMode()
-    const patchname = usePathname()
     const router = useRouter()
 
     const deleteCompanyHandler =()=>{
         const onDelete = async()=>{
-            await deleteCompany(company.companyId).then(()=>{
-                window.alert('삭제가 완료되었습니다.')
-                const path = patchname.split('/')
-                if(path.length>2){
-                    router.back()
-                }else{
-                    window.close()
+            await deleteCompany(company.companyId).then((res)=>{
+                if(res ==200){
+                    isMobile ?  router.back() : window.close()
                 }
             })
         }
@@ -98,10 +93,10 @@ export default function CompanyDetail({company, isMobile=false}:{company:Respons
                 </tbody>
             </table>
             <div className="button-container">
-                <button onClick={()=>window.print()}>인쇄</button>
-                <button onClick={()=>changeModeHandler('edit')}>수정</button>
-                <button onClick={deleteCompanyHandler}>삭제</button>
-                <button onClick={()=> isMobile ? window.history.back():window.close()}>창닫기</button>
+                <button onClick={()=>window.print()}>인&nbsp;&nbsp;쇄</button>
+                <button onClick={()=>changeModeHandler('edit')}>수&nbsp;&nbsp;정</button>
+                <button onClick={deleteCompanyHandler}>삭&nbsp;&nbsp;제</button>
+                <button onClick={()=> isMobile ? window.history.back():window.close()}>창&nbsp;닫&nbsp;기</button>
             </div>
         </section>
     )

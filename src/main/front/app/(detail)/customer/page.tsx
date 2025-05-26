@@ -6,9 +6,9 @@ import CustomerForm from "@/components/main/customer/form/customer-form";
 import {ResponseCustomer} from "@/model/types/customer/customer/type";
 import {DetailPageProps} from "@/model/types/share/type";
 import {ResponseEmployee} from "@/model/types/staff/employee/type";
-import { getEmployeeApi } from "@/features/staff/employee/api/employeeApi";
-import { getAffiliation } from "@/features/customer/affiliation/api/customerCateApi";
-import { getCustomerAPi } from "@/features/customer/customer/api/searchCustomerApi";
+import { getEmployeeApi } from "@/features/staff/employee/api/server-api";
+import { getAffiliation } from "@/features/customer/affiliation/api/server-api";
+import { getCustomerAPi } from "@/features/customer/customer/api/server-api";
 
 
 export default async function CustomerDetailPage({searchParams}: DetailPageProps) {

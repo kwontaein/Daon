@@ -5,7 +5,6 @@ import MainHeader from "@/components/main/layout/header/_header";
 import AsideTitle from '@/components/main/layout/aside/asideTitle';
 import { cookies } from 'next/headers';
 import { getUserInfo } from '@/features/user/userApi';
-import ErrorAlert from '@/components/share/error/error-alert';
 
 
 export default async function MainLayout({navigation,aside,children,footer,search,mobile}: {
