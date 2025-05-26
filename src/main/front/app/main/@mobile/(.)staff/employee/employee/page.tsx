@@ -1,10 +1,5 @@
-import Image from "next/image";
-import asideArrow from '@/public/assets/aside-arrow.gif';
-import '@/styles/form-style/form.scss'
-
 import {DetailPageProps} from "@/model/types/share/type";
 import {ResponseEmployee, UserRoleEnum} from "@/model/types/staff/employee/type";
-import EmployeeDetailView from "@/components/main/staff/employee/detail-view";
 import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import {Dept} from "@/model/types/staff/dept/type";
 import { getEmployeeDetailApi } from "@/features/staff/employee/api/server-api";
@@ -27,19 +22,8 @@ export default async function EmployeeDetailPage({searchParams}: DetailPageProps
     }
 
     return (
-        <MobileModal >
-            <header className="register-header">
-                <Image src={asideArrow} alt=">" width={15}/>
-                <h4>
-                    {mode === 'detail' && '사용자정보 상세보기'}
-                    {mode === 'edit' && '사용자정보 수정하기'}
-                </h4>
-            </header>
-            {mode === 'detail' ?
-                <EmployeeDetailView employee={employee} isMobile={true}/>
-                :
-                <EmployeeForm employee={employee} dept={dept} isMobile={true} userInfo={userInfo}/>
-            }
+        <MobileModal>
+            <EmployeeForm employee={employee} dept={dept} userInfo={userInfo} mode={mode} isMobile={true}/>
         </MobileModal>
 
     )

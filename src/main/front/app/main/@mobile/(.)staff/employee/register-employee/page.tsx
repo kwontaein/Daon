@@ -16,7 +16,7 @@ export default async function RegisterEmployee(){
 
     return(
        <MobileModal >
-            <EmployeeForm dept={dept} isMobile={true}/>
+            <EmployeeForm dept={dept} isMobile={true} mode="write"/>
         </MobileModal>
     )
 }
