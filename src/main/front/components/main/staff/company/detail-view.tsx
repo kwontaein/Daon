@@ -2,24 +2,19 @@
 import './form/company-form.scss'
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import useChangeMode from '@/hooks/share/useChangeMode';
-import { deleteCompany } from '@/features/staff/company/api/company-api';
 import { useConfirm } from '@/hooks/share/useConfirm';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { deleteCompany } from '@/features/staff/company/api/client-api';
 
 export default function CompanyDetail({company, isMobile=false}:{company:ResponseCompany, isMobile?:boolean}){
     const changeModeHandler = useChangeMode()
-    const patchname = usePathname()
     const router = useRouter()
 
     const deleteCompanyHandler =()=>{
         const onDelete = async()=>{
-            await deleteCompany(company.companyId).then(()=>{
-                window.alert('삭제가 완료되었습니다.')
-                const path = patchname.split('/')
-                if(path.length>2){
-                    router.back()
-                }else{
-                    window.close()
+            await deleteCompany(company.companyId).then((res)=>{
+                if(res ==200){
+                    isMobile ?  router.back() : window.close()
                 }
             })
         }

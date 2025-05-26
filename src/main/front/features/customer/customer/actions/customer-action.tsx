@@ -1,7 +1,7 @@
 "use server";
 
 import {v4 as uuidv4} from "uuid";
-import { saveCustomerApi, updateCustomerApi } from "../api/searchCustomerApi";
+import { saveCustomerApi, updateCustomerApi } from "../api/server-api";
 
 function isInvalidText(text) {
     return !text || text.trim() === '';

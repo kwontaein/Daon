@@ -26,7 +26,7 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
     useEffect(() => {
         if (!state.status) return
         if (state.status === 200) {
-            window.alert('회사를 등록했습니다.')
+            company ? window.alert('수정이 완료되었습니다.') : window.alert('회사를 등록했습니다.')
             isMobile ? window.history.back() :window.close()
         } else {
             window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요')
@@ -147,7 +147,7 @@ export default function CompanyForm({company,isMobile=false}: { company?: Respon
                 <div className='button-container' style={{justifyContent:'right'}}>
                     <button type={'button'} onClick={submitHandler} disabled={isPending}>저장</button>
                     <button type={'button'}
-                            onClick={() => company ? router.push(`company?mode=detail&target=${company.companyId}`) : (isMobile ? window.history.back() :window.close())}>취소
+                            onClick={() => isMobile ? window.history.back() : (company ? router.push(`company?mode=detail&target=${company.companyId}`) : window.close())}>취소
                     </button>
                 </div>
             </form>

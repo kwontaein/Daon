@@ -1,10 +1,10 @@
 'use client'
 import '@/styles/options/options.scss';
-import { deleteEmployeeApi } from '@/features/staff/employee/api/employeeApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { useUserInformation } from '@/store/zustand/userInfo';
 import { UserRoleEnum } from '@/model/types/staff/employee/type';
+import { deleteEmployeeApi } from '@/features/staff/employee/api/client-api';
 
 export default function EmployeeOptions({employeeId}:{employeeId:string}){
     const redirect = useRouterPath()
@@ -35,13 +35,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
             return
         }
         const onDelete=()=>{
-            deleteEmployeeApi(employeeId).then((res)=>{
-                if(res ===200){
-                    window.alert('삭제가 완료되었습니다.')
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-                }
-            })
+            deleteEmployeeApi(employeeId)
         }
         useConfirm('정말로 삭제하시겠습니까?',onDelete)
     }

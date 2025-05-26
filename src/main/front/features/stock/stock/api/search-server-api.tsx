@@ -23,19 +23,22 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
         signal,
         cache:'no-cache'
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
         if (!text) return null;
         return JSON.parse(text);
 
-    }).catch(async (error) => {
-        if (error.name === 'AbortError') {
-            console.log('Fetch 요청이 시간초과되었습니다.');
-        }else  if (error instanceof Response) {
+    }).catch (async (error)=> {
+        if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -64,19 +67,22 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
             tags: ['stock'],
         }
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
         if (!text) return null;
         return JSON.parse(text);
 
-    }).catch(async (error) => {
-        if (error.name === 'AbortError') {
-            console.log('Fetch 요청이 시간초과되었습니다.');
-        }else  if (error instanceof Response) {
+    }).catch (async (error)=> {
+        if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -102,19 +108,22 @@ export async function getStockByIdApi(stockId: string) {
         body: JSON.stringify({stockId}),
         signal,
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
         if (!text) return null;
         return JSON.parse(text);
 
-    }).catch(async (error) => {
-        if (error.name === 'AbortError') {
-            console.log('Fetch 요청이 시간초과되었습니다.');
-        }else  if (error instanceof Response) {
+    }).catch (async (error)=> {
+        if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));

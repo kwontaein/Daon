@@ -1,4 +1,4 @@
-import { getCardTransactionfApi, getExpenseProofApi, getProcurementApi, getPurchaseVatApi, getSalesVATApi } from "../api/accountingSearchApi";
+import { getCardTransactionfApi, getExpenseProofApi, getProcurementApi, getPurchaseVatApi, getSalesVATApi } from "../api/search-server-api";
 
 export default async function accountingSearchAction(prevState, formData){
     const formState ={

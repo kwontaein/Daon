@@ -31,7 +31,9 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
             ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -41,6 +43,9 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -62,7 +67,9 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
             ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -72,6 +79,9 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -93,7 +103,9 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
             ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -103,6 +115,9 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -124,7 +139,9 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
             ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -134,6 +151,9 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -155,7 +175,9 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
             ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['procurementSettlement']} //1시간마다 재검증
         })
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -165,6 +187,9 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }

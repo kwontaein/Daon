@@ -1,6 +1,6 @@
 import EstimateHeader from "@/components/main/sales/estimate/form/estimate-header"
-import {getCompany} from "@/features/staff/company/api/company-api"
-import { getTaskApi } from "@/features/sales/task/api/taskApi"
+import {getCompany} from "@/features/staff/company/api/server-api"
+import { getTaskApi } from "@/features/sales/task/api/server-api"
 import { ResponseCompany } from "@/model/types/staff/company/type"
 import { EstimateRegisterProps } from "@/model/types/sales/estimate/type"
 import { ResponseTask } from "@/model/types/sales/task/type"
