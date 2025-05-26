@@ -231,12 +231,19 @@ export default function EmployeeForm({
                         </td>
                         <td colSpan={2} className="table-label">입사일</td>
                         <td colSpan={8}>
-                            <CustomDateInput name="joinDate" defaultValue={state.joinDate} readOnly={mode==='detail'}/>
-                            {state.formErrors?.joinDate &&
-                                <ErrorBox>
-                                    {state.formErrors.joinDate}
-                                </ErrorBox>
+                            {mode==='detail' ?
+                                <input value={dayjs(employee.joinDate).format('YYYY년 M월 D일')} readOnly/>
+                                :
+                                <>
+                                <CustomDateInput name="joinDate" defaultValue={state.joinDate}/>
+                                {state.formErrors?.joinDate &&
+                                    <ErrorBox>
+                                        {state.formErrors.joinDate}
+                                    </ErrorBox>
+                                }
+                                </>
                             }
+                            
                         </td>
                     </tr>
                     <tr>
@@ -327,11 +334,17 @@ export default function EmployeeForm({
                     <tr>
                         <td colSpan={2} className="table-label">생년월일</td>
                         <td colSpan={4}>
-                            <CustomDateInput name="birthday" defaultValue={state.birthday} readOnly={mode==='detail'}/>
-                            {state.formErrors?.birthday &&
-                                <ErrorBox>
-                                    {state.formErrors.birthday}
-                                </ErrorBox>
+                            {mode==='detail' ? 
+                                <input value={dayjs(employee.birthday).format('YYYY년 M월 D일')} readOnly/>
+                                :
+                                <>
+                                <CustomDateInput name="birthday" defaultValue={state.birthday}/>
+                                {state.formErrors?.birthday &&
+                                    <ErrorBox>
+                                        {state.formErrors.birthday}
+                                    </ErrorBox>
+                                }
+                                </>
                             }
                         </td>
                         <td colSpan={2} className="table-label">결혼여부</td>
