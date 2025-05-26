@@ -1,5 +1,5 @@
 import Dept from "@/components/main/staff/dept/dept";
-import { getDeptApi } from "@/features/staff/dept/api/deptApi";
+import { getDeptApi } from "@/features/staff/dept/api/server-api";
 import { PageByProps } from "@/model/types/share/type";
 
 

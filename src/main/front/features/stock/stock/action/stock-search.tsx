@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
-import { searchStockApi } from "../api/searchStockApi";
+import { searchStockApi } from "../api/search-server-api";
 
 
 export const initialStockState = {

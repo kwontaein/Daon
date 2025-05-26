@@ -7,9 +7,9 @@ import {ResponseEmployee, UserRoleEnum} from "@/model/types/staff/employee/type"
 import EmployeeDetailView from "@/components/main/staff/employee/detail-view";
 import EmployeeForm from "@/components/main/staff/employee/form/employee-form";
 import {Dept} from "@/model/types/staff/dept/type";
-import { getEmployeeDetailApi } from "@/features/staff/employee/api/employeeApi";
+import { getEmployeeDetailApi } from "@/features/staff/employee/api/server-api";
 import MobileModal from "@/components/share/mobile-modal/page";
-import { getDeptApi } from "@/features/staff/dept/api/deptApi";
+import { getDeptApi } from "@/features/staff/dept/api/server-api";
 import { getUserInfo } from "@/features/user/userApi";
 import { notFound } from "next/navigation";
 

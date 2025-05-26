@@ -1,5 +1,5 @@
 'use client'
-import { searchStockApi } from "@/features/stock/stock/api/searchStockApi";
+import { searchStockApi } from "@/features/stock/stock/api/search-server-api";
 import { StockSearchCondition } from "@/model/types/stock/stock/types";
 import { useModalState } from "@/store/zustand/modal";
 import { useEffect, useState } from "react";

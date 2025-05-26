@@ -19,7 +19,9 @@ export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
             credentials: 'include',
             body: JSON.stringify(searchCondition),
         });
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -29,6 +31,9 @@ export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -56,7 +61,9 @@ export async function getTaskApi(taskId: string) {
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -90,7 +97,9 @@ export async function getTasksApi() {
         signal,
         next: {revalidate: 3600, tags: ['task']} //1시간마다 재검증
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -124,7 +133,9 @@ export async function getAdminTasksApi() {
         signal,
         next: {revalidate: 3600, tags: ['adminTask']} //1시간마다 재검증
     }).then(async (response) => {
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         const text = await response.text();
 
@@ -156,13 +167,18 @@ export const saveTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });        await jwtFilter(response.status.toString());
+        });        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         return response.status;
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -182,7 +198,9 @@ export const updateTask = async (task: SaveTask) => {
             },
             credentials: 'include',
             body: JSON.stringify(task),
-        });        await jwtFilter(response.status.toString());
+        });        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         return response.status;
     } catch (error) {
@@ -190,36 +208,13 @@ export const updateTask = async (task: SaveTask) => {
             const { message } = await error.json();
             throw new Error(message);
         }
-        throw new Error('알 수 없는 오류가 발생했습니다.');
-    }
-}
-
-
-export const deleteTask = async (taskIds: string[]) => {
-
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
-
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                Cookie: cookie
-            },
-            credentials: 'include',
-            body: JSON.stringify({taskIds}),
-        });        await jwtFilter(response.status.toString());
-
-        return response.status;
-    } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
 }
+
 
 
 export const postTaskComplete = async (taskId: string, actionTaken: string) => {
@@ -237,13 +232,18 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
             credentials: 'include',
             body: JSON.stringify({taskId: taskId, actionTaken: actionTaken}),
         });        
-        await jwtFilter(response.status.toString());
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
         return response.status;
         
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }
@@ -264,13 +264,18 @@ export const updateTaskUserApi = async (taskId, assignedUser) => {
             },
             credentials: 'include',
             body: JSON.stringify({taskId, assignedUser}),
-        });        await jwtFilter(response.status.toString());
+        });        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
 
         return response.status;
     } catch (error) {
         if (error instanceof Response) {
             const { message } = await error.json();
             throw new Error(message);
+        }
+        if (error instanceof Error) {
+            throw error;
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }

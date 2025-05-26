@@ -35,8 +35,7 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
             if(state.status===200){
                 if(mode==='write'){
                     window.alert('물품을 등록했습니다.')
-                    isMobile ? window.history.back() : window.close()
-                    
+                    isMobile ? window.history.back() : window.close()       
                 }else{
                     window.alert('물품을 수정했습니다.')
                     changeModeHandler('detail')
@@ -50,7 +49,7 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
 
 
     return(
-        <section className="register-form-container">
+        <section className={`register-form-container ${mode==='detail' ? 'view-mode':''}`}>
             <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>물품등록</h4>
@@ -181,7 +180,8 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
                         {mode ==='write' && '저장하기'}
                     </button>
                     <button type='button' onClick={()=>{
-                        mode==='edit' ? changeModeHandler('detail') :(isMobile? window.history.back(): window.close())
+                        isMobile ? window.history.back():
+                        (mode==='edit' ? changeModeHandler('detail') : window.close())
                     }}>취소</button>
                 </div>
             </form>

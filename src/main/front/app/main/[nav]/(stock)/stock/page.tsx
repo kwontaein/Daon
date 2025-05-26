@@ -1,7 +1,7 @@
 import StockSearch from "@/components/main/stock/stock/search";
 import CustomLoading from "@/components/share/loading/loading";
-import { getStockCateApi } from "@/features/stock/category/api/stockCateApi";
-import { getStockListApi } from "@/features/stock/stock/api/searchStockApi";
+import { getStockCateApi } from "@/features/stock/category/api/server-api";
+import { getStockListApi } from "@/features/stock/stock/api/search-server-api";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 

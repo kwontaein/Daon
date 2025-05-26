@@ -1,7 +1,7 @@
 'use client'
 import '@/styles/options/options.scss';
 import { AccountingDivision } from '@/model/types/accounting/type';
-import { deleteAccountingApi } from '@/features/accounting/api/accountingFormApi';
+import { deleteAccountingApi } from '@/features/accounting/api/client-api';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 
@@ -27,13 +27,7 @@ export default function AccountingOptions({id, division,paidDate}:{id:string, di
 
     const deleteAccountingHandler = ()=>{
         const onDelete=()=>{
-            deleteAccountingApi(division,id).then((res)=>{
-                if(res ===200){
-                    window.alert('삭제가 완료되었습니다.')
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-                }
-            })
+            deleteAccountingApi(division,id)
         }
         useConfirm('정말로 삭제하시겠습니까?',onDelete)
     }
