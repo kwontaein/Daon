@@ -2,12 +2,12 @@
 import './total-buttons.scss';
 
 import { useConfirm } from '@/hooks/share/useConfirm';
-import { deleteReceiptApi } from '@/features/sales/receipt/api/receiptApi';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 import { useMemo, useReducer } from 'react';
 
 import ModalReceiptList from './modal-receipt-list';
+import { deleteReceiptApi } from '@/features/sales/receipt/api/client-api';
 
 
 
@@ -62,13 +62,8 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             window.alert('한 개 이상의 전표를 선택해주세요.')
             return
         }
-            const submit = async()=>{
-            const status =await deleteReceiptApi(selectList)
-            if(status===200){
-                window.alert('삭제가 완료되었습니다.')
-            }else{
-                window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-            }
+        const submit = async()=>{
+            await deleteReceiptApi(selectList)
         }
         useConfirm('선택한 전표를 삭제하시겠습니까?',submit)
     }

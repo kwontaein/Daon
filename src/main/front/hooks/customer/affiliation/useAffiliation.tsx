@@ -4,7 +4,8 @@ import {Affiliation} from "@/model/types/customer/affiliation/type";
 
 import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
-import { updateAffiliationApi, saveAffiliationApi, deleteAffiliationApi } from "@/features/customer/affiliation/api/customerCateApi";
+import { updateAffiliationApi, saveAffiliationApi } from "@/features/customer/affiliation/api/server-api";
+import { deleteAffiliationApi } from "@/features/customer/affiliation/api/client-api";
 
 export default function useAffiliation(InitAffiliation:Affiliation[]){
     const [affiliationState, setAffiliationState] = useState<Affiliation[]>(InitAffiliation)
@@ -61,7 +62,6 @@ export default function useAffiliation(InitAffiliation:Affiliation[]){
         const deleteRequest = ()=>{
             deleteAffiliationApi(cate).then((status)=>{
                 if(status === 200){
-                    window.alert('삭제가 완료되었습니다.')
                     setMode(null)
                 }
             })

@@ -1,6 +1,6 @@
 import ActionTaken from "@/components/main/sales/task/action-taken/action-taken";
 import ActionTakenContent from "@/components/main/sales/task/action-taken/content";
-import { getTaskApi } from "@/features/sales/task/api/taskApi";
+import { getTaskApi } from "@/features/sales/task/api/server-api";
 import { ResponseTask } from "@/model/types/sales/task/type";
 import { notFound } from "next/navigation";
 export default async function RegisterActionTaken({searchParams} : {

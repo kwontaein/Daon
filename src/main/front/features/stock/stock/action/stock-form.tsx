@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import { RequestStock } from "@/model/types/stock/stock/types";
-import { saveStockApi, updateStockApi } from "../api/stockFormApi";
+import { saveStockApi, updateStockApi } from "../api/form-server-api";
 
 
 function isInvalidText(text:string) {

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
-import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/receiptApi";
+import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/server-api";
 import { useConfirm } from "../../share/useConfirm";
 import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { ResponseOfficial } from "@/model/types/sales/official/type";

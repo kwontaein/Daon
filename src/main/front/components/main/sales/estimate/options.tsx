@@ -1,8 +1,9 @@
 'use client'
 import '@/styles/options/options.scss';
-import { deleteEstimate, transEstimateToReceiptApi } from '@/features/sales/estimate/api/estimateApi';
+import { transEstimateToReceiptApi } from '@/features/sales/estimate/api/server-api';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
+import { deleteEstimate } from '@/features/sales/estimate/api/client-api';
 
 export default function EstimateOptions({estimateId, receipted}:{estimateId:string, receipted:boolean}){
     const redirect = useRouterPath()
@@ -29,13 +30,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
 
     const deleteEstiamteHandler = ()=>{
         const onDelete =async()=>{
-            await deleteEstimate(estimateId).then((status)=>{
-                if(status===200){
-                    window.alert('삭제가 완료되었습니다.')
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-                }
-            })
+            await deleteEstimate(estimateId)
         }
         useConfirm('정말로 해당 견적서를 삭제하시겠습니까?', onDelete)
     }

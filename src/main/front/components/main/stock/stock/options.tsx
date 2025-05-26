@@ -1,10 +1,10 @@
 'use client'
 import '@/styles/options/options.scss';
-import { deleteStockApi } from '@/features/stock/stock/api/stockFormApi';
 import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { useModalState } from '@/store/zustand/modal';
 import { useRouter } from 'next/navigation';
+import { deleteStockApi } from '@/features/stock/stock/api/client-api';
 
 export default function StockOptions({stockId, productName, modelName} : {
     stockId: string,
@@ -24,8 +24,8 @@ export default function StockOptions({stockId, productName, modelName} : {
 
         if(window.innerWidth>620){
             const url = `/stock?${params.toString()}`;
-            const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes"; 
-            window.open(url, "PopupWindow", popupOptions);
+            const popupOptions = "width=600,height=400,scrollbars=yes,resizable=yes"; 
+            window.open(url, "stockView", popupOptions);
         }else{
             redirect(`stock?${params.toString()}`)
         }
@@ -33,13 +33,7 @@ export default function StockOptions({stockId, productName, modelName} : {
 
     const deleteStockHandler =()=>{
         const onDelete = ()=>{
-            deleteStockApi(stockId).then((status)=>{
-                if(status ===200){
-                    window.alert('삭제가 완료되었습니다.')
-                }else{
-                    window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
-                }
-            })
+            deleteStockApi(stockId)
         }
         useConfirm('정말로 해당 물품을 삭제하시겠습니까?', onDelete)
     }

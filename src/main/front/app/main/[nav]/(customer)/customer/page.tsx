@@ -1,7 +1,7 @@
 import CustomerSearch from "@/components/main/customer/search/search";
 import CustomLoading from "@/components/share/loading/loading";
-import { getAffiliation } from "@/features/customer/affiliation/api/customerCateApi";
-import { searchCustomersApi } from "@/features/customer/customer/api/searchCustomerApi";
+import { getAffiliation } from "@/features/customer/affiliation/api/server-api";
+import { searchCustomersApi } from "@/features/customer/customer/api/server-api";
 import { Affiliation } from "@/model/types/customer/affiliation/type";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";

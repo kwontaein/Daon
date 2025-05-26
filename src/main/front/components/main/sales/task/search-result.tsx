@@ -9,7 +9,7 @@ import  useCheckBoxState from '@/hooks/share/useCheckboxState'
 import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
-import { updateTaskUserApi } from '@/features/sales/task/api/taskApi'
+import { updateTaskUserApi } from '@/features/sales/task/api/server-api'
 import { useConfirm } from '@/hooks/share/useConfirm'
 import useRouterPath from '@/hooks/share/useRouterPath'
 
