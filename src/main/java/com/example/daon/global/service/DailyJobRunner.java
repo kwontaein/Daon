@@ -25,8 +25,10 @@ public class DailyJobRunner {
         System.out.println("매일 자정에 실행됩니다.");
         // 여기에 원하는 로직 실행
         DailyTotalEntity dailyTotalEntity =
-                dailyTotalRepository.findDailyTotalEntityByDate(LocalDate.now().minusDays(1)).orElseThrow(() -> new RuntimeException("기록이 남지 않았습니다."));
-
+                dailyTotalRepository.findDailyTotalEntityByDate(LocalDate.now().minusDays(1))
+                        .or(() -> dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(LocalDate.now().minusDays(1)))
+                        .orElseThrow(() -> new RuntimeException("기록이 존재하지 않습니다."));
+        
         dailyTotalRepository.save(new DailyTotalEntity(
                 null
                 , dailyTotalEntity.getBeforeTotal()
