@@ -13,6 +13,6 @@ export default async function RegisterEmployee(){
         notFound()
     }
     return(
-        <EmployeeForm dept={dept}/>
+        <EmployeeForm dept={dept} userInfo={userInfo} mode="write"/>
     )
 }
