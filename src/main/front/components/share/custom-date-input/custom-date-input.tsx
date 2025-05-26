@@ -116,6 +116,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                 className="custom-date"
                 type="date"
                 onClick={(e)=>{
+                    if(readOnly) return
                     e.preventDefault()
                     if (dateRef.current?.showPicker) {
                         dateRef.current.showPicker();
