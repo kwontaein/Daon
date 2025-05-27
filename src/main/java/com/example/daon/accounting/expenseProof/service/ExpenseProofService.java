@@ -53,7 +53,7 @@ public class ExpenseProofService {
         try {
             expenseProofRepository.deleteById(expenseProofRequest.getExpenseProofId());
         } catch (Exception e) {
-            throw new ResourceInUseException("매입부가세를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("지출증빙을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
 
     }
