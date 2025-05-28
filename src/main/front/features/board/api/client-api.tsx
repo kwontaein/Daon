@@ -1,13 +1,13 @@
 'use client'
 import jwtFilter from "@/features/share/jwtFilter";
 
- 
+
 //삭제 관련 api
 
 export async function deleteBoardApi(boardId: string) {
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteBoard`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -15,15 +15,15 @@ export async function deleteBoardApi(boardId: string) {
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
-        }else{
+        } else {
             window.alert('삭제가 완료되었습니다.')
         }
         return response.status
     } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {

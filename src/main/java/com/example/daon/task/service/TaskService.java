@@ -154,6 +154,7 @@ public class TaskService {
             }
             try {
                 taskRepository.deleteById(taskId);
+                taskRepository.flush();
             } catch (
                     DataIntegrityViolationException e) {
                 // 외래키 제약 조건 위반 처리

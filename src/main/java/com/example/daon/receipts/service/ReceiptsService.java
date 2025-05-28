@@ -200,6 +200,7 @@ public class ReceiptsService {
     public void deleteReceipts(List<UUID> ids) {
         try {
             receiptRepository.deleteAllById(ids);
+            receiptRepository.flush();
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("전표를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
