@@ -7,7 +7,7 @@ import { ResponseTask } from "@/model/types/sales/task/type"
 import { getUserInfo } from "@/features/user/userApi"
 import MobileModal from "@/components/share/mobile-modal/page"
 
-export default async function RegisterEstimatePage({searchParams}:EstimateRegisterProps){
+export default async function RegisterTaskEstimatePage({searchParams}:EstimateRegisterProps){
     const taskId = (await searchParams).taskId ||''
 
     const companyList:ResponseCompany[] = await getCompany()
