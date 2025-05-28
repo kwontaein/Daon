@@ -381,6 +381,7 @@ public class LedgerService {
         cq.orderBy(cb.asc(currentBalance)); // 필요 시
 
         // 6) 최종 쿼리 실행
+        System.out.println(em.createQuery(cq).getResultList());
         return em.createQuery(cq).getResultList();
     }
 

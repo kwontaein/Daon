@@ -1,6 +1,6 @@
 'use client'
 import jwtFilter from "@/features/share/jwtFilter";
-
+ 
 
 //삭제 관련 api
 
@@ -15,9 +15,9 @@ export async function deleteBoardApi(boardId: string) {
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        if (!response.ok) {
+        if(!response.ok){
             jwtFilter(response.status.toString());
-        } else {
+        }else{
             window.alert('삭제가 완료되었습니다.')
         }
         return response.status
