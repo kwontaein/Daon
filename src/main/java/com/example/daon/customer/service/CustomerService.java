@@ -19,6 +19,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -102,12 +103,14 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteCustomers(CustomerRequest request) {
+        System.out.println("실행 삭제");
         try {
             customerRepository.deleteById(request.getCustomerId());
+            // flush를 강제로 시도
+            customerRepository.flush();
         } catch (DataIntegrityViolationException e) {
-            // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("고객을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }

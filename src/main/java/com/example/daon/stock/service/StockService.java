@@ -138,6 +138,7 @@ public class StockService {
     public void deleteStockCate(StockCateRequest stockCateRequest) {
         try {
             stockCateRepository.deleteById(stockCateRequest.getStockCateId());
+            stockCateRepository.flush();
         } catch (
                 DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리

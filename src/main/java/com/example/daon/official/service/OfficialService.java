@@ -35,6 +35,7 @@ public class OfficialService {
     public void deleteOfficial(OfficialRequest request) {
         try {
             officialRepository.deleteById(request.getOfficialId());
+            officialRepository.flush();
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("견적서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
