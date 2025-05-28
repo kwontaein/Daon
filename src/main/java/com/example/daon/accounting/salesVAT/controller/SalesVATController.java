@@ -38,8 +38,8 @@ public class SalesVATController {
         return salesVATService.getSalesVAT(salesVATRequest);
     }
 
-    @PostMapping("api/paidSalesVAT")
-    public void paidSalesVAT(@RequestBody SalesVATRequest salesVATRequest) {
-        salesVATService.paidSalesVAT(salesVATRequest);
+    @PostMapping("api/salesVATPaid")
+    public void salesVATPaid(@RequestBody SalesVATRequest salesVATRequest) {
+        salesVATService.salesVATPaid(salesVATRequest);
     }
 }

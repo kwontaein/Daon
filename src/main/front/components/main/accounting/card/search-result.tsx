@@ -10,7 +10,7 @@ import AccountingOptions from '../options';
 import dayjs from 'dayjs';
 import {useScreenMode} from '@/hooks/share/useScreenMode';
 
-export default function CardSaerchResult({cardTransaction}: { cardTransaction: CardTransaction[] }) {
+export default function CardSearchResult({cardTransaction}: { cardTransaction: CardTransaction[] }) {
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const {itemsRef, target, setTarget} = useItemSelection<string>(true);
     const mode = useScreenMode({tabletSize: 846, mobileSize: 620})
@@ -54,52 +54,54 @@ export default function CardSaerchResult({cardTransaction}: { cardTransaction: C
                     </thead>
                     {mode === 'pc' ?
                         <tbody>
-                        {cardTransaction.map((expenseProof) => (
-                            <tr key={expenseProof.cardTransactionId} ref={(el) => {
-                                itemsRef.current[expenseProof.cardTransactionId] = el
-                            }} className={target === expenseProof.cardTransactionId ? 'is-click' : ''}>
-                                <td>{expenseProof.categorySelection}</td>
-                                <td>{dayjs(expenseProof.date).format('YY.MM.DD')}</td>
-                                <td className='left-align'>{expenseProof.customerName}</td>
-                                <td>{expenseProof.cardCompany}</td>
-                                <td className='right-align'>{expenseProof.amount.toLocaleString('ko-KR')}</td>
-                                <td className='right-align'>{expenseProof.vat.toLocaleString('ko-KR')}</td>
-                                <td className='right-align'>{expenseProof.total.toLocaleString('ko-KR')}</td>
-                                <td>{expenseProof.note}</td>
+                        {cardTransaction.map((cardTransaction) => (
+                            <tr key={cardTransaction.cardTransactionId} ref={(el) => {
+                                itemsRef.current[cardTransaction.cardTransactionId] = el
+                            }} className={target === cardTransaction.cardTransactionId ? 'is-click' : ''}>
+                                <td>{cardTransaction.categorySelection}</td>
+                                <td>{dayjs(cardTransaction.date).format('YY.MM.DD')}</td>
+                                <td className='left-align'>{cardTransaction.customerName}</td>
+                                <td>{cardTransaction.cardCompany}</td>
+                                <td className='right-align'>{cardTransaction.amount.toLocaleString('ko-KR')}</td>
+                                <td className='right-align'>{cardTransaction.vat.toLocaleString('ko-KR')}</td>
+                                <td className='right-align'>{cardTransaction.total.toLocaleString('ko-KR')}</td>
+                                <td>{cardTransaction.note}</td>
                                 <td className='icon'
-                                    onClick={() => target === expenseProof.cardTransactionId ? setTarget(null) : setTarget(expenseProof.cardTransactionId)}>
+                                    onClick={() => target === cardTransaction.cardTransactionId ? setTarget(null) : setTarget(cardTransaction.cardTransactionId)}>
                                     <MemoizedFontAwesomeIcon icon={faEllipsis}
-                                                             style={target === expenseProof.cardTransactionId && {color: 'orange'}}/>
-                                    {target === expenseProof.cardTransactionId &&
-                                        <AccountingOptions id={expenseProof.cardTransactionId} division='card'/>}
+                                                             style={target === cardTransaction.cardTransactionId && {color: 'orange'}}/>
+                                    {target === cardTransaction.cardTransactionId &&
+                                        <AccountingOptions paidDate={cardTransaction.paidDate}
+                                                           id={cardTransaction.cardTransactionId} division='card'/>}
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                         :
-                        cardTransaction.map((expenseProof) => (
-                            <tbody key={expenseProof.cardTransactionId} ref={(el) => {
-                                itemsRef.current[expenseProof.cardTransactionId] = el
-                            }} className={target === expenseProof.cardTransactionId ? 'is-click' : ''}>
+                        cardTransaction.map((cardTransaction) => (
+                            <tbody key={cardTransaction.cardTransactionId} ref={(el) => {
+                                itemsRef.current[cardTransaction.cardTransactionId] = el
+                            }} className={target === cardTransaction.cardTransactionId ? 'is-click' : ''}>
                             <tr>
-                                <td rowSpan={2}>{expenseProof.categorySelection}</td>
-                                <td rowSpan={2}>{dayjs(expenseProof.date).format('YY.MM.DD')}</td>
-                                <td>{expenseProof.customerName}</td>
-                                <td className='right-align'>{expenseProof.amount.toLocaleString('ko-KR')}</td>
+                                <td rowSpan={2}>{cardTransaction.categorySelection}</td>
+                                <td rowSpan={2}>{dayjs(cardTransaction.date).format('YY.MM.DD')}</td>
+                                <td>{cardTransaction.customerName}</td>
+                                <td className='right-align'>{cardTransaction.amount.toLocaleString('ko-KR')}</td>
                                 <td rowSpan={2}
-                                    className='right-align'>{expenseProof.total.toLocaleString('ko-KR')}</td>
-                                <td rowSpan={2}>{expenseProof.note}</td>
+                                    className='right-align'>{cardTransaction.total.toLocaleString('ko-KR')}</td>
+                                <td rowSpan={2}>{cardTransaction.note}</td>
                                 <td rowSpan={2} className='icon'
-                                    onClick={() => target === expenseProof.cardTransactionId ? setTarget(null) : setTarget(expenseProof.cardTransactionId)}>
+                                    onClick={() => target === cardTransaction.cardTransactionId ? setTarget(null) : setTarget(cardTransaction.cardTransactionId)}>
                                     <MemoizedFontAwesomeIcon icon={faEllipsis}
-                                                             style={target === expenseProof.cardTransactionId && {color: 'orange'}}/>
-                                    {target === expenseProof.cardTransactionId &&
-                                        <AccountingOptions id={expenseProof.cardTransactionId} division='pvat'/>}
+                                                             style={target === cardTransaction.cardTransactionId && {color: 'orange'}}/>
+                                    {target === cardTransaction.cardTransactionId &&
+                                        <AccountingOptions paidDate={cardTransaction.paidDate}
+                                                           id={cardTransaction.cardTransactionId} division='pvat'/>}
                                 </td>
                             </tr>
                             <tr>
-                                <td>{expenseProof.cardCompany}</td>
-                                <td className='right-align'>{expenseProof.vat.toLocaleString('ko-KR')}</td>
+                                <td>{cardTransaction.cardCompany}</td>
+                                <td className='right-align'>{cardTransaction.vat.toLocaleString('ko-KR')}</td>
                             </tr>
                             </tbody>
                         ))}

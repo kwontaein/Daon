@@ -14,11 +14,11 @@ import {
 import {ResponseCompany} from '@/model/types/staff/company/type';
 import '@/styles/table-style/search.scss';
 import {JSX, startTransition, useActionState, useEffect, useMemo, useRef, useState} from 'react';
-import SVATSaerchResult from './svat/search-result';
-import PVATSaerchResult from './pvat/search-result';
-import PsetSaerchResult from './pset/search-result';
-import ProofSaerchResult from './proof/search-result';
-import CardSaerchResult from './card/search-result';
+import SVATSearchResult from './svat/search-result';
+import PVATSearchResult from './pvat/search-result';
+import PsetSearchResult from './pset/search-result';
+import ProofSearchResult from './proof/search-result';
+import CardSearchResult from './card/search-result';
 import Pagination from '@/components/share/pagination';
 import {
     getCardTransactionfApi,
@@ -36,11 +36,11 @@ import {exportProofToExcel} from "@/components/main/accounting/proof/exportProof
 import {exportCardTransactionToExcel} from "@/components/main/accounting/card/exportCardTransactionToExcel";
 
 const resultComponentMap: Record<string, (data: UnionAccountingType[]) => JSX.Element> = {
-    svat: data => <SVATSaerchResult salesVATList={data as SalesVAT[]}/>,
-    pvat: data => <PVATSaerchResult purchaseVATList={data as PurchaseVAT[]}/>,
-    pset: data => <PsetSaerchResult procurements={data as ProcurementSettlement[]}/>,
-    proof: data => <ProofSaerchResult expenseProofs={data as ExpenseProof[]}/>,
-    card: data => <CardSaerchResult cardTransaction={data as CardTransaction[]}/>,
+    svat: data => <SVATSearchResult salesVATList={data as SalesVAT[]}/>,
+    pvat: data => <PVATSearchResult purchaseVATList={data as PurchaseVAT[]}/>,
+    pset: data => <PsetSearchResult procurements={data as ProcurementSettlement[]}/>,
+    proof: data => <ProofSearchResult expenseProofs={data as ExpenseProof[]}/>,
+    card: data => <CardSearchResult cardTransaction={data as CardTransaction[]}/>,
 };
 
 const apiMap: Record<string, () => Promise<UnionAccountingType[]>> = {

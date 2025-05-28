@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,8 +39,8 @@ public class ReceiptsService {
     private final CustomerRepository customerRepository;
     private final OfficialRepository officialRepository;
     private final StockRepository stockRepository;
-    private final DailyTotalRepository dailyTotalRepository;
     private final GlobalService globalService;
+    private final DailyTotalRepository dailyTotalRepository;
 
 
     public List<ReceiptResponse> getReceipts(ReceiptCategory category, LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
@@ -87,17 +86,18 @@ public class ReceiptsService {
      * 전표 저장 및 수정 공통 로직
      */
     private void saveOrUpdateReceipt(ReceiptRequest request) {
+        //견적서 정보
         EstimateEntity entity = null;
-        //고객 및 견적서 정보를 찾아서
         if (request.getEstimateId() != null) {
             entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
         }
 
+        //고객 정보
         CustomerEntity customer = null;
         if (request.getCustomerId() != null) {
             customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
         }
-
+        //물품 정보
         StockEntity stock = null;
         OfficialEntity official = null;
 
@@ -106,6 +106,7 @@ public class ReceiptsService {
             stock.setQuantity(stock.getQuantity());
         }
 
+        //관리비 정보
         if (request.getOfficialId() != null) {
             official = officialRepository.findById(request.getOfficialId()).orElse(null);
         }
@@ -113,8 +114,10 @@ public class ReceiptsService {
         if (request.getReceiptId() != null) {
             ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
             if (receiptEntity != null) {
+                //todo 전표로 검색되는 카드결제내역 / 매출부가세 / 지출증빙 같이 업데이트
+
                 // 기존 총합 롤백
-                updateDailyTotal(receiptEntity.getTotalPrice().negate(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
+                globalService.updateDailyTotal(receiptEntity.getTotalPrice().negate(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
 
                 // ✅ 기존 수량 롤백
                 if (stock != null && receiptEntity.getQuantity() != null) {
@@ -122,7 +125,7 @@ public class ReceiptsService {
                 }
 
                 // 총합 업데이트
-                updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
+                globalService.updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
 
                 receiptEntity.updateFromRequest(request, customer, stock);
 
@@ -148,7 +151,7 @@ public class ReceiptsService {
         //그리고 저장
         ReceiptEntity receiptEntity = receiptRepository.save(receipt);
         //새로운 값 더하기
-        updateDailyTotal(receiptEntity.getTotalPrice(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
+        globalService.updateDailyTotal(receiptEntity.getTotalPrice(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
         request.setReceiptId(receiptEntity.getReceiptId());
     }
 
@@ -179,7 +182,7 @@ public class ReceiptsService {
     }
 
     /**
-     * 전표 저장 및 수정 (단일 객체)
+     * 전표 수정 (단일 객체)
      */
     public void updateReceipt(List<ReceiptRequest> requests) {
         for (ReceiptRequest request : requests) {
@@ -188,7 +191,7 @@ public class ReceiptsService {
     }
 
     /**
-     * 전표 저장 및 수정 (여러 객체)
+     * 전표 저장 (여러 객체)
      */
     public void saveReceipt(List<ReceiptRequest> requests) {
         for (ReceiptRequest request : requests) {
@@ -199,6 +202,19 @@ public class ReceiptsService {
 
     public void deleteReceipts(List<UUID> ids) {
         try {
+            List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
+                // 동적 조건을 조합하여 반환
+                List<Predicate> predicates = new ArrayList<>();
+                
+                predicates.add(root.get("receiptId").in(ids));
+
+                return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            });
+
+            for (ReceiptEntity receipt : receiptEntities) {
+                globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
+            }
+
             receiptRepository.deleteAllById(ids);
             receiptRepository.flush();
         } catch (DataIntegrityViolationException e) {
@@ -230,51 +246,6 @@ public class ReceiptsService {
         return dailyTotalEntity;
     }
 
-    //일일정산 업데이트
-    public void updateDailyTotal(BigDecimal count, ReceiptCategory category, LocalDateTime date) {
-        //+전일잔고 -매입액 +매출액 -수금액 +지급액 -관리비 = 잔액
-        DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
-
-        if (dailyTotalEntity == null) {
-            DailyTotalEntity resentDailyTotalEntity = dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(date.toLocalDate()).orElseThrow(null);
-            dailyTotalEntity = new DailyTotalEntity(
-                    null,
-                    resentDailyTotalEntity.getRemainTotal(),
-                    LocalDate.now(),
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    BigDecimal.ZERO,
-                    resentDailyTotalEntity.getRemainTotal());
-        }
-
-        switch (category) {
-            case SALES, SALES_DISCOUNT -> dailyTotalEntity.setSales(dailyTotalEntity.getSales().add(count));
-            case PURCHASE, PURCHASE_DISCOUNT -> dailyTotalEntity.setPurchase(dailyTotalEntity.getPurchase().add(count));
-            case DEPOSIT -> dailyTotalEntity.setDeposit(dailyTotalEntity.getDeposit().add(count));
-            case WITHDRAWAL -> dailyTotalEntity.setWithdrawal(dailyTotalEntity.getWithdrawal().add(count));
-            case MAINTENANCE_FEE, OPERATING_PROFIT ->
-                    dailyTotalEntity.setOfficial(dailyTotalEntity.getOfficial().add(count));
-        }
-
-        BigDecimal sales = dailyTotalEntity.getBeforeTotal();
-        BigDecimal purchase = dailyTotalEntity.getBeforeTotal();
-        BigDecimal deposit = dailyTotalEntity.getBeforeTotal();
-        BigDecimal withdrawal = dailyTotalEntity.getBeforeTotal();
-        BigDecimal official = dailyTotalEntity.getBeforeTotal();
-        //현잔액 = 전일잔액 + 나머지
-        BigDecimal total = dailyTotalEntity.getBeforeTotal()
-                .add(sales)
-                .add(purchase)
-                .add(deposit)
-                .add(withdrawal)
-                .add(official);
-
-        dailyTotalEntity.setRemainTotal(total);
-
-        dailyTotalRepository.save(dailyTotalEntity);
-    }
 
     public List<ReceiptResponse> getReceiptsById(List<UUID> receiptIds) {
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {

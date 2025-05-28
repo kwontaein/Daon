@@ -206,7 +206,9 @@ public class LedgerService {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
-            predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
+            if (ledgerRequest.getStockCate() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
+            }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

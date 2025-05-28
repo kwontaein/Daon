@@ -10,8 +10,8 @@ import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import {initialLedgertState, ledgerSearchAction} from '@/features/ledger/actions/ledgerSearchAction';
 import {ResponseStock} from '@/model/types/stock/stock/types';
 import useSearchStock from '@/hooks/stock/search/useSearchStock';
-import LedgerEtcSearchResult from './saerch-result';
 import {exportLedgerEtcToExcel} from "@/components/main/ledger/ledger-etc/exportEtcLedgerToExcel";
+import LedgerEtcSearchResult from "./search-result";
 
 export default function LedgerEtcSearch({affiliations, stockCates}: {
     affiliations: Affiliation[],
@@ -193,11 +193,13 @@ export default function LedgerEtcSearch({affiliations, stockCates}: {
                                 <button type='button'
                                         onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                 </button>
-                                <button type='button' disabled={searchInfo.searchResult.length===0}
+                                <button type='button' disabled={searchInfo.searchResult.length === 0}
                                         onClick={() => exportLedgerEtcToExcel(searchInfo.searchResult, searchInfo.searchTitle)}
                                 >엑 셀 변 환
                                 </button>
-                                <button type='button' disabled={searchInfo.searchResult.length===0} onClick={()=>window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄</button>
+                                <button type='button' disabled={searchInfo.searchResult.length === 0}
+                                        onClick={() => window.print()}>인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;쇄
+                                </button>
                             </div>
                         </td>
                     </tr>
