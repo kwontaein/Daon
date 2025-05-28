@@ -36,7 +36,10 @@ import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.ledger.dto.response.LedgerResponse;
 import com.example.daon.ledger.dto.response.StockLedgerResponse;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
+import com.example.daon.receipts.model.DailyTotalEntity;
+import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
+import com.example.daon.receipts.repository.DailyTotalRepository;
 import com.example.daon.stock.dto.response.StockResponse;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.task.dto.response.AssignedUser;
@@ -51,6 +54,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -60,6 +65,7 @@ public class GlobalService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DailyTotalRepository dailyTotalRepository;
 
     /**
      * SecurityContext 에서 유저 정보 추출하는 메소드
@@ -507,5 +513,51 @@ public class GlobalService {
                 .roleType(user.getUserRole())
                 .deptName(user.getDept().getDeptName())
                 .build();
+    }
+
+    //일일정산 업데이트
+    public void updateDailyTotal(BigDecimal count, ReceiptCategory category, LocalDateTime date) {
+        //+전일잔고 -매입액 +매출액 -수금액 +지급액 -관리비 = 잔액
+        DailyTotalEntity dailyTotalEntity = dailyTotalRepository.findDailyTotalEntityByDate(date.toLocalDate()).orElse(null);
+
+        if (dailyTotalEntity == null) {
+            DailyTotalEntity resentDailyTotalEntity = dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(date.toLocalDate()).orElseThrow(null);
+            dailyTotalEntity = new DailyTotalEntity(
+                    null,
+                    resentDailyTotalEntity.getRemainTotal(),
+                    LocalDate.now(),
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    BigDecimal.ZERO,
+                    resentDailyTotalEntity.getRemainTotal());
+        }
+
+        switch (category) {
+            case SALES, SALES_DISCOUNT -> dailyTotalEntity.setSales(dailyTotalEntity.getSales().add(count));
+            case PURCHASE, PURCHASE_DISCOUNT -> dailyTotalEntity.setPurchase(dailyTotalEntity.getPurchase().add(count));
+            case DEPOSIT -> dailyTotalEntity.setDeposit(dailyTotalEntity.getDeposit().add(count));
+            case WITHDRAWAL -> dailyTotalEntity.setWithdrawal(dailyTotalEntity.getWithdrawal().add(count));
+            case MAINTENANCE_FEE, OPERATING_PROFIT ->
+                    dailyTotalEntity.setOfficial(dailyTotalEntity.getOfficial().add(count));
+        }
+
+        BigDecimal sales = dailyTotalEntity.getBeforeTotal();
+        BigDecimal purchase = dailyTotalEntity.getBeforeTotal();
+        BigDecimal deposit = dailyTotalEntity.getBeforeTotal();
+        BigDecimal withdrawal = dailyTotalEntity.getBeforeTotal();
+        BigDecimal official = dailyTotalEntity.getBeforeTotal();
+        //현잔액 = 전일잔액 + 나머지
+        BigDecimal total = dailyTotalEntity.getBeforeTotal()
+                .add(sales)
+                .add(purchase)
+                .add(deposit)
+                .add(withdrawal)
+                .add(official);
+
+        dailyTotalEntity.setRemainTotal(total);
+
+        dailyTotalRepository.save(dailyTotalEntity);
     }
 }

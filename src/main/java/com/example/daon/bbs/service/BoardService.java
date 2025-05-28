@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -39,20 +40,22 @@ public class BoardService {
     public List<BoardResponse> getBoard() {
         List<BoardEntity> boardEntities = boardRepository.findAll();
 
-        return boardEntities.stream().map(board -> {
-            BoardResponse boardResponse = globalService.convertToBoardResponse(board);
-            List<FileResponse> fileResponses = board.getFiles().stream()
-                    .map(globalService::convertToFileResponse)
-                    .collect(Collectors.toList());
-            boardResponse.setFiles(fileResponses);
-            return boardResponse;
-        }).collect(Collectors.toList());
+        return boardEntities.stream()
+                .sorted(Comparator.comparing(BoardEntity::isNotice).reversed()) // ✅ 공지 먼저 정렬
+                .map(board -> {
+                    BoardResponse boardResponse = globalService.convertToBoardResponse(board);
+                    List<FileResponse> fileResponses = board.getFiles().stream()
+                            .map(globalService::convertToFileResponse)
+                            .collect(Collectors.toList());
+                    boardResponse.setFiles(fileResponses);
+                    return boardResponse;
+                })
+                .collect(Collectors.toList());
     }
 
 
     @Transactional
     public void saveBoard(BoardRequest boardRequest) throws IOException {
-        System.out.println(boardRequest.getContent());
         // 1. 게시글 저장
         BoardEntity boardEntity = boardRepository.save(boardRequest.toEntity());
 
@@ -62,6 +65,7 @@ public class BoardService {
         for (MultipartFile file : files) {
             saveOneFile(file, boardEntity);  // 별도 메서드로 트랜잭션 묶기
         }
+        boardRequest.setBoardId(boardEntity.getBoardId());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -91,7 +95,6 @@ public class BoardService {
 
     @Transactional
     public void updateBoard(BoardRequest boardRequest) throws IOException {
-        System.out.println("boardRequest : " + boardRequest);
         UUID boardId = boardRequest.getBoardId();
 
         // 1. 게시글 가져오기

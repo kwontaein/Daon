@@ -54,6 +54,8 @@ public class SalesVATRequest {
     private LocalDate searchEDate;
     private String customerName;
 
+    private UUID receiptId;
+
     public SalesVATEntity toSalesVATEntity(CustomerEntity customer) {
         return SalesVATEntity
                 .builder()

@@ -49,7 +49,7 @@ public class CustomerController {
         customerService.updateCustomer(customerRequest);
     }
 
-    @PostMapping("api/deleteCustomers")
+    @PostMapping("api/deleteCustomer")
     public void deleteCustomers(@RequestBody CustomerRequest customerRequest) {
         customerService.deleteCustomers(customerRequest);
     }

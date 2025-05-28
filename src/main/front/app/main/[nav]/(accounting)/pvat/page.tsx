@@ -1,4 +1,4 @@
-import PVATSaerchResult from "@/components/main/accounting/pvat/search-result";
+import PVATSearchResult from "@/components/main/accounting/pvat/search-result";
 import AccountingSearch from "@/components/main/accounting/search";
 import {getPurchaseVatApi} from "@/features/accounting/api/search-server-api";
 import {getCompany} from "@/features/staff/company/api/server-api";

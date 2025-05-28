@@ -91,7 +91,7 @@ public class ExpenseProofService {
                     null,
                     null,
                     LocalDateTime.now(),
-                    ReceiptCategory.SALES,
+                    ReceiptCategory.DEPOSIT,
                     expenseProofEntity.getCustomerId(),
                     null,
                     null,
@@ -102,8 +102,12 @@ public class ExpenseProofService {
                     FromCategory.SALES));
             expenseProofEntity.setReceiptId(receipt.getReceiptId());
             expenseProofEntity.setPaidDate(LocalDate.now());
+            globalService.updateDailyTotal(receipt.getTotalPrice(), receipt.getCategory(), receipt.getTimeStamp());
         } else {
+            ReceiptEntity receipt = receiptRepository.findById(expenseProofEntity.getReceiptId()).orElseThrow(() -> new RuntimeException("전표가 존재하지 않습니다."));
+            globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
             receiptRepository.deleteById(expenseProofEntity.getReceiptId());
+            expenseProofRequest.setReceiptId(expenseProofEntity.getReceiptId());
             expenseProofEntity.setReceiptId(null);
             expenseProofEntity.setPaidDate(null);
         }

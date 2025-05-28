@@ -3,6 +3,7 @@ package com.example.daon.estimate.model;
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.estimate.dto.request.EstimateRequest;
 import com.example.daon.task.model.TaskEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -77,7 +78,7 @@ public class EstimateEntity {
     /**
      * 전체 필드 업데이트
      */
-    public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user) {
+    public void updateFields(CustomerEntity customer, CompanyEntity company, UserEntity user, EstimateRequest estimateRequest) {
         if (customer != null) {
             this.customer = customer;
         }
@@ -87,6 +88,7 @@ public class EstimateEntity {
         if (user != null) {
             this.user = user;
         }
+        this.estimateDate = estimateRequest.getEstimateDate().atStartOfDay();
         // 금액 재계산
         recalculateTotalAmount();
     }

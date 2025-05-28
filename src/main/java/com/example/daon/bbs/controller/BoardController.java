@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,7 +32,6 @@ public class BoardController {
             @RequestPart("board") String boardJson,
             @RequestPart(value = "files", required = false) List<MultipartFile> files
     ) {
-
         try {
             ObjectMapper mapper = new ObjectMapper();
             BoardRequest boardRequest = mapper.readValue(boardJson, BoardRequest.class);
@@ -40,6 +40,8 @@ public class BoardController {
             // ✅ files가 null이 아닐 때만 넣어줌
             if (files != null && !files.isEmpty()) {
                 boardRequest.setFiles(files);
+            } else {
+                boardRequest.setFiles(Collections.emptyList()); // 빈 리스트라도 넣어준다
             }
 
             boardService.saveBoard(boardRequest);

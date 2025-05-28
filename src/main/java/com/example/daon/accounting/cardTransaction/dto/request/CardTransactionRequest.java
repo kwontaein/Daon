@@ -53,6 +53,7 @@ public class CardTransactionRequest {
     private LocalDate searchEDate;
     private String customerName;
 
+    private UUID receiptId;
 
     public CardTransactionEntity toCardTransactionEntity(CustomerEntity customer) {
         return CardTransactionEntity

@@ -9,25 +9,25 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import BoardAction from '@/features/board/actions/boardActions';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
-import { ResponseBoard } from '@/model/types/board/type';
+import {ResponseBoard} from '@/model/types/board/type';
 
-export default function RegisterBoard({initialBoard, mode}:{initialBoard:ResponseBoard, mode:'write'|'edit'}) {
+export default function RegisterBoard({initialBoard, mode}: { initialBoard: ResponseBoard, mode: 'write' | 'edit' }) {
     const {user} = useUserInformation()
     const [files, setFiles] = useState<File[]>([]);
     const fileInputRef = useRef(null);
     const formRef = useRef(null)
 
-    const [state, action, isPending] = useActionState(BoardAction, { email:user.email,...initialBoard ?? {}})
-    const [initialFiles, setInitialFiles] = useState(initialBoard?.files??[])
+    const [state, action, isPending] = useActionState(BoardAction, {email: user.email, ...initialBoard ?? {}})
+    const [initialFiles, setInitialFiles] = useState(initialBoard?.files ?? [])
     const router = useRouter()
     const searchParams = useSearchParams();
     const pathname = usePathname();
-  
-    const deleteMode = ()=>{
-        const params = new URLSearchParams(searchParams.toString()); 
-        params.delete("mode"); 
-      // 기존 pathname 유지
-        router.push(`${pathname}?${params.toString()}`); 
+
+    const deleteMode = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("mode");
+        // 기존 pathname 유지
+        router.push(`${pathname}?${params.toString()}`);
     }
 
     const handleButtonClick = () => {
@@ -61,33 +61,34 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
         });
     }
 
-    useEffect(()=>{
-        if(state.status){
-            if(state.status===200){
-                if(mode === 'write'){
+    useEffect(() => {
+        if (state.status) {
+            if (state.status === 200) {
+                if (mode === 'write') {
                     window.alert('저장이 완료되었습니다.')
                     router.replace('/main/board/board')
-                }else if(mode ==='edit'){
+                } else if (mode === 'edit') {
                     window.alert('수정 완료되었습니다.')
                     deleteMode()
                 }
-            }else{
+            } else {
                 window.alert('알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
             }
         }
-    },[state])
+    }, [state])
 
     return (
         <section style={{maxWidth: '700px', width: '100%'}}>
             <form action={action} ref={formRef}>
-                <table className='register-form-table' style={{fontSize: '1rem', marginTop: '1rem', tableLayout:'fixed'}}>
+                <table className='register-form-table'
+                       style={{fontSize: '1rem', marginTop: '1rem', tableLayout: 'fixed'}}>
                     <colgroup>
-                        <col style={{width: '10%', minWidth:'80px'}}/>
+                        <col style={{width: '10%', minWidth: '80px'}}/>
                         <col style={{width: '30%'}}/>
                         <col style={{width: '10%'}}/>
-                        <col style={{width: '10%', minWidth:'80px'}}/>
+                        <col style={{width: '10%', minWidth: '80px'}}/>
                         <col style={{width: '30%'}}/>
-                        <col style={{width: '10%', minWidth:'80px'}}/>
+                        <col style={{width: '10%', minWidth: '80px'}}/>
                     </colgroup>
                     <thead></thead>
                     <tbody>
@@ -98,7 +99,8 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
                                 <input
                                     type='checkbox'
                                     name='notice'
-                                    defaultChecked={state.notice ?? false}
+                                    value='notice'
+                                    defaultChecked={state.notice === 'notice'}
                                     style={{width: 'fit-content', marginRight: '5px'}}/>
                                 <p>* 게시판 상단에 위치하도록 게시판 공지글로 지정합니다.</p>
                             </div>
@@ -141,17 +143,21 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
                             <div className='file-container'>
                                 <div className='upload-area'>
                                     <div className='file-list'>
-                                        {initialFiles.map((file,idx)=>(
-                                            <div className='file-item' key={'initialFiles'+idx}>
-                                            <div className='file-name-container' title={file.originalName}>{file.originalName}</div>
-                                            <input type='hidden' name='existingFileIds' value={file.fileId} readOnly/>
-                                            <button onClick={() => setInitialFiles((prev)=>prev.filter(({originalName})=>originalName!==file.originalName))} className='removeBtn'>
-                                                <FontAwesomeIcon icon={faXmark}/>
-                                            </button>
-                                        </div>
+                                        {initialFiles.map((file, idx) => (
+                                            <div className='file-item' key={'initialFiles' + idx}>
+                                                <div className='file-name-container'
+                                                     title={file.originalName}>{file.originalName}</div>
+                                                <input type='hidden' name='existingFileIds' value={file.fileId}
+                                                       readOnly/>
+                                                <button
+                                                    onClick={() => setInitialFiles((prev) => prev.filter(({originalName}) => originalName !== file.originalName))}
+                                                    className='removeBtn'>
+                                                    <FontAwesomeIcon icon={faXmark}/>
+                                                </button>
+                                            </div>
                                         ))}
                                         {files.map((file, idx) => (
-                                            <div className='file-item' key={'files'+idx}>
+                                            <div className='file-item' key={'files' + idx}>
                                                 <div className='file-name-container' title={file.name}>{file.name}</div>
                                                 <button onClick={() => removeFile(idx)} className='removeBtn'>
                                                     <FontAwesomeIcon icon={faXmark}/>
@@ -159,7 +165,7 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
                                             </div>
                                         ))}
                                     </div>
-                                    {(files.length === 0 && initialFiles.length===0) &&
+                                    {(files.length === 0 && initialFiles.length === 0) &&
                                         <div>
                                             첨부된 파일이 없습니다.
                                         </div>
@@ -168,11 +174,11 @@ export default function RegisterBoard({initialBoard, mode}:{initialBoard:Respons
                             </div>
                         </td>
                         <td>
-                            <button type='button' onClick={handleButtonClick} style={{width:'100%'}}>파일 첨부
+                            <button type='button' onClick={handleButtonClick} style={{width: '100%'}}>파일 첨부
                             </button>
                             <input ref={fileInputRef}
                                    type="file"
-                                   name={files.length>0 ? "files" :''}
+                                   name={files.length > 0 ? "files" : ''}
                                    id="file-upload"
                                    multiple
                                    onChange={handleFileChange} style={{width: 'fit-content', display: 'none'}}/>

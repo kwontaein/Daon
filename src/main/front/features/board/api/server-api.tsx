@@ -16,7 +16,7 @@ export async function getBoardApi() {
             credentials: 'include',
             next: {revalidate: 3600, tags: ['board']}
         });
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
 
@@ -26,7 +26,7 @@ export async function getBoardApi() {
         return JSON.parse(text);
     } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {
@@ -44,7 +44,7 @@ export async function saveBoardApi(board: RequestBoard) {
         title: board.title,
         content: board.content,
         notice: board.notice,
-        views:board.views,
+        views: board.views,
     };
 
     formData.append("board", JSON.stringify(boardData)); // "board"는 서버에서 받을 필드명
@@ -57,7 +57,7 @@ export async function saveBoardApi(board: RequestBoard) {
     }
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
-    try{
+    try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveBoard`, {
             method: "POST",
             headers: {
@@ -66,37 +66,39 @@ export async function saveBoardApi(board: RequestBoard) {
             body: formData, // ✅ Content-Type 자동 설정됨
             credentials: 'include'
         });
-    
-        if(!response.ok){
+
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
         return response.status
-    }catch (error) {
-        console.error(error)
+    } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
-            // throw new Error(message);
+            const {message} = await error.json();
+            throw new Error(message);
         }
-        // throw new Error('알 수 없는 오류가 발생했습니다.');
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
     }
-  
+
 }
 
 
 export async function updateBoardApi(board: RequestBoard) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
-   
+
     const formData = new FormData();
 
     const boardData = {
-        boardId:board.boardId,
+        boardId: board.boardId,
         writer: board.writer,
         title: board.title,
         content: board.content,
         notice: board.notice,
-        views:board.views,
-        existingFileIds:board.existingFileIds
+        views: board.views,
+        existingFileIds: board.existingFileIds
     };
 
     formData.append("board", JSON.stringify(boardData)); // "board"는 서버에서 받을 필드명
@@ -116,13 +118,13 @@ export async function updateBoardApi(board: RequestBoard) {
             body: formData, // ✅ Content-Type 자동 설정됨
             credentials: 'include',
         });
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
         return response.status
     } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {
@@ -142,12 +144,12 @@ export async function updateViews(boardId: string) {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                Cookie:cookie
+                Cookie: cookie
             },
             credentials: 'include',
             body: JSON.stringify({boardId}),
         });
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
 
@@ -157,7 +159,7 @@ export async function updateViews(boardId: string) {
         return JSON.parse(text);
     } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {

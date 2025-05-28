@@ -86,7 +86,7 @@ public class CardTransactionService {
                     null,
                     null,
                     LocalDateTime.now(),
-                    ReceiptCategory.SALES,
+                    ReceiptCategory.DEPOSIT,
                     cardTransaction.getCustomerId(),
                     null,
                     null,
@@ -97,7 +97,11 @@ public class CardTransactionService {
                     FromCategory.SALES));
             cardTransaction.setReceiptId(receipt.getReceiptId());
             cardTransaction.setPaidDate(LocalDate.now());
+            globalService.updateDailyTotal(receipt.getTotalPrice(), receipt.getCategory(), receipt.getTimeStamp());
         } else {
+            cardTransactionRequest.setReceiptId(cardTransaction.getReceiptId());
+            ReceiptEntity receipt = receiptRepository.findById(cardTransaction.getReceiptId()).orElseThrow(() -> new RuntimeException("전표가 존재하지 않습니다."));
+            globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
             receiptRepository.deleteById(cardTransaction.getReceiptId());
             cardTransaction.setReceiptId(null);
             cardTransaction.setPaidDate(null);

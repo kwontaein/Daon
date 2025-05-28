@@ -10,7 +10,7 @@ import AccountingOptions from '../options';
 import dayjs from 'dayjs';
 import {useScreenMode} from '@/hooks/share/useScreenMode';
 
-export default function PsetSaerchResult({procurements}: { procurements: ProcurementSettlement[] }) {
+export default function PsetSearchResult({procurements}: { procurements: ProcurementSettlement[] }) {
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const {itemsRef, target, setTarget} = useItemSelection<string>(true);
     const mode = useScreenMode({tabletSize: 846, mobileSize: 620})
