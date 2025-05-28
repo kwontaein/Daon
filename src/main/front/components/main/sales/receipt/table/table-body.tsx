@@ -44,7 +44,7 @@ export default function ReceiptTableBody({initialReceiptList, isMobile=false} : 
 
     const memoizedReceiptCategoryEnum = useMemo(() => {
         return Object.entries(ReceiptCategoryEnum).map(([key,value]) => (
-            (value!=='경상손익' && value!=='전체')&&
+            (value!=='경상손익' && value!=='전체' && value!=='매출대체')&&
             <option key={key} value={key}>
                 {value}
             </option>
