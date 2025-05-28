@@ -97,16 +97,16 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             return
         }
         if(selectList.length===0){
-            showAlert('한 개 이상의 전표를 선택해주세요.')
+            return showAlert('한 개 이상의 전표를 선택해주세요.')
         }
         if(disableEstimate){
-            showAlert('매출, 매출대체건을 제외한 전표는 입금처리를 할 수 없습니다.')
+            return showAlert('매출, 매출대체건을 제외한 전표는 입금처리를 할 수 없습니다.')
         }
         if(incluesOtherCustomer){
-            showAlert('선택하신 전표중에 서로 다른 거래처 전표가 있습니다. 동일한 거래처 전표를 선택해 주세요.')
+            return showAlert('선택하신 전표중에 서로 다른 거래처 전표가 있습니다. 동일한 거래처 전표를 선택해 주세요.')
         }
         if(selectList.length>17){
-            showAlert('17개 이상은 출력할수 없습니다.')
+            return showAlert('17개 이상은 출력할수 없습니다.')
         }
         const params = new URLSearchParams({
             receiptIds:JSON.stringify(selectList),
