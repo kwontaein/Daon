@@ -13,8 +13,8 @@ export default function AccountingOptions({id, division, paidDate}: {
 }) {
 
     const redirect = useRouterPath()
-    const viewAccountingHandler = () => {
 
+    const viewAccountingHandler = () => {
         const params = new URLSearchParams({
             mode: 'edit',
             target: id,
@@ -24,10 +24,10 @@ export default function AccountingOptions({id, division, paidDate}: {
         if (window.innerWidth > 620) {
             const url = `/accounting?${params.toString()}`;
             const popupOptions = "width=700,height=600,scrollbars=yes,resizable=yes";
-            window.open(url, "PopupWindow", popupOptions);
-        } else [
-            redirect(`accounting?${params.toString()}`)
-        ]
+            window.open(url, "accountingView", popupOptions);
+        } else {
+            redirect(`accounting?${params.toString()}`)    
+        }
     }
 
     const deleteAccountingHandler = () => {
@@ -37,14 +37,30 @@ export default function AccountingOptions({id, division, paidDate}: {
         useConfirm('정말로 삭제하시겠습니까?', onDelete)
     }
     const transReceiptHandler = () => {
-        const onTrans = async () => {
-            await transAccountingToReceipt(division, id).then((res) => {
-                if (res == 200) {
-                    window.alert(paidDate ? "전환이 취소되었습니다." : "입금전환이 완료되었습니다.")
-                }
-            })
+        if(paidDate){
+            const onTrans = async () => {
+                await transAccountingToReceipt(division, id).then((res) => {
+                    if (res == 200) {
+                        window.alert( "전환이 취소되었습니다.")
+                    }
+                })
+            }
+            useConfirm('입금전환을 하시겠습니까?', onTrans)
+        }else{
+            const params = new URLSearchParams({
+                target: id,
+                division,
+            });
+    
+            if (window.innerWidth > 620) {
+                const url = `/trans-paid?${params.toString()}`;
+                const popupOptions = "width=600,height=300,scrollbars=yes,resizable=yes";
+                window.open(url, "transPaid", popupOptions);
+            } else {
+                redirect(`trans-paid?${params.toString()}`)    
+            }
         }
-        useConfirm('입금전환을 하시겠습니까?', onTrans)
+        
     }
     return (
         <menu className='options-container'>
