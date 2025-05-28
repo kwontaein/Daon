@@ -38,7 +38,7 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
                     isMobile ? window.history.back() : window.close()       
                 }else{
                     window.alert('물품을 수정했습니다.')
-                    changeModeHandler('detail')
+                    isMobile ? window.history.back() :changeModeHandler('detail')
                 } 
             }else{
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')

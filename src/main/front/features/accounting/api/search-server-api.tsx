@@ -196,7 +196,7 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
     }
 }
 
-export async function transAccountingToReceipt(division, id) {
+export async function transAccountingToReceipt(division: keyof typeof AccountingDivision ,id :string, paidDate?:Date) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     let api;
@@ -223,7 +223,7 @@ export async function transAccountingToReceipt(division, id) {
                 Cookie: cookie
             },
             credentials: 'include',
-            body: JSON.stringify({[key]: id})
+            body: JSON.stringify({[key]: id, paidDate})
         })
         if (!response.ok) {
             jwtFilter(response.status.toString());
