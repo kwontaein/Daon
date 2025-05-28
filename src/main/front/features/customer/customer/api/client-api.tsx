@@ -6,23 +6,21 @@ import jwtFilter from "@/features/share/jwtFilter";
 export const deleteCustomerApi = async (customerId: string) => {
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomers`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
             body: JSON.stringify({customerId}),
-
-        });
-        if (!response.ok) {
+        }) 
+        if(!response.ok){
             jwtFilter(response.status.toString());
-        } else {
+        }else{
             window.alert('삭제가 완료되었습니다.')
         }
-
+        
         return response.status
-
     } catch (error) {
         if (error instanceof Response) {
             const {message} = await error.json();

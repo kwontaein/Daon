@@ -222,9 +222,11 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                     </>
                                     }
                                     <td rowSpan={mode==='pc'? 1:2}>
-                                        <button type='button' onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
-                                            {task.estimateId ? '인쇄':'작성'}
-                                        </button>
+                                        {TaskEnumType[task.taskType]==='납품' &&
+                                            <button type='button' onClick={estimateHandler.bind(null, task.taskId, task.estimateId)}>
+                                                {task.estimateId ? '인쇄':'작성'}
+                                            </button>
+                                        }
                                     </td>
                                 </tr>   
                                 {mode!=='pc' &&
