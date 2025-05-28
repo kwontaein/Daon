@@ -336,7 +336,7 @@ public class EstimateService {
             estimate.setTask(null);     // EstimateEntity의 참조 해제
         }
 
-        // 이후에 EstimateEntity를 삭제합니다.
+        // 이후에 EstimateEntity를 삭제합니다!.
         try {
             estimateRepository.delete(estimate);
             estimateRepository.flush();
