@@ -49,8 +49,9 @@ public class CardTransactionService {
     public void deleteCardTransaction(CardTransactionRequest cardTransactionRequest) {
         try {
             cardTransactionRepository.deleteById(cardTransactionRequest.getCardTransactionId());
+            cardTransactionRepository.flush();
         } catch (Exception e) {
-            throw new ResourceInUseException("매입부가세를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("카드결제내역을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }
 
