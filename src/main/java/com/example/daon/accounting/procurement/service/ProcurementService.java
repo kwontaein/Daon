@@ -44,8 +44,9 @@ public class ProcurementService {
     public void deleteProcurement(ProcurementRequest procurementRequest) {
         try {
             procurementRepository.deleteById(procurementRequest.getProcurementSettlementId());
+            procurementRepository.flush();
         } catch (Exception e) {
-            throw new ResourceInUseException("매입부가세를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
+            throw new ResourceInUseException("조달및수의정산을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
 
     }

@@ -13,8 +13,7 @@ export const deleteCustomerApi = async (customerId: string) => {
             },
             credentials: 'include',
             body: JSON.stringify({customerId}),
-
-        });
+        }) 
         if(!response.ok){
             jwtFilter(response.status.toString());
         }else{
@@ -22,10 +21,9 @@ export const deleteCustomerApi = async (customerId: string) => {
         }
         
         return response.status
-        
     } catch (error) {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {
