@@ -62,7 +62,7 @@ export default function OfficialSearchItems({officials, page, pageLength}: {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [idx]);
+    }, [idx, handleKeyDown]);
 
     return (
         <section style={{padding: '5px'}}>

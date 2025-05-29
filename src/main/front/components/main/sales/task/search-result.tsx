@@ -182,7 +182,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                     <td rowSpan={mode==='pc'? 1:2}>
                                         <div className='row-flex'>
                                             <p>{TaskEnumType[task.taskType]}</p>
-                                            <p>[{task.assignedUser.name}]</p>
+                                            <p>[{task.createUser.name}]</p>
                                         </div>
                                     </td>
                                     <td style={{color:dateColor(task.createdAt)}}>

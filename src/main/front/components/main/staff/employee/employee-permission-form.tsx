@@ -3,10 +3,11 @@ import '@/styles/form-style/form.scss';
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import {AsideOptions} from '@/model/constants/routes/asideOptions';
-import {startTransition, useActionState, useEffect, useRef} from 'react';
+import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
 import {permissionFormAction} from '@/features/staff/employee/action/employee-permission-action';
 import { kebabToCamel } from '@/features/share/kebabToCamel';
 import { EnableUrlType } from '@/model/types/share/type';
+import useCheckBoxGroupState from '@/hooks/share/useGroupCheckBoxState';
 
 
 
@@ -16,12 +17,8 @@ export default function PermissionManagementForm({userName, userId, initialPermi
     initialPermission: EnableUrlType
 }) {    
 
-    const checkRecodeState = Object.fromEntries(
-        Object.entries(AsideOptions).map(([nav, {asideItems}]) => {
-            const checkedState = useCheckBoxState(asideItems.map(({link}) => kebabToCamel(link)), false, initialPermission[nav])
-            return [nav, checkedState]
-        })
-    )
+    const checkRecodeState = useCheckBoxGroupState(initialPermission);
+
     const formRef = useRef(null)
     const [state, action, isPending] = useActionState(permissionFormAction, {userId})
 

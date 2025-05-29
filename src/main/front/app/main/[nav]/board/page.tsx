@@ -29,7 +29,7 @@ export default async function BoardPage({searchParams}: {
         const afterBoard = idx+1 <= initialBoards.length ? initialBoards[idx+1] :null
 
         if(!board){
-            notFound
+            notFound()
         }else{
             if(mode==='edit'){
                 //작성자랑 수정자랑 같지 않으면 notFound

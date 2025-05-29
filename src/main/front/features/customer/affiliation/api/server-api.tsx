@@ -1,6 +1,6 @@
 'use server';
 
-import {Affiliation} from "@/model/types/customer/affiliation/type";
+import {AffiliationType} from "@/model/types/customer/affiliation/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
 
@@ -38,7 +38,7 @@ export const getAffiliation = async () => {
     }
 }
 
-export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
+export const updateAffiliationApi = async (affiliation: AffiliationType[]) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
@@ -71,7 +71,7 @@ export const updateAffiliationApi = async (affiliation: Affiliation[]) => {
 
 
 
-export const saveAffiliationApi = async (customer: Pick<Affiliation, 'affiliationName'>) => {
+export const saveAffiliationApi = async (customer: Pick<AffiliationType, 'affiliationName'>) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
