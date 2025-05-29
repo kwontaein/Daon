@@ -8,7 +8,7 @@ import com.example.daon.accounting.purchaseVAT.repository.PurchaseVATRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.exception.ResourceInUseException;
-import com.example.daon.global.service.GlobalService;
+import com.example.daon.global.service.ConvertResponseService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +23,7 @@ public class PurchaseVATService {
     private final PurchaseVATRepository purchaseVATRepository;
     private final CustomerRepository customerRepository;
     private final CategorySelectionService categorySelectionService;
-    private final GlobalService globalService;
+    private final ConvertResponseService convertResponseService;
 
     //매입부가세
     public void savePurchaseVAT(PurchaseVATRequest purchaseVATRequest) {
@@ -70,6 +70,6 @@ public class PurchaseVATService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return purchaseVATEntities.stream().map(globalService::convertToPurchaseVATResponse).collect(Collectors.toList());
+        return purchaseVATEntities.stream().map(convertResponseService::convertToPurchaseVATResponse).collect(Collectors.toList());
     }
 }

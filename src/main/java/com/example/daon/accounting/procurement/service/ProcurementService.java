@@ -8,7 +8,7 @@ import com.example.daon.accounting.procurement.repository.ProcurementRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.exception.ResourceInUseException;
-import com.example.daon.global.service.GlobalService;
+import com.example.daon.global.service.ConvertResponseService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +24,7 @@ public class ProcurementService {
     private final ProcurementRepository procurementRepository;
     private final CustomerRepository customerRepository;
     private final CategorySelectionService categorySelectionService;
-    private final GlobalService globalService;
+    private final ConvertResponseService convertResponseService;
 
     //조달 및 수의 계산정산
     public void saveProcurement(ProcurementRequest procurementRequest) {
@@ -71,7 +71,7 @@ public class ProcurementService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return procurementEntities.stream().map(globalService::convertToProcurementResponse).collect(Collectors.toList());
+        return procurementEntities.stream().map(convertResponseService::convertToProcurementResponse).collect(Collectors.toList());
     }
 
 }

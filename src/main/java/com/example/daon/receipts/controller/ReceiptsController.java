@@ -36,12 +36,12 @@ public class ReceiptsController {
 
     @PostMapping("api/updateReceipt")
     public void updateReceipt(@RequestBody List<ReceiptRequest> receiptRequest) {
-        receiptsService.updateReceipt(receiptRequest);
+        receiptsService.updateReceipts(receiptRequest);
     }
 
     @PostMapping("api/saveReceipts")
     public void saveReceipt(@RequestBody List<ReceiptRequest> receiptRequests) {
-        receiptsService.saveReceipt(receiptRequests);
+        receiptsService.saveReceipts(receiptRequests);
     }
 
     @PostMapping("api/deleteReceipt")

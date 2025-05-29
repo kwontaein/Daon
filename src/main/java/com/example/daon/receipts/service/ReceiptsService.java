@@ -1,13 +1,11 @@
 package com.example.daon.receipts.service;
 
 import com.example.daon.customer.model.CustomerEntity;
-import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
-import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.official.model.OfficialEntity;
-import com.example.daon.official.repository.OfficialRepository;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.DailyTotalEntity;
@@ -16,7 +14,6 @@ import com.example.daon.receipts.model.ReceiptEntity;
 import com.example.daon.receipts.repository.DailyTotalRepository;
 import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
-import com.example.daon.stock.repository.StockRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -33,18 +30,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReceiptsService {
-
-    private final EstimateRepository estimateRepository;
     private final ReceiptRepository receiptRepository;
-    private final CustomerRepository customerRepository;
-    private final OfficialRepository officialRepository;
-    private final StockRepository stockRepository;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
     private final DailyTotalRepository dailyTotalRepository;
 
 
     public List<ReceiptResponse> getReceipts(ReceiptCategory category, LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
-        System.out.println("stockId : " + stockId);
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -61,14 +53,12 @@ public class ReceiptsService {
             // 거래처 조건
             if (customerId != null) {
                 //거래처 얻기
-                CustomerEntity customer = customerRepository.findById(customerId).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("customer"), customer));
+                predicates.add(criteriaBuilder.equal(root.get("customer").get("customerId"), customerId));
             }
 
             // 품목 조건
             if (stockId != null) {
-                StockEntity stock = stockRepository.findById(stockId).orElse(null);
-                predicates.add(criteriaBuilder.equal(root.get("stock"), stock));
+                predicates.add(criteriaBuilder.equal(root.get("stock").get("stockId"), stockId));
             }
             //todo 정렬
             query.orderBy(criteriaBuilder.desc(root.get("timeStamp"))); //날짜순 정렬
@@ -78,125 +68,87 @@ public class ReceiptsService {
 
         return receiptEntities
                 .stream()
-                .map(globalService::convertToReceiptResponse)
+                .map(convertResponseService::convertToReceiptResponse)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 전표 저장 및 수정 공통 로직
-     */
-    private void saveOrUpdateReceipt(ReceiptRequest request) {
-        //견적서 정보
-        EstimateEntity entity = null;
-        if (request.getEstimateId() != null) {
-            entity = estimateRepository.findById(request.getEstimateId()).orElse(null);
-        }
+    // 전표 신규 저장 로직
+    private void saveReceipt(ReceiptRequest request) {
+        // 관련 엔티티 조회 (nullable 허용)
+        EstimateEntity estimate = globalService.getEstimate(request.getEstimateId());
+        CustomerEntity customer = globalService.getCustomer(request.getCustomerId());
+        StockEntity stock = globalService.getStock(request.getStockId());
+        OfficialEntity official = globalService.getOfficial(request.getOfficialId());
 
-        //고객 정보
-        CustomerEntity customer = null;
-        if (request.getCustomerId() != null) {
-            customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-        }
-        //물품 정보
-        StockEntity stock = null;
-        OfficialEntity official = null;
+        // 요청으로부터 전표 엔티티 생성
+        ReceiptEntity receipt = request.toEntity(estimate, customer, stock, official);
 
-        if (request.getStockId() != null) {
-            stock = stockRepository.findById(request.getStockId()).orElseThrow(() -> new RuntimeException("존재하지 않는 품목입니다."));
-            stock.setQuantity(stock.getQuantity());
-        }
-
-        //관리비 정보
-        if (request.getOfficialId() != null) {
-            official = officialRepository.findById(request.getOfficialId()).orElse(null);
-        }
-
-        if (request.getReceiptId() != null) {
-            ReceiptEntity receiptEntity = receiptRepository.findById(request.getReceiptId()).orElse(null);
-            if (receiptEntity != null) {
-                //todo 전표로 검색되는 카드결제내역 / 매출부가세 / 지출증빙 같이 업데이트
-
-                // 기존 총합 롤백
-                globalService.updateDailyTotal(receiptEntity.getTotalPrice().negate(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
-
-                // ✅ 기존 수량 롤백
-                if (stock != null && receiptEntity.getQuantity() != null) {
-                    adjustStockQuantity(stock, receiptEntity.getQuantity(), receiptEntity.getCategory(), true); // true: rollback
-                }
-
-                // 총합 업데이트
-                globalService.updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
-
-                receiptEntity.updateFromRequest(request, customer, stock);
-
-                // ✅ 새로운 수량 반영
-                if (stock != null && request.getQuantity() != null) {
-                    adjustStockQuantity(stock, request.getQuantity(), request.getCategory(), false); // false: apply new
-                }
-                receiptRepository.save(receiptEntity);
-                return;
-            }
-        }
-
-        //엔티티화
-        ReceiptEntity receipt = request.toEntity(entity, customer, stock, official);
-
+        // 수량과 단가를 기반으로 총액 계산
         if (request.getQuantity() != null && stock != null) {
-            adjustStockQuantity(stock, request.getQuantity(), request.getCategory(), false); // 신규 적용
-            BigDecimal quantity = BigDecimal.valueOf(request.getQuantity());
-            BigDecimal tp = quantity.multiply(stock.getOutPrice());
-            receipt.setTotalPrice(tp);
+            globalService.adjustStockQuantity(stock, request.getQuantity(), request.getCategory(), false); // 수량 차감
+            BigDecimal tp = BigDecimal.valueOf(request.getQuantity()).multiply(stock.getOutPrice());
+            receipt.setTotalPrice(tp); // 총액 설정
         }
 
-        //그리고 저장
-        ReceiptEntity receiptEntity = receiptRepository.save(receipt);
-        //새로운 값 더하기
-        globalService.updateDailyTotal(receiptEntity.getTotalPrice(), receiptEntity.getCategory(), receiptEntity.getTimeStamp());
-        request.setReceiptId(receiptEntity.getReceiptId());
+        // 전표 저장 및 일일 총합 반영
+        ReceiptEntity saved = receiptRepository.save(receipt);
+        globalService.updateDailyTotal(saved.getTotalPrice(), saved.getCategory(), saved.getTimeStamp());
+
+        // 생성된 전표 ID를 request에 반영
+        request.setReceiptId(saved.getReceiptId());
     }
 
-    //재고 수량 업데이트
-    private void adjustStockQuantity(StockEntity stock, Integer quantity, ReceiptCategory category, boolean isRollback) {
-        if (quantity == null || stock == null || category == null) return;
+    // 기존 전표 수정 로직
+    private void updateReceipt(ReceiptRequest request) {
+        // 기존 전표 조회
+        ReceiptEntity existing = receiptRepository.findById(request.getReceiptId()).orElse(null);
+        if (existing == null) return;
 
-        int currentStock = stock.getQuantity();
-        int q = quantity;
+        // 기존 총합 금액 롤백
+        globalService.updateDailyTotal(existing.getTotalPrice().negate(), existing.getCategory(), existing.getTimeStamp());
 
-        switch (category) {
-            case PURCHASE:
-            case RETURN_IN:
-                stock.setQuantity(currentStock + (isRollback ? -q : q)); // 입고
-                break;
-
-            case SALES:
-            case RETURN_OUT:
-                stock.setQuantity(currentStock + (isRollback ? q : -q)); // 출고
-                break;
-
-            // 기타 카테고리는 재고 변화 없음
-            default:
-                break;
+        // 기존 수량 복원 (재고 원복)
+        StockEntity oldStock = globalService.getStock(existing.getStock().getStockId());
+        if (oldStock != null && existing.getQuantity() != null) {
+            globalService.adjustStockQuantity(oldStock, existing.getQuantity(), existing.getCategory(), true);
         }
 
-        stockRepository.save(stock);
+        // 변경 대상 엔티티 조회
+        CustomerEntity customer = globalService.getCustomer(request.getCustomerId());
+        StockEntity newStock = globalService.getStock(request.getStockId());
+
+        // 기존 전표에 수정 내용 반영
+        existing.updateFromRequest(request, customer, newStock);
+
+        // 새로운 수량 적용
+        if (newStock != null && request.getQuantity() != null) {
+            globalService.adjustStockQuantity(newStock, request.getQuantity(), request.getCategory(), false);
+        }
+
+        // 새 총합 반영
+        globalService.updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
+
+        // 수정된 전표 저장
+        receiptRepository.save(existing);
     }
+
 
     /**
      * 전표 수정 (단일 객체)
      */
-    public void updateReceipt(List<ReceiptRequest> requests) {
+    public void updateReceipts(List<ReceiptRequest> requests) {
         for (ReceiptRequest request : requests) {
-            saveOrUpdateReceipt(request);
+            updateReceipt(request);
         }
     }
 
     /**
      * 전표 저장 (여러 객체)
      */
-    public void saveReceipt(List<ReceiptRequest> requests) {
+    public void saveReceipts(List<ReceiptRequest> requests) {
         for (ReceiptRequest request : requests) {
             request.setReceiptId(null);
-            saveOrUpdateReceipt(request);
+            saveReceipt(request);
         }
     }
 
@@ -205,7 +157,7 @@ public class ReceiptsService {
             List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
                 // 동적 조건을 조합하여 반환
                 List<Predicate> predicates = new ArrayList<>();
-                
+
                 predicates.add(root.get("receiptId").in(ids));
 
                 return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -213,6 +165,13 @@ public class ReceiptsService {
 
             for (ReceiptEntity receipt : receiptEntities) {
                 globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
+
+                StockEntity stock = receipt.getStock(); // 연결된 재고 품목
+                Integer quantity = receipt.getQuantity();
+                ReceiptCategory category = receipt.getCategory();
+
+                // 🔄 재고 수량 원복
+                globalService.adjustStockQuantity(stock, quantity, category, true);
             }
 
             receiptRepository.deleteAllById(ids);
@@ -257,7 +216,7 @@ public class ReceiptsService {
         });
         return receiptEntities
                 .stream()
-                .map(globalService::convertToReceiptResponse)
+                .map(convertResponseService::convertToReceiptResponse)
                 .collect(Collectors.toList());
     }
 

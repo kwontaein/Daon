@@ -6,6 +6,7 @@ import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.task.dto.request.TaskRequest;
 import com.example.daon.task.dto.response.TaskResponse;
@@ -13,17 +14,9 @@ import com.example.daon.task.model.TaskEntity;
 import com.example.daon.task.repository.TaskRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +29,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final CustomerRepository customerRepository;
     private final EstimateRepository estimateRepository;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     //관리자데이터조회
@@ -48,7 +42,7 @@ public class TaskService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
+        return taskEntities.stream().map(convertResponseService::convertToTaskResponse).collect(Collectors.toList());
     }
 
     //처음 목록 조회
@@ -61,17 +55,16 @@ public class TaskService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
+        return taskEntities.stream().map(convertResponseService::convertToTaskResponse).collect(Collectors.toList());
     }
 
     public TaskResponse getTask(UUID taskId) {
         TaskEntity taskEntity = taskRepository.findById(taskId).orElse(null);
-        return globalService.convertToTaskResponse(taskEntity);
+        return convertResponseService.convertToTaskResponse(taskEntity);
     }
 
     //업무검색 - 거래처 구분 담당자 거래처분류
     public List<TaskResponse> getTaskByOption(TaskRequest taskRequest) {
-        System.out.println("실행 getTaskByOption");
         List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
@@ -98,23 +91,7 @@ public class TaskService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
-    }
-
-    //업무조회 - 처리완료 안된 것들
-    public List<TaskResponse> getTaskToday() {
-        List<TaskEntity> taskEntities = taskRepository.findAll((root, query, criteriaBuilder) -> {
-            //조건문 사용을 위한 객체
-            List<Predicate> predicates = new ArrayList<>();
-
-            //처리완료 여부가 false 인 것들
-            predicates.add(criteriaBuilder.isNull(root.get("completeAt")));
-
-            query.orderBy(criteriaBuilder.desc(root.get("createdAt"))); // 조치일 순으로 교체하려면 complete_at
-            // 동적 조건을 조합하여 반환
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        });
-        return taskEntities.stream().map(globalService::convertToTaskResponse).collect(Collectors.toList());
+        return taskEntities.stream().map(convertResponseService::convertToTaskResponse).collect(Collectors.toList());
     }
 
 
@@ -177,34 +154,5 @@ public class TaskService {
         UserEntity user = globalService.resolveUser(taskRequest.getAssignedUser());
         task.setAssignedUser(user);
         taskRepository.save(task);
-    }
-
-
-    public ByteArrayInputStream exportTasksToExcel() throws IOException {
-        List<TaskEntity> tasks = taskRepository.findAll();
-        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Sheet sheet = workbook.createSheet("Tasks");
-
-            // 헤더 행 생성
-            Row headerRow = sheet.createRow(0);
-            String[] headers = {"ID", "제목", "상태", "생성일"};
-            for (int i = 0; i < headers.length; i++) {
-                Cell cell = headerRow.createCell(i);
-                cell.setCellValue(headers[i]);
-            }
-
-            // 데이터 행 생성
-            for (int i = 0; i < tasks.size(); i++) {
-                Row row = sheet.createRow(i + 1);
-                TaskEntity task = tasks.get(i);
-                row.createCell(0).setCellValue(task.getTaskId().toString());
-                row.createCell(1).setCellValue(task.getDetails());
-                row.createCell(2).setCellValue(task.getCreatedAt());
-                row.createCell(3).setCellValue(task.getCreatedAt().toString());
-            }
-
-            workbook.write(out);
-            return new ByteArrayInputStream(out.toByteArray());
-        }
     }
 }

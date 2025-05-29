@@ -2,9 +2,9 @@ package com.example.daon.estimate.service;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.company.model.CompanyEntity;
-import com.example.daon.company.repository.CompanyRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
+import com.example.daon.estimate.dto.request.EstimateItemRequest;
 import com.example.daon.estimate.dto.request.EstimateRequest;
 import com.example.daon.estimate.dto.response.EstimateResponse;
 import com.example.daon.estimate.model.EstimateEntity;
@@ -12,11 +12,11 @@ import com.example.daon.estimate.model.EstimateItem;
 import com.example.daon.estimate.repository.EstimateItemRepository;
 import com.example.daon.estimate.repository.EstimateRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.model.ReceiptEntity;
-import com.example.daon.receipts.repository.DailyTotalRepository;
 import com.example.daon.receipts.repository.ReceiptRepository;
 import com.example.daon.stock.model.StockEntity;
 import com.example.daon.stock.repository.StockRepository;
@@ -32,10 +32,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -48,10 +48,8 @@ public class EstimateService {
     private final CustomerRepository customerRepository;
     private final StockRepository stockRepository;
     private final TaskRepository taskRepository;
-    private final CompanyRepository companyRepository;
     private final ReceiptRepository receiptRepository;
-    private final DailyTotalRepository dailyTotalRepository;
-
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     //견적서 조회
@@ -114,113 +112,98 @@ public class EstimateService {
 
         return estimateEntities
                 .stream()
-                .map(globalService::convertToEstimateResponse)
+                .map(convertResponseService::convertToEstimateResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void updateEstimate(EstimateRequest estimateRequest) {
-        // 1. 기존 EstimateEntity 조회
-        EstimateEntity estimate = estimateRepository.findById(estimateRequest.getEstimateId())
-                .orElseThrow(() -> new RuntimeException("해당 견적이 존재하지 않습니다."));
-
-        // 2. 관련 엔티티 조회
-        CustomerEntity customer = customerRepository.findById(estimateRequest.getCustomerId()).orElse(null);
-        CompanyEntity company = companyRepository.findById(estimateRequest.getCompanyId()).orElse(null);
+        EstimateEntity estimate = globalService.findEstimate(estimateRequest.getEstimateId());
+        CustomerEntity customer = globalService.findCustomer(estimateRequest.getCustomerId());
+        CompanyEntity company = globalService.findCompany(estimateRequest.getCompanyId());
         UserEntity user = globalService.resolveUser(estimateRequest.getUserId());
 
-        TaskEntity task;
-        if (estimateRequest.getTaskId() != null) {
-            task = taskRepository.findById(estimateRequest.getTaskId())
-                    .orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
-        } else {
-            task = estimate.getTask();
-        }
+        TaskEntity task = (estimateRequest.getTaskId() != null)
+                ? globalService.findTask(estimateRequest.getTaskId())
+                : estimate.getTask();
 
-        // 3. 기본 필드 업데이트 (예: 고객, 회사, 사용자, 업무 등)
         estimate.updateFields(customer, company, user, estimateRequest);
 
-        // 양방향 연관관계 설정 (task가 있을 경우)
+        // 양방향 연관관계 설정
+        estimate.setTask(task);
         if (task != null) {
-            estimate.setTask(task);
             task.setEstimate(estimate);
-        } else {
-            estimate.setTask(null);
         }
 
-        // 4. 자식 엔티티(EstimateItem) 동기화
-        // 새로운 아이템 리스트 생성
-        List<EstimateItem> newItems = estimateRequest.getItems().stream()
-                .map(itemRequest -> {
-                    StockEntity stock = null;
-                    if (itemRequest.getStockId() != null) {
-                        stock = stockRepository.findById(itemRequest.getStockId())
-                                .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
-                    }
-                    // 기존 아이템이 존재할 경우 업데이트용 객체 생성, 없으면 신규 객체 생성
-                    return itemRequest.toEntity2(estimate, stock);
-                })
-                .collect(Collectors.toList());
-
+        List<EstimateItem> newItems = mapToEstimateItems(estimateRequest.getItems(), estimate);
         if (newItems.isEmpty()) {
             deleteEstimate(estimateRequest);
             return;
         }
 
-        // 기존 아이템 복사본 생성
-        List<EstimateItem> existingItems = new ArrayList<>(estimate.getItems());
+        syncEstimateItems(estimate, newItems);
+        estimateRepository.save(estimate);
+    }
 
-        //새로 생긴 아이템 리스트
-        newItems = newItems.stream()
-                .map(item -> {
-                    // 만약 existingItems에 존재하지 않는다면
-                    if (!existingItems.contains(item)) {
-                        // 아이디를 수정하는 로직 (예: 기존 id 앞에 "new_" 접두어 추가)
-                        item.setItemId(null);
-                    }
-                    return item;
+    // itemRequest -> EstimateItem 리스트 변환
+    private List<EstimateItem> mapToEstimateItems(List<EstimateItemRequest> itemRequests, EstimateEntity estimate) {
+        return itemRequests.stream()
+                .map(itemRequest -> {
+                    StockEntity stock = (itemRequest.getStockId() != null)
+                            ? stockRepository.findById(itemRequest.getStockId())
+                            .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."))
+                            : null;
+                    return itemRequest.toEntity2(estimate, stock);
                 })
                 .collect(Collectors.toList());
+    }
 
-        // 4-1. 기존 아이템 중, newItems에 포함되지 않은 항목 삭제
-        for (EstimateItem existingItem : existingItems) {
-            boolean exists = newItems.stream()
-                    .anyMatch(newItem -> newItem.getItemId() != null
-                            && newItem.getItemId().equals(existingItem.getItemId()));
-            if (!exists) {
-                estimate.getItems().remove(existingItem);
-                estimateItemRepository.delete(existingItem);
+    // 기존 항목과 새로운 항목 동기화
+    private void syncEstimateItems(EstimateEntity estimate, List<EstimateItem> newItems) {
+        List<EstimateItem> existingItems = new ArrayList<>(estimate.getItems());
+
+        // 새로운 아이템 중 기존에 없는 것은 itemId를 null로 설정해 신규로 처리
+        newItems.forEach(item -> {
+            if (item.getItemId() != null && existingItems.stream()
+                    .noneMatch(e -> e.getItemId().equals(item.getItemId()))) {
+                item.setItemId(null);
             }
-        }
+        });
 
-        // 4-2. 신규 아이템 추가 및 기존 아이템 업데이트
+        // 1) 기존에 없어진 항목 삭제
+        existingItems.stream()
+                .filter(existing -> newItems.stream()
+                        .noneMatch(newItem -> newItem.getItemId() != null
+                                && newItem.getItemId().equals(existing.getItemId())))
+                .forEach(existing -> {
+                    estimate.getItems().remove(existing);
+                    estimateItemRepository.delete(existing);
+                });
+
+        // 2) 신규 추가 및 업데이트
         for (EstimateItem newItem : newItems) {
             if (newItem.getItemId() != null) {
-                // 기존 아이템이 있으면 업데이트
-                Optional<EstimateItem> optionalExistingItem = estimate.getItems().stream()
-                        .filter(existingItem -> existingItem.getItemId() != null
-                                && existingItem.getItemId().equals(newItem.getItemId()))
-                        .findFirst();
-                if (optionalExistingItem.isPresent()) {
-                    EstimateItem existingItem = optionalExistingItem.get();
-                    existingItem.updateFields(newItem);
-                }
+                estimate.getItems().stream()
+                        .filter(existing -> existing.getItemId() != null
+                                && existing.getItemId().equals(newItem.getItemId()))
+                        .findFirst()
+                        .ifPresent(existing -> existing.updateFields(newItem));
             } else {
-                // 신규 아이템 추가
                 newItem.setEstimate(estimate);
                 estimate.getItems().add(newItem);
             }
         }
-        // 5. 최종 업데이트된 견적 저장
-        estimateRepository.save(estimate);
     }
 
 
     //전표전환
     @Transactional
     public void toggleEstimateReceiptStatus(EstimateRequest estimateRequest) {
-        EstimateEntity estimate = estimateRepository.findById(estimateRequest.getEstimateId())
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
+        EstimateEntity estimate = globalService.findEstimate(estimateRequest.getEstimateId());
+
+        if (estimate == null) {
+            return;
+        }
 
         if (estimate.getTask() != null) {
             estimateRequest.setTaskId(estimate.getTask().getTaskId());
@@ -240,120 +223,136 @@ public class EstimateService {
         }
     }
 
+
     //전표생성
     private void createReceiptsFromEstimate(EstimateEntity estimate, EstimateRequest estimateRequest) {
         for (EstimateItem item : estimate.getItems()) {
+            StockEntity stock = item.getStock();
+            Integer quantity = item.getQuantity();
+
+            // 전표 생성
             ReceiptEntity receipt = new ReceiptEntity(
                     null,
                     estimate,
                     estimateRequest.getReceiptDate(),
                     ReceiptCategory.SALES,
                     estimate.getCustomer(),
-                    item.getStock(),
+                    stock,
                     null,
-                    item.getQuantity(),
-                    item.getUnitPrice(),
+                    quantity,
+                    BigDecimal.valueOf(quantity).multiply(item.getUnitPrice()),
                     "",
                     estimateRequest.getMemo(),
                     FromCategory.ESTIMATE
             );
+
+            // 재고 수량 차감 (출고)
+            if (quantity != null && stock != null) {
+                globalService.adjustStockQuantity(stock, quantity, receipt.getCategory(), false); // 출고 처리
+            }
+
+            // 총합 갱신 및 저장
             globalService.updateDailyTotal(receipt.getTotalPrice(), receipt.getCategory(), receipt.getTimeStamp());
             receiptRepository.save(receipt);
         }
     }
 
+
     //전표삭제
     private void deleteReceiptsLinkedToEstimate(UUID estimateId) {
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
-            //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
-
-            // 품목 조건
             if (estimateId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("estimate").get("estimateId"), estimateId));
             }
-
-            // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
+
         try {
             for (ReceiptEntity receipt : receiptEntities) {
+                // 일일 총합 롤백
                 globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
+
+                // 🔁 재고 복원 (롤백 처리)
+                if (receipt.getQuantity() != null && receipt.getStock() != null) {
+                    globalService.adjustStockQuantity(receipt.getStock(), receipt.getQuantity(), receipt.getCategory(), true); // 롤백 처리
+                }
             }
             receiptRepository.deleteAll(receiptEntities);
+            receiptRepository.flush();
         } catch (DataIntegrityViolationException e) {
-            // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("전표를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
         }
     }
 
-    @Transactional
-    public void saveEstimate(EstimateRequest estimateRequest) {
-        // 1. 필요한 엔티티 조회
-        CustomerEntity customer = customerRepository.findById(estimateRequest.getCustomerId()).orElse(null);
-        CompanyEntity company = companyRepository.findById(estimateRequest.getCompanyId()).orElse(null);
-        //UserDetails userDetails = globalService.extractFromSecurityContext();
-
-        UserEntity user = globalService.resolveUser(estimateRequest.getUserId() == null || estimateRequest.getUserId().isEmpty() ? "kosq3964" : estimateRequest.getUserId());
-
-        TaskEntity task = null;
-        if (estimateRequest.getTaskId() != null) {
-            task = taskRepository.findById(estimateRequest.getTaskId()).orElseThrow(() -> new RuntimeException("존재하지 않는 업무 아이디입니다."));
-        }
-
-        // 2. EstimateEntity 생성 및 자식 엔티티 연결
-        EstimateEntity estimate = estimateRequest.toEntity(customer, company, user, task, null);
-        List<EstimateItem> items = estimateRequest.getItems().stream()
+    private List<EstimateItem> mapItemsWithStocks(EstimateRequest request, EstimateEntity estimate) {
+        return request.getItems().stream()
                 .map(itemRequest -> {
-                    StockEntity stock = null;
-                    if (itemRequest.getStockId() != null) {
-                        stock = stockRepository.findById(itemRequest.getStockId())
-                                .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."));
-                    }
+                    StockEntity stock = itemRequest.getStockId() != null
+                            ? stockRepository.findById(itemRequest.getStockId())
+                            .orElseThrow(() -> new IllegalArgumentException("해당 stockId로 Stock을 찾을 수 없습니다."))
+                            : null;
                     EstimateItem item = itemRequest.toEntity(estimate, stock);
-                    // 양방향 연관관계 설정
-                    item.setEstimate(estimate);
+                    item.setEstimate(estimate); // 양방향 설정
                     return item;
                 })
                 .collect(Collectors.toList());
+    }
 
-        // 부모 엔티티에 자식 엔티티 리스트 설정
+
+    @Transactional
+    public void saveEstimate(EstimateRequest request) {
+        // 1. 엔티티 조회
+        CustomerEntity customer = globalService.findCustomer(request.getCustomerId());
+        CompanyEntity company = globalService.findCompany(request.getCompanyId());
+        UserEntity user = globalService.resolveUser(request.getUserId());
+        TaskEntity task = globalService.findTask(request.getTaskId());
+
+        // 2. EstimateEntity 생성
+        EstimateEntity estimate = request.toEntity(customer, company, user, task, null);
+
+        // 3. 자식 엔티티 설정
+        List<EstimateItem> items = mapItemsWithStocks(request, estimate);
         estimate.setItems(items);
-        // cascade 옵션이 올바르게 설정되어 있다면, 이 한 번의 save 호출로 부모와 자식 모두 저장됩니다.
+
+        // 4. 업무 연관 설정
         if (task != null) {
             estimate.setTask(task);
             task.setEstimate(estimate);
         }
-        EstimateEntity estimateEntity = estimateRepository.save(estimate); // task가 null이면 단순 저장, 존재하면 cascade에 의해 함께 저장
-        estimateRequest.setEstimateId(estimateEntity.getEstimateId());
+
+        // 5. 저장 및 estimateId 설정
+        EstimateEntity savedEstimate = estimateRepository.save(estimate);
+        request.setEstimateId(savedEstimate.getEstimateId());
     }
 
 
     public EstimateResponse getEstimate(UUID estimateId) {
-        EstimateEntity estimate = estimateRepository.findById(estimateId).orElse(null);
-        return globalService.convertToEstimateResponse(estimate);
+        EstimateEntity estimate = globalService.findEstimate(estimateId);
+        return convertResponseService.convertToEstimateResponse(estimate);
     }
-
 
     @Transactional
     public void deleteEstimate(EstimateRequest estimateRequest) {
-        EstimateEntity estimate = estimateRepository.findById(estimateRequest.getEstimateId())
-                .orElseThrow(() -> new RuntimeException("Estimate not found"));
-        estimateRequest.setTaskId(estimate.getTask().getTaskId());
-
-        TaskEntity taskEntity = taskRepository.findById(estimate.getTask().getTaskId()).orElseThrow(() -> new RuntimeException("업무가 없는 견적서입니다"));
-        // 양방향 연관관계가 설정되어 있는 경우, 양쪽의 참조를 해제합니다.
-        if (estimate.getTask() != null) {
-            TaskEntity task = estimate.getTask();
-            task.setEstimate(null);   // TaskEntity의 참조 해제
-            estimate.setTask(null);     // EstimateEntity의 참조 해제
+        EstimateEntity estimate = globalService.findEstimate(estimateRequest.getEstimateId());
+        if (estimate == null) {
+            return;
         }
-        // 이후에 EstimateEntity를 삭제합니다!.
+        TaskEntity task = estimate.getTask();
+
+        // 양방향 연관관계가 설정되어 있는 경우, 양쪽의 참조를 해제합니다.
+        if (task != null) {
+            task.setEstimate(null);
+            estimate.setTask(null);
+            task.setCompleteAt(null); // 여기서 바로 처리 가능
+        }
+
         try {
             estimateRepository.delete(estimate);
-            taskEntity.setCompleteAt(null);
-            taskRepository.save(taskEntity);
-            estimateRepository.flush();
+            estimateRepository.flush();// FK 제약조건 위반 방지를 위해 삭제 즉시 반영
+            if (task != null) {
+                taskRepository.save(task);
+            }
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("견적서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
@@ -370,7 +369,7 @@ public class EstimateService {
         });
         return estimateEntities
                 .stream()
-                .map(globalService::convertToEstimateResponse)
+                .map(convertResponseService::convertToEstimateResponse)
                 .collect(Collectors.toList());
     }
 }

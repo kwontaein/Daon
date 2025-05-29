@@ -7,7 +7,7 @@ import com.example.daon.bbs.model.BoardEntity;
 import com.example.daon.bbs.model.FileEntity;
 import com.example.daon.bbs.repository.BoardRepository;
 import com.example.daon.bbs.repository.FileRepository;
-import com.example.daon.global.service.GlobalService;
+import com.example.daon.global.service.ConvertResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final FileRepository fileRepository;
-    private final GlobalService globalService;
+    private final ConvertResponseService convertResponseService;
     private final String uploadDir = "uploads/"; // 실제 저장 경로
 
     public List<BoardResponse> getBoard() {
@@ -43,9 +43,9 @@ public class BoardService {
         return boardEntities.stream()
                 .sorted(Comparator.comparing(BoardEntity::isNotice).reversed()) // ✅ 공지 먼저 정렬
                 .map(board -> {
-                    BoardResponse boardResponse = globalService.convertToBoardResponse(board);
+                    BoardResponse boardResponse = convertResponseService.convertToBoardResponse(board);
                     List<FileResponse> fileResponses = board.getFiles().stream()
-                            .map(globalService::convertToFileResponse)
+                            .map(convertResponseService::convertToFileResponse)
                             .collect(Collectors.toList());
                     boardResponse.setFiles(fileResponses);
                     return boardResponse;
@@ -120,7 +120,6 @@ public class BoardService {
 
             fileRepository.delete(file); // DB 삭제
         }
-        // 새 파일 저장
 
         List<MultipartFile> newFiles = boardRequest.getNewFiles();
         if (newFiles != null) {
@@ -129,11 +128,6 @@ public class BoardService {
             }
         }
 
-
-        // 4. 서브테이블 정보 업데이트 (예: 태그, 댓글, etc.)
-        // TODO: 필요시 여기에 구현
-
-        // 5. 게시글 저장 (JPA 영속성 컨텍스트로 생략 가능)
         boardRepository.save(boardEntity);
     }
 
