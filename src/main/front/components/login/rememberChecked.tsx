@@ -1,5 +1,5 @@
 import useDebounce from "@/hooks/share/useDebounce";
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 function RememberChecked({ currentId }: { currentId: string }) {
   const [isChecked, setIsChecked] = useState(()=>false);
   const debouncing = useDebounce();
@@ -15,9 +15,9 @@ function RememberChecked({ currentId }: { currentId: string }) {
     if (isChecked) {
       debouncing(() => {
         localStorage.setItem('savedId', currentId);
-      }, 1000);
+      }, 300);
     }
-  }, [currentId, isChecked]);
+  }, [currentId, isChecked, debouncing]);
 
   const rememberUserId = (e: ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;

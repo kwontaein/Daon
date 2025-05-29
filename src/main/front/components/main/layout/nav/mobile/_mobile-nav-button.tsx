@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useReducer } from "react";
 import "./_mobile-nav-button.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 

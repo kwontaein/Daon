@@ -12,7 +12,7 @@ import {
 import '@/styles/table-style/search.scss';
 
 
-import {Affiliation} from '@/model/types/customer/affiliation/type';
+import { AffiliationType } from '@/model/types/customer/affiliation/type';
 
 import {customerSearchAction, initialCustomerState} from '@/features/customer/customer/actions/customerSearchAction';
 import {CustomerCateEnum, ResponseCustomer} from '@/model/types/customer/customer/type';
@@ -25,7 +25,7 @@ import {exportCustomersToExcel} from "@/components/main/customer/search/exportCu
 
 export default function CustomerSearch(
     {affiliations, initialCustomers, page}: {
-        affiliations: Affiliation[],
+        affiliations: AffiliationType[],
         initialCustomers: ResponseCustomer[],
         page: number
     }

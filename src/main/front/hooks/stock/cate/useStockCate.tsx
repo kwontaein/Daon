@@ -1,10 +1,11 @@
 'use client'
 import {useState, useRef, useEffect} from "react";
 
-import { saveStockCateApi, deleteStockCateApi, updateStockCateApi } from "../../../features/stock/category/api/server-api";
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { saveStockCateApi, updateStockCateApi } from "../../../features/stock/category/api/server-api";
 import { StockCate } from "@/model/types/stock/cate/type";
 import { CateMode } from "@/model/types/share/type";
+import { deleteStockCateApi } from "@/features/stock/category/api/client-api";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 
 export default function useStockCate(InitStockCate:StockCate[]){
     const [cateState, setCateState] = useState<StockCate[]>(InitStockCate)
@@ -66,7 +67,7 @@ export default function useStockCate(InitStockCate:StockCate[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
+        selectConfrim('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, cateState, mode, setMode, setCateState,addHandler,deleteHandler,editHandler}

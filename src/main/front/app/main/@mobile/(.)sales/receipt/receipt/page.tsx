@@ -1,4 +1,3 @@
-import RegisterReceiptPage from "@/app/(register)/register-receipt/page";
 import Image from 'next/image';
 
 import '@/styles/_global.scss';
@@ -6,7 +5,6 @@ import '@/components/main/sales/receipt/table/receipt-table.scss';
 
 import asideArrow from '@/public/assets/aside-arrow.gif';
 
-import { ModeByProps } from "@/model/types/share/type";
 import ReceiptTableBody from '@/components/main/sales/receipt/table/table-body';
 import ReceiptTableContainer from '@/components/main/sales/receipt/table/table-header';
 import { getReceiptByIds } from "@/features/sales/receipt/api/server-api";

@@ -1,14 +1,14 @@
 'use client'
 import {useState, useRef, useEffect} from "react";
-import {Affiliation} from "@/model/types/customer/affiliation/type";
+import {AffiliationType} from "@/model/types/customer/affiliation/type";
 
-import { useConfirm } from "@/hooks/share/useConfirm";
 import { CateMode } from "@/model/types/share/type";
 import { updateAffiliationApi, saveAffiliationApi } from "@/features/customer/affiliation/api/server-api";
 import { deleteAffiliationApi } from "@/features/customer/affiliation/api/client-api";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 
-export default function useAffiliation(InitAffiliation:Affiliation[]){
-    const [affiliationState, setAffiliationState] = useState<Affiliation[]>(InitAffiliation)
+export default function useAffiliation(InitAffiliation:AffiliationType[]){
+    const [affiliationState, setAffiliationState] = useState<AffiliationType[]>(InitAffiliation)
     const [mode, setMode] = useState<CateMode>(null)
     const addInputRef = useRef<HTMLInputElement>(null)
 
@@ -58,7 +58,7 @@ export default function useAffiliation(InitAffiliation:Affiliation[]){
         }
     }
 
-    const deleteHandler=(cate:Affiliation)=>{
+    const deleteHandler=(cate:AffiliationType)=>{
         const deleteRequest = ()=>{
             deleteAffiliationApi(cate).then((status)=>{
                 if(status === 200){
@@ -66,7 +66,7 @@ export default function useAffiliation(InitAffiliation:Affiliation[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
+        selectConfrim('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, affiliationState, mode, setMode, setAffiliationState,addHandler,deleteHandler,editHandler}

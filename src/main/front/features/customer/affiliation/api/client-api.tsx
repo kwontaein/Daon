@@ -1,10 +1,10 @@
 'use client'
 
 import jwtFilter from "@/features/share/jwtFilter";
-import { Affiliation } from "@/model/types/customer/affiliation/type"
+import { AffiliationType } from "@/model/types/customer/affiliation/type"
 
 
-export const deleteAffiliationApi = async (customer: Affiliation) => {
+export const deleteAffiliationApi = async (customer: AffiliationType) => {
 
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {

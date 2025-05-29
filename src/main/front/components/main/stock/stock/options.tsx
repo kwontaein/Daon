@@ -1,10 +1,10 @@
 'use client'
 import '@/styles/options/options.scss';
-import {useConfirm} from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import {useModalState} from '@/store/zustand/modal';
 import {useRouter} from 'next/navigation';
 import {deleteStockApi} from '@/features/stock/stock/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function StockOptions({stockId, productName, modelName}: {
     stockId: string,
@@ -35,7 +35,7 @@ export default function StockOptions({stockId, productName, modelName}: {
         const onDelete = () => {
             deleteStockApi(stockId)
         }
-        useConfirm('정말로 해당 물품을 삭제하시겠습니까?', onDelete)
+        selectConfrim('정말로 해당 물품을 삭제하시겠습니까?', onDelete)
     }
 
     const SearchStockLedger = () => {

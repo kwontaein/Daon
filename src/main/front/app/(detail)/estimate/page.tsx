@@ -6,8 +6,6 @@ import {getCompany} from "@/features/staff/company/api/server-api";
 import { getEstimateApi } from "@/features/sales/estimate/api/server-api";
 import EstimateHeader from "@/components/main/sales/estimate/form/estimate-header";
 import { DetailPageProps } from "@/model/types/share/type";
-import { getTaskApi } from '@/features/sales/task/api/server-api';
-import { ResponseTask } from '@/model/types/sales/task/type';
 import { notFound } from 'next/navigation';
 
 export default async function EstimateDetailPage({searchParams}:DetailPageProps){

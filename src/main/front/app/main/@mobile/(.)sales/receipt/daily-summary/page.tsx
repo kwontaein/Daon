@@ -8,7 +8,7 @@ import { useDailySummary } from "@/store/zustand/receipt-search";
 import '@/styles/_global.scss'
 import '@/styles/main-view/daily-summary.scss'
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 
 export default function DailySummaryPage(){

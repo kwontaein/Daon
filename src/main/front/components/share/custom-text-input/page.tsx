@@ -1,5 +1,5 @@
 'use client'
-import { useReducer, useState } from 'react'
+import { useReducer } from 'react'
 import './custom-text-input.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'

@@ -1,4 +1,4 @@
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 import useRouterPath from "@/hooks/share/useRouterPath";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import { useModalState } from "@/store/zustand/modal";
@@ -48,7 +48,7 @@ export default function useSearchStock(checkStockName : (id? : string) => boolea
             const deleteStock = ()=>{
                 changeHandler({stockId:'', productName:'', modelName:'', outPrice:0}, id)
             }
-            useConfirm('물품을 다시 선택하시겠습니까?',deleteStock)
+            selectConfrim('물품을 다시 선택하시겠습니까?',deleteStock)
         }
         setTimeout(()=>{
             const value =e.target.value

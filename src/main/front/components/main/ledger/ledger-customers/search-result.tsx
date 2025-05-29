@@ -83,7 +83,7 @@ export default function LedgerCustomersSearchResult({searchInfo}:{searchInfo:{se
       subTotalOfTheDay: initialSubTotal,
       total: initialTotal,
       ledgerCount: 0
-    })  ,[mode, searchInfo.searchResult])
+    })  ,[mode, searchInfo])
     
 
     return(

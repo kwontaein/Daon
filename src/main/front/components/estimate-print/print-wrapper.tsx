@@ -70,11 +70,7 @@ export default function EstimatePrintWrapper({receipts, estimate, companyList}: 
                 totalPrice: itemsTotalPrice,
             })
         }
-    }, [])
-
-    useEffect(() => {
-        console.log(estimateData?.company?.stamp)
-    }, [estimateData])
+    }, [receipts,estimate, companyList])
 
 
     return (

@@ -1,4 +1,3 @@
-import { QueryClient } from "@tanstack/react-query";
 import { ReduxProvider } from "./providers"
 
 export const metadata = {

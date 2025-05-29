@@ -12,16 +12,16 @@ import asideArrow from '@/public/assets/aside-arrow.gif';
 import { submitBusinessInfo } from '@/features/customer/customer/actions/customer-action';
 import ErrorBox from '@/components/share/error/error-box';
 import { CustomerCateEnum, ResponseCustomer } from '@/model/types/customer/customer/type';
-import { Affiliation } from '@/model/types/customer/affiliation/type';
+import { AffiliationType } from '@/model/types/customer/affiliation/type';
 import { ResponseEmployee } from '@/model/types/staff/employee/type';
 import useChangeMode from '@/hooks/share/useChangeMode';
 import { deleteCustomerApi } from '@/features/customer/customer/api/client-api';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import { useRouter } from 'next/navigation';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 
 export default function CustomerForm({affiliation, employees, customer, mode, isMobile} : {
-    affiliation: Affiliation[],
+    affiliation: AffiliationType[],
     employees: ResponseEmployee[],
     mode:'write'|'detail' |'edit'
     customer?: ResponseCustomer,
@@ -41,7 +41,7 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
         }
       })
     }
-    useConfirm('정말로 해당 거래처를 삭제하시겠습니까?', onDelete)
+    selectConfrim('정말로 해당 거래처를 삭제하시겠습니까?', onDelete)
   }
 
   const submitHandler = () => {

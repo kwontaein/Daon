@@ -7,8 +7,7 @@ import {initialLedgertState, ledgerSearchAction} from '@/features/ledger/actions
 import {ResponseOfficial} from '@/model/types/sales/official/type';
 import LedgerOfficialSearchResult from './search-result';
 
-import * as XLSX from "xlsx";
-import {saveAs} from "file-saver";
+
 import {exportLedgerToExcel} from "@/components/main/ledger/ledger-official/exportLedgerToExcel";
 
 

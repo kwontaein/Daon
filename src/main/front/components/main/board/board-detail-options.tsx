@@ -1,5 +1,5 @@
 import { deleteBoardApi } from "@/features/board/api/client-api"
-import { useConfirm } from "@/hooks/share/useConfirm"
+import { selectConfrim } from "@/hooks/share/selectConfrim"
 import { useScreenMode } from "@/hooks/share/useScreenMode"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -23,7 +23,7 @@ export default function BoardDetailOption({boardId, position} : {
                 if(res ===200)  router.push(`/main/board/board`)
             })
         }
-        useConfirm('정말로 해당 게시물을 삭제하시겠습니까?', onDelete)
+        selectConfrim('정말로 해당 게시물을 삭제하시겠습니까?', onDelete)
     }
     return(
         <menu className='options-container' 

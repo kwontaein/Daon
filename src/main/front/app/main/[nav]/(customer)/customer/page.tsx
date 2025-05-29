@@ -2,7 +2,7 @@ import CustomerSearch from "@/components/main/customer/search/search";
 import CustomLoading from "@/components/share/loading/loading";
 import { getAffiliation } from "@/features/customer/affiliation/api/server-api";
 import { searchCustomersApi } from "@/features/customer/customer/api/server-api";
-import { Affiliation } from "@/model/types/customer/affiliation/type";
+import { AffiliationType } from "@/model/types/customer/affiliation/type";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
@@ -20,7 +20,7 @@ const allCustomerRequestBody:CustomerSearchCondition ={
 export default async function CustomerPage({searchParams}:PageByProps) {
     const page = (await searchParams).page || 1;
 
-    const affiliations:Affiliation[] = await getAffiliation()
+    const affiliations:AffiliationType[] = await getAffiliation()
     const initialCustomers:ResponseCustomer[] = await searchCustomersApi(allCustomerRequestBody)
 
     return (

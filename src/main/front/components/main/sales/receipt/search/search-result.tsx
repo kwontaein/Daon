@@ -3,15 +3,12 @@ import './search-result.scss'
 import dayjs from "dayjs";
 import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import ReceiptButtons from '../total-buttons';
 import ReceiptTableContainer from '../table/table-header';
 import { useSearchParams } from 'next/navigation';
 
 
-interface ReceiptItemProps{
-    allReceiptList:ResponseReceipt[]
-}
 
 export default function ReceiptSearchResult({allReceiptList}:{allReceiptList:ResponseReceipt[]}){
     const [isSelected, toggleIsSelected] = useReducer((prev)=>!prev, false);

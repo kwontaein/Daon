@@ -1,5 +1,4 @@
 import { ResponseEstimate } from "../../sales/estimate/type";
-import { Affiliation } from "../affiliation/type";
 
 export enum CustomerCateEnum {
     SALE = '판매처', 

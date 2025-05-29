@@ -1,8 +1,8 @@
 'use client'
 import '@/styles/table-style/search-result.scss'
 
-import React, {Fragment} from 'react';
-import {ExpenseProof, PurchaseVAT} from '@/model/types/accounting/type'
+import React from 'react';
+import {ExpenseProof} from '@/model/types/accounting/type'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEllipsis} from '@fortawesome/free-solid-svg-icons';
 import {useItemSelection} from '@/hooks/share/useItemSelection';

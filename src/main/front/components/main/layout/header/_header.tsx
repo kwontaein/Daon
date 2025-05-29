@@ -2,13 +2,13 @@
 import './_header.scss';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import MobileNavButton from "../nav/mobile/_mobile-nav-button";
 import { useDispatch } from "react-redux";
-import { stompConnect, stompDisconnect } from "@/store/slice/stomp-reducer";
+import { stompConnect } from "@/store/slice/stomp-reducer";
 import { useUserInformation } from "@/store/zustand/userInfo";
 import { EmployeeClassEnum } from "@/model/types/staff/employee/type";
 

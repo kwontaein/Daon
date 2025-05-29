@@ -1,5 +1,4 @@
 'use client'
-import CustomerSearchItems from "@/components/share/search-items/customer-search";
 import { searchCustomersApi } from "@/features/customer/customer/api/server-api";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { useModalState } from "@/store/zustand/modal";

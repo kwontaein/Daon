@@ -4,9 +4,9 @@ import asideArrow from '@/public/assets/aside-arrow.gif';
 
 import '@/styles/form-style/form.scss';
 import Image from "next/image";
-import { useConfirm } from "@/hooks/share/useConfirm";
 import {  postTaskComplete } from "@/features/sales/task/api/server-api";
 import { useRouter } from "next/navigation";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 
 
 const actionTakenAction = async(prevState, formData)=>{
@@ -49,7 +49,7 @@ export default function ActionTaken({children, taskId, isMobile}:{
                 action(formData);
             });
         }
-        useConfirm('조치가 완료된 후에는 견적서를 작성/수정 하실 수 없습니다. 실행하시겠습니까?', submit)
+        selectConfrim('조치가 완료된 후에는 견적서를 작성/수정 하실 수 없습니다. 실행하시겠습니까?', submit)
     }, [action]);
 
     return(

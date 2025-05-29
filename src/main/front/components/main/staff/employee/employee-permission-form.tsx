@@ -3,7 +3,7 @@ import '@/styles/form-style/form.scss';
 
 import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import {AsideOptions} from '@/model/constants/routes/asideOptions';
-import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
+import {startTransition, useActionState, useEffect, useRef} from 'react';
 import {permissionFormAction} from '@/features/staff/employee/action/employee-permission-action';
 import { kebabToCamel } from '@/features/share/kebabToCamel';
 import { EnableUrlType } from '@/model/types/share/type';

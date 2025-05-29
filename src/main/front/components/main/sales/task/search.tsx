@@ -8,18 +8,18 @@ import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
 import TaskSearchResult from './search-result';
 import {ResponseEmployee} from '@/model/types/staff/employee/type';
 import Pagination from '@/components/share/pagination';
-import {useConfirm} from '@/hooks/share/useConfirm';
-import {Affiliation} from '@/model/types/customer/affiliation/type';
+import {AffiliationType} from '@/model/types/customer/affiliation/type';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
 import {exportTasksToExcel} from "@/components/main/sales/task/exportTasksToExcel";
 import { deleteTask } from '@/features/sales/task/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 
 export default function TaskSearch({affiliations, initialTask, employees, page}: {
-    affiliations: Affiliation[],
+    affiliations: AffiliationType[],
     initialTask: ResponseTask[],
     page: number,
     employees: ResponseEmployee[]
@@ -63,7 +63,7 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         const onDelete = async () => {
             await deleteTask(checkedTaskIds)
         }
-        useConfirm('체크한 항목을 삭제하시겠습니까?', onDelete)
+        selectConfrim('체크한 항목을 삭제하시겠습니까?', onDelete)
     }
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constant
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
 import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/server-api";
-import { useConfirm } from "../../share/useConfirm";
+import { selectConfrim } from "../../share/selectConfrim";
 import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
 
@@ -157,7 +157,7 @@ export default function useReceiptList(initialReceiptList, isMobile=false) {
                     }
                 })}
         }
-        useConfirm('모든 전표입력을 실행하시겠습니까?',postReceiptList)
+        selectConfrim('모든 전표입력을 실행하시겠습니까?',postReceiptList)
     }
     return {
         receiptList,

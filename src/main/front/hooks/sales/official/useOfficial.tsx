@@ -1,7 +1,7 @@
 'use client'
 import {useState, useRef} from "react";
 
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 import { saveOfficialApi, updateOfficialApi } from "@/features/sales/official/api/server-api";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
 import { deleteOfficialApi } from "@/features/sales/official/api/client-api";
@@ -60,7 +60,7 @@ export default function useOfficial(InitialOfficial:ResponseOfficial[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
+        selectConfrim('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, officialState, mode, setMode, setOfficialState,addHandler,deleteHandler,editHandler}

@@ -1,10 +1,10 @@
 'use client'
-import type {Affiliation} from '@/model/types/customer/affiliation/type';
+import type { AffiliationType } from '@/model/types/customer/affiliation/type';
 import '@/styles/table-style/category.scss'
 import useAffiliation from '@/hooks/customer/affiliation/useAffiliation';
 
 
-export default function Affiliation({affiliations}: { affiliations: Affiliation[] }) {
+export default function Affiliation({affiliations}: { affiliations: AffiliationType[] }) {
     const {
         addInputRef,
         affiliationState,
@@ -32,7 +32,7 @@ export default function Affiliation({affiliations}: { affiliations: Affiliation[
                 </tr>
                 </thead>
                 <tbody>
-                {affiliationState.map((affiliation: Affiliation, index) => (
+                {affiliationState.map((affiliation: AffiliationType, index) => (
                     <tr key={affiliation.affiliationId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
@@ -43,7 +43,7 @@ export default function Affiliation({affiliations}: { affiliations: Affiliation[
                                        required={true}
                                        value={affiliation.affiliationName}
                                        onChange={(e) =>
-                                           setAffiliationState((prev)=>prev.map((item: Affiliation, i: number) =>
+                                           setAffiliationState((prev)=>prev.map((item: AffiliationType, i: number) =>
                                                i === index ? {
                                                    ...item,
                                                    affiliationName: e.target.value

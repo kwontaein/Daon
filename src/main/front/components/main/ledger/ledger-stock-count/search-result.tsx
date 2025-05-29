@@ -1,7 +1,7 @@
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import '@/styles/table-style/search-result.scss';
 
-import {  ResponseLedgerStock, ResponseStockCountResult } from "@/model/types/ledger/type";
+import { ResponseStockCountResult } from "@/model/types/ledger/type";
 import dayjs from "dayjs";
 import { useMemo } from 'react';
 

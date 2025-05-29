@@ -9,13 +9,13 @@ import {useRouter} from "next/navigation";
 import {EmployeeClassEnum, ResponseEmployee, UserRoleEnum} from "@/model/types/staff/employee/type";
 import {submitEmployeeInfo} from "@/features/staff/employee/action/permissionAction";
 import ErrorBox from "@/components/share/error/error-box";
-import {useConfirm} from "@/hooks/share/useConfirm";
 import {userIdDuplicationChecked} from "@/features/staff/employee/api/server-api";
 import {Dept} from "@/model/types/staff/dept/type";
 import dayjs from "dayjs";
 import CustomDateInput from "@/components/share/custom-date-input/custom-date-input";
 import { UserInfo } from '@/store/zustand/userInfo';
 import useChangeMode from '@/hooks/share/useChangeMode';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function EmployeeForm({
     dept,
@@ -90,7 +90,7 @@ export default function EmployeeForm({
         if (idText) {
             const isDuplicate = await userIdDuplicationChecked(idText)
             if (!isDuplicate) {
-                useConfirm(`사용이 가능한 아이디입니다. 정말로 해당 아이디를 사용하시겠습니까?`, changeDuplicationState)
+                selectConfrim(`사용이 가능한 아이디입니다. 정말로 해당 아이디를 사용하시겠습니까?`, changeDuplicationState)
             } else if (isDuplicate === undefined) {
                 window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
             } else {

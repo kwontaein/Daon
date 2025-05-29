@@ -1,5 +1,3 @@
-import Image from "next/image";
-import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
 import CustomerForm from "@/components/main/customer/form/customer-form";

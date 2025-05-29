@@ -53,7 +53,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
         startTransition(() => {
             action(formData);
         });
-    }, [action]);
+    }, [action, formRef]);
 
     useEffect(()=>{
         if(state.searchReceipt){

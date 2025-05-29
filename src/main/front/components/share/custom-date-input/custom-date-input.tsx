@@ -1,7 +1,7 @@
 'use client'
 import dayjs from 'dayjs';
 import './custom-date-input.scss';
-import { RefObject, useId, useMemo, useRef, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 
 export default function CustomDateInput({ defaultValue, name, changeEvent, className ,readOnly}: {
     defaultValue: Date,
