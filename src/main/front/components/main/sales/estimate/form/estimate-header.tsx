@@ -115,7 +115,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
                 if (mode === 'edit') {
                     setTimeout(() => {
                         window.alert('견적서를 수정했습니다.')
-                        changeModeHandler('detail');
+                        isMobile ? window.history.back(): changeModeHandler('detail');
                     }, 100)
                 } else {
                     window.alert('견적서를 등록했습니다.')
