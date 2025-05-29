@@ -52,6 +52,8 @@ public class ExpenseProofRequest {
     private LocalDate searchEDate;
     private String customerName;
 
+    private UUID receiptId;
+
     public ExpenseProofEntity toExpenseProofEntity(CustomerEntity customer) {
         return ExpenseProofEntity
                 .builder()

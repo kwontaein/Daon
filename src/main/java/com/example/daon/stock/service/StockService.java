@@ -1,6 +1,7 @@
 package com.example.daon.stock.service;
 
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.stock.dto.request.StockCateRequest;
 import com.example.daon.stock.dto.request.StockRequest;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StockService {
     private final StockRepository stockRepository;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
     private final StockCateRepository stockCateRepository;
 
@@ -67,12 +69,12 @@ public class StockService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
-        return stockEntities.stream().map(globalService::convertToStockResponse).collect(Collectors.toList());
+        return stockEntities.stream().map(convertResponseService::convertToStockResponse).collect(Collectors.toList());
     }
 
     public StockResponse getStockById(StockRequest stockRequest) {
         StockEntity stock = stockRepository.findById(stockRequest.getStockId()).orElse(null);
-        return globalService.convertToStockResponse(stock);
+        return convertResponseService.convertToStockResponse(stock);
     }
 
     // 생성

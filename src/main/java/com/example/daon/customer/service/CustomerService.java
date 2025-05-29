@@ -12,6 +12,7 @@ import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -33,6 +34,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final AffiliationRepository affiliationRepository;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
 
@@ -75,18 +77,17 @@ public class CustomerService {
         });
 
         return customer.stream()
-                .map(globalService::convertToCustomerResponse)
+                .map(convertResponseService::convertToCustomerResponse)
                 .collect(Collectors.toList());
     }
 
     public CustomerResponse getCustomer(UUID customerId) {
         CustomerEntity customer = customerRepository.findById(customerId).orElse(null);
-        return globalService.convertToCustomerResponse(customer);
+        return convertResponseService.convertToCustomerResponse(customer);
     }
 
     public void saveCustomer(CustomerRequest request) {
         UserEntity user = null;
-        System.out.println(request.getUserId());
         if (request.getUserId() != null || request.getUserId().isEmpty()) {
             user = globalService.resolveUser(request.getUserId());
         }
@@ -105,10 +106,8 @@ public class CustomerService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteCustomers(CustomerRequest request) {
-        System.out.println("실행 삭제");
         try {
             customerRepository.deleteById(request.getCustomerId());
-            // flush를 강제로 시도
             customerRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new ResourceInUseException("고객을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
@@ -118,7 +117,7 @@ public class CustomerService {
     public List<AffiliationResponse> getAffiliation() {
         List<AffiliationEntity> affiliationEntities = affiliationRepository.findAll();
         return affiliationEntities.stream()
-                .map(globalService::convertToAffiliationResponse)
+                .map(convertResponseService::convertToAffiliationResponse)
                 .collect(Collectors.toList());
     }
 
@@ -132,11 +131,7 @@ public class CustomerService {
         for (AffiliationRequest request : requests) {
             AffiliationEntity existingEntity;
             existingEntity = affiliationRepository.findById(request.getAffiliationId()).orElse(null);
-
-            //    기존 엔티티의 내용을 요청 DTO로 갱신하는 로직
             existingEntity.updateFromRequest(request);
-
-            //    변경된 엔티티 저장
             affiliationRepository.save(existingEntity);
         }
     }
@@ -146,6 +141,7 @@ public class CustomerService {
     public void deleteAffiliation(AffiliationRequest request) {
         try {
             affiliationRepository.deleteById(request.getAffiliationId());
+            affiliationRepository.flush();
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("소속을 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);

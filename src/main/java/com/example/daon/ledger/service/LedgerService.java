@@ -4,7 +4,7 @@ import com.example.daon.customer.model.AffiliationEntity;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.AffiliationRepository;
 import com.example.daon.customer.repository.CustomerRepository;
-import com.example.daon.global.service.GlobalService;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.ledger.dto.request.LedgerRequest;
 import com.example.daon.ledger.dto.request.NoPaidRequest;
 import com.example.daon.ledger.dto.response.LedgerResponse;
@@ -36,7 +36,7 @@ public class LedgerService {
     private final StockRepository stockRepository;
     private final CustomerRepository customerRepository;
     private final AffiliationRepository affiliationRepository;
-    private final GlobalService globalService;
+    private final ConvertResponseService convertResponseService;
 
     @PersistenceContext
     private EntityManager em;
@@ -99,7 +99,7 @@ public class LedgerService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     //복수거래처
@@ -120,7 +120,7 @@ public class LedgerService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
 
@@ -160,7 +160,7 @@ public class LedgerService {
             query.orderBy(criteriaBuilder.desc(root.get("timeStamp")));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     public List<LedgerResponse> getSaleOrPurchaseReceipt(LedgerRequest ledgerRequest, ReceiptCategory receiptCategory) {
@@ -181,7 +181,7 @@ public class LedgerService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
 
@@ -197,7 +197,7 @@ public class LedgerService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 
         });
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
     //재고조사서
@@ -206,7 +206,9 @@ public class LedgerService {
             //조건문 사용을 위한 객체
             List<Predicate> predicates = new ArrayList<>();
 
-            predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
+            if (ledgerRequest.getStockCate() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("category").get("stockCateId"), ledgerRequest.getStockCateId()));
+            }
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
@@ -225,7 +227,7 @@ public class LedgerService {
 
         stockLedgerResponses.setStockLedgerResponses(
                 stockEntities.stream()
-                        .map(globalService::convertToStockLedgerResponse)
+                        .map(convertResponseService::convertToStockLedgerResponse)
                         .collect(Collectors.toList()));
 
         stockLedgerResponses.setTotalQuantity(totalQuantity);
@@ -260,7 +262,7 @@ public class LedgerService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
         System.out.println(receiptEntities.size());
-        return receiptEntities.stream().map(globalService::convertToLedgerResponse).collect(Collectors.toList());
+        return receiptEntities.stream().map(convertResponseService::convertToLedgerResponse).collect(Collectors.toList());
     }
 
 
@@ -381,6 +383,7 @@ public class LedgerService {
         cq.orderBy(cb.asc(currentBalance)); // 필요 시
 
         // 6) 최종 쿼리 실행
+        System.out.println(em.createQuery(cq).getResultList());
         return em.createQuery(cq).getResultList();
     }
 

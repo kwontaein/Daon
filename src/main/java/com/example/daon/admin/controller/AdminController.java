@@ -113,9 +113,4 @@ public class AdminController {
     public EnableUrlResponse getEnableUrl(@RequestBody EnableUrlRequest enableUrlRequest) {
         return adminService.getEnableUrl(enableUrlRequest);
     }
-
-    @GetMapping("api/test")
-    public void test() {
-        adminService.test();
-    }
 }

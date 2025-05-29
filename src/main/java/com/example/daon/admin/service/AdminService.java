@@ -12,6 +12,7 @@ import com.example.daon.admin.repository.DeptRepository;
 import com.example.daon.admin.repository.EnableUrlRepository;
 import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.JwtToken;
@@ -51,6 +52,7 @@ public class AdminService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     /**
@@ -83,7 +85,7 @@ public class AdminService {
 
             EnableUrl enableUrl = enableUrlRepository.findByUser(userEntity).orElse(null);
             if (enableUrl != null) {
-                setEnableUrlCookie(globalService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
+                setEnableUrlCookie(convertResponseService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
             }
             setAdminCookie(userEntity, response);
 
@@ -118,7 +120,7 @@ public class AdminService {
     public void setAdminCookie(UserEntity user, HttpServletResponse response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String enableUrlJson = objectMapper.writeValueAsString(globalService.convertToAdminCookie(user));
+            String enableUrlJson = objectMapper.writeValueAsString(convertResponseService.convertToAdminCookie(user));
             String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
 
             Cookie cookie = new Cookie("user", encoded);
@@ -169,7 +171,7 @@ public class AdminService {
 
     public List<UserResponse> GetEmployees() {
         List<UserEntity> userEntities = userRepository.findAll();
-        return userEntities.stream().map(globalService::convertToUserResponse).collect(Collectors.toList());
+        return userEntities.stream().map(convertResponseService::convertToUserResponse).collect(Collectors.toList());
     }
 
     public void UpdateEmployee(UserRequest userRequest, HttpServletResponse response) {
@@ -197,7 +199,7 @@ public class AdminService {
 
     public UserResponse GetEmployeeDetail(UserRequest userRequest) {
         UserEntity user = userRepository.findById(userRequest.getUserId()).orElse(null);
-        return globalService.convertToUserResponse(user);
+        return convertResponseService.convertToUserResponse(user);
     }
 
     public List<DeptEntity> getDept() {
@@ -220,6 +222,7 @@ public class AdminService {
     public void DeleteDept(DeptRequest deptRequest) {
         try {
             deptRepository.deleteById(deptRequest.getDeptId());
+            deptRepository.flush();
         } catch (DataIntegrityViolationException e) {
             // 외래키 제약 조건 위반 처리
             throw new ResourceInUseException("부서를 삭제할 수 없습니다. 관련된 데이터가 존재합니다.", e);
@@ -235,7 +238,7 @@ public class AdminService {
     }
 
     public UserResponse getMyDetail() {
-        return globalService.convertToUserResponse(globalService.resolveUser(null));
+        return convertResponseService.convertToUserResponse(globalService.resolveUser(null));
     }
 
 
@@ -250,7 +253,7 @@ public class AdminService {
     public ResponseEntity<String> UpdateEnableUrlCookie(EnableUrlRequest enableUrlRequest, HttpServletResponse response) {
         EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
         if (enableUrl.getUser().getUserId() == globalService.resolveUser(null).getUserId()) {
-            setEnableUrlCookie(globalService.convertToEnableUrlResponse(enableUrl), response);
+            setEnableUrlCookie(convertResponseService.convertToEnableUrlResponse(enableUrl), response);
         }
         return ResponseEntity.status(HttpStatus.OK).body("접근 권한이 수정되었습니다.");
     }
@@ -258,16 +261,6 @@ public class AdminService {
     //접근가능링크 읽기
     public EnableUrlResponse getEnableUrl(EnableUrlRequest enableUrlRequest) {
         EnableUrl enableUrl = enableUrlRepository.findByUser(globalService.resolveUser(enableUrlRequest.getUserId())).orElse(null);
-        return globalService.convertToEnableUrlResponse(enableUrl);
-    }
-
-    public void test() {
-        List<UserEntity> userEntities = userRepository.findAll();
-        for (UserEntity user : userEntities) {
-            if (enableUrlRepository.findByUser(user) != null) {
-                EnableUrlRequest enableUrlRequest = new EnableUrlRequest();
-                enableUrlRepository.save(enableUrlRequest.toEntityFirstTime(user));
-            }
-        }
+        return convertResponseService.convertToEnableUrlResponse(enableUrl);
     }
 }

@@ -16,8 +16,8 @@ import dayjs from 'dayjs';
 import {useConfirm} from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
-import { UserInfo, useUserInformation } from '@/store/zustand/userInfo';
-import { notFound } from 'next/navigation';
+import {UserInfo, useUserInformation} from '@/store/zustand/userInfo';
+import {notFound} from 'next/navigation';
 
 export default function EstimateHeader({companyList, task, estimate, mode, userInfo, isMobile = false}: {
     companyList: ResponseCompany[],
@@ -25,16 +25,16 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
     task?: ResponseTask,
     estimate?: ResponseEstimate,
     userInfo?: UserInfo
-    isMobile?:boolean,
+    isMobile?: boolean,
 }) {
 
     const {user} = useUserInformation()
 
-    useEffect(()=>{
-        if(!userInfo && !user){
+    useEffect(() => {
+        if (!userInfo && !user) {
             notFound()
         }
-    },[])
+    }, [])
 
     //task를 전달받으면 업무에서 처음 견적서를 작성하는 것이다.
     const initialState = useMemo(() => {
@@ -72,7 +72,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
     const [company, setCompany] = useState<ResponseCompany>(initialCompany)
     const changeModeHandler = useChangeMode()
 
- 
+
     const companyHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         if (mode === 'detail') return
         const company = companyList.find(({companyId}) => companyId === e.target.value)
@@ -98,7 +98,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
                 action(formData)
             })
         }
-        if (state.mode === 'edit' && state.items.length === 0) {
+        if (mode === 'edit' && state.items.length === 0) {
             useConfirm('항목이 존재하지 않으면 견적서는 삭제됩니다. 정말로 수정하시겠습니까?', submit)
         } else {
             submit()
@@ -112,14 +112,14 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
         }
         if (state.status) {
             if (state.status === 200) {
-                if (state.mode === 'edit') {
+                if (mode === 'edit') {
                     setTimeout(() => {
                         window.alert('견적서를 수정했습니다.')
-                        changeModeHandler('detail');
+                        isMobile ? window.history.back(): changeModeHandler('detail');
                     }, 100)
                 } else {
                     window.alert('견적서를 등록했습니다.')
-                    isMobile ? window.history.back() :window.close();
+                    isMobile ? window.history.back() : window.close();
                 }
             } else {
                 window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
@@ -198,8 +198,8 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
                                 name='customerName'
                                 defaultValue={state.customerName}
                                 key={state.customerName}
-                                readOnly={task ? true : mode === 'detail'}
-                                onKeyDown={(e) => searchCustomerHandler(e)}/>
+                                readOnly={state.taskId ? true : mode === 'detail'}
+                                onKeyDown={(e) => !state.taskId && searchCustomerHandler(e)}/>
                             <input type='hidden' name='customerId' defaultValue={state.customerId}
                                    key={state.customerId || 'customerId'} readOnly/>
                         </td>
@@ -209,8 +209,9 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
                     <tr>
                         <td className='table-label'>담당기사</td>
                         <td>
-                            <input type='text' name='assignedUser' value={state.assignedUser??''} readOnly/>
-                            <input type='hidden' name='userId' value={state.userId??''} key={state.userId+'userId'}readOnly/>
+                            <input type='text' name='assignedUser' value={state.assignedUser ?? ''} readOnly/>
+                            <input type='hidden' name='userId' value={state.userId ?? ''} key={state.userId + 'userId'}
+                                   readOnly/>
                         </td>
                         <td className='table-label'>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</td>
                         <td>
@@ -219,9 +220,10 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
                             </div>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode} task={task??estimate?.taskResponse} isMobile={isMobile}/> 
+                    </tbody>
+                </table>
+                <EstimateForm estimateState={estimate} submit={submitEstimateHandler} mode={mode}
+                              task={task ?? estimate?.taskResponse} isMobile={isMobile}/>
 
             </form>
         </section>

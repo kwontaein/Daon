@@ -5,6 +5,7 @@ import com.example.daon.calendar.dto.request.CalendarRequest;
 import com.example.daon.calendar.dto.response.CalendarResponse;
 import com.example.daon.calendar.model.CalendarEntity;
 import com.example.daon.calendar.repository.CalendarRepository;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
@@ -15,12 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CalendarService {
     private final CalendarRepository calendarRepository;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     public List<CalendarResponse> getSchedules(CalendarRequest calendarRequest) {
@@ -44,47 +47,51 @@ public class CalendarService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
 
-        return calendarEntities.stream().map(globalService::convertToCalendarResponse).collect(Collectors.toList());
+        return calendarEntities.stream().map(convertResponseService::convertToCalendarResponse).collect(Collectors.toList());
     }
 
     @Transactional
     public void saveSchedules(CalendarRequest calendarRequest) {
         UserEntity user = globalService.resolveUser(null);
 
-        List<CalendarEntity> calendarEntities = calendarRepository.findAll((root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
+        boolean isContentEmpty = isEmpty(calendarRequest.getMemo());
+        Optional<CalendarEntity> optionalExisting = findExistingSchedule(calendarRequest);
 
-            if (calendarRequest.getUserId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("user").get("userId"), calendarRequest.getUserId()));
-            }
-
-            if (calendarRequest.getDate() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("date"), calendarRequest.getDate()));
-            }
-
-            query.orderBy(criteriaBuilder.desc(root.get("date")));
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        });
-
-        // 내용이 공백일 경우 (== 비어있으면) 처리: 업데이트도 저장도 하지 않음
-        boolean isContentEmpty = calendarRequest.getMemo() == null || calendarRequest.getMemo().trim().isEmpty();
-
-        if (!calendarEntities.isEmpty()) {
-            CalendarEntity existingEntity = calendarEntities.get(0);
-
+        if (optionalExisting.isPresent()) {
+            CalendarEntity existingEntity = optionalExisting.get();
             if (isContentEmpty) {
-                // 기존 일정 삭제
                 calendarRepository.delete(existingEntity);
             } else {
-                // 내용이 있으면 수정
                 existingEntity.updateFromRequest(calendarRequest);
                 calendarRepository.save(existingEntity);
             }
-        } else {
-            if (!isContentEmpty) {
-                // 기존 일정 없고 내용이 있으면 저장
-                calendarRepository.save(calendarRequest.toEntity(user));
-            }
+        } else if (!isContentEmpty) {
+            calendarRepository.save(calendarRequest.toEntity(user));
         }
+    }
+
+    // 메모가 비어있는지 검사하는 헬퍼
+    private boolean isEmpty(String content) {
+        return content == null || content.trim().isEmpty();
+    }
+
+    // 기존 스케줄 조회
+    private Optional<CalendarEntity> findExistingSchedule(CalendarRequest request) {
+        List<CalendarEntity> results = calendarRepository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (request.getUserId() != null) {
+                predicates.add(cb.equal(root.get("user").get("userId"), request.getUserId()));
+            }
+
+            if (request.getDate() != null) {
+                predicates.add(cb.equal(root.get("date"), request.getDate()));
+            }
+
+            query.orderBy(cb.desc(root.get("date")));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        });
+
+        return results.stream().findFirst();
     }
 }

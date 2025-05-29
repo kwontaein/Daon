@@ -1,4 +1,4 @@
-package com.example.daon.global.service;
+package com.example.daon.global.schduled;
 
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.receipts.model.DailyTotalEntity;
@@ -28,7 +28,7 @@ public class DailyJobRunner {
                 dailyTotalRepository.findDailyTotalEntityByDate(LocalDate.now().minusDays(1))
                         .or(() -> dailyTotalRepository.findTopByDateBeforeOrderByDateDesc(LocalDate.now().minusDays(1)))
                         .orElseThrow(() -> new RuntimeException("기록이 존재하지 않습니다."));
-        
+
         dailyTotalRepository.save(new DailyTotalEntity(
                 null
                 , dailyTotalEntity.getBeforeTotal()

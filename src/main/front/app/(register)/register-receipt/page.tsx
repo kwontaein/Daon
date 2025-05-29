@@ -16,11 +16,9 @@ export default function RegisterReceiptPage() {
                 <Image src={asideArrow} alt=">" width={15}/>
                 <h4>전표입력</h4>
             </header>
-            <main>
-                <ReceiptTableContainer isRegister={true}>
-                    <ReceiptTableBody/>
-                </ReceiptTableContainer>
-            </main>
+            <ReceiptTableContainer isRegister={true}>
+                <ReceiptTableBody/>
+            </ReceiptTableContainer>
             </div>
     );
 }

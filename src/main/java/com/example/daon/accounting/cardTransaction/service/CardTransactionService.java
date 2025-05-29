@@ -8,6 +8,7 @@ import com.example.daon.accounting.categorySelection.service.CategorySelectionSe
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
@@ -17,7 +18,6 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,7 @@ public class CardTransactionService {
     private final CardTransactionRepository cardTransactionRepository;
     private final ReceiptRepository receiptRepository;
     private final CategorySelectionService categorySelectionService;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     //카드결제내역
@@ -74,7 +75,7 @@ public class CardTransactionService {
             // 동적 조건을 조합하여 반환
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
-        return cardTransactionEntities.stream().map(globalService::convertToCardTransactionResponse).collect(Collectors.toList());
+        return cardTransactionEntities.stream().map(convertResponseService::convertToCardTransactionResponse).collect(Collectors.toList());
     }
 
     public void paidCardTransaction(CardTransactionRequest cardTransactionRequest) {
@@ -86,7 +87,7 @@ public class CardTransactionService {
                     null,
                     null,
                     LocalDateTime.now(),
-                    ReceiptCategory.SALES,
+                    ReceiptCategory.DEPOSIT,
                     cardTransaction.getCustomerId(),
                     null,
                     null,
@@ -96,8 +97,12 @@ public class CardTransactionService {
                     cardTransaction.getMemo(),
                     FromCategory.SALES));
             cardTransaction.setReceiptId(receipt.getReceiptId());
-            cardTransaction.setPaidDate(LocalDate.now());
+            cardTransaction.setPaidDate(cardTransactionRequest.getPaidDate());
+            globalService.updateDailyTotal(receipt.getTotalPrice(), receipt.getCategory(), receipt.getTimeStamp());
         } else {
+            cardTransactionRequest.setReceiptId(cardTransaction.getReceiptId());
+            ReceiptEntity receipt = receiptRepository.findById(cardTransaction.getReceiptId()).orElseThrow(() -> new RuntimeException("전표가 존재하지 않습니다."));
+            globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
             receiptRepository.deleteById(cardTransaction.getReceiptId());
             cardTransaction.setReceiptId(null);
             cardTransaction.setPaidDate(null);

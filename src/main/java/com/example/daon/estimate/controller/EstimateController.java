@@ -59,6 +59,6 @@ public class EstimateController {
     //삭제
     @PostMapping("api/deleteEstimate")
     public void deleteEstimate(@RequestBody EstimateRequest estimateRequest) {
-        estimateService.deleteEstimate(estimateRequest.getEstimateId());
+        estimateService.deleteEstimate(estimateRequest);
     }
 }

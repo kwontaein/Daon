@@ -175,7 +175,8 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
                     }
                     <button type='button'
                              onClick={()=>{
-                                !task?.completeAt && mode==='edit' ? changeModeHandler('detail') : (isMobile? window.history.back(): window.close())}}>
+                                isMobile? window.history.back() :
+                                (!task?.completeAt && mode==='edit' ? changeModeHandler('detail') : window.close())}}>
                         {!task?.completeAt ?'취 소' : '닫기'}</button>
             </div>
         </section>

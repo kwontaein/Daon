@@ -10,7 +10,7 @@ import AccountingOptions from '../options';
 import dayjs from 'dayjs';
 import {useScreenMode} from '@/hooks/share/useScreenMode';
 
-export default function ProofSaerchResult({expenseProofs}: { expenseProofs: ExpenseProof[] }) {
+export default function ProofSearchResult({expenseProofs}: { expenseProofs: ExpenseProof[] }) {
     const MemoizedFontAwesomeIcon = React.memo(FontAwesomeIcon);
     const {itemsRef, target, setTarget} = useItemSelection<string>(true);
     const mode = useScreenMode({tabletSize: 846, mobileSize: 620})
@@ -71,7 +71,8 @@ export default function ProofSaerchResult({expenseProofs}: { expenseProofs: Expe
                                     <MemoizedFontAwesomeIcon icon={faEllipsis}
                                                              style={target === expenseProof.expenseProofId && {color: 'orange'}}/>
                                     {target === expenseProof.expenseProofId &&
-                                        <AccountingOptions id={expenseProof.expenseProofId} division='proof'/>}
+                                        <AccountingOptions paidDate={expenseProof.paidDate}
+                                                           id={expenseProof.expenseProofId} division='proof'/>}
                                 </td>
                             </tr>
                         ))}
@@ -94,7 +95,8 @@ export default function ProofSaerchResult({expenseProofs}: { expenseProofs: Expe
                                     <MemoizedFontAwesomeIcon icon={faEllipsis}
                                                              style={target === expenseProof.expenseProofId && {color: 'orange'}}/>
                                     {target === expenseProof.expenseProofId &&
-                                        <AccountingOptions id={expenseProof.expenseProofId} division='pvat'/>}
+                                        <AccountingOptions paidDate={expenseProof.paidDate}
+                                                           id={expenseProof.expenseProofId} division='pvat'/>}
                                 </td>
                             </tr>
                             <tr>

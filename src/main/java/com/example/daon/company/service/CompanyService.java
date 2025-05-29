@@ -4,7 +4,7 @@ import com.example.daon.company.dto.request.CompanyRequest;
 import com.example.daon.company.model.CompanyEntity;
 import com.example.daon.company.repository.CompanyRepository;
 import com.example.daon.global.exception.ResourceInUseException;
-import com.example.daon.global.service.GlobalService;
+import com.example.daon.global.service.ConvertResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
-    private final GlobalService globalService;
+    private final ConvertResponseService convertResponseService;
 
     public void CreateCompany(CompanyRequest companyRequest) {
         CompanyEntity company = companyRepository.save(companyRequest.toEntity());
@@ -31,7 +31,7 @@ public class CompanyService {
         List<CompanyEntity> companyEntities = companyRepository.findAll();
         List<CompanyEntity> reversed = new ArrayList<>(companyEntities);
         Collections.reverse(reversed);
-        companyEntities.stream().map(globalService::convertToCompanyResponse).collect(Collectors.toList());
+        companyEntities.stream().map(convertResponseService::convertToCompanyResponse).collect(Collectors.toList());
         return companyEntities;
     }
 
@@ -53,8 +53,7 @@ public class CompanyService {
 
     public CompanyEntity getCompanyDetail(CompanyRequest companyRequest) {
         CompanyEntity company = companyRepository.findById(companyRequest.getCompanyId()).orElse(null);
-        globalService.convertToCompanyResponse(company);
-        System.out.println(company);
+        convertResponseService.convertToCompanyResponse(company);
         return company;
     }
 }

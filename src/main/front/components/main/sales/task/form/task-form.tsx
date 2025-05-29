@@ -76,7 +76,7 @@ export default function TaskForm({employees, task, mode, isMobile}: {
                 isMobile ? window.history.back() :window.close()
             } else {
                 window.alert('업무수정이 완료되었습니다.')
-                changeModeHandler('detail')
+                isMobile ? window.history.back() :changeModeHandler('detail')
             }
         } else {
             window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
@@ -193,7 +193,8 @@ export default function TaskForm({employees, task, mode, isMobile}: {
                     mode==='detail' ? changeModeHandler('edit'): submitTaskHandler()
                 }}>{mode ==='detail'? '수정': '저장'}</button>
                 <button type='button' onClick={()=>{
-                    mode==='edit' ? changeModeHandler('detail'): (isMobile ? window.history.back() :window.close())
+                    isMobile ? window.history.back() :
+                    (mode==='edit' ? changeModeHandler('detail'): window.close())
                 }}>취소</button>
             </div>
         </form>

@@ -8,6 +8,7 @@ import com.example.daon.accounting.salesVAT.repository.SalesVATRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.customer.repository.CustomerRepository;
 import com.example.daon.global.exception.ResourceInUseException;
+import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
 import com.example.daon.receipts.model.FromCategory;
 import com.example.daon.receipts.model.ReceiptCategory;
@@ -17,7 +18,6 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,7 @@ public class SalesVATService {
     private final CustomerRepository customerRepository;
     private final ReceiptRepository receiptRepository;
     private final CategorySelectionService categorySelectionService;
+    private final ConvertResponseService convertResponseService;
     private final GlobalService globalService;
 
     //매출부가세
@@ -79,10 +80,10 @@ public class SalesVATService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
         System.out.println(salesVATEntities.size());
-        return salesVATEntities.stream().map(globalService::convertToSalesVATResponse).collect(Collectors.toList());
+        return salesVATEntities.stream().map(convertResponseService::convertToSalesVATResponse).collect(Collectors.toList());
     }
 
-    public void paidSalesVAT(SalesVATRequest salesVATRequest) {
+    public void salesVATPaid(SalesVATRequest salesVATRequest) {
         SalesVATEntity salesVATEntity = salesVATRepository.findById(salesVATRequest.getSalesVATId()).orElseThrow(() -> new RuntimeException("존재하지 않는 항목입니다."));
         salesVATEntity.setPaid(!salesVATEntity.isPaid());
 
@@ -91,7 +92,7 @@ public class SalesVATService {
                     null,
                     null,
                     LocalDateTime.now(),
-                    ReceiptCategory.SALES,
+                    ReceiptCategory.DEPOSIT,
                     salesVATEntity.getCustomerId(),
                     null,
                     null,
@@ -101,9 +102,14 @@ public class SalesVATService {
                     salesVATEntity.getMemo(),
                     FromCategory.SALES));
             salesVATEntity.setReceiptId(receipt.getReceiptId());
-            salesVATEntity.setPaidDate(LocalDate.now());
+            salesVATEntity.setPaidDate(salesVATRequest.getPaidDate());
+            salesVATRequest.setReceiptId(salesVATEntity.getReceiptId());
+            globalService.updateDailyTotal(receipt.getTotalPrice(), receipt.getCategory(), receipt.getTimeStamp());
         } else {
+            ReceiptEntity receipt = receiptRepository.findById(salesVATEntity.getReceiptId()).orElseThrow(() -> new RuntimeException("전표가 존재하지 않습니다."));
+            globalService.updateDailyTotal(receipt.getTotalPrice().negate(), receipt.getCategory(), receipt.getTimeStamp());
             receiptRepository.deleteById(salesVATEntity.getReceiptId());
+            salesVATRequest.setReceiptId(salesVATEntity.getReceiptId());
             salesVATEntity.setReceiptId(null);
             salesVATEntity.setPaidDate(null);
         }
