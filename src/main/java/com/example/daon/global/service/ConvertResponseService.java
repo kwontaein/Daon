@@ -235,6 +235,7 @@ public class ConvertResponseService {
                 .requesterContact2(task.getRequesterContact2())
                 .model(task.getModel())
                 .assignedUser(convertToAssignedUserResponse(task.getAssignedUser()))
+                .createUser(convertToAssignedUserResponse(task.getCreatedUser() != null ? task.getCreatedUser() : null))
                 .details(task.getDetails())
                 .remarks(task.getRemarks())
                 .createdAt(task.getCreatedAt())

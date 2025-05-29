@@ -51,7 +51,7 @@ public class TaskRequest {
 
     private boolean admin;
 
-    public TaskEntity toEntity(CustomerEntity customer, UserEntity user, LocalDateTime createdAt, EstimateEntity estimate) {
+    public TaskEntity toEntity(CustomerEntity customer, UserEntity user, UserEntity createUser, LocalDateTime createdAt, EstimateEntity estimate) {
         return TaskEntity
                 .builder()
                 .taskId(taskId)
@@ -64,6 +64,7 @@ public class TaskRequest {
                 .assignedUser(user)
                 .details(details)
                 .remarks(remarks)
+                .createdUser(createUser)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .completeAt(completeAt)

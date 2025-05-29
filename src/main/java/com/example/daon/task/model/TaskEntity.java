@@ -48,6 +48,10 @@ public class TaskEntity {
     @JoinColumn(name = "user_id")
     private UserEntity assignedUser; // 담당 기사 (유저)
 
+    @ManyToOne
+    @JoinColumn(name = "create_user", nullable = false, updatable = false)
+    private UserEntity createdUser; // 생성자
+
     @Column(name = "details", columnDefinition = "TEXT")
     private String details; // 내용
 

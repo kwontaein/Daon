@@ -104,7 +104,7 @@ public class TaskService {
             estimate = estimateRepository.findById(taskRequest.getEstimateId()).orElse(null);
         }
         LocalDateTime createdDate = LocalDateTime.now();
-        TaskEntity task = taskRepository.save(taskRequest.toEntity(customer, assignedUser, createdDate, estimate));
+        TaskEntity task = taskRepository.save(taskRequest.toEntity(customer, assignedUser, globalService.resolveUser(null), createdDate, estimate));
         taskRequest.setTaskId(task.getTaskId());
     }
 

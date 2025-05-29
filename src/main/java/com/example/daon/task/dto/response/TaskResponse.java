@@ -31,6 +31,8 @@ public class TaskResponse {
 
     public AssignedUser assignedUser; // 담당 기사 (유저)
 
+    public AssignedUser createUser; // 생성자 (유저)
+
     public String details; // 내용
 
     public String remarks; // 비고
