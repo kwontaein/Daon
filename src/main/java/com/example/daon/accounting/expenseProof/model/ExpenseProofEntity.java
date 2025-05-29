@@ -2,6 +2,7 @@ package com.example.daon.accounting.expenseProof.model;
 
 import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
 import com.example.daon.customer.model.CustomerEntity;
+import com.example.daon.receipts.model.ReceiptEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -85,5 +87,19 @@ public class ExpenseProofEntity {
         this.vat = expenseProofRequest.getVat();
         this.total = expenseProofRequest.getTotal();
         this.memo = expenseProofRequest.getMemo();
+    }
+
+    public void updateFromReceipt(ReceiptEntity receipt) {
+        BigDecimal totalPrice = receipt.getTotalPrice();
+
+        // 소수점 연산은 항상 MathContext 또는 RoundingMode를 설정하는 것이 중요
+        BigDecimal amount = totalPrice.multiply(new BigDecimal("0.9")).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal vat = totalPrice.multiply(new BigDecimal("0.1")).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal total = amount.add(vat); // 혹은 그냥 totalPrice 써도 되지만 안전하게 다시 계산
+
+        this.amount = amount;
+        this.vat = vat;
+        this.total = total;
+        this.customerId = receipt.getCustomer();
     }
 }

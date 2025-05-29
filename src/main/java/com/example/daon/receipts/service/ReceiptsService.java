@@ -1,5 +1,8 @@
 package com.example.daon.receipts.service;
 
+import com.example.daon.accounting.cardTransaction.repository.CardTransactionRepository;
+import com.example.daon.accounting.expenseProof.repository.ExpenseProofRepository;
+import com.example.daon.accounting.salesVAT.repository.SalesVATRepository;
 import com.example.daon.customer.model.CustomerEntity;
 import com.example.daon.estimate.model.EstimateEntity;
 import com.example.daon.global.exception.ResourceInUseException;
@@ -19,6 +22,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -35,6 +39,9 @@ public class ReceiptsService {
     private final GlobalService globalService;
     private final DailyTotalRepository dailyTotalRepository;
 
+    private final SalesVATRepository salesVATRepository;
+    private final CardTransactionRepository cardTransactionRepository;
+    private final ExpenseProofRepository expenseProofRepository;
 
     public List<ReceiptResponse> getReceipts(ReceiptCategory category, LocalDate startDate, LocalDate endDate, UUID customerId, UUID stockId) {
         List<ReceiptEntity> receiptEntities = receiptRepository.findAll((root, query, criteriaBuilder) -> {
@@ -129,9 +136,28 @@ public class ReceiptsService {
         globalService.updateDailyTotal(request.getTotalPrice(), request.getCategory(), request.getTimeStamp());
 
         // 수정된 전표 저장
-        receiptRepository.save(existing);
+        ReceiptEntity receipt = receiptRepository.save(existing);
+        updateIfAccounting(receipt);
     }
 
+    //회계에서 전달받은 전표라면, 수정 시 회계 수정
+    @Transactional
+    public void updateIfAccounting(ReceiptEntity receipt) {
+        salesVATRepository.findByReceiptId(receipt.getReceiptId()).ifPresent(salesVATEntity -> {
+            salesVATEntity.updateFromReceipt(receipt);
+            salesVATRepository.save(salesVATEntity);
+        });
+
+        cardTransactionRepository.findByReceiptId(receipt.getReceiptId()).ifPresent(cardTransaction -> {
+            cardTransaction.updateFromReceipt(receipt);
+            cardTransactionRepository.save(cardTransaction);
+        });
+
+        expenseProofRepository.findByReceiptId(receipt.getReceiptId()).ifPresent(expenseProofEntity -> {
+            expenseProofEntity.updateFromReceipt(receipt);
+            expenseProofRepository.save(expenseProofEntity);
+        });
+    }
 
     /**
      * 전표 수정 (단일 객체)
