@@ -2,7 +2,7 @@
 import {useState, useRef, useEffect} from "react";
 
 import { createDeptApi, updateDeptApi } from "../../../features/staff/dept/api/server-api";
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 import { CateMode } from "@/model/types/share/type";
 import { Dept } from "@/model/types/staff/dept/type";
 import { deleteDeptApi } from "@/features/staff/dept/api/client-api";
@@ -68,7 +68,7 @@ export default function useDept(InitDept:Dept[]){
                 }
             })
         }
-        useConfirm('정말로 삭제하시겠습니까?', deleteRequest)
+        selectConfrim('정말로 삭제하시겠습니까?', deleteRequest)
     }
 
     return  { addInputRef, deptState, mode, setMode, setDeptState,addHandler,deleteHandler,editHandler}

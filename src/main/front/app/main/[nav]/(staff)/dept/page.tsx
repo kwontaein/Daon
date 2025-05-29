@@ -1,4 +1,4 @@
-import Dept from "@/components/main/staff/dept/dept";
+import DeptTable from "@/components/main/staff/dept/dept";
 import { getDeptApi } from "@/features/staff/dept/api/server-api";
 import { PageByProps } from "@/model/types/share/type";
 
@@ -7,6 +7,6 @@ export default async function DeptPage({searchParams}:PageByProps){
 
     const initDept = await getDeptApi()
 
-    return <Dept InitDept={initDept}/>
+    return <DeptTable InitDept={initDept}/>
  
 }

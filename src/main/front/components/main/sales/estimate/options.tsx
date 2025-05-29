@@ -1,16 +1,16 @@
 'use client'
 import '@/styles/options/options.scss';
 import { transEstimateToReceiptApi } from '@/features/sales/estimate/api/server-api';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { deleteEstimate } from '@/features/sales/estimate/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function EstimateOptions({estimateId, receipted}:{estimateId:string, receipted:boolean}){
     const redirect = useRouterPath()
 
     const viewEstimateHandler = (estimateId:string)=>{
         if(receipted){
-            useConfirm('정말로 전표전환을 취소하시겠습니까?', ()=>{transEstimateToReceiptApi({estimateId})})
+            selectConfrim('정말로 전표전환을 취소하시겠습니까?', ()=>{transEstimateToReceiptApi({estimateId})})
             return
         }
 
@@ -32,7 +32,7 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
         const onDelete =async()=>{
             await deleteEstimate(estimateId)
         }
-        useConfirm('정말로 해당 견적서를 삭제하시겠습니까?', onDelete)
+        selectConfrim('정말로 해당 견적서를 삭제하시겠습니까?', onDelete)
     }
     
     const printEstimatehandler = ()=>{
@@ -45,9 +45,9 @@ export default function EstimateOptions({estimateId, receipted}:{estimateId:stri
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
             window.open(url, "printEstimate", popupOptions);
-        }else[
+        }else{
             redirect(`estimate-print?${params.toString()}`)
-        ]
+        }
     }
 
     return(

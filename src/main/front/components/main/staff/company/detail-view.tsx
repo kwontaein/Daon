@@ -2,9 +2,9 @@
 import './form/company-form.scss'
 import { ResponseCompany } from "@/model/types/staff/company/type";
 import useChangeMode from '@/hooks/share/useChangeMode';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import { useRouter } from 'next/navigation';
 import { deleteCompany } from '@/features/staff/company/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function CompanyDetail({company, isMobile=false}:{company:ResponseCompany, isMobile?:boolean}){
     const changeModeHandler = useChangeMode()
@@ -13,12 +13,12 @@ export default function CompanyDetail({company, isMobile=false}:{company:Respons
     const deleteCompanyHandler =()=>{
         const onDelete = async()=>{
             await deleteCompany(company.companyId).then((res)=>{
-                if(res ==200){
+                if(res === 200){
                     isMobile ?  router.back() : window.close()
                 }
             })
         }
-        useConfirm('정말로 해당 회사를 삭제하시겠습니까?',onDelete)
+        selectConfrim('정말로 해당 회사를 삭제하시겠습니까?',onDelete)
     }
     return(
         <section className="company-form-container">

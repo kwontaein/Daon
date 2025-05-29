@@ -9,7 +9,7 @@ import {ResponseEmployee} from '@/model/types/staff/employee/type';
 
 import AdminDataSearchSearchResult from './search-result';
 import Pagination from '@/components/share/pagination';
-import {Affiliation} from '@/model/types/customer/affiliation/type';
+import {AffiliationType} from '@/model/types/customer/affiliation/type';
 import useDeletePage from '@/hooks/share/useDeletePage';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import {useScreenMode} from '@/hooks/share/useScreenMode';
@@ -19,7 +19,7 @@ import {exportAdminTasksToExcel} from "@/components/main/sales/admin/exportTasks
 
 
 export default function AdminDataSearch({affiliations, initialTask, employees, page}: {
-    affiliations: Affiliation[],
+    affiliations: AffiliationType[],
     initialTask: ResponseTask[],
     page: number,
     employees: ResponseEmployee[]

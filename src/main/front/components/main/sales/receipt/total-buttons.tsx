@@ -1,13 +1,13 @@
 'use client'
 import './total-buttons.scss';
 
-import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { ReceiptCategoryEnum, ResponseReceipt } from '@/model/types/sales/receipt/type';
 import { useMemo, useReducer } from 'react';
 
 import ModalReceiptList from './modal-receipt-list';
 import { deleteReceiptApi } from '@/features/sales/receipt/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 
 
@@ -65,7 +65,7 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
         const submit = async()=>{
             await deleteReceiptApi(selectList)
         }
-        useConfirm('선택한 전표를 삭제하시겠습니까?',submit)
+        selectConfrim('선택한 전표를 삭제하시겠습니까?',submit)
     }
     
     //전표수정
@@ -116,9 +116,9 @@ export default function ReceiptButtons({isSelected, selectList, toggleIsSelected
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
             window.open(url, "printEstimate", popupOptions);
-        }else[
+        }else{
             redirect(`estimate-print?${params.toString()}`)
-        ]
+        }
     }
 
     return(

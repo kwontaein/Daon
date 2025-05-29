@@ -1,11 +1,11 @@
 'use client';
 import '@/styles/table-style/search.scss';
 
-import {Affiliation} from '@/model/types/customer/affiliation/type';
+import {AffiliationType} from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import {CustomerCateEnum, ResponseCustomer} from '@/model/types/customer/customer/type';
 import {StockCate} from '@/model/types/stock/cate/type';
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from 'react';
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import {initialLedgertState, ledgerSearchAction} from '@/features/ledger/actions/ledgerSearchAction';
 import {ResponseStock} from '@/model/types/stock/stock/types';
@@ -18,7 +18,7 @@ import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import { ReceiptCategoryEnum } from '@/model/types/sales/receipt/type';
 
 export default function LedgerCustomerSearch({affiliations, stockCates}: {
-    affiliations: Affiliation[],
+    affiliations: AffiliationType[],
     stockCates: StockCate[]
 }) {
     const [state, action] = useActionState(ledgerSearchAction, initialLedgertState)
@@ -125,9 +125,10 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
             window.open(url, "printEstimate", popupOptions);
-        }else[
+        }else{
             redirect(`estimate-print?${params.toString()}`)
-        ]
+        }
+        
     }
 
     return (

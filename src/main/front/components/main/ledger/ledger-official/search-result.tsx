@@ -4,9 +4,6 @@ import {ResponseLedger} from "@/model/types/ledger/type";
 import {ResponseOfficial} from "@/model/types/sales/official/type";
 import {ReceiptCategoryEnum} from "@/model/types/sales/receipt/type";
 import dayjs from "dayjs";
-import {useMemo} from "react";
-import {exportLedgerToExcel} from "@/components/main/ledger/ledger-official/exportLedgerToExcel";
-
 
 export default function LedgerOfficialSearchResult({searchInfo, officials, totalResult}: {
     searchInfo: {

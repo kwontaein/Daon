@@ -39,4 +39,19 @@ export interface TaskSearchCondition {
 }
 
 
-export type SaveTask = Omit<ResponseTask, 'taskId' | 'updatedAt' | 'createdAt' | 'completeAt'>
+export interface RequestTask {
+    taskId: string; // 업무 아이디
+    taskType: TaskEnumType; // 구분 (ENUM 사용)
+    customer: string; // 거래처
+    requesterName: string; // 의뢰자명
+    requesterContact: string; // 의뢰자 연락처
+    requesterContact2?: string; // 의뢰자 연락처2 (선택적)
+    model: string; // 모델
+    assignedUser: ResponseEmployee; // 담당 기사 (유저)
+    createUser?: ResponseEmployee; // 담당 기사 (유저)
+    details?: string; // 내용 (선택적)
+    remarks?: string; // 비고 (선택적)
+    completeAt?: string; // 처리 여부
+    estimateId?: string;
+    actionTaken?: string;
+}

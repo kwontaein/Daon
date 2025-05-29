@@ -3,7 +3,7 @@ import '@/styles/table-style/search.scss';
 
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {startTransition, useActionState, useCallback, useEffect, useRef, useState} from 'react';
 import {initialLedgertState, ledgerSearchAction} from '@/features/ledger/actions/ledgerSearchAction';
 import useSearchCustomerList from '@/hooks/customer/search/useSearchCustomerList';
 import LedgerCustomersSearchResult from './search-result';

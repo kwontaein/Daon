@@ -1,4 +1,3 @@
-import { revalidatePath } from 'next/cache';
 import './login.scss'
 
 function Banner(){

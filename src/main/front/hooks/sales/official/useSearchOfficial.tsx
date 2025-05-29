@@ -1,4 +1,4 @@
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 import useRouterPath from "@/hooks/share/useRouterPath";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
 import { useModalState } from "@/store/zustand/modal";
@@ -48,7 +48,7 @@ export default function useSearchOfficial(
             const deleteOfficial = ()=>{
                 changeHandler({officialName:'', officialId:''}, id)
             }
-            useConfirm('관리비를 다시 선택하시겠습니까?',deleteOfficial)
+            selectConfrim('관리비를 다시 선택하시겠습니까?',deleteOfficial)
         }
         setTimeout(()=>{
             const value =e.target.value

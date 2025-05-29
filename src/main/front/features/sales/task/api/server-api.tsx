@@ -1,5 +1,5 @@
 'use server'
-import {SaveTask, TaskSearchCondition} from "@/model/types/sales/task/type";
+import {RequestTask, ResponseTask, TaskSearchCondition} from "@/model/types/sales/task/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
 
@@ -153,7 +153,7 @@ export async function getAdminTasksApi() {
 }
 
 
-export const saveTask = async (task: SaveTask) => {
+export const saveTask = async (task: RequestTask) => {
 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
@@ -184,7 +184,7 @@ export const saveTask = async (task: SaveTask) => {
     }
 }
 
-export const updateTask = async (task: SaveTask) => {
+export const updateTask = async (task: RequestTask) => {
 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`

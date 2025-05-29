@@ -13,11 +13,11 @@ import {ResponseEstimate} from '@/model/types/sales/estimate/type';
 import {ResponseCustomer} from '@/model/types/customer/customer/type';
 import useSearchCustomer from '@/hooks/customer/search/useSearchCustomer';
 import dayjs from 'dayjs';
-import {useConfirm} from '@/hooks/share/useConfirm';
 import estimateRegisterAction from '@/features/sales/estimate/action/estimateRegisterAction';
 import useChangeMode from '@/hooks/share/useChangeMode';
 import {UserInfo, useUserInformation} from '@/store/zustand/userInfo';
 import {notFound} from 'next/navigation';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function EstimateHeader({companyList, task, estimate, mode, userInfo, isMobile = false}: {
     companyList: ResponseCompany[],
@@ -99,7 +99,7 @@ export default function EstimateHeader({companyList, task, estimate, mode, userI
             })
         }
         if (mode === 'edit' && state.items.length === 0) {
-            useConfirm('항목이 존재하지 않으면 견적서는 삭제됩니다. 정말로 수정하시겠습니까?', submit)
+            selectConfrim('항목이 존재하지 않으면 견적서는 삭제됩니다. 정말로 수정하시겠습니까?', submit)
         } else {
             submit()
         }

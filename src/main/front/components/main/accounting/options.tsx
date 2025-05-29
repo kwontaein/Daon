@@ -2,16 +2,15 @@
 import '@/styles/options/options.scss';
 import {AccountingDivision} from '@/model/types/accounting/type';
 import {deleteAccountingApi} from '@/features/accounting/api/client-api';
-import {useConfirm} from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import {transAccountingToReceipt} from "@/features/accounting/api/search-server-api";
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function AccountingOptions({id, division, paidDate}: {
     id: string,
     division: keyof typeof AccountingDivision,
     paidDate?: Date
 }) {
-
     const redirect = useRouterPath()
 
     const viewAccountingHandler = () => {
@@ -34,18 +33,19 @@ export default function AccountingOptions({id, division, paidDate}: {
         const onDelete = () => {
             deleteAccountingApi(division, id)
         }
-        useConfirm('정말로 삭제하시겠습니까?', onDelete)
+        selectConfrim('정말로 삭제하시겠습니까?', onDelete)
     }
+
     const transReceiptHandler = () => {
         if(paidDate){
             const onTrans = async () => {
                 await transAccountingToReceipt(division, id).then((res) => {
-                    if (res == 200) {
+                    if (res === 200) {
                         window.alert( "전환이 취소되었습니다.")
                     }
                 })
             }
-            useConfirm('입금전환을 하시겠습니까?', onTrans)
+            selectConfrim('입금전환을 하시겠습니까?', onTrans)
         }else{
             const params = new URLSearchParams({
                 target: id,

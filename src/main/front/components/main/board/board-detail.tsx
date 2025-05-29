@@ -2,8 +2,7 @@
 import '@/styles/form-style/form.scss'
 import './file.scss';
 
-import React, {MouseEvent, startTransition, useEffect, useMemo, useOptimistic, useRef, useState} from 'react';
-import BoardAction from '@/features/board/actions/boardActions';
+import React, {MouseEvent, startTransition, useEffect, useOptimistic, useRef, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import dayjs from 'dayjs';
 import { BoardFile, ResponseBoard } from '@/model/types/board/type';
@@ -182,14 +181,14 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
                     {beforeBoard && 
                         <tr>
                             <td style={{color:'#CC3300'}}>△ 이전글</td>
-                            <td onClick={()=>router.push(`/main/board/board/?target=${beforeBoard.boardId}`)}><a>{beforeBoard.title}</a></td>
+                            <td><a href={`/main/board/board/?target=${beforeBoard.boardId}`}>{beforeBoard.title}</a></td>
                             <td style={{textAlign:'right'}}>{beforeBoard.writer}</td>
                         </tr>
                     }
                     {afterBoard && 
                         <tr>
                             <td style={{color:'#336666'}}>▽ 다음글</td>
-                            <td onClick={()=>router.push(`/main/board/board/?target=${afterBoard.boardId}`)}><a>{afterBoard.title}</a></td>
+                            <td><a href={`/main/board/board/?target=${afterBoard.boardId}`}>{afterBoard.title}</a></td>
                             <td style={{textAlign:'right'}}>{afterBoard.writer}</td>
                         </tr>
                     }

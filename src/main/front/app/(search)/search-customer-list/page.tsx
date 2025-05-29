@@ -1,5 +1,4 @@
 import CustomerListSearch from "@/components/share/search-items/customer-list-search";
-import CustomerSearchItems from "@/components/share/search-items/customer-search";
 import { searchCustomersApi } from "@/features/customer/customer/api/server-api";
 import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
 import { SearchNameProps } from "@/model/types/share/type";

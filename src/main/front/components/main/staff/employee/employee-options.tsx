@@ -1,10 +1,10 @@
 'use client'
 import '@/styles/options/options.scss';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { useUserInformation } from '@/store/zustand/userInfo';
 import { UserRoleEnum } from '@/model/types/staff/employee/type';
 import { deleteEmployeeApi } from '@/features/staff/employee/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function EmployeeOptions({employeeId}:{employeeId:string}){
     const redirect = useRouterPath()
@@ -37,7 +37,7 @@ export default function EmployeeOptions({employeeId}:{employeeId:string}){
         const onDelete=()=>{
             deleteEmployeeApi(employeeId)
         }
-        useConfirm('정말로 삭제하시겠습니까?',onDelete)
+        selectConfrim('정말로 삭제하시겠습니까?',onDelete)
     }
     
     const employeePermissionHandler =()=>{

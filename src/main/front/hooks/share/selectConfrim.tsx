@@ -1,7 +1,7 @@
 
 
 
-export const useConfirm= (massage = " ", onConfirm: () => void, onCancel: () => void =()=>{}) => {
+export const selectConfrim= (massage = " ", onConfirm: () => void, onCancel: () => void =()=>{}) => {
     let result;
     if (typeof onConfirm !== "function") {
         return;

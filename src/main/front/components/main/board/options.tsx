@@ -1,7 +1,6 @@
 'use client'
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import '@/styles/options/options.scss';
-import { useEffect } from 'react';
 
 export default function BoardOption({fileLink, position} : {
     fileLink: string,

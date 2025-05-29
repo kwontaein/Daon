@@ -38,9 +38,9 @@ export default function EstimateForm({estimateState, submit, mode, task, isMobil
             const url = `/estimate-print?${params.toString()}`;
             const popupOptions = "width=780,height=980,scrollbars=yes,resizable=yes"; 
             window.open(url, "printEstimate", popupOptions);
-        }else[
+        }else{
             redirect(`estimate-print?${params.toString()}`)
-        ]
+        }
     }
 
     return(

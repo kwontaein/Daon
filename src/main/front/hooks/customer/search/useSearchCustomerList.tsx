@@ -1,4 +1,4 @@
-import { useConfirm } from "@/hooks/share/useConfirm";
+import { selectConfrim } from "@/hooks/share/selectConfrim";
 import useRouterPath from "@/hooks/share/useRouterPath";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { useModalState } from "@/store/zustand/modal";
@@ -48,7 +48,7 @@ export default function useSearchCustomerList(
             const deleteCustomer = ()=>{
                 changeHandler([])
             }
-            useConfirm('거래처를 다시 선택하시겠습니까?',deleteCustomer)
+            selectConfrim('거래처를 다시 선택하시겠습니까?',deleteCustomer)
             return
         }
         const value =e.target.value

@@ -1,7 +1,7 @@
 import StockForm from "@/components/main/stock/stock/form/stock-form";
 import MobileModal from "@/components/share/mobile-modal/page";
 import { getStockCateApi } from "@/features/stock/category/api/server-api";
-import { getStockByIdApi, getStockListApi } from "@/features/stock/stock/api/search-server-api";
+import { getStockByIdApi } from "@/features/stock/stock/api/search-server-api";
 import { DetailPageProps } from "@/model/types/share/type";
 
 export default async function RegisterStockPage({searchParams}:DetailPageProps){

@@ -1,11 +1,7 @@
-
-import Image from "next/image";
-import asideArrow from '@/public/assets/aside-arrow.gif';
 import '@/styles/form-style/form.scss'
 
 import { DetailPageProps } from "@/model/types/share/type";
 import { ResponseCompany } from "@/model/types/staff/company/type";
-import CompanyDetail from "@/components/main/staff/company/detail-view";
 import CompanyForm from "@/components/main/staff/company/form/company-form";
 import { notFound } from "next/navigation";
 import { getCompanyDetail } from "@/features/staff/company/api/server-api";

@@ -10,8 +10,8 @@ import dayjs from 'dayjs'
 import { ResponseEmployee } from '@/model/types/staff/employee/type'
 import { useScreenMode } from '@/hooks/share/useScreenMode'
 import { updateTaskUserApi } from '@/features/sales/task/api/server-api'
-import { useConfirm } from '@/hooks/share/useConfirm'
 import useRouterPath from '@/hooks/share/useRouterPath'
+import { selectConfrim } from '@/hooks/share/selectConfrim'
 
 const TaskSearchResult = React.memo(({pageByTasks, employees} : {
     pageByTasks: ResponseTask[],
@@ -102,7 +102,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                 }
             })
         }
-        useConfirm('담당기사를 갱신하겠습니까?',onUpdate)
+        selectConfrim('담당기사를 갱신하겠습니까?',onUpdate)
     }
 
 
@@ -182,7 +182,7 @@ const TaskSearchResult = React.memo(({pageByTasks, employees} : {
                                     <td rowSpan={mode==='pc'? 1:2}>
                                         <div className='row-flex'>
                                             <p>{TaskEnumType[task.taskType]}</p>
-                                            <p>[{task.assignedUser.name}]</p>
+                                            <p>[{task.createUser.name}]</p>
                                         </div>
                                     </td>
                                     <td style={{color:dateColor(task.createdAt)}}>

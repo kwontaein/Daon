@@ -1,9 +1,11 @@
 'use server'
 import {v4 as uuidv4} from "uuid";
 import { saveTask, updateTask } from "../api/server-api";
+import { RequestTask, ResponseTask } from "@/model/types/sales/task/type";
 
 export default async function taskRegisterAction(prevState, formData){
     const TaskData ={
+        taskId: formData.get('taskId'),
         taskType: formData.get('taskType'),
         customer: formData.get('customer'),
         requesterName: formData.get('requesterName'),
@@ -13,13 +15,13 @@ export default async function taskRegisterAction(prevState, formData){
         assignedUser: formData.get('assignedUser'),
         details: formData.get('details'), //내용
         remarks: formData.get('remarks'), //비고
-        customerId:formData.get('customerId') ?? prevState.customerId,
         actionTaken: formData.get('ActionTaken'),
-        action:formData.get('action')
     }
-  
+    const action =formData.get('action')
+    const customer= formData.get('customerId') ?? prevState.customerId
+    
     const mode = prevState.mode;
-    if(TaskData.action ==='submit'){
+    if(action ==='submit'){
         if(TaskData.assignedUser==='none'){
             return {
                 ...prevState,
@@ -30,9 +32,8 @@ export default async function taskRegisterAction(prevState, formData){
                 }
             }
         }
-        const postData = {...TaskData, customer: TaskData.customerId}
-        delete postData.action
-        delete postData.customerId
+        
+        const postData:RequestTask = {...TaskData, customer}
 
         let status;
         if(mode ==='write'){

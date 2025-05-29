@@ -1,8 +1,8 @@
 'use client'
 import '@/styles/options/options.scss';
-import { useConfirm } from '@/hooks/share/useConfirm';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import { deleteCompany } from '@/features/staff/company/api/client-api';
+import { selectConfrim } from '@/hooks/share/selectConfrim';
 
 export default function CompanyOptions({companyId}:{companyId:string}){
     const redirect = useRouterPath()
@@ -25,7 +25,7 @@ export default function CompanyOptions({companyId}:{companyId:string}){
         const onDelete = async()=>{
             await deleteCompany(companyId)
         }
-        useConfirm('해당 회사를 정말로 삭제하시겠습니까?', onDelete)
+        selectConfrim('해당 회사를 정말로 삭제하시겠습니까?', onDelete)
     }
     return(
         <menu className='options-container'>

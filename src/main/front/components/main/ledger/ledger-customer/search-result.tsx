@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import React, { JSX, useMemo, useReducer } from "react";
 import { useScreenMode } from '@/hooks/share/useScreenMode';
 import { renderLedgerRow, renderMobileLedgerRow, renderMobileSubTotalRow, renderMobileTotalRow, renderSubTotalRow, renderTotalRow, SubTotal, Total, updateSubTotals } from './ledger-result-rows';
-import useCheckBoxState, { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState';
+import { ReturnCheckBoxHook } from '@/hooks/share/useCheckboxState';
 type Accumulator = {
   elements: JSX.Element[];
   date: Date;
@@ -85,7 +85,7 @@ export default function LedgerCustomerSearchResult({searchInfo, estimateCheckHoo
       subTotalOfTheDay: initialSubTotal,
       total: initialTotal,
       ledgerCount: 0
-    })  ,[mode, searchInfo.searchResult, checkedState])
+    })  ,[mode, searchInfo, checkedState])
     
 
     return(

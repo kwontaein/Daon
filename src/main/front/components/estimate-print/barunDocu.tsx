@@ -79,14 +79,14 @@ const BarunDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate
                                     상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호
                                 </th>
                                 <td colSpan={2} className="left" style={{border: "1px dotted #000", borderLeft: 0}}>
-                                    &nbsp;<a id="companyName" style={{letterSpacing: 0}}>{printEstimate.company?.companyName}</a>
+                                    &nbsp;<span id="companyName" style={{letterSpacing: 0}}>{printEstimate.company?.companyName}</span>
                                 </td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     성명
                                 </th>
                                 <td colSpan={2} className="left"
                                     style={{border: "1px dotted #000", borderRight: "2px solid #000", position:'relative'}}>
-                                    &nbsp;<a id="ceoName" style={{letterSpacing: 0}}>{printEstimate.company?.ceo}</a>(인)
+                                    &nbsp;<span id="ceoName" style={{letterSpacing: 0}}>{printEstimate.company?.ceo}</span>(인)
                                     {printEstimate.isStamp && 
                                         <div style={{position:'absolute', marginLeft:'30px', marginTop:'-40px'}}>
                                             <Image 
@@ -100,14 +100,14 @@ const BarunDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate
                             </tr>
                             <tr>
                                 <td className="underline right" style={{textAlign: "center"}}>
-                                    <a id="customerName">{printEstimate.customerName}</a>&nbsp;귀하
+                                    <span id="customerName">{printEstimate.customerName}</span>&nbsp;귀하
                                 </td>
                                 <td></td>
                                 <th colSpan={1} style={{border: "1px dotted #000"}}>
                                     사업장주소
                                 </th>
                                 <td colSpan={5} className="left" style={{borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="addr">{printEstimate.company?.address}</a>
+                                    &nbsp;<span id="addr">{printEstimate.company?.address}</span>
                                 </td>
                             </tr>
                             <tr>
@@ -135,7 +135,7 @@ const BarunDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate
                                     전화번호
                                 </th>
                                 <td colSpan={2} className="left" style={{borderBottom: "2px solid #000"}}>
-                                    &nbsp;<a id="companyTel">{printEstimate.company?.tel}</a>
+                                    &nbsp;<span id="companyTel">{printEstimate.company?.tel}</span>
                                 </td>
                                 <th
                                     colSpan={1}
@@ -149,7 +149,7 @@ const BarunDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate
                                 </th>
                                 <td colSpan={2} className="left"
                                     style={{borderBottom: "2px solid #000", borderRight: "2px solid #000"}}>
-                                    &nbsp;<a id="companyFax">{printEstimate.company?.fax}</a>
+                                    &nbsp;<span id="companyFax">{printEstimate.company?.fax}</span>
                                 </td>
                             </tr>
                             </tbody>

@@ -1,7 +1,7 @@
 'use client';
 import '@/styles/table-style/search.scss';
 
-import {Affiliation} from '@/model/types/customer/affiliation/type';
+import {AffiliationType} from '@/model/types/customer/affiliation/type';
 import CustomDateInput from '@/components/share/custom-date-input/custom-date-input';
 import {CustomerCateEnum, ResponseCustomer} from '@/model/types/customer/customer/type';
 import {StockCate} from '@/model/types/stock/cate/type';
@@ -14,7 +14,7 @@ import LedgerSalesSearchResult from './search-result';
 import {exportLedgerSalesToExcel} from "@/components/main/ledger/ledger-sales/exportLedgerSalesToExcel";
 
 export default function LedgerSaleReceiptSearch({affiliations, stockCates}: {
-    affiliations: Affiliation[],
+    affiliations: AffiliationType[],
     stockCates: StockCate[]
 }) {
     const [state, action] = useActionState(ledgerSearchAction, initialLedgertState)
