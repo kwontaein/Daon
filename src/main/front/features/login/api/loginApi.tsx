@@ -15,7 +15,6 @@ export const loginApi = async (userInfo: { userId: string, password: string }) =
             document.location.replace('/main/schedule/schedule')
         }
     } catch (error) {
-        // console.error('Error:', error);
     }
 }
 

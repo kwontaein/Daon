@@ -22,7 +22,8 @@ export const AsideOptions = {
         asideItems: [
             {name: '품목/재고 관리', link: 'stock'},
             {name: '분류관리', link: 'stock-cate'},
-            {name: '구매적립금설정', link: 'point'}]
+            // {name: '구매적립금설정', link: 'point'}
+        ]
     },
     ledger: {
         asideTitle: '원장출력',

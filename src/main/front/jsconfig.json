@@ -6,5 +6,9 @@
         "@/*": ["./*"]
       }
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
+    "exports": {
+      ".": "./src/index.js",
+      "./feature": "./src/feature.js"
+    }
   }

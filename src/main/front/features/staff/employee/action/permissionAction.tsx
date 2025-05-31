@@ -28,7 +28,6 @@ export async function submitEmployeeInfo(prevState, formData) {
         userRole: formData.get('userRole'), //권한등급
         deptId: formData.get('deptId'),
     };
-    console.log(employeeData)
 
     const action = formData.get('action')
     const errors =[]

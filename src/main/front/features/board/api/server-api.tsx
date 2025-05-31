@@ -136,7 +136,6 @@ export async function updateBoardApi(board: RequestBoard) {
 
 
 export async function updateViews(boardId: string) {
-    console.log(boardId)
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {

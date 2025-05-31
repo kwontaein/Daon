@@ -1,10 +1,9 @@
 // middleware.ts 예제
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { AUTH_ROUTES, MAIN_URL, PUBLIC_ROUTES } from './model/constants/routes/asideOptions';
+import { AUTH_ROUTES, PUBLIC_ROUTES } from './model/constants/routes/asideOptions';
 import { cookies } from 'next/headers';
 import { kebabToCamel } from './features/share/kebabToCamel';
-import { revalidateAllPaths } from './features/revalidateHandler';
 function camelToKebab(str) {
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }

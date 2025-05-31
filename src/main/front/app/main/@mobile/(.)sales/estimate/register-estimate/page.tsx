@@ -5,7 +5,6 @@ import { ResponseCompany } from "@/model/types/staff/company/type"
 import { EstimateRegisterProps } from "@/model/types/sales/estimate/type"
 import { ResponseTask } from "@/model/types/sales/task/type"
 import MobileModal from "@/components/share/mobile-modal/page"
-import { cookies } from "next/headers"
 import { getUserInfo } from "@/features/user/userApi"
 
 export default async function RegisterEstimatePage({searchParams}:EstimateRegisterProps){
