@@ -28,7 +28,7 @@ function Login() {
     setCurrentId(savedId)
     deleteUser();
     dispatch(stompDisconnect());
-  },[])
+  },[deleteUser,dispatch])
 
   useEffect(()=>{
     if(state.formErrors){

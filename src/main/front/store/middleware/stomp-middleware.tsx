@@ -49,7 +49,6 @@ function* startStomp(): any {
         });
 
         revalidateHandler(Message.destination)
-        console.log(Message)
         if (timeout) isRunning = false;
         yield put(receivedStompMsg(Message));
     }

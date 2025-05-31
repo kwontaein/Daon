@@ -4,7 +4,7 @@ import '@/styles/table-style/category.scss'
 import useDept from '@/hooks/staff/dept/useDept';
 
 
-export default function Dept({InitDept}: { InitDept: Dept[] }) {
+export default function DeptTable({InitDept}: { InitDept: Dept[] }) {
     const { addInputRef, 
             deptState,
             mode,

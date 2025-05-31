@@ -6,7 +6,6 @@ import { changeNumberToKorean } from '@/features/share/numberToKorean';
 import Image from 'next/image';
 
 const DaonDocu: React.FC<{ printEstimate: printEstimateType}> = ({printEstimate}) => {
-    console.log(printEstimate.items)
     return (
         <div className="wrap" style={{marginTop:'75px'}}>
             <table className="wrapTable" id="estimateTable">

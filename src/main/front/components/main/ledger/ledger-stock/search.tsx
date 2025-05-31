@@ -8,7 +8,6 @@ import useSearchStock from '@/hooks/stock/search/useSearchStock';
 import {ResponseStock} from '@/model/types/stock/stock/types';
 import LedgerStockSearchResult from './search-result';
 import {useModalState} from '@/store/zustand/modal';
-import {exportLedgerToExcel} from "@/components/main/ledger/ledger-official/exportLedgerToExcel";
 import {exportStockLedgerToExcel} from "@/components/main/ledger/ledger-stock/exportLedgerStockToExcel";
 
 export default function LedgerStockSearch() {
