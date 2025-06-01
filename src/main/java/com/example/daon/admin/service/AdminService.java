@@ -87,8 +87,6 @@ public class AdminService {
             if (enableUrl != null) {
                 setEnableUrlCookie(convertResponseService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
             }
-            setAdminCookie(userEntity, response);
-
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
 
         } catch (UsernameNotFoundException e) {
@@ -107,23 +105,6 @@ public class AdminService {
             String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
 
             Cookie cookie = new Cookie("enable_url", encoded);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60); // 1시간
-
-            response.addCookie(cookie);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("EnableUrl 쿠키 직렬화 실패", e);
-        }
-    }
-
-    public void setAdminCookie(UserEntity user, HttpServletResponse response) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String enableUrlJson = objectMapper.writeValueAsString(convertResponseService.convertToAdminCookie(user));
-            String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
-
-            Cookie cookie = new Cookie("user", encoded);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60); // 1시간
@@ -179,9 +160,6 @@ public class AdminService {
         DeptEntity dept = deptRepository.findById(userRequest.getDeptId()).orElse(null);
         user.updateFromRequest(userRequest, dept, passwordEncoder);
         userRepository.save(user);
-        if (user.getUserId() == globalService.resolveUser(null).getUserId()) {
-            setAdminCookie(user, response);
-        }
     }
 
     @Transactional
