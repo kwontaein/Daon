@@ -20,6 +20,7 @@ export default function CustomerListSearch({initialcustomers, page, isMobile=fal
     isMobile?:boolean
 }) {
 
+    console.log(page)
     const [customers, setCustomers] = useState([])
     const customerIds = useMemo(()=>customers.map(({customerId})=>customerId),[customers])
     const {checkedState,isAllChecked, update_checked, toggleAllChecked} = useCheckBoxState(customerIds)
