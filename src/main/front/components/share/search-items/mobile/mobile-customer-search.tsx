@@ -9,7 +9,7 @@ import MobileModal from "../../mobile-modal/page";
 
 export default function MobileSearchCustomerItems(){
     const {searchKeyword, modalPage} = useModalState();
-    const [searchResult, setSearchResult] = useState()
+    const [searchResult, setSearchResult] = useState([])
 
     useEffect(() => {
         const fetchCustomers = async () => {
@@ -32,11 +32,11 @@ export default function MobileSearchCustomerItems(){
         fetchCustomers();
       }, [searchKeyword]);
 
-    const pageByCustomers = (searchResult??[]).slice((modalPage - 1) * 10, modalPage * 10);
+    const pageByCustomers = searchResult.slice((modalPage - 1) * 10, modalPage * 10);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="500px">
-        {searchResult && <CustomerSearchItems customers={pageByCustomers} page={modalPage} pageLength={searchResult??[].length}/>}
+      <MobileModal zIndex={1003} width="70%" height="500px" closeButton={true}>
+         <CustomerSearchItems customers={pageByCustomers} page={modalPage} pageLength={searchResult.length}/>
       </MobileModal>
 
   )
