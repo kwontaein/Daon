@@ -1,9 +1,12 @@
 // middleware.ts 예제
+import CryptoJS from "crypto-js";
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { AUTH_ROUTES, PUBLIC_ROUTES } from './model/constants/routes/asideOptions';
 import { cookies } from 'next/headers';
 import { kebabToCamel } from './features/share/kebabToCamel';
+
 function camelToKebab(str) {
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
@@ -34,7 +37,20 @@ export async function middleware(request: NextRequest) {
       }
     }else{ 
       try{
-        const able_url = JSON.parse(enable_url)
+        const key = process.env.VITE_AES_SECRET;
+        let decrypted = enable_url;
+
+        if (enable_url.startsWith("enc:")){
+          decrypted = CryptoJS.AES.decrypt(enable_url.slice(4), key).toString(CryptoJS.enc.Utf8);
+        }else{          
+          const prefix = "enc:";
+          const encrypted = prefix + CryptoJS.AES.encrypt(enable_url, key).toString();
+          const response = NextResponse.next();
+          response.cookies.set("enable_url", encrypted); // ✅ 이 방식만 가능
+          return response;
+        }
+       
+        const able_url = JSON.parse(decrypted)
         const mergeAside = Object.assign({},...Object.values(able_url)) //사용가능한 url 객체 {[key]:boolean}형식
   
         const findEnableRoute = ()=>{
