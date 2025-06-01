@@ -12,6 +12,7 @@ export default function useSearchCustomer(
     const redirect = useRouterPath()
     const searchKey = useId()
     const {setModalState, customer,modalKey} = useModalState()
+   
     //검색을 위한 이벤트등록
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
