@@ -93,6 +93,9 @@ public class AdminService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("NON_EXISTENT_ERROR");
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PW_ERROR");
+        } catch (Exception e) {
+            System.out.println("로그인 중 예상치 못한 에러 발생 : \n" + e); // ❗ 이 부분 꼭 필요함
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("INTERNAL_SERVER_ERROR");
         }
     }
 
