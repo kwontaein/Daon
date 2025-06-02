@@ -1,6 +1,6 @@
 'use client'
 import { searchStockApi } from "@/features/stock/stock/api/search-server-api";
-import { StockSearchCondition } from "@/model/types/stock/stock/types";
+import { ResponseStock, StockSearchCondition } from "@/model/types/stock/stock/types";
 import { useModalState } from "@/store/zustand/modal";
 import { useEffect, useState } from "react";
 import StockSearchItems from "../stock-search";
@@ -9,7 +9,7 @@ import MobileModal from "../../mobile-modal/page";
 
 export default function MobileSearchStockItems(){
     const {searchKeyword, modalPage} = useModalState();
-    const [searchResult, setSearchResult] = useState([])
+    const [searchResult, setSearchResult] = useState<ResponseStock[]>()
 
 
     useEffect(() => {
@@ -32,11 +32,11 @@ export default function MobileSearchStockItems(){
         fetchStocks();
       }, [searchKeyword]);
 
-    const pageByStocks = searchResult.slice((modalPage - 1) * 10, modalPage * 10);
+    const pageByStocks = (searchResult??[]).slice((modalPage - 1) * 10, modalPage * 10);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="500px" closeButton={true}>
-          <StockSearchItems stocks={pageByStocks} page={modalPage} pageLength={searchResult.length}/>
+      <MobileModal zIndex={1006} width="70%" height="500px" closeButton={true} maxWidth="430px">
+          {searchResult && <StockSearchItems stocks={pageByStocks} page={modalPage} pageLength={searchResult.length}/>}
       </MobileModal>
    
   )

@@ -9,7 +9,7 @@ import CustomerListSearch from "../customer-list-search";
 
 export default function MobileSearchCustomerList(){
     const {searchKeyword, modalPage} = useModalState();
-    const [searchResult, setSearchResult] = useState([])
+    const [searchResult, setSearchResult] = useState<ResponseCustomer[]>()
 
     useEffect(() => {
       const fetchCustomers = async () => {
@@ -33,8 +33,8 @@ export default function MobileSearchCustomerList(){
     }, [searchKeyword]);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="550px" >
-        <CustomerListSearch initialcustomers={searchResult} page={modalPage} isMobile={true}/>
+      <MobileModal zIndex={1006} width="70%" height="550px" maxWidth="430px">
+        {searchResult && <CustomerListSearch initialcustomers={searchResult} page={modalPage} isMobile={true}/>}
       </MobileModal>
 
   )
