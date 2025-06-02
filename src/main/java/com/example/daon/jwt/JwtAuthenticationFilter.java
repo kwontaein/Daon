@@ -9,6 +9,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             respondWithUnauthorized(httpResponse);
             return;
         }
-        
+
         // JWT 토큰에서 Authentication 객체를 생성하고, 저장된 리프레시 토큰을 가져옴
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         String dbRefreshToken = redisService.getUserTokenById(authentication.getName());
@@ -143,14 +144,35 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         return tokenList;
     }
 
+    /*  public void removeCookie(HttpServletResponse response) {
+          Cookie cookie = new Cookie("accessToken", null);
+          Cookie cookie2 = new Cookie("refreshToken", null);
+          cookie.setMaxAge(0);
+          cookie.setPath("/");
+          cookie2.setMaxAge(0);
+          cookie2.setPath("/");
+          response.addCookie(cookie);
+          response.addCookie(cookie2);
+      }*/
     public void removeCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("accessToken", null);
-        Cookie cookie2 = new Cookie("refreshToken", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        cookie2.setMaxAge(0);
-        cookie2.setPath("/");
-        response.addCookie(cookie);
-        response.addCookie(cookie2);
+        ResponseCookie accessToken = ResponseCookie.from("accessToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        ResponseCookie refreshToken = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader("Set-Cookie", accessToken.toString());
+        response.addHeader("Set-Cookie", refreshToken.toString());
     }
+
 }

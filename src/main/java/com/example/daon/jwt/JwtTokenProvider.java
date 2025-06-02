@@ -6,10 +6,10 @@ import com.example.daon.global.service.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -170,7 +170,7 @@ public class JwtTokenProvider {
             return "JWT claims string is empty";
         }
     }
-    
+
     private Claims parseClaims(String accessToken) {
         if (accessToken == null || accessToken.trim().split("\\.").length != 3) {
             throw new MalformedJwtException("Invalid JWT format: " + accessToken);
@@ -195,14 +195,16 @@ public class JwtTokenProvider {
         long expirationTime = claims.getExpiration().getTime() / 1000;
         int maxAge = (int) (expirationTime - now);
 
-        Cookie cookie = new Cookie(tokenName, tokenValue); // 인코딩 제거
+        ResponseCookie cookie = ResponseCookie.from(tokenName, tokenValue)
+                .httpOnly(true)
+                .secure(true) // ✅ HTTPS 환경에서는 true
+                .sameSite("None") // ✅ 크로스 도메인에서는 반드시 필요
+                .path("/")
+                .maxAge(maxAge)
+                .build();
 
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false); // 개발 환경에서는 false
-        cookie.setPath("/");
-        cookie.setMaxAge(maxAge);
-
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie", cookie.toString());
     }
+
 
 }
