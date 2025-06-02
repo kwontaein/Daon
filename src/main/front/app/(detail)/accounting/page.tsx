@@ -21,6 +21,7 @@ export default async function AccountingPage({searchParams}: {
     const mode = (await searchParams).mode || 'edit'
     const id = (await searchParams).target || ''
     const categorySelections = await getCategorySelectionApi()
+    
     // division이 매핑되지 않거나, 잘못된 mode url 전달 및 데이터가 없으면 notFound()
     if (!AccountingDivision[division] || !['detail', 'edit'].includes(mode) || !id) {
         notFound()
