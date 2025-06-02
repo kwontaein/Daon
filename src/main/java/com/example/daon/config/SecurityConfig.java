@@ -70,7 +70,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // 필요 시 여러 개 추가
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://daon-zeta.vercel.app" // ✅ vercel 도메인 추가
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
