@@ -10,9 +10,7 @@ import { kebabToCamel } from "@/features/share/kebabToCamel";
 export default function MainAside({enableUrl} :{enableUrl: EnableUrlType}){
     const pathName = usePathname()
     const nav = pathName.split("/")[2]
-    const router = useRouter();
 
-    const cacheRouteRef = useRef<Record<string, Record<string, boolean>>>({});
     return(
         <>
         {nav &&  

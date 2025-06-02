@@ -11,7 +11,7 @@ export default function MobileModal({
     height = 'fit-content',
     width='90%',
     closeButton=false,
-    zIndex=1002
+    zIndex=1005
 } : {
     children: React.ReactNode,
     height?: string|'fit-content',

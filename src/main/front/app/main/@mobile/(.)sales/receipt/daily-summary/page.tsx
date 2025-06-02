@@ -15,6 +15,7 @@ export default function DailySummaryPage(){
     const searchParams = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()
+    
     const closeModal = () => {
         const params = new URLSearchParams(searchParams.toString());
         const base = `/main/sales/receipt`;
@@ -40,7 +41,7 @@ export default function DailySummaryPage(){
     return(
         <>
             {pathname.split('/')[4] ==='daily-summary' &&
-             <section className="modal-background" style={{zIndex:'1002'}}>
+             <section className="modal-background" style={{zIndex:'1005'}}>
                     <div className="daily-summary-container">
                         <div className="daily-summary-header">
                             <h3>일일종합검색</h3>

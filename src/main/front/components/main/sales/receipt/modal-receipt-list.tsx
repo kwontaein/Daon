@@ -25,7 +25,7 @@ export default function ModalReceiptList ({selectedReceips, close, updateCheck} 
         })
     }
     return(
-        <section className='modal-background' style={{tableLayout:'fixed'}}>
+        <section className='reaceipt-modal-background' style={{tableLayout:'fixed'}}>
             <main>
             <header className="register-header">
                 <Image src={asideArrow} alt=">" width={15}/>
