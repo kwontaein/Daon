@@ -15,7 +15,7 @@
     }
 }
 
-.modal-background{
+.reaceipt-modal-background{
     position: fixed;
     top: 0;
     left: 0;
@@ -25,7 +25,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1003;
+    z-index: 1005;
 
     main{
         width: 90%;

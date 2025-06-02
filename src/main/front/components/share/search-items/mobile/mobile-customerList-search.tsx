@@ -33,7 +33,7 @@ export default function MobileSearchCustomerList(){
     }, [searchKeyword]);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="550px" >
+      <MobileModal zIndex={1006} width="70%" height="550px" maxWidth="430px">
         {searchResult && <CustomerListSearch initialcustomers={searchResult} page={modalPage} isMobile={true}/>}
       </MobileModal>
 
