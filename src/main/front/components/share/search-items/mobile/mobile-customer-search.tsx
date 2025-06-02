@@ -35,7 +35,7 @@ export default function MobileSearchCustomerItems(){
     const pageByCustomers = (searchResult??[]).slice((modalPage - 1) * 10, modalPage * 10);
     
     return(
-      <MobileModal zIndex={1003} width="70%" height="500px" closeButton={true}>
+      <MobileModal zIndex={1006} width="70%" height="500px" closeButton={true} maxWidth="430px">
          {searchResult && <CustomerSearchItems customers={pageByCustomers} page={modalPage} pageLength={searchResult.length}/>}
       </MobileModal>
 
