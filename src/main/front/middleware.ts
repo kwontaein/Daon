@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
           const prefix = "enc:";
           const encrypted = prefix + CryptoJS.AES.encrypt(enable_url, key).toString();
           const response = NextResponse.next();
-          response.cookies.set("enable_url", encrypted); // ✅ 이 방식만 가능
+          response.cookies.set("enable_url", encrypted);
           return response;
         }
        
