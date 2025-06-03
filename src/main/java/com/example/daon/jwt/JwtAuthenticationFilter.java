@@ -1,6 +1,9 @@
 package com.example.daon.jwt;
 
-import com.example.daon.global.service.RedisService;
+//import com.example.daon.global.service.RedisService;
+
+import com.example.daon.jwt.model.JwtToken;
+import com.example.daon.jwt.service.UserTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -20,7 +23,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisService redisService;
+    private final UserTokenService userTokenService;
+    // private final userTokenService redisService;
 
     //doFilter 메소드가 가장 먼저 실행되는 이유 : 클라이언트의 HTTP 요청이 서블릿 컨테이너에 도달하기 전에 필터가 요청을 가로채어 원하는 작업을 수행하기 때문
     @Override
@@ -45,7 +49,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // JWT 토큰에서 Authentication 객체를 생성하고, 저장된 리프레시 토큰을 가져옴
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
-        String dbRefreshToken = redisService.getUserTokenById(authentication.getName());
+        String dbRefreshToken = userTokenService.getUserTokenById(authentication.getName());
         String refreshValidate = jwtTokenProvider.validateToken(dbRefreshToken);
 
         // JWT 토큰의 유효성을 검사
@@ -106,7 +110,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         authentication = jwtTokenProvider.getAuthentication(token);
-        String DbRefreshToken = redisService.getUserTokenById(authentication.getName());
+        String DbRefreshToken = userTokenService.getUserTokenById(authentication.getName());
         if (DbRefreshToken == null || !jwtTokenProvider.validateToken(DbRefreshToken).equals("true")) {
             //RefreshToken 값이 비었다면
             removeCookie(httpResponse);
@@ -119,7 +123,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     private ServletResponse tokenFalse(HttpServletResponse httpResponse, Authentication authentication) {
         //System.out.println("tokenFalse 실행");
         removeCookie(httpResponse);
-        redisService.deleteUserToken(authentication.getName());
+        userTokenService.deleteUserToken(authentication.getName());
         // 리스폰스에 정보 담아 반환
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
         httpResponse.setContentType("application/json"); // 본문의 형식을 지정합니다. 여기서는 일반 텍스트로 설정하였습니다.

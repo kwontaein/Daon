@@ -1,9 +1,11 @@
 package com.example.daon.config;
 
-import com.example.daon.global.service.RedisService;
+//import com.example.daon.global.service.RedisService;
+
 import com.example.daon.jwt.JwtAuthenticationEntryPoint;
 import com.example.daon.jwt.JwtAuthenticationFilter;
 import com.example.daon.jwt.JwtTokenProvider;
+import com.example.daon.jwt.service.UserTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +33,8 @@ public class SecurityConfig {
     private final String[] ManagerAllowedUrls = {"/api/testSuccess"};    // 관리자만 허가
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisService redisService;
+    //private final RedisService redisService;
+    private final UserTokenService userTokenService;
 
 
     //private String logout_url = "https://kauth.kakao.com/oauth/logout?client_id=${kakao.client.id}&logout_redirect_utl=${kakao.logout_redirect_url}";
@@ -58,7 +61,7 @@ public class SecurityConfig {
                 // 필터처리 후 에러처리하는 핸들러
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
                 // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행하겠다는 설정이다.
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userTokenService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

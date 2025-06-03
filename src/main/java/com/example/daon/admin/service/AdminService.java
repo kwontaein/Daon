@@ -14,9 +14,10 @@ import com.example.daon.admin.repository.UserRepository;
 import com.example.daon.global.exception.ResourceInUseException;
 import com.example.daon.global.service.ConvertResponseService;
 import com.example.daon.global.service.GlobalService;
-import com.example.daon.global.service.RedisService;
-import com.example.daon.jwt.JwtToken;
+//import com.example.daon.global.service.RedisService;
+import com.example.daon.jwt.model.JwtToken;
 import com.example.daon.jwt.JwtTokenProvider;
+import com.example.daon.jwt.service.UserTokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,7 +50,8 @@ public class AdminService {
     private final UserRepository userRepository;
     private final DeptRepository deptRepository;
     private final EnableUrlRepository enableUrlRepository;
-    private final RedisService redisService;
+    //private final RedisService redisService;
+    final UserTokenService userTokenService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
@@ -81,7 +83,7 @@ public class AdminService {
 
             // 토큰 생성 및 저장
             tokenInfo = jwtTokenProvider.generateToken(authentication, response);
-            redisService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
+            userTokenService.saveUserToken(userEntity.getUsername(), tokenInfo.getRefreshToken());
 
 
             EnableUrl enableUrl = enableUrlRepository.findByUser(userEntity).orElse(null);
@@ -131,7 +133,7 @@ public class AdminService {
     public void logout(HttpServletResponse response) {
         //쿠키를 제거함으로서 로그인 토큰 정보 제거
         UserDetails userDetails = globalService.extractFromSecurityContext();
-        redisService.deleteUserToken(userDetails.getUsername());
+        userTokenService.deleteUserToken(userDetails.getUsername());
         removeCookie(response, "accessToken");
     }
 
@@ -155,7 +157,7 @@ public class AdminService {
                 .path("/")
                 .maxAge(0) // 즉시 만료
                 .build();
-    
+
         response.setHeader("Set-Cookie", cookie.toString());
     }
 

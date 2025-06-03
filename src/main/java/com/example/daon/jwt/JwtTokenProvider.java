@@ -2,7 +2,9 @@ package com.example.daon.jwt;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
-import com.example.daon.global.service.RedisService;
+//import com.example.daon.global.service.RedisService;
+import com.example.daon.jwt.model.JwtToken;
+import com.example.daon.jwt.service.UserTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -31,16 +33,17 @@ public class JwtTokenProvider {
 
     final UserRepository userRepository;
     final HttpServletResponse response;
-    final RedisService redisService;
+    //final RedisService redisService;
+    final UserTokenService userTokenService;
     private final Key key;
     private final long Hours = 60 * 60 * 1000L;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository, HttpServletResponse response, RedisService redisService) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository, HttpServletResponse response, UserTokenService userTokenService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.userRepository = userRepository;
         this.response = response;
-        this.redisService = redisService;
+        this.userTokenService = userTokenService;
     }
 
     // 클레임에서 권한 추출을 위한 도우미 메서드
@@ -61,7 +64,7 @@ public class JwtTokenProvider {
         String refreshToken = generateRefreshToken();
 
         createCookie(response, "accessToken", accessToken);
-        redisService.saveUserToken(authentication.getName(), refreshToken);
+        userTokenService.saveUserToken(authentication.getName(), refreshToken);
 
         return JwtToken.builder()
                 .grantType("Bearer")
@@ -93,7 +96,7 @@ public class JwtTokenProvider {
         String newRefreshToken;
 
         //토큰에서 id 찾기
-        boolean token = redisService.isUserTokenValid(authentication.getName(), refreshToken);
+        boolean token = userTokenService.isUserTokenValid(authentication.getName(), refreshToken);
         if (!token) {
             //System.out.println("유효하지 않은 리프레시 토큰입니다");
             return null;
@@ -108,7 +111,7 @@ public class JwtTokenProvider {
         //리프레시 토큰도 새로 발급
         newRefreshToken = generateRefreshToken();
         //redis 에 저장
-        redisService.updateUserToken(userEntity.getUsername(), newRefreshToken);
+        userTokenService.updateUserToken(userEntity.getUsername(), newRefreshToken);
 
         //쿠키 값 재지정
         createCookie(response, "accessToken", newAccessToken);

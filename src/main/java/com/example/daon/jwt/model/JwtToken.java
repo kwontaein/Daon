@@ -1,4 +1,4 @@
-package com.example.daon.jwt;
+package com.example.daon.jwt.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

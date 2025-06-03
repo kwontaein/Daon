@@ -1,3 +1,4 @@
+/*
 package com.example.daon.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -41,4 +42,4 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-}
+}*/
