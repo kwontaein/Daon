@@ -1,10 +1,10 @@
 'use client'
-import type { StockPoint } from '@/model/types/stock/point/types';
+import type { StockPoint as StockPointType } from '@/model/types/stock/point/types';
 import '@/styles/table-style/category.scss'
 import useStockPoint from "@/hooks/stock/point/useStockPoint";
 
 
-export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoint[] }) {
+export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPointType[] }) {
     const { addInputRef, 
             pointState,
             mode,
@@ -32,7 +32,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                 </tr>
                 </thead>
                 <tbody>
-                {pointState.map((point: StockPoint, index) => (
+                {pointState.map((point: StockPointType, index) => (
                     <tr key={point.stockPointId}>
                         <td>{index + 1}</td>
                         <td className="left-align">
@@ -43,7 +43,7 @@ export default function StockPoint({InitStockPoint}: { InitStockPoint: StockPoin
                                        required={true}
                                        value={point.stockPointName}
                                        onChange={(e) =>
-                                           setPointState((prev)=>prev.map((item: StockPoint, i: number) =>
+                                           setPointState((prev)=>prev.map((item: StockPointType, i: number) =>
                                                i === index ? {...item, stockPointName: e.target.value} : item))}/>
                                 :
                                 <>{point.stockPointName}</>

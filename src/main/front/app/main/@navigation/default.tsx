@@ -1,24 +1,26 @@
 import Navigation from "@/components/main/layout/nav/_navigation";
 import MobileNavBar from "@/components/main/layout/nav/mobile/_mobile-nav-bar";
+import { decrypt } from "@/features/share/crypto";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import CryptoJS from "crypto-js";
 
-const key = process.env.VITE_AES_SECRET;
+export const dynamic = 'force-dynamic';
 
 export default async function MainNavigation(){
+  try{
+    const enable_url = (await cookies()).get('enable_url')?.value;
+    const enableUrl = JSON.parse(await decrypt(enable_url));
   
-  const enable_url = (await cookies()).get('enable_url')?.value;
-  const decrypted = JSON.parse(CryptoJS.AES.decrypt(enable_url.slice(4), key).toString(CryptoJS.enc.Utf8));
-
-  if(!decrypted){
-    return notFound()
-  }
-
-  return (
+    if(!enableUrl){
+      return notFound()
+    }
+    return (
       <>
-        <Navigation enableUrl={decrypted}/>
-        <MobileNavBar enableUrl={decrypted}/>
-      </>   
-  )
+        <Navigation enableUrl={enableUrl}/>
+        <MobileNavBar enableUrl={enableUrl}/>
+      </>
+    )
+  }catch(e){
+    throw new Error('접근 권한이 없습니다.')
+  }
 }

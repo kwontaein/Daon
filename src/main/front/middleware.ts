@@ -1,11 +1,10 @@
-// middleware.ts 예제
-import CryptoJS from "crypto-js";
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { AUTH_ROUTES, PUBLIC_ROUTES } from './model/constants/routes/asideOptions';
 import { cookies } from 'next/headers';
 import { kebabToCamel } from './features/share/kebabToCamel';
+import { decrypt, encrypt } from './features/share/crypto';
 
 function camelToKebab(str) {
   return str.replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -36,23 +35,22 @@ export async function middleware(request: NextRequest) {
         return redirectResponse;
       }
     }else{ 
-      try{
-        const key = process.env.VITE_AES_SECRET;
-        let decrypted = enable_url;
+      try{   
 
+        let enableURL = enable_url;
+        
         if (enable_url.startsWith("enc:")){
-          decrypted = CryptoJS.AES.decrypt(enable_url.slice(4), key).toString(CryptoJS.enc.Utf8);
+          enableURL = await decrypt(enable_url)
         }else{          
-          const prefix = "enc:";
-          const encrypted = prefix + CryptoJS.AES.encrypt(enable_url, key).toString();
+          const encrypted = await encrypt(enable_url)
           const response = NextResponse.next();
           response.cookies.set("enable_url", encrypted);
           return response;
         }
        
-        const able_url = JSON.parse(decrypted)
+        const able_url = JSON.parse(enableURL)
         const mergeAside = Object.assign({},...Object.values(able_url)) //사용가능한 url 객체 {[key]:boolean}형식
-  
+        
         const findEnableRoute = ()=>{
             if(mergeAside['schedule']){ //스케줄 먼저 우회시도
               return NextResponse.redirect(new URL('/main/schedule/schedule', request.url));
@@ -125,7 +123,6 @@ export async function middleware(request: NextRequest) {
     }
     
     return response
-
   }
  
 

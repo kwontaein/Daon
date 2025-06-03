@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import MonthCalendarChild from './month-calendar-child';
 
 export default function MonthCalendar(){
-    const {currentDate, prevYear, nextYear} = useCalendar()
+    const {currentDate} = useCalendar()
 
     return(    
         <div className='grid-calendar-container'>
