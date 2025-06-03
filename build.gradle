@@ -73,3 +73,8 @@ tasks.named('test') {
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters"
 }
+
+jar {
+    archiveBaseName = 'demo'
+    archiveVersion = ''
+}
