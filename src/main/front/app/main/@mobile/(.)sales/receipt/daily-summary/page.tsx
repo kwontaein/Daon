@@ -15,11 +15,16 @@ export default function DailySummaryPage(){
     const searchParams = useSearchParams()
     const router = useRouter()
     const pathname = usePathname()
-    
+
     const closeModal = () => {
         const params = new URLSearchParams(searchParams.toString());
+        console.log(params.toString())
         const base = `/main/sales/receipt`;
-        router.push(`${base}${params.toString() ? `?${params.toString()}` : ''}`);
+        if(params.toString()){
+            router.push(`${base}${params.toString()}`)
+        }else{
+            router.back()
+        }
     };
 
 
