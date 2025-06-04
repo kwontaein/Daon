@@ -2,16 +2,15 @@ package com.example.daon.jwt;
 
 import com.example.daon.admin.model.UserEntity;
 import com.example.daon.admin.repository.UserRepository;
-//import com.example.daon.global.service.RedisService;
 import com.example.daon.jwt.model.JwtToken;
 import com.example.daon.jwt.service.UserTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -190,8 +189,7 @@ public class JwtTokenProvider {
         }
     }
 
-    //쿠키 생성 메소드
-    public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
+    /*public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
         Claims claims = parseClaims(tokenValue);
 
         long now = System.currentTimeMillis() / 1000;
@@ -207,7 +205,23 @@ public class JwtTokenProvider {
                 .build();
 
         response.setHeader("Set-Cookie", cookie.toString());
-    }
+    }*/
+    //쿠키 생성 메소드
+    public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
+        Claims claims = parseClaims(tokenValue);
 
+        long now = System.currentTimeMillis() / 1000;
+        long expirationTime = claims.getExpiration().getTime() / 1000;
+        int maxAge = (int) (expirationTime - now);
+
+        Cookie cookie = new Cookie(tokenName, tokenValue); // 인코딩 제거
+
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false); // 개발 환경에서는 false
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
+
+        response.addCookie(cookie);
+    }
 
 }

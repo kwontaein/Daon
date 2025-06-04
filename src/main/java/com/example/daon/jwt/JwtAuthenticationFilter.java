@@ -12,7 +12,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -42,7 +41,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // Request로부터 JWT 토큰을 추출
         String token = resolveCookieFilter(httpRequest)[0];
         if (token == null || token.trim().split("\\.").length != 3) {
-            System.out.println("Invalid token format: " + token);
+            System.out.println("Invalid token format in filter: " + token);
             respondWithUnauthorized(httpResponse);
             return;
         }
@@ -140,25 +139,23 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             for (Cookie cookie : requestCookie) {
                 if ("accessToken".equals(cookie.getName())) {
                     tokenList[0] = cookie.getValue();
-                } else if ("refreshToken".equals(cookie.getName())) {
-                    tokenList[1] = cookie.getValue();
                 }
             }
         }
         return tokenList;
     }
 
-    /*  public void removeCookie(HttpServletResponse response) {
-          Cookie cookie = new Cookie("accessToken", null);
-          Cookie cookie2 = new Cookie("refreshToken", null);
-          cookie.setMaxAge(0);
-          cookie.setPath("/");
-          cookie2.setMaxAge(0);
-          cookie2.setPath("/");
-          response.addCookie(cookie);
-          response.addCookie(cookie2);
-      }*/
     public void removeCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("accessToken", null);
+        Cookie cookie2 = new Cookie("refreshToken", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie2.setMaxAge(0);
+        cookie2.setPath("/");
+        response.addCookie(cookie);
+        response.addCookie(cookie2);
+    }
+   /* public void removeCookie(HttpServletResponse response) {
         ResponseCookie accessToken = ResponseCookie.from("accessToken", "")
                 .httpOnly(true)
                 .secure(true)
@@ -177,6 +174,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         response.addHeader("Set-Cookie", accessToken.toString());
         response.addHeader("Set-Cookie", refreshToken.toString());
-    }
+    }*/
 
 }
