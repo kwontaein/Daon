@@ -199,7 +199,7 @@ public class JwtTokenProvider {
                 .httpOnly(false)
                 .secure(true) // ✅ HTTPS 환경에서는 true
                 .sameSite("None") // ✅ 크로스 도메인에서는 반드시 필요
-                .path("/").domain("daon-vta0.onrender.com")
+                .path("/").path("/").domain("daon-zeta.vercel.app")
                 .maxAge(maxAge)
                 .build();
 
