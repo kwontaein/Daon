@@ -62,9 +62,8 @@ public class JwtTokenProvider {
         String accessToken = generateAccessTokenBy(authentication.getName(), authentication.getAuthorities());
         String refreshToken = generateRefreshToken();
 
-        createCookie(response, "accessToken", accessToken);
         userTokenService.saveUserToken(authentication.getName(), refreshToken);
-
+        createCookie(response, "accessToken", accessToken);
         return JwtToken.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -204,7 +203,7 @@ public class JwtTokenProvider {
                 .maxAge(maxAge)
                 .build();
 
-        response.setHeader("Set-Cookie", cookie.toString());
+        response.addHeader("Set-Cookie", cookie.toString());
     }
     //쿠키 생성 메소드
     /*public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {

@@ -89,6 +89,7 @@ public class AdminService {
             if (enableUrl != null) {
                 setEnableUrlCookie(convertResponseService.convertToEnableUrlResponse(enableUrl), response); // ✅ 분리된 메서드 호출
             }
+
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
 
         } catch (UsernameNotFoundException e) {
@@ -122,7 +123,7 @@ public class AdminService {
                     .path("/")
                     .maxAge(Duration.ofHours(1))
                     .build();
-            response.setHeader("Set-Cookie", cookie.toString());
+            response.addHeader("Set-Cookie", cookie.toString());
 
 
         } catch (JsonProcessingException e) {
@@ -164,7 +165,7 @@ public class AdminService {
                 .maxAge(0) // 즉시 만료
                 .build();
 
-        response.setHeader("Set-Cookie", cookie.toString());
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 
 

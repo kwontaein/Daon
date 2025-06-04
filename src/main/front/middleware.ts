@@ -28,8 +28,8 @@ export async function middleware(request: NextRequest) {
     if ((!enable_url || !cookie)) {
         //하나라도 없으면 전부 삭제
         const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
-        /* redirectResponse.cookies.delete('accessToken');
-         redirectResponse.cookies.delete('enable_url');*/
+        redirectResponse.cookies.delete('accessToken');
+        redirectResponse.cookies.delete('enable_url');
 
         if ((cookie && !enable_url) || (!cookie && enable_url)) { //하나만 존재하면 임의로 삭제한 것으로 간주
             return redirectResponse;
@@ -116,8 +116,8 @@ export async function middleware(request: NextRequest) {
             }
         } catch (e) {
             const redirectResponse = NextResponse.redirect(new URL(AUTH_ROUTES.LOGIN, request.url));
-            /*    redirectResponse.cookies.delete('accessToken');
-                redirectResponse.cookies.delete('enable_url');*/
+            redirectResponse.cookies.delete('accessToken');
+            redirectResponse.cookies.delete('enable_url');
             return redirectResponse;
         }
     }
