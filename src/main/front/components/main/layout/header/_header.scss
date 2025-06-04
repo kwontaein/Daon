@@ -18,11 +18,11 @@
     align-items: center;
     justify-content: space-between;
     z-index:1002;
+    font-size: 14px;
 
     @media (max-width:620px){
         height: 40px;
     }
-    font-size: 14px;
     span{
         color: inherit;
         min-width: 0; 

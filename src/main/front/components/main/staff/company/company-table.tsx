@@ -1,7 +1,6 @@
 'use client'
 
 import './company-table.scss';
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";

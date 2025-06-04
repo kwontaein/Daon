@@ -4,9 +4,9 @@ import './custom-text-input.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 function CustomTextInput({name, type, placeholder, defaultValue, onChange}:{
-    name:string,
-    type:string,
-    placeholder:string,
+    name:string
+    type:string
+    placeholder:string
     defaultValue?:string
     onChange?:(string)=>void
 }){
@@ -21,6 +21,7 @@ function CustomTextInput({name, type, placeholder, defaultValue, onChange}:{
                 onChange={(e)=> {
                     onChange && onChange(e.target.value)
                 }}
+                style={type!=='password' ? {width:"100%"}:{}}
                 defaultValue={defaultValue??''}
                 autoComplete={type==='password' ? "current-password" :''}
             />

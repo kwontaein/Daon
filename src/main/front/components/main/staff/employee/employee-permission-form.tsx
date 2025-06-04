@@ -1,9 +1,8 @@
 'use client'
 import '@/styles/form-style/form.scss';
 
-import useCheckBoxState from '@/hooks/share/useCheckboxState';
 import {AsideOptions} from '@/model/constants/routes/asideOptions';
-import {startTransition, useActionState, useEffect, useRef, useState} from 'react';
+import {startTransition, useActionState, useEffect, useRef} from 'react';
 import {permissionFormAction} from '@/features/staff/employee/action/employee-permission-action';
 import { kebabToCamel } from '@/features/share/kebabToCamel';
 import { EnableUrlType } from '@/model/types/share/type';
@@ -135,7 +134,7 @@ export default function PermissionManagementForm({userName, userId, initialPermi
                 </table>
             </form>
             <div className='button-container' style={{justifyContent: 'right'}}>
-                <button onClick={submitHandler}>저장</button>
+                <button onClick={submitHandler} disabled={isPending}>저장</button>
                 <button onClick={() => window.location.replace('/main/staff/employee')}>취소</button>
             </div>
         </>

@@ -23,18 +23,20 @@
 .nav-mobile-container{
     height: calc(100% - 40px);
     margin-top: 40px;
-
+    position: fixed;
+    background-color: white;
+    z-index:1002;
+    
     flex-direction: row;
     right: 0;
     display: none;
     animation: FadeOutSlide 0.2s ease-out forwards; 
     border-left: 1px solid var.$default-border-color;
+
     @media (max-width : 620px){
         display: flex;
     }
-    position: fixed;
-    background-color: white;
-    z-index:1002
+
 }
 
 .slide{

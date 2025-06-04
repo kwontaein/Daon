@@ -2,7 +2,7 @@
 import '@/styles/table-style/search.scss'
 
 
-import {startTransition, useActionState, useCallback, useEffect, useMemo, useReducer, useRef, useState} from 'react';
+import {startTransition, useActionState, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {initialTaskState, taskSearchAction} from '@/features/sales/task/action/taskSearchAction';
 import {ResponseTask, TaskEnumType} from '@/model/types/sales/task/type';
 import TaskSearchResult from './search-result';
