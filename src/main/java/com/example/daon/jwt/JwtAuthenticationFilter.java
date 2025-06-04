@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // Request로부터 JWT 토큰을 추출
         String token = resolveCookieFilter(httpRequest)[0];
-        if (token == null || token.trim().split("\\.").length != 3) {
+        System.out.println("token : " + token);
+        if (token == null || token.trim().split("\\.").length != 3 || token.equals("undefined")) {
             System.out.println("Invalid token format in filter: " + token);
             respondWithUnauthorized(httpResponse);
             return;
