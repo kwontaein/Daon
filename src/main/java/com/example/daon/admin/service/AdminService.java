@@ -19,11 +19,11 @@ import com.example.daon.jwt.model.JwtToken;
 import com.example.daon.jwt.service.UserTokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,20 +109,22 @@ public class AdminService {
             String enableUrlJson = objectMapper.writeValueAsString(enableUrl);
             String encoded = URLEncoder.encode(enableUrlJson, StandardCharsets.UTF_8);
 
-        /*    ResponseCookie cookie = ResponseCookie.from("enable_url", encoded)
+            /*Cookie cookie = new Cookie("enable_url", encoded);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60); // 1시간
+            response.addCookie(cookie);*/
+
+            ResponseCookie cookie = ResponseCookie.from("enable_url", encoded)
                     .httpOnly(true)
                     .secure(true) // ✅ HTTPS 환경에서는 필수
                     .sameSite("None") // ✅ 도메인이 다를 경우 반드시 필요
                     .path("/")
                     .maxAge(Duration.ofHours(1))
                     .build();
-            response.setHeader("Set-Cookie", cookie.toString());*/
-            Cookie cookie = new Cookie("enable_url", encoded);
-            cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60); // 1시간
+            response.setHeader("Set-Cookie", cookie.toString());
 
-            response.addCookie(cookie);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException("EnableUrl 쿠키 직렬화 실패", e);
         }
@@ -146,13 +149,13 @@ public class AdminService {
      * @param response 쿠키를 삭제하기 위한 response
      * @param name     쿠키 이름
      **/
-    public void removeCookie(HttpServletResponse response, String name) {
+ /*   public void removeCookie(HttpServletResponse response, String name) {
         Cookie cookie = new Cookie(name, null);
         cookie.setMaxAge(0);
         cookie.setPath("/");
         response.addCookie(cookie);
-    }
-   /*  public void removeCookie(HttpServletResponse response, String name) {
+    }*/
+    public void removeCookie(HttpServletResponse response, String name) {
         ResponseCookie cookie = ResponseCookie.from(name, "")
                 .httpOnly(true)
                 .secure(true) // 배포 환경 기준
@@ -162,7 +165,7 @@ public class AdminService {
                 .build();
 
         response.setHeader("Set-Cookie", cookie.toString());
-    }*/
+    }
 
 
     //사원정보 crud

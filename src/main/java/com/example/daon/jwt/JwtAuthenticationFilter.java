@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -145,7 +146,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         return tokenList;
     }
 
-    public void removeCookie(HttpServletResponse response) {
+    /*  public void removeCookie(HttpServletResponse response) {
         Cookie cookie = new Cookie("accessToken", null);
         Cookie cookie2 = new Cookie("refreshToken", null);
         cookie.setMaxAge(0);
@@ -154,8 +155,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         cookie2.setPath("/");
         response.addCookie(cookie);
         response.addCookie(cookie2);
-    }
-   /* public void removeCookie(HttpServletResponse response) {
+    }*/
+    public void removeCookie(HttpServletResponse response) {
         ResponseCookie accessToken = ResponseCookie.from("accessToken", "")
                 .httpOnly(true)
                 .secure(true)
@@ -174,6 +175,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         response.addHeader("Set-Cookie", accessToken.toString());
         response.addHeader("Set-Cookie", refreshToken.toString());
-    }*/
+    }
 
 }

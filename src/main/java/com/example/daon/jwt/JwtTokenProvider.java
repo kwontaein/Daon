@@ -7,10 +7,10 @@ import com.example.daon.jwt.service.UserTokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -189,7 +189,7 @@ public class JwtTokenProvider {
         }
     }
 
-    /*public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
+    public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
         Claims claims = parseClaims(tokenValue);
 
         long now = System.currentTimeMillis() / 1000;
@@ -205,9 +205,9 @@ public class JwtTokenProvider {
                 .build();
 
         response.setHeader("Set-Cookie", cookie.toString());
-    }*/
+    }
     //쿠키 생성 메소드
-    public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
+    /*public void createCookie(HttpServletResponse response, String tokenName, String tokenValue) {
         Claims claims = parseClaims(tokenValue);
 
         long now = System.currentTimeMillis() / 1000;
@@ -222,6 +222,6 @@ public class JwtTokenProvider {
         cookie.setMaxAge(maxAge);
 
         response.addCookie(cookie);
-    }
+    }*/
 
 }
