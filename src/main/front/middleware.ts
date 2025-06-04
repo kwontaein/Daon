@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
     const { pathname, searchParams } =request.nextUrl;
 
-    const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
+    // const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
     
     const enable_url = (await cookies()).get('enable_url')?.value;
     const cookie = (await cookies()).get('accessToken')?.value;
@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
       redirectResponse.cookies.delete('accessToken');
       redirectResponse.cookies.delete('enable_url');
 
-      if(cookie && !enable_url ){ //enable만 존재하지 않으면 임의로 삭제한 것으로 간주
+      if((cookie && !enable_url) || (!cookie && enable_url) ){ //하나만 존재하면 임의로 삭제한 것으로 간주
         return redirectResponse;
       }
     }else{ 
@@ -44,7 +44,7 @@ export async function middleware(request: NextRequest) {
         }else{          
           const encrypted = await encrypt(enable_url)
           const response = NextResponse.next();
-          response.cookies.set("enable_url", encrypted);
+          response.cookies.set("enable_url", encrypted, { httpOnly: true, secure: true });
           return response;
         }
        
