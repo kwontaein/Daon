@@ -160,7 +160,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     }*/
     public void removeCookie(HttpServletResponse response) {
         ResponseCookie accessToken = ResponseCookie.from("accessToken", "")
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
                 .path("/")
@@ -168,7 +168,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 .build();
 
         ResponseCookie refreshToken = ResponseCookie.from("refreshToken", "")
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
                 .path("/")

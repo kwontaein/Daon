@@ -196,7 +196,7 @@ public class JwtTokenProvider {
         int maxAge = (int) (expirationTime - now);
 
         ResponseCookie cookie = ResponseCookie.from(tokenName, tokenValue)
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true) // ✅ HTTPS 환경에서는 true
                 .sameSite("None") // ✅ 크로스 도메인에서는 반드시 필요
                 .path("/")

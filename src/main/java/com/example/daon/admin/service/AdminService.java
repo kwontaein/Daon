@@ -117,7 +117,7 @@ public class AdminService {
             response.addCookie(cookie);*/
 
             ResponseCookie cookie = ResponseCookie.from("enable_url", encoded)
-                    .httpOnly(true)
+                    .httpOnly(false)
                     .secure(true) // ✅ HTTPS 환경에서는 필수
                     .sameSite("None") // ✅ 도메인이 다를 경우 반드시 필요
                     .path("/")
@@ -158,7 +158,7 @@ public class AdminService {
     }*/
     public void removeCookie(HttpServletResponse response, String name) {
         ResponseCookie cookie = ResponseCookie.from(name, "")
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true) // 배포 환경 기준
                 .sameSite("None") // 설정했으면 지울 때도 똑같이
                 .path("/")
