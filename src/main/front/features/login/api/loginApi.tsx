@@ -1,4 +1,3 @@
-
 export const loginApi = async (userInfo: { userId: string, password: string }) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signIn`, {
@@ -7,11 +6,12 @@ export const loginApi = async (userInfo: { userId: string, password: string }) =
             body: JSON.stringify(userInfo),
             credentials: "include",
         });
-        
+
         const text = await response.text();
         if (!response.ok) {
             loginFilter(text)
         } else {
+            window.alert("로그인 성공")
             document.location.replace('/main/schedule/schedule')
         }
     } catch (error) {
