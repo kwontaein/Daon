@@ -117,10 +117,10 @@ public class AdminService {
             response.addCookie(cookie);*/
 
             ResponseCookie cookie = ResponseCookie.from("enable_url", encoded)
-                    .httpOnly(false)
+                    .httpOnly(true)
                     .secure(true) // ✅ HTTPS 환경에서는 필수
                     .sameSite("None") // ✅ 도메인이 다를 경우 반드시 필요
-                    .path("/").path("/").domain("daon-zeta.vercel.app")
+                    .path("/")
                     .maxAge(Duration.ofHours(1))
                     .build();
             response.addHeader("Set-Cookie", cookie.toString());
@@ -161,7 +161,7 @@ public class AdminService {
                 .httpOnly(false)
                 .secure(true) // 배포 환경 기준
                 .sameSite("None") // 설정했으면 지울 때도 똑같이
-                .path("/").path("/").domain("daon-zeta.vercel.app")
+                .path("/")
                 .maxAge(0) // 즉시 만료
                 .build();
 

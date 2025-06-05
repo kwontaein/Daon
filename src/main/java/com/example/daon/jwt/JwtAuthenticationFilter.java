@@ -163,7 +163,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
-                .path("/").path("/").domain("daon-zeta.vercel.app")
+                .path("/")
                 .maxAge(0)
                 .build();
 
@@ -171,7 +171,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
-                .path("/").path("/").domain("daon-zeta.vercel.app")
+                .path("/")
                 .maxAge(0)
                 .build();
 
