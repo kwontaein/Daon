@@ -6,7 +6,7 @@ import { StockPoint } from "@/model/types/stock/point/types";
 
 export const deletePointApi = async (stock: StockPoint) => {
 
-    return fetch(`/api/deleteStockPoint`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

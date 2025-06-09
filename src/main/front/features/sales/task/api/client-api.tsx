@@ -6,7 +6,7 @@ import jwtFilter from "@/features/share/jwtFilter";
 export const deleteTask = async (taskIds: string[]) => {
 
     try {
-        const response = await fetch(`/api/deleteTask`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteTask`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

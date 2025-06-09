@@ -7,7 +7,7 @@ import { AffiliationType } from "@/model/types/customer/affiliation/type"
 export const deleteAffiliationApi = async (customer: AffiliationType) => {
 
     try {
-        const response = await fetch(`/api/deleteAffiliation`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteAffiliation`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

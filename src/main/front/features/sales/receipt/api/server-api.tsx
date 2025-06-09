@@ -13,7 +13,7 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/saveReceipts`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/updateReceipt`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/getReceipts`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export async function getReceiptByIds(receiptIds: string[]) {
     const cookie = `accessToken=${accessToken}`
     
     if (!receiptIds || receiptIds.length===0) return null
-    return await fetch(`/api/getReceiptsById`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptsById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/getReceipts`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceipts`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ export async function getRecieptTotalApi(searchSDate) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/getReceiptTotal`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getReceiptTotal`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
