@@ -32,7 +32,6 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
     //일일종합검색
     useEffect(()=>{
         if(date_id && !isPending){
-            deletePage()
             const formData = new FormData(formRef.current);
             formData.set('searchSDate', date)
             formData.set('searchEDate', date)
@@ -44,6 +43,7 @@ export default function ReceiptSearch({ initialReceipts, page }: { initialReceip
             startTransition(() => {
                 action(formData);
             });
+            deletePage()
         }
     },[date_id])
 
