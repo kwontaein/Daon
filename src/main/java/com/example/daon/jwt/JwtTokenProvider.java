@@ -196,7 +196,6 @@ public class JwtTokenProvider {
         int maxAge = (int) (expirationTime - now);
 
         ResponseCookie cookie = ResponseCookie.from(tokenName, tokenValue)
-                .domain("daon-zeta.vercel.app") // 도메인을 프론트 도메인으로!
                 .httpOnly(true)
                 .secure(true) // ✅ HTTPS 환경에서는 true
                 .sameSite("None") // ✅ 크로스 도메인에서는 반드시 필요
