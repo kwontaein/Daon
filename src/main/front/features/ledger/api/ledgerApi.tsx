@@ -10,7 +10,7 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
+        const response = await fetch(`/api/getLedgers`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getLedgers`, {
+        const response = await fetch(`/api/getLedgers`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockLedger`, {
+        const response = await fetch(`/api/getStockLedger`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSaleReceipt`, {
+        const response = await fetch(`/api/getSaleReceipt`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseReceipt`, {
+        const response = await fetch(`/api/getPurchaseReceipt`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getFeeReceipt`, {
+        const response = await fetch(`/api/getFeeReceipt`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -218,7 +218,7 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockSurvey`, {
+        const response = await fetch(`/api/getStockSurvey`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExtraLedger`, {
+        const response = await fetch(`/api/getExtraLedger`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

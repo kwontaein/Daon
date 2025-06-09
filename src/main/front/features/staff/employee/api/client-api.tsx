@@ -5,7 +5,7 @@ import jwtFilter from "@/features/share/jwtFilter";
 
 export const deleteEmployeeApi = async (userId: string) => {
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEmployee`, {
+    return fetch(`/api/deleteEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

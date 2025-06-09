@@ -10,7 +10,7 @@ export const fetchSearchTask = async (searchCondition: TaskSearchCondition) => {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTaskByOption`, {
+        const response = await fetch(`/api/getTaskByOption`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export async function getTaskApi(taskId: string) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTask`, {
+    return fetch(`/api/getTask`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ export async function getTasksApi() {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getTasks`, {
+    return fetch(`/api/getTasks`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -124,7 +124,7 @@ export async function getAdminTasksApi() {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAdminTask`, {
+    return fetch(`/api/getAdminTask`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -159,7 +159,7 @@ export const saveTask = async (task: RequestTask) => {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveTask`, {
+        const response = await fetch(`/api/saveTask`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ export const updateTask = async (task: RequestTask) => {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTask`, {
+        const response = await fetch(`/api/updateTask`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -223,7 +223,7 @@ export const postTaskComplete = async (taskId: string, actionTaken: string) => {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/taskComplete`, {
+        const response = await fetch(`/api/taskComplete`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -256,7 +256,7 @@ export const updateTaskUserApi = async (taskId, assignedUser) => {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateTaskUser`, {
+        const response = await fetch(`/api/updateTaskUser`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
