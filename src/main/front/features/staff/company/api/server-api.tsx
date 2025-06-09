@@ -13,7 +13,7 @@ export async function getCompany() {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompany`, {
+    return await fetch(`/api/getCompany`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -50,7 +50,7 @@ export async function getCompanyDetail(companyId: string) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCompanyDetail`, {
+    return await fetch(`/api/getCompanyDetail`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCompany`, {
+        const response = await fetch(`/api/saveCompany`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export async function updateCompany(companyData: ResponseCompany) {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCompany`, {
+        const response = await fetch(`/api/updateCompany`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

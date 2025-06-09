@@ -12,7 +12,7 @@ export async function searchStockApi(searchCondition: StockSearchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
+    return await fetch(`/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export async function getStockListApi(searchCondition: StockSearchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockList`, {
+    return await fetch(`/api/getStockList`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export async function getStockByIdApi(stockId: string) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockById`, {
+    return await fetch(`/api/getStockById`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

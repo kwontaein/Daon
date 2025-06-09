@@ -9,7 +9,7 @@ export async function deleteReceiptApi(receiptIds: string[]) {
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteReceipt`, {
+    return await fetch(`/api/deleteReceipt`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

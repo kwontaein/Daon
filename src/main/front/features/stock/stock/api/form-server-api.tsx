@@ -12,7 +12,7 @@ export async function saveStockApi(stock: Omit<RequestStock, 'stockId'>) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStock`, {
+    return await fetch(`/api/saveStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export async function updateStockApi(stock: RequestStock) {
 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStock`, {
+    return await fetch(`/api/updateStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

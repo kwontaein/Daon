@@ -5,7 +5,7 @@ import jwtFilter from "@/features/share/jwtFilter";
 
 export async function deleteEstimate(estimateId) {
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteEstimate`, {
+    return fetch(`/api/deleteEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

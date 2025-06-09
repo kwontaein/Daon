@@ -10,7 +10,7 @@ export const getAffiliation = async () => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAffiliation`, {
+        const response = await fetch(`/api/getAffiliation`, {
             headers: {
                 'Content-Type': 'application/json',
                 Cookie: cookie
@@ -42,7 +42,7 @@ export const updateAffiliationApi = async (affiliation: AffiliationType[]) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateAffiliation`, {
+        const response = await fetch(`/api/updateAffiliation`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export const saveAffiliationApi = async (customer: Pick<AffiliationType, 'affili
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveAffiliation`, {
+        const response = await fetch(`/api/saveAffiliation`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

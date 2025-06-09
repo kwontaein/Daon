@@ -30,7 +30,7 @@ export async function deleteAccountingApi(division, id) {
             break;
     }
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
+        const response = await fetch(`/api/${api}`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

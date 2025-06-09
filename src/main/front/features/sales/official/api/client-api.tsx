@@ -7,7 +7,7 @@ import { ResponseOfficial } from "@/model/types/sales/official/type";
 export const deleteOfficialApi = async (official: ResponseOfficial) => {
 
     try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteOfficial`, {
+        const response = await fetch(`/api/deleteOfficial`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
