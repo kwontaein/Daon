@@ -21,7 +21,7 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getPurchaseVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getPurchaseVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getSalesVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getCardTransaction`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCardTransaction`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getExpenseProof`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getExpenseProof`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -165,7 +165,7 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getProcurement`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getProcurement`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ export async function transAccountingToReceipt(division: keyof typeof Accounting
             break;
     }
     try {
-        const response = await fetch(`/api/${api}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/${api}`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ import jwtFilter from "@/features/share/jwtFilter";
 export const deleteCustomerApi = async (customerId: string) => {
 
     try {
-        const response = await fetch(`/api/deleteCustomer`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteCustomer`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

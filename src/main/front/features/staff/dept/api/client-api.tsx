@@ -7,7 +7,7 @@ import { Dept } from "@/model/types/staff/dept/type";
 
 export const deleteDeptApi = async (dept: Dept) => {
 
-    return fetch(`/api/deleteDept`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteDept`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

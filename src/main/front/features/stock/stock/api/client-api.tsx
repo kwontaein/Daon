@@ -8,7 +8,7 @@ export async function deleteStockApi(stockId: string) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch(`/api/deleteStock`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteStock`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
