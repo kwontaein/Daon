@@ -10,7 +10,7 @@ export const getDeptApi = async () => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getDept`, {
+    return fetch(`/api/getDept`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -44,7 +44,7 @@ export const updateDeptApi = async (dept: Dept[]) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateDept`, {
+    return fetch(`/api/updateDept`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export const createDeptApi = async (dept: Pick<Dept, 'deptName'>) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveDept`, {
+    return fetch(`/api/saveDept`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
