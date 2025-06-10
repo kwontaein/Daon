@@ -83,12 +83,12 @@ export default function RegisterBoard({initialBoard, mode}: { initialBoard: Resp
                 <table className='register-form-table'
                        style={{fontSize: '1rem', marginTop: '1rem', tableLayout: 'fixed'}}>
                     <colgroup>
-                        <col style={{width: '10%', minWidth: '80px'}}/>
-                        <col style={{width: '30%'}}/>
-                        <col style={{width: '10%'}}/>
-                        <col style={{width: '10%', minWidth: '80px'}}/>
-                        <col style={{width: '30%'}}/>
-                        <col style={{width: '10%', minWidth: '80px'}}/>
+                        <col style={{width: '12%', minWidth: '75.5px'}}/>
+                        <col style={{width: '28%'}}/>
+                        <col style={{width: '8%'}}/>
+                        <col style={{width: '12%', minWidth: '75.5px'}}/>
+                        <col style={{width: '28%'}}/>
+                        <col style={{width: '12%', minWidth: '75.5px'}}/>
                     </colgroup>
                     <thead></thead>
                     <tbody>
