@@ -1,4 +1,5 @@
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 import {RequestSchedule, ResponseSchedule} from "@/model/types/schedule/type";
 import {cookies} from "next/headers";
 
@@ -27,9 +28,8 @@ export async function getUserSchedule(userId, year): Promise<ResponseSchedule[]>
         return JSON.parse(text);
 
     }).catch(async (error) => {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -64,9 +64,8 @@ export async function saveSchedules(scheduleList: RequestSchedule[]) {
         return JSON.parse(text);
 
     }).catch(async (error) => {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

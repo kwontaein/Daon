@@ -2,6 +2,7 @@
 import {ReceiptCondition, ResponseReceipt} from "@/model/types/sales/receipt/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -30,9 +31,8 @@ export async function saveReceiptListApi(receiptList: ResponseReceipt[]) {
         return response.status
 
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -67,9 +67,8 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
         return response.status
 
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -110,9 +109,8 @@ export async function getReceiptListApi(receiptCondition: ReceiptCondition) {
         return JSON.parse(text);
 
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -150,9 +148,8 @@ export async function getReceiptByIds(receiptIds: string[]) {
         return JSON.parse(text);
 
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -189,9 +186,8 @@ export async function getReceiptSearchListApi(receiptCondition: ReceiptCondition
         if (!text) return null;
         return JSON.parse(text);
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -227,9 +223,8 @@ export async function getRecieptTotalApi(searchSDate) {
         if (!text) return null;
         return JSON.parse(text);
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

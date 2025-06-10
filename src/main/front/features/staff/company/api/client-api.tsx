@@ -1,6 +1,7 @@
 'use client'
 
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 export async function deleteCompany(companyId: string) {
@@ -23,9 +24,8 @@ export async function deleteCompany(companyId: string) {
         }
         return response.status;
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

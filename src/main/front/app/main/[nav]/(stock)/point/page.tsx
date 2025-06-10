@@ -19,9 +19,12 @@ export default async function StockPointPage() {
     )
         .then(async (response) => {
             response.json()
+            if (!response.ok) {
+                jwtFilter(response.status.toString());
+            }
             const text = await response.text();
-            jwtFilter(text)
-            jwtFilter(text)
+            if (!text) return null;
+            return JSON.parse(text);
         })
         .catch((error) => console.error('Error:', error));
 

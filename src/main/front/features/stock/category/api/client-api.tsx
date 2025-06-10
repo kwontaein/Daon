@@ -1,6 +1,7 @@
 'use client'
 
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 import { StockCate } from "@/model/types/stock/cate/type";
 
 
@@ -21,9 +22,8 @@ export const deleteStockCateApi = async (stock: StockCate) => {
 
         return response.status
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

@@ -1,6 +1,7 @@
 'use server';
 
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 import {ResponseOfficial} from "@/model/types/sales/official/type";
 import {cookies} from "next/headers";
 
@@ -32,9 +33,8 @@ export const getOfficialApi = async (officialName?: string) => {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -64,9 +64,8 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
         return response.status
 
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -95,9 +94,8 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'offi
         }
         return response.status
     }catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

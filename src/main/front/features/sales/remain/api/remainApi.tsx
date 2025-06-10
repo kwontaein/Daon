@@ -1,5 +1,6 @@
 "use server"
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 import {RequestRemain} from "@/model/types/sales/remain/type";
 import {cookies} from "next/headers";
 
@@ -27,9 +28,8 @@ export const getNoPaidApi = async (searchCondition: RequestRemain) => {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

@@ -9,8 +9,11 @@ export default function Error({ error, reset }: { error: Error & {digest:string}
   const router = useRouter()
   useEffect(() => {
     if (error.digest) {
-        alert(error.digest); 
-        router.replace('/'); 
+        const {message, statusCode} = JSON.parse(error.digest)
+        alert(message);
+        if(['401', '403'].includes(statusCode)){
+          router.replace('/'); 
+        } 
       } else {
         alert('알 수 없는 에러가 발생했습니다.');
     }

@@ -3,6 +3,7 @@
 import {StockCate} from "@/model/types/stock/cate/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -28,9 +29,8 @@ export const getStockCateApi = async () => {
         if (!text) return null;
         return JSON.parse(text);
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -60,9 +60,8 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
 
         return response.status
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -92,9 +91,8 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
 
         return response.status
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

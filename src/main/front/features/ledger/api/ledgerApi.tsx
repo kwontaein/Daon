@@ -2,6 +2,7 @@
 import {LedgerSearchCondition} from "@/model/types/ledger/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -28,9 +29,8 @@ export async function getLedgerCustomerApi(searchCondition: LedgerSearchConditio
         if (!text) return null;
         return JSON.parse(text);
     }catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -64,9 +64,8 @@ export async function getLedgerCustomesrApi(searchCondition: LedgerSearchConditi
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -99,9 +98,8 @@ export async function getLedgerStockApi(searchCondition: LedgerSearchCondition) 
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -133,9 +131,8 @@ export async function getSaleReceiptApi(searchCondition: LedgerSearchCondition) 
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -167,9 +164,8 @@ export async function getPurchaseReceiptApi(searchCondition: LedgerSearchConditi
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -201,9 +197,8 @@ export async function getFeeReceiptAoi(searchCondition: LedgerSearchCondition) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -236,9 +231,8 @@ export async function getStockSurveyApi(searchCondition: LedgerSearchCondition) 
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -270,9 +264,8 @@ export async function getExtraLedgerApi(searchCondition: LedgerSearchCondition) 
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

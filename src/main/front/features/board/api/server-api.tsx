@@ -1,5 +1,6 @@
 "use server"
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 import {RequestBoard} from "@/model/types/board/type";
 import {cookies} from "next/headers";
@@ -25,9 +26,8 @@ export async function getBoardApi() {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -63,7 +63,7 @@ export async function saveBoardApi(board: RequestBoard) {
             headers: {
                 Cookie: cookie
             },
-            body: formData, // ✅ Content-Type 자동 설정됨
+            body: formData,
             credentials: 'include'
         });
 
@@ -72,9 +72,8 @@ export async function saveBoardApi(board: RequestBoard) {
         }
         return response.status
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -115,7 +114,7 @@ export async function updateBoardApi(board: RequestBoard) {
             headers: {
                 Cookie: cookie
             },
-            body: formData, // ✅ Content-Type 자동 설정됨
+            body: formData,
             credentials: 'include',
         });
         if (!response.ok) {
@@ -123,9 +122,8 @@ export async function updateBoardApi(board: RequestBoard) {
         }
         return response.status
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -157,9 +155,8 @@ export async function updateViews(boardId: string) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
