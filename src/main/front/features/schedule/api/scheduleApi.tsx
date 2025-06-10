@@ -7,14 +7,11 @@ export async function getUserSchedule(userId, year): Promise<ResponseSchedule[]>
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const accessToken = (await cookies()).get('accessToken')?.value
-    const cookie = `accessToken=${accessToken}`
 
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSchedules`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
-            Cookie: cookie
         },
         credentials: 'include',
         body: JSON.stringify({userId, year}),
