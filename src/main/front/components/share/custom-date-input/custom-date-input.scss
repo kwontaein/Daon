@@ -43,16 +43,19 @@ input::-webkit-inner-spin-button {
     width: 20px !important;
     cursor: pointer !important;
     color:transparent !important;
+    @media (max-width:400px){
+        display: none;
+    }
 }
 
 input[type="date"].custom-date {
-    color: transparent !important;        
+    color: transparent !important;      
+    appearance:none ;
+    -webkit-appearance: none;
+    -moz-appearance: none;  
 }
   
-input[type="date"].custom-date::-webkit-calendar-picker-indicator {
-    opacity: 1;
-    cursor: pointer;
-}
+
 
 .custom-year{
     width: 4ch !important;
