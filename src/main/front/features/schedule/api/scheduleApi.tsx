@@ -8,7 +8,7 @@ export async function getUserSchedule(userId, year): Promise<ResponseSchedule[]>
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSchedules`, {
+    return await fetch(`/api/getSchedules`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export async function saveSchedules(scheduleList: RequestSchedule[]) {
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSchedules`, {
+    return await fetch(`/api/saveSchedules`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
