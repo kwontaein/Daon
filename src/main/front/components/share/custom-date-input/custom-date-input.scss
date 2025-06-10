@@ -44,6 +44,17 @@ input::-webkit-inner-spin-button {
     cursor: pointer !important;
     color:transparent !important;
 }
+
+input[type="date"].custom-date {
+    color: transparent !important;        
+    text-shadow: 0 0 0 #000;    
+  }
+  
+input[type="date"].custom-date::-webkit-calendar-picker-indicator {
+opacity: 1;
+cursor: pointer;
+}
+
 .custom-year{
     width: 4ch !important;
     min-width: 2ch;
