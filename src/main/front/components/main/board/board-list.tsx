@@ -11,6 +11,7 @@ import Pagination from '@/components/share/pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { ResponseBoard } from '@/model/types/board/type';
+import { useRouter } from 'next/navigation';
 
 
 function searchBoardAction(prev, formData){
@@ -50,7 +51,7 @@ export default function BoardList({initialBoardItems,page}:{
     useEffect(()=>{
         setBoardList(state.boardList)
     },[state])
-
+    const router = useRouter()
     return(
         <section style={{width:'100%', maxWidth:'700px'}}>
             <form action={action} ref={formRef}>
@@ -77,8 +78,8 @@ export default function BoardList({initialBoardItems,page}:{
                         </td>
                         <td><button type='button' onClick={cancleHandler}>취소</button></td>
                         <td>
-                            <button>
-                                <Link href={`/main/board/board?mode=write`}>글등록</Link>
+                            <button onClick={()=>{router.push(`/main/board/board?mode=write`)}}>
+                                글등록
                             </button>
                         </td>
                     </tr>
