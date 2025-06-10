@@ -19,7 +19,7 @@ export async function getCategorySelectionApi() {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`/api/getCategorySelection`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCategorySelection`, {
             headers: {
                 'Content-Type': 'application/json',
                 Cookie: cookie,
@@ -52,7 +52,7 @@ export async function savePurchaseVatApi(saveData: UnionAccountingType) {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`/api/savePurchaseVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/savePurchaseVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export async function saveSalesVATApi(saveData: UnionAccountingType) {
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`/api/saveSalesVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveSalesVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export async function saveCardTransactionApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/saveCardTransaction`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCardTransaction`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export async function saveExpenseProofApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/saveExpenseProof`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveExpenseProof`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ export async function saveProcurementApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/saveProcurement`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveProcurement`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ export async function updatePurchaseVatApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updatePurchaseVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updatePurchaseVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -240,7 +240,7 @@ export async function updateSalesVATApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateSalesVAT`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateSalesVAT`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -271,7 +271,7 @@ export async function updateCardTransactionApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateCardTransaction`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCardTransaction`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -302,7 +302,7 @@ export async function updateExpenseProofApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateExpenseProof`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateExpenseProof`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -333,7 +333,7 @@ export async function updateProcurementApi(saveData: UnionAccountingType) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateProcurement`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateProcurement`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

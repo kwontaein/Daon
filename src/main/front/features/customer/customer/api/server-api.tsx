@@ -14,7 +14,7 @@ export const searchCustomersApi = async (searchCondition: CustomerSearchConditio
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getCustomers`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomers`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const getCustomerAPi = async (customerId: string) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getCustomer`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getCustomer`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export const saveCustomerApi = async (postData: Partial<Omit<RequestCustomer, 'c
     const cookie = `accessToken=${accessToken}`
 
     try {
-        const response = await fetch(`/api/saveCustomer`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveCustomer`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export const updateCustomerApi = async (postData: Partial<RequestCustomer>) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateCustomer`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateCustomer`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
