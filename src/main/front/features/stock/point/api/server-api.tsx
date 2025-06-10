@@ -10,7 +10,7 @@ export const updatePointApi = async (Points: StockPoint[]) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockPoint`, {
+    return fetch(`/api/updateStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const createPointApi = async (stock: Pick<StockPoint, 'stockPointName'>) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockPoint`, {
+    return fetch(`/api/saveStockPoint`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

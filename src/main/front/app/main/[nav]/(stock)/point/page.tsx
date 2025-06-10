@@ -7,7 +7,7 @@ export default async function StockPointPage() {
     const cookieStore = cookies();
     const cookie = cookieStore.toString();
 
-    const InitStockPoint = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockPointList`,
+    const InitStockPoint = await fetch(`/api/getStockPointList`,
         {
             headers: {
                 'Content-Type': 'application/json',

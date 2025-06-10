@@ -7,7 +7,7 @@ import jwtFilter from "@/features/share/jwtFilter";
 export async function deleteBoardApi(boardId: string) {
 
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/deleteBoard`, {
+        const response = await fetch(`/api/deleteBoard`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

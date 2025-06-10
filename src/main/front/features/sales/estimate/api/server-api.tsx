@@ -13,7 +13,7 @@ export async function getEstimateApi(estimateId: string) {
     const cookie = `accessToken=${accessToken}`
 
     if (!estimateId) return null
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimate`, {
+    return fetch(`/api/getEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export async function saveEstimate(estimate: RequestEstimate) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEstimate`, {
+    return fetch(`/api/saveEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export async function updateEstimate(estimate: RequestEstimate) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEstimate`, {
+    return fetch(`/api/updateEstimate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ export async function searchAllEstimateApi(task: boolean, receipted: boolean = f
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
+    return fetch(`/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
+    return fetch(`/api/getEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/estimatesPaid`, {
+    return fetch(`/api/estimatesPaid`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -244,7 +244,7 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
 
 //     if(!estimateIds || estimateIds.length===0) return null
 
-//     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimatesByIds`, {
+//     return fetch(`/api/getEstimatesByIds`, {
 //         method: "POST",
 //         headers: {
 //             'Content-Type': 'application/json',

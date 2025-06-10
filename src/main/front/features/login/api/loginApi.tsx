@@ -1,6 +1,6 @@
 export const loginApi = async (userInfo: { userId: string, password: string }) => {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signIn`, {
+        const response = await fetch(`/api/signIn`, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(userInfo),
