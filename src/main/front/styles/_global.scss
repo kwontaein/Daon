@@ -94,6 +94,9 @@ button{
   &:hover{
     filter: brightness(95%);
   }
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 span{
