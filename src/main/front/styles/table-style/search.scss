@@ -1,7 +1,10 @@
 @use '@/styles/_variables.scss' as var;
 
 .search-container{
-    
+    width: 100%;
+    .search-table{
+        width: 100%;
+    }
     .search-table thead{
         padding-block:5px;
     }
