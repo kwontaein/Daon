@@ -2,6 +2,7 @@
 import {Dept} from "@/model/types/staff/dept/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -28,9 +29,8 @@ export const getDeptApi = async () => {
         if (!text) return null;
         return JSON.parse(text);
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -60,9 +60,8 @@ export const updateDeptApi = async (dept: Dept[]) => {
 
         return response.status
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -93,9 +92,8 @@ export const createDeptApi = async (dept: Pick<Dept, 'deptName'>) => {
 
         return response.status
     }).catch (async (error)=> {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

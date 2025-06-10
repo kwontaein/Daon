@@ -1,6 +1,7 @@
 'use client'
 
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 export async function deleteEstimate(estimateId) {
@@ -21,9 +22,8 @@ export async function deleteEstimate(estimateId) {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        }else if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        }else if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     })
