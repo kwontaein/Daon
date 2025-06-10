@@ -10,7 +10,7 @@ export const getEmployeeApi = async () => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/getEmployees`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployees`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -43,7 +43,7 @@ export const getEmployeeDetailApi = async (userId: string) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return await fetch(`/api/getEmployeeDetail`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEmployeeDetail`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const userIdDuplicationChecked = async (userId: string): Promise<boolean 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/duplicationCheck`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/duplicationCheck`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export const saveEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'> &
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/saveEmployee`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export const updateEmployeeApi = async (userInfo: Omit<ResponseEmployee, 'dept'>
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/updateEmployee`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEmployee`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ export const getEnableUrl =async(userId)=>{
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`/api/getEnableUrl`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEnableUrl`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ export const updateEnableUrl =async(urlList:ListOfAside & {userId:string})=>{
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`/api/updateEnableUrl`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateEnableUrl`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

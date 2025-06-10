@@ -10,7 +10,7 @@ export const getOfficialApi = async (officialName?: string) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try{
-        const response = await fetch(`/api/getOfficial`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getOfficial`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ export const updateOfficialApi = async (official: ResponseOfficial[]) => {
     const cookie = `accessToken=${accessToken}`
 
     try{
-        const response = await fetch(`/api/updateOfficial`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateOfficial`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ export const saveOfficialApi = async (officialName: Pick<ResponseOfficial, 'offi
     const cookie = `accessToken=${accessToken}`
 
     try{
-        const response = await fetch(`/api/saveOfficial`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveOfficial`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ export async function getBoardApi() {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/getBoard`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getBoard`, {
             headers: {
                 'Content-Type': 'application/json',
                 Cookie: cookie
@@ -58,7 +58,7 @@ export async function saveBoardApi(board: RequestBoard) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/saveBoard`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveBoard`, {
             method: "POST",
             headers: {
                 Cookie: cookie
@@ -110,7 +110,7 @@ export async function updateBoardApi(board: RequestBoard) {
         });
     }
     try {
-        const response = await fetch(`/api/updateBoard`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateBoard`, {
             method: "POST",
             headers: {
                 Cookie: cookie
@@ -139,7 +139,7 @@ export async function updateViews(boardId: string) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`/api/updateViews`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateViews`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

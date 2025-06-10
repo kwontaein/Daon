@@ -6,7 +6,7 @@ export async function getUserInfo(){
     const accessToken = (await cookies()).get('accessToken')?.value
      const cookie = `accessToken=${accessToken}`
      try {
-         const response = await fetch(`/api/getMyDetail`, {
+         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getMyDetail`, {
              credentials: "include", 
              headers : {
                  'Content-Type': 'application/json',

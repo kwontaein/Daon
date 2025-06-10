@@ -11,7 +11,7 @@ export const getStockCateApi = async () => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/getStockCateList`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getStockCateList`, {
         headers: {
             'Content-Type': 'application/json',
             Cookie: cookie
@@ -44,7 +44,7 @@ export const updateStockCateApi = async (cates: StockCate[]) => {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/updateStockCate`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/updateStockCate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const saveStockCateApi = async (stock: Pick<StockCate, 'stockCateName'>) 
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`/api/saveStockCate`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/saveStockCate`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
