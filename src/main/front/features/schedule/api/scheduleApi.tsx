@@ -1,7 +1,8 @@
 import jwtFilter from "@/features/share/jwtFilter";
-import { RequestSchedule, ResponseSchedule } from "@/model/types/schedule/type";
+import {RequestSchedule, ResponseSchedule} from "@/model/types/schedule/type";
+import {cookies} from "next/headers";
 
-export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
+export async function getUserSchedule(userId, year): Promise<ResponseSchedule[]> {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -13,11 +14,11 @@ export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
             'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({userId,year}),
+        body: JSON.stringify({userId, year}),
         signal,
 
     }).then(async (response) => {
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
         const text = await response.text();
@@ -25,9 +26,9 @@ export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
         if (!text) return null;
         return JSON.parse(text);
 
-    }).catch (async (error)=> {
+    }).catch(async (error) => {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {
@@ -38,7 +39,7 @@ export async function getUserSchedule(userId,year):Promise<ResponseSchedule[]> {
 
 }
 
-export async function saveSchedules(scheduleList:RequestSchedule[]) {
+export async function saveSchedules(scheduleList: RequestSchedule[]) {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -54,7 +55,7 @@ export async function saveSchedules(scheduleList:RequestSchedule[]) {
 
     }).then(async (response) => {
 
-        if(!response.ok){
+        if (!response.ok) {
             jwtFilter(response.status.toString());
         }
         const text = await response.text();
@@ -62,9 +63,9 @@ export async function saveSchedules(scheduleList:RequestSchedule[]) {
         if (!text) return null;
         return JSON.parse(text);
 
-    }).catch (async (error)=> {
+    }).catch(async (error) => {
         if (error instanceof Response) {
-            const { message } = await error.json();
+            const {message} = await error.json();
             throw new Error(message);
         }
         if (error instanceof Error) {

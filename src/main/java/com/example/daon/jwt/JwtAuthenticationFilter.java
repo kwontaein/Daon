@@ -40,9 +40,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         }
 
         // Request로부터 JWT 토큰을 추출
-        String token = resolveCookieFilter(httpRequest)[0];
+
+        String[] tokenArr = resolveCookieFilter(httpRequest);
+        String token = (tokenArr != null && tokenArr.length > 0) ? tokenArr[0] : null;
+        System.out.println("🎯 [DEBUG] requestURI: " + requestURI);
+        System.out.println("🎯 [DEBUG] accessToken: " + token);
+
         System.out.println("token : " + token);
-        if (token == null || token.trim().split("\\.").length != 3 || token.equals("undefined")) {
+        if (token == null || token.trim().split("\\.").length != 3 || "undefined".equals(token)) {
             System.out.println("Invalid token format in filter: " + token);
             respondWithUnauthorized(httpResponse);
             return;
@@ -55,11 +60,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // JWT 토큰의 유효성을 검사
         String tokenValidationResult = jwtTokenProvider.validateToken(token);
-        if ("true".equals(tokenValidationResult)) {
+        System.out.println("🎯 [DEBUG] validateToken(): " + tokenValidationResult);
+        if (tokenValidationResult.equals("true")) {
             // 인증 객체를 SecurityContext에 세팅해야 함
             SecurityContextHolder.getContext().setAuthentication(authentication); // ✅ 추가 필요
             response = tokenTrue(token, httpResponse, authentication);
-        } else if ("Expired JWT Token".equals(tokenValidationResult)) {
+        } else if (tokenValidationResult.equals("Expired JWT Token")) {
             // 토큰이 만료되었을 경우 처리
             handleExpiredToken(httpResponse, authentication, dbRefreshToken, refreshValidate);
         } else {
@@ -75,10 +81,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private boolean isExcludedURI(String requestURI) {
         // 인증 없이 접근 가능한 특정 URI를 확인
-        return "/api/signIn".equals(requestURI) ||
-                "/api/postCookie".equals(requestURI) ||
-                "/api/getTasks".equals(requestURI) ||
-                "/api/test".equals(requestURI);
+        return requestURI.equals("/api/signIn") ||
+                requestURI.equals("/api/postCookie") ||
+                requestURI.equals("/api/getTasks") ||
+                requestURI.equals("/api/test") ||
+                requestURI.startsWith("/auth") ||
+                requestURI.endsWith(".js") ||
+                requestURI.endsWith(".css") ||
+                requestURI.endsWith(".ico");
     }
 
     private void respondWithUnauthorized(HttpServletResponse response) throws IOException {
@@ -134,18 +144,25 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     //헤더 쿠키에서 토큰 값 가져오는 메소드
     private String[] resolveCookieFilter(HttpServletRequest request) {
-        Cookie[] requestCookie = request.getCookies(); // 리퀘스트 헤더에서 쿠키 목록 가져오기
-        String[] tokenList = new String[2];
+        Cookie[] requestCookies = request.getCookies();
 
-        if (requestCookie != null) {
-            for (Cookie cookie : requestCookie) {
-                System.out.println("쿠키이름 : " + cookie.getName());
-                if ("accessToken".equals(cookie.getName())) {
-                    tokenList[0] = cookie.getValue();
-                }
+        if (requestCookies == null || requestCookies.length == 0) {
+            return null; // 아무 쿠키도 없을 경우
+        }
+
+        String[] tokenList = new String[2]; // [accessToken, refreshToken] 등 확장을 고려한 구조
+
+        for (Cookie cookie : requestCookies) {
+            System.out.println("쿠키이름 : " + cookie.getName());
+            if ("accessToken".equals(cookie.getName())) {
+                tokenList[0] = cookie.getValue();
+            } else if ("refreshToken".equals(cookie.getName())) {
+                tokenList[1] = cookie.getValue(); // 확장성을 고려한 추가
             }
         }
-        return tokenList;
+
+        // 최소한 accessToken이 존재하지 않으면 null을 반환
+        return tokenList[0] != null ? tokenList : null;
     }
 
     /*  public void removeCookie(HttpServletResponse response) {
