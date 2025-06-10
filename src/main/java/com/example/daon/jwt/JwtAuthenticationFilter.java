@@ -43,23 +43,16 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         String[] tokenArr = resolveCookieFilter(httpRequest);
         String token = (tokenArr != null && tokenArr.length > 0) ? tokenArr[0] : null;
+        System.out.println("🎯 [DEBUG] requestURI: " + requestURI);
+        System.out.println("🎯 [DEBUG] accessToken: " + token);
 
         System.out.println("token : " + token);
-
         if (token == null || token.trim().split("\\.").length != 3 || "undefined".equals(token)) {
             System.out.println("Invalid token format in filter: " + token);
             respondWithUnauthorized(httpResponse);
             return;
         }
 
-       /*     String token = resolveCookieFilter(httpRequest)[0];
-        System.out.println("token : " + token);
-        if (token == null || token.trim().split("\\.").length != 3 || token.equals("undefined")) {
-            System.out.println("Invalid token format in filter: " + token);
-            respondWithUnauthorized(httpResponse);
-            return;
-        }
-*/
         // JWT 토큰에서 Authentication 객체를 생성하고, 저장된 리프레시 토큰을 가져옴
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         String dbRefreshToken = userTokenService.getUserTokenById(authentication.getName());
@@ -67,11 +60,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // JWT 토큰의 유효성을 검사
         String tokenValidationResult = jwtTokenProvider.validateToken(token);
-        if ("true".equals(tokenValidationResult)) {
+        System.out.println("🎯 [DEBUG] validateToken(): " + tokenValidationResult);
+        if (tokenValidationResult.equals("true")) {
             // 인증 객체를 SecurityContext에 세팅해야 함
             SecurityContextHolder.getContext().setAuthentication(authentication); // ✅ 추가 필요
             response = tokenTrue(token, httpResponse, authentication);
-        } else if ("Expired JWT Token".equals(tokenValidationResult)) {
+        } else if (tokenValidationResult.equals("Expired JWT Token")) {
             // 토큰이 만료되었을 경우 처리
             handleExpiredToken(httpResponse, authentication, dbRefreshToken, refreshValidate);
         } else {
@@ -87,10 +81,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private boolean isExcludedURI(String requestURI) {
         // 인증 없이 접근 가능한 특정 URI를 확인
-        return "/api/signIn".equals(requestURI) ||
-                "/api/postCookie".equals(requestURI) ||
-                "/api/getTasks".equals(requestURI) ||
-                "/api/test".equals(requestURI);
+        return requestURI.equals("/api/signIn") ||
+                requestURI.equals("/api/postCookie") ||
+                requestURI.equals("/api/getTasks") ||
+                requestURI.equals("/api/test") ||
+                requestURI.startsWith("/auth") ||
+                requestURI.endsWith(".js") ||
+                requestURI.endsWith(".css") ||
+                requestURI.endsWith(".ico");
     }
 
     private void respondWithUnauthorized(HttpServletResponse response) throws IOException {
