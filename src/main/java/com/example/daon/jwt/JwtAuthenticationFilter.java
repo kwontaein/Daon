@@ -88,7 +88,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 requestURI.startsWith("/auth") ||
                 requestURI.endsWith(".js") ||
                 requestURI.endsWith(".css") ||
-                requestURI.endsWith(".ico");
+                requestURI.endsWith(".ico") ||
+                requestURI.startsWith("/ws") ||
+                requestURI.startsWith("/ws-stomp") ||
+                requestURI.startsWith("/websocket");
     }
 
     private void respondWithUnauthorized(HttpServletResponse response) throws IOException {
