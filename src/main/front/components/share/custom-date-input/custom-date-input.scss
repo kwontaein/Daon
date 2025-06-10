@@ -42,19 +42,8 @@ input::-webkit-inner-spin-button {
 .custom-date{
     width: 20px !important;
     cursor: pointer !important;
-    color:transparent !important;
-    @media (max-width:400px){
-        display: none;
-    }
 }
 
-input[type="date"].custom-date {
-    color: transparent !important;      
-    appearance:none ;
-    -webkit-appearance: none;
-    -moz-appearance: none;  
-}
-  
 
 
 .custom-year{
@@ -87,4 +76,5 @@ input[type="date"].custom-date {
     position: absolute !important;
     margin-top: 10px !important;
     width: 0 !important;
+    color:transparent !important;
 }
