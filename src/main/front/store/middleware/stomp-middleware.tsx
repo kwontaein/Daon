@@ -59,7 +59,7 @@ function* startStomp(): any {
 /**stomp 연결을 위한 함수 >>call 로 호출 > 비동기식으로 처리해주는 거, Promise 도 가능*/
 function createStompConnection() {
 
-    const stompUrl: string = `/ws-stomp`
+    const stompUrl: string = `${process.env.NEXT_PUBLIC_API_URL}/ws-stomp`
 
     return new Promise((res, rej) => {
 
