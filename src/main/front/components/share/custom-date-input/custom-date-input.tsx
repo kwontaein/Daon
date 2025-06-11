@@ -1,7 +1,9 @@
 'use client'
 import dayjs from 'dayjs';
 import './custom-date-input.scss';
-import { useId, useMemo, useRef, useState } from 'react';
+import { MouseEvent, useId, useMemo, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 export default function CustomDateInput({ defaultValue, name, changeEvent, className ,readOnly}: {
     defaultValue: Date,
@@ -88,7 +90,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
 
            
     return(        
-        <label className={`custom-date-container ${className}`} htmlFor={`custom-year${id}`}>
+        <label className={`custom-date-container ${className}`} htmlFor={`custom-year${id}`} >
             <input
                 ref={dateRef}
                 className="absolute-date"
@@ -97,6 +99,7 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                 value={date}
                 onChange={dateHandler}
                 readOnly={readOnly}
+                onMouseDown={(e) => e.preventDefault()}
             />
             <div className={`custom-date-wrapper`}>
                 <label>
@@ -112,10 +115,8 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                     일
                 </label>
             </div>
-            <input
-                className="custom-date"
-                type="date"
-                onClick={(e)=>{
+            <div className='custom-date' 
+                 onClick={(e:MouseEvent<HTMLDivElement>)=>{
                     if(readOnly) return
                     e.preventDefault()
                     if (dateRef.current?.showPicker) {
@@ -124,8 +125,10 @@ export default function CustomDateInput({ defaultValue, name, changeEvent, class
                         dateRef.current?.focus();
                         dateRef.current?.click();
                     }
-                }}
-                readOnly={readOnly}/>
+                }}>
+                <FontAwesomeIcon icon={faCalendar}/>
+            </div>
+
         </label>
     )
 }

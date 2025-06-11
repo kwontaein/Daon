@@ -56,7 +56,7 @@ export default function CustomerForm({affiliation, employees, customer, mode, is
     if(state.status){
       if(state.status ===200){
         mode === 'edit' ? window.alert('수정이 완료되었습니다.'): window.alert('저장이 완료되었습니다.')
-        mode === 'edit' ? changeMode('detail') :(isMobile ? window.history.back() : window.close())
+        isMobile ? window.history.back() :(mode === 'edit' ? changeMode('detail') : window.close())
       }else{
         window.alert('문제가 발생했습니다. 잠시 후 다시 시도해주세요.')
       } 

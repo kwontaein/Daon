@@ -29,6 +29,7 @@
   }
   textarea{
     border:1px solid transparent !important;
+    height: calc(100% - 2px) !important;
     &:focus{
       outline: unset !important;
     }
@@ -52,6 +53,7 @@
     box-sizing: border-box;
     padding-inline: 2px;
     border:1px solid var.$input-border-color;
+    border-radius: 2px !important;
   }
   select{
     border:none;
@@ -66,6 +68,7 @@
     min-height: 50px; // 최소 높이 설정
     margin-top:2px;
     border:1px solid var.$input-border-color;
+    border-radius: 2px !important;
   }
   td{
     border: 1px solid var.$default-border-color;

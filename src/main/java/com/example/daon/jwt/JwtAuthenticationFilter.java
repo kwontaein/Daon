@@ -183,6 +183,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
+                // .secure(false)        
+                // .sameSite("Lax")  
                 .path("/")
                 .maxAge(0)
                 .build();
@@ -191,6 +193,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 .httpOnly(false)
                 .secure(true)
                 .sameSite("None")
+                // .secure(false)        
+                // .sameSite("Lax")  
                 .path("/")
                 .maxAge(0)
                 .build();

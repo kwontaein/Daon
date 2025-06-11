@@ -4,14 +4,14 @@ import { PageByProps } from "@/model/types/share/type";
 import EstimateSearch from "@/components/main/sales/estimate/search/estimate-search";
 import { ResponseCompany } from '@/model/types/staff/company/type';
 import {getCompany} from '@/features/staff/company/api/server-api';
-import { searchAllEstimateApi } from '@/features/sales/estimate/api/server-api';
+import { getAllEstimatesApi } from '@/features/sales/estimate/api/server-api';
 
 
 export default async function TaskEstimatePage({searchParams}: PageByProps) {
     const page = (await searchParams).page || 1;
 
     const companyList:ResponseCompany[] = await getCompany()
-    const initialEstimate = await searchAllEstimateApi(true)
+    const initialEstimate = await getAllEstimatesApi(true)
 
     return<EstimateSearch
             initialEstimate={initialEstimate}

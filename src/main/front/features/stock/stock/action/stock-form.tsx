@@ -59,6 +59,7 @@ export default async function stockFormAction(prevState,formData){
         else return [key,value]
     })) as Omit<RequestStock,'stockId'>
 
+    console.log(formState , action)
     if(action){
         let status;
         if(action==='write'){

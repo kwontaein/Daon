@@ -3,6 +3,7 @@ package com.example.daon.receipts.controller;
 import com.example.daon.receipts.dto.request.ReceiptRequest;
 import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.DailyTotalEntity;
+import com.example.daon.receipts.model.ReceiptCategory;
 import com.example.daon.receipts.service.ReceiptsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class ReceiptsController {
 
     @GetMapping("api/getAllReceipts")
     public List<ReceiptResponse> getAllReceipts() {
-        return receiptsService.getReceipts(null, null, null, null, null);
+        return receiptsService.getReceipts(ReceiptCategory.EX, null, null, null, null);
     }
 
     /**

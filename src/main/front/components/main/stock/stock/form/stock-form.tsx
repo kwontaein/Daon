@@ -32,6 +32,7 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
     
     useEffect(()=>{
         if(state.status){
+            console.log(state.status)
             if(state.status===200){
                 if(mode==='write'){
                     window.alert('물품을 등록했습니다.')
@@ -129,7 +130,14 @@ export default function StockForm({stockCate, mode, stock, isMobile=false} : {
                                 }
                             </td>
                             <td className="table-label">규격</td>
-                            <td><input name="modelName" defaultValue={state.modelName} key={state.modelName+'modelName'} readOnly={mode==='detail'}/></td>
+                            <td>
+                                <input name="modelName" defaultValue={state.modelName} key={state.modelName+'modelName'} readOnly={mode==='detail'}/>
+                                {state.formErrors?.modelName &&  
+                                    <ErrorBox key={state.formErrors.errorKey}>
+                                        {state.formErrors.modelName}
+                                    </ErrorBox>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td className="table-label">입고가</td>

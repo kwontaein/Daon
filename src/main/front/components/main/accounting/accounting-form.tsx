@@ -59,7 +59,7 @@ export default function AccountingForm({mode,division,categorySelections,account
         const categorySelection = formData.get('categorySelection')
         
         if(!customerId) {
-            window.alert('업체명을 입력해주세요')
+            window.alert('업체명(거래처)을 입력해주세요')
             return
         }
         if((categorySelection==='none' || !categorySelection) && division!=='pset'){

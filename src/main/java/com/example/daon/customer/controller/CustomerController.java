@@ -23,7 +23,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PostMapping("api/getAllCustomer")
+    @GetMapping("api/getAllCustomer")
     public List<CustomerResponse> getAllCustomer() {
         return customerService.getCustomers(null, null, null, null, null
         );

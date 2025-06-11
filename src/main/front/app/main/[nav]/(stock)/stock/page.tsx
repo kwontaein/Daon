@@ -1,7 +1,7 @@
 import StockSearch from "@/components/main/stock/stock/search";
 import CustomLoading from "@/components/share/loading/loading";
 import { getStockCateApi } from "@/features/stock/category/api/server-api";
-import { getStockListApi } from "@/features/stock/stock/api/search-server-api";
+import { getAllStockList } from "@/features/stock/stock/api/search-server-api";
 import { ResponseStock, StockPageProps } from "@/model/types/stock/stock/types";
 import { Suspense } from "react";
 
@@ -17,8 +17,7 @@ export default async function StockPage({searchParams}:StockPageProps){
     //getStockCate
     const InitStockCate = await getStockCateApi()
     //getStocks
-    const initialStocks:ResponseStock[] = await getStockListApi(allStockRequestBody)
-
+    const initialStocks:ResponseStock[] = await getAllStockList()
 
     return(
         <section>

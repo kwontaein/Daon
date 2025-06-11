@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import { DisabledStatus } from "@/model/constants/sales/receipt/receipt_constants";
 import { ResponseCustomer } from "@/model/types/customer/customer/type";
 import { ResponseStock } from "@/model/types/stock/stock/types";
-import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/server-api";
 import { selectConfrim } from "../../share/selectConfrim";
 import { ResponseReceipt } from "@/model/types/sales/receipt/type";
 import { ResponseOfficial } from "@/model/types/sales/official/type";
+import { saveReceiptListApi, updateReceiptListApi } from "@/features/sales/receipt/api/client-api";
 
 const initReceipt: ResponseReceipt = {
     receiptId: uuidv4(),
@@ -151,7 +151,7 @@ export default function useReceiptList(initialReceiptList, isMobile=false) {
                 saveReceiptListApi(receiptList).then((status)=>{
                     if(status ===200){
                         window.alert('저장이 완료되었습니다.')
-                        window.close();
+                        isMobile ? window.history.back() :window.close();
                     }else{
                         window.alert('문제가 발생했습니다. 잠시후 다시 시도해주세요.')
                     }

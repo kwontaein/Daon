@@ -28,11 +28,11 @@ import {useEffect, useRef, useState} from "react";
         };
 
         if (addEvent) {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('click', handleClickOutside);
             window.addEventListener('scroll', scrollObserver, true);
 
             return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
+                document.removeEventListener('click', handleClickOutside);
                 window.removeEventListener('scroll', scrollObserver, true);
             };
         }

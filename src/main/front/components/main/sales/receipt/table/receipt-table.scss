@@ -92,24 +92,6 @@
         }
 
 
-        .focused {
-            background-color: var.$memo-color !important;
-
-            tr,
-            td {
-                background-color: transparent !important;
-
-                select,
-                input:not(.disabled) {
-                    background-color: transparent !important;
-                }
-            }
-        }
-
-        .focused input {
-            outline: none; /* 입력 필드의 기본 아웃라인 제거 */
-        }
-
 
         .disabled{
             background-color: silver !important;
@@ -131,6 +113,24 @@
     }
 
 
+    
+    .focused {
+        background-color: var.$memo-color !important;
+
+        tr,
+        td {
+            background-color: transparent !important;
+
+            select,
+            input:not(.disabled) {
+                background-color: transparent !important;
+            }
+        }
+    }
+
+    .focused input {
+        outline: none; /* 입력 필드의 기본 아웃라인 제거 */
+    }
 }
 
 

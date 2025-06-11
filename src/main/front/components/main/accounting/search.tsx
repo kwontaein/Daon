@@ -34,6 +34,7 @@ import {exportPvatToExcel} from "@/components/main/accounting/pvat/exportPvatToE
 import {exportPsetToExcel} from "@/components/main/accounting/pset/exportPsetToExcel";
 import {exportProofToExcel} from "@/components/main/accounting/proof/exportProofToExcel";
 import {exportCardTransactionToExcel} from "@/components/main/accounting/card/exportCardTransactionToExcel";
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 const resultComponentMap: Record<string, (data: UnionAccountingType[]) => JSX.Element> = {
     svat: data => <SVATSearchResult salesVATList={data as SalesVAT[]}/>,
@@ -43,20 +44,8 @@ const resultComponentMap: Record<string, (data: UnionAccountingType[]) => JSX.El
     card: data => <CardSearchResult cardTransaction={data as CardTransaction[]}/>,
 };
 
-const apiMap: Record<string, () => Promise<UnionAccountingType[]>> = {
-    pvat: getPurchaseVatApi,
-    svat: getSalesVATApi,
-    card: getCardTransactionfApi,
-    proof: getExpenseProofApi,
-    pset: getProcurementApi,
-};
 
-export default function AccountingSearch({
-                                             companyList,
-                                             division,
-                                             initialListState,
-                                             page
-                                         }: {
+export default function AccountingSearch({companyList, division, initialListState, page} : {
     companyList: ResponseCompany[];
     division: string;
     initialListState: UnionAccountingType[];
@@ -66,6 +55,9 @@ export default function AccountingSearch({
         searchSDate: dayjs().subtract(2, 'month').date(1).format('YYYY-MM-DD'),
         searchEDate: dayjs(new Date(Date.now())).endOf('month').format('YYYY-MM-DD'),
     }
+    const deletePage = useDeletePage()
+
+    
     const formRef = useRef<HTMLFormElement>(null);
     const [state, action, isPending] = useActionState(accountingSearchAction, initialPset);
     const mode = useScreenMode({tabletSize: 690, mobileSize: 620});
@@ -77,6 +69,8 @@ export default function AccountingSearch({
         return data.slice(start, start + 20);
     }, [searchResult, initialListState, page]);
 
+
+    //검색
     const submitHandler = () => {
         const formData = new FormData(formRef.current!);
         formData.set('action', division);
@@ -97,13 +91,18 @@ export default function AccountingSearch({
         }
     };
 
+    //전체보기
     const allViewHandler = async () => {
-        const fetchFn = apiMap[division];
-        if (fetchFn) {
-            const data = await fetchFn();
-            setSearchResult(data);
-        }
+        setSearchResult(initialListState);
+        deletePage()
     };
+
+    //전체리스트 변경 시 다시조회
+    useEffect(()=>{
+        if(searchResult){
+            submitHandler()
+        }
+    },[initialListState])
 
     useEffect(() => {
         if (state.searchResult) {
@@ -186,7 +185,12 @@ export default function AccountingSearch({
                             </td>
                             <td rowSpan={2}>
                                 <div className="grid-table-buttons">
-                                    <button type="button" disabled={isPending} onClick={submitHandler}>
+                                    <button type="button" 
+                                            disabled={isPending} 
+                                            onClick={()=>{
+                                                submitHandler()
+                                                deletePage()
+                                            }}>
                                         검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
                                     <button type="button" onClick={allViewHandler}>

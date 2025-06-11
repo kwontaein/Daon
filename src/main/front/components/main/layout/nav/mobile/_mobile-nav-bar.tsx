@@ -3,7 +3,7 @@ import Link from "next/link";
 import '@/components/main/layout/nav/mobile/_mobile-nav-bar.scss';
 import '@/styles/_global.scss';
 
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,10 +22,14 @@ export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){
     /* route information */
     const searchParams = useSearchParams();
     const nav = useParams().nav as string;
+    const router = useRouter();
+    const pathname = usePathname();
+
     /* mount component condition*/
     const mode = useScreenMode({tabletSize:900,mobileSize:620})
     const [isMount, setIsMount] = useState<boolean>(false);
     const [mobile, setMobile] = useState<boolean>(false);
+    
     
     useEffect(()=>{
         if(mode==='mobile'){
@@ -46,26 +50,35 @@ export default function MobileNavBar({enableUrl} :{enableUrl: EnableUrlType}){
             document.body.style.overflow = "auto";
         }
     },[searchParams])
+
+  
+    const closeModal = () => {
+      const params = new URLSearchParams(searchParams.toString()); 
+      params.delete("toggle"); 
+      router.push(`${pathname}?${params.toString()}`, { scroll: false }); 
+    };
+
+
     return(
         <>
-        {(searchParams.get('toggle') && mobile) && <div className='modal-background'/>}
+        {(searchParams.get('toggle') && mobile) && <div className='modal-background' onClick={closeModal}/>}
             {/*when toggle is true show mobile navigation, else check mount state because to prevent animation when the window is resized */}         
             <nav className={`nav-mobile-container ${searchParams.get('toggle') ? `slide` : !isMount && 'opacity'}`}>
-            <section className='nav-mobile-wrapper'>
-                <ul className='nav-mobile-ul'>
-                    {navigation_route.map(([currentNav, {asideTitle,asideItems}])=>(
-                        Object.values(enableUrl[kebabToCamel(currentNav)]).includes(true) &&
-                        <li className={nav === currentNav ? 'hover' : ''} key={currentNav}>
-                            <Link href={`/main/${currentNav}/${asideItems[0].link}?toggle=true`}>{asideTitle}</Link>
-                        </li>
-                    ))}
-                </ul>
-                <button className={'mobile-logout-button'} onClick={()=>window.location.replace('/logout')}>
-                    <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
-                </button>
-            </section>
-            <MobileAsideBar nav={nav||'schedule'} enableUrl={enableUrl}/>
-        </nav>
+                <section className='nav-mobile-wrapper'>
+                    <ul className='nav-mobile-ul'>
+                        {navigation_route.map(([currentNav, {asideTitle,asideItems}])=>(
+                            Object.values(enableUrl[kebabToCamel(currentNav)]).includes(true) &&
+                            <li className={nav === currentNav ? 'hover' : ''} key={currentNav}>
+                                <Link href={`/main/${currentNav}/${asideItems[0].link}?toggle=true`}>{asideTitle}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                    <button className={'mobile-logout-button'} onClick={()=>window.location.replace('/logout')}>
+                        <FontAwesomeIcon icon={faPowerOff} style={{width:'1.2rem'}}/>로그아웃
+                    </button>
+                </section>
+                <MobileAsideBar nav={nav||'schedule'} enableUrl={enableUrl}/>
+            </nav>
         </>
     )
 }
