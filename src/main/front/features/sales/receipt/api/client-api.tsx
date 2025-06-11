@@ -101,3 +101,38 @@ export async function updateReceiptListApi(receiptList: ResponseReceipt[]) {
 
 }
 
+
+
+
+export async function getRecieptTotalApi(searchSDate) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    return await fetch(`/api/getReceiptTotal`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({searchSDate}),
+        signal,
+    }).then(async (response) => {
+        if(!response.ok){
+            jwtFilter(response.status.toString());
+        }
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    }).catch (async (error)=> {
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }).finally(() => clearTimeout(timeoutId));
+
+}

@@ -1,7 +1,7 @@
 'use client'
 import Calendar from "@/components/main/sales/receipt/aside/calendar";
 import DateSummary from "@/components/main/sales/receipt/aside/date-summary";
-import { getRecieptTotalApi } from "@/features/sales/receipt/api/server-api";
+import { getRecieptTotalApi } from "@/features/sales/receipt/api/client-api";
 import { ResponseReceiptTotal } from "@/model/types/sales/receipt/type";
 
 import { useDailySummary } from "@/store/zustand/receipt-search";
@@ -30,8 +30,8 @@ export default function DailySummaryPage(){
     const {date, updateSearchDateId} = useDailySummary()
     const [receiptTotal, setReceiptTotal] =useState<ResponseReceiptTotal>()
 
-    const searchSummary = useCallback(()=>{
-        getRecieptTotalApi(date).then((res)=>{
+    const searchSummary = async ()=>{
+        await getRecieptTotalApi(date).then((res)=>{
             setReceiptTotal(()=>{
                 return {
                     ...res,
@@ -40,7 +40,7 @@ export default function DailySummaryPage(){
             })
             updateSearchDateId()
         })
-    },[date])
+    }
 
     return(
         <>

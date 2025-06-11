@@ -30,12 +30,12 @@ export interface ResponseEmployee {
 export enum EmployeeClassEnum {
     CEO = "대표",
     DIRECTOR = "이사",
+    DEPUTY_GENERAL_MANAGER = "차장",
     MANAGER = "과장",
-    STAFF = "사원",
+    TEAM_LEADER = "팀장",
     ASSISTANT_MANAGER = "대리",
     PROFESSIONAL = "주임",
-    TEAM_LEADER = "팀장",
-    DEPUTY_GENERAL_MANAGER = "차장",
+    STAFF = "사원",
   }
 
   // 권한
