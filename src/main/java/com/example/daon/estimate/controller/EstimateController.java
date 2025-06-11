@@ -20,6 +20,11 @@ public class EstimateController {
 
     //견적서관리-----------------------------------
     //견적서 목록 조회
+    @PostMapping("api/getAllEstimates")
+    public List<EstimateResponse> getAllEstimates(@RequestBody EstimateRequest estimateRequest) {
+        return estimateService.getEstimates(estimateRequest);
+    }
+
     @PostMapping("api/getEstimates")
     public List<EstimateResponse> getEstimates(@RequestBody EstimateRequest estimateRequest) {
         return estimateService.getEstimates(estimateRequest);
