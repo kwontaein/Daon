@@ -2,9 +2,9 @@ package com.example.daon.accounting.procurement.controller;
 
 import com.example.daon.accounting.procurement.dto.request.ProcurementRequest;
 import com.example.daon.accounting.procurement.dto.response.ProcurementResponse;
-import com.example.daon.accounting.procurement.model.ProcurementEntity;
 import com.example.daon.accounting.procurement.service.ProcurementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +32,11 @@ public class ProcurementController {
     public void deleteProcurement(@RequestBody ProcurementRequest procurementRequest) {
         procurementService.deleteProcurement(procurementRequest);
 
+    }
+
+    @GetMapping("api/getAllProcurement")
+    public List<ProcurementResponse> getAllProcurement() {
+        return procurementService.getProcurement(new ProcurementRequest());
     }
 
     @PostMapping("api/getProcurement")

@@ -5,6 +5,7 @@ import com.example.daon.receipts.dto.response.ReceiptResponse;
 import com.example.daon.receipts.model.DailyTotalEntity;
 import com.example.daon.receipts.service.ReceiptsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,11 @@ import java.util.List;
 public class ReceiptsController {
     //전표-----------------------------
     private final ReceiptsService receiptsService;
+
+    @GetMapping("api/getAllReceipts")
+    public List<ReceiptResponse> getAllReceipts() {
+        return receiptsService.getReceipts(null, null, null, null, null);
+    }
 
     /**
      * 조건부 전표 검색
