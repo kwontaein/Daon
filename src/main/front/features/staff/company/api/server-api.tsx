@@ -2,6 +2,7 @@
 import {ResponseCompany} from "@/model/types/staff/company/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -34,9 +35,8 @@ export async function getCompany() {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        }else if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        }else if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -72,9 +72,8 @@ export async function getCompanyDetail(companyId: string) {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        }else if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        }else if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -100,9 +99,8 @@ export async function saveCompany(companyData: Omit<ResponseCompany, 'companyId'
         return response.status;
 
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -131,9 +129,8 @@ export async function updateCompany(companyData: ResponseCompany) {
         return response.status;
 
     } catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

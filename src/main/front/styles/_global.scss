@@ -94,6 +94,13 @@ button{
   &:hover{
     filter: brightness(95%);
   }
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #EFEFEF;
+  color: black;
+  border: 1px solid black;
+  border-radius: 2px;
 }
 
 span{

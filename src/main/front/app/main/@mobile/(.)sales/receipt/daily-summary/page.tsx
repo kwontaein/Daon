@@ -18,7 +18,6 @@ export default function DailySummaryPage(){
 
     const closeModal = () => {
         const params = new URLSearchParams(searchParams.toString());
-        console.log(params.toString())
         const base = `/main/sales/receipt`;
         if(params.toString()){
             router.push(`${base}${params.toString()}`)

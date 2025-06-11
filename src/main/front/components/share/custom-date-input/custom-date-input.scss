@@ -42,9 +42,10 @@ input::-webkit-inner-spin-button {
 .custom-date{
     width: 20px !important;
     cursor: pointer !important;
-    cursor: pointer;
-
 }
+
+
+
 .custom-year{
     width: 4ch !important;
     min-width: 2ch;
@@ -75,4 +76,5 @@ input::-webkit-inner-spin-button {
     position: absolute !important;
     margin-top: 10px !important;
     width: 0 !important;
+    color:transparent !important;
 }

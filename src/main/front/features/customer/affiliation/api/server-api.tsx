@@ -3,6 +3,7 @@
 import {AffiliationType} from "@/model/types/customer/affiliation/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 
@@ -27,9 +28,8 @@ export const getAffiliation = async () => {
         return JSON.parse(text);
 
     }catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -58,9 +58,8 @@ export const updateAffiliationApi = async (affiliation: AffiliationType[]) => {
         return response.status
 
     }catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -90,9 +89,8 @@ export const saveAffiliationApi = async (customer: Pick<AffiliationType, 'affili
         }
         return response.status
     }catch (error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

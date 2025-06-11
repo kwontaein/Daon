@@ -8,7 +8,6 @@ export default function useChangeMode(){
     return (mode)=>{
         const params = new URLSearchParams(searchParams.toString()); 
         params.set("mode", mode); 
-        console.log(`${pathname}?${params.toString()}`)
         router.push(`${pathname}?${params.toString()}`); 
     }
 

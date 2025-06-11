@@ -2,6 +2,7 @@
 import {EstimateCategory, EstimateCondition, RequestEstimate} from "@/model/types/sales/estimate/type";
 import {cookies} from "next/headers";
 import jwtFilter from "@/features/share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 export async function getEstimateApi(estimateId: string) {
@@ -35,9 +36,8 @@ export async function getEstimateApi(estimateId: string) {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -71,9 +71,8 @@ export async function saveEstimate(estimate: RequestEstimate) {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -105,9 +104,8 @@ export async function updateEstimate(estimate: RequestEstimate) {
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -155,9 +153,8 @@ export async function searchAllEstimateApi(task: boolean, receipted: boolean = f
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -195,9 +192,8 @@ export async function searchEstimateConditionApi(searchCondition: EstimateCondit
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     }).finally(() => clearTimeout(timeoutId));
@@ -226,9 +222,8 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
     }).catch(async (error) => {
         if (error.name === 'AbortError') {
             console.log('Fetch 요청이 시간초과되었습니다.')
-        } else if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        } else if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         throw new Error('알 수 없는 오류가 발생했습니다.');
     })

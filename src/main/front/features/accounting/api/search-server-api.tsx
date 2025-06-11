@@ -2,6 +2,7 @@
 import {cookies} from "next/headers"
 import jwtFilter from "@/features/share/jwtFilter";
 import {AccountingDivision} from "@/model/types/accounting/type";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 
 type searchCondition = {
@@ -41,9 +42,8 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -77,9 +77,8 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -113,9 +112,8 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -149,9 +147,8 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -185,9 +182,8 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
         if (!text) return null;
         return JSON.parse(text);
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
@@ -231,9 +227,8 @@ export async function transAccountingToReceipt(division: keyof typeof Accounting
         return response.status;
 
     } catch (error) {
-        if (error instanceof Response) {
-            const {message} = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;

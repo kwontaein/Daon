@@ -1,7 +1,11 @@
 @use '@/styles/_variables.scss' as var;
 
 .search-container{
-    
+    width: 100%;
+    .search-table{
+        box-sizing: border-box;
+        width: 100%;
+    }
     .search-table thead{
         padding-block:5px;
     }
@@ -12,11 +16,15 @@
         padding-inline:4px;
         white-space: nowrap;
         color: black;
+        box-sizing: border-box;
         input{
             font-size: inherit;
             width: 100%;
             max-width: 280px;
             border-color: var.$input-border-color !important;
+            @media(max-width:620px){
+                max-width: 100%
+            }
         }
         select{
             font-size: inherit;

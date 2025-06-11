@@ -1,6 +1,7 @@
 'use server'
 import { cookies } from "next/headers";
 import jwtFilter from "../share/jwtFilter";
+import { BusinessError } from "@/model/constants/BusinessError";
 
 export async function getUserInfo(){
     const accessToken = (await cookies()).get('accessToken')?.value
@@ -24,9 +25,8 @@ export async function getUserInfo(){
          if (!text) return null;
          return JSON.parse(text);
      } catch(error) {
-        if (error instanceof Response) {
-            const { message } = await error.json();
-            throw new Error(message);
+        if (error instanceof BusinessError) {
+             throw error; // 노출 허용된 오류만 전달
         }
         if (error instanceof Error) {
             throw error;
