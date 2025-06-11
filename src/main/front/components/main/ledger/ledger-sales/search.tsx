@@ -84,7 +84,6 @@ export default function LedgerSaleReceiptSearch({affiliations, stockCates}: {
                         <col style={{width: '5%'}}/>
                         <col style={{width: '10%'}}/>
                         <col style={{width: '5%'}}/>
-                        <col style={{width: '80%'}}/>
                     </colgroup>
                     <thead>
                     <tr>

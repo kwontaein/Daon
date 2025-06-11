@@ -40,8 +40,9 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 .custom-date{
-    width: 20px !important;
+    width: 15px !important;
     cursor: pointer !important;
+    text-align: center;
 }
 
 
@@ -70,6 +71,12 @@ input::-webkit-inner-spin-button {
     align-items: center;
     justify-content: left !important;
     gap:3px;
+    label{
+        gap: 0px !important;
+    }
+    @media(max-width:620px){
+        gap:2px !important; 
+    }
 }
 
 .absolute-date{

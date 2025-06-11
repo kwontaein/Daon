@@ -19,7 +19,6 @@ export default async function StockPage({searchParams}:StockPageProps){
     //getStocks
     const initialStocks:ResponseStock[] = await getStockListApi(allStockRequestBody)
 
-
     return(
         <section>
             <Suspense fallback={<CustomLoading content="물품 정보를 불러오고 있습니다."/>}>

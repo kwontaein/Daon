@@ -113,7 +113,9 @@ i{
 option[value="disabled"][disabled] {
   display:none
 }
-
+input{
+  border-radius: 2px !important;
+}
 
 .flex-row{
   display: flex;

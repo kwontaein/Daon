@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-stomp")
-                .setAllowedOriginPatterns("http://localhost:3000","https://daon-zeta.vercel.app")  // 또는 "http://localhost:3000"
+                .setAllowedOriginPatterns("http://localhost:3000","https://daon-zeta.vercel.app","http://192.168.219.101:3000")  // 또는 "http://localhost:3000"
                 .withSockJS();
     }
 

@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "https://daon-zeta.vercel.app").allowedHeaders("*")
+                        .allowedOrigins("http://localhost:3000", "https://daon-zeta.vercel.app","http://192.168.219.101:3000").allowedHeaders("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true)
                         .maxAge(3600);

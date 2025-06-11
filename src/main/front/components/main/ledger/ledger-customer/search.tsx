@@ -140,7 +140,6 @@ export default function LedgerCustomerSearch({affiliations, stockCates}: {
                             <col style={{width: '5%'}}/>
                             <col style={{width: '1%'}}/>
                             <col style={{width: '5%'}}/>
-                            <col style={{width: '80%'}}/>
                         </colgroup>
                         <thead>
                         <tr>

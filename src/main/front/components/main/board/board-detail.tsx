@@ -75,7 +75,6 @@ export default function BoardDetail({initialBoard, beforeBoard, afterBoard} : {
 
 
     useEffect(()=>{
-
         setFiles(initialBoard.files)
     },[initialBoard])
 
