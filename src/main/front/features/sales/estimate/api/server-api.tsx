@@ -113,7 +113,8 @@ export async function updateEstimate(estimate: RequestEstimate) {
 
 
 /**업무 견적서 또는 일반 견적서를 찾는 api task:true = 업무견적서 */
-export async function searchAllEstimateApi(task: boolean, receipted: boolean = false) {
+//receipted true = 전표화 완료된 것도 불러옴
+export async function getAllEstimatesApi(task: boolean, receipted: boolean = false) {
     const controller = new AbortController();
     const signal = controller.signal;//작업 취소 컨트롤
     const timeoutId = setTimeout(() => controller.abort(), 10000)
@@ -131,7 +132,7 @@ export async function searchAllEstimateApi(task: boolean, receipted: boolean = f
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
 
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimates`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllEstimates`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -229,42 +230,3 @@ export async function transEstimateToReceiptApi(postData: { estimateId: string, 
     })
 }
 
-// export async function getEstimatesByIds(estimateIds: string[]) {
-//     const controller = new AbortController();
-//     const signal = controller.signal;//작업 취소 컨트롤
-//     const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-//     const accessToken = (await cookies()).get('accessToken')?.value
-//     const cookie = `accessToken=${accessToken}`
-
-//     if(!estimateIds || estimateIds.length===0) return null
-
-//     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getEstimatesByIds`, {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json',
-//             Cookie: cookie
-//         },
-//         credentials: 'include',
-//         body: JSON.stringify({estimateIds}),
-//         signal,
-//         cache: 'no-cache'
-//     }).then(async (response) => {
-//         if(!response.ok){
-//             jwtFilter(response.status.toString());
-//         }
-
-//         const text = await response.text();
-
-//         if (!text) return null;
-//         return JSON.parse(text);
-//     }).catch(async (error) => {
-//         if (error.name === 'AbortError') {
-//             console.log('Fetch 요청이 시간초과되었습니다.')
-//         }else if (error instanceof Response) {
-//             const { message } = await error.json();
-//             throw new Error(message);
-//         }
-//         throw new Error('알 수 없는 오류가 발생했습니다.');
-//     }).finally(() => clearTimeout(timeoutId));
-// }

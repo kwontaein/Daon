@@ -17,7 +17,7 @@ import estimateSearchAction, {initialEstimateSearch} from '@/features/sales/esti
 import {ResponseCompany} from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
 import useRouterPath from '@/hooks/share/useRouterPath';
-import {searchAllEstimateApi} from "@/features/sales/estimate/api/server-api";
+import {getAllEstimatesApi} from "@/features/sales/estimate/api/server-api";
 
 
 export default function EstimateSearch({initialEstimate, companyList, page, isTask}: {
@@ -31,12 +31,13 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     const redirect = useRouterPath()
     const pageByEstimate = useMemo(() => (estimate ?? initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20), [page, estimate, initialEstimate])
     const formRef = useRef(null)
+    
     const allReceiptEstimateView = async () => {
         if (!isTask) {
             setEstimate(initialEstimate);
             return;
         }
-        const response = await searchAllEstimateApi(isTask, true)
+        const response = await getAllEstimatesApi(isTask, true)
         setEstimate(response)
     }
     //검색조건 submit

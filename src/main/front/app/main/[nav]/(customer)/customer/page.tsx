@@ -1,27 +1,18 @@
 import CustomerSearch from "@/components/main/customer/search/search";
 import CustomLoading from "@/components/share/loading/loading";
 import { getAffiliation } from "@/features/customer/affiliation/api/server-api";
-import { searchCustomersApi } from "@/features/customer/customer/api/server-api";
+import { getAllCustomer } from "@/features/customer/customer/api/server-api";
 import { AffiliationType } from "@/model/types/customer/affiliation/type";
-import { CustomerSearchCondition, ResponseCustomer } from "@/model/types/customer/customer/type";
+import {  ResponseCustomer } from "@/model/types/customer/customer/type";
 import { PageByProps } from "@/model/types/share/type";
 import { Suspense } from "react";
 
 
-
-
-const allCustomerRequestBody:CustomerSearchCondition ={
-    category: null,
-    cateId:null,
-    searchTarget :'all',
-    customerName: null,
-    ceo:null,
-}
 export default async function CustomerPage({searchParams}:PageByProps) {
     const page = (await searchParams).page || 1;
 
     const affiliations:AffiliationType[] = await getAffiliation()
-    const initialCustomers:ResponseCustomer[] = await searchCustomersApi(allCustomerRequestBody)
+    const initialCustomers:ResponseCustomer[] = await getAllCustomer()
 
     return (
         <section>

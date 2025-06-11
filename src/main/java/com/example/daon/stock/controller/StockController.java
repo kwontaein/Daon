@@ -24,7 +24,7 @@ public class StockController {
 
     private final StockService stockService;
 
-    @PostMapping("api/getAllStockList")
+    @GetMapping("api/getAllStockList")
     public List<StockResponse> getAllStockList() {
         return stockService.getStockList(null);
     }
