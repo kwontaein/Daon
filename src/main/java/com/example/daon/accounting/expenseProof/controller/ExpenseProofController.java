@@ -4,6 +4,7 @@ import com.example.daon.accounting.expenseProof.dto.request.ExpenseProofRequest;
 import com.example.daon.accounting.expenseProof.dto.response.ExpenseProofResponse;
 import com.example.daon.accounting.expenseProof.service.ExpenseProofService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,11 @@ public class ExpenseProofController {
     @PostMapping("api/deleteExpenseProof")
     public void deleteExpenseProof(@RequestBody ExpenseProofRequest expenseProofRequest) {
         expenseProofService.deleteExpenseProof(expenseProofRequest);
+    }
+
+    @GetMapping("api/getAllExpenseProof")
+    public List<ExpenseProofResponse> getAllExpenseProof() {
+        return expenseProofService.getExpenseProof(new ExpenseProofRequest());
     }
 
     @PostMapping("api/getExpenseProof")

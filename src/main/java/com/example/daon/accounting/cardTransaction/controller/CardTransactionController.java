@@ -4,6 +4,7 @@ import com.example.daon.accounting.cardTransaction.dto.request.CardTransactionRe
 import com.example.daon.accounting.cardTransaction.dto.response.CardTransactionResponse;
 import com.example.daon.accounting.cardTransaction.service.CardTransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,11 @@ public class CardTransactionController {
     @PostMapping("api/deleteCardTransaction")
     public void deleteCardTransaction(@RequestBody CardTransactionRequest cardTransactionRequest) {
         cardTransactionService.deleteCardTransaction(cardTransactionRequest);
+    }
+
+    @GetMapping("api/getAllCardTransaction")
+    public List<CardTransactionResponse> getAllCardTransaction() {
+        return cardTransactionService.getCardTransaction(new CardTransactionRequest());
     }
 
     @PostMapping("api/getCardTransaction")
