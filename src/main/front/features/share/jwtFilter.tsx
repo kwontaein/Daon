@@ -12,7 +12,7 @@ export default function jwtFilter(statusCode: string): never| undefined {
 
   if (typeof window === 'undefined') {
     // 서버 환경에서는 Next.js의 error.tsx로 전파 가능
-    throw new BusinessError(JSON.stringify({message:errorMessage[statusCode], statusCode})); // optional: 로직 중단용
+    throw new BusinessError(JSON.stringify({message:errorMessage[statusCode]??'알 수 없는 오류가 발생했습니다.', statusCode})); // optional: 로직 중단용
   } else {
     // 클라이언트에서는 수동 처리 필요
     alert(errorMessage[statusCode]);

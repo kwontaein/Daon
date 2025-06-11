@@ -18,6 +18,36 @@ type searchCondition = {
 
 
 //매입부가세
+export async function getAllPurchaseVATApi() {
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllPurchaseVAT`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
+        })
+        if (!response.ok) {
+            jwtFilter(response.status.toString());
+        }
+
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    } catch (error) {
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
 export async function getPurchaseVatApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
@@ -30,8 +60,7 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
             },
             credentials: 'include',
             body: JSON.stringify({...searchCondition ?? {}}),
-            ...(searchCondition ? {cache: 'no-store'} : {}),
-            next: {revalidate: 3600, tags: ['purchaseVAT']} //1시간마다 재검증
+            cache:'no-store',
         })
         if (!response.ok) {
             jwtFilter(response.status.toString());
@@ -53,19 +82,16 @@ export async function getPurchaseVatApi(searchCondition?: searchCondition) {
 }
 
 //매출부가세
-export async function getSalesVATApi(searchCondition?: searchCondition) {
+export async function getAllSalesVATApi() {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
-            method: "POST",
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllSalesVAT`, {
             headers: {
                 'Content-Type': 'application/json',
                 Cookie: cookie
             },
             credentials: 'include',
-            body: JSON.stringify(searchCondition ?? {}),
-            ...(searchCondition ? {cache: 'no-store'} : {}),
             next: {revalidate: 3600, tags: ['salesVAT']} //1시간마다 재검증
         })
         if (!response.ok) {
@@ -87,7 +113,69 @@ export async function getSalesVATApi(searchCondition?: searchCondition) {
     }
 }
 
+export async function getSalesVATApi(searchCondition?: searchCondition) {
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getSalesVAT`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            body: JSON.stringify(searchCondition ?? {}),
+            cache:'no-store',
+        })
+        if (!response.ok) {
+            jwtFilter(response.status.toString());
+        }
+
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    } catch (error) {
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
+
 //카드증빙
+export async function getAllCardTransactionApi() {
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllCardTransaction`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
+        })
+        if (!response.ok) {
+            jwtFilter(response.status.toString());
+        }
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    } catch (error) {
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
 export async function getCardTransactionfApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
@@ -100,8 +188,7 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
             },
             credentials: 'include',
             body: JSON.stringify(searchCondition ?? {}),
-            ...(searchCondition ? {cache: 'no-store'} : {}),
-            next: {revalidate: 3600, tags: ['cardTransaction']} //1시간마다 재검증
+            cache:'no-store'
         })
         if (!response.ok) {
             jwtFilter(response.status.toString());
@@ -123,6 +210,36 @@ export async function getCardTransactionfApi(searchCondition?: searchCondition) 
 }
 
 //지출증빙
+export async function getAllExpenseProofApi() {
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllExpenseProof`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
+        })
+        if (!response.ok) {
+            jwtFilter(response.status.toString());
+        }
+
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    } catch (error) {
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
 export async function getExpenseProofApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
@@ -135,8 +252,7 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
             },
             credentials: 'include',
             body: JSON.stringify(searchCondition ?? {}),
-            ...(searchCondition ? {cache: 'no-store'} : {}),
-            next: {revalidate: 3600, tags: ['expenseProof']} //1시간마다 재검증
+            cache:'no-store'
         })
         if (!response.ok) {
             jwtFilter(response.status.toString());
@@ -158,6 +274,36 @@ export async function getExpenseProofApi(searchCondition?: searchCondition) {
 }
 
 //조달 및 수의 계산정산
+export async function getAllProcurementApi() {
+    const accessToken = (await cookies()).get('accessToken')?.value
+    const cookie = `accessToken=${accessToken}`
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getAllProcurement`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: cookie
+            },
+            credentials: 'include',
+            next: {revalidate: 3600, tags: ['procurementSettlement']} //1시간마다 재검증
+        })
+        if (!response.ok) {
+            jwtFilter(response.status.toString());
+        }
+
+        const text = await response.text();
+
+        if (!text) return null;
+        return JSON.parse(text);
+    } catch (error) {
+        if (error instanceof BusinessError) {
+            throw error; // 노출 허용된 오류만 전달
+        }
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('알 수 없는 오류가 발생했습니다.');
+    }
+}
 export async function getProcurementApi(searchCondition?: searchCondition) {
     const accessToken = (await cookies()).get('accessToken')?.value
     const cookie = `accessToken=${accessToken}`
@@ -170,8 +316,7 @@ export async function getProcurementApi(searchCondition?: searchCondition) {
             },
             credentials: 'include',
             body: JSON.stringify(searchCondition ?? {}),
-            ...(searchCondition ? {cache: 'no-store'} : {}),
-            next: {revalidate: 3600, tags: ['procurementSettlement']} //1시간마다 재검증
+            cache:'no-store'
         })
         if (!response.ok) {
             jwtFilter(response.status.toString());

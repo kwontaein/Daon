@@ -17,7 +17,7 @@ export default async function StockPage({searchParams}:StockPageProps){
     //getStockCate
     const InitStockCate = await getStockCateApi()
     //getStocks
-    const initialStocks:ResponseStock[] = await getAllStockList(allStockRequestBody)
+    const initialStocks:ResponseStock[] = await getAllStockList()
 
     return(
         <section>

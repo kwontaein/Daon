@@ -18,6 +18,7 @@ import {ResponseCompany} from '@/model/types/staff/company/type';
 import EstimateSearchResult from './search-result';
 import useRouterPath from '@/hooks/share/useRouterPath';
 import {getAllEstimatesApi} from "@/features/sales/estimate/api/server-api";
+import useDeletePage from '@/hooks/share/useDeletePage';
 
 
 export default function EstimateSearch({initialEstimate, companyList, page, isTask}: {
@@ -27,19 +28,31 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
     isTask: boolean
 }) {
     const [state, action, isPending] = useActionState(estimateSearchAction, initialEstimateSearch(isTask));
-    const [estimate, setEstimate] = useState<ResponseEstimate[]>()
+    const [searchResult, setSearchResult] = useState<ResponseEstimate[]>()
+    const [containReceipts, setContainReceipts] = useState<boolean>(false)
+
     const redirect = useRouterPath()
-    const pageByEstimate = useMemo(() => (estimate ?? initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20), [page, estimate, initialEstimate])
+    const pageByEstimate = useMemo(
+        () => (searchResult ?? initialEstimate).slice((page - 1) * 20, ((page - 1) * 20) + 20),
+        [page, searchResult, initialEstimate]
+    )
+    
     const formRef = useRef(null)
     
+    const deletePage = useDeletePage()
+
     const allReceiptEstimateView = async () => {
         if (!isTask) {
-            setEstimate(initialEstimate);
+            setSearchResult(null);
             return;
         }
+        //전표화가 된 것까지 조회하기
         const response = await getAllEstimatesApi(isTask, true)
-        setEstimate(response)
+        setSearchResult(response)
+        setContainReceipts(true)
+        deletePage()
     }
+
     //검색조건 submit
     const submitHandler = useCallback(() => {
         const formData = new FormData(formRef.current);
@@ -47,18 +60,23 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
         startTransition(() => {
             action(formData);
         });
+        setContainReceipts(false)
     }, [action]);
 
     useEffect(() => {
         if (state.searchEstimate) {
-            setEstimate(state.searchEstimate)
+            setSearchResult(state.searchEstimate)
         }
     }, [state])
 
     //검색중일 때 갱신되면 해당검색조건으로 재호출
     useEffect(() => {
-        if (estimate) {
-            submitHandler()
+        if (searchResult) {
+            if(containReceipts){
+                allReceiptEstimateView()
+            }else{
+                submitHandler()
+            }
         }
     }, [initialEstimate])
 
@@ -153,7 +171,11 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
                             </label>
                         </td>
                         <td rowSpan={4} className="table-buttons">
-                            <button type='button' onClick={submitHandler}>
+                            <button type='button' 
+                                    onClick={()=>{
+                                        submitHandler()
+                                        deletePage()
+                                    }}>
                                 검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                             </button>
                             <button type='button' onClick={allReceiptEstimateView}>
@@ -198,7 +220,7 @@ export default function EstimateSearch({initialEstimate, companyList, page, isTa
             <EstimateSearchResult pageByEstimate={pageByEstimate} isTask={isTask}/>
             {(!isPending && pageByEstimate.length > 0) &&
                 <Pagination
-                    totalItems={(estimate ?? initialEstimate).length}
+                    totalItems={(searchResult ?? initialEstimate).length}
                     itemCountPerPage={10}
                     pageCount={4}
                     currentPage={page}

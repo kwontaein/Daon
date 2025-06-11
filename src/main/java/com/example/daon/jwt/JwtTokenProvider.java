@@ -197,10 +197,10 @@ public class JwtTokenProvider {
 
         ResponseCookie cookie = ResponseCookie.from(tokenName, tokenValue)
                 .httpOnly(true)
-                // .secure(true) // ✅ HTTPS 환경에서는 true
-                // .sameSite("None") // ✅ 크로스 도메인에서는 반드시 필요
-                .secure(false)        
-                .sameSite("Lax")  
+                .secure(true) //  HTTPS 환경에서는 true
+                .sameSite("None") //  크로스 도메인에서는 반드시 필요
+                // .secure(false)        
+                // .sameSite("Lax")  
                 .path("/")
                 .maxAge(maxAge)
                 .build();

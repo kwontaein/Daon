@@ -67,7 +67,7 @@ export default async function accountingFormAction(prevState, formData) {
             .filter(([key, value]) => value !== 'none' && value !== null)
             .map(([key, value]) => {
                 if (['amount', 'vat', 'total', 'quantity'].includes(key) && value) {
-                    return [key, (value as string).replaceAll(',', '').replace('원', '')]
+                    return [key, (value as string).replace(/,/g, "").replace(/\D/g, "")]
                 }
                 return [key, value]
             }))

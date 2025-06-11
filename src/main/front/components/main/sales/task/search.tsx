@@ -26,7 +26,11 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
 }) {
     const [state, action, isPending] = useActionState(taskSearchAction, initialTaskState);
     const [searchResult, setSearchResult] = useState()
-    const pageByTasks = useMemo(() => (searchResult ?? initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialTask, searchResult, page])
+    
+    const pageByTasks = useMemo(
+        () => (searchResult ?? initialTask).slice((page - 1) * 20, ((page - 1) * 20) + 20),
+        [initialTask, searchResult, page])
+
     const formRef = useRef(null)
 
     //router control
@@ -50,7 +54,6 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
         startTransition(() => {
             action(formData);
         });
-        deletePage()
     }
 
     const deleteTaskHandler = () => {
@@ -71,6 +74,12 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
             setSearchResult(state.searchResult)
         }
     }, [state])
+
+    useEffect(()=>{
+        if(searchResult){
+            submitHandler()
+        }
+    },[initialTask])
 
 
     //거래처 검색관련
@@ -135,7 +144,10 @@ export default function TaskSearch({affiliations, initialTask, employees, page}:
                             <td rowSpan={3}>
                                 <div className='grid-table-buttons'>
                                     <button type='button' disabled={isPending}
-                                            onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                            onClick={()=>{
+                                                submitHandler()
+                                                deletePage()
+                                            }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
                                     <button onClick={() => exportTasksToExcel(searchResult ?? initialTask)}>엑 셀 변 환
                                     </button>

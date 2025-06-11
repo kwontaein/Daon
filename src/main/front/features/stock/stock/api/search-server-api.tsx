@@ -5,7 +5,7 @@ import {StockSearchCondition} from "@/model/types/stock/stock/types";
 import {cookies} from "next/headers";
 
 
-export async function getAllStockList(searchCondition: StockSearchCondition) {
+export async function getAllStockList() {
     const controller = new AbortController();
     const signal = controller.signal;
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -19,7 +19,6 @@ export async function getAllStockList(searchCondition: StockSearchCondition) {
             Cookie: cookie
         },
         credentials: 'include',
-        body: JSON.stringify(searchCondition),
         signal,
         next: {
             revalidate: 3600,

@@ -181,20 +181,20 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     public void removeCookie(HttpServletResponse response) {
         ResponseCookie accessToken = ResponseCookie.from("accessToken", "")
                 .httpOnly(false)
-                // .secure(true)
-                // .sameSite("None")
-                .secure(false)        
-                .sameSite("Lax")  
+                .secure(true)
+                .sameSite("None")
+                // .secure(false)        
+                // .sameSite("Lax")  
                 .path("/")
                 .maxAge(0)
                 .build();
 
         ResponseCookie refreshToken = ResponseCookie.from("refreshToken", "")
                 .httpOnly(false)
-                // .secure(true)
-                // .sameSite("None")
-                .secure(false)        
-                .sameSite("Lax")  
+                .secure(true)
+                .sameSite("None")
+                // .secure(false)        
+                // .sameSite("Lax")  
                 .path("/")
                 .maxAge(0)
                 .build();

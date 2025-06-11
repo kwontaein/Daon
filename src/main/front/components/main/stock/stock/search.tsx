@@ -21,7 +21,10 @@ export default function StockSearch({stockCate, initialStocks, page}: {
 }) {
     const [state, action, isPending] = useActionState(stockSearchAction, initialStockState);
     const [searchResult, setSearchResult] = useState<ResponseStock[]>()
-    const pageByStocks = useMemo(() => (searchResult ?? initialStocks).slice((page - 1) * 20, ((page - 1) * 20) + 20), [initialStocks, searchResult, page])
+    const pageByStocks = useMemo(
+        () => (searchResult ?? initialStocks).slice((page - 1) * 20, ((page - 1) * 20) + 20),
+        [initialStocks, searchResult, page]
+    )
     const [condition, setCondition] = useState(initialStockState.condition !== 'none')
 
     const formRef = useRef(null)
@@ -46,7 +49,6 @@ export default function StockSearch({stockCate, initialStocks, page}: {
         startTransition(() => {
             action(formData);
         });
-        deletePage()
     };
 
     useEffect(() => {
@@ -57,12 +59,7 @@ export default function StockSearch({stockCate, initialStocks, page}: {
 
     useEffect(() => {
         if (searchResult) {
-            if (isPending) return
-            const formData = new FormData(formRef.current!);
-            formData.set('action', 'submit');
-            startTransition(() => {
-                action(formData);
-            });
+            submitHandler()
         }
     }, [initialStocks])
 
@@ -118,7 +115,10 @@ export default function StockSearch({stockCate, initialStocks, page}: {
                             <td rowSpan={4}>
                                 <div className="grid-table-buttons">
                                     <button type='submit' disabled={isPending}
-                                            onClick={submitHandler}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
+                                            onClick={()=>{
+                                                submitHandler()
+                                                deletePage()
+                                            }}>검&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;색
                                     </button>
                                     <button
                                         type="button"
