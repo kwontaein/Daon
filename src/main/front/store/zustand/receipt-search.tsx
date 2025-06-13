@@ -14,6 +14,6 @@ export type ReceiptSearchDate={
 export const useDailySummary = create<ReceiptSearchDate>(set =>({
     date: dayjs(new Date(Date.now())).format('YYYY-MM-DD'),
     date_id : '',
-    updateSearchDate:(date)=> set({date:date}),
+    updateSearchDate:(date)=> set({date}),
     updateSearchDateId:()=> set(()=>({date_id:uuidv4()}))
 }))

@@ -77,6 +77,7 @@ export default function Calendar(){
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             locale="ko"
+            timeZone="local"
             height="auto" // 높이 자동 조정
             aspectRatio={1} //정사각형
             headerToolbar={false} // 상단 툴바 제거
