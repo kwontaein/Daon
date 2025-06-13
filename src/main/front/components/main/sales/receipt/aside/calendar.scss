@@ -55,6 +55,9 @@
     .fc-theme-standard .fc-scrollgrid {
         border: none;
     }
+    .fc {
+        touch-action: manipulation;
+    }
 
     .fc .fc-daygrid-day-top {
         display: flex;
